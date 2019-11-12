@@ -1,0 +1,18 @@
+*.properties
+*.iml
+app/build
+build
+.externalNativeBuild
+keystores/release.*
+google-services.json
+.DS_Store
+.idea
+.gradle
+distribution
+app/.cxx
+
+# keep these files
+!*gradle/wrapper/*
+!version.properties
+!keystores/debug.*
+!gradle.properties
