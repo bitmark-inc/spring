@@ -17,13 +17,33 @@ You can run the process as a whole, the program will keep running until it can g
 
 ## Run process as a whole
 
-Command:
+Basic Command to run the whole process:
 ```
 node command -u username@examplemail.com -password examplepassword
 ```
-Note: you can use -i option to see the browser run with interface
+
+Note:
+- You can use -i option to see the browser running with interface
+- To avoid being blocked by facebook, you should run with -c, it will cache your session for next time use. Keep loging in so many times will put you in "suspicious" category.
+
+```
+node command -i -c -u username@examplemail.com -password examplepassword
+```
+
 
 Result:
 ```
 
+```
+
+## Run data requesting and data download separately
+
+Options -r will tell the program to request the data only and exit. The result of this is an archive ID (it's actually the order of the requested archive in the archive list)
+```
+node command -i -c -r -u username@examplemail.com -password examplepassword
+```
+
+Options -d will tell the program to download the data only, with the archive number followed.
+```
+node command -i -c -d 2 -u username@examplemail.com -password examplepassword
 ```
