@@ -1,6 +1,7 @@
 require('chromedriver');
 const chrome = require('selenium-webdriver/chrome');
 const webdriver = require('selenium-webdriver');
+const command = require('selenium-webdriver/lib/command');
 const Builder = webdriver.Builder;
 const By = webdriver.By;
 const Key = webdriver.Key;
@@ -38,6 +39,14 @@ Crawler.prototype.init = async function() {
   }
   this.driver = await new Builder().forBrowser('chrome').setChromeOptions(this.chromeOptions).build();
   this.targetID = this.crawlerOptions.targetID || null;
+
+  // Alow downloading in headless mode
+  const cmd = new command.Command("SEND_COMMAND")
+                  .setParameter("cmd", "Page.setDownloadBehavior")
+                  .setParameter("params", {'behavior': 'allow', 'downloadPath': this.crawlerOptions.downloadDir});
+
+  await this.driver.getExecutor().defineCommand("SEND_COMMAND", "POST", `/session/${(await this.driver.getSession()).getId()}/chromium/send_command`);
+  await this.driver.execute(cmd);
 }
 
 Crawler.prototype.isElementExisting = async function(css) {
@@ -117,6 +126,11 @@ Crawler.prototype.logout = async function() {
   await this.driver.findElement(By.css('#logoutMenu')).click();
   await this.driver.sleep(2000);
   await this.driver.findElement(By.css('div[data-ownerid="pageLoginAnchor"] ul._54nf li:last-child')).click();
+}
+
+Crawler.prototype.captureScreen = async function(filepath) {
+  let image = await this.driver.takeScreenshot();
+  await fs.writeFile(filepath, image, 'base64');
 }
 
 Crawler.prototype.quit = async function() {

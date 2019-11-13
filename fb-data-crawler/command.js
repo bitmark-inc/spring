@@ -50,7 +50,6 @@ async function createRandomDir() {
 
 async function getFirstFileNameFromDir(dirPath) {
   let files = await fspromise.readdir(dirPath);
-  console.log(files[0]);
   return files[0];
 }
 
@@ -130,6 +129,7 @@ const Crawler = require('./crawler.js');
       filename = await getFirstFileNameFromDir(downloadDir);
       if (!filename) {
         console.log(`Oops! Something wrong! The file has not appeared`);
+        await crawler.captureScreen(path.resolve(__dirname, 'debug.png'));
       }
     }
 
