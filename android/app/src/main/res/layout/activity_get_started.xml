@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_1"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/tvBgAppName"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_48"
+        android:background="@color/black_66"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/tvAppName"
+        app:layout_constraintStart_toStartOf="@id/tvAppName"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/domaine_sans"
+        android:includeFontPadding="false"
+        android:text="@string/app_name"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_60"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvHowYouUseFB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_6"
+        android:fontFamily="@font/grotesk"
+        android:text="@string/how_you_use_fb"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_22"
+        app:layout_constraintEnd_toEndOf="@id/tvBgAppName"
+        app:layout_constraintStart_toStartOf="@id/tvBgAppName"
+        app:layout_constraintTop_toBottomOf="@id/tvBgAppName"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvFBUseYou"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/grotesk"
+        android:text="@string/how_fb_use_you"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_22"
+        app:layout_constraintEnd_toEndOf="@id/tvBgAppName"
+        app:layout_constraintStart_toStartOf="@id/tvBgAppName"
+        app:layout_constraintTop_toBottomOf="@id/tvHowYouUseFB"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnGetStarted"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginStart="@dimen/dp_40"
+        android:layout_marginEnd="@dimen/dp_40"
+        android:layout_marginBottom="@dimen/dp_36"
+        android:background="@drawable/bg_black_66_stateful"
+        android:fontFamily="@font/grotesk"
+        android:text="@string/get_started_arrow"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintBottom_toTopOf="@id/tvAlreadyHaveAccount"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvAlreadyHaveAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/grotesk"
+        android:text="@string/i_already_have_an_account_arrow"
+        android:textColor="@drawable/color_white_stateful"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

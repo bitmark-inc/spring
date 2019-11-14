@@ -1,3 +1,26 @@
 <resources>
     <string name="notification_channel_name">@string/app_name</string>
+
+    <string name="how_you_use_fb">How you use Facebook</string>
+    <string name="how_fb_use_you">How Facebook uses you</string>
+    <string name="get_started_arrow">Get started »</string>
+    <string name="i_already_have_an_account_arrow">I already have an account »</string>
+    <string name="how_it_works">How it works</string>
+    <string name="we_will_back_up_your_fb_data">1  We’ll back up your Facebook data archive into a personal data vault that only you control. \n\n2  We’ll give you private analytics on your Facebook data. \n\n3  Your vault will be updated each week with new Facebook data and insights.</string>
+    <string name="continue_arrow">Continue »</string>
+    <string name="get_your_data">Get your data</string>
+    <string name="fb_login">Facebook login</string>
+    <string name="fb_password">Facebook password</string>
+    <string name="we_will_only_use_your_fb_login">We’ll only use your Facebook login information to automate your back up.</string>
+    <string name="prefer_to_do_this_manually">Prefer to do this manually?</string>
+    <string name="data_requested">Data requested</string>
+    <string name="fb_is_preparing_your_data">Facebook is preparing your data archive. This may take up to a few days, depending on how much data you have. \n\nWould you like us to notify you when your backup is ready? If not, you will need to return back here regularly to check if the backup is ready.</string>
+    <string name="notify_me">Notify me</string>
+    <string name="enable_push_notification">Enable Push Notifications</string>
+    <string name="allow_synergy_to_send_you">Allow “Synergy” to send you push notifications?</string>
+    <string name="no_thanks">No thanks</string>
+    <string name="enable">Enable</string>
+    <string name="we_will_notify_you_when_backup">We’ll notify you when your backup is ready.</string>
+    <string name="authorize_arrow">Authorize »</string>
+
 </resources>
