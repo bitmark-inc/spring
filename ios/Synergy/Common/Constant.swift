@@ -28,6 +28,7 @@ public struct Constant {
   let intercomAppKey = Credential.valueForKey(keyName: Constant.InfoKey.intercomAppKey)
   let appleMerchantID = Credential.valueForKey(keyName: Constant.InfoKey.appleMerchantID)
   let sentryDSN = Credential.valueForKey(keyName: Constant.InfoKey.sentryDSN)
+  let oneSignalAppID = Credential.valueForKey(keyName: "ONESIGNAL_APP_ID")
 
   public static let productLink = "https://apps.apple.com/us/app/bitmark/id1429427796"
   let numberOfPhrases = 12

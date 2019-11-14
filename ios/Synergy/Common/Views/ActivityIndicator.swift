@@ -23,7 +23,11 @@ class ActivityIndicator: UIActivityIndicatorView {
   }
 
   func setupView() {
-    style = .large
+    if #available(iOS 13.0, *) {
+      style = .large
+    } else {
+      style = .whiteLarge
+    }
 
     themeService.rx
       .bind({ $0.indicatorColor }, to: rx.tintColor)

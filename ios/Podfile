@@ -7,6 +7,7 @@ inhibit_all_warnings!
 def sharedPods
   pod 'BitmarkSDK/RxSwift', git: 'https://github.com/bitmark-inc/bitmark-sdk-swift.git', branch: 'master'
   pod 'Intercom'
+  pod 'OneSignal'
   pod 'Sentry', :git => 'https://github.com/getsentry/sentry-cocoa.git', :tag => '4.4.1'
 
   pod 'RxSwift', '~> 5'
@@ -57,4 +58,10 @@ target 'Synergy Dev' do
   # Pods for OurBeat Dev
   sharedPods
   pod 'SwiftLint'
+end
+
+target 'OneSignalNotificationServiceExtension' do
+  use_frameworks!
+
+  pod 'OneSignal'
 end
