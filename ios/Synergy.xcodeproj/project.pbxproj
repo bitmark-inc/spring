@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		553BD3C9298A8B9E14EABF26 /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A540D7A6301D2B3515189AC /* Pods_Synergy.framework */; };
+		384F82AF531FBD6AC31B948A /* Pods_Synergy_Dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */; };
+		553BD3C9298A8B9E14EABF26 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
 		5832FC04237A6DB900FA3196 /* SynergyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC03237A6DB900FA3196 /* SynergyTests.swift */; };
 		5832FC11237A85B000FA3196 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC0F237A85B000FA3196 /* AppDelegate.swift */; };
 		5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC10237A85B000FA3196 /* SceneDelegate.swift */; };
@@ -68,7 +69,67 @@
 		5832FCC5237AB8AB00FA3196 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCBF237AB8AB00FA3196 /* LaunchScreen.storyboard */; };
 		5832FCC6237AB8AB00FA3196 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCC1237AB8AB00FA3196 /* Main.storyboard */; };
 		5832FCC7237AB8AB00FA3196 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCC3237AB8AB00FA3196 /* R.generated.swift */; };
+		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
+		E2DB667F237D3B69005367C2 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8F237A889A00FA3196 /* RealmConfig.swift */; };
+		E2DB6680237D3B69005367C2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC37237A863300FA3196 /* Button.swift */; };
+		E2DB6681237D3B69005367C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC0F237A85B000FA3196 /* AppDelegate.swift */; };
+		E2DB6682237D3B69005367C2 /* SubmitButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC26237A863300FA3196 /* SubmitButton.swift */; };
+		E2DB6683237D3B69005367C2 /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC32237A863300FA3196 /* TextField.swift */; };
+		E2DB6684237D3B69005367C2 /* ConfirmRecoveryKeyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC1C237A863300FA3196 /* ConfirmRecoveryKeyViewModel.swift */; };
+		E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2C237A863300FA3196 /* ActivityIndicator.swift */; };
+		E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC99237A8A9200FA3196 /* UITableView+ApplyChanges.swift */; };
+		E2DB6687237D3B69005367C2 /* Credential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC91237A889A00FA3196 /* Credential.swift */; };
+		E2DB6688237D3B69005367C2 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC17237A863300FA3196 /* Global.swift */; };
+		E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8C237A889A00FA3196 /* BitmarkSDKService.swift */; };
+		E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC10237A85B000FA3196 /* SceneDelegate.swift */; };
+		E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC21237A863300FA3196 /* NavigationController.swift */; };
+		E2DB668C237D3B69005367C2 /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC31237A863300FA3196 /* Switch.swift */; };
+		E2DB668D237D3B69005367C2 /* SeparateLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC34237A863300FA3196 /* SeparateLine.swift */; };
+		E2DB668E237D3B69005367C2 /* String+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA4237A8A9200FA3196 /* String+Helper.swift */; };
+		E2DB668F237D3B69005367C2 /* NoInternetBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC27237A863300FA3196 /* NoInternetBanner.swift */; };
+		E2DB6690237D3B69005367C2 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC24237A863300FA3196 /* Label.swift */; };
+		E2DB6691237D3B69005367C2 /* DescriptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2B237A863300FA3196 /* DescriptionLabel.swift */; };
+		E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC35237A863300FA3196 /* ImageView.swift */; };
+		E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB4237A9FD700FA3196 /* Navigator.swift */; };
+		E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2D237A863300FA3196 /* EditingTextView.swift */; };
+		E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB8237AA18C00FA3196 /* LaunchingViewModel.swift */; };
+		E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2A237A863300FA3196 /* MakeUnderline.swift */; };
+		E2DB6697237D3B69005367C2 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8E237A889A00FA3196 /* Storage.swift */; };
+		E2DB6698237D3B69005367C2 /* IconButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC33237A863300FA3196 /* IconButtonView.swift */; };
+		E2DB6699237D3B69005367C2 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB2237A9F6200FA3196 /* Application.swift */; };
+		E2DB669A237D3B69005367C2 /* UIButton+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA1237A8A9200FA3196 /* UIButton+Image.swift */; };
+		E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA2237A8A9200FA3196 /* MoyaProviderType+Request.swift */; };
+		E2DB669C237D3B69005367C2 /* ReadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC28237A863300FA3196 /* ReadingTextView.swift */; };
+		E2DB669D237D3B69005367C2 /* RxOptional+Single+Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9B237A8A9200FA3196 /* RxOptional+Single+Optional.swift */; };
+		E2DB669E237D3B69005367C2 /* NetworkConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC69237A883500FA3196 /* NetworkConnectionManager.swift */; };
+		E2DB669F237D3B69005367C2 /* SecondaryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC36237A863300FA3196 /* SecondaryButton.swift */; };
+		E2DB66A0237D3B69005367C2 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC15237A863300FA3196 /* Constant.swift */; };
+		E2DB66A1237D3B69005367C2 /* DesignedSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2E237A863300FA3196 /* DesignedSegmentControl.swift */; };
+		E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC30237A863300FA3196 /* TableView.swift */; };
+		E2DB66A3237D3B69005367C2 /* UIFont+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA0237A8A9200FA3196 /* UIFont+Theme.swift */; };
+		E2DB66A4237D3B69005367C2 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC29237A863300FA3196 /* TableViewCell.swift */; };
+		E2DB66A5237D3B69005367C2 /* StringProtocol+nsRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA5237A8A9200FA3196 /* StringProtocol+nsRange.swift */; };
+		E2DB66A6237D3B69005367C2 /* UIViewController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9E237A8A9200FA3196 /* UIViewController+Error.swift */; };
+		E2DB66A7237D3B69005367C2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC1F237A863300FA3196 /* ViewController.swift */; };
+		E2DB66A8237D3B69005367C2 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC90237A889A00FA3196 /* KeychainStore.swift */; };
+		E2DB66A9237D3B69005367C2 /* ConfirmRecoveryKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC1D237A863300FA3196 /* ConfirmRecoveryKeyViewController.swift */; };
+		E2DB66AA237D3B69005367C2 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCC3237AB8AB00FA3196 /* R.generated.swift */; };
+		E2DB66AB237D3B69005367C2 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC1A237A863300FA3196 /* ThemeManager.swift */; };
+		E2DB66AC237D3B69005367C2 /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC23237A863300FA3196 /* UnderlinedTextField.swift */; };
+		E2DB66AD237D3B69005367C2 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC18237A863300FA3196 /* Currency.swift */; };
+		E2DB66AE237D3B69005367C2 /* UIViewController+AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9D237A8A9200FA3196 /* UIViewController+AppSettings.swift */; };
+		E2DB66AF237D3B69005367C2 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC19237A863300FA3196 /* ViewModel.swift */; };
+		E2DB66B0237D3B69005367C2 /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9C237A8A9200FA3196 /* Observable+Operators.swift */; };
+		E2DB66B1237D3B69005367C2 /* Global+Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC16237A863300FA3196 /* Global+Log.swift */; };
+		E2DB66B2237D3B69005367C2 /* SVProgressHUD+rxState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2F237A863300FA3196 /* SVProgressHUD+rxState.swift */; };
+		E2DB66B3237D3B69005367C2 /* LaunchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCBA237AA1B600FA3196 /* LaunchingViewController.swift */; };
+		E2DB66B4237D3B69005367C2 /* String+SupportBitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9F237A8A9200FA3196 /* String+SupportBitmark.swift */; };
+		E2DB66B5237D3B69005367C2 /* ThemedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC20237A863300FA3196 /* ThemedViewController.swift */; };
+		E2DB66B6237D3B69005367C2 /* FileManager+Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA3237A8A9200FA3196 /* FileManager+Directory.swift */; };
+		E2DB66BA237D3B69005367C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCC1237AB8AB00FA3196 /* Main.storyboard */; };
+		E2DB66BB237D3B69005367C2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCBF237AB8AB00FA3196 /* LaunchScreen.storyboard */; };
+		E2DB66BC237D3B69005367C2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCBE237AB8AB00FA3196 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +143,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		565CBC042B4D43C3D73FFEAF /* Pods-Synergy Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.release.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.release.xcconfig"; sourceTree = "<group>"; };
 		5832FBE9237A6DB700FA3196 /* Synergy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Synergy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5832FBFA237A6DB900FA3196 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5832FBFF237A6DB900FA3196 /* SynergyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SynergyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,11 +209,15 @@
 		5832FCC2237AB8AB00FA3196 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5832FCC3237AB8AB00FA3196 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		681949F22DEE05C36955EBCD /* Pods-SynergyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynergyTests.release.xcconfig"; path = "Target Support Files/Pods-SynergyTests/Pods-SynergyTests.release.xcconfig"; sourceTree = "<group>"; };
+		858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Synergy_Dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SynergyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9A540D7A6301D2B3515189AC /* Pods_Synergy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Synergy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1944A193B369ED2A5329D87 /* Pods-SynergyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynergyTests.debug.xcconfig"; path = "Target Support Files/Pods-SynergyTests/Pods-SynergyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A90EE8143AD92240CB0C4AD8 /* Pods-Synergy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy.debug.xcconfig"; path = "Target Support Files/Pods-Synergy/Pods-Synergy.debug.xcconfig"; sourceTree = "<group>"; };
+		C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.debug.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		E19A6B110D404A33B44425C8 /* Pods-Synergy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy.release.xcconfig"; path = "Target Support Files/Pods-Synergy/Pods-Synergy.release.xcconfig"; sourceTree = "<group>"; };
+		E2DB66C2237D3B69005367C2 /* Synergy Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Synergy Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2DB66C4237D3D20005367C2 /* Dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dev-Info.plist"; sourceTree = "<group>"; };
+		EEEFB2453873472512CCA456 /* Pods_Synergy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Synergy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,7 +225,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				553BD3C9298A8B9E14EABF26 /* Pods_Synergy.framework in Frameworks */,
+				553BD3C9298A8B9E14EABF26 /* BuildFile in Frameworks */,
+				837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,6 +235,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2DB66B7237D3B69005367C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				384F82AF531FBD6AC31B948A /* Pods_Synergy_Dev.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +256,8 @@
 				E19A6B110D404A33B44425C8 /* Pods-Synergy.release.xcconfig */,
 				A1944A193B369ED2A5329D87 /* Pods-SynergyTests.debug.xcconfig */,
 				681949F22DEE05C36955EBCD /* Pods-SynergyTests.release.xcconfig */,
+				C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */,
+				565CBC042B4D43C3D73FFEAF /* Pods-Synergy Dev.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -201,6 +278,7 @@
 			children = (
 				5832FBE9237A6DB700FA3196 /* Synergy.app */,
 				5832FBFF237A6DB900FA3196 /* SynergyTests.xctest */,
+				E2DB66C2237D3B69005367C2 /* Synergy Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,6 +294,7 @@
 				5832FCB6237AA10600FA3196 /* Modules */,
 				5832FCBD237AB8AB00FA3196 /* Resources */,
 				5832FBFA237A6DB900FA3196 /* Info.plist */,
+				E2DB66C4237D3D20005367C2 /* Dev-Info.plist */,
 			);
 			path = Synergy;
 			sourceTree = "<group>";
@@ -388,8 +467,9 @@
 		86BC69C7FD35A72B7CC32EB1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A540D7A6301D2B3515189AC /* Pods_Synergy.framework */,
 				91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */,
+				858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */,
+				EEEFB2453873472512CCA456 /* Pods_Synergy.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -437,6 +517,27 @@
 			productReference = 5832FBFF237A6DB900FA3196 /* SynergyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		E2DB667B237D3B69005367C2 /* Synergy Dev */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2DB66BF237D3B69005367C2 /* Build configuration list for PBXNativeTarget "Synergy Dev" */;
+			buildPhases = (
+				E2DB667C237D3B69005367C2 /* [CP] Check Pods Manifest.lock */,
+				E2DB667D237D3B69005367C2 /* ShellScript */,
+				E2DB667E237D3B69005367C2 /* Sources */,
+				E2DB66B7237D3B69005367C2 /* Frameworks */,
+				E2DB66B9237D3B69005367C2 /* Resources */,
+				E2DB66BD237D3B69005367C2 /* [CP] Embed Pods Frameworks */,
+				E2DB66BE237D3B69005367C2 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Synergy Dev";
+			productName = Synergy;
+			productReference = E2DB66C2237D3B69005367C2 /* Synergy Dev.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -470,6 +571,7 @@
 			projectRoot = "";
 			targets = (
 				5832FBE8237A6DB700FA3196 /* Synergy */,
+				E2DB667B237D3B69005367C2 /* Synergy Dev */,
 				5832FBFE237A6DB900FA3196 /* SynergyTests */,
 			);
 		};
@@ -490,6 +592,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2DB66B9237D3B69005367C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2DB66BA237D3B69005367C2 /* Main.storyboard in Resources */,
+				E2DB66BB237D3B69005367C2 /* LaunchScreen.storyboard in Resources */,
+				E2DB66BC237D3B69005367C2 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,7 +638,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				$SRCROOT/Synergy/Resources/R.generated.swift,
+				"$SRCROOT/Synergy/Resources/R.generated.swift",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -569,6 +681,81 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Synergy/Pods-Synergy-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E2DB667C237D3B69005367C2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Synergy Dev-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E2DB667D237D3B69005367C2 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$TEMP_DIR/rswift-lastrun",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$SRCROOT/Synergy/Resources/R.generated.swift",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"$PODS_ROOT/R.swift/rswift\" generate \"$SRCROOT/Synergy/Resources/R.generated.swift\"\n";
+		};
+		E2DB66BD237D3B69005367C2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E2DB66BE237D3B69005367C2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FDE4CD9218623CC39CDDDE23 /* [CP] Check Pods Manifest.lock */ = {
@@ -664,6 +851,69 @@
 			buildActionMask = 2147483647;
 			files = (
 				5832FC04237A6DB900FA3196 /* SynergyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2DB667E237D3B69005367C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E2DB667F237D3B69005367C2 /* RealmConfig.swift in Sources */,
+				E2DB6680237D3B69005367C2 /* Button.swift in Sources */,
+				E2DB6681237D3B69005367C2 /* AppDelegate.swift in Sources */,
+				E2DB6682237D3B69005367C2 /* SubmitButton.swift in Sources */,
+				E2DB6683237D3B69005367C2 /* TextField.swift in Sources */,
+				E2DB6684237D3B69005367C2 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
+				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
+				E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */,
+				E2DB6687237D3B69005367C2 /* Credential.swift in Sources */,
+				E2DB6688237D3B69005367C2 /* Global.swift in Sources */,
+				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
+				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
+				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
+				E2DB668C237D3B69005367C2 /* Switch.swift in Sources */,
+				E2DB668D237D3B69005367C2 /* SeparateLine.swift in Sources */,
+				E2DB668E237D3B69005367C2 /* String+Helper.swift in Sources */,
+				E2DB668F237D3B69005367C2 /* NoInternetBanner.swift in Sources */,
+				E2DB6690237D3B69005367C2 /* Label.swift in Sources */,
+				E2DB6691237D3B69005367C2 /* DescriptionLabel.swift in Sources */,
+				E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */,
+				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
+				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
+				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
+				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
+				E2DB6697237D3B69005367C2 /* Storage.swift in Sources */,
+				E2DB6698237D3B69005367C2 /* IconButtonView.swift in Sources */,
+				E2DB6699237D3B69005367C2 /* Application.swift in Sources */,
+				E2DB669A237D3B69005367C2 /* UIButton+Image.swift in Sources */,
+				E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */,
+				E2DB669C237D3B69005367C2 /* ReadingTextView.swift in Sources */,
+				E2DB669D237D3B69005367C2 /* RxOptional+Single+Optional.swift in Sources */,
+				E2DB669E237D3B69005367C2 /* NetworkConnectionManager.swift in Sources */,
+				E2DB669F237D3B69005367C2 /* SecondaryButton.swift in Sources */,
+				E2DB66A0237D3B69005367C2 /* Constant.swift in Sources */,
+				E2DB66A1237D3B69005367C2 /* DesignedSegmentControl.swift in Sources */,
+				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
+				E2DB66A3237D3B69005367C2 /* UIFont+Theme.swift in Sources */,
+				E2DB66A4237D3B69005367C2 /* TableViewCell.swift in Sources */,
+				E2DB66A5237D3B69005367C2 /* StringProtocol+nsRange.swift in Sources */,
+				E2DB66A6237D3B69005367C2 /* UIViewController+Error.swift in Sources */,
+				E2DB66A7237D3B69005367C2 /* ViewController.swift in Sources */,
+				E2DB66A8237D3B69005367C2 /* KeychainStore.swift in Sources */,
+				E2DB66A9237D3B69005367C2 /* ConfirmRecoveryKeyViewController.swift in Sources */,
+				E2DB66AA237D3B69005367C2 /* R.generated.swift in Sources */,
+				E2DB66AB237D3B69005367C2 /* ThemeManager.swift in Sources */,
+				E2DB66AC237D3B69005367C2 /* UnderlinedTextField.swift in Sources */,
+				E2DB66AD237D3B69005367C2 /* Currency.swift in Sources */,
+				E2DB66AE237D3B69005367C2 /* UIViewController+AppSettings.swift in Sources */,
+				E2DB66AF237D3B69005367C2 /* ViewModel.swift in Sources */,
+				E2DB66B0237D3B69005367C2 /* Observable+Operators.swift in Sources */,
+				E2DB66B1237D3B69005367C2 /* Global+Log.swift in Sources */,
+				E2DB66B2237D3B69005367C2 /* SVProgressHUD+rxState.swift in Sources */,
+				E2DB66B3237D3B69005367C2 /* LaunchingViewController.swift in Sources */,
+				E2DB66B4237D3B69005367C2 /* String+SupportBitmark.swift in Sources */,
+				E2DB66B5237D3B69005367C2 /* ThemedViewController.swift in Sources */,
+				E2DB66B6237D3B69005367C2 /* FileManager+Directory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -817,6 +1067,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = Synergy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -835,6 +1086,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = Synergy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -891,6 +1143,44 @@
 			};
 			name = Release;
 		};
+		E2DB66C0237D3B69005367C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z5CE7A3A7N;
+				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E2DB66C1237D3B69005367C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 565CBC042B4D43C3D73FFEAF /* Pods-Synergy Dev.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = Z5CE7A3A7N;
+				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -917,6 +1207,15 @@
 			buildConfigurations = (
 				5832FC0C237A6DB900FA3196 /* Debug */,
 				5832FC0D237A6DB900FA3196 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2DB66BF237D3B69005367C2 /* Build configuration list for PBXNativeTarget "Synergy Dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E2DB66C0237D3B69005367C2 /* Debug */,
+				E2DB66C1237D3B69005367C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
