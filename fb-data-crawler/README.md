@@ -3,21 +3,19 @@ This project could be run as a program over command line or API service.
 # ROAD MAP & Progress
 
 Finished features:
-- API end point
-- Login with correct username & password
-- Session backup & login with cookies
-- Archive requesting
-- Detect optional password require before downloading archive
-- Archive downloading
-
-Plan (In order):
-- Upload the archive to S3 & notify the caller
-- Deploy to testnet K8S
-- Detect wrong username & password and then return error
-- Detect the archive can not be requested because another archive is being requested
-- Detect 2 factor authentication and return error (considering asking users through the app later)
-- Optimize the memory by closing browser while waiting for the archive to be available
-- ...
+- [x] API end point
+- [x] Login with correct username & password
+- [x] Session backup & login with cookies
+- [x] Archive requesting
+- [x] Detect optional password require before downloading archive
+- [x] Archive downloading
+- [ ] Upload the archive to S3 & notify the caller
+- [ ] Deploy to testnet K8S
+- [ ] Detect wrong username & password and then return error
+- [ ] Detect the archive can not be requested because another archive is being requested
+- [ ] Detect 2 factor authentication and return error (considering asking users through the app later)
+- [ ] Optimize the memory by closing browser while waiting for the archive to be available
+- [ ] ...
 
 
 # INSTALLATION
