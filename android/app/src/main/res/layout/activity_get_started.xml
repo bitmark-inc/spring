@@ -44,8 +44,9 @@
         android:id="@+id/tvHowYouUseFB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_6"
+        android:layout_marginTop="@dimen/dp_10"
         android:fontFamily="@font/grotesk"
+        android:includeFontPadding="false"
         android:text="@string/how_you_use_fb"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_22"
@@ -59,6 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/grotesk"
+        android:includeFontPadding="false"
         android:text="@string/how_fb_use_you"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_22"
@@ -69,6 +71,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnGetStarted"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_48"
         android:layout_marginStart="@dimen/dp_40"
@@ -80,6 +83,7 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/tvAlreadyHaveAccount"
         />
 
@@ -87,7 +91,7 @@
         android:id="@+id/tvAlreadyHaveAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_36"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="@font/grotesk"

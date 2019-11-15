@@ -8,11 +8,11 @@ package com.bitmark.synergy
 
 import com.bitmark.apiservice.configuration.GlobalConfiguration
 import com.bitmark.apiservice.configuration.Network
+import com.bitmark.sdk.features.BitmarkSDK
 import com.bitmark.synergy.data.source.remote.api.middleware.BitmarkSdkHttpObserver
 import com.bitmark.synergy.data.source.remote.api.service.ServiceGenerator
 import com.bitmark.synergy.keymanagement.ApiKeyManager.Companion.API_KEY_MANAGER
 import com.bitmark.synergy.logging.Tracer
-import com.bitmark.sdk.features.BitmarkSDK
 import com.crashlytics.android.Crashlytics
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
@@ -23,10 +23,10 @@ import io.sentry.android.AndroidSentryClientFactory
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Inject
 
-class CharterApplication : DaggerApplication() {
+class SynergyApplication : DaggerApplication() {
 
     companion object {
-        private const val TAG = "CharterApplication"
+        private const val TAG = "SynergyApplication"
     }
 
     @Inject

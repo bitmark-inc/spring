@@ -23,7 +23,7 @@ import javax.inject.Singleton
         NetworkModule::class, RepositoryModule::class]
 )
 @Singleton
-interface AppComponent : AndroidInjector<CharterApplication> {
+interface AppComponent : AndroidInjector<SynergyApplication> {
     @Component.Builder
     interface Builder {
 

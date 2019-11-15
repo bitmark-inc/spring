@@ -2,11 +2,11 @@
 <font-family xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <font
-        app:font="@font/grotesk_medium"
+        app:font="@font/grotesk_light"
         app:fontStyle="normal"
         app:fontWeight="400" />
     <font
-        app:font="@font/grotesk_medium_italic"
+        app:font="@font/grotesk_light_italic"
         app:fontStyle="italic"
         app:fontWeight="400" />
 </font-family>
