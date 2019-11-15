@@ -6,21 +6,7 @@ const Builder = webdriver.Builder;
 const By = webdriver.By;
 const Key = webdriver.Key;
 const screen = {width: 1024, height: 1024};
-const sessionCache = require('./session-cache.json');
 const fs = require('fs').promises;
-
-function getSessionFromCache(email) {
-  if (sessionCache[email]) {
-    return sessionCache[email];
-  } else {
-    return false;
-  }
-}
-
-async function writeSessionToCache(email, content) {
-  sessionCache[email] = content;
-  await fs.writeFile('./session-cache.json', JSON.stringify(sessionCache));
-}
 
 let Crawler = function (options) {
   this.crawlerOptions = options;
@@ -56,14 +42,6 @@ Crawler.prototype.isElementExisting = async function(css) {
 
 Crawler.prototype.loginByAuthenticationCredential = async function(email, password) {
   this.facebookPassword = password;
-  if (this.crawlerOptions.cache) {
-    let cookies = getSessionFromCache(email);
-    if (cookies) {
-      await this.loginByCookies(cookies, password);
-      return;
-    }
-  }
-
   await this.driver.get('https://facebook.com');
   if (await this.isElementExisting('#email')) {
     await this.driver.findElement(By.css('#email')).sendKeys(email);
@@ -71,10 +49,6 @@ Crawler.prototype.loginByAuthenticationCredential = async function(email, passwo
   } else {
     await this.driver.findElement(By.css('input[name="email"]')).sendKeys(email);
     await this.driver.findElement(By.css('input[name="pass"]')).sendKeys(password, Key.RETURN);
-  }
-
-  if (this.crawlerOptions.cache) {
-    writeSessionToCache(email, await this.driver.manage().getCookies());
   }
 }
 
@@ -84,6 +58,10 @@ Crawler.prototype.loginByCookies = async function(cookies, password) {
   for (let i = 0; i < cookies.length; i++) {
     await this.driver.manage().addCookie(cookies[i]);
   }
+}
+
+Crawler.prototype.getCookies = async function() {
+  return await this.driver.manage().getCookies();
 }
 
 Crawler.prototype.goToArchiveSection = async function() {
@@ -99,9 +77,34 @@ Crawler.prototype.triggerArchiveRequest = async function(from, to) {
   this.targetID = elements.length + 1;
 
   await this.driver.findElement(By.css('li[data-testid="dyi/navigation/new_archive"]')).click();
+
+  // Choosing JSON type
   await this.driver.findElement(By.css('[data-testid="dyi/sections"] ._5aj7 > div:nth-child(2) a')).click();
   await this.driver.sleep(1 * 1000);
   await this.driver.findElement(By.css('ul._54nf[role="menu"] > li:nth-child(2)')).click();
+
+  // if (from || to) {
+  //   await this.driver.findElement(By.xpath('//span[@endinputname="start_time"]')).click();
+  // }
+
+  // // Set date range
+  // let now = new Date();
+  // if (from) {
+  //   let tmp = new Date(`${from.getUTCFullYear()}-${from.getUTCMonth()}-${from.getUTCDate()}`);
+  //   await this.driver.findElement(By.xpath('//*[string(@selectdate)][string(@maxyear)]/div[2]')).click();
+  //   await this.driver.findElement(By.xpath(`//div[not(contains(@class, "hidden_elem"))]//*[contains(@class, "uiContextualLayer")]//ul[@role="menu"]/li[${now.getUTCFullYear() - tmp.getUTCFullYear() + 1}]`)).click();
+  //   await this.driver.findElement(By.xpath('//*[string(@selectdate)][string(@maxyear)]/div[1]')).click();
+  //   await this.driver.findElement(By.xpath(`//div[not(contains(@class, "hidden_elem"))]//*[contains(@class, "uiContextualLayer")]//ul[@role="menu"]/li[${tmp.getUTCFullYear() + 1}]`)).click();
+  //   await this.driver.findElement(By.xpath(`//div[not(contains(@class, "hidden_elem"))]//*[contains(@class, "uiContextualLayer")]//div[contains(@class, "_ikh")]/div[contains(@class, "_4bl7")][1]/a[string(@date)][10]`)).click();
+
+  // }
+  // if (to) {
+  //   let tmp = new Date(`${to.getUTCFullYear()}-${to.getUTCMonth()}-${to.getUTCDate()}`);
+  //   await this.driver.executeScript(`document.querySelector('[name="end_time"]').setAttribute('value', ${tmp.getTime()})`);
+  // }
+
+  // process.exit();
+  // Trigger downloading
   await this.driver.findElement(By.css('div._4bl7 > [data-testid="dyi/sections/create"]')).click();
   return this.targetID;
 }
@@ -133,8 +136,8 @@ Crawler.prototype.captureScreen = async function(filepath) {
   await fs.writeFile(filepath, image, 'base64');
 }
 
-Crawler.prototype.quit = async function() {
-  await this.driver.quit();
+Crawler.prototype.close = async function() {
+  await this.driver.close();
 }
 
 module.exports = Crawler;

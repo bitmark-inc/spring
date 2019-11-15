@@ -1,68 +1,122 @@
-const http = require('http');
-const url = require('url');
-const querystring = require('querystring');
-const AWS = require('aws-sdk');
-const fs = require('fs');
-const mime = require('mime-types');
-const uuidv4 = require('uuid/v4');
-const { promisify } = require('util')
-const writeFileAsync = promisify(fs.writeFile);
-const unlinkFileAsync = promisify(fs.unlink);
+/** ----------------------------------------------- */
+// THIS PROGRAM CREATE A SERVER THAT WILL
+// 1. Download Facebook database
+// 2. Upload Facebook database to the callback link
+/** ----------------------------------------------- */
 
-// Check bucket configuration
-const BUCKET = global.process.env.BUCKET;
-const PORT = global.process.env.PORT;
-let serverShouldStopProcessing = false;
+//------- Server dependencies ------------//
+const DEBUG_MODE =  true;
+// server
+const express = require('express');
+const PORT = global.process.env.PORT || 8080;
+let hasReceivedSignterm = false;
+// app logic
+const Database = require('./database.js');
+const FileStore = require('./file-store.js');
+const Crawler = require('./crawler.js');
+const path = require('path');
+const DATA_DIR = global.process.env.DATA_DIR || path.resolve(__dirname, 'data');
 
-if (!BUCKET) {
-  console.error('Original & preview buckets are not provided.');
-  global.process.exit(1);
-}
+//------------- Server main API ---------------//
+(async function create() {
 
-
-// Stream file from original bucket to preview bucket through file converter
-const s3 = new AWS.S3({apiVersion: '2006-03-01'});
-
-const removeTempFile = async (filepath) => {
-  await unlinkFileAsync(filepath);
-};
-
-const uploadFileToS3 = async (filepath, s3key) => {
-  let params = {
-    Bucket: BUCKET,
-    Key: s3key,
-    Body: fs.createReadStream(filepath),
-    ContentType: mime.lookup(PREVIEW_FORMAT)
-  };
-  return s3.putObject(params).promise();
-};
-
-const downloadUrlFilter = /^\/api\/download(\?.+)?$/;
-http.createServer(async function (req, res) {
-  if (downloadUrlFilter.test(req.url) && req.method === 'POST') {
-    try {
-      let query = querystring.decode(url.parse(req.url).query);
-      let username = query.username;
-      let password = query.password;
-      let from = query.from;
-      let to = query.to;
-
-      res.writeHead(200, {'Content-Type': 'application/jason'});
-      res.end(JSON.stringify({key: previewS3Key}));
-    } catch (err) {
-      console.log(err);
-      res.writeHead(500, {'Content-Type': 'application/jason'});
-      res.end(JSON.stringify({message: err.message}));
-    }
-  } else if (req.url === '/api/healthz') {
-    res.writeHead(serverShouldStopProcessing ? 500 : 200);
-    res.end();
-  } else {
-    res.writeHead(404);
-    res.end();
+  // Utilities
+  async function wait(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
-}).listen(PORT || 8080);
 
-global.process.on('SIGTERM', function () {
-  serverShouldStopProcessing = true;
-});
+  // Database intialization
+  const database = new Database({data_dir: DATA_DIR});
+  await database.init();
+
+  // FileStore initialization
+  const fileStore = new FileStore({data_dir: DATA_DIR});
+  await fileStore.init();
+
+  // Server creation
+  const app = express();
+  app.use(express.json());
+
+  //------------- Server main APIs ---------------//
+  app.post('/api/download', async (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    let from = req.body.from;
+    let to = req.body.to;
+    let callbackUrl = req.body.callback;
+    let isAlreadyRespond = false;
+  
+    if (!username || !password || !callbackUrl) {
+      res.status('400').send({message: 'missing parameter'});
+      return;
+    }
+  
+    try {
+      let downloadDir = await fileStore.createRandomDir()
+      let crawler = new Crawler({
+        showInterface: DEBUG_MODE,
+        downloadDir: downloadDir,
+        targetID: null
+      });
+      await crawler.init();
+  
+      let cachedSession = database.getCachedSession(username);
+      if (cachedSession) {
+        await crawler.loginByCookies(cachedSession, password);
+      } else {
+        await crawler.loginByAuthenticationCredential(username, password);
+        await database.cacheSession(username, await crawler.getCookies());
+      }
+      res.send({message: 'login successfully & data backup is scheduled!'});
+      isAlreadyRespond = true;
+  
+      await crawler.goToArchiveSection();
+      await crawler.triggerArchiveRequest(from, to);
+  
+      while (!(await crawler.checkArchiveAvailable())) {
+        console.info(`Archive not found yet, the program will sleep for a bit before trying again...`);
+        await wait(30 * 1000);
+      }
+      await crawler.triggerArchiveDownload();
+      console.info(`Archive is being downloaded, please wait...`);
+  
+      // Let's give the web drive some time to download first piece
+      let filename = 'crdownload';
+      while (filename.indexOf('crdownload') !== -1) {
+        await wait(5*1000);
+        filename = await fileStore.getFirstFileNameFromDir(downloadDir);
+        if (!filename) {
+          console.log(`Oops! Something wrong! The file has not appeared`);
+          await crawler.captureScreen(path.resolve(DATA_DIR, `${username}-${uuidv4()}.png`));
+        }
+      }
+  
+      console.info(`Finish downloading the archive!`);
+      let filePath = path.resolve(downloadDir, await fileStore.getFirstFileNameFromDir(downloadDir));
+      console.info(`Your archive is at ${filePath}`);
+      await crawler.close();
+  
+      // TODO: SHOULD UPLOAD TO THE CALLBACK LINK
+    } catch (err) {
+      if (!isAlreadyRespond) {
+        res.status(400).send('Failed');
+      } else {
+        console.log('WARNING: something wrong');
+      }
+      console.log(err);
+    }
+  });
+  
+  //------------- Server health check API ---------------//
+  
+  app.get('/api/healthz', (req, res) => {
+    res.status(hasReceivedSignterm ? 500 : 200).end();
+  });
+  
+  global.process.on('SIGTERM', function () {
+    hasReceivedSignterm = true;
+  });
+
+  //------------- Let's run it ---------------//
+  app.listen(PORT, () => console.log(`Facebook data fetcher app is listening on port ${PORT}!`))  
+})();

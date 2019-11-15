@@ -1,49 +1,62 @@
 This project could be run as a program over command line or API service.
 
+# ROAD MAP & Progress
+
+Finished features:
+- API end point
+- Login with correct username & password
+- Session backup & login with cookies
+- Archive requesting
+- Detect optional password require before downloading archive
+- Archive downloading
+
+Plan (In order):
+- Upload the archive to S3 & notify the caller
+- Deploy to testnet K8S
+- Detect wrong username & password and then return error
+- Detect the archive can not be requested because another archive is being requested
+- Detect 2 factor authentication and return error (considering asking users through the app later)
+- Optimize the memory by closing browser while waiting for the archive to be available
+- ...
+
+
 # INSTALLATION
 ```
 npm install
 ```
 
-# COMMAND LINE
-
-## How it works?
-
-The program will connect to Facebook, log in by users' username and password. It then
-1. Requests to download the Facebook archive
-2. Wait for the archive to be available and download it
-
-You can run the process as a whole, the program will keep running until it can get the data. Sometime, the process takes too long that you might want to run the step #2 much later after step #1.
-
-## Run process as a whole
-
-Basic Command to run the whole process:
-```
-node command -u username@examplemail.com -password examplepassword
-```
-
-Note:
-- You can use -i option to see the browser running with interface
-- To avoid being blocked by facebook, you should run with -c, it will cache your session for next time use. Keep loging in so many times will put you in "suspicious" category.
+# SET UP & RUN
+Environment variables
+- PORT: the service will listen on this port, otherwise it will use 8080 as default
+- DATA_DIR: where the service keep user data file and archives
 
 ```
-node command -i -c -u username@examplemail.com -password examplepassword
+PORT=123 DATA_DIR=./data npm server.js
 ```
 
+# API
 
-Result:
+## POST /api/download
+Request to download an archive
+
+Request
+```
+Header
+content-type: application/json
+Body
+{
+	"username": "example@example.com",
+	"password": "example",
+	"callback": "https://example.com/receive-archive-url"
+}
 ```
 
+The request is successful when the program can login and request an archive
+Reponse
+```
+{
+  "message": "login successfully & data backup is scheduled!"
+}
 ```
 
-## Run data requesting and data download separately
-
-Options -r will tell the program to request the data only and exit. The result of this is an archive ID (it's actually the order of the requested archive in the archive list)
-```
-node command -i -c -r -u username@examplemail.com -password examplepassword
-```
-
-Options -d will tell the program to download the data only, with the archive number followed.
-```
-node command -i -c -d 2 -u username@examplemail.com -password examplepassword
-```
+The program will upload the archive to S3 and notify the caller via the callback url
