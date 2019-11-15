@@ -160,9 +160,27 @@ HOST: https://api.synergy.com/v1/
                     "id" : 1,
                     "name" : "type" 
                     "categories" : [
-                        {"id" : 1, "name" : "Updates", "quantity" : 2},
-                        {"id" : 2, "name" : "Photos", "quantity" : 9},
-                        {"id" : 3, "name" : "Stories", "quantity" : 3}
+                        {
+                            "category" : { 
+                                "id" : 1,
+                                "name" : "Updates"
+                            }, 
+                            "quantity" : 2
+                        },
+                        {
+                            "category" : { 
+                                "id" : 2,
+                                "name" : "Photos"
+                            }, 
+                            "quantity" : 9
+                        },
+                        {
+                            "category" : { 
+                                "id" : 3,
+                                "name" : "Stories"
+                            }, 
+                            "quantity" : 3
+                        }
                     ]
                 },
                 { 
@@ -172,14 +190,32 @@ HOST: https://api.synergy.com/v1/
                         {
                             "timestamp" : 1546300800000, 
                             "data" : [
-                                {"id" : 1, "name" : "Updates", "quantity" : 1},
-                                {"id" : 2, "name" : "Photos", "quantity" : 1},
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Updates"
+                                    }, 
+                                    "quantity" : 2
+                                },
+                                {
+                                        "category" : { 
+                                            "id" : 2,
+                                            "name" : "Photos"
+                                        }, 
+                                        "quantity" : 9
+                                }
                             ]
                         },
                         {
                             "timestamp" : 1546362000000, 
                             "data" : [
-                                {"id" : 1, "name" : "Updates", "quantity" : 1}
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Updates"
+                                    }, 
+                                    "quantity" : 2
+                                }
                             ]
                         },
                         {
@@ -193,6 +229,7 @@ HOST: https://api.synergy.com/v1/
                     "name" : "place" 
                     "categories" : [
                         {
+                            "id" : 123,
                             "name" : "Hongtai Crossfit", 
                             "data" : [
                                 {"id" : 1, "name" : "Updates", "quantity" : 1},
@@ -200,6 +237,7 @@ HOST: https://api.synergy.com/v1/
                             ]
                         },
                         {
+                            "id" : 234,
                             "name" : "Saffron", 
                             "data" : [
                                 {"id" : 1, "name" : "Updates", "quantity" : 2},
@@ -213,16 +251,35 @@ HOST: https://api.synergy.com/v1/
                     "name" : "friend" 
                     "categories" : [
                         {
+                            "id" : 4223,
                             "name" : "Mars Chen", 
                             "data" : [
-                                {"id" : 1, "name" : "Updates", "quantity" : 1},
-                                {"id" : 2, "name" : "Photos", "quantity" : 5}
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Updates"
+                                    }, 
+                                    "quantity" : 2
+                                },
+                                {
+                                    "category" : { 
+                                        "id" : 2,
+                                        "name" : "Photos"
+                                    }, 
+                                    "quantity" : 2
+                                }
                             ]
                         },
-                        {
+                        {   "id" : 643,
                             "name" : "Phil Lin", 
                             "data" : [
-                                {"id" : 1, "name" : "Updates", "quantity" : 1}
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Updates"
+                                    }, 
+                                    "quantity" : 2
+                                }
                             ]
                         }
                     ]
@@ -251,11 +308,41 @@ HOST: https://api.synergy.com/v1/
                     "id" : 1,
                     "name" : "type" 
                     "categories" : [
-                        {"id" : 1, "name" : "Like", "quantity" : 34},
-                        {"id" : 2, "name" : "Love", "quantity" : 40},
-                        {"id" : 3, "name" : "Haha", "quantity" : 19},
-                        {"id" : 4, "name" : "Wow", "quantity" : 10},
-                        {"id" : 5, "name" : "Sad", "quantity" : 0}
+                        {
+                            "category" : { 
+                                "id" : 1,
+                                "name" : "Like"
+                            }, 
+                            "quantity" : 34
+                        },
+                        {
+                            "category" : { 
+                                "id" : 2,
+                                "name" : "Love"
+                            }, 
+                            "quantity" : 40
+                        },
+                        {
+                            "category" : { 
+                                "id" : 3,
+                                "name" : "Haha"
+                            }, 
+                            "quantity" : 19
+                        },
+                        {
+                            "category" : { 
+                                "id" : 4,
+                                "name" : "Wow"
+                            }, 
+                            "quantity" : 10
+                        },
+                        {
+                            "category" : { 
+                                "id" : 5,
+                                "name" : "Like"
+                            }, 
+                            "quantity" : 0
+                        }
                     ]
                 },
                 { 
@@ -265,14 +352,32 @@ HOST: https://api.synergy.com/v1/
                         {
                             "timestamp" : 1546300800000, 
                             "data" : [
-                                {"id" : 1, "name" : "Like", "quantity" : 10},
-                                {"id" : 2, "name" : "Love", "quantity" : 5},
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Like"
+                                    }, 
+                                    "quantity" : 3
+                                },
+                                {
+                                    "category" : { 
+                                        "id" : 2,
+                                        "name" : "Love"
+                                    }, 
+                                    "quantity" : 4
+                                }
                             ]
                         },
                         {
                             "timestamp" : 1546362000000, 
                             "data" : [
-                                {"id" : 1, "name" : "Wow", "quantity" : 1}
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Like"
+                                    }, 
+                                    "quantity" : 3
+                                }
                             ]
                         },
                         {
@@ -286,16 +391,36 @@ HOST: https://api.synergy.com/v1/
                     "name" : "friend" 
                     "categories" : [
                         {
+                            "id" : 1,
                             "name" : "Mars Chen", 
                             "data" : [
-                                {"id" : 1, "name" : "Like", "quantity" : 6},
-                                {"id" : 2, "name" : "Love", "quantity" : 5}
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Like"
+                                    }, 
+                                    "quantity" : 6
+                                },
+                                {
+                                    "category" : { 
+                                        "id" : 2,
+                                        "name" : "Love"
+                                    }, 
+                                    "quantity" : 5
+                                }
                             ]
                         },
                         {
+                            "id" : 2,
                             "name" : "Phil Lin", 
                             "data" : [
-                                {"id" : 1, "name" : "Love", "quantity" : 40}
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Like"
+                                    }, 
+                                    "quantity" : 6
+                                }
                             ]
                         }
                     ]
