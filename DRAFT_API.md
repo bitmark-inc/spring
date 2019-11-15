@@ -198,11 +198,11 @@ HOST: https://api.synergy.com/v1/
                                     "quantity" : 2
                                 },
                                 {
-                                        "category" : { 
-                                            "id" : 2,
-                                            "name" : "Photos"
-                                        }, 
-                                        "quantity" : 9
+                                    "category" : { 
+                                        "id" : 2,
+                                        "name" : "Photos"
+                                    }, 
+                                    "quantity" : 9
                                 }
                             ]
                         },
@@ -232,16 +232,40 @@ HOST: https://api.synergy.com/v1/
                             "id" : 123,
                             "name" : "Hongtai Crossfit", 
                             "data" : [
-                                {"id" : 1, "name" : "Updates", "quantity" : 1},
-                                {"id" : 2, "name" : "Photos", "quantity" : 5}
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Updates"
+                                    }, 
+                                    "quantity" : 2
+                                },
+                                {
+                                    "category" : { 
+                                        "id" : 2,
+                                        "name" : "Photos"
+                                    }, 
+                                    "quantity" : 2
+                                }
                             ]
                         },
                         {
                             "id" : 234,
                             "name" : "Saffron", 
                             "data" : [
-                                {"id" : 1, "name" : "Updates", "quantity" : 2},
-                                {"id" : 2, "name" : "Photos", "quantity" : 2}
+                                {
+                                    "category" : { 
+                                        "id" : 1,
+                                        "name" : "Updates"
+                                    }, 
+                                    "quantity" : 2
+                                },
+                                {
+                                    "category" : { 
+                                        "id" : 2,
+                                        "name" : "Photos"
+                                    }, 
+                                    "quantity" : 2
+                                }
                             ]
                         }
                     ]
