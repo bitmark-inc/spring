@@ -13,95 +13,98 @@
         android:src="@drawable/bg_1"
         />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/tvBgAppName"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_48"
-        android:background="@color/black_66"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/tvAppName"
-        app:layout_constraintStart_toStartOf="@id/tvAppName"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvAppName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/domaine_sans"
-        android:includeFontPadding="false"
-        android:text="@string/app_name"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_60"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvHowYouUseFB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:fontFamily="@font/grotesk"
-        android:includeFontPadding="false"
-        android:text="@string/how_you_use_fb"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_22"
-        app:layout_constraintEnd_toEndOf="@id/tvBgAppName"
-        app:layout_constraintStart_toStartOf="@id/tvBgAppName"
-        app:layout_constraintTop_toBottomOf="@id/tvBgAppName"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvFBUseYou"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/grotesk"
-        android:includeFontPadding="false"
-        android:text="@string/how_fb_use_you"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_22"
-        app:layout_constraintEnd_toEndOf="@id/tvBgAppName"
-        app:layout_constraintStart_toStartOf="@id/tvBgAppName"
-        app:layout_constraintTop_toBottomOf="@id/tvHowYouUseFB"
-        />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnGetStarted"
-        style="?android:attr/borderlessButtonStyle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginStart="@dimen/dp_40"
-        android:layout_marginEnd="@dimen/dp_40"
-        android:layout_marginBottom="@dimen/dp_36"
-        android:background="@drawable/bg_black_66_stateful"
-        android:fontFamily="@font/grotesk"
-        android:text="@string/get_started_arrow"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_17"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/tvAlreadyHaveAccount"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvAlreadyHaveAccount"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_36"
-        android:clickable="true"
-        android:focusable="true"
-        android:fontFamily="@font/grotesk"
-        android:text="@string/i_already_have_an_account_arrow"
-        android:textColor="@drawable/color_white_stateful"
-        android:textSize="@dimen/sp_14"
+        android:background="@color/black_66"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_18"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        >
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAppName1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_neg_12"
+            android:fontFamily="@font/domaine_sans"
+            android:includeFontPadding="false"
+            android:text="@string/spring"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_36"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAppName2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/domaine_sans"
+            android:includeFontPadding="false"
+            android:text="@string/reports"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_48"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvHowYouUseFB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:layout_marginBottom="@dimen/dp_neg_4"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/how_you_use_fb"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_22"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFBUseYou"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/how_fb_use_you"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_22"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGetStarted"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_72"
+            android:background="@drawable/bg_international_klein_blue_stateful"
+            android:fontFamily="@font/grotesk"
+            android:text="@string/get_started_arrow"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_17"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tvLogin"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_36"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/grotesk"
+            android:gravity="center"
+            android:text="@string/i_already_have_an_account_arrow"
+            android:textColor="@drawable/color_white_stateful"
+            android:textSize="@dimen/sp_14"
+            />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

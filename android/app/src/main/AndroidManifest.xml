@@ -18,11 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".feature.main.MainActivity" />
+
         <activity
             android:name=".feature.register.onboarding.OnboardingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
-        <activity android:name=".feature.register.archiverequest.ArchiveRequestActivity" />
+
+        <activity
+            android:name=".feature.register.archiverequest.ArchiveRequestActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar"
+            android:windowSoftInputMode="stateAlwaysVisible" />
+
         <activity
             android:name=".feature.register.notification.RegisterNotificationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />

@@ -14,6 +14,7 @@ import com.bitmark.synergy.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.synergy.feature.register.archiverequest.ArchiveRequestActivity
 import com.bitmark.synergy.util.ext.setSafetyOnclickListener
 import kotlinx.android.synthetic.main.activity_onboarding.btnContinue
+import kotlinx.android.synthetic.main.activity_onboarding.ivBack
 import javax.inject.Inject
 
 class OnboardingActivity : BaseAppCompatActivity() {
@@ -31,6 +32,11 @@ class OnboardingActivity : BaseAppCompatActivity() {
         btnContinue.setSafetyOnclickListener {
             navigator.anim(RIGHT_LEFT)
                     .startActivity(ArchiveRequestActivity::class.java)
+        }
+
+        ivBack.setOnClickListener {
+            navigator.anim(RIGHT_LEFT)
+                    .finishActivity()
         }
     }
 

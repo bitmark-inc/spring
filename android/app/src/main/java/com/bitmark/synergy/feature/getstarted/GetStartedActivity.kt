@@ -14,7 +14,7 @@ import com.bitmark.synergy.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.synergy.feature.register.onboarding.OnboardingActivity
 import com.bitmark.synergy.util.ext.setSafetyOnclickListener
 import kotlinx.android.synthetic.main.activity_get_started.btnGetStarted
-import kotlinx.android.synthetic.main.activity_get_started.tvAlreadyHaveAccount
+import kotlinx.android.synthetic.main.activity_get_started.tvLogin
 import javax.inject.Inject
 
 class GetStartedActivity : BaseAppCompatActivity() {
@@ -32,10 +32,11 @@ class GetStartedActivity : BaseAppCompatActivity() {
         btnGetStarted.setSafetyOnclickListener {
             navigator.anim(RIGHT_LEFT)
                     .startActivity(
-                            OnboardingActivity::class.java)
+                            OnboardingActivity::class.java
+                    )
         }
 
-        tvAlreadyHaveAccount.setSafetyOnclickListener {
+        tvLogin.setSafetyOnclickListener {
 
         }
     }

@@ -42,6 +42,9 @@
 
     <dimen name="dp_neg_3">-3dp</dimen>
     <dimen name="dp_neg_4">-4dp</dimen>
+    <dimen name="dp_neg_6">-6dp</dimen>
+    <dimen name="dp_neg_8">-8dp</dimen>
+    <dimen name="dp_neg_12">-12dp</dimen>
 
 
     <dimen name="sp_7">7sp</dimen>
@@ -58,5 +61,6 @@
     <dimen name="sp_20">20sp</dimen>
     <dimen name="sp_22">22sp</dimen>
     <dimen name="sp_36">36sp</dimen>
+    <dimen name="sp_48">48sp</dimen>
     <dimen name="sp_60">60sp</dimen>
 </resources>

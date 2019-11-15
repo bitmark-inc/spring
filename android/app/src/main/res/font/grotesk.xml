@@ -4,9 +4,9 @@
     <font
         app:font="@font/grotesk_light"
         app:fontStyle="normal"
-        app:fontWeight="400" />
+        app:fontWeight="300" />
     <font
         app:font="@font/grotesk_light_italic"
         app:fontStyle="italic"
-        app:fontWeight="400" />
+        app:fontWeight="300" />
 </font-family>

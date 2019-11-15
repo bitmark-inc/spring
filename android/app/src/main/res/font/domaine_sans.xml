@@ -4,9 +4,9 @@
     <font
         app:font="@font/domaine_sans_text_light"
         app:fontStyle="normal"
-        app:fontWeight="400" />
+        app:fontWeight="300" />
     <font
         app:font="@font/domaine_sans_text_light_italic"
         app:fontStyle="italic"
-        app:fontWeight="400" />
+        app:fontWeight="300" />
 </font-family>

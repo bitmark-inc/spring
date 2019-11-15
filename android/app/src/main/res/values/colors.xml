@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">@color/white</color>
     <color name="colorPrimaryDark">@color/white</color>
-    <color name="colorAccent">@color/cognac</color>
+    <color name="colorAccent">@color/international_klein_blue</color>
 
     <color name="cognac">#932C19</color>
     <color name="cognac_66">#66932C19</color>
@@ -15,5 +15,6 @@
     <color name="concord">#828180</color>
     <color name="tundora">#444444</color>
     <color name="international_klein_blue">#0011AF</color>
+    <color name="international_klein_blue_66">#660011AF</color>
 
 </resources>

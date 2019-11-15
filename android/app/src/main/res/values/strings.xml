@@ -1,12 +1,14 @@
 <resources>
     <string name="notification_channel_name">@string/app_name</string>
 
-    <string name="how_you_use_fb">How you use Facebook</string>
-    <string name="how_fb_use_you">How Facebook uses you</string>
+    <string name="how_you_use_fb">How you use Facebook.</string>
+    <string name="how_fb_use_you">How Facebook uses you.</string>
     <string name="get_started_arrow">Get started »</string>
     <string name="i_already_have_an_account_arrow">I already have an account »</string>
     <string name="how_it_works">How it works</string>
-    <string name="we_will_back_up_your_fb_data">1  We’ll back up your Facebook data archive into a personal data vault that only you control. \n\n2  We’ll give you private analytics on your Facebook data. \n\n3  Your vault will be updated each week with new Facebook data and insights.</string>
+    <string name="we_will_back_up_your_fb_data">We’ll back up your Facebook data archive into a personal data vault that only you control.</string>
+    <string name="we_will_give_you_private_analytics">We’ll give you private analytics on your Facebook data.</string>
+    <string name="your_vault_will_be_updated">Your vault will be updated each week with new Facebook data and insights.</string>
     <string name="continue_arrow">Continue »</string>
     <string name="get_your_data">Get your data</string>
     <string name="fb_login">Facebook login</string>
@@ -22,5 +24,7 @@
     <string name="enable">Enable</string>
     <string name="we_will_notify_you_when_backup">We’ll notify you when your backup is ready.</string>
     <string name="authorize_arrow">Authorize »</string>
+    <string name="spring">Spring</string>
+    <string name="reports">Reports</string>
 
 </resources>
