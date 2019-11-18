@@ -5,7 +5,7 @@
 /** ----------------------------------------------- */
 
 //------- Server dependencies ------------//
-const DEBUG_MODE =  true;
+const DEBUG_MODE = global.process.env.DEBUG_MODE || false;
 // server
 const express = require('express');
 const PORT = global.process.env.PORT || 8080;
