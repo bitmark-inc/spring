@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bitmark.synergy">
+    package="com.bitmark.fbm">
 
     <application
-        android:name="com.bitmark.synergy.SynergyApplication"
+        android:name="com.bitmark.fbm.FbmApplication"
         android:icon="${appIcon}"
         android:label="@string/app_name"
         android:roundIcon="${appIconRound}"
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".feature.main.MainActivity" />
+        <activity android:name="feature.main.MainActivity" />
 
         <activity
             android:name=".feature.register.onboarding.OnboardingActivity"

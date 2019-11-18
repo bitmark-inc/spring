@@ -1,4 +1,4 @@
-package com.bitmark.synergy
+package com.bitmark.fbm
 
 import org.junit.Test
 
