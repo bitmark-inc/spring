@@ -1,4 +1,4 @@
-require('chromedriver');
+const chromePath = require('chromedriver').path;
 const chrome = require('selenium-webdriver/chrome');
 const webdriver = require('selenium-webdriver');
 const command = require('selenium-webdriver/lib/command');
@@ -7,23 +7,35 @@ const By = webdriver.By;
 const Key = webdriver.Key;
 const screen = {width: 1024, height: 1024};
 const fs = require('fs').promises;
+const path = require('path');
 
 let Crawler = function (options) {
   this.crawlerOptions = options;
 }
 
 Crawler.prototype.init = async function() {
-  this.chromeOptions = new chrome.Options();
+  this.chromeOptions = new chrome.Options({'useAutomationExtension': false});
+  this.chromeOptions.setChromeBinaryPath(global.process.env.CHROME_PATH || chromePath);
 
-  this.chromeOptions.windowSize(screen);
-  this.chromeOptions.addArguments('--disable-notifications');
+  this.chromeOptions.addArguments('no-sandbox');
+  this.chromeOptions.addArguments('disable-dev-shm-usage');
+  this.chromeOptions.addArguments('disable-notifications');
+  this.chromeOptions.addArguments('disable-extensions');
+  this.chromeOptions.addArguments('disable-infobars');
+  this.chromeOptions.addArguments(`log-path=${path.resolve(__dirname), 'chromedriver.log'}`);
+
   if (!this.crawlerOptions.showInterface) {
     this.chromeOptions.headless();
   }
   if (this.crawlerOptions.downloadDir) {
     this.chromeOptions.setUserPreferences({'download.default_directory': this.crawlerOptions.downloadDir});
   }
-  this.driver = await new Builder().forBrowser('chrome').setChromeOptions(this.chromeOptions).build();
+
+  this.chromeOptions.windowSize(screen);
+  this.driver = await new Builder()
+                .forBrowser('chrome')
+                .setChromeOptions(this.chromeOptions)
+                .build();
   this.targetID = this.crawlerOptions.targetID || null;
 
   // Alow downloading in headless mode
