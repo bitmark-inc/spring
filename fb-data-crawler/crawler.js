@@ -118,7 +118,7 @@ Crawler.prototype.checkArchiveAvailable = async function() {
 Crawler.prototype.triggerArchiveDownload = async function() {
   await this.driver.findElement(By.css('li[data-testid="dyi/navigation/all_archives"]')).click();
   await this.driver.findElement(By.css(`div[data-testid="dyi/archives"] div._86sv._4-u3._4-u8:nth-last-child(${this.targetID}) ._ikh ._4bl7 button`)).click();
-  await this.driver.sleep(2000);
+  await this.driver.sleep(2 * 1000);
   if (await this.isElementExisting('#ajax_password')) {
     await this.driver.findElement(By.css('#ajax_password')).sendKeys(this.facebookPassword, Key.RETURN);
   }

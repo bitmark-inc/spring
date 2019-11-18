@@ -14,9 +14,12 @@ let hasReceivedSignterm = false;
 const Database = require('./database.js');
 const FileStore = require('./file-store.js');
 const Crawler = require('./crawler.js');
+const S3Service = require('./s3-service');
 const path = require('path');
 const DATA_DIR = global.process.env.DATA_DIR || path.resolve(__dirname, 'data');
-
+const ARCHIVE_BUCKET = global.process.env.ARCHIVE_BUCKET;
+const axios = require('axios');
+const uuidv4 = require('uuid/v4');
 //------------- Server main API ---------------//
 (async function create() {
 
@@ -33,20 +36,25 @@ const DATA_DIR = global.process.env.DATA_DIR || path.resolve(__dirname, 'data');
   const fileStore = new FileStore({data_dir: DATA_DIR});
   await fileStore.init();
 
+  // S3 initialization
+  const s3Service = new S3Service({bucket_name: ARCHIVE_BUCKET});
+  await s3Service.init();
+
   // Server creation
   const app = express();
   app.use(express.json());
 
   //------------- Server main APIs ---------------//
   app.post('/api/download', async (req, res) => {
+    let identifier = req.body.identifier;
     let username = req.body.username;
     let password = req.body.password;
     let from = req.body.from;
-    let to = req.body.to;
+    let to = new Date().getTime();
     let callbackUrl = req.body.callback;
     let isAlreadyRespond = false;
   
-    if (!username || !password || !callbackUrl) {
+    if (!identifier || !username || !password) {
       res.status('400').send({message: 'missing parameter'});
       return;
     }
@@ -87,7 +95,8 @@ const DATA_DIR = global.process.env.DATA_DIR || path.resolve(__dirname, 'data');
         filename = await fileStore.getFirstFileNameFromDir(downloadDir);
         if (!filename) {
           console.log(`Oops! Something wrong! The file has not appeared`);
-          await crawler.captureScreen(path.resolve(DATA_DIR, `${username}-${uuidv4()}.png`));
+          await crawler.captureScreen(path.resolve(DATA_DIR, `${identifier}-${username}-${uuidv4()}.png`));
+          throw new Error('Can not download the file');
         }
       }
   
@@ -95,13 +104,18 @@ const DATA_DIR = global.process.env.DATA_DIR || path.resolve(__dirname, 'data');
       let filePath = path.resolve(downloadDir, await fileStore.getFirstFileNameFromDir(downloadDir));
       console.info(`Your archive is at ${filePath}`);
       await crawler.close();
-  
-      // TODO: SHOULD UPLOAD TO THE CALLBACK LINK
+
+      let s3Key = `${identifier}/${from ? from : 0}-${to}`;
+      await s3Service.upload(filePath, s3Key, identifier, from ? from : 0, to);
+      if (callbackUrl) {
+        await axios.post(callbackUrl, {identifier, from, to, s3Key});
+      }
+      fileStore.removeDirAndFile(filePath, downloadDir);
     } catch (err) {
-      if (!isAlreadyRespond) {
-        res.status(400).send('Failed');
-      } else {
+      if (isAlreadyRespond) {
         console.log('WARNING: something wrong');
+      } else {
+        res.status(400).send('Failed');
       }
       console.log(err);
     }

@@ -43,6 +43,7 @@ Header
 content-type: application/json
 Body
 {
+	"identifier": "bitmarkAccountNumber",
 	"username": "example@example.com",
 	"password": "example",
 	"callback": "https://example.com/receive-archive-url"
@@ -57,4 +58,7 @@ Reponse
 }
 ```
 
-The program will upload the archive to S3 and notify the caller via the callback url
+The program will upload the archive to S3 and notify the caller via the callback url with data
+```
+{identifier, from, to, s3Key}
+```
