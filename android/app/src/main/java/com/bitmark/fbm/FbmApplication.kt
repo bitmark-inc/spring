@@ -8,12 +8,15 @@ package com.bitmark.fbm
 
 import com.bitmark.apiservice.configuration.GlobalConfiguration
 import com.bitmark.apiservice.configuration.Network
-import com.bitmark.sdk.features.BitmarkSDK
 import com.bitmark.fbm.data.source.remote.api.middleware.BitmarkSdkHttpObserver
 import com.bitmark.fbm.data.source.remote.api.service.ServiceGenerator
+import com.bitmark.fbm.feature.notification.NotificationOpenedHandler
+import com.bitmark.fbm.feature.notification.NotificationReceivedHandler
 import com.bitmark.fbm.keymanagement.ApiKeyManager.Companion.API_KEY_MANAGER
 import com.bitmark.fbm.logging.Tracer
+import com.bitmark.sdk.features.BitmarkSDK
 import com.crashlytics.android.Crashlytics
+import com.onesignal.OneSignal
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
@@ -30,10 +33,16 @@ class FbmApplication : DaggerApplication() {
     }
 
     @Inject
-    lateinit var appLifecycleHandler: AppLifecycleHandler
+    internal lateinit var appLifecycleHandler: AppLifecycleHandler
 
     @Inject
-    lateinit var bitmarkSdkHttpObserver: BitmarkSdkHttpObserver
+    internal lateinit var bitmarkSdkHttpObserver: BitmarkSdkHttpObserver
+
+    @Inject
+    internal lateinit var notificationOpenedHandler: NotificationOpenedHandler
+
+    @Inject
+    internal lateinit var notificationReceivedHandler: NotificationReceivedHandler
 
     private val applicationInjector = DaggerAppComponent.builder()
         .application(this)
@@ -46,6 +55,12 @@ class FbmApplication : DaggerApplication() {
         BitmarkSDK.init(buildBmSdkConfig())
         Fabric.with(this, Crashlytics())
         Sentry.init(AndroidSentryClientFactory(this))
+        OneSignal.startInit(this)
+            .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+            .unsubscribeWhenNotificationsAreDisabled(true)
+            .setNotificationOpenedHandler(notificationOpenedHandler)
+            .setNotificationReceivedHandler(notificationReceivedHandler)
+            .init()
         RxJavaPlugins.setErrorHandler { e ->
             Tracer.DEBUG.log(
                 TAG,

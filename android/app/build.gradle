@@ -14,6 +14,8 @@ apply plugin: 'io.fabric'
 
 apply plugin: 'io.sentry.android.gradle'
 
+apply plugin: 'com.onesignal.androidsdk.onesignal-gradle-plugin'
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -38,6 +40,12 @@ android {
                                      "$projectDir/schemas".toString()]
             }
         }
+
+        manifestPlaceholders = [
+                onesignal_app_id: '3b35e435-02e9-4ade-93f6-41e2da46bc18',
+                // Project number pulled from dashboard, local value is ignored.
+                onesignal_google_project_number: 'REMOTE'
+        ]
     }
 
     splits {
@@ -236,6 +244,7 @@ dependencies {
     implementation 'io.sentry:sentry-android:1.7.28'
     implementation 'org.slf4j:slf4j-nop:1.7.28'
     implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
 
     // Testing
     testImplementation 'junit:junit:4.12'
