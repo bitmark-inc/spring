@@ -6,13 +6,22 @@
  */
 package com.bitmark.synergy.data.source.remote.api.middleware
 
+import com.bitmark.synergy.logging.Tracer
 import okhttp3.Interceptor
 import okhttp3.Response
 
 abstract class Interceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        return chain.proceed(chain.request())
+        val req = chain.request()
+        if (getTag() != null) {
+            Tracer.INFO.log(getTag()!!, req.toString())
+        }
+        val res = chain.proceed(req)
+        if (getTag() != null) {
+            Tracer.INFO.log(getTag()!!, res.toString())
+        }
+        return res
     }
 
     abstract fun getTag(): String?

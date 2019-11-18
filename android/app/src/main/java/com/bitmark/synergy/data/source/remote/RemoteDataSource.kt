@@ -6,4 +6,12 @@
  */
 package com.bitmark.synergy.data.source.remote
 
-abstract class RemoteDataSource
+import com.bitmark.synergy.data.source.remote.api.converter.Converter
+import com.bitmark.synergy.data.source.remote.api.middleware.RxErrorHandlingComposer
+import com.bitmark.synergy.data.source.remote.api.service.FbmApi
+
+abstract class RemoteDataSource(
+    protected val fbmApi: FbmApi,
+    protected val converter: Converter,
+    protected val rxErrorHandlingComposer: RxErrorHandlingComposer
+)

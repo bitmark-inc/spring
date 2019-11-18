@@ -1,6 +1,10 @@
 <resources>
     <string name="notification_channel_name">@string/app_name</string>
 
+    <string name="error">Error</string>
+    <string name="unexpected_error">Unexpected error has occurred. Please contact support team</string>
+    <string name="could_not_register_account">Could not register account. Please try again later.</string>
+
     <string name="how_you_use_fb">How you use Facebook.</string>
     <string name="how_fb_use_you">How Facebook uses you.</string>
     <string name="get_started_arrow">Get started »</string>

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/international_klein_blue"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
@@ -22,8 +21,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/sp_36"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
-        />
+        app:layout_constraintTop_toBottomOf="@id/layoutToolbar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutToolbar"
@@ -36,8 +34,7 @@
         android:paddingStart="@dimen/dp_18"
         android:paddingEnd="@dimen/dp_18"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivBack"
@@ -51,8 +48,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back"
-            />
+            app:srcCompat="@drawable/ic_back" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -73,8 +69,7 @@
         app:layout_constraintEnd_toEndOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="@id/tvTitle"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        tools:text="support@bitmark.com"
-        />
+        tools:text="support@bitmark.com" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etPassword"
@@ -93,8 +88,7 @@
         app:layout_constraintEnd_toEndOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="@id/tvTitle"
         app:layout_constraintTop_toBottomOf="@id/etId"
-        tools:text="123456789"
-        />
+        tools:text="123456789" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvNotice"
@@ -107,8 +101,7 @@
         android:textSize="@dimen/sp_18"
         app:layout_constraintEnd_toEndOf="@id/etPassword"
         app:layout_constraintStart_toStartOf="@id/etPassword"
-        app:layout_constraintTop_toBottomOf="@id/etPassword"
-        />
+        app:layout_constraintTop_toBottomOf="@id/etPassword" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvUploadManually"
@@ -123,8 +116,7 @@
         android:textSize="@dimen/sp_14"
         app:layout_constraintEnd_toEndOf="@id/etPassword"
         app:layout_constraintStart_toStartOf="@id/etPassword"
-        app:layout_constraintTop_toBottomOf="@id/tvNotice"
-        />
+        app:layout_constraintTop_toBottomOf="@id/tvNotice" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvAuthorize"
@@ -141,8 +133,19 @@
         android:textSize="@dimen/sp_18"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

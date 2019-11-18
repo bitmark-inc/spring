@@ -4,9 +4,9 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.synergy.logging
+package com.bitmark.synergy.data.source
 
-enum class Event(val value: String) {
+import com.bitmark.synergy.data.source.remote.BitmarkRemoteDataSource
 
-    ACCOUNT_SAVE_TO_KEY_STORE_ERROR("account_save_to_keystore_error"),
-}
+
+class BitmarkRepository(private val remoteDataSource: BitmarkRemoteDataSource)

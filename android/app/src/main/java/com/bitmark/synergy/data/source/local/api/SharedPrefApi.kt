@@ -18,6 +18,10 @@ class SharedPrefApi @Inject constructor(
     context: Context, gson: Gson
 ) {
 
+    companion object {
+        const val ACCOUNT_DATA = "account_data"
+    }
+
     private val sharePrefGateway = SharedPrefGateway(context, gson)
 
     fun <T> rxSingle(action: (SharedPrefGateway) -> T): Single<T> {

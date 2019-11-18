@@ -129,9 +129,9 @@ android {
         inhouse {
             dimension "version"
             applicationIdSuffix ".inhouse"
-            resValue "string", "app_name", "Synergy"
+            resValue "string", "app_name", "FBM"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher_dev",
+                    appIcon     : "@mipmap/ic_launcher_dev",
                     appIconRound: "@mipmap/ic_launcher_dev_round"
             ]
             ext.betaDistributionReleaseNotesFilePath =
@@ -139,19 +139,25 @@ android {
             ext.betaDistributionEmailsFilePath =
                     "${project.rootDir}/distribution/testers.txt"
 
+            buildConfigField "String", "FBM_API_ENDPOINT",
+                    "\"https://private-4eeb6-jollyjoker992.apiary-mock.com\""
+
         }
 
         prd {
             dimension "version"
-            resValue "string", "app_name", "Synergy"
+            resValue "string", "app_name", "FBM"
             manifestPlaceholders = [
-                    appIcon: "@mipmap/ic_launcher",
+                    appIcon     : "@mipmap/ic_launcher",
                     appIconRound: "@mipmap/ic_launcher_round"
             ]
             ext.betaDistributionReleaseNotesFilePath =
                     "${project.rootDir}/distribution/release_note.txt"
             ext.betaDistributionEmailsFilePath =
                     "${project.rootDir}/distribution/testers.txt"
+
+            buildConfigField "String", "FBM_API_ENDPOINT",
+                    "\"https://fbm.com\""
 
         }
     }
@@ -223,6 +229,7 @@ dependencies {
     // Other
     implementation 'com.bitmark.sdk:android-sdk:2.1.0'
     implementation 'com.bitmark.sdk:api-service:2.1.0'
+    implementation 'com.bitmark.sdk:cryptography:1.5.0'
     implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
         transitive = true
     }

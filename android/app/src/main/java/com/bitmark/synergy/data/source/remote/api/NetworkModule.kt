@@ -6,7 +6,29 @@
  */
 package com.bitmark.synergy.data.source.remote.api
 
+import com.bitmark.synergy.BuildConfig
+import com.bitmark.synergy.data.source.remote.api.middleware.FbmApiInterceptor
+import com.bitmark.synergy.data.source.remote.api.service.FbmApi
+import com.bitmark.synergy.data.source.remote.api.service.ServiceGenerator
+import com.google.gson.Gson
 import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 @Module
-class NetworkModule
+class NetworkModule {
+
+    @Singleton
+    @Provides
+    fun provideFbmServerApi(
+        gson: Gson,
+        authInterceptor: FbmApiInterceptor
+    ): FbmApi {
+        return ServiceGenerator.createService(
+            BuildConfig.FBM_API_ENDPOINT,
+            FbmApi::class.java,
+            gson,
+            appInterceptors = listOf(authInterceptor)
+        )
+    }
+}

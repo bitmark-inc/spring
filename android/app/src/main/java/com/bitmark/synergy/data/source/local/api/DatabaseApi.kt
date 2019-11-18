@@ -10,8 +10,9 @@ import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class DatabaseApi(private val databaseGateway: DatabaseGateway) {
+class DatabaseApi @Inject constructor(private val databaseGateway: DatabaseGateway) {
 
     fun <T> rxMaybe(func: (DatabaseGateway) -> Maybe<T>): Maybe<T> {
         return func.invoke(databaseGateway).subscribeOn(Schedulers.io())

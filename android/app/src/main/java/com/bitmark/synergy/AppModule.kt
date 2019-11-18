@@ -8,6 +8,11 @@ package com.bitmark.synergy
 
 import android.app.Application
 import android.content.Context
+import com.bitmark.synergy.data.source.AccountRepository
+import com.bitmark.synergy.logging.EventLogger
+import com.bitmark.synergy.logging.SentryEventLogger
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -22,5 +27,16 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAppLifecycleHandler() = AppLifecycleHandler()
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson {
+        return GsonBuilder().excludeFieldsWithoutExposeAnnotation().setLenient().create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventLogger(accountRepo: AccountRepository): EventLogger =
+        SentryEventLogger(accountRepo)
 
 }
