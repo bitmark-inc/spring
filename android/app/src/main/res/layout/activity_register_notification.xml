@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -30,8 +32,8 @@
         app:autoSizeMinTextSize="@dimen/sp_24"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@id/tvMsg"
-        app:layout_constraintEnd_toEndOf="@id/btnNotifyMe"
-        app:layout_constraintStart_toStartOf="@id/btnNotifyMe"
+        app:layout_constraintEnd_toEndOf="@id/layoutAction"
+        app:layout_constraintStart_toStartOf="@id/layoutAction"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -43,27 +45,55 @@
         android:text="@string/fb_is_preparing_your_data"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"
-        app:layout_constraintBottom_toTopOf="@id/btnNotifyMe"
-        app:layout_constraintEnd_toEndOf="@id/btnNotifyMe"
-        app:layout_constraintStart_toStartOf="@id/btnNotifyMe"
+        app:layout_constraintBottom_toTopOf="@id/layoutAction"
+        app:layout_constraintEnd_toEndOf="@id/layoutAction"
+        app:layout_constraintStart_toStartOf="@id/layoutAction"
         />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnNotifyMe"
+    <LinearLayout
+        android:id="@+id/layoutAction"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_18"
         android:layout_marginEnd="@dimen/dp_18"
         android:layout_marginBottom="@dimen/dp_44"
-        android:background="@drawable/bg_international_klein_blue_stateful"
-        android:fontFamily="@font/grotesk"
-        android:text="@string/notify_me"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_17"
-        android:textStyle="bold"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnNotifyMe"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:background="@drawable/bg_international_klein_blue_stateful"
+            android:fontFamily="@font/grotesk"
+            android:text="@string/notify_me"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_17"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="gone"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvNotice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:fontFamily="@font/grotesk"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:text="@string/we_will_notify_you_when_backup"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_22"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:visibility="visible"
+            />
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

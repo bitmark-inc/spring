@@ -9,8 +9,10 @@ package com.bitmark.fbm.data.source
 import android.content.Context
 import androidx.room.Room
 import com.bitmark.fbm.data.source.local.AccountLocalDataSource
+import com.bitmark.fbm.data.source.local.AppLocalDataSource
 import com.bitmark.fbm.data.source.local.api.DatabaseGateway
 import com.bitmark.fbm.data.source.remote.AccountRemoteDataSource
+import com.bitmark.fbm.data.source.remote.AppRemoteDataSource
 import com.bitmark.fbm.data.source.remote.BitmarkRemoteDataSource
 import dagger.Module
 import dagger.Provides
@@ -34,6 +36,15 @@ class RepositoryModule {
         remoteDataSource: BitmarkRemoteDataSource
     ): BitmarkRepository {
         return BitmarkRepository(remoteDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppRepo(
+        remoteDataSource: AppRemoteDataSource,
+        localDataSource: AppLocalDataSource
+    ): AppRepository {
+        return AppRepository(remoteDataSource, localDataSource)
     }
 
     @Singleton
