@@ -16,6 +16,8 @@ COPY . /src
 # Install app dependencies
 RUN cd /src; npm install
 
+ENV CHROME_PATH=/usr/bin/chromium-browser
+
 # Binds to port 8080
 EXPOSE  8080
 
