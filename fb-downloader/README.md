@@ -11,7 +11,8 @@ Finished features:
 - [x] Archive downloading
 - [x] Upload the archive to S3 & notify the caller
 - [ ] Deploy to testnet K8S
-- [ ] Detect wrong username & password and then return error
+- [x] Detect wrong username & password and then return error
+- [ ] Allow to request from a timestamp
 - [ ] Detect the archive can not be requested because another archive is being requested
 - [ ] Detect 2 factor authentication and return error (considering asking users through the app later)
 - [ ] Optimize the memory by closing browser while waiting for the archive to be available
