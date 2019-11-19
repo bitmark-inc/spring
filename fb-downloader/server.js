@@ -78,7 +78,7 @@ const uuidv4 = require('uuid/v4');
       }
 
       if (!isAbleToLogIn) {
-        res.send({message: 'wrong username & password'});
+        res.status(400).send({message: 'wrong username & password', code: 1001});
         await downloader.close();
         return;
       }
@@ -123,7 +123,7 @@ const uuidv4 = require('uuid/v4');
       if (isAlreadyRespond) {
         console.log('WARNING: something wrong');
       } else {
-        res.status(400).send('Failed');
+        res.status(400).send({message: 'server error', code: 1000});
       }
       console.log(err);
     }

@@ -87,7 +87,46 @@ Downloader.prototype.goToArchiveSection = async function() {
   await this.driver.get(dataLink);
 }
 
-Downloader.prototype.triggerArchiveRequest = async function(from, to) {
+Downloader.prototype._setTimestampValue = async function(from) {
+  let now = new Date();
+  let tmp = new Date(`${from.getUTCFullYear()}-${from.getUTCMonth() + 1}-${from.getUTCDate()}`);
+
+  let markAllContextMenuAsOld = async () => {
+    await this.driver.executeScript(`
+      document.querySelectorAll('.uiContextualLayerPositioner').forEach(el => el.setAttribute('is-old', 'true'))
+    `);
+  }
+
+  let getNewContextMenu = async () => {
+    // return await this.driver.findElement(By.css('.uiContextualLayerPositioner:not(.is-old)'));
+    return await this.driver.findElement(By.xpath('//*[contains(@class, "uiContextualLayerPositioner")][not(@is-old)]'));
+  }
+
+  // Firstly, let's mark all context menu as old
+  await markAllContextMenuAsOld();
+  // Click the date time box
+  await this.driver.findElement(By.css('span[endinputname="start_time"]')).click();
+  // Get new menu & also mark it as old menu
+  let datePicker = await getNewContextMenu();
+  await markAllContextMenuAsOld();
+  // Now click the year picker
+  await datePicker.findElement(By.xpath('.//*[string(@selectdate)][string(@maxyear)][string(@minyear)][1]/div[2]')).click();
+  let yearPicker = await getNewContextMenu();
+  await markAllContextMenuAsOld();
+  await yearPicker.findElement(By.xpath(`.//ul/li[${now.getUTCFullYear() - tmp.getUTCFullYear() + 1}]/a`)).click();
+  // Now click the month picker
+  await datePicker.findElement(By.xpath('.//*[string(@selectdate)][string(@maxyear)][string(@minyear)][1]/div[1]')).click();
+  let monthPicker = await getNewContextMenu();
+  await markAllContextMenuAsOld();
+  await monthPicker.findElement(By.xpath(`.//ul/li[${tmp.getUTCMonth() + 1}]`)).click();
+  // Now pick the date
+  let firstDatePlate = await datePicker.findElement(By.xpath(`(.//*[string(@daterestraints)])[1]`));
+  await firstDatePlate.findElement(By.xpath(`(.//a[string(@date)])[${tmp.getUTCDate()}]`)).click();
+  // Hit OK
+  await datePicker.findElement(By.xpath(`.//button[3]`)).click();
+}
+
+Downloader.prototype.triggerArchiveRequest = async function(fromTimestamp) {
   // Go to the list of archive
   await this.driver.findElement(By.css('li[data-testid="dyi/navigation/all_archives"]')).click();
   let elements = await this.driver.findElements(By.css('div[data-testid="dyi/archives"] div._86sv._4-u3._4-u8'));
@@ -100,27 +139,11 @@ Downloader.prototype.triggerArchiveRequest = async function(from, to) {
   await this.driver.sleep(1 * 1000);
   await this.driver.findElement(By.css('ul._54nf[role="menu"] > li:nth-child(2)')).click();
 
-  // if (from || to) {
-  //   await this.driver.findElement(By.xpath('//span[@endinputname="start_time"]')).click();
-  // }
+  // Set from timestamp
+  if (fromTimestamp) {
+    await this._setTimestampValue(new Date(fromTimestamp));
+  }
 
-  // // Set date range
-  // let now = new Date();
-  // if (from) {
-  //   let tmp = new Date(`${from.getUTCFullYear()}-${from.getUTCMonth()}-${from.getUTCDate()}`);
-  //   await this.driver.findElement(By.xpath('//*[string(@selectdate)][string(@maxyear)]/div[2]')).click();
-  //   await this.driver.findElement(By.xpath(`//div[not(contains(@class, "hidden_elem"))]//*[contains(@class, "uiContextualLayer")]//ul[@role="menu"]/li[${now.getUTCFullYear() - tmp.getUTCFullYear() + 1}]`)).click();
-  //   await this.driver.findElement(By.xpath('//*[string(@selectdate)][string(@maxyear)]/div[1]')).click();
-  //   await this.driver.findElement(By.xpath(`//div[not(contains(@class, "hidden_elem"))]//*[contains(@class, "uiContextualLayer")]//ul[@role="menu"]/li[${tmp.getUTCFullYear() + 1}]`)).click();
-  //   await this.driver.findElement(By.xpath(`//div[not(contains(@class, "hidden_elem"))]//*[contains(@class, "uiContextualLayer")]//div[contains(@class, "_ikh")]/div[contains(@class, "_4bl7")][1]/a[string(@date)][10]`)).click();
-
-  // }
-  // if (to) {
-  //   let tmp = new Date(`${to.getUTCFullYear()}-${to.getUTCMonth()}-${to.getUTCDate()}`);
-  //   await this.driver.executeScript(`document.querySelector('[name="end_time"]').setAttribute('value', ${tmp.getTime()})`);
-  // }
-
-  // process.exit();
   // Trigger downloading
   await this.driver.findElement(By.css('div._4bl7 > [data-testid="dyi/sections/create"]')).click();
   return this.targetID;
