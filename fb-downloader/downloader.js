@@ -9,11 +9,11 @@ const screen = {width: 1024, height: 1024};
 const fs = require('fs').promises;
 const path = require('path');
 
-let Crawler = function (options) {
-  this.crawlerOptions = options;
+let Downloader = function (options) {
+  this.downloaderOptions = options;
 }
 
-Crawler.prototype.init = async function() {
+Downloader.prototype.init = async function() {
   this.chromeOptions = new chrome.Options({'useAutomationExtension': false});
   this.chromeOptions.setChromeBinaryPath(global.process.env.CHROME_PATH || chromePath);
 
@@ -24,11 +24,11 @@ Crawler.prototype.init = async function() {
   this.chromeOptions.addArguments('disable-infobars');
   this.chromeOptions.addArguments(`log-path=${path.resolve(__dirname), 'chromedriver.log'}`);
 
-  if (!this.crawlerOptions.showInterface) {
+  if (!this.downloaderOptions.showInterface) {
     this.chromeOptions.headless();
   }
-  if (this.crawlerOptions.downloadDir) {
-    this.chromeOptions.setUserPreferences({'download.default_directory': this.crawlerOptions.downloadDir});
+  if (this.downloaderOptions.downloadDir) {
+    this.chromeOptions.setUserPreferences({'download.default_directory': this.downloaderOptions.downloadDir});
   }
 
   this.chromeOptions.windowSize(screen);
@@ -36,23 +36,23 @@ Crawler.prototype.init = async function() {
                 .forBrowser('chrome')
                 .setChromeOptions(this.chromeOptions)
                 .build();
-  this.targetID = this.crawlerOptions.targetID || null;
+  this.targetID = this.downloaderOptions.targetID || null;
 
   // Alow downloading in headless mode
   const cmd = new command.Command("SEND_COMMAND")
                   .setParameter("cmd", "Page.setDownloadBehavior")
-                  .setParameter("params", {'behavior': 'allow', 'downloadPath': this.crawlerOptions.downloadDir});
+                  .setParameter("params", {'behavior': 'allow', 'downloadPath': this.downloaderOptions.downloadDir});
 
   await this.driver.getExecutor().defineCommand("SEND_COMMAND", "POST", `/session/${(await this.driver.getSession()).getId()}/chromium/send_command`);
   await this.driver.execute(cmd);
 }
 
-Crawler.prototype.isElementExisting = async function(css) {
+Downloader.prototype.isElementExisting = async function(css) {
   let elements = await this.driver.findElements(By.css(css));
   return elements.length !== 0;
 }
 
-Crawler.prototype.loginByAuthenticationCredential = async function(email, password) {
+Downloader.prototype.loginByAuthenticationCredential = async function(email, password) {
   this.facebookPassword = password;
   await this.driver.get('https://facebook.com');
   if (await this.isElementExisting('#email')) {
@@ -64,7 +64,7 @@ Crawler.prototype.loginByAuthenticationCredential = async function(email, passwo
   }
 }
 
-Crawler.prototype.loginByCookies = async function(cookies, password) {
+Downloader.prototype.loginByCookies = async function(cookies, password) {
   this.facebookPassword = password;
   await this.driver.get('https://facebook.com');
   for (let i = 0; i < cookies.length; i++) {
@@ -72,17 +72,17 @@ Crawler.prototype.loginByCookies = async function(cookies, password) {
   }
 }
 
-Crawler.prototype.getCookies = async function() {
+Downloader.prototype.getCookies = async function() {
   return await this.driver.manage().getCookies();
 }
 
-Crawler.prototype.goToArchiveSection = async function() {
+Downloader.prototype.goToArchiveSection = async function() {
   await this.driver.get('https://www.facebook.com/settings?tab=your_facebook_information');
   let dataLink = await this.driver.findElement(By.css('ul.fbSettingsList > li:nth-child(2) > a.fbSettingsListLink')).getAttribute('href');
   await this.driver.get(dataLink);
 }
 
-Crawler.prototype.triggerArchiveRequest = async function(from, to) {
+Downloader.prototype.triggerArchiveRequest = async function(from, to) {
   // Go to the list of archive
   await this.driver.findElement(By.css('li[data-testid="dyi/navigation/all_archives"]')).click();
   let elements = await this.driver.findElements(By.css('div[data-testid="dyi/archives"] div._86sv._4-u3._4-u8'));
@@ -121,13 +121,13 @@ Crawler.prototype.triggerArchiveRequest = async function(from, to) {
   return this.targetID;
 }
 
-Crawler.prototype.checkArchiveAvailable = async function() {
+Downloader.prototype.checkArchiveAvailable = async function() {
   await this.driver.navigate().refresh();
   await this.driver.findElement(By.css('li[data-testid="dyi/navigation/all_archives"]')).click();
   return await this.isElementExisting(`div[data-testid="dyi/archives"] div._86sv._4-u3._4-u8:nth-last-child(${this.targetID}) ._ikh ._4bl7 button`);
 }
 
-Crawler.prototype.triggerArchiveDownload = async function() {
+Downloader.prototype.triggerArchiveDownload = async function() {
   await this.driver.findElement(By.css('li[data-testid="dyi/navigation/all_archives"]')).click();
   await this.driver.findElement(By.css(`div[data-testid="dyi/archives"] div._86sv._4-u3._4-u8:nth-last-child(${this.targetID}) ._ikh ._4bl7 button`)).click();
   await this.driver.sleep(2 * 1000);
@@ -137,19 +137,19 @@ Crawler.prototype.triggerArchiveDownload = async function() {
   return true;
 }
 
-Crawler.prototype.logout = async function() {
+Downloader.prototype.logout = async function() {
   await this.driver.findElement(By.css('#logoutMenu')).click();
   await this.driver.sleep(2000);
   await this.driver.findElement(By.css('div[data-ownerid="pageLoginAnchor"] ul._54nf li:last-child')).click();
 }
 
-Crawler.prototype.captureScreen = async function(filepath) {
+Downloader.prototype.captureScreen = async function(filepath) {
   let image = await this.driver.takeScreenshot();
   await fs.writeFile(filepath, image, 'base64');
 }
 
-Crawler.prototype.close = async function() {
+Downloader.prototype.close = async function() {
   await this.driver.close();
 }
 
-module.exports = Crawler;
+module.exports = Downloader;

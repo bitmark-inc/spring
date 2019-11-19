@@ -13,7 +13,7 @@ let hasReceivedSignterm = false;
 // app logic
 const Database = require('./database.js');
 const FileStore = require('./file-store.js');
-const Crawler = require('./crawler.js');
+const Downloader = require('./downloader.js');
 const S3Service = require('./s3-service');
 const path = require('path');
 const DATA_DIR = global.process.env.DATA_DIR || path.resolve(__dirname, 'data');
@@ -61,31 +61,31 @@ const uuidv4 = require('uuid/v4');
   
     try {
       let downloadDir = await fileStore.createRandomDir()
-      let crawler = new Crawler({
+      let downloader = new Downloader({
         showInterface: DEBUG_MODE,
         downloadDir: downloadDir,
         targetID: null
       });
-      await crawler.init();
+      await downloader.init();
   
       let cachedSession = database.getCachedSession(username);
       if (cachedSession) {
-        await crawler.loginByCookies(cachedSession, password);
+        await downloader.loginByCookies(cachedSession, password);
       } else {
-        await crawler.loginByAuthenticationCredential(username, password);
-        await database.cacheSession(username, await crawler.getCookies());
+        await downloader.loginByAuthenticationCredential(username, password);
+        await database.cacheSession(username, await downloader.getCookies());
       }
       res.send({message: 'login successfully & data backup is scheduled!'});
       isAlreadyRespond = true;
   
-      await crawler.goToArchiveSection();
-      await crawler.triggerArchiveRequest(from, to);
+      await downloader.goToArchiveSection();
+      await downloader.triggerArchiveRequest(from, to);
   
-      while (!(await crawler.checkArchiveAvailable())) {
+      while (!(await downloader.checkArchiveAvailable())) {
         console.info(`Archive not found yet, the program will sleep for a bit before trying again...`);
         await wait(30 * 1000);
       }
-      await crawler.triggerArchiveDownload();
+      await downloader.triggerArchiveDownload();
       console.info(`Archive is being downloaded, please wait...`);
   
       // Let's give the web drive some time to download first piece
@@ -95,7 +95,7 @@ const uuidv4 = require('uuid/v4');
         filename = await fileStore.getFirstFileNameFromDir(downloadDir);
         if (!filename) {
           console.log(`Oops! Something wrong! The file has not appeared`);
-          await crawler.captureScreen(path.resolve(DATA_DIR, `${identifier}-${username}-${uuidv4()}.png`));
+          await downloader.captureScreen(path.resolve(DATA_DIR, `${identifier}-${username}-${uuidv4()}.png`));
           throw new Error('Can not download the file');
         }
       }
@@ -103,7 +103,7 @@ const uuidv4 = require('uuid/v4');
       console.info(`Finish downloading the archive!`);
       let filePath = path.resolve(downloadDir, await fileStore.getFirstFileNameFromDir(downloadDir));
       console.info(`Your archive is at ${filePath}`);
-      await crawler.close();
+      await downloader.close();
 
       let s3Key = `${identifier}/${from ? from : 0}-${to}`;
       await s3Service.upload(filePath, s3Key, identifier, from ? from : 0, to);

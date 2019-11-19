@@ -1,5 +1,5 @@
 {
-  "name": "fb-data-crawler",
+  "name": "fb-data-downloader",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
