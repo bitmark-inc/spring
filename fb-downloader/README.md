@@ -9,7 +9,7 @@ Finished features:
 - [x] Archive requesting
 - [x] Detect optional password require before downloading archive
 - [x] Archive downloading
-- [ ] Upload the archive to S3 & notify the caller
+- [x] Upload the archive to S3 & notify the caller
 - [ ] Deploy to testnet K8S
 - [ ] Detect wrong username & password and then return error
 - [ ] Detect the archive can not be requested because another archive is being requested
