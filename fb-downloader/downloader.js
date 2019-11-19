@@ -15,7 +15,9 @@ let Downloader = function (options) {
 
 Downloader.prototype.init = async function() {
   this.chromeOptions = new chrome.Options({'useAutomationExtension': false});
-  this.chromeOptions.setChromeBinaryPath(global.process.env.CHROME_PATH || chromePath);
+  if (global.process.env.CHROME_PATH) {
+    this.chromeOptions.setChromeBinaryPath(global.process.env.CHROME_PATH);
+  }
 
   this.chromeOptions.addArguments('no-sandbox');
   this.chromeOptions.addArguments('disable-dev-shm-usage');
@@ -62,6 +64,8 @@ Downloader.prototype.loginByAuthenticationCredential = async function(email, pas
     await this.driver.findElement(By.css('input[name="email"]')).sendKeys(email);
     await this.driver.findElement(By.css('input[name="pass"]')).sendKeys(password, Key.RETURN);
   }
+  let currentUrl = await this.driver.getCurrentUrl();
+  return currentUrl.indexOf('login_attempt') === -1;
 }
 
 Downloader.prototype.loginByCookies = async function(cookies, password) {
@@ -70,6 +74,7 @@ Downloader.prototype.loginByCookies = async function(cookies, password) {
   for (let i = 0; i < cookies.length; i++) {
     await this.driver.manage().addCookie(cookies[i]);
   }
+  return true;
 }
 
 Downloader.prototype.getCookies = async function() {

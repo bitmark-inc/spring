@@ -58,7 +58,7 @@ const uuidv4 = require('uuid/v4');
       res.status('400').send({message: 'missing parameter'});
       return;
     }
-  
+
     try {
       let downloadDir = await fileStore.createRandomDir()
       let downloader = new Downloader({
@@ -69,12 +69,20 @@ const uuidv4 = require('uuid/v4');
       await downloader.init();
   
       let cachedSession = database.getCachedSession(username);
+      let isAbleToLogIn;
       if (cachedSession) {
-        await downloader.loginByCookies(cachedSession, password);
+        isAbleToLogIn = await downloader.loginByCookies(cachedSession, password);
       } else {
-        await downloader.loginByAuthenticationCredential(username, password);
+        isAbleToLogIn = await downloader.loginByAuthenticationCredential(username, password);
         await database.cacheSession(username, await downloader.getCookies());
       }
+
+      if (!isAbleToLogIn) {
+        res.send({message: 'wrong username & password'});
+        await downloader.close();
+        return;
+      }
+
       res.send({message: 'login successfully & data backup is scheduled!'});
       isAlreadyRespond = true;
   
