@@ -53,6 +53,7 @@ const uuidv4 = require('uuid/v4');
     let to = new Date().getTime();
     let callbackUrl = req.body.callback;
     let isAlreadyRespond = false;
+    console.log(`Got request from ${identifier}`);
   
     if (!identifier || !username || !password) {
       res.status('400').send({message: 'missing parameter'});
@@ -103,7 +104,12 @@ const uuidv4 = require('uuid/v4');
         filename = await fileStore.getFirstFileNameFromDir(downloadDir);
         if (!filename) {
           console.log(`Oops! Something wrong! The file has not appeared`);
-          await downloader.captureScreen(path.resolve(DATA_DIR, `${identifier}-${username}-${uuidv4()}.png`));
+          let screenShotFilePath = path.resolve(DATA_DIR, `${identifier}-${username}-${uuidv4()}.png`);
+          await downloader.captureScreen(screenShotFilePath);
+
+          let s3Key = `${identifier}/error_screenshot_${from ? from : 0}-${to}`;
+          await s3Service.uploadArchive(screenShotFilePath, s3Key, identifier, from ? from : 0, to);
+
           throw new Error('Can not download the file');
         }
       }
@@ -116,12 +122,15 @@ const uuidv4 = require('uuid/v4');
       let s3Key = `${identifier}/${from ? from : 0}-${to}`;
       await s3Service.upload(filePath, s3Key, identifier, from ? from : 0, to);
       if (callbackUrl) {
-        await axios.post(callbackUrl, {identifier, from, to, s3Key});
+        await axios.post(callbackUrl, {status: 'done', identifier, from, to, s3Key});
       }
       fileStore.removeDirAndFile(filePath, downloadDir);
     } catch (err) {
       if (isAlreadyRespond) {
         console.log('WARNING: something wrong');
+        if (callbackUrl) {
+          await axios.post(callbackUrl, {status: 'failed', identifier, from, to});
+        }
       } else {
         res.status(400).send({message: 'server error', code: 1000});
       }
