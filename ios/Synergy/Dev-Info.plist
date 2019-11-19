@@ -20,6 +20,31 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+    <key>UIAppFonts</key>
+    <array>
+        <string>AtlasGrotesk-Black.otf</string>
+        <string>AtlasGrotesk-BlackItalic.otf</string>
+        <string>AtlasGrotesk-Bold.otf</string>
+        <string>AtlasGrotesk-BoldItalic.otf</string>
+        <string>AtlasGrotesk-Light.otf</string>
+        <string>AtlasGrotesk-LightItalic.otf</string>
+        <string>AtlasGrotesk-Medium.otf</string>
+        <string>AtlasGrotesk-MediumItalic.otf</string>
+        <string>AtlasGrotesk-Regular.otf</string>
+        <string>AtlasGrotesk-RegularItalic.otf</string>
+        <string>AtlasGrotesk-Thin.otf</string>
+        <string>AtlasGrotesk-ThinItalic.otf</string>
+        <string>DomaineSansText-Black.otf</string>
+        <string>DomaineSansText-BlackItalic.otf</string>
+        <string>DomaineSansText-Bold.otf</string>
+        <string>DomaineSansText-BoldItalic.otf</string>
+        <string>DomaineSansText-Light.otf</string>
+        <string>DomaineSansText-LightItalic.otf</string>
+        <string>DomaineSansText-Medium.otf</string>
+        <string>DomaineSansText-MediumItalic.otf</string>
+        <string>DomaineSansText-Regular.otf</string>
+        <string>DomaineSansText-RegularItalic.otf</string>
+    </array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

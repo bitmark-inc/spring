@@ -72,6 +72,50 @@
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
+		E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */; };
+		E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */; };
+		E29F5A3B2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2E2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf */; };
+		E29F5A3C2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2E2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf */; };
+		E29F5A3D2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2F2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf */; };
+		E29F5A3E2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2F2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf */; };
+		E29F5A3F2383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A302383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf */; };
+		E29F5A402383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A302383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf */; };
+		E29F5A412383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A312383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf */; };
+		E29F5A422383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A312383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf */; };
+		E29F5A432383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A322383E59700C1D9D8 /* AtlasGrotesk-Regular.otf */; };
+		E29F5A442383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A322383E59700C1D9D8 /* AtlasGrotesk-Regular.otf */; };
+		E29F5A452383E59700C1D9D8 /* AtlasGrotesk-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A332383E59700C1D9D8 /* AtlasGrotesk-Thin.otf */; };
+		E29F5A462383E59700C1D9D8 /* AtlasGrotesk-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A332383E59700C1D9D8 /* AtlasGrotesk-Thin.otf */; };
+		E29F5A472383E59700C1D9D8 /* AtlasGrotesk-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A342383E59700C1D9D8 /* AtlasGrotesk-Light.otf */; };
+		E29F5A482383E59700C1D9D8 /* AtlasGrotesk-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A342383E59700C1D9D8 /* AtlasGrotesk-Light.otf */; };
+		E29F5A492383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A352383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf */; };
+		E29F5A4A2383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A352383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf */; };
+		E29F5A4B2383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A362383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf */; };
+		E29F5A4C2383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A362383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf */; };
+		E29F5A4D2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A372383E59700C1D9D8 /* AtlasGrotesk-Medium.otf */; };
+		E29F5A4E2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A372383E59700C1D9D8 /* AtlasGrotesk-Medium.otf */; };
+		E29F5A4F2383E59700C1D9D8 /* AtlasGrotesk-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A382383E59700C1D9D8 /* AtlasGrotesk-BlackItalic.otf */; };
+		E29F5A502383E59700C1D9D8 /* AtlasGrotesk-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A382383E59700C1D9D8 /* AtlasGrotesk-BlackItalic.otf */; };
+		E29F5A5D2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A532383E6FF00C1D9D8 /* DomaineSansText-BlackItalic.otf */; };
+		E29F5A5E2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A532383E6FF00C1D9D8 /* DomaineSansText-BlackItalic.otf */; };
+		E29F5A5F2383E70000C1D9D8 /* DomaineSansText-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A542383E70000C1D9D8 /* DomaineSansText-Bold.otf */; };
+		E29F5A602383E70000C1D9D8 /* DomaineSansText-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A542383E70000C1D9D8 /* DomaineSansText-Bold.otf */; };
+		E29F5A612383E70000C1D9D8 /* DomaineSansText-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A552383E70000C1D9D8 /* DomaineSansText-Medium.otf */; };
+		E29F5A622383E70000C1D9D8 /* DomaineSansText-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A552383E70000C1D9D8 /* DomaineSansText-Medium.otf */; };
+		E29F5A632383E70000C1D9D8 /* DomaineSansText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A562383E70000C1D9D8 /* DomaineSansText-Regular.otf */; };
+		E29F5A642383E70000C1D9D8 /* DomaineSansText-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A562383E70000C1D9D8 /* DomaineSansText-Regular.otf */; };
+		E29F5A652383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A572383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf */; };
+		E29F5A662383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A572383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf */; };
+		E29F5A672383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A582383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf */; };
+		E29F5A682383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A582383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf */; };
+		E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A592383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf */; };
+		E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A592383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf */; };
+		E29F5A6B2383E70000C1D9D8 /* DomaineSansText-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5A2383E70000C1D9D8 /* DomaineSansText-Black.otf */; };
+		E29F5A6C2383E70000C1D9D8 /* DomaineSansText-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5A2383E70000C1D9D8 /* DomaineSansText-Black.otf */; };
+		E29F5A6D2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5B2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf */; };
+		E29F5A6E2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5B2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf */; };
+		E29F5A6F2383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */; };
+		E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */; };
 		E2DB667F237D3B69005367C2 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8F237A889A00FA3196 /* RealmConfig.swift */; };
 		E2DB6680237D3B69005367C2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC37237A863300FA3196 /* Button.swift */; };
 		E2DB6681237D3B69005367C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC0F237A85B000FA3196 /* AppDelegate.swift */; };
@@ -242,6 +286,28 @@
 		C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.debug.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E19A6B110D404A33B44425C8 /* Pods-Synergy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy.release.xcconfig"; path = "Target Support Files/Pods-Synergy/Pods-Synergy.release.xcconfig"; sourceTree = "<group>"; };
+		E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Black.otf"; sourceTree = "<group>"; };
+		E29F5A2E2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Bold.otf"; sourceTree = "<group>"; };
+		E29F5A2F2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-LightItalic.otf"; sourceTree = "<group>"; };
+		E29F5A302383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-BoldItalic.otf"; sourceTree = "<group>"; };
+		E29F5A312383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-MediumItalic.otf"; sourceTree = "<group>"; };
+		E29F5A322383E59700C1D9D8 /* AtlasGrotesk-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Regular.otf"; sourceTree = "<group>"; };
+		E29F5A332383E59700C1D9D8 /* AtlasGrotesk-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Thin.otf"; sourceTree = "<group>"; };
+		E29F5A342383E59700C1D9D8 /* AtlasGrotesk-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Light.otf"; sourceTree = "<group>"; };
+		E29F5A352383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-RegularItalic.otf"; sourceTree = "<group>"; };
+		E29F5A362383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-ThinItalic.otf"; sourceTree = "<group>"; };
+		E29F5A372383E59700C1D9D8 /* AtlasGrotesk-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Medium.otf"; sourceTree = "<group>"; };
+		E29F5A382383E59700C1D9D8 /* AtlasGrotesk-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-BlackItalic.otf"; sourceTree = "<group>"; };
+		E29F5A532383E6FF00C1D9D8 /* DomaineSansText-BlackItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-BlackItalic.otf"; sourceTree = "<group>"; };
+		E29F5A542383E70000C1D9D8 /* DomaineSansText-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Bold.otf"; sourceTree = "<group>"; };
+		E29F5A552383E70000C1D9D8 /* DomaineSansText-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Medium.otf"; sourceTree = "<group>"; };
+		E29F5A562383E70000C1D9D8 /* DomaineSansText-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Regular.otf"; sourceTree = "<group>"; };
+		E29F5A572383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-MediumItalic.otf"; sourceTree = "<group>"; };
+		E29F5A582383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-RegularItalic.otf"; sourceTree = "<group>"; };
+		E29F5A592383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-BoldItalic.otf"; sourceTree = "<group>"; };
+		E29F5A5A2383E70000C1D9D8 /* DomaineSansText-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Black.otf"; sourceTree = "<group>"; };
+		E29F5A5B2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-LightItalic.otf"; sourceTree = "<group>"; };
+		E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Light.otf"; sourceTree = "<group>"; };
 		E2DB66C2237D3B69005367C2 /* Synergy Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Synergy Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66C4237D3D20005367C2 /* Dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dev-Info.plist"; sourceTree = "<group>"; };
 		E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -500,6 +566,7 @@
 		5832FCBD237AB8AB00FA3196 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E29F5A512383E68C00C1D9D8 /* Fonts */,
 				5832FCBE237AB8AB00FA3196 /* Assets.xcassets */,
 				5832FCBF237AB8AB00FA3196 /* LaunchScreen.storyboard */,
 				5832FCC1237AB8AB00FA3196 /* Main.storyboard */,
@@ -517,6 +584,51 @@
 				CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E29F5A2C2383E57F00C1D9D8 /* Atlas-Grotesk */ = {
+			isa = PBXGroup;
+			children = (
+				E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */,
+				E29F5A382383E59700C1D9D8 /* AtlasGrotesk-BlackItalic.otf */,
+				E29F5A2E2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf */,
+				E29F5A302383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf */,
+				E29F5A342383E59700C1D9D8 /* AtlasGrotesk-Light.otf */,
+				E29F5A2F2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf */,
+				E29F5A372383E59700C1D9D8 /* AtlasGrotesk-Medium.otf */,
+				E29F5A312383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf */,
+				E29F5A322383E59700C1D9D8 /* AtlasGrotesk-Regular.otf */,
+				E29F5A352383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf */,
+				E29F5A332383E59700C1D9D8 /* AtlasGrotesk-Thin.otf */,
+				E29F5A362383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf */,
+			);
+			path = "Atlas-Grotesk";
+			sourceTree = "<group>";
+		};
+		E29F5A512383E68C00C1D9D8 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E29F5A522383E6E900C1D9D8 /* DomaineSansText */,
+				E29F5A2C2383E57F00C1D9D8 /* Atlas-Grotesk */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		E29F5A522383E6E900C1D9D8 /* DomaineSansText */ = {
+			isa = PBXGroup;
+			children = (
+				E29F5A5A2383E70000C1D9D8 /* DomaineSansText-Black.otf */,
+				E29F5A532383E6FF00C1D9D8 /* DomaineSansText-BlackItalic.otf */,
+				E29F5A542383E70000C1D9D8 /* DomaineSansText-Bold.otf */,
+				E29F5A592383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf */,
+				E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */,
+				E29F5A5B2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf */,
+				E29F5A552383E70000C1D9D8 /* DomaineSansText-Medium.otf */,
+				E29F5A572383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf */,
+				E29F5A562383E70000C1D9D8 /* DomaineSansText-Regular.otf */,
+				E29F5A582383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf */,
+			);
+			path = DomaineSansText;
 			sourceTree = "<group>";
 		};
 		E2DB66CC237D40A8005367C2 /* OneSignalNotificationServiceExtension */ = {
@@ -661,8 +773,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				5832FCC6237AB8AB00FA3196 /* Main.storyboard in Resources */,
+				E29F5A632383E70000C1D9D8 /* DomaineSansText-Regular.otf in Resources */,
+				E29F5A4F2383E59700C1D9D8 /* AtlasGrotesk-BlackItalic.otf in Resources */,
+				E29F5A612383E70000C1D9D8 /* DomaineSansText-Medium.otf in Resources */,
+				E29F5A3B2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf in Resources */,
 				5832FCC5237AB8AB00FA3196 /* LaunchScreen.storyboard in Resources */,
+				E29F5A472383E59700C1D9D8 /* AtlasGrotesk-Light.otf in Resources */,
+				E29F5A4B2383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf in Resources */,
+				E29F5A6D2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */,
+				E29F5A3F2383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */,
+				E29F5A4D2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */,
+				E29F5A672383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */,
+				E29F5A452383E59700C1D9D8 /* AtlasGrotesk-Thin.otf in Resources */,
+				E29F5A492383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf in Resources */,
+				E29F5A412383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf in Resources */,
 				5832FCC4237AB8AB00FA3196 /* Assets.xcassets in Resources */,
+				E29F5A5F2383E70000C1D9D8 /* DomaineSansText-Bold.otf in Resources */,
+				E29F5A3D2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf in Resources */,
+				E29F5A652383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf in Resources */,
+				E29F5A5D2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
+				E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
+				E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
+				E29F5A432383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
+				E29F5A6F2383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
+				E29F5A6B2383E70000C1D9D8 /* DomaineSansText-Black.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,8 +812,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2DB66BA237D3B69005367C2 /* Main.storyboard in Resources */,
+				E29F5A642383E70000C1D9D8 /* DomaineSansText-Regular.otf in Resources */,
+				E29F5A502383E59700C1D9D8 /* AtlasGrotesk-BlackItalic.otf in Resources */,
+				E29F5A622383E70000C1D9D8 /* DomaineSansText-Medium.otf in Resources */,
+				E29F5A3C2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf in Resources */,
 				E2DB66BB237D3B69005367C2 /* LaunchScreen.storyboard in Resources */,
+				E29F5A482383E59700C1D9D8 /* AtlasGrotesk-Light.otf in Resources */,
+				E29F5A4C2383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf in Resources */,
+				E29F5A6E2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */,
+				E29F5A402383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */,
+				E29F5A4E2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */,
+				E29F5A682383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */,
+				E29F5A462383E59700C1D9D8 /* AtlasGrotesk-Thin.otf in Resources */,
+				E29F5A4A2383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf in Resources */,
+				E29F5A422383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf in Resources */,
 				E2DB66BC237D3B69005367C2 /* Assets.xcassets in Resources */,
+				E29F5A602383E70000C1D9D8 /* DomaineSansText-Bold.otf in Resources */,
+				E29F5A3E2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf in Resources */,
+				E29F5A662383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf in Resources */,
+				E29F5A5E2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
+				E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
+				E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
+				E29F5A442383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
+				E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
+				E29F5A6C2383E70000C1D9D8 /* DomaineSansText-Black.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
