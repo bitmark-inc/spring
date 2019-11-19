@@ -8,6 +8,7 @@ package com.bitmark.fbm.data.source
 
 import com.bitmark.fbm.data.source.local.AccountLocalDataSource
 import com.bitmark.fbm.data.source.remote.AccountRemoteDataSource
+import io.reactivex.Single
 
 
 class AccountRepository(
@@ -43,8 +44,16 @@ class AccountRepository(
 
     fun checkJwtExpired() = localDataSource.checkJwtExpired()
 
-    fun saveAccountInfo(accountId: String, authRequired: Boolean, keyAlias: String) =
+    fun saveAccountData(accountId: String, authRequired: Boolean, keyAlias: String) =
         localDataSource.saveAccountData(accountId, authRequired, keyAlias)
 
-    fun getAccountInfo() = localDataSource.getAccountData()
+    fun getAccountData() = localDataSource.getAccountData()
+
+    fun checkLoggedIn() = getAccountData().map { true }.onErrorResumeNext { e ->
+        if (e is IllegalAccessException) {
+            Single.just(false)
+        } else {
+            Single.error(e)
+        }
+    }
 }

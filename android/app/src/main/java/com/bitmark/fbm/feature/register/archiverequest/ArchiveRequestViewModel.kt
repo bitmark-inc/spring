@@ -51,7 +51,7 @@ class ArchiveRequestViewModel(
         accountRepo.sendArchiveDownloadRequest(accountId, fbId, fbPassword)
             .andThen(Single.just(accountId))
     }.flatMapCompletable { accountId ->
-        accountRepo.saveAccountInfo(
+        accountRepo.saveAccountData(
             accountId,
             false,
             alias

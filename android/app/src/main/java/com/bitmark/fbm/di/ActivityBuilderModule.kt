@@ -6,8 +6,8 @@
  */
 package com.bitmark.fbm.di
 
-import com.bitmark.fbm.feature.getstarted.GetStartedActivity
-import com.bitmark.fbm.feature.getstarted.GetStartedModule
+import com.bitmark.fbm.feature.splash.SplashActivity
+import com.bitmark.fbm.feature.splash.SplashModule
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestActivity
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestModule
 import com.bitmark.fbm.feature.register.notification.RegisterNotificationActivity
@@ -28,9 +28,9 @@ abstract class ActivityBuilderModule {
     @ActivityScope
     internal abstract fun bindArchiveRequestActivity(): ArchiveRequestActivity
 
-    @ContributesAndroidInjector(modules = [GetStartedModule::class])
+    @ContributesAndroidInjector(modules = [SplashModule::class])
     @ActivityScope
-    internal abstract fun bindGetStartedActivity(): GetStartedActivity
+    internal abstract fun bindGetStartedActivity(): SplashActivity
 
     @ContributesAndroidInjector(modules = [RegisterNotificationModule::class])
     @ActivityScope

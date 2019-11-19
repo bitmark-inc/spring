@@ -34,10 +34,11 @@ class AccountLocalDataSource @Inject constructor(
             )
         }
 
-    fun getAccountData() = sharedPrefApi.rxSingle { sharedPrefGateway ->
-        gson.fromJson(
+    fun getAccountData(): Single<AccountData?> = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        val accountData = gson.fromJson(
             sharedPrefGateway.get(SharedPrefApi.ACCOUNT_DATA, String::class),
             AccountData::class.java
         )
+        accountData ?: throw IllegalAccessException("account not found")
     }
 }

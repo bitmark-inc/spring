@@ -98,7 +98,7 @@ class SentryEventLogger(private val accountRepo: AccountRepository) : EventLogge
     private fun buildBaseEventBuilder(
         event: Event,
         level: io.sentry.event.Event.Level
-    ) = accountRepo.getAccountInfo().map { accountInfo ->
+    ) = accountRepo.getAccountData().map { accountInfo ->
         val e = EventBuilder().withMessage(event.value).withLevel(level)
         e.withPlatform("Android")
         e.withEnvironment(BuildConfig.APPLICATION_ID)
@@ -111,7 +111,7 @@ class SentryEventLogger(private val accountRepo: AccountRepository) : EventLogge
     }.subscribeOn(Schedulers.computation())
 
     private fun buildUserBuilder() =
-        accountRepo.getAccountInfo().map { accountInfo ->
+        accountRepo.getAccountData().map { accountInfo ->
             UserBuilder().setId(accountInfo.accountId)
         }
 

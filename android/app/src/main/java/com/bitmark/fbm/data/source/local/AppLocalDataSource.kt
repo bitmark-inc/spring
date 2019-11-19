@@ -26,4 +26,8 @@ class AppLocalDataSource @Inject constructor(
     fun checkNotificationServiceRegistration() = sharedPrefApi.rxSingle { sharedPrefGateway ->
         sharedPrefGateway.get(SharedPrefApi.NOTIFICATION_ALREADY_REGISTERED, Boolean::class)
     }
+
+    fun checkDataReady() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        sharedPrefGateway.get(SharedPrefApi.DATA_READY, Boolean::class)
+    }
 }

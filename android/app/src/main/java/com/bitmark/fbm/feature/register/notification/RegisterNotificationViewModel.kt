@@ -12,16 +12,13 @@ import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
-import io.reactivex.Completable
 
 class RegisterNotificationViewModel(
     lifecycle: Lifecycle,
     private val accountRepo: AccountRepository,
     private val appRepo: AppRepository,
     private val rxLiveDataTransformer: RxLiveDataTransformer
-) : BaseViewModel(
-    lifecycle
-) {
+) : BaseViewModel(lifecycle) {
 
     internal val registerNotificationLiveData = CompositeLiveData<Any>()
 
@@ -29,10 +26,8 @@ class RegisterNotificationViewModel(
 
     fun registerNotification() {
         registerNotificationLiveData.add(
-            rxLiveDataTransformer.completable(accountRepo.getAccountInfo().flatMapCompletable { account ->
-                Completable.fromCallable {
-                    appRepo.registerNotificationService(mapOf("account_id" to account.accountId))
-                }
+            rxLiveDataTransformer.completable(accountRepo.getAccountData().flatMapCompletable { account ->
+                appRepo.registerNotificationService(mapOf("account_id" to account.accountId))
             })
         )
     }

@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".feature.getstarted.GetStartedActivity"
+            android:name=".feature.splash.SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
