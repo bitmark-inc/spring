@@ -15,7 +15,6 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.main.MainActivity
-import com.bitmark.fbm.feature.register.notification.RegisterNotificationActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.visible
@@ -74,7 +73,8 @@ class SplashActivity : BaseAppCompatActivity() {
                                     if (dataReady) {
                                         MainActivity::class.java
                                     } else {
-                                        RegisterNotificationActivity::class.java
+                                        // FIXME for testing
+                                        MainActivity::class.java
                                     }
                                 )
                         }, 1000)

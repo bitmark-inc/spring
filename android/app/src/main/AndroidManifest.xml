@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".feature.main.MainActivity"
+            android:name=".feature.splash.SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".feature.splash.SplashActivity" />
+        <activity android:name=".feature.main.MainActivity" />
 
         <activity
             android:name=".feature.register.onboarding.OnboardingActivity"
@@ -33,6 +33,8 @@
         <activity
             android:name=".feature.register.notification.RegisterNotificationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
+
+        <activity android:name=".feature.account.AccountActivity" />
 
         <meta-data android:name="com.onesignal.NotificationAccentColor.DEFAULT" android:value="@color/colorAccent" />
 

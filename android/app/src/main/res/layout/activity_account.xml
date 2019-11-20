@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dp_18"
+        android:paddingEnd="@dimen/dp_18"
+        >
+
+        <com.bitmark.fbm.util.view.TouchableOpacityAppCompatImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back_2"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_18"
+        android:layout_marginEnd="@dimen/dp_18"
+        android:fontFamily="@font/domaine_sans"
+        android:includeFontPadding="false"
+        android:text="@string/account"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_36"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:background="@color/athens_gray"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_18"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/security"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_24"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvUnlink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/unlink_from_device_arrow"
+            android:textColor="@drawable/color_black_stateful"
+            android:textSize="@dimen/sp_18"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvBiometricAuth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/biometric_auth_arrow"
+            android:textColor="@drawable/color_black_stateful"
+            android:textSize="@dimen/sp_18"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvRecoveryKey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/recovery_key_arrow"
+            android:textColor="@drawable/color_black_stateful"
+            android:textSize="@dimen/sp_18"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:background="@color/athens_gray"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_18"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/support"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_24"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAbout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/about_arrow"
+            android:textColor="@drawable/color_black_stateful"
+            android:textSize="@dimen/sp_18"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFaq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/faq_arrow"
+            android:textColor="@drawable/color_black_stateful"
+            android:textSize="@dimen/sp_18"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_12"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:text="@string/contact_arrow"
+            android:textColor="@drawable/color_black_stateful"
+            android:textSize="@dimen/sp_18"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

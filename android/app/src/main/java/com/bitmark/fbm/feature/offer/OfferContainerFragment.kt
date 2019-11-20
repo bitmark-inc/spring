@@ -4,20 +4,20 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.account
+package com.bitmark.fbm.feature.offer
 
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 
 
-class AccountContainerFragment : BaseSupportFragment() {
+class OfferContainerFragment : BaseSupportFragment() {
 
     companion object {
-        fun newInstance() = AccountContainerFragment()
+        fun newInstance() = OfferContainerFragment()
     }
 
-    override fun layoutRes(): Int = R.layout.fragment_account_container
+    override fun layoutRes(): Int = R.layout.fragment_offer_container
 
     override fun viewModel(): BaseViewModel? = null
 }

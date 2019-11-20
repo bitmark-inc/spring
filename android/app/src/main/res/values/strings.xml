@@ -6,8 +6,9 @@
     <string name="could_not_register_account">Could not register account. Please try again later.</string>
     <string name="could_not_setup_notification">Could not setup notification. Please try again later.</string>
 
-    <string name="how_you_use_fb">How you use Facebook.</string>
-    <string name="how_fb_use_you">How Facebook uses you.</string>
+    <string name="how_you_use_fb">How you use Facebook</string>
+    <string name="how_fb_use_you">How Facebook uses you</string>
+    <string name="for_your_fb_data">For your facebook data</string>
     <string name="get_started_arrow">Get started »</string>
     <string name="i_already_have_an_account_arrow">I already have an account »</string>
     <string name="how_it_works">How it works</string>
@@ -34,5 +35,14 @@
     <string name="usage">USAGE</string>
     <string name="insights">INSIGHTS</string>
     <string name="account">ACCOUNT</string>
+    <string name="offer">OFFER</string>
+    <string name="security">Security</string>
+    <string name="unlink_from_device_arrow">Unlink from device »</string>
+    <string name="biometric_auth_arrow">Biometric Authentication »</string>
+    <string name="recovery_key_arrow">Recovery key »</string>
+    <string name="support">Support</string>
+    <string name="about_arrow">About »</string>
+    <string name="faq_arrow">FAQ »</string>
+    <string name="contact_arrow">Contact »</string>
 
 </resources>

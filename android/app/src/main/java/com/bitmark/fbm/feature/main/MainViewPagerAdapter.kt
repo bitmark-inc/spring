@@ -8,8 +8,8 @@ package com.bitmark.fbm.feature.main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.bitmark.fbm.feature.account.AccountContainerFragment
 import com.bitmark.fbm.feature.insights.InsightsContainerFragment
+import com.bitmark.fbm.feature.offer.OfferContainerFragment
 import com.bitmark.fbm.feature.usage.UsageContainerFragment
 import com.bitmark.fbm.util.view.ViewPagerAdapter
 
@@ -18,14 +18,14 @@ class MainViewPagerAdapter(fm: FragmentManager) : ViewPagerAdapter(fm) {
     companion object {
         const val TAB_USAGE = 0x00
         const val TAB_INSIGHTS = 0x01
-        const val TAB_ACCOUNT = 0x02
+        const val TAB_OFFER = 0x02
     }
 
     init {
         super.add(
             UsageContainerFragment.newInstance(),
             InsightsContainerFragment.newInstance(),
-            AccountContainerFragment.newInstance()
+            OfferContainerFragment.newInstance()
         )
     }
 

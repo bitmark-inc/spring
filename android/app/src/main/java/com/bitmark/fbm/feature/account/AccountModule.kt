@@ -4,18 +4,17 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.main
+package com.bitmark.fbm.feature.account
 
 import com.bitmark.fbm.di.ActivityScope
 import com.bitmark.fbm.feature.Navigator
 import dagger.Module
 import dagger.Provides
 
-
 @Module
-class MainModule {
+class AccountModule {
 
     @Provides
     @ActivityScope
-    fun provideNavigator(activity: MainActivity) = Navigator(activity)
+    fun provideNavigator(activity: AccountActivity) = Navigator(activity)
 }
