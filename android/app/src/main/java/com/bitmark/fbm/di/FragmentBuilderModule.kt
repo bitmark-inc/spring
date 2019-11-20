@@ -6,8 +6,28 @@
  */
 package com.bitmark.fbm.di
 
+import com.bitmark.fbm.feature.account.AccountContainerFragment
+import com.bitmark.fbm.feature.account.AccountContainerModule
+import com.bitmark.fbm.feature.insights.InsightsContainerFragment
+import com.bitmark.fbm.feature.insights.InsightsContainerModule
+import com.bitmark.fbm.feature.usage.UsageContainerFragment
+import com.bitmark.fbm.feature.usage.UsageContainerModule
 import dagger.Module
+import dagger.android.ContributesAndroidInjector
 
 @Module
 abstract class FragmentBuilderModule {
+
+    @ContributesAndroidInjector(modules = [AccountContainerModule::class])
+    @FragmentScope
+    internal abstract fun bindAccountContainerFragment(): AccountContainerFragment
+
+    @ContributesAndroidInjector(modules = [UsageContainerModule::class])
+    @FragmentScope
+    internal abstract fun bindUsageContainerFragment(): UsageContainerFragment
+
+    @ContributesAndroidInjector(modules = [InsightsContainerModule::class])
+    @FragmentScope
+    internal abstract fun bindInsightsContainerFragment(): InsightsContainerFragment
+
 }

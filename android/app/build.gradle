@@ -234,17 +234,21 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.1'
     implementation 'androidx.room:room-rxjava2:2.2.1'
 
-    // Other
+    // Sentry
+    implementation 'io.sentry:sentry-android:1.7.28'
+    implementation 'org.slf4j:slf4j-nop:1.7.28'
+
+    // Bitmark SDK
     implementation 'com.bitmark.sdk:android-sdk:2.1.0'
     implementation 'com.bitmark.sdk:api-service:2.1.0'
     implementation 'com.bitmark.sdk:cryptography:1.5.0'
+
+    // Other
     implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
         transitive = true
     }
-    implementation 'io.sentry:sentry-android:1.7.28'
-    implementation 'org.slf4j:slf4j-nop:1.7.28'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
     implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
+    implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
 
     // Testing
     testImplementation 'junit:junit:4.12'

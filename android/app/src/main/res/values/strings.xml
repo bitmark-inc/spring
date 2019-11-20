@@ -31,5 +31,8 @@
     <string name="authorize_arrow">Authorize »</string>
     <string name="spring">Spring</string>
     <string name="reports">Reports</string>
+    <string name="usage">USAGE</string>
+    <string name="insights">INSIGHTS</string>
+    <string name="account">ACCOUNT</string>
 
 </resources>

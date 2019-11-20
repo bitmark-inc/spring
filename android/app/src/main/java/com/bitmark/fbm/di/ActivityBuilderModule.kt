@@ -6,14 +6,16 @@
  */
 package com.bitmark.fbm.di
 
-import com.bitmark.fbm.feature.splash.SplashActivity
-import com.bitmark.fbm.feature.splash.SplashModule
+import com.bitmark.fbm.feature.main.MainActivity
+import com.bitmark.fbm.feature.main.MainModule
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestActivity
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestModule
 import com.bitmark.fbm.feature.register.notification.RegisterNotificationActivity
 import com.bitmark.fbm.feature.register.notification.RegisterNotificationModule
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingModule
+import com.bitmark.fbm.feature.splash.SplashActivity
+import com.bitmark.fbm.feature.splash.SplashModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -35,4 +37,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [RegisterNotificationModule::class])
     @ActivityScope
     internal abstract fun bindRegisterNotificationActivity(): RegisterNotificationActivity
+
+    @ContributesAndroidInjector(modules = [MainModule::class])
+    @ActivityScope
+    internal abstract fun bindMainActivity(): MainActivity
 }

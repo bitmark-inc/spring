@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".feature.splash.SplashActivity"
+            android:name=".feature.main.MainActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="feature.main.MainActivity" />
+        <activity android:name=".feature.splash.SplashActivity" />
 
         <activity
             android:name=".feature.register.onboarding.OnboardingActivity"
