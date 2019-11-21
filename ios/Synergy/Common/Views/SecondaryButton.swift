@@ -26,7 +26,7 @@ class SecondaryButton: UIButton {
     }
 
     private func setupViews() {
-        titleLabel?.font = Avenir.size(18)
+        titleLabel?.font = R.font.atlasGroteskRegular(size: Size.ds(14))
         backgroundColor = .clear
 
         themeService.rx

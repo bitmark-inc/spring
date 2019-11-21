@@ -10,11 +10,13 @@ import BitmarkSDK
 import RxSwift
 import Intercom
 
-extension Account: ReactiveCompatible {}
+class AccountService {}
 
-extension Reactive where Base == Account {
+extension AccountService: ReactiveCompatible {}
 
-    func createNewAccount() -> Single<Account> {
+extension Reactive where Base: AccountService {
+
+    static func createNewAccount() -> Single<Account> {
         Global.log.info("[start] createNewAccount")
         return Single.just(()).map { try Account() }
     }

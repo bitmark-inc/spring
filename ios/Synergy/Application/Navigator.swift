@@ -31,6 +31,7 @@ class Navigator {
     enum Scene {
         case launching(viewModel: LaunchingViewModel)
         case signInWall(viewModel: SignInWallViewModel)
+        case howItWorks(viewModel: HowItWorksViewModel)
         case safari(URL)
         case safariController(URL)
     }
@@ -50,6 +51,7 @@ class Navigator {
         switch segue {
         case .launching(let viewModel): return LaunchingViewController(viewModel: viewModel)
         case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
+        case .howItWorks(let viewModel): return HowItWorksViewController(viewModel: viewModel)
         case .safari(let url):
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
             return nil

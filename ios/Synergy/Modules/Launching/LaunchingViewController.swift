@@ -18,7 +18,7 @@ class LaunchingViewController: ViewController {
     override func bindViewModel() {
         super.bindViewModel()
 
-        Account.rx.existsCurrentAccount()
+        AccountService.rx.existsCurrentAccount()
             .observeOn(MainScheduler.instance)
             .do(onSuccess: { Global.current.account = $0 })
             .flatMapCompletable { [weak self] in

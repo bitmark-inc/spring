@@ -23,6 +23,12 @@ class Label: UILabel {
         setupViews()
     }
 
+    func makeHighlightBackground() {
+        themeService.rx
+            .bind({ $0.highlightTextBackgroundColor }, to: rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
+
     func setupViews() {
         themeService.rx
             .bind({ $0.textColor }, to: rx.textColor)

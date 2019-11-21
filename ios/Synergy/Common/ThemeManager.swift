@@ -16,6 +16,7 @@ var themeService = ThemeType.currentThemeService(for: .unspecified)
 
 protocol Theme {
     var textColor: UIColor { get }
+    var highlightTextBackgroundColor: UIColor { get }
     var background: UIColor { get }
     var buttonBackground: UIColor { get }
     var buttonTextColor: UIColor { get }
@@ -32,8 +33,9 @@ protocol Theme {
 
 struct LightTheme: Theme {
     let textColor = UIColor.Material.white
+    let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!
-    let buttonBackground = UIColor(hexString: "#FFFFFF", transparency: 0.2)!
+    let buttonBackground = UIColor(hexString: "#000", transparency: 0.4)!
     let buttonTextColor = UIColor.Material.white
     let separateLineColor = UIColor.Material.white
     let textFieldTextColor = UIColor.Material.white
@@ -49,8 +51,9 @@ struct LightTheme: Theme {
 
 struct DarkTheme: Theme {
     let textColor = UIColor.Material.white
+    let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!
-    let buttonBackground = UIColor(hexString: "#FFFFFF", transparency: 0.2)!
+    let buttonBackground = UIColor(hexString: "#000", transparency: 0.4)!
     let buttonTextColor = UIColor.Material.white
     let separateLineColor = UIColor.Material.white
     let textFieldTextColor = UIColor.Material.white

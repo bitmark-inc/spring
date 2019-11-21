@@ -1,0 +1,10 @@
+/* 
+  Phrase.strings
+  Synergy
+
+  Created by thuyentruong on 11/19/19.
+  Copyright © 2019 Bitmark Inc. All rights reserved.
+*/
+
+"signinWall.description" = "How you use Facebook.\n How Facebook uses you.";
+"howitworks.content" = "We’ll back up your Facebook data archive into a personal data vault that only you control. We’ll give you private analytics on your Facebook data. Your vault will be updated each week with new Facebook data and insights.";

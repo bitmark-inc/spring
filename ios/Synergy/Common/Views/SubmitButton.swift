@@ -26,7 +26,7 @@ class SubmitButton: UIButton {
     }
 
     private func setupViews() {
-        titleLabel?.font = UIFont(name: "Avenir", size: Size.ds(24))
+        titleLabel?.font = R.font.atlasGroteskRegular(size: Size.ds(18))
 
         themeService.rx
             .bind({ UIImage(color: $0.buttonBackground, size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .normal))
@@ -39,7 +39,7 @@ class SubmitButton: UIButton {
             .disposed(by: disposeBag)
 
         snp.makeConstraints { (make) in
-            make.height.equalTo(Size.dh(60))
+            make.height.equalTo(Size.dh(55))
         }
     }
 }

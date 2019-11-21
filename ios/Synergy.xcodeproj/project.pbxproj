@@ -72,6 +72,12 @@
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
+		E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959D72386309C000E9CB9 /* AccountService+Rx.swift */; };
+		E27959D92386309C000E9CB9 /* AccountService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959D72386309C000E9CB9 /* AccountService+Rx.swift */; };
+		E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */; };
+		E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */; };
+		E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */; };
+		E29F5A272383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */; };
 		E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */; };
 		E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */; };
 		E29F5A3B2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A2E2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf */; };
@@ -116,6 +122,14 @@
 		E29F5A6E2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5B2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf */; };
 		E29F5A6F2383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */; };
 		E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */; };
+		E29F5A722383F1CE00C1D9D8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A712383F1CE00C1D9D8 /* Localizable.strings */; };
+		E29F5A732383F1CE00C1D9D8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A712383F1CE00C1D9D8 /* Localizable.strings */; };
+		E29F5A762383F20700C1D9D8 /* Phrase.strings in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A752383F20700C1D9D8 /* Phrase.strings */; };
+		E29F5A772383F20700C1D9D8 /* Phrase.strings in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A752383F20700C1D9D8 /* Phrase.strings */; };
+		E29F5A7A2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A792383F8E900C1D9D8 /* HowItWorksViewModel.swift */; };
+		E29F5A7B2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A792383F8E900C1D9D8 /* HowItWorksViewModel.swift */; };
+		E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */; };
+		E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */; };
 		E2DB667F237D3B69005367C2 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8F237A889A00FA3196 /* RealmConfig.swift */; };
 		E2DB6680237D3B69005367C2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC37237A863300FA3196 /* Button.swift */; };
 		E2DB6681237D3B69005367C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC0F237A85B000FA3196 /* AppDelegate.swift */; };
@@ -286,6 +300,9 @@
 		C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.debug.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E19A6B110D404A33B44425C8 /* Pods-Synergy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy.release.xcconfig"; path = "Target Support Files/Pods-Synergy/Pods-Synergy.release.xcconfig"; sourceTree = "<group>"; };
+		E27959D72386309C000E9CB9 /* AccountService+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountService+Rx.swift"; sourceTree = "<group>"; };
+		E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInWallViewModel.swift; sourceTree = "<group>"; };
+		E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInWallViewController.swift; sourceTree = "<group>"; };
 		E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Black.otf"; sourceTree = "<group>"; };
 		E29F5A2E2383E59700C1D9D8 /* AtlasGrotesk-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Bold.otf"; sourceTree = "<group>"; };
 		E29F5A2F2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-LightItalic.otf"; sourceTree = "<group>"; };
@@ -308,6 +325,10 @@
 		E29F5A5A2383E70000C1D9D8 /* DomaineSansText-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Black.otf"; sourceTree = "<group>"; };
 		E29F5A5B2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-LightItalic.otf"; sourceTree = "<group>"; };
 		E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Light.otf"; sourceTree = "<group>"; };
+		E29F5A712383F1CE00C1D9D8 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		E29F5A752383F20700C1D9D8 /* Phrase.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Phrase.strings; sourceTree = "<group>"; };
+		E29F5A792383F8E900C1D9D8 /* HowItWorksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewModel.swift; sourceTree = "<group>"; };
+		E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewController.swift; sourceTree = "<group>"; };
 		E2DB66C2237D3B69005367C2 /* Synergy Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Synergy Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66C4237D3D20005367C2 /* Dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dev-Info.plist"; sourceTree = "<group>"; };
 		E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -398,10 +419,11 @@
 				E2DB66D7237D411C005367C2 /* Synergy.entitlements */,
 				5832FC0E237A85B000FA3196 /* Application */,
 				5832FC14237A863300FA3196 /* Common */,
-				5832FC63237A883500FA3196 /* Services */,
-				5832FC8A237A889A00FA3196 /* ConfCore */,
-				5832FC98237A8A9200FA3196 /* Extensions */,
 				5832FCB6237AA10600FA3196 /* Modules */,
+				5832FC8A237A889A00FA3196 /* ConfCore */,
+				5832FC63237A883500FA3196 /* Services */,
+				E22BB3392385170C0044BC95 /* Model */,
+				5832FC98237A8A9200FA3196 /* Extensions */,
 				5832FCBD237AB8AB00FA3196 /* Resources */,
 				5832FBFA237A6DB900FA3196 /* Info.plist */,
 				E2DB66C4237D3D20005367C2 /* Dev-Info.plist */,
@@ -441,6 +463,7 @@
 				5832FC1B237A863300FA3196 /* Confirm Recovery Key */,
 				5832FC1E237A863300FA3196 /* Controllers */,
 				5832FC22237A863300FA3196 /* Views */,
+				E27959D623863067000E9CB9 /* Bitmark */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -503,8 +526,8 @@
 			isa = PBXGroup;
 			children = (
 				5832FC8C237A889A00FA3196 /* BitmarkSDKService.swift */,
-				5832FC8D237A889A00FA3196 /* Storage */,
 				5832FC91237A889A00FA3196 /* Credential.swift */,
+				5832FC8D237A889A00FA3196 /* Storage */,
 			);
 			path = ConfCore;
 			sourceTree = "<group>";
@@ -550,6 +573,7 @@
 			isa = PBXGroup;
 			children = (
 				5832FCB7237AA12500FA3196 /* Launching */,
+				E29F5A162383E2E600C1D9D8 /* Onboarding */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -566,6 +590,7 @@
 		5832FCBD237AB8AB00FA3196 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E29F5A742383F1ED00C1D9D8 /* Localizable */,
 				E29F5A512383E68C00C1D9D8 /* Fonts */,
 				5832FCBE237AB8AB00FA3196 /* Assets.xcassets */,
 				5832FCBF237AB8AB00FA3196 /* LaunchScreen.storyboard */,
@@ -584,6 +609,32 @@
 				CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E27959D623863067000E9CB9 /* Bitmark */ = {
+			isa = PBXGroup;
+			children = (
+				E27959D72386309C000E9CB9 /* AccountService+Rx.swift */,
+			);
+			path = Bitmark;
+			sourceTree = "<group>";
+		};
+		E29F5A162383E2E600C1D9D8 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				E29F5A1A2383E2E600C1D9D8 /* Sign In Wall */,
+				E29F5A782383F8C900C1D9D8 /* How It Works */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		E29F5A1A2383E2E600C1D9D8 /* Sign In Wall */ = {
+			isa = PBXGroup;
+			children = (
+				E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */,
+				E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */,
+			);
+			path = "Sign In Wall";
 			sourceTree = "<group>";
 		};
 		E29F5A2C2383E57F00C1D9D8 /* Atlas-Grotesk */ = {
@@ -629,6 +680,24 @@
 				E29F5A582383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf */,
 			);
 			path = DomaineSansText;
+			sourceTree = "<group>";
+		};
+		E29F5A742383F1ED00C1D9D8 /* Localizable */ = {
+			isa = PBXGroup;
+			children = (
+				E29F5A712383F1CE00C1D9D8 /* Localizable.strings */,
+				E29F5A752383F20700C1D9D8 /* Phrase.strings */,
+			);
+			path = Localizable;
+			sourceTree = "<group>";
+		};
+		E29F5A782383F8C900C1D9D8 /* How It Works */ = {
+			isa = PBXGroup;
+			children = (
+				E29F5A792383F8E900C1D9D8 /* HowItWorksViewModel.swift */,
+				E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */,
+			);
+			path = "How It Works";
 			sourceTree = "<group>";
 		};
 		E2DB66CC237D40A8005367C2 /* OneSignalNotificationServiceExtension */ = {
@@ -781,6 +850,7 @@
 				E29F5A472383E59700C1D9D8 /* AtlasGrotesk-Light.otf in Resources */,
 				E29F5A4B2383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf in Resources */,
 				E29F5A6D2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */,
+				E29F5A722383F1CE00C1D9D8 /* Localizable.strings in Resources */,
 				E29F5A3F2383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */,
 				E29F5A4D2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */,
 				E29F5A672383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */,
@@ -794,6 +864,7 @@
 				E29F5A5D2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
 				E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
+				E29F5A762383F20700C1D9D8 /* Phrase.strings in Resources */,
 				E29F5A432383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A6F2383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
 				E29F5A6B2383E70000C1D9D8 /* DomaineSansText-Black.otf in Resources */,
@@ -820,6 +891,7 @@
 				E29F5A482383E59700C1D9D8 /* AtlasGrotesk-Light.otf in Resources */,
 				E29F5A4C2383E59700C1D9D8 /* AtlasGrotesk-ThinItalic.otf in Resources */,
 				E29F5A6E2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */,
+				E29F5A732383F1CE00C1D9D8 /* Localizable.strings in Resources */,
 				E29F5A402383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */,
 				E29F5A4E2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */,
 				E29F5A682383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */,
@@ -833,6 +905,7 @@
 				E29F5A5E2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
 				E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
+				E29F5A772383F20700C1D9D8 /* Phrase.strings in Resources */,
 				E29F5A442383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
 				E29F5A6C2383E70000C1D9D8 /* DomaineSansText-Black.otf in Resources */,
@@ -1059,6 +1132,7 @@
 				5832FC52237A863300FA3196 /* ActivityIndicator.swift in Sources */,
 				5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */,
 				5832FC97237A889A00FA3196 /* Credential.swift in Sources */,
+				E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832FC40237A863300FA3196 /* Global.swift in Sources */,
 				5832FC93237A889A00FA3196 /* BitmarkSDKService.swift in Sources */,
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
@@ -1068,8 +1142,10 @@
 				5832FCB0237A8A9300FA3196 /* String+Helper.swift in Sources */,
 				5832FC4D237A863300FA3196 /* NoInternetBanner.swift in Sources */,
 				5832FC4A237A863300FA3196 /* Label.swift in Sources */,
+				E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				5832FC51237A863300FA3196 /* DescriptionLabel.swift in Sources */,
 				5832FC5B237A863300FA3196 /* ImageView.swift in Sources */,
+				E29F5A7A2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
@@ -1080,6 +1156,7 @@
 				5832FCAD237A8A9300FA3196 /* UIButton+Image.swift in Sources */,
 				5832FCAE237A8A9300FA3196 /* MoyaProviderType+Request.swift in Sources */,
 				5832FC4E237A863300FA3196 /* ReadingTextView.swift in Sources */,
+				E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5832FCA7237A8A9200FA3196 /* RxOptional+Single+Optional.swift in Sources */,
 				5832FC7C237A883500FA3196 /* NetworkConnectionManager.swift in Sources */,
 				5832FC5C237A863300FA3196 /* SecondaryButton.swift in Sources */,
@@ -1088,6 +1165,7 @@
 				5832FC56237A863300FA3196 /* TableView.swift in Sources */,
 				5832FCAC237A8A9200FA3196 /* UIFont+Theme.swift in Sources */,
 				5832FC4F237A863300FA3196 /* TableViewCell.swift in Sources */,
+				E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
 				5832FCB1237A8A9300FA3196 /* StringProtocol+nsRange.swift in Sources */,
 				5832FCAA237A8A9200FA3196 /* UIViewController+Error.swift in Sources */,
 				5832FC46237A863300FA3196 /* ViewController.swift in Sources */,
@@ -1130,6 +1208,7 @@
 				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
 				E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */,
 				E2DB6687237D3B69005367C2 /* Credential.swift in Sources */,
+				E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				E2DB6688237D3B69005367C2 /* Global.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
 				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
@@ -1139,8 +1218,10 @@
 				E2DB668E237D3B69005367C2 /* String+Helper.swift in Sources */,
 				E2DB668F237D3B69005367C2 /* NoInternetBanner.swift in Sources */,
 				E2DB6690237D3B69005367C2 /* Label.swift in Sources */,
+				E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				E2DB6691237D3B69005367C2 /* DescriptionLabel.swift in Sources */,
 				E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */,
+				E29F5A7B2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
@@ -1151,6 +1232,7 @@
 				E2DB669A237D3B69005367C2 /* UIButton+Image.swift in Sources */,
 				E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */,
 				E2DB669C237D3B69005367C2 /* ReadingTextView.swift in Sources */,
+				E29F5A272383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				E2DB669D237D3B69005367C2 /* RxOptional+Single+Optional.swift in Sources */,
 				E2DB669E237D3B69005367C2 /* NetworkConnectionManager.swift in Sources */,
 				E2DB669F237D3B69005367C2 /* SecondaryButton.swift in Sources */,
@@ -1159,6 +1241,7 @@
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
 				E2DB66A3237D3B69005367C2 /* UIFont+Theme.swift in Sources */,
 				E2DB66A4237D3B69005367C2 /* TableViewCell.swift in Sources */,
+				E27959D92386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
 				E2DB66A5237D3B69005367C2 /* StringProtocol+nsRange.swift in Sources */,
 				E2DB66A6237D3B69005367C2 /* UIViewController+Error.swift in Sources */,
 				E2DB66A7237D3B69005367C2 /* ViewController.swift in Sources */,
@@ -1351,6 +1434,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D PRODUCTION";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1372,6 +1456,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D PRODUCTION";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1435,6 +1520,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1454,6 +1540,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
