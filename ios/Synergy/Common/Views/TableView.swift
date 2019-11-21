@@ -11,20 +11,20 @@ import RxSwift
 
 class TableView: UITableView {
 
-  let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
 
-  override init(frame: CGRect, style: UITableView.Style) {
-    super.init(frame: frame, style: style)
-    setupViews()
-  }
+    override init(frame: CGRect, style: UITableView.Style) {
+        super.init(frame: frame, style: style)
+        setupViews()
+    }
 
-  required init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    setupViews()
-  }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
+    }
 
-  func setupViews() {
-    backgroundColor = .clear
-    tableFooterView = UIView()
-  }
+    func setupViews() {
+        backgroundColor = .clear
+        tableFooterView = UIView()
+    }
 }

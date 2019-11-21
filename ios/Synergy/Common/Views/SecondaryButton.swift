@@ -11,30 +11,30 @@ import RxSwift
 
 class SecondaryButton: UIButton {
 
-  let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
 
-  required init(title: String) {
-    super.init(frame: .zero)
+    required init(title: String) {
+        super.init(frame: .zero)
 
-    setTitle(title, for: .normal)
+        setTitle(title, for: .normal)
 
-    setupViews()
-  }
-
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  private func setupViews() {
-    titleLabel?.font = Avenir.size(18)
-    backgroundColor = .clear
-
-    themeService.rx
-      .bind({ $0.buttonTextColor }, to: rx.titleColor(for: .normal))
-      .disposed(by: disposeBag)
-
-    snp.makeConstraints { (make) in
-      make.height.equalTo(Size.dh(27))
+        setupViews()
     }
-  }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupViews() {
+        titleLabel?.font = Avenir.size(18)
+        backgroundColor = .clear
+
+        themeService.rx
+            .bind({ $0.buttonTextColor }, to: rx.titleColor(for: .normal))
+            .disposed(by: disposeBag)
+
+        snp.makeConstraints { (make) in
+            make.height.equalTo(Size.dh(27))
+        }
+    }
 }

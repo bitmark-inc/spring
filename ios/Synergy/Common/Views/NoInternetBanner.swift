@@ -11,20 +11,20 @@ import NotificationBannerSwift
 
 class NoInternetBanner {
 
-  static let banner = StatusBarNotificationBanner(
-    title: "NoInternetConnection".localized(),
-    style: .danger
-  )
+    static let banner = StatusBarNotificationBanner(
+        title: "NoInternetConnection".localized(),
+        style: .danger
+    )
 
-  static func show() {
-    DispatchQueue.main.async {
-      banner.show()
+    static func show() {
+        DispatchQueue.main.async {
+            banner.show()
+        }
     }
-  }
 
-  static func hide() {
-    DispatchQueue.main.async {
-      banner.dismiss()
+    static func hide() {
+        DispatchQueue.main.async {
+            banner.dismiss()
+        }
     }
-  }
 }

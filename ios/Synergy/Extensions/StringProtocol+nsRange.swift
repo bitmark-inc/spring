@@ -9,7 +9,7 @@
 import Foundation
 
 extension StringProtocol {
-  func nsRange(from range: Range<Index>) -> NSRange {
-    return .init(range, in: self)
-  }
+    func nsRange(from range: Range<Index>) -> NSRange {
+        return .init(range, in: self)
+    }
 }

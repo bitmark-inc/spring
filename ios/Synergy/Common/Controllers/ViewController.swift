@@ -11,38 +11,25 @@ import RxSwift
 import RxCocoa
 
 class ViewController: ThemedViewController {
-  var viewModel: ViewModel?
+    var viewModel: ViewModel?
 
-  init(viewModel: ViewModel?) {
-    self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
-  }
+    init(viewModel: ViewModel?) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
 
-  required init?(coder aDecoder: NSCoder) {
-    super.init(nibName: nil, bundle: nil)
-  }
+    required init?(coder aDecoder: NSCoder) {
+        super.init(nibName: nil, bundle: nil)
+    }
 
-  let isLoading = BehaviorRelay(value: false)
-  
-  lazy var contentView: UIView = {
-    let view = UIView()
-    self.view.addSubview(view)
-    
-    view.frame = self.view.safeAreaLayoutGuide.layoutFrame
-    
-    return view
-  }()
+    let isLoading = BehaviorRelay(value: false)
 
-  override func setupViews() {
-    super.setupViews()
+    lazy var contentView: UIView = {
+        let view = UIView()
+        self.view.addSubview(view)
 
-  }
+        view.frame = self.view.safeAreaLayoutGuide.layoutFrame
 
-  override func bindViewModel() {
-    super.bindViewModel()
-
-//    themeService.rx
-//      .bind({ $0.textColor }, to: screenTitleLabel.rx.textColor)
-//      .disposed(by: disposeBag)
-  }
+        return view
+    }()
 }

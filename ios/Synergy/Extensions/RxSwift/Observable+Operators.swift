@@ -15,11 +15,11 @@ infix operator <=> : DefaultPrecedence
 
 func => <Base>(textInput: TextInput<Base>, variable: BehaviorRelay<String>) -> Disposable {
 
-  let bindToVariable = textInput.text
-    .filterNil()
-    .subscribe(onNext: { variable.accept($0) })
+    let bindToVariable = textInput.text
+        .filterNil()
+        .subscribe(onNext: { variable.accept($0) })
 
-  return Disposables.create([bindToVariable])
+    return Disposables.create([bindToVariable])
 }
 
 func <=> <Base>(textInput: TextInput<Base>, variable: BehaviorRelay<String>) -> Disposable {
@@ -27,8 +27,8 @@ func <=> <Base>(textInput: TextInput<Base>, variable: BehaviorRelay<String>) -> 
         .bind(to: textInput.text)
 
     let bindToVariable = textInput.text
-      .filterNil()
-      .subscribe(onNext: { variable.accept($0) })
+        .filterNil()
+        .subscribe(onNext: { variable.accept($0) })
 
     return Disposables.create(bindToUIDisposable, bindToVariable)
 }

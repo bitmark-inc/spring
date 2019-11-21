@@ -11,39 +11,39 @@ import RxSwift
 
 class DescriptionLabel: Label {
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    setupViews()
-  }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
 
-  required public init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    setupViews()
-  }
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
+    }
 
-  override func setupViews() {
-    super.setupViews()
-    font = Avenir.size(24)
-    numberOfLines = 0
-    textAlignment = .center
-  }
+    override func setupViews() {
+        super.setupViews()
+        font = Avenir.size(24)
+        numberOfLines = 0
+        textAlignment = .center
+    }
 }
 
 class BeatTitleLabel: Label {
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    setupViews()
-  }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
 
-  required public init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    setupViews()
-  }
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
+    }
 
-  override func setupViews() {
-    super.setupViews()
-    font = Avenir.Heavy.size(22)
-    numberOfLines = 0
-  }
+    override func setupViews() {
+        super.setupViews()
+        font = Avenir.Heavy.size(22)
+        numberOfLines = 0
+    }
 }

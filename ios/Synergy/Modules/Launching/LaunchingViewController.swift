@@ -24,12 +24,12 @@ class LaunchingViewController: ViewController {
             .flatMapCompletable { [weak self] in
                 guard let self = self else { return Completable.never() }
                 return try self.prepareAndGotoNext(account: $0)
-            }
-            .subscribe(
-                onError: { (error) in
-                    Global.log.error(error)
-                }
-            )
+        }
+        .subscribe(
+            onError: { (error) in
+                Global.log.error(error)
+        }
+        )
             .disposed(by: disposeBag)
     }
 

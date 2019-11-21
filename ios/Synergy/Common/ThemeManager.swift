@@ -31,20 +31,20 @@ protocol Theme {
 }
 
 struct LightTheme: Theme {
-  let textColor = UIColor.Material.white
-  let background = UIColor(hexString: "#FFFFFF")!
-  let buttonBackground = UIColor(hexString: "#FFFFFF", transparency: 0.2)!
-  let buttonTextColor = UIColor.Material.white
-  let separateLineColor = UIColor.Material.white
-  let textFieldTextColor = UIColor.Material.white
-  let textFieldPlaceholderColor = UIColor(hexString: "#FFF", transparency: 0.6)!
-  let borderColor = UIColor.Material.white
-  let textViewBackgroundColor = UIColor.Material.white
-  let textViewTextColor = UIColor(hexString: "#2B47FD")!
-  let indicatorColor = UIColor.Material.grey
+    let textColor = UIColor.Material.white
+    let background = UIColor(hexString: "#FFFFFF")!
+    let buttonBackground = UIColor(hexString: "#FFFFFF", transparency: 0.2)!
+    let buttonTextColor = UIColor.Material.white
+    let separateLineColor = UIColor.Material.white
+    let textFieldTextColor = UIColor.Material.white
+    let textFieldPlaceholderColor = UIColor(hexString: "#FFF", transparency: 0.6)!
+    let borderColor = UIColor.Material.white
+    let textViewBackgroundColor = UIColor.Material.white
+    let textViewTextColor = UIColor(hexString: "#2B47FD")!
+    let indicatorColor = UIColor.Material.grey
 
-  init(colorTheme: ColorTheme) {
-  }
+    init(colorTheme: ColorTheme) {
+    }
 }
 
 struct DarkTheme: Theme {
@@ -179,10 +179,10 @@ enum ThemeType: ThemeProvider {
 }
 
 extension ThemeService where Provider == ThemeType {
-  func switchThemeType(for userStyle: UIUserInterfaceStyle) {
-    let updateTheme = ThemeType.currentTheme(isDark: userStyle == .dark)
-    self.switch(updateTheme)
-  }
+    func switchThemeType(for userStyle: UIUserInterfaceStyle) {
+        let updateTheme = ThemeType.currentTheme(isDark: userStyle == .dark)
+        self.switch(updateTheme)
+    }
 }
 
 extension ThemeType {
@@ -210,34 +210,34 @@ extension ThemeType {
 
 class Size {
 
-  // dimention size
-  static func ds(_ size: CGFloat) -> CGFloat {
-    return (size / 414) * UIScreen.main.bounds.width
-  }
+    // dimention size
+    static func ds(_ size: CGFloat) -> CGFloat {
+        return (size / 414) * UIScreen.main.bounds.width
+    }
 
-  // dimention width
-  static func dw(_ size: Int) -> CGFloat {
-    let sizeFloat = CGFloat(size)
-    return (sizeFloat / 414) * UIScreen.main.bounds.width
-  }
+    // dimention width
+    static func dw(_ size: Int) -> CGFloat {
+        let sizeFloat = CGFloat(size)
+        return (sizeFloat / 414) * UIScreen.main.bounds.width
+    }
 
-  // dimention height
-  static func dh(_ size: Int) -> CGFloat {
-    let sizeFloat = CGFloat(size)
-    return (sizeFloat / 896) * UIScreen.main.bounds.height
-  }
+    // dimention height
+    static func dh(_ size: Int) -> CGFloat {
+        let sizeFloat = CGFloat(size)
+        return (sizeFloat / 896) * UIScreen.main.bounds.height
+    }
 }
 
 class Avenir {
-  static func size(_ size: CGFloat) -> UIFont {
-    return UIFont(name: "Avenir", size: Size.ds(size))!
-  }
-
-  class Heavy {
     static func size(_ size: CGFloat) -> UIFont {
-      return UIFont(name: "Avenir-Heavy", size: Size.ds(size))!
+        return UIFont(name: "Avenir", size: Size.ds(size))!
     }
-  }
+
+    class Heavy {
+        static func size(_ size: CGFloat) -> UIFont {
+            return UIFont(name: "Avenir-Heavy", size: Size.ds(size))!
+        }
+    }
 }
 
 extension Reactive where Base: UIView {
@@ -265,8 +265,8 @@ extension Reactive where Base: UITextField {
 
     var placeholderColor: Binder<UIColor?> {
         return Binder(self.base) { textfield, attr in
-          guard let color = attr else { return }
-          textfield.setPlaceHolderTextColor(color)
+            guard let color = attr else { return }
+            textfield.setPlaceHolderTextColor(color)
         }
     }
 }

@@ -14,25 +14,25 @@ import SVProgressHUD
 let loadingState = PublishSubject<LoadState>()
 
 extension Reactive where Base: SVProgressHUD {
-  static var state: Binder<LoadState> {
-    return Binder(UIApplication.shared) { _, state in
-      switch state {
-       case .loading:
-         SVProgressHUD.show()
-       case .success:
-         SVProgressHUD.showSuccess(withStatus: "Success".localized())
-       case .failed:
-         SVProgressHUD.showError(withStatus: nil)
-       case .hide:
-         SVProgressHUD.dismiss()
-       }
+    static var state: Binder<LoadState> {
+        return Binder(UIApplication.shared) { _, state in
+            switch state {
+            case .loading:
+                SVProgressHUD.show()
+            case .success:
+                SVProgressHUD.showSuccess(withStatus: "Success".localized())
+            case .failed:
+                SVProgressHUD.showError(withStatus: nil)
+            case .hide:
+                SVProgressHUD.dismiss()
+            }
+        }
     }
-  }
 }
 
 enum LoadState {
-  case loading
-  case success
-  case failed
-  case hide
+    case loading
+    case success
+    case failed
+    case hide
 }

@@ -12,27 +12,27 @@ import RealmSwift
 
 class ConfirmRecoveryKeyViewModel: ViewModel {
 
-  // MARK: - Properties
-  let recoveryKeyStringRelay = BehaviorRelay(value: "")
-  let recoveryKeyRelay = BehaviorRelay<[String]>(value: [])
+    // MARK: - Properties
+    let recoveryKeyStringRelay = BehaviorRelay(value: "")
+    let recoveryKeyRelay = BehaviorRelay<[String]>(value: [])
 
-  // MARK: - Outputs
-  var submitEnabled: Driver<Bool>
+    // MARK: - Outputs
+    var submitEnabled: Driver<Bool>
 
-  override init() {
-    submitEnabled = recoveryKeyRelay
-      .map { $0.count == Constant.default.numberOfPhrases }
-      .asDriver(onErrorJustReturn: false)
+    override init() {
+        submitEnabled = recoveryKeyRelay
+            .map { $0.count == Constant.default.numberOfPhrases }
+            .asDriver(onErrorJustReturn: false)
 
-    super.init()
+        super.init()
 
-    self.setup()
-  }
+        self.setup()
+    }
 
-  func setup() {
-    recoveryKeyStringRelay
-      .map { $0.recoveryKey() }
-      .bind(to: recoveryKeyRelay)
-      .disposed(by: disposeBag)
-  }
+    func setup() {
+        recoveryKeyStringRelay
+            .map { $0.recoveryKey() }
+            .bind(to: recoveryKeyRelay)
+            .disposed(by: disposeBag)
+    }
 }

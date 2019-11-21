@@ -11,26 +11,26 @@ import RxSwift
 
 class SeparateLine: UIView {
 
-  let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
 
-  init(height: Int) {
-    super.init(frame: CGRect.zero)
+    init(height: Int) {
+        super.init(frame: CGRect.zero)
 
-    snp.makeConstraints { (make) in
-      make.height.equalTo(height)
+        snp.makeConstraints { (make) in
+            make.height.equalTo(height)
+        }
+
+        setupViews()
     }
 
-    setupViews()
-  }
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
+    }
 
-  required public init?(coder aDecoder: NSCoder) {
-    super.init(coder: aDecoder)
-    setupViews()
-  }
-
-  func setupViews() {
-    themeService.rx
-      .bind({ $0.separateLineColor }, to: rx.backgroundColor)
-      .disposed(by: disposeBag)
-  }
+    func setupViews() {
+        themeService.rx
+            .bind({ $0.separateLineColor }, to: rx.backgroundColor)
+            .disposed(by: disposeBag)
+    }
 }

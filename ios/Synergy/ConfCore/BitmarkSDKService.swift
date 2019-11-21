@@ -12,22 +12,22 @@ import XCGLogger
 
 class BitmarkSDKService {
 
-  private static let networkMode: Network = {
-    #if PRODUCTION
-      return Network.livenet
-    #else
-      return Network.testnet
-    #endif
-  }()
+    private static let networkMode: Network = {
+        #if PRODUCTION
+        return Network.livenet
+        #else
+        return Network.testnet
+        #endif
+    }()
 
-  static func setupConfig() {
-    let config = SDKConfig(apiToken: "", network: networkMode, urlSession: URLSession.shared, logger: BitmarkSDKServiceLogger())
-    BitmarkSDK.initialize(config: config)
-  }
+    static func setupConfig() {
+        let config = SDKConfig(apiToken: "", network: networkMode, urlSession: URLSession.shared, logger: BitmarkSDKServiceLogger())
+        BitmarkSDK.initialize(config: config)
+    }
 }
 
 class BitmarkSDKServiceLogger: SDKLogger {
-  func log(level: SDKLogLevel, message: String) {
-    Global.log.info(message)
-  }
+    func log(level: SDKLogLevel, message: String) {
+        Global.log.info(message)
+    }
 }

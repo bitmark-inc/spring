@@ -9,8 +9,8 @@
 import UIKit
 
 extension UIViewController {
-  @objc func openAppSettings(_ sender: UIAlertAction) {
-    guard let url = URL.init(string: UIApplication.openSettingsURLString) else { return }
-    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-  }
+    @objc func openAppSettings(_ sender: UIAlertAction) {
+        guard let url = URL.init(string: UIApplication.openSettingsURLString) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
 }

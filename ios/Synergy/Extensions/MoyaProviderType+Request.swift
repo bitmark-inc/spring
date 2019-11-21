@@ -11,18 +11,18 @@ import RxSwift
 import Moya
 
 extension Reactive where Base: MoyaProviderType {
-  func onlineRequest(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Single<Response> {
-    let actualRequest = request(token)
+    func onlineRequest(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Single<Response> {
+        let actualRequest = request(token)
 
-    return connectedToInternet()
-      .andThen(actualRequest)
-  }
+        return connectedToInternet()
+            .andThen(actualRequest)
+    }
 
-  func onlineRequestWithProgress(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Observable<ProgressResponse> {
-    let actualRequestWithProgress = requestWithProgress(token)
+    func onlineRequestWithProgress(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Observable<ProgressResponse> {
+        let actualRequestWithProgress = requestWithProgress(token)
 
-    return connectedToInternet()
-      .andThen(actualRequestWithProgress)
-  }
+        return connectedToInternet()
+            .andThen(actualRequestWithProgress)
+    }
 
 }

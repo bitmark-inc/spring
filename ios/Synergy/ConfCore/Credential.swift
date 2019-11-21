@@ -9,8 +9,8 @@
 import Foundation
 
 class Credential {
-  public static func valueForKey(keyName: String) -> String {
-    guard let appCredentials = Bundle.main.object(forInfoDictionaryKey: "AppCredentials") as? [String: String] else { return "" }
-    return appCredentials[keyName] ?? ""
-  }
+    public static func valueForKey(keyName: String) -> String {
+        guard let appCredentials = Bundle.main.object(forInfoDictionaryKey: "AppCredentials") as? [String: String] else { return "" }
+        return appCredentials[keyName] ?? ""
+    }
 }

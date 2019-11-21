@@ -11,33 +11,33 @@ import RxSwift
 
 class ReadingTextView: UITextView {
 
-  let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
 
-  public convenience init(text: String) {
-    self.init(frame: .zero)
-    setupView()
+    public convenience init(text: String) {
+        self.init(frame: .zero)
+        setupView()
 
-    self.text = text
-  }
+        self.text = text
+    }
 
-  public override init(frame: CGRect, textContainer: NSTextContainer?) {
-    super.init(frame: frame, textContainer: textContainer)
-    setupView()
-  }
+    public override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        setupView()
+    }
 
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    setupView()
-  }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupView()
+    }
 
-  func setupView() {
-    backgroundColor = .clear
-    font = Avenir.size(24)
-    isUserInteractionEnabled = true
-    isEditable = false
+    func setupView() {
+        backgroundColor = .clear
+        font = Avenir.size(24)
+        isUserInteractionEnabled = true
+        isEditable = false
 
-    themeService.rx
-      .bind({ $0.textColor }, to: rx.textColor)
-      .disposed(by: disposeBag)
-  }
+        themeService.rx
+            .bind({ $0.textColor }, to: rx.textColor)
+            .disposed(by: disposeBag)
+    }
 }

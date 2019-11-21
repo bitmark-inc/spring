@@ -11,21 +11,21 @@ import RxSwift
 
 class Label: UILabel {
 
-  let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
 
-  override init(frame: CGRect) {
-      super.init(frame: frame)
-      setupViews()
-  }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
 
-  required public init?(coder aDecoder: NSCoder) {
-      super.init(coder: aDecoder)
-      setupViews()
-  }
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
+    }
 
-  func setupViews() {
-    themeService.rx
-      .bind({ $0.textColor }, to: rx.textColor)
-      .disposed(by: disposeBag)
-  }
+    func setupViews() {
+        themeService.rx
+            .bind({ $0.textColor }, to: rx.textColor)
+            .disposed(by: disposeBag)
+    }
 }

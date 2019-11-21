@@ -11,29 +11,29 @@ import RxSwift
 
 class EditingTextView: UITextView {
 
-  let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
 
-  public convenience init() {
-    self.init(frame: .zero)
-    setupView()
-  }
+    public convenience init() {
+        self.init(frame: .zero)
+        setupView()
+    }
 
-  public override init(frame: CGRect, textContainer: NSTextContainer?) {
-    super.init(frame: frame, textContainer: textContainer)
-    setupView()
-  }
+    public override init(frame: CGRect, textContainer: NSTextContainer?) {
+        super.init(frame: frame, textContainer: textContainer)
+        setupView()
+    }
 
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    setupView()
-  }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupView()
+    }
 
-  func setupView() {
-    font = Avenir.Heavy.size(24)
+    func setupView() {
+        font = Avenir.Heavy.size(24)
 
-    themeService.rx
-      .bind({ $0.textViewBackgroundColor }, to: rx.backgroundColor)
-      .bind({ $0.textViewTextColor }, to: rx.textColor)
-      .disposed(by: disposeBag)
-  }
+        themeService.rx
+            .bind({ $0.textViewBackgroundColor }, to: rx.backgroundColor)
+            .bind({ $0.textViewTextColor }, to: rx.textColor)
+            .disposed(by: disposeBag)
+    }
 }

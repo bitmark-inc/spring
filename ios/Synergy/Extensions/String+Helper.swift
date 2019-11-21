@@ -9,14 +9,14 @@
 import UIKit
 
 extension String {
-  func localized(bundle: Bundle = .main, tableName: String = "Localizable") -> String {
-    return NSLocalizedString(self, tableName: tableName, value: "**\(self)**", comment: "")
-  }
+    func localized(bundle: Bundle = .main, tableName: String = "Localizable") -> String {
+        return NSLocalizedString(self, tableName: tableName, value: "**\(self)**", comment: "")
+    }
 
-  func asLink(withLink link: String = "") -> NSAttributedString {
-    return NSAttributedString(
-      string: self,
-      attributes: [.underlineColor: UIColor.Material.white, .underlineStyle: NSUnderlineStyle.single.rawValue, .font: Avenir.size(18), .foregroundColor: UIColor.Material.white]
-    )
-  }
+    func asLink(withLink link: String = "") -> NSAttributedString {
+        return NSAttributedString(
+            string: self,
+            attributes: [.underlineColor: UIColor.Material.white, .underlineStyle: NSUnderlineStyle.single.rawValue, .font: Avenir.size(18), .foregroundColor: UIColor.Material.white]
+        )
+    }
 }

@@ -11,15 +11,15 @@ import RxSwift
 
 extension String {
 
-  func maybeBeatID() -> Bool {
-    return count == 128
-  }
+    func maybeBeatID() -> Bool {
+        return count == 128
+    }
 
-  func maybeAccountID() -> Bool {
-    return count == 50
-  }
+    func maybeAccountID() -> Bool {
+        return count == 50
+    }
 
-  func recoveryKey() -> [String] {
-    return split(separator: " ").map(String.init).filter { $0.isNotEmpty }
-  }
+    func recoveryKey() -> [String] {
+        return split(separator: " ").map(String.init).filter { $0.isNotEmpty }
+    }
 }
