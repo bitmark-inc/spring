@@ -9,5 +9,13 @@
 import Foundation
 
 class LaunchingViewModel: ViewModel {
-  
+
+    func gotoSignInWallScreen() {
+        let viewModel = SignInWallViewModel()
+        navigator.show(segue: .signInWall(viewModel: viewModel))
+    }
+
+    func gotoSignInScreen() {
+
+    }
 }

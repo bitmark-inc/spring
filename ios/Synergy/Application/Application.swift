@@ -29,6 +29,6 @@ final class Application: NSObject {
         self.window = window
 
         let viewModel = LaunchingViewModel()
-        self.navigator.show(segue: .launching(viewModel: viewModel), sender: nil, transition: .root(in: window))
+        self.navigator.show(segue: .launching(viewModel: viewModel), transition: .root(in: window))
     }
 }

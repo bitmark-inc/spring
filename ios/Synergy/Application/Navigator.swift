@@ -20,9 +20,17 @@ protocol Navigatable {
 class Navigator {
     static var `default` = Navigator()
 
+    private lazy var rootViewController: NavigationController = {
+        let viewController = NavigationController()
+        viewController.hero.isEnabled = true
+        viewController.isNavigationBarHidden = true
+        return viewController
+    }()
+
     // MARK: - segues list, all app scenes
     enum Scene {
         case launching(viewModel: LaunchingViewModel)
+        case signInWall(viewModel: SignInWallViewModel)
         case safari(URL)
         case safariController(URL)
     }
@@ -40,8 +48,8 @@ class Navigator {
     // MARK: - get a single VC
     func get(segue: Scene) -> UIViewController? {
         switch segue {
-        case .launching(let viewModel): return LaunchingViewController(viewModel: viewModel, navigator: self)
-
+        case .launching(let viewModel): return LaunchingViewController(viewModel: viewModel)
+        case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
         case .safari(let url):
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
             return nil
@@ -65,9 +73,9 @@ class Navigator {
     }
 
     // MARK: - invoke a single segue
-    func show(segue: Scene, sender: UIViewController?, transition: Transition = .navigation(type: .cover(direction: .left))) {
+    func show(segue: Scene, transition: Transition = .navigation(type: .cover(direction: .left))) {
         if let target = get(segue: segue) {
-            show(target: target, sender: sender, transition: transition)
+            show(target: target, sender: rootViewController, transition: transition)
         }
     }
 
@@ -75,7 +83,8 @@ class Navigator {
         switch transition {
         case .root(in: let window):
             UIView.transition(with: window, duration: 0.3, options: .transitionFlipFromLeft, animations: {
-                window.rootViewController = target
+                self.rootViewController.setViewControllers([target], animated: false)
+                window.rootViewController = self.rootViewController
             }, completion: nil)
             return
         case .custom: return

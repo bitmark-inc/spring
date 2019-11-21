@@ -10,13 +10,11 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ViewController: ThemedViewController, Navigatable {
+class ViewController: ThemedViewController {
   var viewModel: ViewModel?
-  var navigator: Navigator!
 
-  init(viewModel: ViewModel?, navigator: Navigator) {
+  init(viewModel: ViewModel?) {
     self.viewModel = viewModel
-    self.navigator = navigator
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -31,11 +29,6 @@ class ViewController: ThemedViewController, Navigatable {
     self.view.addSubview(view)
     
     view.frame = self.view.safeAreaLayoutGuide.layoutFrame
-    
-    #if targetEnvironment(simulator)
-    view.layer.borderColor = UIColor.Material.yellow.cgColor
-    view.layer.borderWidth = 1
-    #endif
     
     return view
   }()

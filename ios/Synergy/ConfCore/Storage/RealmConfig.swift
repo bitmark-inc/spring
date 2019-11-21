@@ -31,10 +31,7 @@ enum RealmConfig {
   func configuration() throws -> Realm.Configuration {
     switch self {
     case .user(let accountNumber):
-      var encryptionKeyData: Data?
-      #if !targetEnvironment(simulator)
-        encryptionKeyData = try getKey()
-      #endif
+        let encryptionKeyData = try getKey()
 
       return Realm.Configuration(
         fileURL: dbDirectoryURL().appendingPathComponent("\(accountNumber).realm"),
@@ -68,15 +65,18 @@ enum RealmConfig {
   // Reference: https://realm.io/docs/swift/latest/#encryption
   fileprivate func getKey() throws -> Data {
     guard let encryptedDBKey = KeychainStore.getEncryptedDBKeyFromKeychain() else {
-      var key = Data(count: 64)
-      _ = key.withUnsafeMutableBytes({ (ptr: UnsafeMutableRawBufferPointer) -> Void in
-        guard let pointer = ptr.bindMemory(to: UInt8.self).baseAddress else { return }
-        _ = SecRandomCopyBytes(kSecRandomDefault, 64, pointer)
-      })
+        #if targetEnvironment(simulator)
+            let key = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345678901".data(using: .utf8)!
+        #else
+            var key = Data(count: 64)
+            _ = key.withUnsafeMutableBytes({ (ptr: UnsafeMutableRawBufferPointer) -> Void in
+                guard let pointer = ptr.bindMemory(to: UInt8.self).baseAddress else { return }
+                _ = SecRandomCopyBytes(kSecRandomDefault, 64, pointer)
+            })
+        #endif
 
-      try KeychainStore.saveEncryptedDBKeyToKeychain(key)
-
-      return key
+        try KeychainStore.saveEncryptedDBKeyToKeychain(key)
+        return key
     }
 
     return encryptedDBKey

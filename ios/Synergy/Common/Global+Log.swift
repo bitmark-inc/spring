@@ -66,6 +66,18 @@ extension Global {
 
   // Create a sentry log destination
   fileprivate static let sentryDestination: SentryDestination? = {
+    do {
+      let sentryClient = try Client(dsn: Constant.default.sentryDSN)
+      // Create sentry destination
+      sentryClient.environment = Bundle.main.bundleIdentifier
+      sentryClient.trackMemoryPressureAsEvent()
+      try sentryClient.startCrashHandler()
+      Client.shared = sentryClient
+    } catch let error {
+      print("Init sentry error: \(error)")
+        return nil
+    }
+
     let sentryDestination = SentryDestination(sentryClient: Client.shared!,
                                               queue: DispatchQueue(label: "com.synergy.ios.sentry", qos: .background))
     sentryDestination.outputLevel = .info
