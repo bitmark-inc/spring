@@ -96,6 +96,12 @@ func (s *Server) Run(addr string) error {
 		archivesRoute.POST("", s.downloadFBArchive)
 	}
 
+	assetRoute := r.Group("/assets")
+	assetRoute.Use(logmodule.Ginrus("Asset"))
+	{
+		assetRoute.Static("", viper.GetString("server.assetdir"))
+	}
+
 	r.GET("/healthz", s.healthz)
 
 	srv := &http.Server{

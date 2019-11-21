@@ -109,3 +109,12 @@ In case of success: HTTP Status Accepted with payload:
     "result": "OK"
 }
 ```
+
+### Server assets
+Contains all server static assets
+
+#### FB automation script
+##### Endpoint
+```url
+GET /assets/fb_automation.json
+```

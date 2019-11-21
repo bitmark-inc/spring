@@ -1,0 +1,25 @@
+{
+    "login_page": {
+      "detection": "!!document.querySelector(\"input#m_login_email\");",
+      "login": "document.querySelector(\"input#m_login_email\").value = \"%username%\";document.querySelector(\"input#m_login_password\").value = \"%password\";document.querySelector('button[name=\"login\"]').click();"
+    },
+    "save_device_page": {
+      "detection": "/.*/save-device/.test(document.location.href);",
+      "notNow": "document.querySelector('a[href*=\"save-device/cancel\"]').click();",
+      "ok": "document.querySelector('button[type=\"submit\"]').click();"
+    },
+    "new_feed_page": {
+      "detection": "!!document.querySelector(\"#MComposer\");",
+      "goToSettingPage": "window.location.href = \"/settings/?entry_point=bookmark\";",
+      "goToArchivePage": "window.location.href = \"/dyi/\";"
+    },
+    "settings_page": {
+      "detection": "/.*/settings//.test(document.location.href);",
+      "goToArchivePage": "document.querySelector('a[href*=\"/dyi/\"]').click();"
+    },
+    "archive_page": {
+      "detection": "/.*/dyi//.test(document.location.href);",
+      "selectJSONOption": "\n    (function() {\n      let simulateHTMLEvent = function(element, eventName) {\n        var evt = document.createEvent(\"HTMLEvents\");\n        evt.initEvent(eventName, true, true);\n        element.dispatchEvent(evt);\n      }\n      let selectEl = document.querySelector('select[name=\"format\"]');\n      selectEl.selectedIndex = 1;\n      selectEl.value = 'JSON';\n      simulateHTMLEvent(selectEl, 'change');\n    })();\n  ",
+      "test": "\n    (function() {\n      let i = 10;\n      return i;\n    })();\n  "
+    }
+}
