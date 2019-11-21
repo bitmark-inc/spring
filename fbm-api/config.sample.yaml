@@ -1,0 +1,33 @@
+server:
+  port: 8880
+  mode: release #debug or release
+  baseurl: 
+jwt:
+  expire: 1 # hour
+  keyfile: 
+  password: 
+log:
+  level: debug
+bitmarksdk:
+  token: 
+  network: testnet
+db:
+  conn: user=fbm password= host= port= dbname=fbm connect_timeout=10 pool_max_conns=10
+sentry:
+  dsn: 
+  dist: 0.1
+nsq:
+  url: 
+  channel: 
+  cert: ./nsq-cers/nsq.crt
+  key: ./nsq-cers/nsq.key
+aws:
+  region: 
+  s3:
+    archive_bucket: 
+account:
+  seed: 
+onesignal:
+  endpoint: https://onesignal.com
+  key: 
+  appid: 
