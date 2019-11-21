@@ -12,6 +12,7 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.auth.BiometricAuthActivity
+import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import kotlinx.android.synthetic.main.activity_account.*
@@ -46,7 +47,9 @@ class AccountActivity : BaseAppCompatActivity() {
             navigator.anim(RIGHT_LEFT).startActivity(BiometricAuthActivity::class.java)
         }
 
-        tvRecoveryKey.setSafetyOnclickListener { }
+        tvRecoveryKey.setSafetyOnclickListener {
+            navigator.anim(RIGHT_LEFT).startActivity(RecoveryContainerActivity::class.java)
+        }
 
         tvAbout.setSafetyOnclickListener { }
 

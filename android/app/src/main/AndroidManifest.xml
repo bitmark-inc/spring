@@ -40,6 +40,7 @@
             android:name=".feature.unlink.UnlinkContainerActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".feature.auth.BiometricAuthActivity" />
+        <activity android:name=".feature.recovery.RecoveryContainerActivity" />
 
         <meta-data
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"

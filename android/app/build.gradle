@@ -249,6 +249,7 @@ dependencies {
     }
     implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
+    implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
 
     // Testing
     testImplementation 'junit:junit:4.12'

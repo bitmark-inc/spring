@@ -12,6 +12,8 @@ import com.bitmark.fbm.feature.auth.BiometricAuthActivity
 import com.bitmark.fbm.feature.auth.BiometricAuthModule
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.main.MainModule
+import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
+import com.bitmark.fbm.feature.recovery.RecoveryContainerModule
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestActivity
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestModule
 import com.bitmark.fbm.feature.register.notification.RegisterNotificationActivity
@@ -59,4 +61,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [BiometricAuthModule::class])
     @ActivityScope
     internal abstract fun bindBiometricAuthActivity(): BiometricAuthActivity
+
+    @ContributesAndroidInjector(modules = [RecoveryContainerModule::class])
+    @ActivityScope
+    internal abstract fun bindRecoveryContainerActivity(): RecoveryContainerActivity
 }

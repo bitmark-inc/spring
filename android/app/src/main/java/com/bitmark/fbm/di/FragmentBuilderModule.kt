@@ -10,6 +10,10 @@ import com.bitmark.fbm.feature.insights.InsightsContainerFragment
 import com.bitmark.fbm.feature.insights.InsightsContainerModule
 import com.bitmark.fbm.feature.offer.OfferContainerFragment
 import com.bitmark.fbm.feature.offer.OfferContainerModule
+import com.bitmark.fbm.feature.recovery.access.RecoveryAccessFragment
+import com.bitmark.fbm.feature.recovery.access.RecoveryAccessModule
+import com.bitmark.fbm.feature.recovery.notice.RecoveryNoticeFragment
+import com.bitmark.fbm.feature.recovery.notice.RecoveryNoticeModule
 import com.bitmark.fbm.feature.unlink.notice.UnlinkNoticeFragment
 import com.bitmark.fbm.feature.unlink.notice.UnlinkNoticeModule
 import com.bitmark.fbm.feature.unlink.unlink.UnlinkFragment
@@ -41,5 +45,13 @@ abstract class FragmentBuilderModule {
     @ContributesAndroidInjector(modules = [UnlinkModule::class])
     @FragmentScope
     internal abstract fun bindUnlinkFragment(): UnlinkFragment
+
+    @ContributesAndroidInjector(modules = [RecoveryAccessModule::class])
+    @FragmentScope
+    internal abstract fun bindRecoveryAccessFragment(): RecoveryAccessFragment
+
+    @ContributesAndroidInjector(modules = [RecoveryNoticeModule::class])
+    @FragmentScope
+    internal abstract fun bindRecoveryNoticeFragment(): RecoveryNoticeFragment
 
 }
