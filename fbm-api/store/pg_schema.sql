@@ -21,7 +21,7 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA fbm GRANT SELECT, UPDATE ON SEQUENCES TO fbm;
 -- account table
 CREATE TABLE fbm.account (
     account_number TEXT NOT NULL PRIMARY KEY,
-    enc_pub_key BYTEA NOT NULL,
+    enc_pub_key BYTEA DEFAULT NULL,
     metadata JSONB NOT NULL DEFAULT '{}'::json,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()

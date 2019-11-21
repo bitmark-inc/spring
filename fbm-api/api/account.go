@@ -18,15 +18,6 @@ import (
 )
 
 func (s *Server) accountRegister(c *gin.Context) {
-	var req struct {
-		HexEncPublicKey string `json:"enc_pub_key"`
-	}
-
-	if err := c.BindJSON(&req); err != nil {
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
-		return
-	}
-
 	accountNumber := c.GetString("requester")
 
 	account, err := s.store.QueryAccount(c, &store.AccountQueryParam{
@@ -38,6 +29,11 @@ func (s *Server) accountRegister(c *gin.Context) {
 
 	if account != nil {
 		c.AbortWithStatusJSON(http.StatusForbidden, errorAccountTaken)
+		return
+	}
+
+	account, err = s.store.InsertAccount(c, accountNumber, nil)
+	if shouldInterupt(err, c) {
 		return
 	}
 
