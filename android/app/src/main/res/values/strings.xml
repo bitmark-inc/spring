@@ -25,7 +25,7 @@
     <string name="fb_is_preparing_your_data">Facebook is preparing your data archive. This may take up to a few days, depending on how much data you have. \n\nWould you like us to notify you when your backup is ready? If not, you will need to return back here regularly to check if the backup is ready.</string>
     <string name="notify_me">Notify me</string>
     <string name="enable_push_notification">Enable Push Notifications</string>
-    <string name="allow_spring_to_send_you">Allow “Spring” to send you push notifications?</string>
+    <string name="allow_app_to_send_you">Allow “Spring” to send you push notifications?</string>
     <string name="no_thanks">No thanks</string>
     <string name="enable">Enable</string>
     <string name="we_will_notify_you_when_backup">We’ll notify you when your backup is ready.</string>
@@ -48,5 +48,10 @@
     <string name="if_you_unlink_your_account">If you unlink your account, you will be completely logged out on this device and will need to enter your 12-word recovery key to regain access and relink your account to this device. \n\nTo make ensure that you will not completely lose access to your account, you will next be asked to enter your 12-word recovery key before unlinking your account. If you haven’t already written down your recovery key, please do so now.</string>
     <string name="continue_lower_case">Continue</string>
     <string name="enter_your_12_words">Enter your 12-word recovery key above.</string>
+    <string name="biometric_auth">Biometric</string>
+    <string name="enable_biometric_authentication">Enable Biometric Authentication to secure your Spring data and account:</string>
+    <string name="enable_biometric_auth">Enable Biometric Authentication</string>
+    <string name="do_you_want_to_allow_to_use_biometric_auth">Do want to allow “Spring” to use Biometric Authentication?</string>
+    <string name="app_will_use_biometric">Spring will use Biometric Authentication to secure your account and data.</string>
 
 </resources>

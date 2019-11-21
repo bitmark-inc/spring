@@ -8,6 +8,8 @@ package com.bitmark.fbm.di
 
 import com.bitmark.fbm.feature.account.AccountActivity
 import com.bitmark.fbm.feature.account.AccountModule
+import com.bitmark.fbm.feature.auth.BiometricAuthActivity
+import com.bitmark.fbm.feature.auth.BiometricAuthModule
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.main.MainModule
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestActivity
@@ -53,4 +55,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [UnlinkContainerModule::class])
     @ActivityScope
     internal abstract fun bindUnlinkContainerActivity(): UnlinkContainerActivity
+
+    @ContributesAndroidInjector(modules = [BiometricAuthModule::class])
+    @ActivityScope
+    internal abstract fun bindBiometricAuthActivity(): BiometricAuthActivity
 }

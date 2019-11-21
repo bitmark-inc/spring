@@ -2,10 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical"
     >
 
@@ -47,7 +45,7 @@
         android:layout_marginEnd="@dimen/dp_18"
         android:fontFamily="@font/domaine_sans"
         android:includeFontPadding="false"
-        android:text="@string/unlink_account"
+        android:text="@string/biometric_auth"
         android:textAllCaps="true"
         android:textColor="@color/black"
         app:autoSizeMaxTextSize="@dimen/sp_36"
@@ -57,55 +55,53 @@
         app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
         />
 
-    <EditText
-        android:id="@+id/etPhrase"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMsg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:background="@drawable/bg_rect"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginBottom="@dimen/dp_40"
         android:fontFamily="@font/grotesk"
-        android:gravity="top"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingTop="@dimen/dp_14"
-        android:paddingEnd="@dimen/dp_20"
-        android:paddingBottom="@dimen/dp_14"
-        android:textColor="@color/tundora"
+        android:includeFontPadding="false"
+        android:scrollbars="vertical"
+        android:text="@string/enable_biometric_authentication"
+        android:textColor="@color/black"
         android:textSize="@dimen/sp_22"
         app:layout_constraintEnd_toEndOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="@id/tvTitle"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        tools:text="abandon ability able about above absent absorb abstract absurd abuse access accident"
+        />
+
+    <Switch
+        android:id="@+id/swBiometricAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_36"
+        app:layout_constraintStart_toStartOf="@id/tvMsg"
+        app:layout_constraintTop_toBottomOf="@id/tvMsg"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSwitchMsg"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_24"
+        android:layout_height="@dimen/dp_36"
+        android:layout_marginStart="@dimen/dp_16"
+        android:layout_marginTop="@dimen/dp_40"
+        android:layout_marginBottom="@dimen/dp_40"
         android:fontFamily="@font/grotesk"
-        android:gravity="center"
-        android:text="@string/enter_your_12_words"
+        android:gravity="center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:scrollbars="vertical"
+        android:text="@string/enable_biometric_auth"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_22"
-        app:layout_constraintEnd_toEndOf="@id/etPhrase"
-        app:layout_constraintStart_toStartOf="@id/etPhrase"
-        app:layout_constraintTop_toBottomOf="@id/etPhrase"
-        />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnUnlink"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginStart="@dimen/dp_18"
-        android:layout_marginEnd="@dimen/dp_18"
-        android:layout_marginBottom="@dimen/dp_32"
-        android:background="@drawable/bg_mercury_stateful"
-        android:fontFamily="@font/grotesk"
-        android:text="@string/unlink_account"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_17"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:autoSizeMaxTextSize="@dimen/sp_22"
+        app:autoSizeMinTextSize="@dimen/sp_18"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toBottomOf="@id/swBiometricAuth"
+        app:layout_constraintEnd_toEndOf="@id/tvMsg"
+        app:layout_constraintStart_toEndOf="@id/swBiometricAuth"
+        app:layout_constraintTop_toTopOf="@id/swBiometricAuth"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

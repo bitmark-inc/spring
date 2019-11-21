@@ -43,7 +43,7 @@ class RegisterNotificationActivity : BaseAppCompatActivity() {
             if (blocked) return@setOnClickListener
             dialogController.confirm(
                 R.string.enable_push_notification,
-                R.string.allow_spring_to_send_you,
+                R.string.allow_app_to_send_you,
                 false,
                 R.string.enable,
                 {
