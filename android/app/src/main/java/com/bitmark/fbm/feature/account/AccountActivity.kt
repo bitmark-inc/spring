@@ -11,6 +11,7 @@ import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
+import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import kotlinx.android.synthetic.main.activity_account.*
 import javax.inject.Inject
@@ -36,7 +37,9 @@ class AccountActivity : BaseAppCompatActivity() {
             navigator.anim(RIGHT_LEFT).finishActivity()
         }
 
-        tvUnlink.setSafetyOnclickListener { }
+        tvUnlink.setSafetyOnclickListener {
+            navigator.anim(RIGHT_LEFT).startActivity(UnlinkContainerActivity::class.java)
+        }
 
         tvBiometricAuth.setSafetyOnclickListener { }
 

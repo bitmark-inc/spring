@@ -36,7 +36,13 @@
 
         <activity android:name=".feature.account.AccountActivity" />
 
-        <meta-data android:name="com.onesignal.NotificationAccentColor.DEFAULT" android:value="@color/colorAccent" />
+        <activity
+            android:name=".feature.unlink.UnlinkContainerActivity"
+            android:windowSoftInputMode="adjustNothing" />
+
+        <meta-data
+            android:name="com.onesignal.NotificationAccentColor.DEFAULT"
+            android:value="@color/colorAccent" />
 
     </application>
 </manifest>

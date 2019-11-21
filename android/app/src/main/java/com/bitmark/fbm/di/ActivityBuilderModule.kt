@@ -18,6 +18,8 @@ import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingModule
 import com.bitmark.fbm.feature.splash.SplashActivity
 import com.bitmark.fbm.feature.splash.SplashModule
+import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
+import com.bitmark.fbm.feature.unlink.UnlinkContainerModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -47,4 +49,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [AccountModule::class])
     @ActivityScope
     internal abstract fun bindAccountActivity(): AccountActivity
+
+    @ContributesAndroidInjector(modules = [UnlinkContainerModule::class])
+    @ActivityScope
+    internal abstract fun bindUnlinkContainerActivity(): UnlinkContainerActivity
 }

@@ -83,10 +83,10 @@ class Navigator(host: Any) {
     }
 
     fun popFragment() =
-        activity?.supportFragmentManager?.popBackStackImmediate()
+        activity?.supportFragmentManager?.popBackStackImmediate() ?: false
 
     fun popChildFragment() =
-        fragment?.childFragmentManager?.popBackStackImmediate()
+        fragment?.childFragmentManager?.popBackStackImmediate() ?: false
 
     fun popChildFragmentToRoot(): Boolean {
         val fragmentManager = fragment?.childFragmentManager
@@ -165,7 +165,7 @@ class Navigator(host: Any) {
 
     private fun startTransactionAnim(activity: FragmentActivity?) {
         when (anim) {
-            BOTTOM_UP -> activity?.overridePendingTransition(
+            BOTTOM_UP  -> activity?.overridePendingTransition(
                 R.anim.slide_bottom_in,
                 0
             )
@@ -178,7 +178,7 @@ class Navigator(host: Any) {
 
     private fun finishTransactionAnim(activity: FragmentActivity?) {
         when (anim) {
-            BOTTOM_UP -> activity?.overridePendingTransition(
+            BOTTOM_UP  -> activity?.overridePendingTransition(
                 0,
                 R.anim.slide_bottom_out
             )
@@ -192,7 +192,7 @@ class Navigator(host: Any) {
     private fun transactionAnim(transaction: FragmentTransaction?) {
         if (null == transaction) return
         when (anim) {
-            BOTTOM_UP -> transaction.setCustomAnimations(
+            BOTTOM_UP  -> transaction.setCustomAnimations(
                 R.anim.slide_bottom_in,
                 0
             )
