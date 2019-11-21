@@ -12,6 +12,14 @@
 POST /api/auth
 ``` 
 
+##### Response
+```json
+{
+    "jwt_token": "jwt string",
+    "expire_in": 642342532345
+}
+```
+
 #### Register an account
 ##### Endpoint
 *(JWT Authorized)*
