@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.feature.account
 
+import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
@@ -13,8 +14,10 @@ import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.auth.BiometricAuthActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
+import com.bitmark.fbm.feature.support.SupportActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
+import io.intercom.android.sdk.Intercom
 import kotlinx.android.synthetic.main.activity_account.*
 import javax.inject.Inject
 
@@ -51,11 +54,26 @@ class AccountActivity : BaseAppCompatActivity() {
             navigator.anim(RIGHT_LEFT).startActivity(RecoveryContainerActivity::class.java)
         }
 
-        tvAbout.setSafetyOnclickListener { }
+        tvAbout.setSafetyOnclickListener {
+            val bundle = SupportActivity.getBundle(
+                getString(R.string.about),
+                "Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+            )
+            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
+        }
 
-        tvFaq.setSafetyOnclickListener { }
+        tvFaq.setSafetyOnclickListener {
+            // TODO change real text later
+            val bundle = SupportActivity.getBundle(
+                getString(R.string.faq),
+                "Dummy FAQ"
+            )
+            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
+        }
 
-        tvContact.setSafetyOnclickListener { }
+        tvContact.setSafetyOnclickListener {
+            Intercom.client().displayMessenger()
+        }
     }
 
     override fun onBackPressed() {

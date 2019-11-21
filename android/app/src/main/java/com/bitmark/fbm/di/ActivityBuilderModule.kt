@@ -22,6 +22,8 @@ import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingModule
 import com.bitmark.fbm.feature.splash.SplashActivity
 import com.bitmark.fbm.feature.splash.SplashModule
+import com.bitmark.fbm.feature.support.SupportActivity
+import com.bitmark.fbm.feature.support.SupportModule
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerModule
 import dagger.Module
@@ -65,4 +67,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [RecoveryContainerModule::class])
     @ActivityScope
     internal abstract fun bindRecoveryContainerActivity(): RecoveryContainerActivity
+
+    @ContributesAndroidInjector(modules = [SupportModule::class])
+    @ActivityScope
+    internal abstract fun bindSupportActivity(): SupportActivity
 }

@@ -12,6 +12,8 @@ import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.request.ArchiveRequestPayload
 import com.bitmark.fbm.data.source.remote.api.request.RegisterJwtRequest
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
+import io.intercom.android.sdk.Intercom
+import io.intercom.android.sdk.identity.Registration
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -56,4 +58,9 @@ class AccountRemoteDataSource @Inject constructor(
         val payload = ArchiveRequestPayload(accountId, fbId, fbPassword)
         return fbmApi.sendArchiveDownloadRequest(payload)
     }
+
+    fun registerIntercomUser(id: String) = Completable.fromAction {
+        val registration = Registration.create().withUserId(id)
+        Intercom.client().registerIdentifiedUser(registration)
+    }.subscribeOn(Schedulers.io())
 }

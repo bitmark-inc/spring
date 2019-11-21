@@ -56,4 +56,6 @@ class AccountRepository(
             Single.error(e)
         }
     }
+
+    fun registerIntercomUser(id: String) = remoteDataSource.registerIntercomUser(id)
 }

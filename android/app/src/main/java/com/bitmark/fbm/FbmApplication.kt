@@ -20,6 +20,7 @@ import com.onesignal.OneSignal
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import io.fabric.sdk.android.Fabric
+import io.intercom.android.sdk.Intercom
 import io.reactivex.plugins.RxJavaPlugins
 import io.sentry.Sentry
 import io.sentry.android.AndroidSentryClientFactory
@@ -55,6 +56,7 @@ class FbmApplication : DaggerApplication() {
         BitmarkSDK.init(buildBmSdkConfig())
         Fabric.with(this, Crashlytics())
         Sentry.init(AndroidSentryClientFactory(this))
+        Intercom.initialize(this, API_KEY_MANAGER.intercomApiKey, "ejkeunzw")
         OneSignal.startInit(this)
             .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
             .unsubscribeWhenNotificationsAreDisabled(true)

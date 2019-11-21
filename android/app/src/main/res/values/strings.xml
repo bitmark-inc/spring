@@ -57,6 +57,8 @@
     <string name="your_recovery_key_allow_you">Your recovery key allows you to fully recover your Spring account even if your device is lost or damaged. It is the only way to recover your account (Spring does not have access to your recovery key or store it anywhere for you). \n\nPlease make sure you are in a safe location then write down your recovery key on a piece of paper and keep it safe.</string>
     <string name="write_down_recovery_key">Write Down Recovery Key</string>
     <string name="write_down_the_following_word">Write down the following words in order:</string>
+    <string name="about">About</string>
+    <string name="faq">FAQ</string>
 
     <string name="word_of_format">Word %1$d of %2$d</string>
 

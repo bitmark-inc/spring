@@ -41,6 +41,7 @@
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".feature.auth.BiometricAuthActivity" />
         <activity android:name=".feature.recovery.RecoveryContainerActivity" />
+        <activity android:name=".feature.support.SupportActivity" />
 
         <meta-data
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"

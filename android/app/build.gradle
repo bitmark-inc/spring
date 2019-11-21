@@ -42,7 +42,7 @@ android {
         }
 
         manifestPlaceholders = [
-                onesignal_app_id: '3b35e435-02e9-4ade-93f6-41e2da46bc18',
+                onesignal_app_id               : '3b35e435-02e9-4ade-93f6-41e2da46bc18',
                 // Project number pulled from dashboard, local value is ignored.
                 onesignal_google_project_number: 'REMOTE'
         ]
@@ -250,6 +250,7 @@ dependencies {
     implementation 'com.onesignal:OneSignal:[3.11.2, 3.99.99]'
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
     implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
+    implementation 'io.intercom.android:intercom-sdk:6.0.0'
 
     // Testing
     testImplementation 'junit:junit:4.12'
@@ -264,7 +265,7 @@ task fillSecretKey {
         keyProperties.load(new FileInputStream(keyPropertiesFile))
         def apiKeyFile = file('src/main/jni/api-key.cpp')
         def content = apiKeyFile.getText()
-        content = content.replace('bitmark-api-key-to-be-filled', keyProperties['api.key.bitmark'])
+        content = content.replace('bitmark-api-key-to-be-filled', keyProperties['api.key.bitmark']).replace('intercom-api-key-to-be-filled', keyProperties['api.key.intercom'])
         apiKeyFile.bytes = []
         apiKeyFile.text = content
     }

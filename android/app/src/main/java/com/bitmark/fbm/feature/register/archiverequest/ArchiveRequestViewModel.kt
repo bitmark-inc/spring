@@ -7,10 +7,13 @@
 package com.bitmark.fbm.feature.register.archiverequest
 
 import androidx.lifecycle.Lifecycle
+import com.bitmark.cryptography.crypto.Sha3256
+import com.bitmark.cryptography.crypto.encoder.Raw.RAW
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
+import io.reactivex.Completable
 import io.reactivex.Single
 
 class ArchiveRequestViewModel(
@@ -43,18 +46,24 @@ class ArchiveRequestViewModel(
         fbId: String,
         fbPassword: String,
         alias: String
-    ) = accountRepo.registerFbmServerAccount(
-        timestamp,
-        signature,
-        requester
-    ).flatMap { accountId ->
-        accountRepo.sendArchiveDownloadRequest(accountId, fbId, fbPassword)
-            .andThen(Single.just(accountId))
-    }.flatMapCompletable { accountId ->
-        accountRepo.saveAccountData(
-            accountId,
-            false,
-            alias
-        )
+    ): Completable {
+        return accountRepo.registerFbmServerAccount(
+            timestamp,
+            signature,
+            requester
+        ).flatMap { accountId ->
+            val intercomId =
+                "FBM_android_%s".format(Sha3256.hash(RAW.decode(requester)))
+            Completable.mergeArray(
+                accountRepo.registerIntercomUser(intercomId),
+                accountRepo.sendArchiveDownloadRequest(accountId, fbId, fbPassword)
+            ).andThen(Single.just(accountId))
+        }.flatMapCompletable { accountId ->
+            accountRepo.saveAccountData(
+                accountId,
+                false,
+                alias
+            )
+        }
     }
 }

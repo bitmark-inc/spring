@@ -44,11 +44,12 @@ class UnlinkFragment : BaseSupportFragment() {
         activity?.showKeyBoard()
 
         ivBack.setOnClickListener {
-            navigator.anim(RIGHT_LEFT).popFragment()
+            navigator.anim(RIGHT_LEFT).finishActivity()
         }
     }
 
     override fun onBackPressed(): Boolean {
-        return navigator.anim(RIGHT_LEFT).popFragment()
+        navigator.anim(RIGHT_LEFT).finishActivity()
+        return true
     }
 }
