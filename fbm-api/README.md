@@ -3,7 +3,12 @@
 ## Prequisites
 - Go 1.13
 
-## API reference
+## Testing endpoint
+```url
+https://fbm.test.bitmark.com
+```
+
+## API reference (real API)
 ### Account & Authentication
 
 #### JWT authentication
@@ -28,8 +33,7 @@ POST /api/accounts
 ```
 
 ##### Params
-| Name | Type | Description |
-| -------- | -------- |-------- |
+*(No params needed)*
 
 ##### Response
 ```json
@@ -118,4 +122,356 @@ Contains all server static assets
 ##### Endpoint
 ```url
 GET /assets/fb_automation.json
+```
+
+## Aggregation APIs (Mocks / Design)
+*(The APIs in this section may not follow REST convention. This intentionally designs for frontend's single page display.)*
+
+### Trends 
+#### Endpoint
+```url
+GET /trends{?type,duration_type,duration_amount,duration_start_at}
+```
+
+#### Params
+
+
+| Name | Type | Description |
+| -------- | -------- | -------- |
+| type     | number *(required)*     | Trend type. 0: how you use fb, 1: how fb use you     |
+| duration_type     | string *(optional)*     | Duration type like week/month/year     |
+| duration_amount     | number *(optional)*     | Amount of duration type. For example: duration amount is      |
+| duration_start_at     | number *(optional)*     | Timestamp value of start of the duration     |
+
+Example:
+```
+type: 0
+duration_type: week
+duration_start_at : 1546300800000
+```
+
+#### Response 
+200 (application/json)   
+```json
+{
+    "result": [
+        {
+            "id" : 1,
+            "section" : "post",
+            "quantity" : 24,
+            "diff_from_previous" : 5
+        },
+        {
+            "id" : 2,
+            "section" : "comment",
+            "quantity" : 20,
+            "diff_from_previous" : 3
+        },
+        {
+            "id" : 3,
+            "section" : "friend",
+            "quantity" : 4,
+            "diff_from_previous" : 8
+        },
+        {
+            "id" : 4,
+            "section" : "reaction",
+            "quantity" : 100,
+            "diff_from_previous" : -18
+        }
+    ]
+}
+```
+
+### Statistic 
+Get Post statistic in last week.
+
+#### Endpoint
+```url
+GET /statistic{?section_id,duration_type,duration_amount,duration_start_at}
+```
+
+#### Params
+| Name | Type | Description |
+| -------- | -------- | -------- |
+| section_id |number *(required)* | Section id. for example: 1: post, 2:comment, 3:reaction|
+| duration_type |string *(optional)* | Duration type like week/month/year|
+| duration_amount | number *(optional)* | Amount of duration type. For example: duration amount is `2` with duration type `week` mean 2 weeks|
+| duration_start_at | number *(optional)* | Timestamp value of start of the duration (end of week, end of month)|
+
+
+Example:
+```
+section_id: 1
+duration_type: week
+duration_start_at: 1546300800000
+```
+
+#### Response 
+200 (application/json)
+```json
+{
+    "result": {
+        "section_id" : 1,
+        "duration_type" : "week",
+        "duration_amount" : 1,
+        "diff_from_previous" : -5,
+        "groups" : [
+            { 
+                "id" : 1,
+                "name" : "type" 
+                "categories" : [
+                    {
+                        "category" : { 
+                            "id" : 1,
+                            "name" : "Updates"
+                        }, 
+                        "quantity" : 2
+                    },
+                    {
+                        "category" : { 
+                            "id" : 2,
+                            "name" : "Photos"
+                        }, 
+                        "quantity" : 9
+                    },
+                    {
+                        "category" : { 
+                            "id" : 3,
+                            "name" : "Stories"
+                        }, 
+                        "quantity" : 3
+                    }
+                ]
+            },
+            { 
+                "id" : 2,
+                "name" : "day" 
+                "categories" : [
+                    {
+                        "timestamp" : 1546300800000, 
+                        "data" : [
+                            {
+                                "category" : { 
+                                    "id" : 1,
+                                    "name" : "Updates"
+                                }, 
+                                "quantity" : 2
+                            },
+                            {
+                                "category" : { 
+                                    "id" : 2,
+                                    "name" : "Photos"
+                                }, 
+                                "quantity" : 9
+                            }
+                        ]
+                    },
+                    {
+                        "timestamp" : 1546362000000, 
+                        "data" : [
+                            {
+                                "category" : { 
+                                    "id" : 1,
+                                    "name" : "Updates"
+                                }, 
+                                "quantity" : 2
+                            }
+                        ]
+                    },
+                    {
+                        "timestamp" : 1546448400000, 
+                        "data" : []
+                    }
+                ]
+            },
+            { 
+                "id" : 3,
+                "name" : "place" 
+                "categories" : [
+                    {
+                        "id" : 123,
+                        "name" : "Hongtai Crossfit", 
+                        "data" : [
+                            {
+                                "category" : { 
+                                    "id" : 1,
+                                    "name" : "Updates"
+                                }, 
+                                "quantity" : 2
+                            },
+                            {
+                                "category" : { 
+                                    "id" : 2,
+                                    "name" : "Photos"
+                                }, 
+                                "quantity" : 2
+                            }
+                        ]
+                    },
+                    {
+                        "id" : 234,
+                        "name" : "Saffron", 
+                        "data" : [
+                            {
+                                "category" : { 
+                                    "id" : 1,
+                                    "name" : "Updates"
+                                }, 
+                                "quantity" : 2
+                            },
+                            {
+                                "category" : { 
+                                    "id" : 2,
+                                    "name" : "Photos"
+                                }, 
+                                "quantity" : 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            { 
+                "id" : 4,
+                "name" : "friend" 
+                "categories" : [
+                    {
+                        "id" : 4223,
+                        "name" : "Mars Chen", 
+                        "data" : [
+                            {
+                                "category" : { 
+                                    "id" : 1,
+                                    "name" : "Updates"
+                                }, 
+                                "quantity" : 2
+                            },
+                            {
+                                "category" : { 
+                                    "id" : 2,
+                                    "name" : "Photos"
+                                }, 
+                                "quantity" : 2
+                            }
+                        ]
+                    },
+                    {   "id" : 643,
+                        "name" : "Phil Lin", 
+                        "data" : [
+                            {
+                                "category" : { 
+                                    "id" : 1,
+                                    "name" : "Updates"
+                                }, 
+                                "quantity" : 2
+                            }
+                        ]
+                    }
+                ]
+            }
+        ] 
+    }
+}
+```
+        
+### Category Listing 
+
+#### Endpoint
+```url
+GET /category?{?section_id,group_id,category_id,from,to,limit}
+```
+
+#### Params
+| Name | Type | Description |
+| -------- | -------- | -------- |
+|section_id | number *(required)* | Section ID. for example: 1: post, 2:comment, 3:reaction|
+|group_id | number *(required)* | Group ID. for example: 1: type, 2: day, etc...|
+|category_id | number *(required)* | Category ID. for example: 1: update, 2: photo, etc...|
+|from | number *(optional)* | Timestamp from |
+|to |(number *(optional)* | Timstamp to|
+|limit |number *(optional)* | page size|
+    
+Example: Get photo collection in last week
+```
+section_id : 1
+group_id: 1
+category_id: 1
+from: 1546300800000
+to: 1546300800000
+limit : 20
+```
+#### Response 
+200 (application/json)
+```json
+{
+    "result": [
+        {
+            "id" : "8fd74a30-1659-4062-bcba-59e4ff088727",
+            "type" : "photo",
+            "caption" : "Hello, world!!!",
+            "url" : "https://static.bm.com/abc",
+            "tags" : [
+                {
+                    "id" : "8fd74a30-1659-4062-bcba-59e4ff088735",
+                    "name" : "Phil"
+                },
+                {
+                    "id" : "8fd74a30-1659-4062-bcba-59e4ff088790",
+                    "name" : "Jone"
+                }
+            ],
+            "location" : "Hongtai Crossfit",
+            "timestamp" : 1546300800000
+        },
+        {
+            "id" : "8fd74a30-1659-4062-fdac-59e4ff088727",
+            "type" : "photo",
+            "caption" : "Hello from Bitmark!!!",
+            "url" : "https://static.bm.com/bm",
+            "tags" : [
+                {
+                    "id" : "8fd74a30-1659-4062-bcba-59e4ff088727",
+                    "name" : "Casey"
+                },
+                {
+                    "id" : "8fd74a30-1659-4062-bcba-59e4ff088727",
+                    "name" : "KC"
+                }
+            ],
+            "location" : "Hongtai Crossfit",
+            "timestamp" : 1546300800001
+        }
+    ]
+}
+```
+
+
+### Average 
+
+#### Endpoint
+```url
+GET /average{?section_id,duration_type}
+```
+
+#### Params
+| Name | Type | Description |
+| -------- | -------- | -------- |
+|section_id | number *(required)* | Section id. for example: 1: post, 2:comment, 3:reaction|
+|duration_type | string *(optional)* | Duration type like week/month/year|
+
+Example:
+```
+section_id: 1
+duration_type: week
+```
+
+#### Response 200
+```json
+{
+    "result": {
+        "section_id" : 1
+        "duration_type" : "week",
+        "avg" : 20
+    }
+}
 ```
