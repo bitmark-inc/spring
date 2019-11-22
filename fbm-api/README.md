@@ -469,7 +469,7 @@ duration_type: week
 ```json
 {
     "result": {
-        "section_id" : 1
+        "section_id" : 1,
         "duration_type" : "week",
         "avg" : 20
     }
