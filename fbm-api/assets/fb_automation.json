@@ -1,25 +1,54 @@
 {
-    "login_page": {
+  "pages": [
+    {
+      "name": "login",
       "detection": "!!document.querySelector(\"input#m_login_email\");",
-      "login": "document.querySelector(\"input#m_login_email\").value = \"%username%\";document.querySelector(\"input#m_login_password\").value = \"%password\";document.querySelector('button[name=\"login\"]').click();"
+      "actions": {
+        "login": "document.querySelector(\"input#m_login_email\").value = \"%username%\";document.querySelector(\"input#m_login_password\").value = \"%password%\";document.querySelector('button[name=\"login\"]').click();"
+      }
     },
-    "save_device_page": {
-      "detection": "/.*/save-device/.test(document.location.href);",
-      "notNow": "document.querySelector('a[href*=\"save-device/cancel\"]').click();",
-      "ok": "document.querySelector('button[type=\"submit\"]').click();"
+    {
+      "name": "save_device",
+      "detection": "/save-device/.test(document.location.href);",
+      "actions": {
+        "notNow": "document.querySelector('a[href*=\"save-device/cancel\"]').click();",
+        "ok": "document.querySelector('button[type=\"submit\"]').click();"
+      }
     },
-    "new_feed_page": {
+    {
+      "name": "new_feed",
       "detection": "!!document.querySelector(\"#MComposer\");",
-      "goToSettingPage": "window.location.href = \"/settings/?entry_point=bookmark\";",
-      "goToArchivePage": "window.location.href = \"/dyi/\";"
+      "actions": {
+        "goToSettingsPage": "window.location.href = \"/settings/?entry_point=bookmark\";",
+        "goToArchivePage": "window.location.href = \"/dyi/\";"
+      }
     },
-    "settings_page": {
-      "detection": "/.*/settings//.test(document.location.href);",
-      "goToArchivePage": "document.querySelector('a[href*=\"/dyi/\"]').click();"
+    {
+      "name": "settings",
+      "detection": "/settings/.test(document.location.href);",
+      "actions": {
+        "goToArchivePage": "document.querySelector('a[href*=\"/dyi/\"]').click();"
+      }
     },
-    "archive_page": {
-      "detection": "/.*/dyi//.test(document.location.href);",
-      "selectJSONOption": "\n    (function() {\n      let simulateHTMLEvent = function(element, eventName) {\n        var evt = document.createEvent(\"HTMLEvents\");\n        evt.initEvent(eventName, true, true);\n        element.dispatchEvent(evt);\n      }\n      let selectEl = document.querySelector('select[name=\"format\"]');\n      selectEl.selectedIndex = 1;\n      selectEl.value = 'JSON';\n      simulateHTMLEvent(selectEl, 'change');\n    })();\n  ",
-      "test": "\n    (function() {\n      let i = 10;\n      return i;\n    })();\n  "
+    {
+      "name": "archive",
+      "detection": "/dyi/.test(document.location.href);",
+      "actions": {
+        "selectRequestTab": "document.querySelector('[data-testid=\"dyi/navigation/new_archive\"]').click();",
+        "selectDownloadTab": "document.querySelector('[data-testid=\"dyi/navigation/all_archives\"]').click();",
+        "selectJSONOption": "\n    (function() {\n      let simulateHTMLEvent = function(element, eventName) {\n        let evt = document.createEvent(\"HTMLEvents\");\n        evt.initEvent(eventName, true, true);\n        element.dispatchEvent(evt);\n      }\n      let selectEl = document.querySelector('select[name=\"format\"]');\n      selectEl.selectedIndex = 1;\n      selectEl.value = 'JSON';\n      simulateHTMLEvent(selectEl, 'change');\n    })();\n  ",
+        "setFromTimestamp": "\n    (async function() {\n      let from = new Date(%fromTimestamp%);\n      let fromValue = `${from.getUTCFullYear()}-${from.getUTCMonth() + 1}-${from.getUTCDate()}`;\n    \n      let simulateHTMLEvent = function(element, eventName) {\n        var evt = document.createEvent(\"HTMLEvents\");\n        evt.initEvent(eventName, true, true);\n        element.dispatchEvent(evt);\n      }\n      let simulateEvent = function(element, eventName) {\n        element.dispatchEvent(new Event(eventName, { bubbles: true}));\n      }\n    \n      let selectEl = document.querySelector('select[name=\"date\"]');\n      selectEl.selectedIndex = 1;\n      selectEl.value = 'custom';\n      simulateHTMLEvent(selectEl, 'change');\n    \n      let inputEl = document.querySelectorAll('input[type=\"date\"][min][max]')[0];\n      let nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, \"value\").set;\n      nativeInputValueSetter.call(inputEl, fromValue);\n      simulateEvent(inputEl, 'input');\n    })();\n  ",
+        "createFile": "document.querySelector('button[data-testid=\"dyi/sections/create\"]').click();",
+        "isCreatingFile": "document.querySelector('button[data-testid=\"dyi/sections/create\"]').disabled;",
+        "downloadFirstFile": "document.querySelectorAll('button[data-testid*=\"dyi/archives\"]')[0].click();"
+      }
+    },
+    {
+      "name": "reauth",
+      "actions": {
+        "detection": "/reauth/.test(document.location.href);",
+        "reauth": "document.querySelector('input[name=\"pass\"]').value = \"%password%\";document.querySelector('input[data-testid=\"sec_ac_button\"]').click();"
+      }
     }
+  ]
 }
