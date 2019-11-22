@@ -246,7 +246,7 @@ duration_start_at: 1546300800000
             },
             { 
                 "id" : 2,
-                "name" : "day" 
+                "name" : "day",
                 "categories" : [
                     {
                         "timestamp" : 1546300800000, 
@@ -287,7 +287,7 @@ duration_start_at: 1546300800000
             },
             { 
                 "id" : 3,
-                "name" : "place" 
+                "name" : "place",
                 "categories" : [
                     {
                         "id" : 123,
@@ -333,7 +333,7 @@ duration_start_at: 1546300800000
             },
             { 
                 "id" : 4,
-                "name" : "friend" 
+                "name" : "friend",
                 "categories" : [
                     {
                         "id" : 4223,
