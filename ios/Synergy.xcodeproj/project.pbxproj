@@ -30,7 +30,6 @@
 		5832FC4E237A863300FA3196 /* ReadingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC28237A863300FA3196 /* ReadingTextView.swift */; };
 		5832FC4F237A863300FA3196 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC29237A863300FA3196 /* TableViewCell.swift */; };
 		5832FC50237A863300FA3196 /* MakeUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2A237A863300FA3196 /* MakeUnderline.swift */; };
-		5832FC51237A863300FA3196 /* DescriptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2B237A863300FA3196 /* DescriptionLabel.swift */; };
 		5832FC52237A863300FA3196 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2C237A863300FA3196 /* ActivityIndicator.swift */; };
 		5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2D237A863300FA3196 /* EditingTextView.swift */; };
 		5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2E237A863300FA3196 /* DesignedSegmentControl.swift */; };
@@ -148,7 +147,6 @@
 		E2DB668E237D3B69005367C2 /* String+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA4237A8A9200FA3196 /* String+Helper.swift */; };
 		E2DB668F237D3B69005367C2 /* NoInternetBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC27237A863300FA3196 /* NoInternetBanner.swift */; };
 		E2DB6690237D3B69005367C2 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC24237A863300FA3196 /* Label.swift */; };
-		E2DB6691237D3B69005367C2 /* DescriptionLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2B237A863300FA3196 /* DescriptionLabel.swift */; };
 		E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC35237A863300FA3196 /* ImageView.swift */; };
 		E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB4237A9FD700FA3196 /* Navigator.swift */; };
 		E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2D237A863300FA3196 /* EditingTextView.swift */; };
@@ -253,7 +251,6 @@
 		5832FC28237A863300FA3196 /* ReadingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadingTextView.swift; sourceTree = "<group>"; };
 		5832FC29237A863300FA3196 /* TableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		5832FC2A237A863300FA3196 /* MakeUnderline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MakeUnderline.swift; sourceTree = "<group>"; };
-		5832FC2B237A863300FA3196 /* DescriptionLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionLabel.swift; sourceTree = "<group>"; };
 		5832FC2C237A863300FA3196 /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		5832FC2D237A863300FA3196 /* EditingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditingTextView.swift; sourceTree = "<group>"; };
 		5832FC2E237A863300FA3196 /* DesignedSegmentControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DesignedSegmentControl.swift; sourceTree = "<group>"; };
@@ -497,7 +494,6 @@
 				5832FC28237A863300FA3196 /* ReadingTextView.swift */,
 				5832FC29237A863300FA3196 /* TableViewCell.swift */,
 				5832FC2A237A863300FA3196 /* MakeUnderline.swift */,
-				5832FC2B237A863300FA3196 /* DescriptionLabel.swift */,
 				5832FC2C237A863300FA3196 /* ActivityIndicator.swift */,
 				5832FC2D237A863300FA3196 /* EditingTextView.swift */,
 				5832FC2E237A863300FA3196 /* DesignedSegmentControl.swift */,
@@ -1141,9 +1137,9 @@
 				5832FC5A237A863300FA3196 /* SeparateLine.swift in Sources */,
 				5832FCB0237A8A9300FA3196 /* String+Helper.swift in Sources */,
 				5832FC4D237A863300FA3196 /* NoInternetBanner.swift in Sources */,
+				E22BB33B238517270044BC95 /* Cookie.swift in Sources */,
 				5832FC4A237A863300FA3196 /* Label.swift in Sources */,
 				E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
-				5832FC51237A863300FA3196 /* DescriptionLabel.swift in Sources */,
 				5832FC5B237A863300FA3196 /* ImageView.swift in Sources */,
 				E29F5A7A2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
@@ -1219,7 +1215,6 @@
 				E2DB668F237D3B69005367C2 /* NoInternetBanner.swift in Sources */,
 				E2DB6690237D3B69005367C2 /* Label.swift in Sources */,
 				E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
-				E2DB6691237D3B69005367C2 /* DescriptionLabel.swift in Sources */,
 				E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */,
 				E29F5A7B2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
