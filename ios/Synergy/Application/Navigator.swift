@@ -12,6 +12,7 @@ import RxSwift
 import RxCocoa
 import Hero
 import SafariServices
+import ESTabBarController_swift
 
 protocol Navigatable {
     var navigator: Navigator! { get set }
@@ -35,12 +36,14 @@ class Navigator {
         case getYourData(viewModel: GetYourDataViewModel)
         case safari(URL)
         case safariController(URL)
+        case hometabs
     }
 
     enum Transition {
         case root(in: UIWindow)
         case navigation(type: HeroDefaultAnimationType)
         case customModal(type: HeroDefaultAnimationType)
+        case replace(type: HeroDefaultAnimationType)
         case modal
         case detail
         case alert
@@ -61,6 +64,13 @@ class Navigator {
         case .safariController(let url):
             let vc = SFSafariViewController(url: url)
             return vc
+        
+        case .hometabs:
+            if let h = self.rootViewController.viewControllers.first as? ESTabBarController {
+                return h
+            } else {
+                return HomeTabbarController.tabbarController()
+            }
         }
     }
 
@@ -119,6 +129,12 @@ class Navigator {
                 let nav = NavigationController(rootViewController: target)
                 nav.hero.modalAnimationType = .autoReverse(presenting: type)
                 sender.present(nav, animated: true, completion: nil)
+            }
+        case .replace(let type):
+            if let nav = sender.navigationController {
+                // replace controllers in navigation stack
+                nav.hero.navigationAnimationType = .autoReverse(presenting: type)
+                nav.setViewControllers([target], animated: true)
             }
         case .modal:
             // present modally

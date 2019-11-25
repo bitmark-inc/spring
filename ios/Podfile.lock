@@ -13,6 +13,8 @@ PODS:
   - ChartsRealm (3.4.0):
     - Charts (~> 3.4.0)
     - RealmSwift (~> 3.18.0)
+  - ESTabBarController-swift (2.7)
+  - FlexLayout (1.3.17)
   - Hero (1.5.0)
   - Intercom (6.0.0)
   - IQKeyboardManagerSwift (6.5.2)
@@ -29,6 +31,7 @@ PODS:
   - ObjcExceptionBridging (1.0.1):
     - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
   - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
+  - OneSignal (2.12.0)
   - PanModal (1.2.5)
   - R.swift (5.1.0):
     - R.swift.Library (~> 5.1.0)
@@ -53,6 +56,14 @@ PODS:
   - RxRelay (5.0.1):
     - RxSwift (~> 5)
   - RxSwift (5.0.1)
+  - RxSwiftExt (5.1.1):
+    - RxSwiftExt/Core (= 5.1.1)
+    - RxSwiftExt/RxCocoa (= 5.1.1)
+  - RxSwiftExt/Core (5.1.1):
+    - RxSwift (~> 5.0)
+  - RxSwiftExt/RxCocoa (5.1.1):
+    - RxCocoa (~> 5.0)
+    - RxSwiftExt/Core
   - RxTheme (4.0.0):
     - RxCocoa (~> 5.0)
     - RxSwift (~> 5.0)
@@ -86,6 +97,7 @@ PODS:
   - SwifterSwift/SpriteKit (5.1.0)
   - SwifterSwift/SwiftStdlib (5.1.0)
   - SwifterSwift/UIKit (5.1.0)
+  - SwiftLint (0.37.0)
   - SwiftProtobuf (1.7.0)
   - TweetNacl (1.0.2)
   - XCGLogger (7.0.0):
@@ -97,11 +109,14 @@ DEPENDENCIES:
   - BitmarkSDK/RxSwift (from `https://github.com/bitmark-inc/bitmark-sdk-swift.git`, branch `master`)
   - Charts
   - ChartsRealm
+  - ESTabBarController-swift
+  - FlexLayout
   - Hero
   - Intercom
   - IQKeyboardManagerSwift
   - Moya/RxSwift (from `https://github.com/Moya/Moya.git`, tag `14.0.0-beta.3`)
   - NotificationBannerSwift
+  - OneSignal
   - PanModal
   - R.swift
   - RealmSwift
@@ -110,10 +125,13 @@ DEPENDENCIES:
   - RxOptional
   - RxRealm
   - RxSwift (~> 5)
+  - RxSwiftExt
   - RxTheme
   - Sentry (from `https://github.com/getsentry/sentry-cocoa.git`, tag `4.4.1`)
+  - SnapKit
   - SVProgressHUD
   - SwifterSwift
+  - SwiftLint
   - XCGLogger (~> 7.0.0)
 
 SPEC REPOS:
@@ -121,6 +139,8 @@ SPEC REPOS:
     - Alamofire
     - Charts
     - ChartsRealm
+    - ESTabBarController-swift
+    - FlexLayout
     - Hero
     - Intercom
     - IQKeyboardManagerSwift
@@ -128,6 +148,7 @@ SPEC REPOS:
     - MarqueeLabel
     - NotificationBannerSwift
     - ObjcExceptionBridging
+    - OneSignal
     - PanModal
     - R.swift
     - R.swift.Library
@@ -139,12 +160,14 @@ SPEC REPOS:
     - RxRealm
     - RxRelay
     - RxSwift
+    - RxSwiftExt
     - RxTheme
     - SnapKit
     - Starscream
     - SVProgressHUD
     - SwiftCentrifuge
     - SwifterSwift
+    - SwiftLint
     - SwiftProtobuf
     - TweetNacl
     - XCGLogger
@@ -176,6 +199,8 @@ SPEC CHECKSUMS:
   BitmarkSDK: 6ac3699eb52df97f7219c43714d11cebae327946
   Charts: 74c9f256eaf0460c0c416522d1cf8c634ea6b286
   ChartsRealm: 2ae8bf478211a94b3b6dd20738db0b9b132eb66b
+  ESTabBarController-swift: 4fb52ad03d94d0717ef97bc9eb09a5abfdded0a2
+  FlexLayout: 257b6763526bc957d2abc2b77a05760b86ca0e21
   Hero: b7385b75e7259da62f4f85462f59a5082d66b058
   Intercom: 04aa591f0bd35f0405a7d9d5dac39ba91affee27
   IQKeyboardManagerSwift: c75366f1f19590e8caeae45fcd5815c9289d6099
@@ -184,6 +209,7 @@ SPEC CHECKSUMS:
   Moya: 25951d73c0614245a7b0098f4648e5fb2cb2ef10
   NotificationBannerSwift: 842401d30f5c36e4f2eafc152824566f6b3c1bb5
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
+  OneSignal: 910a12186a2d9d8f7412b1d03304b53091f2c421
   PanModal: 7c5af3ad4fe22b91508040965bebffb89fb607ae
   R.swift: 8cbc4fc69b740305b6a17c8a8ed968eb788962d9
   R.swift.Library: fa85ce1e0d0b7e818cd9e080df910ba54d2776cc
@@ -195,6 +221,7 @@ SPEC CHECKSUMS:
   RxRealm: 1e81dcfca1fb50c3e9b3e1f8102bc875c5156a2e
   RxRelay: 89d54507f4fd4d969e6ec1d4bd7f3673640b4640
   RxSwift: e2dc62b366a3adf6a0be44ba9f405efd4c94e0c4
+  RxSwiftExt: 0d2fd77523a169d1459be34961b996a194bdef0e
   RxTheme: 0b642f47c7d197a803c6b9c083964188c34f7ddb
   Sentry: 5d312a04e369154aeac616214f4dfc3cbcc8b296
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
@@ -202,10 +229,11 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftCentrifuge: fa745a1fad5ace1c592eb8ceb21e06d28a080ae6
   SwifterSwift: a9e8e144832638c2850b43da5feaf9598c6ad65b
+  SwiftLint: c078a14d7d7ade75e5507795d185e3da41d844d2
   SwiftProtobuf: 4fd9645e69b72cbae6ec8da5be0cdd20ca6565dd
   TweetNacl: 3abf4d1d2082b0114e7a67410e300892448951e6
   XCGLogger: 0434f15e3909cdc450bb63faf638b8792ab782ab
 
-PODFILE CHECKSUM: 6f219071749d2ccedcaf8750eb04c5e152156e80
+PODFILE CHECKSUM: 025f38328c334328a2d94c2427010d4635b719bd
 
 COCOAPODS: 1.8.3

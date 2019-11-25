@@ -27,6 +27,7 @@ def sharedPods
   pod 'NotificationBannerSwift'
   pod 'R.swift'
   pod 'SnapKit'
+  pod 'ESTabBarController-swift'
   pod 'FlexLayout'
 
   pod 'SwifterSwift'
