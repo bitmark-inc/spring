@@ -8,8 +8,15 @@
       }
     },
     {
+      "name": "account_picking",
+      "detection": "!!document.querySelector('a[href*=\"/login/?ref=dbl&fl\"]');",
+      "actions": {
+        "pickAnother": "document.querySelector('a[href*=\"/login/?ref=dbl&fl\"]').click()"
+      }
+    },
+    {
       "name": "save_device",
-      "detection": "/save-device/.test(document.location.href);",
+      "detection": "!!document.querySelector('a[href*=\"save-device/cancel\"]');",
       "actions": {
         "notNow": "document.querySelector('a[href*=\"save-device/cancel\"]').click();",
         "ok": "document.querySelector('button[type=\"submit\"]').click();"
@@ -19,20 +26,19 @@
       "name": "new_feed",
       "detection": "!!document.querySelector(\"#MComposer\");",
       "actions": {
-        "goToSettingsPage": "window.location.href = \"/settings/?entry_point=bookmark\";",
-        "goToArchivePage": "window.location.href = \"/dyi/\";"
+        "goToSettingsPage": "window.location.href = \"/settings/?entry_point=bookmark\";"
       }
     },
     {
       "name": "settings",
-      "detection": "/settings/.test(document.location.href);",
+      "detection": "!!document.querySelector('a[href*=\"/dyi/\"]');",
       "actions": {
         "goToArchivePage": "document.querySelector('a[href*=\"/dyi/\"]').click();"
       }
     },
     {
       "name": "archive",
-      "detection": "/dyi/.test(document.location.href);",
+      "detection": "!!document.querySelector('[data-testid=\"dyi/navigation/new_archive\"]');",
       "actions": {
         "selectRequestTab": "document.querySelector('[data-testid=\"dyi/navigation/new_archive\"]').click();",
         "selectDownloadTab": "document.querySelector('[data-testid=\"dyi/navigation/all_archives\"]').click();",
@@ -45,8 +51,8 @@
     },
     {
       "name": "reauth",
+      "detection": "!!document.querySelector('input[data-testid=\"sec_ac_button\"]');",
       "actions": {
-        "detection": "/reauth/.test(document.location.href);",
         "reauth": "document.querySelector('input[name=\"pass\"]').value = \"%password%\";document.querySelector('input[data-testid=\"sec_ac_button\"]').click();"
       }
     }
