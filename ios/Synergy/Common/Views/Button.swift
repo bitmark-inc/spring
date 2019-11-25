@@ -13,19 +13,39 @@ class Button: UIButton {
 
     let disposeBag = DisposeBag()
 
-    required init(title: String = "") {
+    required init() {
         super.init(frame: .zero)
-        setTitle(title, for: .normal)
         setupViews()
+    }
+
+    convenience init(title: String) {
+        self.init()
+        setTitle(title, for: .normal)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupViews() {
+    func setupViews() { }
+}
+
+extension Button {
+    func applyLight(title: String, font: UIFont?) {
+        self.setTitle(title, for: .normal)
+        self.titleLabel?.font = font
+
         themeService.rx
-            .bind({ $0.buttonTextColor }, to: rx.titleColor(for: .normal))
+            .bind({ $0.lightButtonTextColor }, to: rx.titleColor(for: .normal))
+            .disposed(by: disposeBag)
+    }
+
+    func applyBlack(title: String, font: UIFont?) {
+        self.setTitle(title, for: .normal)
+        self.titleLabel?.font = font
+
+        themeService.rx
+            .bind({ $0.blackButtonTextColor }, to: rx.titleColor(for: .normal))
             .disposed(by: disposeBag)
     }
 }

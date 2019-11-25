@@ -10,33 +10,17 @@ import UIKit
 import RxSwift
 import FlexLayout
 
-class SubmitButton: UIButton {
+class SubmitButton: Button {
+    override func setupViews() {
+        super.setupViews()
 
-    let disposeBag = DisposeBag()
-
-    required init(title: String = "") {
-        super.init(frame: .zero)
-
-        setTitle(title, for: .normal)
-
-        setupViews()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupViews() {
         titleLabel?.font = R.font.atlasGroteskRegular(size: Size.ds(18))
 
         themeService.rx
             .bind({ UIImage(color: $0.buttonBackground, size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .normal))
             .bind({ UIImage(color: $0.buttonBackground.withAlphaComponent(0.5), size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .disabled))
-            .bind({ $0.buttonTextColor }, to: rx.titleColor(for: .normal))
-            .bind({ $0.buttonTextColor.withAlphaComponent(0.5) }, to: rx.titleColor(for: .disabled))
-            .disposed(by: disposeBag)
-
-        themeService.rx
+            .bind({ $0.lightButtonTextColor }, to: rx.titleColor(for: .normal))
+            .bind({ $0.lightButtonTextColor.withAlphaComponent(0.5) }, to: rx.titleColor(for: .disabled))
             .disposed(by: disposeBag)
 
         flex.height(Size.dh(50))

@@ -62,11 +62,11 @@ class Navigator {
         }
     }
 
-    func pop(sender: UIViewController?, toRoot: Bool = false) {
+    func pop(toRoot: Bool = false) {
         if toRoot {
-            sender?.navigationController?.popToRootViewController(animated: true)
+            rootViewController.popToRootViewController(animated: true)
         } else {
-            sender?.navigationController?.popViewController()
+            rootViewController.popViewController()
         }
     }
 

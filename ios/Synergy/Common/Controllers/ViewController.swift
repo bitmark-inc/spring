@@ -10,12 +10,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 import FlexLayout
+import SnapKit
 
 class ViewController: ThemedViewController {
     var viewModel: ViewModel?
 
     var screenTitleLabel: UILabel!
     var mainView: UIView!
+    var navigationViewHeightConstraint: Constraint!
 
     init(viewModel: ViewModel?) {
         self.viewModel = viewModel
@@ -35,6 +37,10 @@ class ViewController: ThemedViewController {
         return view
     }()
 
+    lazy var navigationView: UIView = {
+        return UIView()
+    }()
+
     // MARK: - Setup Views
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -49,11 +55,18 @@ class ViewController: ThemedViewController {
         screenTitleLabel = UILabel()
         screenTitleLabel.font = UIFont.navigationTitleFont
 
+        fullView.addSubview(navigationView)
         fullView.addSubview(screenTitleLabel)
         fullView.addSubview(contentView)
 
-        screenTitleLabel.snp.makeConstraints { (make) in
+        navigationView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
+            navigationViewHeightConstraint = make.height.equalTo(0).constraint
+        }
+
+        screenTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(navigationView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
         }
 
         contentView.snp.makeConstraints { (make) in
@@ -66,5 +79,50 @@ class ViewController: ThemedViewController {
             make.edges.equalTo(view.safeAreaLayoutGuide)
                 .inset(UIEdgeInsets(top: 0, left: Size.dw(18), bottom: Size.dw(34), right: Size.dw(18)))
         }
+    }
+}
+
+protocol BackNavigator {
+    func showBlackBackItem()
+    func showLightBackItem()
+}
+
+extension BackNavigator where Self: ViewController {
+
+    func showBlackBackItem() {
+        let backButton = Button()
+        backButton.applyBlack(
+            title: R.string.localizable.backNavigator().localizedUppercase,
+            font: R.font.avenir(size: Size.ds(14))
+        )
+
+        addIntoNavigationView(backButton: backButton)
+    }
+
+    func showLightBackItem() {
+        let backButton = Button()
+        backButton.applyLight(
+            title: R.string.localizable.backNavigator().localizedUppercase,
+            font: R.font.avenir(size: Size.ds(14))
+        )
+
+        addIntoNavigationView(backButton: backButton)
+    }
+
+    func tapToBack() {
+        Navigator.default.pop()
+    }
+
+    fileprivate func addIntoNavigationView(backButton: Button) {
+        navigationViewHeightConstraint.update(offset: Size.dh(35))
+        navigationView.addSubview(backButton)
+
+        backButton.snp.makeConstraints { (make) in
+            make.top.leading.bottom.equalToSuperview()
+        }
+
+        backButton.rx.tap.bind { [weak self] in
+            self?.tapToBack()
+        }.disposed(by: disposeBag)
     }
 }

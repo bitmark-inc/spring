@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import FlexLayout
 
-class HowItWorksViewController: ViewController {
+class HowItWorksViewController: ViewController, BackNavigator {
 
     // MARK: - Properties
     var continueButton: SubmitButton!
@@ -27,8 +27,6 @@ class HowItWorksViewController: ViewController {
     }
 
     override func setupViews() {
-        super.setupViews()
-
         let thumbImage = ImageView(image: R.image.howItWorksThumb())
         thumbImage.contentMode = .scaleAspectFill
 
@@ -37,6 +35,9 @@ class HowItWorksViewController: ViewController {
             make.top.leading.trailing.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.5)
         }
+
+        super.setupViews()
+        showBlackBackItem()
 
         let howItWorksTitle = Label()
         howItWorksTitle.applyBlack(
