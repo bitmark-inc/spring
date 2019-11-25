@@ -15,7 +15,7 @@ let globalStatusBarStyle = BehaviorRelay<UIStatusBarStyle>(value: .default)
 var themeService = ThemeType.currentThemeService(for: .unspecified)
 
 protocol Theme {
-    var textColor: UIColor { get }
+    var blackTextColor: UIColor { get }
     var lightTextColor: UIColor { get }
     var highlightTextBackgroundColor: UIColor { get }
     var background: UIColor { get }
@@ -36,7 +36,7 @@ protocol Theme {
 }
 
 struct LightTheme: Theme {
-    let textColor = UIColor.Material.black
+    let blackTextColor = UIColor.Material.black
     let lightTextColor = UIColor.Material.white
     let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!
@@ -58,7 +58,7 @@ struct LightTheme: Theme {
 }
 
 struct DarkTheme: Theme {
-    let textColor = UIColor.Material.black
+    let blackTextColor = UIColor.Material.black
     let lightTextColor = UIColor.Material.white
     let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!

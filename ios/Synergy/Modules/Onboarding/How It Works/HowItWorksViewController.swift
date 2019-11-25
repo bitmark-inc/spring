@@ -39,17 +39,26 @@ class HowItWorksViewController: ViewController {
         }
 
         let howItWorksTitle = Label()
-        howItWorksTitle.text = R.string.phrase.howitworksTitle().localizedUppercase
-        howItWorksTitle.font = R.font.domaineSansTextRegular(size: Size.ds(36))
+        howItWorksTitle.applyBlack(
+            text: R.string.phrase.howitworksTitle().localizedUppercase,
+            font: R.font.domaineSansTextLight(size: Size.ds(36))
+        )
 
         func howItWorkContent(part: Int, text: String) -> UIView {
-            let partIndexLabel = Label(text: String(part))
-            partIndexLabel.font = R.font.atlasGroteskRegular(size: Size.ds(14))
+            let partIndexLabel = Label()
+            partIndexLabel.applyBlack(
+                text: String(part),
+                font: R.font.atlasGroteskLight(size: Size.ds(14))
+            )
             partIndexLabel.contentMode = .top
 
-            let textLabel = Label(text: text)
-            textLabel.font = R.font.atlasGroteskRegular(size: Size.ds(18))
+            let textLabel = Label()
             textLabel.numberOfLines = 0
+            textLabel.applyBlack(
+                text: text,
+                font: R.font.atlasGroteskLight(size: Size.ds(18)),
+                lineHeight: 1.2
+            )
 
             let view = UIView()
             view.flex.direction(.row).define { (flex) in
@@ -61,7 +70,9 @@ class HowItWorksViewController: ViewController {
 
         continueButton = SubmitButton(title: R.string.localizable.continue())
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(howItWorksTitle).marginTop(90%).width(100%)
+            flex.addItem().height(50%)
+
+            flex.addItem(howItWorksTitle).marginTop(10).width(100%)
 
             flex.addItem(howItWorkContent(part: 1, text: R.string.phrase.howitworksContent1())).marginTop(Size.dh(20))
             flex.addItem(howItWorkContent(part: 2, text: R.string.phrase.howitworksContent2())).marginTop(Size.dh(10))

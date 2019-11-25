@@ -34,12 +34,3 @@ class Switch: UISwitch {
         transform = CGAffineTransform(scaleX: 1.5, y: 1.3)
     }
 }
-
-class SwitchTitleLabel: Label {
-    override func setupViews() {
-        super.setupViews()
-
-        font = Avenir.Heavy.size(24)
-        numberOfLines = 0
-    }
-}

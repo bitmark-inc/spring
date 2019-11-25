@@ -37,7 +37,7 @@ class ReadingTextView: UITextView {
         isEditable = false
 
         themeService.rx
-            .bind({ $0.textColor }, to: rx.textColor)
+            .bind({ $0.blackTextColor }, to: rx.textColor)
             .disposed(by: disposeBag)
     }
 }

@@ -29,7 +29,7 @@ class NavigationController: UINavigationController {
         navigationBar.setTitleFont(UIFont.navigationTitleFont)
 
         themeService.rx
-            .bind({ $0.textColor }, to: navigationBar.rx.tintColor)
+            .bind({ $0.blackTextColor }, to: navigationBar.rx.tintColor)
             .bind({ $0.background }, to: navigationBar.rx.barTintColor)
             .disposed(by: disposeBag)
     }

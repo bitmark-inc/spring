@@ -85,7 +85,7 @@ class DesignedSegmentControl: UIControl {
         let selectorWidth = frame.width / CGFloat(segmentTitles.count)
         selectorBar = UIView.init(frame: CGRect.init(x: 0, y: frame.height - 5, width: selectorWidth, height: 5.0))
         themeService.rx
-            .bind({ $0.textColor }, to: selectorBar.rx.backgroundColor)
+            .bind({ $0.blackTextColor }, to: selectorBar.rx.backgroundColor)
             .disposed(by: disposeBag)
     }
 }

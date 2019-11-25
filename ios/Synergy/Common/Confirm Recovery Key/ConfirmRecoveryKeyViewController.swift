@@ -15,7 +15,7 @@ class ConfirmRecoveryKeyViewController: ViewController {
 
     // MARK: - Properties
     var recoveryKeyTextView: EditingTextView!
-    var guideLabel: DescriptionLabel!
+    var guideLabel: Label!
     var submitButton: SubmitButton!
 
     override func bindViewModel() {
@@ -36,7 +36,7 @@ class ConfirmRecoveryKeyViewController: ViewController {
         recoveryKeyTextView = EditingTextView()
         recoveryKeyTextView.autocapitalizationType = .none
 
-        guideLabel = DescriptionLabel()
+        guideLabel = Label()
         submitButton = SubmitButton()
 
         contentView.addSubview(recoveryKeyTextView)

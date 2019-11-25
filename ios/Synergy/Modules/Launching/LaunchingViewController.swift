@@ -50,14 +50,20 @@ class LaunchingViewController: ViewController {
         super.setupViews()
 
         // *** Setup subviews ***
-        let titleScreen = LightLabel()
-        titleScreen.font = R.font.domaineSansTextRegular(size: Size.ds(150))
-        titleScreen.text = R.string.phrase.launchName().localizedUppercase
+        let titleScreen = Label()
+        titleScreen.applyLight(
+            text: R.string.phrase.launchName().localizedUppercase,
+            font: R.font.domaineSansTextLight(size: Size.ds(150))
+        )
         titleScreen.adjustsFontSizeToFitWidth = true
 
-        let descriptionLabel = LightDesriptionLabel(text: R.string.phrase.launchDescription())
-        descriptionLabel.font = R.font.atlasGroteskRegular(size: Size.ds(22))
-        descriptionLabel.lineHeightMultiple(1.1)
+        let descriptionLabel = Label()
+        descriptionLabel.isDescription = true
+        descriptionLabel.applyLight(
+            text: R.string.phrase.launchDescription(),
+            font: R.font.atlasGroteskLight(size: Size.ds(22)),
+            lineHeight: 1.1
+        )
 
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem(titleScreen).marginTop(50%).width(100%)
