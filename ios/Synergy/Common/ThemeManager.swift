@@ -16,6 +16,7 @@ var themeService = ThemeType.currentThemeService(for: .unspecified)
 
 protocol Theme {
     var textColor: UIColor { get }
+    var lightTextColor: UIColor { get }
     var highlightTextBackgroundColor: UIColor { get }
     var background: UIColor { get }
     var buttonBackground: UIColor { get }
@@ -27,15 +28,19 @@ protocol Theme {
     var textViewBackgroundColor: UIColor { get }
     var textViewTextColor: UIColor { get }
     var indicatorColor: UIColor { get }
+    var cognac: UIColor { get }
+
+    var secondaryBackgroundColor: UIColor { get }
 
     init(colorTheme: ColorTheme)
 }
 
 struct LightTheme: Theme {
-    let textColor = UIColor.Material.white
+    let textColor = UIColor.Material.black
+    let lightTextColor = UIColor.Material.white
     let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!
-    let buttonBackground = UIColor(hexString: "#000", transparency: 0.4)!
+    let buttonBackground = UIColor(hexString: "#932C19")!
     let buttonTextColor = UIColor.Material.white
     let separateLineColor = UIColor.Material.white
     let textFieldTextColor = UIColor.Material.white
@@ -44,13 +49,17 @@ struct LightTheme: Theme {
     let textViewBackgroundColor = UIColor.Material.white
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
     let indicatorColor = UIColor.Material.grey
+    let cognac = UIColor(hexString: "#932C19")!
+
+    let secondaryBackgroundColor = UIColor(hexString: "#932C19")!
 
     init(colorTheme: ColorTheme) {
     }
 }
 
 struct DarkTheme: Theme {
-    let textColor = UIColor.Material.white
+    let textColor = UIColor.Material.black
+    let lightTextColor = UIColor.Material.white
     let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!
     let buttonBackground = UIColor(hexString: "#000", transparency: 0.4)!
@@ -62,6 +71,9 @@ struct DarkTheme: Theme {
     let textViewBackgroundColor = UIColor.Material.white
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
     let indicatorColor = UIColor.Material.grey
+    let cognac = UIColor(hexString: "#932C19")!
+
+    let secondaryBackgroundColor = UIColor(hexString: "#932C19")!
 
     init(colorTheme: ColorTheme) {
     }

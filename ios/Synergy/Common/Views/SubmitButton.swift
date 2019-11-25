@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import FlexLayout
 
 class SubmitButton: UIButton {
 
@@ -38,8 +39,6 @@ class SubmitButton: UIButton {
         themeService.rx
             .disposed(by: disposeBag)
 
-        snp.makeConstraints { (make) in
-            make.height.equalTo(Size.dh(55))
-        }
+        flex.height(Size.dh(50))
     }
 }

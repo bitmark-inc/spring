@@ -7,14 +7,32 @@
 //
 
 import Foundation
-import RxFlow
+import RxSwift
 import RxCocoa
 
 class SignInWallViewModel: ViewModel {
 
-    func goToSignUpScreen() {
+    // MARK: - Outputs
+    var signUpResultSubject = PublishSubject<Event<Never>>()
+
+    func gotoHowItWorksScreen() {
         let viewModel = HowItWorksViewModel()
         navigator.show(segue: .howItWorks(viewModel: viewModel))
+    }
+
+    func signUp() {
+        loadingState.onNext(.loading)
+        AccountService.rx.createNewAccount()
+            .flatMapCompletable({
+                Global.current.account = $0
+                return Global.current.setupCoreData()
+            })
+            .asObservable()
+            .materialize().bind { [weak self] in
+              loadingState.onNext(.hide)
+              self?.signUpResultSubject.onNext($0)
+            }
+            .disposed(by: disposeBag)
     }
 
     func goToSignInScreen() {

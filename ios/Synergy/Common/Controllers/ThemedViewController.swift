@@ -31,13 +31,25 @@ class ThemedViewController: UIViewController {
     }
 
     func loadData() {}
-    func setupViews() {}
 
-    func bindViewModel() {
+    func setupViews() {
         themeService.rx
             .bind({ $0.background }, to: view.rx.backgroundColor)
             .disposed(by: disposeBag)
+    }
 
+    func setupBackground(image: UIImage?) {
+        let backgroundImage = ImageView(image: image)
+        backgroundImage.contentMode = .scaleToFill
+
+        // *** Setup UI in view ***
+        view.addSubview(backgroundImage)
+        backgroundImage.snp.makeConstraints { (make) in
+            make.edges.equalToSuperview()
+        }
+    }
+
+    func bindViewModel() {
         loadingState
             .bind(to: SVProgressHUD.rx.state)
             .disposed(by: disposeBag)

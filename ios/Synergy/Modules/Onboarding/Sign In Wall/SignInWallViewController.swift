@@ -11,10 +11,9 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import SwifterSwift
+import FlexLayout
 
-class SignInWallViewController: ViewController {
-
-    lazy var thisViewModel = { viewModel as! SignInWallViewModel }()
+class SignInWallViewController: LaunchingViewController {
 
     // MARK: - Properties
     var registerButton: SubmitButton!
@@ -24,62 +23,51 @@ class SignInWallViewController: ViewController {
     override func bindViewModel() {
         super.bindViewModel()
 
-        registerButton.rx.tap.bind { [weak self] in
-            self?.thisViewModel.goToSignUpScreen()
+        guard let viewModel = viewModel as? SignInWallViewModel else { return }
+
+        viewModel.signUpResultSubject.subscribe(onNext: { [weak self] (event) in
+            guard let self = self else { return }
+            switch event {
+            case .error(let error):
+                self.errorWhenSignUp(error: error)
+            case .completed:
+                Global.log.info("[done] signUp")
+                viewModel.gotoHowItWorksScreen()
+            default:
+                break
+            }
+        }).disposed(by: disposeBag)
+
+        registerButton.rx.tap.bind {
+            viewModel.signUp()
         }.disposed(by: disposeBag)
 
-        signInButton.rx.tap.bind { [weak self] in
-            self?.thisViewModel.goToSignInScreen()
+        signInButton.rx.tap.bind {
+            viewModel.goToSignInScreen()
         }.disposed(by: disposeBag)
+    }
+
+    fileprivate func errorWhenSignUp(error: Error) {
+        guard !FlowError.errorByNetworkConnection(error) else { return }
+
+        Global.log.error(error)
+        showErrorAlertWithSupport(message: "artist.create.error".localized(tableName: "Error"))
     }
 
     // MARK: Setup views
     override func setupViews() {
         super.setupViews()
 
-        let backgroundImage = ImageView(image: R.image.onboardingSplash())
-        backgroundImage.contentMode = .scaleToFill
-
         // *** Setup subviews ***
-        let titleScreen = Label()
-        titleScreen.font = R.font.domaineSansTextRegular(size: Size.ds(60))
-        titleScreen.text = Constant.appName.uppercased()
-        titleScreen.makeHighlightBackground()
-
-        let descriptionLabel = DescriptionLabel(text: R.string.phrase.signinWallDescription())
-
         registerButton = SubmitButton(title: R.string.localizable.getStarted())
         signInButton = SecondaryButton(title: R.string.localizable.signIn())
 
-        let buttonsGroupStackView = UIStackView(
-            arrangedSubviews: [registerButton, signInButton],
-            axis: .vertical,
-            spacing: Size.dh(40)
-        )
-
-        // *** Setup UI in view ***
-        view.addSubview(backgroundImage)
-        view.addSubview(titleScreen)
-        view.addSubview(descriptionLabel)
-        view.addSubview(buttonsGroupStackView)
-
-        backgroundImage.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
+        let buttonsGroup = UIView()
+        buttonsGroup.flex.direction(.column).define { (flex) in
+            flex.addItem(registerButton).width(100%)
+            flex.addItem(signInButton).width(100%).marginTop(Size.dh(20))
         }
 
-        titleScreen.snp.makeConstraints { (make) in
-            make.centerX.centerY.equalToSuperview()
-        }
-
-        descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(titleScreen.snp.bottom).offset(Size.dh(20))
-            make.centerX.equalToSuperview()
-        }
-
-        buttonsGroupStackView.snp.makeConstraints { (make) in
-            make.width.equalTo(Size.dw(325))
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-Size.dh(48))
-        }
+        contentView.flex.addItem(buttonsGroup).position(.absolute).bottom(0).width(100%)
     }
 }

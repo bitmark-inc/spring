@@ -30,6 +30,7 @@ public struct Constant {
     let sentryDSN = Credential.valueForKey(keyName: Constant.InfoKey.sentryDSN)
     let oneSignalAppID = Credential.valueForKey(keyName: "ONESIGNAL_APP_ID")
 
+    static let appName = "Synergy"
     public static let productLink = "https://apps.apple.com/us/app/bitmark/id1429427796"
     let numberOfPhrases = 12
 }

@@ -6,5 +6,12 @@
   Copyright © 2019 Bitmark Inc. All rights reserved.
 */
 
-"signinWall.description" = "How you use Facebook.\n How Facebook uses you.";
-"howitworks.content" = "We’ll back up your Facebook data archive into a personal data vault that only you control. We’ll give you private analytics on your Facebook data. Your vault will be updated each week with new Facebook data and insights.";
+"launch.name" = "Spring";
+"launch.description" = "How you use Facebook.\nHow Facebook uses you.";
+"signinWall.description" = "How you use Facebook.\nHow Facebook uses you.";
+
+"howitworks.title" = "How It Works";
+"howitworks.content.1" = "We’ll back up your Facebook data archive into a personal data vault that only you control.";
+"howitworks.content.2" = "We’ll give you private analytics on your Facebook data.";
+"howitworks.content.3" = "Your vault will be updated each week with new Facebook data and insights.";
+

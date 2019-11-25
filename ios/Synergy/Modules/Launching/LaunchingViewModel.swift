@@ -15,6 +15,11 @@ class LaunchingViewModel: ViewModel {
         navigator.show(segue: .signInWall(viewModel: viewModel))
     }
 
+    func gotoHowItWorksScreen() {
+        let viewModel = HowItWorksViewModel()
+        navigator.show(segue: .howItWorks(viewModel: viewModel))
+    }
+
     func gotoSignInScreen() {
 
     }

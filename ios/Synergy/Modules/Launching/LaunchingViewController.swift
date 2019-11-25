@@ -10,10 +10,9 @@ import Foundation
 import BitmarkSDK
 import RxSwift
 import RxCocoa
+import FlexLayout
 
 class LaunchingViewController: ViewController {
-
-    lazy var thisViewModel = { viewModel as! LaunchingViewModel }()
 
     override func bindViewModel() {
         super.bindViewModel()
@@ -28,18 +27,41 @@ class LaunchingViewController: ViewController {
         .subscribe(
             onError: { (error) in
                 Global.log.error(error)
-        }
-        )
-            .disposed(by: disposeBag)
+            })
+        .disposed(by: disposeBag)
     }
 
     func prepareAndGotoNext(account: Account?) throws -> Completable {
-        if account != nil {
+        guard let viewModel = viewModel as? LaunchingViewModel else { return Completable.never() }
+
+        if let account = account {
+            Global.current.account = account
+
             try RealmConfig.setupDBForCurrentAccount()
-            self.thisViewModel.gotoSignInScreen()
+            viewModel.gotoHowItWorksScreen()
         } else {
-            self.thisViewModel.gotoSignInWallScreen()
+            viewModel.gotoSignInWallScreen()
         }
         return Completable.empty()
+    }
+
+    override func setupViews() {
+        setupBackground(image: R.image.onboardingSplash())
+        super.setupViews()
+
+        // *** Setup subviews ***
+        let titleScreen = LightLabel()
+        titleScreen.font = R.font.domaineSansTextRegular(size: Size.ds(150))
+        titleScreen.text = R.string.phrase.launchName().localizedUppercase
+        titleScreen.adjustsFontSizeToFitWidth = true
+
+        let descriptionLabel = LightDesriptionLabel(text: R.string.phrase.launchDescription())
+        descriptionLabel.font = R.font.atlasGroteskRegular(size: Size.ds(22))
+        descriptionLabel.lineHeightMultiple(1.1)
+
+        contentView.flex.direction(.column).define { (flex) in
+            flex.addItem(titleScreen).marginTop(50%).width(100%)
+            flex.addItem(descriptionLabel).marginTop(Size.dh(10))
+        }
     }
 }

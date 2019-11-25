@@ -9,32 +9,15 @@
 import UIKit
 import RxSwift
 
-class SecondaryButton: UIButton {
+class SecondaryButton: Button {
 
-    let disposeBag = DisposeBag()
+    override func setupViews() {
+        super.setupViews()
 
-    required init(title: String) {
-        super.init(frame: .zero)
-
-        setTitle(title, for: .normal)
-
-        setupViews()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupViews() {
         titleLabel?.font = R.font.atlasGroteskRegular(size: Size.ds(14))
         backgroundColor = .clear
 
-        themeService.rx
-            .bind({ $0.buttonTextColor }, to: rx.titleColor(for: .normal))
-            .disposed(by: disposeBag)
-
-        snp.makeConstraints { (make) in
-            make.height.equalTo(Size.dh(27))
-        }
+        flex.height(Size.dh(27))
+            .right(0).left(0) // full width
     }
 }

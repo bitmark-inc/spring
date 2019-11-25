@@ -16,8 +16,9 @@ def sharedPods
   pod 'RxOptional'
   pod 'Moya/RxSwift', git: "https://github.com/Moya/Moya.git", tag: "14.0.0-beta.3"
   pod 'RealmSwift'
-  pod "RxRealm"
-  pod "RxTheme"
+  pod 'RxRealm'
+  pod 'RxTheme'
+  pod 'RxSwiftExt'
 
   pod 'IQKeyboardManagerSwift'
   pod 'Hero'
@@ -26,6 +27,7 @@ def sharedPods
   pod 'NotificationBannerSwift'
   pod 'R.swift'
   pod 'SnapKit'
+  pod 'FlexLayout'
 
   pod 'SwifterSwift'
 

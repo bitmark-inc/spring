@@ -37,6 +37,24 @@ class Global {
         return decoder
     }()
 
+    func setupCoreData() -> Completable {
+        return Completable.create { (event) -> Disposable in
+            guard let currentAccount = Global.current.account else {
+                event(.error(FlowError.emptyCurrentAccount))
+                return Disposables.create()
+            }
+
+            do {
+                try RealmConfig.setupDBForCurrentAccount()
+                try KeychainStore.saveToKeychain(currentAccount.seed.core)
+                event(.completed)
+            } catch {
+                event(.error(error))
+            }
+            return Disposables.create()
+        }
+    }
+
     let networkLoggerPlugin: [PluginType] = [
         NetworkLoggerPlugin(configuration: NetworkLoggerPlugin.Configuration(output: { (_, items) in
             for item in items {
