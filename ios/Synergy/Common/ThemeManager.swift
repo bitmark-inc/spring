@@ -29,6 +29,7 @@ protocol Theme {
     var textViewBackgroundColor: UIColor { get }
     var textViewTextColor: UIColor { get }
     var indicatorColor: UIColor { get }
+    var themeColor: UIColor { get }
 
     init(colorTheme: ColorTheme)
 }
@@ -48,6 +49,7 @@ struct LightTheme: Theme {
     let textViewBackgroundColor = UIColor.Material.white
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
     let indicatorColor = UIColor.Material.grey
+    let themeColor = UIColor(hexString: "#932C19")!
 
     init(colorTheme: ColorTheme) {
     }
@@ -68,18 +70,14 @@ struct DarkTheme: Theme {
     let textViewBackgroundColor = UIColor.Material.white
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
     let indicatorColor = UIColor.Material.grey
+    let themeColor = UIColor(hexString: "#932C19")!
 
     init(colorTheme: ColorTheme) {
     }
 }
 
-struct Color {
-    static var cognac                   = UIColor(hexString: "#932C19")!
-    static var internationalKleinBlue   = UIColor(hexString: "#0011AF")!
-}
-
 enum ColorTheme: Int, CaseIterable {
-    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray
+    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue
 
     var color: UIColor {
         switch self {
@@ -102,6 +100,7 @@ enum ColorTheme: Int, CaseIterable {
         case .brown:      return UIColor.Material.brown
         case .gray:       return UIColor.Material.grey
         case .blueGray:   return UIColor.Material.blueGrey
+        case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
         }
     }
 
@@ -126,6 +125,7 @@ enum ColorTheme: Int, CaseIterable {
         case .brown:      return UIColor.Material.brown900
         case .gray:       return UIColor.Material.grey900
         case .blueGray:   return UIColor.Material.blueGrey900
+        case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
         }
     }
 
@@ -150,6 +150,7 @@ enum ColorTheme: Int, CaseIterable {
         case .brown:      return "Brown"
         case .gray:       return "Gray"
         case .blueGray:   return "Blue Gray"
+        case .internationalKleinBlue: return "international klein blue"
         }
     }
 }

@@ -50,11 +50,11 @@ class MainTabbarItemContentView: ESTabBarItemContentView {
         addSubview(selectedIndicatorLineView)
         
         themeService.rx
-            .bind({ $0.cognac }, to: selectedIndicatorLineView.rx.backgroundColor)
+            .bind({ $0.themeColor }, to: selectedIndicatorLineView.rx.backgroundColor)
             .bind({ $0.blackTextColor }, to: rx.textColor)
-            .bind({ $0.cognac }, to: rx.highlightTextColor)
+            .bind({ $0.themeColor }, to: rx.highlightTextColor)
             .bind({ $0.blackTextColor }, to: rx.iconColor)
-            .bind({ $0.cognac }, to: rx.highlightIconColor)
+            .bind({ $0.themeColor }, to: rx.highlightIconColor)
             .bind({ $0.textViewBackgroundColor }, to: rx.backdropColor)
             .bind({ $0.textViewBackgroundColor }, to: rx.highlightBackdropColor)
         .disposed(by: disposeBag)

@@ -30,8 +30,8 @@ class TextFieldWithRightIcon: TextField {
         font = R.font.atlasGroteskRegular(size: 18)
         backgroundColor = .white
 
-        tintColor = Color.internationalKleinBlue
-        textColor = Color.internationalKleinBlue
+        tintColor = ColorTheme.internationalKleinBlue.color
+        textColor = ColorTheme.internationalKleinBlue.color
         addPaddingLeft(padding)
     }
 }
