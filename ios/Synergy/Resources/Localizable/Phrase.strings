@@ -15,3 +15,9 @@
 "howitworks.content.2" = "We’ll give you private analytics on your Facebook data.";
 "howitworks.content.3" = "Your vault will be updated each week with new Facebook data and insights.";
 
+"getYourData.screenTitle" = "Get Your Data";
+"getYourData.login.placeholder" = "Facebook login";
+"getYourData.password.placeholder" = "Facebook password";
+"getYourData.giveAutomateTrust" = "We’ll only use your Facebook login information to automate your back up.";
+"getYourData.authorize.automate" = "Authorize »";
+"getYourData.authorize.manual" = "Prefer not to automate this?";

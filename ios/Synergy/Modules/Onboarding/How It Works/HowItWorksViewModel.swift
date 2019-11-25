@@ -13,7 +13,7 @@ import RxCocoa
 class HowItWorksViewModel: ViewModel {
 
     func gotoGetYourDataScreen() {
-//        let viewModel = GetYourDataViewModel()
-//        navigator.show(segue: .getYourData(viewModel: viewModel))
+        let viewModel = GetYourDataViewModel()
+        navigator.show(segue: .getYourData(viewModel: viewModel))
     }
 }

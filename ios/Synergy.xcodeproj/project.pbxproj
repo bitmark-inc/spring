@@ -71,8 +71,16 @@
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
+		E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */; };
+		E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */; };
+		E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
+		E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
+		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
+		E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959D72386309C000E9CB9 /* AccountService+Rx.swift */; };
 		E27959D92386309C000E9CB9 /* AccountService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959D72386309C000E9CB9 /* AccountService+Rx.swift */; };
+		E27959E22386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959E12386B8C1000E9CB9 /* TextFieldWithRightIcon.swift */; };
+		E27959E32386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959E12386B8C1000E9CB9 /* TextFieldWithRightIcon.swift */; };
 		E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */; };
 		E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */; };
 		E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */; };
@@ -297,7 +305,11 @@
 		C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.debug.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E19A6B110D404A33B44425C8 /* Pods-Synergy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy.release.xcconfig"; path = "Target Support Files/Pods-Synergy/Pods-Synergy.release.xcconfig"; sourceTree = "<group>"; };
+		E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewController.swift; sourceTree = "<group>"; };
+		E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewModel.swift; sourceTree = "<group>"; };
+		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
 		E27959D72386309C000E9CB9 /* AccountService+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountService+Rx.swift"; sourceTree = "<group>"; };
+		E27959E12386B8C1000E9CB9 /* TextFieldWithRightIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithRightIcon.swift; sourceTree = "<group>"; };
 		E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInWallViewModel.swift; sourceTree = "<group>"; };
 		E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInWallViewController.swift; sourceTree = "<group>"; };
 		E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Black.otf"; sourceTree = "<group>"; };
@@ -501,6 +513,7 @@
 				5832FC30237A863300FA3196 /* TableView.swift */,
 				5832FC31237A863300FA3196 /* Switch.swift */,
 				5832FC32237A863300FA3196 /* TextField.swift */,
+				E27959E12386B8C1000E9CB9 /* TextFieldWithRightIcon.swift */,
 				5832FC33237A863300FA3196 /* IconButtonView.swift */,
 				5832FC34237A863300FA3196 /* SeparateLine.swift */,
 				5832FC35237A863300FA3196 /* ImageView.swift */,
@@ -542,6 +555,7 @@
 			isa = PBXGroup;
 			children = (
 				5832FC99237A8A9200FA3196 /* UITableView+ApplyChanges.swift */,
+				E24829C8238BC30F00995FBB /* R.generated+Font.swift */,
 				5832FC9A237A8A9200FA3196 /* RxSwift */,
 				5832FC9D237A8A9200FA3196 /* UIViewController+AppSettings.swift */,
 				5832FC9E237A8A9200FA3196 /* UIViewController+Error.swift */,
@@ -607,6 +621,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E22BB3322384E7030044BC95 /* Get Your Data */ = {
+			isa = PBXGroup;
+			children = (
+				E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */,
+				E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */,
+			);
+			path = "Get Your Data";
+			sourceTree = "<group>";
+		};
 		E27959D623863067000E9CB9 /* Bitmark */ = {
 			isa = PBXGroup;
 			children = (
@@ -620,6 +643,7 @@
 			children = (
 				E29F5A1A2383E2E600C1D9D8 /* Sign In Wall */,
 				E29F5A782383F8C900C1D9D8 /* How It Works */,
+				E22BB3322384E7030044BC95 /* Get Your Data */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1125,11 +1149,13 @@
 				5832FC4C237A863300FA3196 /* SubmitButton.swift in Sources */,
 				5832FC58237A863300FA3196 /* TextField.swift in Sources */,
 				5832FC44237A863300FA3196 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
+				E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				5832FC52237A863300FA3196 /* ActivityIndicator.swift in Sources */,
 				5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */,
 				5832FC97237A889A00FA3196 /* Credential.swift in Sources */,
 				E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832FC40237A863300FA3196 /* Global.swift in Sources */,
+				E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5832FC93237A889A00FA3196 /* BitmarkSDKService.swift in Sources */,
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
 				5832FC48237A863300FA3196 /* NavigationController.swift in Sources */,
@@ -1141,8 +1167,10 @@
 				5832FC4A237A863300FA3196 /* Label.swift in Sources */,
 				E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				5832FC5B237A863300FA3196 /* ImageView.swift in Sources */,
+				E27959E22386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
 				E29F5A7A2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
+				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
 				5832FC50237A863300FA3196 /* MakeUnderline.swift in Sources */,
@@ -1201,11 +1229,13 @@
 				E2DB6682237D3B69005367C2 /* SubmitButton.swift in Sources */,
 				E2DB6683237D3B69005367C2 /* TextField.swift in Sources */,
 				E2DB6684237D3B69005367C2 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
+				E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
 				E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */,
 				E2DB6687237D3B69005367C2 /* Credential.swift in Sources */,
 				E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				E2DB6688237D3B69005367C2 /* Global.swift in Sources */,
+				E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
 				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
 				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
@@ -1216,8 +1246,10 @@
 				E2DB6690237D3B69005367C2 /* Label.swift in Sources */,
 				E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */,
+				E27959E32386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
 				E29F5A7B2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
+				E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,

@@ -57,7 +57,7 @@ target 'Synergy Dev' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for OurBeat Dev
+  # Pods for Synergy Dev
   sharedPods
   pod 'SwiftLint'
 end

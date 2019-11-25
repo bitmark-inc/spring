@@ -48,4 +48,13 @@ extension Button {
             .bind({ $0.blackButtonTextColor }, to: rx.titleColor(for: .normal))
             .disposed(by: disposeBag)
     }
+
+    func applyUnderlinedLight(title: String, font: UIFont?) {
+        self.setAttributedTitle(title.asLink(), for: .normal)
+        self.titleLabel?.font = font
+
+        themeService.rx
+            .bind({ $0.lightButtonTextColor }, to: rx.titleColor(for: .normal))
+            .disposed(by: disposeBag)
+    }
 }

@@ -32,6 +32,7 @@ class Navigator {
         case launching(viewModel: LaunchingViewModel)
         case signInWall(viewModel: SignInWallViewModel)
         case howItWorks(viewModel: HowItWorksViewModel)
+        case getYourData(viewModel: GetYourDataViewModel)
         case safari(URL)
         case safariController(URL)
     }
@@ -52,6 +53,7 @@ class Navigator {
         case .launching(let viewModel): return LaunchingViewController(viewModel: viewModel)
         case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
         case .howItWorks(let viewModel): return HowItWorksViewController(viewModel: viewModel)
+        case .getYourData(let viewModel): return GetYourDataViewController(viewModel: viewModel)
         case .safari(let url):
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
             return nil
@@ -77,7 +79,8 @@ class Navigator {
     // MARK: - invoke a single segue
     func show(segue: Scene, transition: Transition = .navigation(type: .cover(direction: .left))) {
         if let target = get(segue: segue) {
-            show(target: target, sender: rootViewController, transition: transition)
+            let sender = rootViewController.viewControllers.last ?? rootViewController
+            show(target: target, sender: sender, transition: transition)
         }
     }
 

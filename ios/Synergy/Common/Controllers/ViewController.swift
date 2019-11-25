@@ -82,6 +82,22 @@ class ViewController: ThemedViewController {
     }
 }
 
+extension ViewController {
+
+    func setLightScreenTitle(text: String, color: UIColor? = nil) {
+        screenTitleLabel.text = text
+        screenTitleLabel.font = R.font.domaineSansTextRegular(size: Size.ds(36))
+
+        if let color = color {
+            screenTitleLabel.textColor = color
+        } else {
+            themeService.rx
+                .bind({ $0.lightTextColor }, to: screenTitleLabel.rx.textColor)
+                .disposed(by: disposeBag)
+        }
+    }
+}
+
 protocol BackNavigator {
     func showBlackBackItem()
     func showLightBackItem()
@@ -114,7 +130,7 @@ extension BackNavigator where Self: ViewController {
     }
 
     fileprivate func addIntoNavigationView(backButton: Button) {
-        navigationViewHeightConstraint.update(offset: Size.dh(35))
+        navigationViewHeightConstraint.update(offset: Size.dh(50))
         navigationView.addSubview(backButton)
 
         backButton.snp.makeConstraints { (make) in

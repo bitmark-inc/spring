@@ -73,7 +73,7 @@ class HowItWorksViewController: ViewController, BackNavigator {
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem().height(50%)
 
-            flex.addItem(howItWorksTitle).marginTop(10).width(100%)
+            flex.addItem(howItWorksTitle)
 
             flex.addItem(howItWorkContent(part: 1, text: R.string.phrase.howitworksContent1())).marginTop(Size.dh(20))
             flex.addItem(howItWorkContent(part: 2, text: R.string.phrase.howitworksContent2())).marginTop(Size.dh(10))
