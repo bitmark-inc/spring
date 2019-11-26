@@ -106,13 +106,13 @@ class SentryEventLogger(private val accountRepo: AccountRepository) : EventLogge
         e.withDist("${BuildConfig.VERSION_CODE}")
         e.withExtra("os", "Android SDK ${Build.VERSION.SDK_INT}")
         e.withExtra("device", "${Build.MANUFACTURER}-${Build.MODEL}")
-        e.withExtra("account_id", accountInfo.accountId)
+        e.withExtra("account_id", accountInfo.id)
         e.withExtra("auth_required_setup", accountInfo.authRequired)
     }.subscribeOn(Schedulers.computation())
 
     private fun buildUserBuilder() =
         accountRepo.getAccountData().map { accountInfo ->
-            UserBuilder().setId(accountInfo.accountId)
+            UserBuilder().setId(accountInfo.id)
         }
 
 }

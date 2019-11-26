@@ -6,23 +6,29 @@
  */
 package com.bitmark.fbm.data.source.remote.api.service
 
+import com.bitmark.fbm.data.model.AutomationScriptData
 import com.bitmark.fbm.data.model.JwtData
 import com.bitmark.fbm.data.source.remote.api.request.ArchiveRequestPayload
 import com.bitmark.fbm.data.source.remote.api.request.RegisterJwtRequest
+import com.bitmark.fbm.data.source.remote.api.response.RegisterAccountResponse
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 
 interface FbmApi {
 
-    @POST("v1/account")
-    fun registerAccount(): Single<Map<String, String>>
+    @POST("api/accounts")
+    fun registerAccount(): Single<RegisterAccountResponse>
 
-    @POST("v1/auth")
+    @POST("api/auth")
     fun registerJwt(@Body request: RegisterJwtRequest): Single<JwtData>
 
-    @POST("v1/archive")
+    @POST("api/archives")
     fun sendArchiveDownloadRequest(@Body payload: ArchiveRequestPayload): Completable
+
+    @GET("assets/fb_automation.json")
+    fun getAutomationScript(): Single<AutomationScriptData>
 }

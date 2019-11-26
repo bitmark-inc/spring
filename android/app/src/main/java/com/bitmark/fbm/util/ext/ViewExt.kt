@@ -10,10 +10,13 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Handler
 import android.view.View
+import android.webkit.ValueCallback
+import android.webkit.WebView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import com.bitmark.fbm.logging.Tracer
 
 fun View.gone(withAnim: Boolean = false) {
     if (withAnim) {
@@ -89,4 +92,32 @@ fun TextView.setText(@StringRes id: Int) {
 
 fun TextView.setTextColorRes(@ColorRes id: Int) {
     this.setTextColor(ContextCompat.getColor(context, id))
+}
+
+fun WebView.evaluateJs(script: String?, success: () -> Unit = {}, error: () -> Unit = {}) {
+    evaluateJavascript(script) { result ->
+        if (result.contains("ErrorUtils caught an error", true)) {
+            Tracer.ERROR.log("WebView.evaluateJs()", "Script: $script, result:$result")
+            error()
+        } else {
+            success()
+        }
+    }
+}
+
+fun WebView.evaluateVerificationJs(
+    script: String,
+    timeout: Long = 3000,
+    callback: (Boolean) -> Unit
+) {
+    val startTime = System.currentTimeMillis()
+    evaluateJavascript(script, object : ValueCallback<String> {
+        override fun onReceiveValue(value: String?) {
+            when {
+                value?.toBoolean() == true                       -> callback(true)
+                System.currentTimeMillis() - startTime < timeout -> evaluateJavascript(script, this)
+                else                                             -> callback(false)
+            }
+        }
+    })
 }

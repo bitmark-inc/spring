@@ -11,10 +11,9 @@ import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
-import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestActivity
+import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerActivity
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import kotlinx.android.synthetic.main.activity_onboarding.btnContinue
-import kotlinx.android.synthetic.main.activity_onboarding.ivBack
+import kotlinx.android.synthetic.main.activity_onboarding.*
 import javax.inject.Inject
 
 class OnboardingActivity : BaseAppCompatActivity() {
@@ -31,18 +30,18 @@ class OnboardingActivity : BaseAppCompatActivity() {
 
         btnContinue.setSafetyOnclickListener {
             navigator.anim(RIGHT_LEFT)
-                    .startActivity(ArchiveRequestActivity::class.java)
+                .startActivity(ArchiveRequestContainerActivity::class.java)
         }
 
         ivBack.setOnClickListener {
             navigator.anim(RIGHT_LEFT)
-                    .finishActivity()
+                .finishActivity()
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         navigator.anim(RIGHT_LEFT)
-                .finishActivity()
+            .finishActivity()
     }
 }

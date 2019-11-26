@@ -14,8 +14,8 @@ import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.main.MainModule
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerModule
-import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestActivity
-import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestModule
+import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerActivity
+import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerModule
 import com.bitmark.fbm.feature.register.notification.RegisterNotificationActivity
 import com.bitmark.fbm.feature.register.notification.RegisterNotificationModule
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
@@ -36,9 +36,9 @@ abstract class ActivityBuilderModule {
     @ActivityScope
     internal abstract fun bindOnBoardingActivity(): OnboardingActivity
 
-    @ContributesAndroidInjector(modules = [ArchiveRequestModule::class])
+    @ContributesAndroidInjector(modules = [ArchiveRequestContainerModule::class])
     @ActivityScope
-    internal abstract fun bindArchiveRequestActivity(): ArchiveRequestActivity
+    internal abstract fun bindArchiveRequestContainerActivity(): ArchiveRequestContainerActivity
 
     @ContributesAndroidInjector(modules = [SplashModule::class])
     @ActivityScope

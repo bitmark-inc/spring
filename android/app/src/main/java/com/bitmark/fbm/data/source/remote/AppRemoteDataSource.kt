@@ -29,4 +29,6 @@ class AppRemoteDataSource @Inject constructor(
         }
         OneSignal.sendTags(jsonObject)
     }.subscribeOn(Schedulers.io())
+
+    fun getAutomationScript() = fbmApi.getAutomationScript().subscribeOn(Schedulers.io())
 }

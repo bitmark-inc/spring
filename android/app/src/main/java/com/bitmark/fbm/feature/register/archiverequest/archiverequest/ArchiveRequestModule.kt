@@ -4,10 +4,11 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.register.archiverequest
+package com.bitmark.fbm.feature.register.archiverequest.archiverequest
 
 import com.bitmark.fbm.data.source.AccountRepository
-import com.bitmark.fbm.di.ActivityScope
+import com.bitmark.fbm.data.source.AppRepository
+import com.bitmark.fbm.di.FragmentScope
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
@@ -18,19 +19,21 @@ import dagger.Provides
 class ArchiveRequestModule {
 
     @Provides
-    @ActivityScope
+    @FragmentScope
+    fun provideNavigator(fragment: ArchiveRequestFragment) = Navigator(fragment)
+
+    @Provides
+    @FragmentScope
     fun provideViewModel(
-        activity: ArchiveRequestActivity,
+        fragment: ArchiveRequestFragment,
         accountRepo: AccountRepository,
+        appRepo: AppRepository,
         rxLiveDataTransformer: RxLiveDataTransformer
-    ) =
-        ArchiveRequestViewModel(activity.lifecycle, accountRepo, rxLiveDataTransformer)
+    ) = ArchiveRequestViewModel(fragment.lifecycle, accountRepo, appRepo, rxLiveDataTransformer)
 
     @Provides
-    @ActivityScope
-    fun provideNavigator(activity: ArchiveRequestActivity) = Navigator(activity)
+    @FragmentScope
+    fun provideDialogController(fragment: ArchiveRequestFragment) =
+        DialogController(fragment.activity!!)
 
-    @Provides
-    @ActivityScope
-    fun provideDialogController(activity: ArchiveRequestActivity) = DialogController(activity)
 }

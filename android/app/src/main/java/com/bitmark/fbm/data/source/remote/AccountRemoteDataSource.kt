@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source.remote
 
+import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.source.local.Jwt
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
@@ -44,18 +45,14 @@ class AccountRemoteDataSource @Inject constructor(
         }.ignoreElement().subscribeOn(Schedulers.io())
     }
 
-    fun registerFbmServerAccount(): Single<String> {
-        return fbmApi.registerAccount()
-            .map { res -> res["account_id"] ?: error("invalid account id") }
-            .subscribeOn(Schedulers.io())
+    fun registerFbmServerAccount(): Single<AccountData> {
+        return fbmApi.registerAccount().map { res -> res.data }.subscribeOn(Schedulers.io())
     }
 
     fun sendArchiveDownloadRequest(
-        accountId: String,
-        fbId: String,
-        fbPassword: String
+        archiveUrl: String, cookie: String
     ): Completable {
-        val payload = ArchiveRequestPayload(accountId, fbId, fbPassword)
+        val payload = ArchiveRequestPayload(archiveUrl, cookie)
         return fbmApi.sendArchiveDownloadRequest(payload)
     }
 

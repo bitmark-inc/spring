@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source
 
+import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.source.local.AccountLocalDataSource
 import com.bitmark.fbm.data.source.remote.AccountRemoteDataSource
 import io.reactivex.Single
@@ -17,16 +18,15 @@ class AccountRepository(
 ) {
 
     fun sendArchiveDownloadRequest(
-        accountId: String,
-        fbId: String,
-        fbPassword: String
-    ) = remoteDataSource.sendArchiveDownloadRequest(accountId, fbId, fbPassword)
+        archiveUrl: String,
+        cookie: String
+    ) = remoteDataSource.sendArchiveDownloadRequest(archiveUrl, cookie)
 
     fun registerFbmServerAccount(
         timestamp: String,
         signature: String,
         requester: String
-    ) = remoteDataSource.registerFbmServerJwt(
+    ) = registerFbmServerJwt(
         timestamp,
         signature,
         requester
@@ -44,8 +44,8 @@ class AccountRepository(
 
     fun checkJwtExpired() = localDataSource.checkJwtExpired()
 
-    fun saveAccountData(accountId: String, authRequired: Boolean, keyAlias: String) =
-        localDataSource.saveAccountData(accountId, authRequired, keyAlias)
+    fun saveAccountData(accountData: AccountData) =
+        localDataSource.saveAccountData(accountData)
 
     fun getAccountData() = localDataSource.getAccountData()
 
@@ -58,4 +58,8 @@ class AccountRepository(
     }
 
     fun registerIntercomUser(id: String) = remoteDataSource.registerIntercomUser(id)
+
+    fun setArchiveRequested(requested: Boolean) = localDataSource.setArchiveRequested(requested)
+
+    fun checkArchiveRequested() = localDataSource.checkArchiveRequested()
 }

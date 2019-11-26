@@ -26,19 +26,24 @@ class AccountLocalDataSource @Inject constructor(
         System.currentTimeMillis() - Jwt.getInstance().expiredAt <= 0
     }
 
-    fun saveAccountData(accountId: String, authRequired: Boolean, keyAlias: String) =
+    fun saveAccountData(accountData: AccountData) =
         sharedPrefApi.rxCompletable { sharedPrefGateway ->
-            sharedPrefGateway.put(
-                SharedPrefApi.ACCOUNT_DATA,
-                gson.toJson(AccountData(accountId, authRequired, keyAlias))
-            )
+            sharedPrefGateway.put(SharedPrefApi.ACCOUNT_DATA, gson.toJson(accountData))
         }
 
-    fun getAccountData(): Single<AccountData?> = sharedPrefApi.rxSingle { sharedPrefGateway ->
+    fun getAccountData(): Single<AccountData> = sharedPrefApi.rxSingle { sharedPrefGateway ->
         val accountData = gson.fromJson(
             sharedPrefGateway.get(SharedPrefApi.ACCOUNT_DATA, String::class),
             AccountData::class.java
         )
         accountData ?: throw IllegalAccessException("account not found")
+    }
+
+    fun setArchiveRequested(requested: Boolean) = sharedPrefApi.rxCompletable { sharedPrefGateway ->
+        sharedPrefGateway.put(SharedPrefApi.ARCHIVE_REQUESTED, requested)
+    }
+
+    fun checkArchiveRequested() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        sharedPrefGateway.get(SharedPrefApi.ARCHIVE_REQUESTED, Boolean::class)
     }
 }

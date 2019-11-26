@@ -148,7 +148,7 @@ android {
                     "${project.rootDir}/distribution/testers.txt"
 
             buildConfigField "String", "FBM_API_ENDPOINT",
-                    "\"https://private-4eeb6-jollyjoker992.apiary-mock.com\""
+                    "\"https://fbm.test.bitmark.com\""
 
         }
 
@@ -165,7 +165,7 @@ android {
                     "${project.rootDir}/distribution/testers.txt"
 
             buildConfigField "String", "FBM_API_ENDPOINT",
-                    "\"https://fbm.com\""
+                    "\"https://fbm.bitmark.com\""
 
         }
     }

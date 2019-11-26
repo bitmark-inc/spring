@@ -22,6 +22,7 @@ class SharedPrefApi @Inject constructor(
         const val ACCOUNT_DATA = "account_data"
         const val NOTIFICATION_ALREADY_REGISTERED = "notification_already_registered"
         const val DATA_READY = "data_ready"
+        const val ARCHIVE_REQUESTED = "archive_requested"
     }
 
     private val sharePrefGateway = SharedPrefGateway(context, gson)

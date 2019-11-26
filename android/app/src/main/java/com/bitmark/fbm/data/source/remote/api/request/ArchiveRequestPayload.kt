@@ -11,27 +11,16 @@ import com.google.gson.annotations.SerializedName
 
 
 class ArchiveRequestPayload(
-    accountId: String,
-    fbId: String,
-    password: String
+    archiveUrl: String,
+    cookie: String
 ) : Request {
 
-    @SerializedName("account_id")
+    @SerializedName("file_url")
     @Expose
-    private val accountId: String = accountId
+    private val archiveUrl: String = archiveUrl
 
-    @SerializedName("credential")
+    @SerializedName("raw_cookie")
     @Expose
-    private val credential: Credential = Credential(fbId, password)
+    private val cookie: String = cookie
 
 }
-
-data class Credential(
-    @SerializedName("id")
-    @Expose
-    private val id: String,
-
-    @SerializedName("password")
-    @Expose
-    private val password: String
-)

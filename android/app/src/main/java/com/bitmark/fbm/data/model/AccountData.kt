@@ -12,14 +12,26 @@ import com.google.gson.annotations.SerializedName
 
 data class AccountData(
     @Expose
-    @SerializedName("account_id")
-    val accountId: String,
+    @SerializedName("account_number")
+    var id: String,
+
+    @Expose
+    @SerializedName("metadata")
+    var metadata: Map<String, String>?,
+
+    @Expose
+    @SerializedName("created_at")
+    var createdAt: String,
+
+    @Expose
+    @SerializedName("updated_at")
+    var updatedAt: String,
 
     @Expose
     @SerializedName("auth_required")
-    val authRequired: Boolean,
+    var authRequired: Boolean = false,
 
     @Expose
     @SerializedName("key_alias")
-    val keyAlias: String
+    var keyAlias: String = ""
 ) : Data

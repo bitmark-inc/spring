@@ -30,6 +30,7 @@
     <string name="enable">Enable</string>
     <string name="we_will_notify_you_when_backup">We’ll notify you when your backup is ready.</string>
     <string name="authorize_arrow">Authorize »</string>
+    <string name="automate_arrow">Automate »</string>
     <string name="spring">Spring</string>
     <string name="reports">Reports</string>
     <string name="usage">USAGE</string>
@@ -59,6 +60,8 @@
     <string name="write_down_the_following_word">Write down the following words in order:</string>
     <string name="about">About</string>
     <string name="faq">FAQ</string>
+    <string name="your_archive_is_ready">Your archive is ready?</string>
+    <string name="please_check_if_your_archive_is_ready">Please check if your archive is ready to download</string>
 
     <string name="word_of_format">Word %1$d of %2$d</string>
 

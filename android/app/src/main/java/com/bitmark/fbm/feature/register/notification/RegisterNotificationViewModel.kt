@@ -27,7 +27,7 @@ class RegisterNotificationViewModel(
     fun registerNotification() {
         registerNotificationLiveData.add(
             rxLiveDataTransformer.completable(accountRepo.getAccountData().flatMapCompletable { account ->
-                appRepo.registerNotificationService(mapOf("account_id" to account.accountId))
+                appRepo.registerNotificationService(mapOf("account_id" to account.id))
             })
         )
     }

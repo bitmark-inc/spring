@@ -9,4 +9,6 @@ package com.bitmark.fbm.logging
 enum class Event(val value: String) {
 
     ACCOUNT_SAVE_TO_KEY_STORE_ERROR("account_save_to_keystore_error"),
+
+    FB_ARCHIVE_AUTOMATE_PAGE_DETECTION_FAILED("fb_archive_automate_page_detection_failed")
 }

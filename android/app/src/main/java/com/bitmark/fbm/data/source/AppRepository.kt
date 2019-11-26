@@ -26,4 +26,6 @@ class AppRepository(
         localDataSource.checkNotificationServiceRegistration()
 
     fun checkDataReady() = localDataSource.checkDataReady()
+
+    fun getAutomationScript() = remoteDataSource.getAutomationScript()
 }

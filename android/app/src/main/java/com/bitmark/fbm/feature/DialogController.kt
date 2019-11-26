@@ -22,9 +22,12 @@ class DialogController(private val activity: Activity) {
     fun isShowing() = showingDialog != null
 
     fun show(dialog: AppCompatDialog) {
-        if (isShowing() && dialog != showingDialog)
+        if (isShowing() && dialog != showingDialog) {
             queue.add(dialog)
-        else dialog.show()
+        } else {
+            dialog.show()
+            showingDialog = dialog
+        }
     }
 
     fun dismiss(dialog: AppCompatDialog, dismissListener: () -> Unit = {}) {
@@ -50,9 +53,12 @@ class DialogController(private val activity: Activity) {
                     showNext()
                 }
                 .setCancelable(cancelable).create()
-        if (isShowing())
+        if (isShowing()) {
             queue.add(dialog)
-        else dialog.show()
+        } else {
+            dialog.show()
+            showingDialog = dialog
+        }
     }
 
     fun alert(
@@ -68,9 +74,12 @@ class DialogController(private val activity: Activity) {
                     showNext()
                 }
                 .setCancelable(cancelable).create()
-        if (isShowing())
+        if (isShowing()) {
             queue.add(dialog)
-        else dialog.show()
+        } else {
+            dialog.show()
+            showingDialog = dialog
+        }
     }
 
     fun confirm(
@@ -97,9 +106,12 @@ class DialogController(private val activity: Activity) {
                     }
                 }
                 .setCancelable(cancelable).create()
-        if (isShowing())
+        if (isShowing()) {
             queue.add(dialog)
-        else dialog.show()
+        } else {
+            dialog.show()
+            showingDialog = dialog
+        }
     }
 
     fun confirm(
@@ -123,9 +135,12 @@ class DialogController(private val activity: Activity) {
                     showNext()
                 }
                 .setCancelable(cancelable).create()
-        if (isShowing())
+        if (isShowing()) {
             queue.add(dialog)
-        else dialog.show()
+        } else {
+            dialog.show()
+            showingDialog = dialog
+        }
     }
 
     fun dismissShowing() {
@@ -145,6 +160,7 @@ class DialogController(private val activity: Activity) {
         if (isQueueing()) {
             val dialog = queue.first
             dialog.show()
+            showingDialog = dialog
         }
     }
 }

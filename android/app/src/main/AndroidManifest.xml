@@ -19,16 +19,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".feature.main.MainActivity" />
+        <activity
+            android:name=".feature.main.MainActivity"
+            android:launchMode="singleTop" />
 
         <activity
             android:name=".feature.register.onboarding.OnboardingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
 
         <activity
-            android:name=".feature.register.archiverequest.ArchiveRequestActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar"
-            android:windowSoftInputMode="stateAlwaysVisible" />
+            android:name=".feature.register.archiverequest.ArchiveRequestContainerActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
 
         <activity
             android:name=".feature.register.notification.RegisterNotificationActivity"
@@ -40,8 +42,12 @@
             android:name=".feature.unlink.UnlinkContainerActivity"
             android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".feature.auth.BiometricAuthActivity" />
+
         <activity android:name=".feature.recovery.RecoveryContainerActivity" />
+
         <activity android:name=".feature.support.SupportActivity" />
+
+        <receiver android:name=".feature.notification.ScheduledNotificationReceiver" />
 
         <meta-data
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"
