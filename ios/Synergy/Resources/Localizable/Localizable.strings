@@ -13,3 +13,6 @@
 "USAGE" = "USAGE";
 "INSIGHTS" = "INSIGHTS";
 "ACCOUNT" = "ACCOUNT";
+"YourAuthorizationIsRequired" = "Your authorization is required.";
+"notify_me" = "Notify me";
+"Enable" = "Enable";

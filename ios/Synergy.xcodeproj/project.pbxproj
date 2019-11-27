@@ -65,7 +65,6 @@
 		5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC99237A8A9200FA3196 /* UITableView+ApplyChanges.swift */; };
 		5832FCA7237A8A9200FA3196 /* RxOptional+Single+Optional.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9B237A8A9200FA3196 /* RxOptional+Single+Optional.swift */; };
 		5832FCA8237A8A9200FA3196 /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9C237A8A9200FA3196 /* Observable+Operators.swift */; };
-		5832FCA9237A8A9200FA3196 /* UIViewController+AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9D237A8A9200FA3196 /* UIViewController+AppSettings.swift */; };
 		5832FCAA237A8A9200FA3196 /* UIViewController+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9E237A8A9200FA3196 /* UIViewController+Error.swift */; };
 		5832FCAB237A8A9200FA3196 /* String+SupportBitmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9F237A8A9200FA3196 /* String+SupportBitmark.swift */; };
 		5832FCAC237A8A9200FA3196 /* UIFont+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA0237A8A9200FA3196 /* UIFont+Theme.swift */; };
@@ -85,16 +84,62 @@
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
+		E2259CD0238783AE00746280 /* FBScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CCF238783AE00746280 /* FBScript.swift */; };
+		E2259CD1238783AE00746280 /* FBScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CCF238783AE00746280 /* FBScript.swift */; };
+		E2259CD42387E35300746280 /* ServerAssetsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CD32387E35300746280 /* ServerAssetsAPI.swift */; };
+		E2259CD52387E35300746280 /* ServerAssetsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CD32387E35300746280 /* ServerAssetsAPI.swift */; };
+		E2259CD72387E36600746280 /* ServerAssetsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CD62387E36600746280 /* ServerAssetsService.swift */; };
+		E2259CD82387E36600746280 /* ServerAssetsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CD62387E36600746280 /* ServerAssetsService.swift */; };
+		E2259CDB2387E56F00746280 /* ServerAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CDA2387E56F00746280 /* ServerAPIError.swift */; };
+		E2259CDC2387E56F00746280 /* ServerAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CDA2387E56F00746280 /* ServerAPIError.swift */; };
 		E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */; };
 		E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */; };
 		E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
 		E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
+		E236B676238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
+		E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
+		E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
+		E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
 		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
+		E24829CC238BF9A900995FBB /* Error.strings in Resources */ = {isa = PBXBuildFile; fileRef = E24829CB238BF9A900995FBB /* Error.strings */; };
+		E24829CD238BF9A900995FBB /* Error.strings in Resources */ = {isa = PBXBuildFile; fileRef = E24829CB238BF9A900995FBB /* Error.strings */; };
 		E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959D72386309C000E9CB9 /* AccountService+Rx.swift */; };
 		E27959D92386309C000E9CB9 /* AccountService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959D72386309C000E9CB9 /* AccountService+Rx.swift */; };
+		E27959DC23868795000E9CB9 /* RequestDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959DB23868795000E9CB9 /* RequestDataViewModel.swift */; };
+		E27959DD23868795000E9CB9 /* RequestDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959DB23868795000E9CB9 /* RequestDataViewModel.swift */; };
+		E27959DF238687A2000E9CB9 /* RequestDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959DE238687A2000E9CB9 /* RequestDataViewController.swift */; };
+		E27959E0238687A2000E9CB9 /* RequestDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959DE238687A2000E9CB9 /* RequestDataViewController.swift */; };
 		E27959E22386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959E12386B8C1000E9CB9 /* TextFieldWithRightIcon.swift */; };
 		E27959E32386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959E12386B8C1000E9CB9 /* TextFieldWithRightIcon.swift */; };
+		E28B55ED238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55EC238CE65B00F1BCF2 /* DataRequestedViewModel.swift */; };
+		E28B55EE238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55EC238CE65B00F1BCF2 /* DataRequestedViewModel.swift */; };
+		E28B55F0238CE66400F1BCF2 /* DataRequestedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55EF238CE66400F1BCF2 /* DataRequestedViewController.swift */; };
+		E28B55F1238CE66500F1BCF2 /* DataRequestedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55EF238CE66400F1BCF2 /* DataRequestedViewController.swift */; };
+		E28B55F4238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55F3238D03C600F1BCF2 /* FBArchiveAPI.swift */; };
+		E28B55F5238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55F3238D03C600F1BCF2 /* FBArchiveAPI.swift */; };
+		E28B55F7238D03D100F1BCF2 /* FBArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55F6238D03D100F1BCF2 /* FBArchiveService.swift */; };
+		E28B55F8238D03D100F1BCF2 /* FBArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55F6238D03D100F1BCF2 /* FBArchiveService.swift */; };
+		E28B55FB238D0A6800F1BCF2 /* MoyaAuthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55FA238D0A6800F1BCF2 /* MoyaAuthPlugin.swift */; };
+		E28B55FC238D0A6800F1BCF2 /* MoyaAuthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55FA238D0A6800F1BCF2 /* MoyaAuthPlugin.swift */; };
+		E28B55FE238D0AFC00F1BCF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55FD238D0AFC00F1BCF2 /* AuthService.swift */; };
+		E28B55FF238D0AFC00F1BCF2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55FD238D0AFC00F1BCF2 /* AuthService.swift */; };
+		E28B5601238D0B4200F1BCF2 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5600238D0B4200F1BCF2 /* AuthAPI.swift */; };
+		E28B5602238D0B4200F1BCF2 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5600238D0B4200F1BCF2 /* AuthAPI.swift */; };
+		E28B5607238D103300F1BCF2 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5606238D103300F1BCF2 /* Auth.swift */; };
+		E28B5608238D103300F1BCF2 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5606238D103300F1BCF2 /* Auth.swift */; };
+		E28B560B238D162400F1BCF2 /* FbmAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B560A238D162400F1BCF2 /* FbmAccountService.swift */; };
+		E28B560C238D162400F1BCF2 /* FbmAccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B560A238D162400F1BCF2 /* FbmAccountService.swift */; };
+		E28B560E238D16E800F1BCF2 /* FbmAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B560D238D16E800F1BCF2 /* FbmAccount.swift */; };
+		E28B560F238D16E800F1BCF2 /* FbmAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B560D238D16E800F1BCF2 /* FbmAccount.swift */; };
+		E28B5611238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5610238D180B00F1BCF2 /* FbmAccountAPI.swift */; };
+		E28B5612238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5610238D180B00F1BCF2 /* FbmAccountAPI.swift */; };
+		E28B5615238D1A3200F1BCF2 /* DataGeneratingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5614238D1A3200F1BCF2 /* DataGeneratingViewModel.swift */; };
+		E28B5616238D1A3200F1BCF2 /* DataGeneratingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5614238D1A3200F1BCF2 /* DataGeneratingViewModel.swift */; };
+		E28B5618238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5617238D1A3D00F1BCF2 /* DataGeneratingViewController.swift */; };
+		E28B5619238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5617238D1A3D00F1BCF2 /* DataGeneratingViewController.swift */; };
+		E28B561B238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */; };
+		E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */; };
 		E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */; };
 		E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */; };
 		E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */; };
@@ -197,7 +242,6 @@
 		E2DB66AB237D3B69005367C2 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC1A237A863300FA3196 /* ThemeManager.swift */; };
 		E2DB66AC237D3B69005367C2 /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC23237A863300FA3196 /* UnderlinedTextField.swift */; };
 		E2DB66AD237D3B69005367C2 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC18237A863300FA3196 /* Currency.swift */; };
-		E2DB66AE237D3B69005367C2 /* UIViewController+AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9D237A8A9200FA3196 /* UIViewController+AppSettings.swift */; };
 		E2DB66AF237D3B69005367C2 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC19237A863300FA3196 /* ViewModel.swift */; };
 		E2DB66B0237D3B69005367C2 /* Observable+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC9C237A8A9200FA3196 /* Observable+Operators.swift */; };
 		E2DB66B1237D3B69005367C2 /* Global+Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC16237A863300FA3196 /* Global+Log.swift */; };
@@ -301,7 +345,6 @@
 		5832FC99237A8A9200FA3196 /* UITableView+ApplyChanges.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+ApplyChanges.swift"; sourceTree = "<group>"; };
 		5832FC9B237A8A9200FA3196 /* RxOptional+Single+Optional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RxOptional+Single+Optional.swift"; sourceTree = "<group>"; };
 		5832FC9C237A8A9200FA3196 /* Observable+Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Operators.swift"; sourceTree = "<group>"; };
-		5832FC9D237A8A9200FA3196 /* UIViewController+AppSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+AppSettings.swift"; sourceTree = "<group>"; };
 		5832FC9E237A8A9200FA3196 /* UIViewController+Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Error.swift"; sourceTree = "<group>"; };
 		5832FC9F237A8A9200FA3196 /* String+SupportBitmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+SupportBitmark.swift"; sourceTree = "<group>"; };
 		5832FCA0237A8A9200FA3196 /* UIFont+Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIFont+Theme.swift"; sourceTree = "<group>"; };
@@ -326,11 +369,35 @@
 		C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.debug.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E19A6B110D404A33B44425C8 /* Pods-Synergy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy.release.xcconfig"; path = "Target Support Files/Pods-Synergy/Pods-Synergy.release.xcconfig"; sourceTree = "<group>"; };
+		E2259CCF238783AE00746280 /* FBScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBScript.swift; sourceTree = "<group>"; };
+		E2259CD32387E35300746280 /* ServerAssetsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAssetsAPI.swift; sourceTree = "<group>"; };
+		E2259CD62387E36600746280 /* ServerAssetsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAssetsService.swift; sourceTree = "<group>"; };
+		E2259CDA2387E56F00746280 /* ServerAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIError.swift; sourceTree = "<group>"; };
 		E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewController.swift; sourceTree = "<group>"; };
 		E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewModel.swift; sourceTree = "<group>"; };
+		E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FbmAccountDataEngine+Rx.swift"; sourceTree = "<group>"; };
+		E236B678238EAAF200C1A280 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
+		E24829CB238BF9A900995FBB /* Error.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Error.strings; sourceTree = "<group>"; };
 		E27959D72386309C000E9CB9 /* AccountService+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AccountService+Rx.swift"; sourceTree = "<group>"; };
+		E27959DB23868795000E9CB9 /* RequestDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDataViewModel.swift; sourceTree = "<group>"; };
+		E27959DE238687A2000E9CB9 /* RequestDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestDataViewController.swift; sourceTree = "<group>"; };
 		E27959E12386B8C1000E9CB9 /* TextFieldWithRightIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldWithRightIcon.swift; sourceTree = "<group>"; };
+		E28B55EA238CCB9200F1BCF2 /* Synergy Dev.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Synergy Dev.entitlements"; sourceTree = "<group>"; };
+		E28B55EC238CE65B00F1BCF2 /* DataRequestedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequestedViewModel.swift; sourceTree = "<group>"; };
+		E28B55EF238CE66400F1BCF2 /* DataRequestedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataRequestedViewController.swift; sourceTree = "<group>"; };
+		E28B55F3238D03C600F1BCF2 /* FBArchiveAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBArchiveAPI.swift; sourceTree = "<group>"; };
+		E28B55F6238D03D100F1BCF2 /* FBArchiveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBArchiveService.swift; sourceTree = "<group>"; };
+		E28B55FA238D0A6800F1BCF2 /* MoyaAuthPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoyaAuthPlugin.swift; sourceTree = "<group>"; };
+		E28B55FD238D0AFC00F1BCF2 /* AuthService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		E28B5600238D0B4200F1BCF2 /* AuthAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		E28B5606238D103300F1BCF2 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		E28B560A238D162400F1BCF2 /* FbmAccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FbmAccountService.swift; sourceTree = "<group>"; };
+		E28B560D238D16E800F1BCF2 /* FbmAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FbmAccount.swift; sourceTree = "<group>"; };
+		E28B5610238D180B00F1BCF2 /* FbmAccountAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FbmAccountAPI.swift; sourceTree = "<group>"; };
+		E28B5614238D1A3200F1BCF2 /* DataGeneratingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataGeneratingViewModel.swift; sourceTree = "<group>"; };
+		E28B5617238D1A3D00F1BCF2 /* DataGeneratingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataGeneratingViewController.swift; sourceTree = "<group>"; };
+		E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Permission.swift"; sourceTree = "<group>"; };
 		E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInWallViewModel.swift; sourceTree = "<group>"; };
 		E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInWallViewController.swift; sourceTree = "<group>"; };
 		E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Black.otf"; sourceTree = "<group>"; };
@@ -364,7 +431,6 @@
 		E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66CD237D40A8005367C2 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		E2DB66CF237D40A8005367C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E2DB66D7237D411C005367C2 /* Synergy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Synergy.entitlements; sourceTree = "<group>"; };
 		EEEFB2453873472512CCA456 /* Pods_Synergy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Synergy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -450,6 +516,7 @@
 		5832FBE0237A6DB700FA3196 = {
 			isa = PBXGroup;
 			children = (
+				E28B55EA238CCB9200F1BCF2 /* Synergy Dev.entitlements */,
 				5832FBEB237A6DB700FA3196 /* Synergy */,
 				5832FC02237A6DB900FA3196 /* SynergyTests */,
 				E2DB66CC237D40A8005367C2 /* OneSignalNotificationServiceExtension */,
@@ -473,12 +540,14 @@
 		5832FBEB237A6DB700FA3196 /* Synergy */ = {
 			isa = PBXGroup;
 			children = (
-				E2DB66D7237D411C005367C2 /* Synergy.entitlements */,
 				5832FC0E237A85B000FA3196 /* Application */,
 				5832FC14237A863300FA3196 /* Common */,
 				5832FCB6237AA10600FA3196 /* Modules */,
 				5832FC8A237A889A00FA3196 /* ConfCore */,
+				E236B674238E37A900C1A280 /* Data Engine */,
 				5832FC63237A883500FA3196 /* Services */,
+				E22BB3392385170C0044BC95 /* Models */,
+				E2259CD92387E54A00746280 /* Helpers */,
 				5832FC98237A8A9200FA3196 /* Extensions */,
 				5832FCBD237AB8AB00FA3196 /* Resources */,
 				5832FBFA237A6DB900FA3196 /* Info.plist */,
@@ -540,6 +609,7 @@
 				5832FC1F237A863300FA3196 /* ViewController.swift */,
 				5832FC20237A863300FA3196 /* ThemedViewController.swift */,
 				5832FC21237A863300FA3196 /* NavigationController.swift */,
+				E236B678238EAAF200C1A280 /* NavigationView.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -574,7 +644,12 @@
 		5832FC63237A883500FA3196 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E28B55FA238D0A6800F1BCF2 /* MoyaAuthPlugin.swift */,
 				5832FC69237A883500FA3196 /* NetworkConnectionManager.swift */,
+				E236B67B238EC4A200C1A280 /* Auth */,
+				E2259CD22387E30C00746280 /* Server Assets */,
+				E28B5609238D15FF00F1BCF2 /* FbmAccount */,
+				E28B55F2238D03A400F1BCF2 /* FB Archive */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -605,7 +680,7 @@
 				5832FC99237A8A9200FA3196 /* UITableView+ApplyChanges.swift */,
 				E24829C8238BC30F00995FBB /* R.generated+Font.swift */,
 				5832FC9A237A8A9200FA3196 /* RxSwift */,
-				5832FC9D237A8A9200FA3196 /* UIViewController+AppSettings.swift */,
+				E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */,
 				5832FC9E237A8A9200FA3196 /* UIViewController+Error.swift */,
 				5832FC9F237A8A9200FA3196 /* String+SupportBitmark.swift */,
 				5832FCA0237A8A9200FA3196 /* UIFont+Theme.swift */,
@@ -672,6 +747,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E2259CD22387E30C00746280 /* Server Assets */ = {
+			isa = PBXGroup;
+			children = (
+				E2259CD62387E36600746280 /* ServerAssetsService.swift */,
+				E2259CD32387E35300746280 /* ServerAssetsAPI.swift */,
+			);
+			path = "Server Assets";
+			sourceTree = "<group>";
+		};
+		E2259CD92387E54A00746280 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				E2259CDA2387E56F00746280 /* ServerAPIError.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		E22BB3322384E7030044BC95 /* Get Your Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -679,6 +771,33 @@
 				E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */,
 			);
 			path = "Get Your Data";
+			sourceTree = "<group>";
+		};
+		E22BB3392385170C0044BC95 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E2259CCF238783AE00746280 /* FBScript.swift */,
+				E28B5606238D103300F1BCF2 /* Auth.swift */,
+				E28B560D238D16E800F1BCF2 /* FbmAccount.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E236B674238E37A900C1A280 /* Data Engine */ = {
+			isa = PBXGroup;
+			children = (
+				E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */,
+			);
+			path = "Data Engine";
+			sourceTree = "<group>";
+		};
+		E236B67B238EC4A200C1A280 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				E28B55FD238D0AFC00F1BCF2 /* AuthService.swift */,
+				E28B5600238D0B4200F1BCF2 /* AuthAPI.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		E27959D623863067000E9CB9 /* Bitmark */ = {
@@ -689,12 +808,60 @@
 			path = Bitmark;
 			sourceTree = "<group>";
 		};
+		E27959DA23868763000E9CB9 /* Request Data */ = {
+			isa = PBXGroup;
+			children = (
+				E27959DB23868795000E9CB9 /* RequestDataViewModel.swift */,
+				E27959DE238687A2000E9CB9 /* RequestDataViewController.swift */,
+			);
+			path = "Request Data";
+			sourceTree = "<group>";
+		};
+		E28B55EB238CE63200F1BCF2 /* Data Requested */ = {
+			isa = PBXGroup;
+			children = (
+				E28B55EC238CE65B00F1BCF2 /* DataRequestedViewModel.swift */,
+				E28B55EF238CE66400F1BCF2 /* DataRequestedViewController.swift */,
+			);
+			path = "Data Requested";
+			sourceTree = "<group>";
+		};
+		E28B55F2238D03A400F1BCF2 /* FB Archive */ = {
+			isa = PBXGroup;
+			children = (
+				E28B55F6238D03D100F1BCF2 /* FBArchiveService.swift */,
+				E28B55F3238D03C600F1BCF2 /* FBArchiveAPI.swift */,
+			);
+			path = "FB Archive";
+			sourceTree = "<group>";
+		};
+		E28B5609238D15FF00F1BCF2 /* FbmAccount */ = {
+			isa = PBXGroup;
+			children = (
+				E28B560A238D162400F1BCF2 /* FbmAccountService.swift */,
+				E28B5610238D180B00F1BCF2 /* FbmAccountAPI.swift */,
+			);
+			path = FbmAccount;
+			sourceTree = "<group>";
+		};
+		E28B5613238D1A1700F1BCF2 /* Data Generating */ = {
+			isa = PBXGroup;
+			children = (
+				E28B5614238D1A3200F1BCF2 /* DataGeneratingViewModel.swift */,
+				E28B5617238D1A3D00F1BCF2 /* DataGeneratingViewController.swift */,
+			);
+			path = "Data Generating";
+			sourceTree = "<group>";
+		};
 		E29F5A162383E2E600C1D9D8 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
 				E29F5A1A2383E2E600C1D9D8 /* Sign In Wall */,
 				E29F5A782383F8C900C1D9D8 /* How It Works */,
 				E22BB3322384E7030044BC95 /* Get Your Data */,
+				E27959DA23868763000E9CB9 /* Request Data */,
+				E28B55EB238CE63200F1BCF2 /* Data Requested */,
+				E28B5613238D1A1700F1BCF2 /* Data Generating */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -758,6 +925,7 @@
 			children = (
 				E29F5A712383F1CE00C1D9D8 /* Localizable.strings */,
 				E29F5A752383F20700C1D9D8 /* Phrase.strings */,
+				E24829CB238BF9A900995FBB /* Error.strings */,
 			);
 			path = Localizable;
 			sourceTree = "<group>";
@@ -925,6 +1093,7 @@
 				E29F5A3F2383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */,
 				E29F5A4D2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */,
 				E29F5A672383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */,
+				E24829CC238BF9A900995FBB /* Error.strings in Resources */,
 				E29F5A452383E59700C1D9D8 /* AtlasGrotesk-Thin.otf in Resources */,
 				E29F5A492383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf in Resources */,
 				E29F5A412383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf in Resources */,
@@ -966,6 +1135,7 @@
 				E29F5A402383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */,
 				E29F5A4E2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */,
 				E29F5A682383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */,
+				E24829CD238BF9A900995FBB /* Error.strings in Resources */,
 				E29F5A462383E59700C1D9D8 /* AtlasGrotesk-Thin.otf in Resources */,
 				E29F5A4A2383E59700C1D9D8 /* AtlasGrotesk-RegularItalic.otf in Resources */,
 				E29F5A422383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf in Resources */,
@@ -1195,13 +1365,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				5832FC95237A889A00FA3196 /* RealmConfig.swift in Sources */,
+				E28B55F4238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */,
 				5832FC5D237A863300FA3196 /* Button.swift in Sources */,
 				5832FC11237A85B000FA3196 /* AppDelegate.swift in Sources */,
 				5832FC4C237A863300FA3196 /* SubmitButton.swift in Sources */,
 				5832FC58237A863300FA3196 /* TextField.swift in Sources */,
+				E27959DC23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
 				5832FC44237A863300FA3196 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
 				E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				5832FC52237A863300FA3196 /* ActivityIndicator.swift in Sources */,
+				E28B5611238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */,
 				5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */,
 				5832FC97237A889A00FA3196 /* Credential.swift in Sources */,
 				E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
@@ -1212,19 +1385,25 @@
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
 				5832FC48237A863300FA3196 /* NavigationController.swift in Sources */,
 				5832FC57237A863300FA3196 /* Switch.swift in Sources */,
+				E2259CDB2387E56F00746280 /* ServerAPIError.swift in Sources */,
 				5832FC5A237A863300FA3196 /* SeparateLine.swift in Sources */,
+				E28B55F0238CE66400F1BCF2 /* DataRequestedViewController.swift in Sources */,
 				5832FCB0237A8A9300FA3196 /* String+Helper.swift in Sources */,
 				5832FC4D237A863300FA3196 /* NoInternetBanner.swift in Sources */,
 				5832FC4A237A863300FA3196 /* Label.swift in Sources */,
+				E28B55FB238D0A6800F1BCF2 /* MoyaAuthPlugin.swift in Sources */,
+				E28B560B238D162400F1BCF2 /* FbmAccountService.swift in Sources */,
 				E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				5832FC5B237A863300FA3196 /* ImageView.swift in Sources */,
 				E27959E22386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
+				E28B5615238D1A3200F1BCF2 /* DataGeneratingViewModel.swift in Sources */,
 				E29F5A7A2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
 				5832FC50237A863300FA3196 /* MakeUnderline.swift in Sources */,
+				E236B676238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */,
 				5832FC94237A889A00FA3196 /* Storage.swift in Sources */,
 				5832FC59237A863300FA3196 /* IconButtonView.swift in Sources */,
 				5832FCB3237A9F6200FA3196 /* Application.swift in Sources */,
@@ -1233,21 +1412,29 @@
 				5832FCAE237A8A9300FA3196 /* MoyaProviderType+Request.swift in Sources */,
 				5832FC4E237A863300FA3196 /* ReadingTextView.swift in Sources */,
 				E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
+				E28B5618238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */,
+				E27959DF238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
 				5832FCA7237A8A9200FA3196 /* RxOptional+Single+Optional.swift in Sources */,
 				5832FC7C237A883500FA3196 /* NetworkConnectionManager.swift in Sources */,
 				5832FC5C237A863300FA3196 /* SecondaryButton.swift in Sources */,
 				5832FC3E237A863300FA3196 /* Constant.swift in Sources */,
+				E28B560E238D16E800F1BCF2 /* FbmAccount.swift in Sources */,
 				5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */,
 				5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
+				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5832D6FF238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				5832FC56237A863300FA3196 /* TableView.swift in Sources */,
 				5832FCAC237A8A9200FA3196 /* UIFont+Theme.swift in Sources */,
 				5832FC4F237A863300FA3196 /* TableViewCell.swift in Sources */,
 				E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
+				E28B55FE238D0AFC00F1BCF2 /* AuthService.swift in Sources */,
 				5832FCB1237A8A9300FA3196 /* StringProtocol+nsRange.swift in Sources */,
+				E28B55ED238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
+				E28B55F7238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
 				5832FCAA237A8A9200FA3196 /* UIViewController+Error.swift in Sources */,
 				5832D703238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
+				E2259CD0238783AE00746280 /* FBScript.swift in Sources */,
 				5832FC46237A863300FA3196 /* ViewController.swift in Sources */,
 				5832FC96237A889A00FA3196 /* KeychainStore.swift in Sources */,
 				5832FC45237A863300FA3196 /* ConfirmRecoveryKeyViewController.swift in Sources */,
@@ -1255,12 +1442,16 @@
 				5832FC43237A863300FA3196 /* ThemeManager.swift in Sources */,
 				5832FC49237A863300FA3196 /* UnderlinedTextField.swift in Sources */,
 				5832D6E4238BBE390074AEDC /* UsageViewModel.swift in Sources */,
+				E28B561B238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
 				5832FC41237A863300FA3196 /* Currency.swift in Sources */,
-				5832FCA9237A8A9200FA3196 /* UIViewController+AppSettings.swift in Sources */,
 				5832FC42237A863300FA3196 /* ViewModel.swift in Sources */,
 				5832FCA8237A8A9200FA3196 /* Observable+Operators.swift in Sources */,
+				E28B5607238D103300F1BCF2 /* Auth.swift in Sources */,
 				5832FC3F237A863300FA3196 /* Global+Log.swift in Sources */,
+				E28B5601238D0B4200F1BCF2 /* AuthAPI.swift in Sources */,
+				E2259CD42387E35300746280 /* ServerAssetsAPI.swift in Sources */,
 				5832FC55237A863300FA3196 /* SVProgressHUD+rxState.swift in Sources */,
+				E2259CD72387E36600746280 /* ServerAssetsService.swift in Sources */,
 				5832FCBB237AA1B600FA3196 /* LaunchingViewController.swift in Sources */,
 				5832FCAB237A8A9200FA3196 /* String+SupportBitmark.swift in Sources */,
 				5832FC47237A863300FA3196 /* ThemedViewController.swift in Sources */,
@@ -1285,7 +1476,11 @@
 				E2DB6681237D3B69005367C2 /* AppDelegate.swift in Sources */,
 				E2DB6682237D3B69005367C2 /* SubmitButton.swift in Sources */,
 				E2DB6683237D3B69005367C2 /* TextField.swift in Sources */,
+				E27959DD23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
+				E28B55EE238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
+				E28B5619238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */,
 				E2DB6684237D3B69005367C2 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
+				E28B560C238D162400F1BCF2 /* FbmAccountService.swift in Sources */,
 				E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
 				E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */,
@@ -1295,14 +1490,17 @@
 				E2DB6688237D3B69005367C2 /* Global.swift in Sources */,
 				E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
+				E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
 				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
 				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
 				E2DB668C237D3B69005367C2 /* Switch.swift in Sources */,
+				E2259CDC2387E56F00746280 /* ServerAPIError.swift in Sources */,
 				E2DB668D237D3B69005367C2 /* SeparateLine.swift in Sources */,
 				E2DB668E237D3B69005367C2 /* String+Helper.swift in Sources */,
 				E2DB668F237D3B69005367C2 /* NoInternetBanner.swift in Sources */,
 				E2DB6690237D3B69005367C2 /* Label.swift in Sources */,
 				E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
+				E28B55FF238D0AFC00F1BCF2 /* AuthService.swift in Sources */,
 				E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */,
 				E27959E32386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
 				E29F5A7B2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
@@ -1312,6 +1510,7 @@
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
 				E2DB6697237D3B69005367C2 /* Storage.swift in Sources */,
+				E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */,
 				E2DB6698237D3B69005367C2 /* IconButtonView.swift in Sources */,
 				E2DB6699237D3B69005367C2 /* Application.swift in Sources */,
 				E2DB669A237D3B69005367C2 /* UIButton+Image.swift in Sources */,
@@ -1319,6 +1518,7 @@
 				E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */,
 				E2DB669C237D3B69005367C2 /* ReadingTextView.swift in Sources */,
 				E29F5A272383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
+				E27959E0238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
 				E2DB669D237D3B69005367C2 /* RxOptional+Single+Optional.swift in Sources */,
 				E2DB669E237D3B69005367C2 /* NetworkConnectionManager.swift in Sources */,
 				E2DB669F237D3B69005367C2 /* SecondaryButton.swift in Sources */,
@@ -1326,28 +1526,40 @@
 				E2DB66A1237D3B69005367C2 /* DesignedSegmentControl.swift in Sources */,
 				5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E8238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
+				E28B560F238D16E800F1BCF2 /* FbmAccount.swift in Sources */,
 				5832D700238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
+				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,
+				E28B55F1238CE66500F1BCF2 /* DataRequestedViewController.swift in Sources */,
 				E2DB66A3237D3B69005367C2 /* UIFont+Theme.swift in Sources */,
 				E2DB66A4237D3B69005367C2 /* TableViewCell.swift in Sources */,
+				E28B5608238D103300F1BCF2 /* Auth.swift in Sources */,
 				E27959D92386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
 				E2DB66A5237D3B69005367C2 /* StringProtocol+nsRange.swift in Sources */,
 				E2DB66A6237D3B69005367C2 /* UIViewController+Error.swift in Sources */,
 				5832D704238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
+				E2259CD1238783AE00746280 /* FBScript.swift in Sources */,
 				E2DB66A7237D3B69005367C2 /* ViewController.swift in Sources */,
 				E2DB66A8237D3B69005367C2 /* KeychainStore.swift in Sources */,
 				E2DB66A9237D3B69005367C2 /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				E2DB66AA237D3B69005367C2 /* R.generated.swift in Sources */,
 				E2DB66AB237D3B69005367C2 /* ThemeManager.swift in Sources */,
 				E2DB66AC237D3B69005367C2 /* UnderlinedTextField.swift in Sources */,
+				E28B5616238D1A3200F1BCF2 /* DataGeneratingViewModel.swift in Sources */,
 				5832D6E5238BBE390074AEDC /* UsageViewModel.swift in Sources */,
+				E28B55FC238D0A6800F1BCF2 /* MoyaAuthPlugin.swift in Sources */,
+				E28B55F8238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
+				E28B5602238D0B4200F1BCF2 /* AuthAPI.swift in Sources */,
 				E2DB66AD237D3B69005367C2 /* Currency.swift in Sources */,
-				E2DB66AE237D3B69005367C2 /* UIViewController+AppSettings.swift in Sources */,
+				E28B55F5238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */,
 				E2DB66AF237D3B69005367C2 /* ViewModel.swift in Sources */,
 				E2DB66B0237D3B69005367C2 /* Observable+Operators.swift in Sources */,
 				E2DB66B1237D3B69005367C2 /* Global+Log.swift in Sources */,
+				E2259CD52387E35300746280 /* ServerAssetsAPI.swift in Sources */,
 				E2DB66B2237D3B69005367C2 /* SVProgressHUD+rxState.swift in Sources */,
+				E2259CD82387E36600746280 /* ServerAssetsService.swift in Sources */,
 				E2DB66B3237D3B69005367C2 /* LaunchingViewController.swift in Sources */,
+				E28B5612238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */,
 				E2DB66B4237D3B69005367C2 /* String+SupportBitmark.swift in Sources */,
 				E2DB66B5237D3B69005367C2 /* ThemedViewController.swift in Sources */,
 				E2DB66B6237D3B69005367C2 /* FileManager+Directory.swift in Sources */,
@@ -1604,6 +1816,7 @@
 			baseConfigurationReference = C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Synergy Dev.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
@@ -1624,6 +1837,7 @@
 			baseConfigurationReference = 565CBC042B4D43C3D73FFEAF /* Pods-Synergy Dev.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Synergy Dev.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";

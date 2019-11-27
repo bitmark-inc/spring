@@ -1,0 +1,15 @@
+/* 
+  Error.strings
+  Synergy
+
+  Created by thuyentruong on 11/25/19.
+  Copyright © 2019 Bitmark Inc. All rights reserved.
+*/
+
+"requestData" = "There was an error while requesting data from server.";
+"fb.requestData" = "There was an error while creating your Facebook data archive.";
+"fb.downloadData" = "There was an error while downloading your Facebook data archive.";
+
+"notification.title" = "Enable Notification";
+"notification.message" = "To get started, allow Synergy to push notification.";
+"system" = "There was an system error. We will update to fix it soon. Please try later.";

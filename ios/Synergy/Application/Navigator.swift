@@ -35,6 +35,8 @@ class Navigator {
         case howItWorks(viewModel: HowItWorksViewModel)
         case getYourData(viewModel: GetYourDataViewModel)
         case requestData(viewModel: RequestDataViewModel)
+        case dataRequested(viewModel: DataRequestedViewModel)
+        case dataGenerating(viewModel: DataGeneratingViewModel)
         case safari(URL)
         case safariController(URL)
         case hometabs
@@ -59,6 +61,8 @@ class Navigator {
         case .howItWorks(let viewModel): return HowItWorksViewController(viewModel: viewModel)
         case .getYourData(let viewModel): return GetYourDataViewController(viewModel: viewModel)
         case .requestData(let viewModel): return RequestDataViewController(viewModel: viewModel)
+        case .dataRequested(let viewModel): return DataRequestedViewController(viewModel: viewModel)
+        case .dataGenerating(let viewModel): return DataGeneratingViewController(viewModel: viewModel)
         case .safari(let url):
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
             return nil
