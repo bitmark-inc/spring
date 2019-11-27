@@ -20,6 +20,16 @@ class LaunchingViewModel: ViewModel {
         navigator.show(segue: .howItWorks(viewModel: viewModel))
     }
 
+    func gotoDownloadFBArchiveScreen() {
+        let viewModel = RequestDataViewModel(.downloadData)
+        navigator.show(segue: .requestData(viewModel: viewModel))
+    }
+
+    func gotoDataGeneratingScreen() {
+        let viewModel = DataGeneratingViewModel()
+        navigator.show(segue: .dataGenerating(viewModel: viewModel))
+    }
+
     func gotoSignInScreen() {
 
     }

@@ -17,31 +17,60 @@ class LaunchingViewController: ViewController {
     override func bindViewModel() {
         super.bindViewModel()
 
+        guard let viewModel = viewModel as? LaunchingViewModel else { return }
+
+        if UserDefaults.standard.isCreatingFBArchive {
+            viewModel.gotoDownloadFBArchiveScreen()
+            return
+        }
+
         AccountService.rx.existsCurrentAccount()
             .observeOn(MainScheduler.instance)
             .do(onSuccess: { Global.current.account = $0 })
             .flatMapCompletable { [weak self] in
                 guard let self = self else { return Completable.never() }
                 return try self.prepareAndGotoNext(account: $0)
-        }
-        .subscribe(
-            onError: { (error) in
+            }
+            .subscribe(onError: { (error) in
                 Global.log.error(error)
             })
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
     }
 
     func prepareAndGotoNext(account: Account?) throws -> Completable {
-        guard let viewModel = viewModel as? LaunchingViewModel else { return Completable.never() }
+        guard let viewModel = viewModel as? LaunchingViewModel else {
+            return Completable.never()
+        }
 
         if let account = account {
             Global.current.account = account
-
             try RealmConfig.setupDBForCurrentAccount()
-            viewModel.gotoHowItWorksScreen()
+
+            FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
+                .subscribe(onSuccess: { (_) in
+                    // TODO: Check if finish generating data's insights
+                    viewModel.gotoDataGeneratingScreen()
+                }, onError: { [weak self] (error) in
+                    // is not FBM's Account => link to HowItWorks
+                    if let error = error as? ServerAPIError {
+                        switch error.code {
+                        case .AccountNotFound:
+                             viewModel.gotoHowItWorksScreen()
+                            return
+                        default:
+                            break
+                        }
+                    }
+
+                    guard !AppError.errorByNetworkConnection(error) else { return }
+                    Global.log.error(error)
+                    self?.showErrorAlertWithSupport(message: R.string.error.system())
+                })
+                .disposed(by: disposeBag)
         } else {
             viewModel.gotoSignInWallScreen()
         }
+
         return Completable.empty()
     }
 
