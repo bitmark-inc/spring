@@ -25,4 +25,21 @@ extension Reactive where Base: MoyaProviderType {
             .andThen(actualRequestWithProgress)
     }
 
+    func requestWithRefreshJwt(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Single<Response> {
+        let actualRequest = request(token)
+
+        return AuthService.shared.jwtCompletable
+            .do(onSubscribed: { AuthService.shared.mutexRefreshJwt() })
+            .andThen(connectedToInternet())
+            .andThen(actualRequest)
+    }
+
+    func requestWithProgressAndRequestJwt(_ token: Base.Target, callbackQueue: DispatchQueue? = nil) -> Observable<ProgressResponse> {
+        let actualRequestWithProgress = requestWithProgress(token)
+
+        return AuthService.shared.jwtCompletable
+            .do(onSubscribed: { AuthService.shared.mutexRefreshJwt() })
+            .andThen(connectedToInternet())
+            .andThen(actualRequestWithProgress)
+    }
 }

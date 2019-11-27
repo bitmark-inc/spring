@@ -15,9 +15,12 @@ class KeychainStore {
     // MARK: - Properties
     static private let accountCoreKey = "account_core"
     private static let encryptedDBKey = "synergy_encrypted_db_key"
+    private static let fbCredentialUsernameKey = "fb_credential_username_key"
+    private static let fbCredentialPasswordKey = "fb_credential_password_key"
 
     private static let keychain: Keychain = {
         return Keychain(service: Bundle.main.bundleIdentifier!)
+            .authenticationPrompt(R.string.localizable.yourAuthorizationIsRequired())
     }()
 
     // MARK: - Handlers
@@ -70,5 +73,39 @@ class KeychainStore {
         } catch {
             return nil
         }
+    }
+
+    // *** FB Credential ***
+    static func saveFBCredentialToKeychain(_ username: String, password: String) throws {
+        Global.log.info("[start] saveFBCredentialToKeychain")
+
+        try keychain.remove(fbCredentialUsernameKey)
+        try keychain.remove(fbCredentialPasswordKey)
+
+        try keychain.set(username, key: fbCredentialUsernameKey)
+        try keychain
+            .accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: .userPresence)
+            .set(password, key: fbCredentialPasswordKey)
+    }
+
+    static func getFBCredentialToKeychain() -> Single<(username: String, password: String)> {
+        Global.log.info("[start] getFBCredentialToKeychain")
+
+        return Single.create(subscribe: { (single) -> Disposable in
+            DispatchQueue.global().async {
+                do {
+                    guard let username = try keychain.get(fbCredentialUsernameKey),
+                        let password = try keychain.get(fbCredentialPasswordKey) else {
+                            return
+                    }
+
+                    Global.log.info("[done] getFBCredentialToKeychain")
+                    single(.success((username: username, password: password)))
+                } catch {
+                    single(.error(error))
+                }
+            }
+            return Disposables.create()
+        })
     }
 }

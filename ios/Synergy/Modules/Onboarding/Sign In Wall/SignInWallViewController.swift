@@ -48,7 +48,7 @@ class SignInWallViewController: LaunchingViewController {
     }
 
     fileprivate func errorWhenSignUp(error: Error) {
-        guard !FlowError.errorByNetworkConnection(error) else { return }
+        guard !AppError.errorByNetworkConnection(error) else { return }
 
         Global.log.error(error)
         showErrorAlertWithSupport(message: "artist.create.error".localized(tableName: "Error"))

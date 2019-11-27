@@ -14,11 +14,10 @@ import RxCocoa
 class GetYourDataViewController: ViewController, BackNavigator {
 
     // MARK: - Properties
-    var form: UIView!
-    var loginTextField: TextField!
-    var passwordTextField: TextField!
-    var manualAuthorizeBtn: Button!
-    var automateAuthorizeBtn: Button!
+    lazy var loginTextField = makeLoginTextField()
+    lazy var passwordTextField = makePasswordTextField()
+    lazy var manualAuthorizeButton = makeManualAuthorizeButton()
+    lazy var automateAuthorizeButton = makeAutomateAuthorizeButton()
 
     // MARK: - Setup Views
     override func viewDidLayoutSubviews() {
@@ -36,10 +35,10 @@ class GetYourDataViewController: ViewController, BackNavigator {
         _ = passwordTextField.rx.textInput => viewModel.passwordRelay
 
         viewModel.automateAuthorizeBtnEnabled
-            .drive(automateAuthorizeBtn.rx.isEnabled)
+            .drive(automateAuthorizeButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
-        automateAuthorizeBtn.rx.tap.bind {
+        automateAuthorizeButton.rx.tap.bind {
             viewModel.gotoRequestData()
         }.disposed(by: disposeBag)
 
@@ -54,46 +53,57 @@ class GetYourDataViewController: ViewController, BackNavigator {
         showLightBackItem()
         setLightScreenTitle(text: R.string.phrase.getYourDataScreenTitle().localizedUppercase)
 
-        loginTextField = TextFieldWithRightIcon(rightIcon: R.image.lock())
-        loginTextField.placeholder = R.string.phrase.getYourDataLoginPlaceholder()
-
-        passwordTextField = TextFieldWithRightIcon(rightIcon: R.image.lock())
-        passwordTextField.placeholder = R.string.phrase.getYourDataPasswordPlaceholder()
-        passwordTextField.isSecureTextEntry = true
-
-        form = UIView()
-        form.flex.direction(.column).define { (flex) in
-            flex.addItem(loginTextField).height(50)
-            flex.addItem(passwordTextField).height(50).marginTop(Size.dh(19))
-        }
-
         let giveAutomateTrust = Label()
         giveAutomateTrust.isDescription = true
         giveAutomateTrust.applyLight(
             text: R.string.phrase.getYourDataGiveAutomateTrust(),
             font: R.font.atlasGroteskRegular(size: Size.ds(18)),
-            lineHeight: 1.2
-        )
-
-        manualAuthorizeBtn = Button()
-        manualAuthorizeBtn.contentHorizontalAlignment = .left
-        manualAuthorizeBtn.applyUnderlinedLight(
-            title: R.string.phrase.getYourDataAuthorizeManual(),
-            font: R.font.atlasGroteskThin(size: Size.ds(14))
-        )
-
-        automateAuthorizeBtn = Button()
-        automateAuthorizeBtn.applyLight(
-            title: R.string.phrase.getYourDataAuthorizeAutomate(),
-            font: R.font.atlasGroteskRegular(size: 18)
-        )
+            lineHeight: 1.2)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(form)
+            flex.addItem().direction(.column).define { (flex) in
+                flex.addItem(loginTextField).height(50)
+                flex.addItem(passwordTextField).height(50).marginTop(Size.dh(19))
+            }
+
             flex.addItem(giveAutomateTrust).marginTop(Size.dh(35))
-            flex.addItem(manualAuthorizeBtn).marginTop(Size.dh(35))
-            automateAuthorizeBtn.flex.position(.absolute).bottom(0)
-            flex.addItem(automateAuthorizeBtn).width(100%)
+
+            flex.addItem(manualAuthorizeButton).marginTop(Size.dh(35))
+            flex.addItem(automateAuthorizeButton).width(100%).position(.absolute).bottom(0)
         }
+    }
+}
+
+extension GetYourDataViewController {
+    fileprivate func makeLoginTextField() -> TextField {
+        let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
+        textfield.textContentType = .username
+        textfield.placeholder = R.string.phrase.getYourDataLoginPlaceholder()
+        return textfield
+    }
+
+    fileprivate func makePasswordTextField() -> TextField {
+        let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
+        textfield.placeholder = R.string.phrase.getYourDataPasswordPlaceholder()
+        textfield.textContentType = .password
+        textfield.isSecureTextEntry = true
+        return textfield
+    }
+
+    fileprivate func makeManualAuthorizeButton() -> Button {
+        let button = Button()
+        button.contentHorizontalAlignment = .left
+        button.applyUnderlinedLight(
+            title: R.string.phrase.getYourDataAuthorizeManual(),
+            font: R.font.atlasGroteskThin(size: Size.ds(14)))
+        return button
+    }
+
+    fileprivate func makeAutomateAuthorizeButton() -> Button {
+        let button = Button()
+        button.applyLight(
+            title: R.string.phrase.getYourDataAuthorizeAutomate(),
+            font: R.font.atlasGroteskRegular(size: 18))
+        return button
     }
 }

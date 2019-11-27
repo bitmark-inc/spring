@@ -34,6 +34,7 @@ class Navigator {
         case signInWall(viewModel: SignInWallViewModel)
         case howItWorks(viewModel: HowItWorksViewModel)
         case getYourData(viewModel: GetYourDataViewModel)
+        case requestData(viewModel: RequestDataViewModel)
         case safari(URL)
         case safariController(URL)
         case hometabs
@@ -57,6 +58,7 @@ class Navigator {
         case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
         case .howItWorks(let viewModel): return HowItWorksViewController(viewModel: viewModel)
         case .getYourData(let viewModel): return GetYourDataViewController(viewModel: viewModel)
+        case .requestData(let viewModel): return RequestDataViewController(viewModel: viewModel)
         case .safari(let url):
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
             return nil

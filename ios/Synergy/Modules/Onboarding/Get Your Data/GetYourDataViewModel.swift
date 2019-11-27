@@ -26,12 +26,17 @@ class GetYourDataViewModel: ViewModel {
     func setup() {
         automateAuthorizeBtnEnabled = BehaviorRelay.combineLatest(loginRelay, passwordRelay) {
             $0.isNotEmpty && $1.isNotEmpty
-        }
-        .asDriver(onErrorJustReturn: false)
+        }.asDriver(onErrorJustReturn: false)
     }
 
     func gotoRequestData() {
-//        let viewModel = RequestDataViewModel(login: loginRelay.value, password: passwordRelay.value, .requestData)
-//        navigator.show(segue: .requestData(viewModel: viewModel))
+        do {
+            try KeychainStore.saveFBCredentialToKeychain(loginRelay.value, password: passwordRelay.value)
+        } catch {
+            Global.log.error(error)
+        }
+
+        let viewModel = RequestDataViewModel(login: loginRelay.value, password: passwordRelay.value, .requestData)
+        navigator.show(segue: .requestData(viewModel: viewModel))
     }
 }

@@ -86,3 +86,10 @@ enum AppError: Error {
 enum AccountError: Error {
     case invalidRecoveryKey
 }
+
+extension UserDefaults {
+    var isCreatingFBArchive: Bool {
+        get { return bool(forKey: #function) }
+        set { set(newValue, forKey: #function) }
+    }
+}
