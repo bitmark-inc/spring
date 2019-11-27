@@ -17,8 +17,8 @@ class SubmitButton: Button {
         titleLabel?.font = R.font.atlasGroteskRegular(size: Size.ds(18))
 
         themeService.rx
-            .bind({ UIImage(color: $0.buttonBackground, size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .normal))
-            .bind({ UIImage(color: $0.buttonBackground.withAlphaComponent(0.5), size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .disabled))
+            .bind({ UIImage(color: $0.themeColor, size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .normal))
+            .bind({ UIImage(color: $0.themeColor.withAlphaComponent(0.5), size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .disabled))
             .bind({ $0.lightButtonTextColor }, to: rx.titleColor(for: .normal))
             .bind({ $0.lightButtonTextColor.withAlphaComponent(0.5) }, to: rx.titleColor(for: .disabled))
             .disposed(by: disposeBag)

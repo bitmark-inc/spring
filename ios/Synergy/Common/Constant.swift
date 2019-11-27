@@ -11,26 +11,26 @@ import Foundation
 public struct Constant {
     static let `default` = Constant()
 
-    public struct InfoKey {
-        public static let zeroAddress = "ZERO_ADDRESS"
-        public static let stripePublishableKey = "STRIPE_PUBLISHABLE_KEY"
-        public static let youtubeClientID = "YOUTUBE_CLIENT_ID"
-        public static let intercomAppID = "INTERCOM_APP_ID"
-        public static let intercomAppKey = "INTERCOM_APP_KEY"
-        public static let appleMerchantID = "APPLE_MERCHANT_ID"
-        public static let sentryDSN = "SENTRY_DSN"
+    public struct NotificationIdentifier {
+        public static let checkFBArchive = "checkFBArchiveIdentifier"
     }
 
-    let zeroAccountNumber = Credential.valueForKey(keyName: Constant.InfoKey.zeroAddress)
-    let stripePublishableKey = Credential.valueForKey(keyName: Constant.InfoKey.stripePublishableKey)
-    let googleAPIClientID = Credential.valueForKey(keyName: Constant.InfoKey.youtubeClientID)
-    let intercomAppID = Credential.valueForKey(keyName: Constant.InfoKey.intercomAppID)
-    let intercomAppKey = Credential.valueForKey(keyName: Constant.InfoKey.intercomAppKey)
-    let appleMerchantID = Credential.valueForKey(keyName: Constant.InfoKey.appleMerchantID)
-    let sentryDSN = Credential.valueForKey(keyName: Constant.InfoKey.sentryDSN)
+    // MARK: - Info Credential
+    let zeroAccountNumber = Credential.valueForKey(keyName: "ZERO_ADDRESS")
+    let stripePublishableKey = Credential.valueForKey(keyName: "STRIPE_PUBLISHABLE_KEY")
+    let googleAPIClientID = Credential.valueForKey(keyName: "YOUTUBE_CLIENT_ID")
+    let intercomAppID = Credential.valueForKey(keyName: "INTERCOM_APP_ID")
+    let intercomAppKey = Credential.valueForKey(keyName: "INTERCOM_APP_KEY")
+    let appleMerchantID = Credential.valueForKey(keyName: "APPLE_MERCHANT_ID")
+    let sentryDSN = Credential.valueForKey(keyName: "SENTRY_DSN")
     let oneSignalAppID = Credential.valueForKey(keyName: "ONESIGNAL_APP_ID")
+    let fBMServerURL = Credential.valueForKey(keyName: "API_FBM_SERVER_URL")
 
     static let appName = "Synergy"
     public static let productLink = "https://apps.apple.com/us/app/bitmark/id1429427796"
     let numberOfPhrases = 12
+
+    public struct OneSignalTag {
+        public static let key = "account_id"
+    }
 }

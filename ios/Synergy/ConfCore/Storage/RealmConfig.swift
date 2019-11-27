@@ -19,7 +19,7 @@ enum RealmConfig {
 
     static func currentRealm() throws -> Realm {
         guard let accountNumber = Global.current.account?.getAccountNumber() else {
-            throw FlowError.emptyCurrentAccount
+            throw AppError.emptyCurrentAccount
         }
         let userConfiguration = try RealmConfig.user(accountNumber).configuration()
         Global.log.debug("UserRealm: \(userConfiguration)")

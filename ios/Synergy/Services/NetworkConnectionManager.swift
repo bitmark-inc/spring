@@ -17,7 +17,7 @@ func connectedToInternet() -> Completable {
         let isReachable = NetworkConnectionManager.shared.isReachable
         return isReachable ?
             Completable.empty() :
-            Completable.error(FlowError.noInternetConnection)
+            Completable.error(AppError.noInternetConnection)
     }
 }
 

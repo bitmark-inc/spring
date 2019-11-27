@@ -40,7 +40,7 @@ class Global {
     func setupCoreData() -> Completable {
         return Completable.create { (event) -> Disposable in
             guard let currentAccount = Global.current.account else {
-                event(.error(FlowError.emptyCurrentAccount))
+                event(.error(AppError.emptyCurrentAccount))
                 return Disposables.create()
             }
 
@@ -60,11 +60,14 @@ class Global {
             for item in items {
                 Global.log.info(item)
             }
-        }))
+        })),
+        MoyaAuthPlugin(tokenClosure: {
+            return AuthService.shared.auth?.jwtToken
+        })
     ]
 }
 
-enum FlowError: Error {
+enum AppError: Error {
     case emptyLocal
     case emptyCurrentAccount
     case emptyJWT

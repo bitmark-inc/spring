@@ -64,7 +64,7 @@ class Navigator {
         case .safariController(let url):
             let vc = SFSafariViewController(url: url)
             return vc
-        
+
         case .hometabs:
             if let h = self.rootViewController.viewControllers.first as? ESTabBarController {
                 return h

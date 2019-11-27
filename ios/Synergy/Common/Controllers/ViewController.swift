@@ -16,7 +16,7 @@ class ViewController: ThemedViewController {
     var viewModel: ViewModel?
 
     var screenTitleLabel: UILabel!
-    var mainView: UIView!
+    let navigationViewHeight = Size.dh(50)
     var navigationViewHeightConstraint: Constraint!
 
     init(viewModel: ViewModel?) {
@@ -84,61 +84,21 @@ class ViewController: ThemedViewController {
 
 extension ViewController {
 
-    func setLightScreenTitle(text: String, color: UIColor? = nil) {
+    func setThemedScreenTitle(text: String) {
         screenTitleLabel.text = text
         screenTitleLabel.font = R.font.domaineSansTextRegular(size: Size.ds(36))
 
-        if let color = color {
-            screenTitleLabel.textColor = color
-        } else {
-            themeService.rx
-                .bind({ $0.lightTextColor }, to: screenTitleLabel.rx.textColor)
-                .disposed(by: disposeBag)
-        }
-    }
-}
-
-protocol BackNavigator {
-    func showBlackBackItem()
-    func showLightBackItem()
-}
-
-extension BackNavigator where Self: ViewController {
-
-    func showBlackBackItem() {
-        let backButton = Button()
-        backButton.applyBlack(
-            title: R.string.localizable.backNavigator().localizedUppercase,
-            font: R.font.avenir(size: Size.ds(14))
-        )
-
-        addIntoNavigationView(backButton: backButton)
+        themeService.rx
+            .bind({ $0.themeColor }, to: screenTitleLabel.rx.textColor)
+            .disposed(by: disposeBag)
     }
 
-    func showLightBackItem() {
-        let backButton = Button()
-        backButton.applyLight(
-            title: R.string.localizable.backNavigator().localizedUppercase,
-            font: R.font.avenir(size: Size.ds(14))
-        )
+    func setLightScreenTitle(text: String) {
+        screenTitleLabel.text = text
+        screenTitleLabel.font = R.font.domaineSansTextRegular(size: Size.ds(36))
 
-        addIntoNavigationView(backButton: backButton)
-    }
-
-    func tapToBack() {
-        Navigator.default.pop()
-    }
-
-    fileprivate func addIntoNavigationView(backButton: Button) {
-        navigationViewHeightConstraint.update(offset: Size.dh(50))
-        navigationView.addSubview(backButton)
-
-        backButton.snp.makeConstraints { (make) in
-            make.top.leading.bottom.equalToSuperview()
-        }
-
-        backButton.rx.tap.bind { [weak self] in
-            self?.tapToBack()
-        }.disposed(by: disposeBag)
+        themeService.rx
+            .bind({ $0.lightTextColor }, to: screenTitleLabel.rx.textColor)
+            .disposed(by: disposeBag)
     }
 }

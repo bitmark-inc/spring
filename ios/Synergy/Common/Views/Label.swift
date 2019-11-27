@@ -11,9 +11,11 @@ import RxSwift
 
 class Label: UILabel {
 
+    var lineHeight: CGFloat?
+
     var isDescription: Bool = false {
         didSet {
-            if self.isDescription {
+            if isDescription {
                 numberOfLines = 0
                 textAlignment = .center
             } else {
@@ -29,6 +31,7 @@ class Label: UILabel {
         let attributedString = NSMutableAttributedString(string: text ?? "")
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = lineHeightMultiple
+        paragraphStyle.alignment = isDescription ? .center : .left
 
         // *** Apply attribute to string ***
         attributedString.addAttribute(.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: attributedString.length))
@@ -39,6 +42,14 @@ class Label: UILabel {
 }
 
 extension Label {
+    func setText(_ text: String) {
+        self.text = text
+
+        if let lineHeight = lineHeight {
+            lineHeightMultiple(lineHeight)
+        }
+    }
+
     func applyLight(text: String, font: UIFont?, lineHeight: CGFloat? = nil) {
         self.text = text
         self.font = font
@@ -52,15 +63,24 @@ extension Label {
         }
     }
 
-    func applyBlack(text: String, font: UIFont?, lineHeight: CGFloat? = nil) {
+    func applyBlack(text: String, font: UIFont?, lineHeight: CGFloat? = nil, level: Int = 0) {
         self.text = text
         self.font = font
 
-        themeService.rx
-            .bind({ $0.blackTextColor }, to: rx.textColor)
-            .disposed(by: disposeBag)
+        switch level {
+        case 1:
+            themeService.rx
+                .bind({ $0.black1TextColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
+        default:
+            themeService.rx
+                .bind({ $0.blackTextColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+        }
 
         if let lineHeight = lineHeight {
+            self.lineHeight = lineHeight
             lineHeightMultiple(lineHeight)
         }
     }
