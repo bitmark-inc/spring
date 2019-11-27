@@ -92,4 +92,9 @@ extension UserDefaults {
         get { return bool(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
+
+    var enteredBackgroundTime: Date? {
+        get { return date(forKey: #function) }
+        set { set(newValue, forKey: #function) }
+    }
 }

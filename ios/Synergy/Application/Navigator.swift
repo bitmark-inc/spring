@@ -160,4 +160,21 @@ class Navigator {
         default: break
         }
     }
+
+    static func refreshOnboardingStateIfNeeded() {
+        // check if scene is on onboarding flow's refresh state
+        guard let currentVC = Navigator.default.rootViewController.viewControllers.last,
+            [DataRequestedViewController.self, DataGeneratingViewController.self].contains(where: { $0 == type(of: currentVC) }),
+            let enteredBackgroundTime = UserDefaults.standard.enteredBackgroundTime
+            else {
+                return
+        }
+
+        let refreshOnboardingFlowLap = 5 // minutes
+        let refreshTime = enteredBackgroundTime.adding(.minute, value: refreshOnboardingFlowLap)
+        guard Date() >= refreshTime else { return }
+
+        let viewModel = LaunchingViewModel()
+        Navigator.default.show(segue: .launching(viewModel: viewModel))
+    }
 }
