@@ -14,8 +14,8 @@ import FlexLayout
 
 class LaunchingViewController: ViewController {
 
-    override func bindViewModel() {
-        super.bindViewModel()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
 
         guard let viewModel = viewModel as? LaunchingViewModel else { return }
 

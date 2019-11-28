@@ -67,7 +67,7 @@ class RequestDataViewModel: ViewModel {
                 return Completable.empty()
             } else {
                 return AccountService.rx.createNewAccount()
-                    .flatMapCompletable( {
+                    .flatMapCompletable({
                         Global.current.account = $0
                         return Global.current.setupCoreData()
                     })

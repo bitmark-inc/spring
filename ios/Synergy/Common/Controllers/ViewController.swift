@@ -30,6 +30,8 @@ class ViewController: ThemedViewController {
 
     let isLoading = BehaviorRelay(value: false)
 
+    lazy var fullView = UIView()
+
     lazy var contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -37,21 +39,19 @@ class ViewController: ThemedViewController {
         return view
     }()
 
-    lazy var navigationView: UIView = {
-        return UIView()
-    }()
+    lazy var navigationView = UIView()
 
     // MARK: - Setup Views
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        contentView.layoutIfNeeded()
+
+        fullView.layoutIfNeeded()
         contentView.flex.layout()
     }
 
     override func setupViews() {
         super.setupViews()
 
-        let fullView = UIView()
         screenTitleLabel = UILabel()
         screenTitleLabel.font = UIFont.navigationTitleFont
 
