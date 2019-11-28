@@ -17,10 +17,10 @@ class HomeTabbarController: ESTabBarController {
         usageVC.tabBarItem = ESTabBarItem(MainTabbarItemContentView(), title: "USAGE".localized(), image: R.image.usage_tab_icon(), tag: 0)
 
         let insightsVC = InsightViewController(viewModel: InsightViewModel())
-        insightsVC.tabBarItem = ESTabBarItem(MainTabbarItemContentView(), title: "INSIGHTS".localized(), image: R.image.usage_tab_icon(), tag: 1)
+        insightsVC.tabBarItem = ESTabBarItem(MainTabbarItemContentView(), title: "INSIGHTS".localized(), image: R.image.insights_tab_icon(), tag: 1)
 
         let accountVC = AccountViewController(viewModel: AccountViewModel())
-        accountVC.tabBarItem = ESTabBarItem(MainTabbarItemContentView(), title: "ACCOUNT".localized(), image: R.image.usage_tab_icon(), tag: 2)
+        accountVC.tabBarItem = ESTabBarItem(MainTabbarItemContentView(), title: "ACCOUNT".localized(), image: R.image.account_tab_icon(), tag: 2)
 
         let tabbarController = HomeTabbarController()
         tabbarController.viewControllers = [usageVC, insightsVC, accountVC]

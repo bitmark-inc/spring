@@ -32,6 +32,7 @@ protocol Theme {
     var textViewTextColor: UIColor { get }
     var indicatorColor: UIColor { get }
     var themeColor: UIColor { get }
+    var controlBackgroundColor: UIColor { get }
 
     init(colorTheme: ColorTheme)
 }
@@ -54,6 +55,7 @@ struct LightTheme: Theme {
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
     let indicatorColor = UIColor.Material.grey
     let themeColor = UIColor(hexString: "#932C19")!
+    let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
 
     init(colorTheme: ColorTheme) {
     }
@@ -77,6 +79,7 @@ struct DarkTheme: Theme {
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
     let indicatorColor = UIColor.Material.grey
     let themeColor = UIColor(hexString: "#932C19")!
+    let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
 
     init(colorTheme: ColorTheme) {
     }

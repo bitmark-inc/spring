@@ -81,6 +81,10 @@
 		5832FCC5237AB8AB00FA3196 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCBF237AB8AB00FA3196 /* LaunchScreen.storyboard */; };
 		5832FCC6237AB8AB00FA3196 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCC1237AB8AB00FA3196 /* Main.storyboard */; };
 		5832FCC7237AB8AB00FA3196 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCC3237AB8AB00FA3196 /* R.generated.swift */; };
+		5837957B238FB93A00494A2D /* UsageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5837957A238FB93A00494A2D /* UsageCollectionView.swift */; };
+		5837957C238FB93A00494A2D /* UsageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5837957A238FB93A00494A2D /* UsageCollectionView.swift */; };
+		58682EDB238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
+		58682EDC238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
@@ -361,6 +365,8 @@
 		5832FCC0237AB8AB00FA3196 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5832FCC2237AB8AB00FA3196 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5832FCC3237AB8AB00FA3196 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		5837957A238FB93A00494A2D /* UsageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageCollectionView.swift; sourceTree = "<group>"; };
+		58682EDA238F7079009BDDDF /* FilterSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSegment.swift; sourceTree = "<group>"; };
 		681949F22DEE05C36955EBCD /* Pods-SynergyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynergyTests.release.xcconfig"; path = "Target Support Files/Pods-SynergyTests/Pods-SynergyTests.release.xcconfig"; sourceTree = "<group>"; };
 		858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Synergy_Dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SynergyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -491,6 +497,7 @@
 			children = (
 				5832D6E3238BBE390074AEDC /* UsageViewModel.swift */,
 				5832D6E6238BBE4A0074AEDC /* UsageViewController.swift */,
+				5837957A238FB93A00494A2D /* UsageCollectionView.swift */,
 			);
 			path = Usage;
 			sourceTree = "<group>";
@@ -637,6 +644,7 @@
 				5832FC35237A863300FA3196 /* ImageView.swift */,
 				5832FC36237A863300FA3196 /* SecondaryButton.swift */,
 				5832FC37237A863300FA3196 /* Button.swift */,
+				58682EDA238F7079009BDDDF /* FilterSegment.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1416,6 +1424,7 @@
 				E27959DF238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
 				5832FCA7237A8A9200FA3196 /* RxOptional+Single+Optional.swift in Sources */,
 				5832FC7C237A883500FA3196 /* NetworkConnectionManager.swift in Sources */,
+				5837957B238FB93A00494A2D /* UsageCollectionView.swift in Sources */,
 				5832FC5C237A863300FA3196 /* SecondaryButton.swift in Sources */,
 				5832FC3E237A863300FA3196 /* Constant.swift in Sources */,
 				E28B560E238D16E800F1BCF2 /* FbmAccount.swift in Sources */,
@@ -1443,6 +1452,7 @@
 				5832FC49237A863300FA3196 /* UnderlinedTextField.swift in Sources */,
 				5832D6E4238BBE390074AEDC /* UsageViewModel.swift in Sources */,
 				E28B561B238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
+				58682EDB238F7079009BDDDF /* FilterSegment.swift in Sources */,
 				5832FC41237A863300FA3196 /* Currency.swift in Sources */,
 				5832FC42237A863300FA3196 /* ViewModel.swift in Sources */,
 				5832FCA8237A8A9200FA3196 /* Observable+Operators.swift in Sources */,
@@ -1523,6 +1533,7 @@
 				E2DB669E237D3B69005367C2 /* NetworkConnectionManager.swift in Sources */,
 				E2DB669F237D3B69005367C2 /* SecondaryButton.swift in Sources */,
 				E2DB66A0237D3B69005367C2 /* Constant.swift in Sources */,
+				5837957C238FB93A00494A2D /* UsageCollectionView.swift in Sources */,
 				E2DB66A1237D3B69005367C2 /* DesignedSegmentControl.swift in Sources */,
 				5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E8238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
@@ -1550,6 +1561,7 @@
 				E28B55FC238D0A6800F1BCF2 /* MoyaAuthPlugin.swift in Sources */,
 				E28B55F8238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
 				E28B5602238D0B4200F1BCF2 /* AuthAPI.swift in Sources */,
+				58682EDC238F7079009BDDDF /* FilterSegment.swift in Sources */,
 				E2DB66AD237D3B69005367C2 /* Currency.swift in Sources */,
 				E28B55F5238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */,
 				E2DB66AF237D3B69005367C2 /* ViewModel.swift in Sources */,

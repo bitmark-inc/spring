@@ -16,3 +16,9 @@
 "YourAuthorizationIsRequired" = "Your authorization is required.";
 "notify_me" = "Notify me";
 "Enable" = "Enable";
+"WEEK" = "WEEK";
+"YEAR" = "YEAR";
+"DECADE" = "DECADE";
+"POSTS" = "POSTS";
+"REACTIONS" = "REACTIONS";
+"MESSAGES" = "MESSAGES";

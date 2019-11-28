@@ -85,3 +85,11 @@ extension Label {
         }
     }
 }
+
+extension Label {
+    static func create(withFont font: UIFont?) -> Label {
+        let l = Label()
+        l.font = font
+        return l
+    }
+}
