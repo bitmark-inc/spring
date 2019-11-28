@@ -16,8 +16,8 @@ import FlexLayout
 class SignInWallViewController: LaunchingViewController {
 
     // MARK: - Properties
-    var registerButton: SubmitButton!
-    var signInButton: UIButton!
+    lazy var getStartedButton = makeGetStartedButton()
+    lazy var signInButton = makeSignInButton()
 
     // MARK: Handlers
     override func bindViewModel() {
@@ -25,21 +25,8 @@ class SignInWallViewController: LaunchingViewController {
 
         guard let viewModel = viewModel as? SignInWallViewModel else { return }
 
-        viewModel.signUpResultSubject.subscribe(onNext: { [weak self] (event) in
-            guard let self = self else { return }
-            switch event {
-            case .error(let error):
-                self.errorWhenSignUp(error: error)
-            case .completed:
-                Global.log.info("[done] signUp")
-                viewModel.gotoHowItWorksScreen()
-            default:
-                break
-            }
-        }).disposed(by: disposeBag)
-
-        registerButton.rx.tap.bind {
-            viewModel.signUp()
+        getStartedButton.rx.tap.bind {
+            viewModel.gotoHowItWorksScreen()
         }.disposed(by: disposeBag)
 
         signInButton.rx.tap.bind {
@@ -47,27 +34,26 @@ class SignInWallViewController: LaunchingViewController {
         }.disposed(by: disposeBag)
     }
 
-    fileprivate func errorWhenSignUp(error: Error) {
-        guard !AppError.errorByNetworkConnection(error) else { return }
-
-        Global.log.error(error)
-        showErrorAlertWithSupport(message: "artist.create.error".localized(tableName: "Error"))
-    }
-
     // MARK: Setup views
     override func setupViews() {
         super.setupViews()
 
-        // *** Setup subviews ***
-        registerButton = SubmitButton(title: R.string.localizable.getStarted())
-        signInButton = SecondaryButton(title: R.string.localizable.signIn())
-
         let buttonsGroup = UIView()
         buttonsGroup.flex.direction(.column).define { (flex) in
-            flex.addItem(registerButton).width(100%)
+            flex.addItem(getStartedButton).width(100%)
             flex.addItem(signInButton).width(100%).marginTop(Size.dh(20))
         }
 
         contentView.flex.addItem(buttonsGroup).position(.absolute).bottom(0).width(100%)
+    }
+}
+
+extension SignInWallViewController {
+    fileprivate func makeGetStartedButton() -> SubmitButton {
+        return SubmitButton(title: R.string.localizable.getStarted())
+    }
+
+    fileprivate func makeSignInButton() -> Button {
+        return SecondaryButton(title: R.string.localizable.signIn())
     }
 }

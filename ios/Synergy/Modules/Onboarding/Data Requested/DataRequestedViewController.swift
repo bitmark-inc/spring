@@ -77,7 +77,7 @@ class DataRequestedViewController: ViewController {
         #if targetEnvironment(simulator)
         guard let date = Calendar.current.date(byAdding: .minute, value: 1, to: Date()) else { return }
         #else
-        guard let date = Calendar.current.date(byAdding: .day, value: 1, to: Date()) else { return }
+        guard let date = Calendar.current.date(byAdding: .hour, value: 1, to: Date()) else { return }
         #endif
 
         let triggerDate = Calendar.current.dateComponents([.hour, .minute, .second], from: date)

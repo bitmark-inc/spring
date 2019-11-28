@@ -85,7 +85,7 @@ class RequestDataViewController: ViewController {
         guard !AppError.errorByNetworkConnection(error) else { return }
 
         Global.log.error(error)
-        showErrorAlertWithSupport(message: "artist.create.error".localized(tableName: "Error"))
+        showErrorAlertWithSupport(message: R.string.error.system())
     }
 
     // MARK: Setup Views

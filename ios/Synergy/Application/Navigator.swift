@@ -170,8 +170,8 @@ class Navigator {
                 return
         }
 
-        let refreshOnboardingFlowLap = 5 // minutes
-        let refreshTime = enteredBackgroundTime.adding(.minute, value: refreshOnboardingFlowLap)
+        let refreshOnboardingFlowLap = 30 // seconds
+        let refreshTime = enteredBackgroundTime.adding(.second, value: refreshOnboardingFlowLap)
         guard Date() >= refreshTime else { return }
 
         let viewModel = LaunchingViewModel()
