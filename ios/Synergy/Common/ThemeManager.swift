@@ -26,6 +26,7 @@ protocol Theme {
     var separateLineColor: UIColor { get }
     var textFieldTextColor: UIColor { get }
     var textFieldPlaceholderColor: UIColor { get }
+    var textFieldBackgroundColor: UIColor { get }
     var borderColor: UIColor { get }
     var textViewBackgroundColor: UIColor { get }
     var textViewTextColor: UIColor { get }
@@ -45,8 +46,9 @@ struct LightTheme: Theme {
     let lightButtonTextColor = UIColor.Material.white
     let blackButtonTextColor = UIColor(hexString: "#404040")!
     let separateLineColor = UIColor.Material.white
-    let textFieldTextColor = UIColor.Material.white
-    let textFieldPlaceholderColor = UIColor(hexString: "#FFF", transparency: 0.6)!
+    let textFieldTextColor = ColorTheme.internationalKleinBlue.color
+    let textFieldPlaceholderColor = ColorTheme.concord.color
+    let textFieldBackgroundColor = UIColor.Material.white
     let borderColor = UIColor.Material.white
     let textViewBackgroundColor = UIColor.Material.white
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
@@ -67,8 +69,9 @@ struct DarkTheme: Theme {
     let lightButtonTextColor = UIColor.Material.white
     let blackButtonTextColor = UIColor(hexString: "#404040")!
     let separateLineColor = UIColor.Material.white
-    let textFieldTextColor = UIColor.Material.white
-    let textFieldPlaceholderColor = UIColor(hexString: "#FFF", transparency: 0.6)!
+    let textFieldTextColor = ColorTheme.internationalKleinBlue.color
+    let textFieldPlaceholderColor = ColorTheme.concord.color
+    let textFieldBackgroundColor = UIColor.Material.white
     let borderColor = UIColor.Material.white
     let textViewBackgroundColor = UIColor.Material.white
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
@@ -80,7 +83,7 @@ struct DarkTheme: Theme {
 }
 
 enum ColorTheme: Int, CaseIterable {
-    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue
+    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord
 
     var color: UIColor {
         switch self {
@@ -104,6 +107,7 @@ enum ColorTheme: Int, CaseIterable {
         case .gray:       return UIColor.Material.grey
         case .blueGray:   return UIColor.Material.blueGrey
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
+        case .concord:    return UIColor(hexString: "#828180")!
         }
     }
 
@@ -129,6 +133,7 @@ enum ColorTheme: Int, CaseIterable {
         case .gray:       return UIColor.Material.grey900
         case .blueGray:   return UIColor.Material.blueGrey900
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
+        case .concord:    return UIColor(hexString: "#828180")!
         }
     }
 
@@ -154,6 +159,7 @@ enum ColorTheme: Int, CaseIterable {
         case .gray:       return "Gray"
         case .blueGray:   return "Blue Gray"
         case .internationalKleinBlue: return "international klein blue"
+        case .concord:    return "concord"
         }
     }
 }

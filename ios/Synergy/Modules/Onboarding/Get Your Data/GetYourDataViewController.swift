@@ -54,7 +54,7 @@ class GetYourDataViewController: ViewController, BackNavigator {
         setLightScreenTitle(text: R.string.phrase.getYourDataScreenTitle().localizedUppercase)
 
         let giveAutomateTrust = Label()
-        giveAutomateTrust.isDescription = true
+        giveAutomateTrust.numberOfLines = 0
         giveAutomateTrust.applyLight(
             text: R.string.phrase.getYourDataGiveAutomateTrust(),
             font: R.font.atlasGroteskRegular(size: Size.ds(18)),
@@ -78,13 +78,13 @@ extension GetYourDataViewController {
     fileprivate func makeLoginTextField() -> TextField {
         let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
         textfield.textContentType = .username
-        textfield.placeholder = R.string.phrase.getYourDataLoginPlaceholder()
+        textfield.set(placeholder: R.string.phrase.getYourDataLoginPlaceholder())
         return textfield
     }
 
     fileprivate func makePasswordTextField() -> TextField {
         let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
-        textfield.placeholder = R.string.phrase.getYourDataPasswordPlaceholder()
+        textfield.set(placeholder: R.string.phrase.getYourDataPasswordPlaceholder())
         textfield.textContentType = .password
         textfield.isSecureTextEntry = true
         return textfield

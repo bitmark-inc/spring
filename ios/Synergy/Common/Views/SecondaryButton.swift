@@ -17,6 +17,11 @@ class SecondaryButton: Button {
         titleLabel?.font = R.font.atlasGroteskRegular(size: Size.ds(14))
         backgroundColor = .clear
 
+        themeService.rx
+            .bind({ $0.lightButtonTextColor }, to: rx.titleColor(for: .normal))
+            .bind({ $0.lightButtonTextColor.withAlphaComponent(0.5) }, to: rx.titleColor(for: .disabled))
+            .disposed(by: disposeBag)
+
         flex.height(Size.dh(27))
             .right(0).left(0) // full width
     }

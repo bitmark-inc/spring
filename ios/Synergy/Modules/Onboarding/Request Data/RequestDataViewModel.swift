@@ -61,11 +61,20 @@ class RequestDataViewModel: ViewModel {
 
     func signUpAndSubmitFBArchive(headers: [String: String], archiveURL: URL, rawCookie: String) {
         loadingState.onNext(.loading)
-        AccountService.rx.createNewAccount()
-            .flatMapCompletable({
-                Global.current.account = $0
-                return Global.current.setupCoreData()
-            })
+
+        let createdAccounCompletable = Completable.deferred {
+            if Global.current.account != nil {
+                return Completable.empty()
+            } else {
+                return AccountService.rx.createNewAccount()
+                    .flatMapCompletable( {
+                        Global.current.account = $0
+                        return Global.current.setupCoreData()
+                    })
+            }
+        }
+
+        createdAccounCompletable
             .andThen(FbmAccountService.create())
             .flatMapCompletable { _ in
                 return FBArchiveService.submit(

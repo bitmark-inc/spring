@@ -37,6 +37,7 @@ extension Button {
 
         themeService.rx
             .bind({ $0.lightButtonTextColor }, to: rx.titleColor(for: .normal))
+            .bind({ $0.lightButtonTextColor.withAlphaComponent(0.5) }, to: rx.titleColor(for: .disabled))
             .disposed(by: disposeBag)
     }
 
