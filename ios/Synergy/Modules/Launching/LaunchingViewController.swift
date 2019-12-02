@@ -19,6 +19,36 @@ class LaunchingViewController: ViewController {
 
         guard let viewModel = viewModel as? LaunchingViewModel else { return }
 
+        // NOTE: For first demo, no require Onboarding Flow
+        let createdAccounCompletable = Completable.deferred {
+            if Global.current.account != nil {
+                return Completable.empty()
+            } else {
+                return AccountService.rx.createNewAccount()
+                    .flatMapCompletable({
+                        Global.current.account = $0
+                        return Global.current.setupCoreData()
+                    })
+            }
+        }
+
+        AccountService.rx.existsCurrentAccount()
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { (account) in
+                Global.current.account = account
+
+                _ = createdAccounCompletable
+                    .subscribe(onCompleted: {
+                        viewModel.gotoMainScreen()
+                    })
+            }, onError: { (error) in
+                Global.log.error(error)
+            })
+            .disposed(by: disposeBag)
+
+        return
+        // END
+
         if UserDefaults.standard.isCreatingFBArchive {
             viewModel.gotoDownloadFBArchiveScreen()
             return
