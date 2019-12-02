@@ -13,11 +13,10 @@ import RxSwift
 class Storage {
 
     // MARK: - Properties
-    static let shared = Storage()
-    private lazy var dispatchQueue = DispatchQueue(label: "Synergy Storage", qos: .background)
+    static private var dispatchQueue = DispatchQueue(label: "Synergy Storage", qos: .background)
 
     // MARK: - Handlers
-    func store(_ objects: [Object]) -> Completable {
+    static func store(_ objects: [Object]) -> Completable {
         return Completable.create { (event) -> Disposable in
             self.performSerialBackgroundWrite(writeBlock: { (backgroundRealm) in
                 objects.forEach { (object) in
@@ -31,7 +30,7 @@ class Storage {
         }
     }
 
-    func store(_ object: Object) -> Completable {
+    static func store(_ object: Object) -> Completable {
         Global.log.info("[start] store object")
 
         return Completable.create { (event) -> Disposable in
@@ -46,7 +45,7 @@ class Storage {
         }
     }
 
-    public func mainThreadUpdate(with block: @escaping (Realm) throws -> Void) -> Completable {
+    static func mainThreadUpdate(with block: @escaping (Realm) throws -> Void) -> Completable {
         Global.log.info("[start] mainThreadUpdate")
 
         return Completable.create { (event) -> Disposable in
@@ -63,7 +62,7 @@ class Storage {
         }
     }
 
-    private func performSerialBackgroundWrite(writeBlock: @escaping (Realm) throws -> Void,
+    static private func performSerialBackgroundWrite(writeBlock: @escaping (Realm) throws -> Void,
                                               completionBlock: ((Error?) -> Void)? = nil) {
         dispatchQueue.async {
             var storageError: Error?

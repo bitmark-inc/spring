@@ -33,4 +33,8 @@ class LaunchingViewModel: ViewModel {
     func gotoSignInScreen() {
 
     }
+
+    func gotoMainScreen() {
+        navigator.show(segue: .hometabs)
+    }
 }

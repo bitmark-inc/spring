@@ -26,7 +26,6 @@ class LaunchingViewController: ViewController {
 
         AccountService.rx.existsCurrentAccount()
             .observeOn(MainScheduler.instance)
-            .do(onSuccess: { Global.current.account = $0 })
             .flatMapCompletable { [weak self] in
                 guard let self = self else { return Completable.never() }
                 return try self.prepareAndGotoNext(account: $0)
