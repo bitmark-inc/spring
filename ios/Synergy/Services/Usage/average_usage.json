@@ -1,0 +1,19 @@
+{
+    "result": [
+        {
+            "section_id" : 1,
+            "time_unit" : "week",
+            "avg" : 20
+        },
+        {
+            "section_id" : 2,
+            "time_unit" : "week",
+            "avg" : 113
+        },
+        {
+            "section_id" : 3,
+            "time_unit" : "week",
+            "avg" : 260
+        }
+    ]
+}

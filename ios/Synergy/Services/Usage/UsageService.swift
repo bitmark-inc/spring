@@ -40,4 +40,19 @@ class UsageService {
             return Single.error(error)
         }
     }
+
+    static func getAverage(timeUnit: TimeUnit) -> Single<[Average]> {
+        guard let url = Bundle.main.url(forResource: "average_usage", withExtension: "json") else {
+            return Single.never()
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let decoder = JSONDecoder()
+            let jsonData = try decoder.decode([Average].self, from: data)
+            return Single.just(jsonData)
+        } catch {
+            return Single.error(error)
+        }
+    }
 }

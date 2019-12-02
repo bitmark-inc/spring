@@ -88,6 +88,26 @@
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
+		E21EF9E7239100A6004D4513 /* Usage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21EF9E6239100A6004D4513 /* Usage.swift */; };
+		E21EF9E8239100A6004D4513 /* Usage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21EF9E6239100A6004D4513 /* Usage.swift */; };
+		E21EF9ED23910E7F004D4513 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21EF9EC23910E7F004D4513 /* Group.swift */; };
+		E21EF9EE23910E7F004D4513 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21EF9EC23910E7F004D4513 /* Group.swift */; };
+		E21EF9F0239110A9004D4513 /* post_insights.json in Resources */ = {isa = PBXBuildFile; fileRef = E21EF9EF239110A9004D4513 /* post_insights.json */; };
+		E21EF9F1239110A9004D4513 /* post_insights.json in Resources */ = {isa = PBXBuildFile; fileRef = E21EF9EF239110A9004D4513 /* post_insights.json */; };
+		E21EF9F7239111E3004D4513 /* UsageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21EF9F6239111E3004D4513 /* UsageService.swift */; };
+		E21EF9F8239111E3004D4513 /* UsageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21EF9F6239111E3004D4513 /* UsageService.swift */; };
+		E22290742394B2A300412CBC /* UsageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290732394B2A300412CBC /* UsageDataEngine+Rx.swift */; };
+		E22290752394B2A300412CBC /* UsageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290732394B2A300412CBC /* UsageDataEngine+Rx.swift */; };
+		E222907C2394F19D00412CBC /* Graphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222907B2394F19D00412CBC /* Graphs.swift */; };
+		E222907D2394F19D00412CBC /* Graphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222907B2394F19D00412CBC /* Graphs.swift */; };
+		E222907F2394F5F700412CBC /* reaction_insights.json in Resources */ = {isa = PBXBuildFile; fileRef = E222907E2394F5F700412CBC /* reaction_insights.json */; };
+		E22290802394F5F700412CBC /* reaction_insights.json in Resources */ = {isa = PBXBuildFile; fileRef = E222907E2394F5F700412CBC /* reaction_insights.json */; };
+		E22290822394FBC500412CBC /* Average.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290812394FBC500412CBC /* Average.swift */; };
+		E22290832394FBC500412CBC /* Average.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290812394FBC500412CBC /* Average.swift */; };
+		E22290852394FC8900412CBC /* average_usage.json in Resources */ = {isa = PBXBuildFile; fileRef = E22290842394FC8900412CBC /* average_usage.json */; };
+		E22290862394FC8900412CBC /* average_usage.json in Resources */ = {isa = PBXBuildFile; fileRef = E22290842394FC8900412CBC /* average_usage.json */; };
+		E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */; };
+		E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */; };
 		E2259CD0238783AE00746280 /* FBScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CCF238783AE00746280 /* FBScript.swift */; };
 		E2259CD1238783AE00746280 /* FBScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CCF238783AE00746280 /* FBScript.swift */; };
 		E2259CD42387E35300746280 /* ServerAssetsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CD32387E35300746280 /* ServerAssetsAPI.swift */; };
@@ -375,6 +395,16 @@
 		C6118060D5CF81B43E1AD2A2 /* Pods-Synergy Dev.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.debug.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.debug.xcconfig"; sourceTree = "<group>"; };
 		CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E19A6B110D404A33B44425C8 /* Pods-Synergy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy.release.xcconfig"; path = "Target Support Files/Pods-Synergy/Pods-Synergy.release.xcconfig"; sourceTree = "<group>"; };
+		E21EF9E6239100A6004D4513 /* Usage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Usage.swift; sourceTree = "<group>"; };
+		E21EF9EC23910E7F004D4513 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		E21EF9EF239110A9004D4513 /* post_insights.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = post_insights.json; sourceTree = "<group>"; };
+		E21EF9F6239111E3004D4513 /* UsageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageService.swift; sourceTree = "<group>"; };
+		E22290732394B2A300412CBC /* UsageDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UsageDataEngine+Rx.swift"; sourceTree = "<group>"; };
+		E222907B2394F19D00412CBC /* Graphs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Graphs.swift; sourceTree = "<group>"; };
+		E222907E2394F5F700412CBC /* reaction_insights.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = reaction_insights.json; sourceTree = "<group>"; };
+		E22290812394FBC500412CBC /* Average.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Average.swift; sourceTree = "<group>"; };
+		E22290842394FC8900412CBC /* average_usage.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = average_usage.json; sourceTree = "<group>"; };
+		E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AverageDataEngine+Rx.swift"; sourceTree = "<group>"; };
 		E2259CCF238783AE00746280 /* FBScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FBScript.swift; sourceTree = "<group>"; };
 		E2259CD32387E35300746280 /* ServerAssetsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAssetsAPI.swift; sourceTree = "<group>"; };
 		E2259CD62387E36600746280 /* ServerAssetsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAssetsService.swift; sourceTree = "<group>"; };
@@ -658,6 +688,7 @@
 				E2259CD22387E30C00746280 /* Server Assets */,
 				E28B5609238D15FF00F1BCF2 /* FbmAccount */,
 				E28B55F2238D03A400F1BCF2 /* FB Archive */,
+				E21EF9F5239111CE004D4513 /* Usage */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -755,6 +786,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		E21EF9F5239111CE004D4513 /* Usage */ = {
+			isa = PBXGroup;
+			children = (
+				E21EF9F6239111E3004D4513 /* UsageService.swift */,
+				E21EF9EF239110A9004D4513 /* post_insights.json */,
+				E222907E2394F5F700412CBC /* reaction_insights.json */,
+				E22290842394FC8900412CBC /* average_usage.json */,
+			);
+			path = Usage;
+			sourceTree = "<group>";
+		};
 		E2259CD22387E30C00746280 /* Server Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,6 +829,10 @@
 				E2259CCF238783AE00746280 /* FBScript.swift */,
 				E28B5606238D103300F1BCF2 /* Auth.swift */,
 				E28B560D238D16E800F1BCF2 /* FbmAccount.swift */,
+				E21EF9E6239100A6004D4513 /* Usage.swift */,
+				E21EF9EC23910E7F004D4513 /* Group.swift */,
+				E222907B2394F19D00412CBC /* Graphs.swift */,
+				E22290812394FBC500412CBC /* Average.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -795,6 +841,8 @@
 			isa = PBXGroup;
 			children = (
 				E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */,
+				E22290732394B2A300412CBC /* UsageDataEngine+Rx.swift */,
+				E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */,
 			);
 			path = "Data Engine";
 			sourceTree = "<group>";
@@ -1099,6 +1147,7 @@
 				E29F5A6D2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */,
 				E29F5A722383F1CE00C1D9D8 /* Localizable.strings in Resources */,
 				E29F5A3F2383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */,
+				E222907F2394F5F700412CBC /* reaction_insights.json in Resources */,
 				E29F5A4D2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */,
 				E29F5A672383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */,
 				E24829CC238BF9A900995FBB /* Error.strings in Resources */,
@@ -1110,9 +1159,11 @@
 				E29F5A3D2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf in Resources */,
 				E29F5A652383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf in Resources */,
 				E29F5A5D2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
+				E21EF9F0239110A9004D4513 /* post_insights.json in Resources */,
 				E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E29F5A762383F20700C1D9D8 /* Phrase.strings in Resources */,
+				E22290852394FC8900412CBC /* average_usage.json in Resources */,
 				E29F5A432383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A6F2383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
 				E29F5A6B2383E70000C1D9D8 /* DomaineSansText-Black.otf in Resources */,
@@ -1141,6 +1192,7 @@
 				E29F5A6E2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf in Resources */,
 				E29F5A732383F1CE00C1D9D8 /* Localizable.strings in Resources */,
 				E29F5A402383E59700C1D9D8 /* AtlasGrotesk-BoldItalic.otf in Resources */,
+				E22290802394F5F700412CBC /* reaction_insights.json in Resources */,
 				E29F5A4E2383E59700C1D9D8 /* AtlasGrotesk-Medium.otf in Resources */,
 				E29F5A682383E70000C1D9D8 /* DomaineSansText-RegularItalic.otf in Resources */,
 				E24829CD238BF9A900995FBB /* Error.strings in Resources */,
@@ -1152,9 +1204,11 @@
 				E29F5A3E2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf in Resources */,
 				E29F5A662383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf in Resources */,
 				E29F5A5E2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
+				E21EF9F1239110A9004D4513 /* post_insights.json in Resources */,
 				E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E29F5A772383F20700C1D9D8 /* Phrase.strings in Resources */,
+				E22290862394FC8900412CBC /* average_usage.json in Resources */,
 				E29F5A442383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
 				E29F5A6C2383E70000C1D9D8 /* DomaineSansText-Black.otf in Resources */,
@@ -1381,6 +1435,7 @@
 				E27959DC23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
 				5832FC44237A863300FA3196 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
 				E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
+				E222907C2394F19D00412CBC /* Graphs.swift in Sources */,
 				5832FC52237A863300FA3196 /* ActivityIndicator.swift in Sources */,
 				E28B5611238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */,
 				5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */,
@@ -1403,6 +1458,7 @@
 				E28B560B238D162400F1BCF2 /* FbmAccountService.swift in Sources */,
 				E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				5832FC5B237A863300FA3196 /* ImageView.swift in Sources */,
+				E21EF9F7239111E3004D4513 /* UsageService.swift in Sources */,
 				E27959E22386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
 				E28B5615238D1A3200F1BCF2 /* DataGeneratingViewModel.swift in Sources */,
 				E29F5A7A2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
@@ -1431,12 +1487,14 @@
 				5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */,
 				5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
+				E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5832D6FF238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				5832FC56237A863300FA3196 /* TableView.swift in Sources */,
 				5832FCAC237A8A9200FA3196 /* UIFont+Theme.swift in Sources */,
 				5832FC4F237A863300FA3196 /* TableViewCell.swift in Sources */,
 				E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
+				E21EF9ED23910E7F004D4513 /* Group.swift in Sources */,
 				E28B55FE238D0AFC00F1BCF2 /* AuthService.swift in Sources */,
 				5832FCB1237A8A9300FA3196 /* StringProtocol+nsRange.swift in Sources */,
 				E28B55ED238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
@@ -1453,8 +1511,10 @@
 				5832D6E4238BBE390074AEDC /* UsageViewModel.swift in Sources */,
 				E28B561B238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
 				58682EDB238F7079009BDDDF /* FilterSegment.swift in Sources */,
+				E22290742394B2A300412CBC /* UsageDataEngine+Rx.swift in Sources */,
 				5832FC41237A863300FA3196 /* Currency.swift in Sources */,
 				5832FC42237A863300FA3196 /* ViewModel.swift in Sources */,
+				E22290822394FBC500412CBC /* Average.swift in Sources */,
 				5832FCA8237A8A9200FA3196 /* Observable+Operators.swift in Sources */,
 				E28B5607238D103300F1BCF2 /* Auth.swift in Sources */,
 				5832FC3F237A863300FA3196 /* Global+Log.swift in Sources */,
@@ -1464,6 +1524,7 @@
 				E2259CD72387E36600746280 /* ServerAssetsService.swift in Sources */,
 				5832FCBB237AA1B600FA3196 /* LaunchingViewController.swift in Sources */,
 				5832FCAB237A8A9200FA3196 /* String+SupportBitmark.swift in Sources */,
+				E21EF9E7239100A6004D4513 /* Usage.swift in Sources */,
 				5832FC47237A863300FA3196 /* ThemedViewController.swift in Sources */,
 				5832FCAF237A8A9300FA3196 /* FileManager+Directory.swift in Sources */,
 			);
@@ -1490,6 +1551,7 @@
 				E28B55EE238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
 				E28B5619238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */,
 				E2DB6684237D3B69005367C2 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
+				E222907D2394F19D00412CBC /* Graphs.swift in Sources */,
 				E28B560C238D162400F1BCF2 /* FbmAccountService.swift in Sources */,
 				E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
@@ -1512,6 +1574,7 @@
 				E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				E28B55FF238D0AFC00F1BCF2 /* AuthService.swift in Sources */,
 				E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */,
+				E21EF9F8239111E3004D4513 /* UsageService.swift in Sources */,
 				E27959E32386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
 				E29F5A7B2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
@@ -1540,12 +1603,14 @@
 				E28B560F238D16E800F1BCF2 /* FbmAccount.swift in Sources */,
 				5832D700238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
+				E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				E28B55F1238CE66500F1BCF2 /* DataRequestedViewController.swift in Sources */,
 				E2DB66A3237D3B69005367C2 /* UIFont+Theme.swift in Sources */,
 				E2DB66A4237D3B69005367C2 /* TableViewCell.swift in Sources */,
 				E28B5608238D103300F1BCF2 /* Auth.swift in Sources */,
 				E27959D92386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
+				E21EF9EE23910E7F004D4513 /* Group.swift in Sources */,
 				E2DB66A5237D3B69005367C2 /* StringProtocol+nsRange.swift in Sources */,
 				E2DB66A6237D3B69005367C2 /* UIViewController+Error.swift in Sources */,
 				5832D704238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
@@ -1562,8 +1627,10 @@
 				E28B55F8238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
 				E28B5602238D0B4200F1BCF2 /* AuthAPI.swift in Sources */,
 				58682EDC238F7079009BDDDF /* FilterSegment.swift in Sources */,
+				E22290752394B2A300412CBC /* UsageDataEngine+Rx.swift in Sources */,
 				E2DB66AD237D3B69005367C2 /* Currency.swift in Sources */,
 				E28B55F5238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */,
+				E22290832394FBC500412CBC /* Average.swift in Sources */,
 				E2DB66AF237D3B69005367C2 /* ViewModel.swift in Sources */,
 				E2DB66B0237D3B69005367C2 /* Observable+Operators.swift in Sources */,
 				E2DB66B1237D3B69005367C2 /* Global+Log.swift in Sources */,
@@ -1573,6 +1640,7 @@
 				E2DB66B3237D3B69005367C2 /* LaunchingViewController.swift in Sources */,
 				E28B5612238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */,
 				E2DB66B4237D3B69005367C2 /* String+SupportBitmark.swift in Sources */,
+				E21EF9E8239100A6004D4513 /* Usage.swift in Sources */,
 				E2DB66B5237D3B69005367C2 /* ThemedViewController.swift in Sources */,
 				E2DB66B6237D3B69005367C2 /* FileManager+Directory.swift in Sources */,
 			);
