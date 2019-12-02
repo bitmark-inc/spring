@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		384F82AF531FBD6AC31B948A /* Pods_Synergy_Dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */; };
 		553BD3C9298A8B9E14EABF26 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		582CC4C92390DBC400E4530B /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582CC4C82390DBC400E4530B /* CollectionView.swift */; };
+		582CC4CA2390DBC400E4530B /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582CC4C82390DBC400E4530B /* CollectionView.swift */; };
 		5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832D6DF238BB9B40074AEDC /* HomeTabbarController.swift */; };
 		5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832D6DF238BB9B40074AEDC /* HomeTabbarController.swift */; };
 		5832D6E4238BBE390074AEDC /* UsageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832D6E3238BBE390074AEDC /* UsageViewModel.swift */; };
@@ -83,6 +85,8 @@
 		5832FCC7237AB8AB00FA3196 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCC3237AB8AB00FA3196 /* R.generated.swift */; };
 		5837957B238FB93A00494A2D /* UsageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5837957A238FB93A00494A2D /* UsageCollectionView.swift */; };
 		5837957C238FB93A00494A2D /* UsageCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5837957A238FB93A00494A2D /* UsageCollectionView.swift */; };
+		585D51DC2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585D51DB2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift */; };
+		585D51DD2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585D51DB2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift */; };
 		58682EDB238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
 		58682EDC238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
@@ -316,6 +320,7 @@
 		29B903524CADE343316F1074 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		29E0A207B5D7E4C847A2AEBA /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		565CBC042B4D43C3D73FFEAF /* Pods-Synergy Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.release.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.release.xcconfig"; sourceTree = "<group>"; };
+		582CC4C82390DBC400E4530B /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		5832D6DF238BB9B40074AEDC /* HomeTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabbarController.swift; sourceTree = "<group>"; };
 		5832D6E3238BBE390074AEDC /* UsageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewModel.swift; sourceTree = "<group>"; };
 		5832D6E6238BBE4A0074AEDC /* UsageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewController.swift; sourceTree = "<group>"; };
@@ -386,6 +391,7 @@
 		5832FCC2237AB8AB00FA3196 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5832FCC3237AB8AB00FA3196 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		5837957A238FB93A00494A2D /* UsageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageCollectionView.swift; sourceTree = "<group>"; };
+		585D51DB2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeCollectionViewCell.swift; sourceTree = "<group>"; };
 		58682EDA238F7079009BDDDF /* FilterSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSegment.swift; sourceTree = "<group>"; };
 		681949F22DEE05C36955EBCD /* Pods-SynergyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynergyTests.release.xcconfig"; path = "Target Support Files/Pods-SynergyTests/Pods-SynergyTests.release.xcconfig"; sourceTree = "<group>"; };
 		858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Synergy_Dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -528,6 +534,7 @@
 				5832D6E3238BBE390074AEDC /* UsageViewModel.swift */,
 				5832D6E6238BBE4A0074AEDC /* UsageViewController.swift */,
 				5837957A238FB93A00494A2D /* UsageCollectionView.swift */,
+				585D51DB2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift */,
 			);
 			path = Usage;
 			sourceTree = "<group>";
@@ -675,6 +682,7 @@
 				5832FC36237A863300FA3196 /* SecondaryButton.swift */,
 				5832FC37237A863300FA3196 /* Button.swift */,
 				58682EDA238F7079009BDDDF /* FilterSegment.swift */,
+				582CC4C82390DBC400E4530B /* CollectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1481,6 +1489,7 @@
 				5832FCA7237A8A9200FA3196 /* RxOptional+Single+Optional.swift in Sources */,
 				5832FC7C237A883500FA3196 /* NetworkConnectionManager.swift in Sources */,
 				5837957B238FB93A00494A2D /* UsageCollectionView.swift in Sources */,
+				582CC4C92390DBC400E4530B /* CollectionView.swift in Sources */,
 				5832FC5C237A863300FA3196 /* SecondaryButton.swift in Sources */,
 				5832FC3E237A863300FA3196 /* Constant.swift in Sources */,
 				E28B560E238D16E800F1BCF2 /* FbmAccount.swift in Sources */,
@@ -1488,6 +1497,7 @@
 				5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
 				E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
+				585D51DC2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift in Sources */,
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5832D6FF238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				5832FC56237A863300FA3196 /* TableView.swift in Sources */,
@@ -1597,6 +1607,7 @@
 				E2DB669F237D3B69005367C2 /* SecondaryButton.swift in Sources */,
 				E2DB66A0237D3B69005367C2 /* Constant.swift in Sources */,
 				5837957C238FB93A00494A2D /* UsageCollectionView.swift in Sources */,
+				582CC4CA2390DBC400E4530B /* CollectionView.swift in Sources */,
 				E2DB66A1237D3B69005367C2 /* DesignedSegmentControl.swift in Sources */,
 				5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E8238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
@@ -1604,6 +1615,7 @@
 				5832D700238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
 				E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
+				585D51DD2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift in Sources */,
 				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				E28B55F1238CE66500F1BCF2 /* DataRequestedViewController.swift in Sources */,
 				E2DB66A3237D3B69005367C2 /* UIFont+Theme.swift in Sources */,

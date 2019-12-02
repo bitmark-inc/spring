@@ -44,7 +44,6 @@ class ViewController: ThemedViewController {
     // MARK: - Setup Views
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
         fullView.layoutIfNeeded()
         contentView.flex.layout()
     }
@@ -100,5 +99,75 @@ extension ViewController {
         themeService.rx
             .bind({ $0.lightTextColor }, to: screenTitleLabel.rx.textColor)
             .disposed(by: disposeBag)
+    }
+}
+
+class TabPageViewController: ThemedViewController {
+    var viewModel: ViewModel?
+
+    var screenTitleLabel: UILabel!
+    let navigationViewHeight = Size.dh(50)
+    var navigationViewHeightConstraint: Constraint!
+
+    init(viewModel: ViewModel?) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    let isLoading = BehaviorRelay(value: false)
+
+    lazy var contentView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.frame = self.view.safeAreaLayoutGuide.layoutFrame
+        return view
+    }()
+
+    lazy var navigationView: UIView = {
+        return UIView()
+    }()
+
+    // MARK: - Setup Views
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        contentView.setNeedsLayout()
+        contentView.layoutIfNeeded()
+        contentView.flex.layout()
+    }
+
+    override func setupViews() {
+        super.setupViews()
+
+        let fullView = UIView()
+        screenTitleLabel = UILabel()
+        screenTitleLabel.font = UIFont.navigationTitleFont
+
+        fullView.addSubview(navigationView)
+        fullView.addSubview(screenTitleLabel)
+        fullView.addSubview(contentView)
+
+        navigationView.snp.makeConstraints { (make) in
+            make.top.leading.trailing.equalToSuperview()
+            navigationViewHeightConstraint = make.height.equalTo(0).constraint
+        }
+
+        screenTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(navigationView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+        }
+
+        contentView.snp.makeConstraints { (make) in
+            make.top.equalTo(screenTitleLabel.snp.bottom).offset(Size.dh(45))
+            make.leading.trailing.bottom.equalToSuperview()
+        }
+
+        view.addSubview(fullView)
+        fullView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
     }
 }

@@ -51,6 +51,7 @@ func (p *PGStore) QueryAccount(ctx context.Context, params *AccountQueryParam) (
 	if err := p.pool.
 		QueryRow(ctx, st, val...).
 		Scan(&account.AccountNumber,
+			&account.EncryptionPublicKey,
 			&account.Metadata,
 			&account.CreatedAt,
 			&account.UpdatedAt); err != nil {
