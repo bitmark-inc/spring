@@ -75,7 +75,9 @@ extension UsageCollectionView: UICollectionViewDataSource {
             cell.bindData(data: [("Phil Lin", [2,2]), ("Hongtai CrossFit", [2,0]), ("Mars Chen", [2,0])])
             return cell
         case (1, 4):
-            return collectionView.dequeueReusableCell(withClass: FilterPlacesCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: FilterPlacesCollectionViewCell.self, for: indexPath)
+            cell.bindData(data: [("Hongtai CrossFit", [2,8]), ("Saffron 46", [2,2])])
+            return cell
         case (2, 0):
             let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
             cell.bindData(countText: "100 REACTIONS", actionDescriptionText: "you gave")
@@ -304,7 +306,7 @@ class FilterDayCollectionViewCell: CollectionViewCell {
         let data = BarChartData(dataSet: set1)
         data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
         data.barWidth = 0.4
-        data.setValueFormatter(DefaultValueFormatter(decimals: 0))
+        data.setValueFormatter(StackedBarValueFormatter())
         
         chartView.data = data
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: ["S", "M", "T", "W", "T", "F", "S"])
@@ -385,11 +387,11 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         let barData = BarChartData(dataSet: set1)
         barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
         barData.barWidth = 0.4
-        barData.setValueFormatter(DefaultValueFormatter(decimals: 0))
+        barData.setValueFormatter(StackedBarValueFormatter())
         
         chartView.data = barData
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
-        chartView.xAxis.labelCount = 3
+        chartView.xAxis.labelCount = data.count
         chartView.legend.enabled = false
         
         chartView.flex.height(CGFloat(data.count * 50))
@@ -442,34 +444,72 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
-
-        bindData()
     }
        
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    func bindData() {
+    func bindData(data: [(String, [Double])]) {
         headingLabel.text = "BY PLACES TAGGED"
         
-        let set1 = BarChartDataSet(entries: [
-            BarChartDataEntry(x: 0, yValues: [2, 6]),
-            BarChartDataEntry(x: 1, yValues: [2, 2])
-        ], label: "")
+        var values = [String]()
+        var entries = [BarChartDataEntry]()
+        var i: Double = 0
+        for (k,v) in data.reversed() {
+            values.append(k)
+            entries.append(BarChartDataEntry(x: i, yValues: v))
+            i += 1
+        }
+        
+        let set1 = BarChartDataSet(entries: entries, label: "")
         set1.colors = [
-            UIColor(hexString: "#E3C878")!,
-            UIColor(hexString: "#ED9A73")!
+            UIColor(hexString: "#81CFFA")!,
+            UIColor(hexString: "#E688A1")!,
+            UIColor(hexString: "#E3C878")!
         ]
         
-        let data = BarChartData(dataSet: set1)
-        data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        data.barWidth = 0.4
-        data.setValueFormatter(DefaultValueFormatter(decimals: 0))
+        let barData = BarChartData(dataSet: set1)
+        barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
+        barData.barWidth = 0.4
+        barData.setValueFormatter(StackedBarValueFormatter())
         
-        chartView.data = data
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: ["Hongtai CrossFit", "Saffron 46"])
-        chartView.xAxis.labelCount = 2
+        chartView.data = barData
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
+        chartView.xAxis.labelCount = data.count
         chartView.legend.enabled = false
+        
+        chartView.flex.height(CGFloat(data.count * 50))
+        
+        layout()
+    }
+}
+
+final class StackedBarValueFormatter: IValueFormatter {
+    private var lastEntry: ChartDataEntry? = nil
+    private var iteratedStackIndex = 1
+    
+    func stringForValue(_ value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String {
+        guard let e = entry as? BarChartDataEntry,
+            var values = e.yValues else {
+            assert(false, "entry is not a BarChartDataEntry or empty yValues")
+        }
+        
+        values = values.filter { $0 != 0 }
+        
+        if lastEntry != entry {
+            lastEntry = entry
+            iteratedStackIndex = 1
+        }
+
+        defer {
+            iteratedStackIndex += 1
+        }
+        
+        if iteratedStackIndex < values.count {
+            return ""
+        }
+        
+        return String(Int(value))
     }
 }
