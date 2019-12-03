@@ -71,7 +71,9 @@ extension UsageCollectionView: UICollectionViewDataSource {
         case (1, 2):
             return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
         case (1, 3):
-            return collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
+            cell.bindData(data: [("Phil Lin", [2,2]), ("Hongtai CrossFit", [2,0]), ("Mars Chen", [2,0])])
+            return cell
         case (1, 4):
             return collectionView.dequeueReusableCell(withClass: FilterPlacesCollectionViewCell.self, for: indexPath)
         case (2, 0):
@@ -85,7 +87,9 @@ extension UsageCollectionView: UICollectionViewDataSource {
         case (2, 2):
             return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
         case (2, 3):
-            return collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
+            cell.bindData(data: [("Phillip Botha", [1,4,2]), ("Jeep Ampol", [0,4,2]), ("Hezali Nel", [1,4,0])])
+            return cell
         case (3, 0):
             let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
             cell.bindData(countText: "341 MESSAGES", actionDescriptionText: "you sent or received")
@@ -156,7 +160,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
             flex.justifyContent(.start)
             flex.alignItems(.start)
             flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).minWidth(90%).height(200)
+            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -169,12 +173,21 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10)
-        xAxis.drawAxisLineEnabled = true
+        xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
         
-        chartView.leftAxis.enabled = false
-        chartView.rightAxis.enabled = false
+        let leftAxis = chartView.leftAxis
+        leftAxis.axisMinimum = 0
+        leftAxis.drawAxisLineEnabled = false
+        leftAxis.drawLabelsEnabled = false
+        leftAxis.drawGridLinesEnabled = false
+        
+        let rightAxis = chartView.rightAxis
+        rightAxis.axisMinimum = 0
+        rightAxis.drawAxisLineEnabled = false
+        rightAxis.drawLabelsEnabled = false
+        rightAxis.drawGridLinesEnabled = false
 
         let l = chartView.legend
         l.enabled = false
@@ -185,7 +198,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         super.init(coder: coder)
     }
 
-    func bindData(data: [(String, Int)]) {
+    func bindData(data: [(String, Double)]) {
         headingLabel.text = "BY TYPE"
         
         var values = [String]()
@@ -193,7 +206,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         var i: Double = 0
         for (k,v) in data.reversed() {
             values.append(k)
-            entries.append(BarChartDataEntry(x: i, y: Double(v)))
+            entries.append(BarChartDataEntry(x: i, y: v))
             i += 1
         }
         
@@ -230,9 +243,10 @@ class FilterDayCollectionViewCell: CollectionViewCell {
 
         contentView.flex.direction(.column).define { (flex) in
             flex.paddingLeft(18).paddingRight(18)
+            flex.justifyContent(.start)
             flex.alignItems(.start)
             flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(10).width(300).height(300)
+            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(300)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -308,9 +322,10 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
 
         contentView.flex.direction(.column).define { (flex) in
             flex.paddingLeft(18).paddingRight(18)
+            flex.justifyContent(.start)
             flex.alignItems(.start)
             flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).width(300).height(300)
+            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -323,53 +338,63 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10)
-        xAxis.drawAxisLineEnabled = true
+        xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
-        xAxis.granularity = 1
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
+        leftAxis.drawAxisLineEnabled = false
+        leftAxis.drawLabelsEnabled = false
+        leftAxis.drawGridLinesEnabled = false
         
         let rightAxis = chartView.rightAxis
         rightAxis.axisMinimum = 0
-        
-        chartView.leftAxis.enabled = false
-        chartView.rightAxis.enabled = false
+        rightAxis.drawAxisLineEnabled = false
+        rightAxis.drawLabelsEnabled = false
+        rightAxis.drawGridLinesEnabled = false
 
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
-
-        bindData()
     }
        
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    func bindData() {
+    func bindData(data: [(String, [Double])]) {
         headingLabel.text = "BY FRIENDS TAGGED"
         
-        let set1 = BarChartDataSet(entries: [
-            BarChartDataEntry(x: 0, yValues: [2, 2]),
-            BarChartDataEntry(x: 1, yValues: [2, 0]),
-            BarChartDataEntry(x: 2, yValues: [1, 0])
-        ], label: "")
+        var values = [String]()
+        var entries = [BarChartDataEntry]()
+        var i: Double = 0
+        for (k,v) in data.reversed() {
+            values.append(k)
+            entries.append(BarChartDataEntry(x: i, yValues: v))
+            i += 1
+        }
+        
+        let set1 = BarChartDataSet(entries: entries, label: "")
         set1.colors = [
-            UIColor(hexString: "#E3C878")!,
-            UIColor(hexString: "#ED9A73")!
+            UIColor(hexString: "#81CFFA")!,
+            UIColor(hexString: "#E688A1")!,
+            UIColor(hexString: "#E3C878")!
         ]
         
-        let data = BarChartData(dataSet: set1)
-        data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        data.barWidth = 0.4
-        data.setValueFormatter(DefaultValueFormatter(decimals: 0))
+        let barData = BarChartData(dataSet: set1)
+        barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
+        barData.barWidth = 0.4
+        barData.setValueFormatter(DefaultValueFormatter(decimals: 0))
         
-        chartView.data = data
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: ["Phil Lin", "Hongtai CrossFit", "Mars Chen"])
+        chartView.data = barData
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
         chartView.xAxis.labelCount = 3
         chartView.legend.enabled = false
+        
+        chartView.flex.height(CGFloat(data.count * 50))
+        
+        layout()
     }
 }
 
@@ -382,9 +407,10 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
 
         contentView.flex.direction(.column).define { (flex) in
             flex.paddingLeft(18).paddingRight(18)
+            flex.justifyContent(.start)
             flex.alignItems(.start)
             flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).width(300).height(300)
+            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -397,19 +423,21 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10)
-        xAxis.drawAxisLineEnabled = true
+        xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
-        xAxis.granularity = 1
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
+        leftAxis.drawAxisLineEnabled = false
+        leftAxis.drawLabelsEnabled = false
+        leftAxis.drawGridLinesEnabled = false
         
         let rightAxis = chartView.rightAxis
         rightAxis.axisMinimum = 0
-        
-        chartView.leftAxis.enabled = false
-        chartView.rightAxis.enabled = false
+        rightAxis.drawAxisLineEnabled = false
+        rightAxis.drawLabelsEnabled = false
+        rightAxis.drawGridLinesEnabled = false
 
         let l = chartView.legend
         l.enabled = false
