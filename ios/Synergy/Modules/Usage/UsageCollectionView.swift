@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import FlexLayout
 import Charts
 
 class UsageCollectionView: CollectionView {
@@ -36,30 +37,69 @@ class UsageCollectionView: CollectionView {
 }
 
 extension UsageCollectionView: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 4
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return 5
+        case 2:
+            return 4
+        case 3:
+            return 3
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.row {
-        case 0:
+        switch (indexPath.section, indexPath.row) {
+        case (0, _):
             return collectionView.dequeueReusableCell(withClass: UsageBadgeCollectionViewCell.self, for: indexPath)
-        case 1:
+        case (1, 0):
             let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
             cell.bindData(countText: "24 POSTS", actionDescriptionText: "you made")
             return cell
-        case 2:
-            return collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
-        case 3:
+        case (1, 1):
+            let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
+            cell.bindData(data: [("Update", 2), ("Photos", 9), ("Stories", 8), ("Videos", 2), ("Links", 3)])
+            return cell
+        case (1, 2):
             return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
-        case 4:
+        case (1, 3):
             return collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
-        case 5:
+        case (1, 4):
             return collectionView.dequeueReusableCell(withClass: FilterPlacesCollectionViewCell.self, for: indexPath)
+        case (2, 0):
+            let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
+            cell.bindData(countText: "100 REACTIONS", actionDescriptionText: "you gave")
+            return cell
+        case (2, 1):
+            let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
+            cell.bindData(data: [("Like", 34), ("Love", 40), ("Haha", 19), ("Wow", 5), ("Sad", 2), ("Angry", 0)])
+            return cell
+        case (2, 2):
+            return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
+        case (2, 3):
+            return collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
+        case (3, 0):
+            let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
+            cell.bindData(countText: "341 MESSAGES", actionDescriptionText: "you sent or received")
+            return cell
+        case (3, 1):
+            let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
+            cell.bindData(data: [("TPE Pride 2019", 182), ("Beven Lan", 43), ("Danny & Phil", 39), ("Kevin Y", 25), ("Jeffy Davenport", 23), ("Others", 29)])
+            return cell
+        case (3, 2):
+            return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
         default:
             return collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
         }
-        
+            
     }
 }
 
@@ -86,8 +126,9 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
             flex.addItem().direction(.row).define { (flex) in
                 flex.padding(38, 18, 28, 18)
                 flex.alignItems(.start)
-                flex.addItem(countLabel)
-                flex.addItem(actionDescriptionLabel).marginLeft(4)
+                flex.justifyContent(.start)
+                flex.addItem(countLabel).grow(1)
+                flex.addItem(actionDescriptionLabel).marginLeft(4).grow(1)
             }
         }
     }
@@ -99,6 +140,7 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
     func bindData(countText: String, actionDescriptionText: String) {
         countLabel.text = countText
         actionDescriptionLabel.text = actionDescriptionText
+        self.layout()
     }
 }
 
@@ -111,9 +153,10 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
 
         contentView.flex.direction(.column).define { (flex) in
             flex.paddingLeft(18).paddingRight(18)
+            flex.justifyContent(.start)
             flex.alignItems(.start)
             flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).width(300).height(300)
+            flex.addItem(chartView).marginLeft(19).marginTop(10).minWidth(90%).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -136,24 +179,25 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
-
-        bindData()
     }
        
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    func bindData() {
+    func bindData(data: [(String, Int)]) {
         headingLabel.text = "BY TYPE"
         
-        let set1 = BarChartDataSet(entries: [
-            BarChartDataEntry(x: 0, y: 2.0),
-            BarChartDataEntry(x: 1, y: 9.0),
-            BarChartDataEntry(x: 2, y: 8.0),
-            BarChartDataEntry(x: 3, y: 2.0),
-            BarChartDataEntry(x: 4, y: 3.0)
-        ])
+        var values = [String]()
+        var entries = [BarChartDataEntry]()
+        var i: Double = 0
+        for (k,v) in data.reversed() {
+            values.append(k)
+            entries.append(BarChartDataEntry(x: i, y: Double(v)))
+            i += 1
+        }
+        
+        let set1 = BarChartDataSet(entries: entries)
         set1.colors = [
             UIColor(hexString: "#BBEAA6")!,
             UIColor(hexString: "#E3C878")!,
@@ -162,14 +206,18 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#81CFFA")!
         ]
         
-        let data = BarChartData(dataSets: [set1])
-        data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        data.barWidth = 0.4
-        data.setValueFormatter(DefaultValueFormatter(decimals: 0))
+        let barData = BarChartData(dataSets: [set1])
+        barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
+        barData.barWidth = 0.4
+        barData.setValueFormatter(DefaultValueFormatter(decimals: 0))
         
-        chartView.data = data
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: ["Posts", "Photos", "Stories", "Videos", "Links"])
+        chartView.data = barData
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
         chartView.xAxis.labelCount = 5
+        
+        chartView.flex.height(CGFloat(data.count * 50))
+        
+        self.layout()
     }
 }
 
