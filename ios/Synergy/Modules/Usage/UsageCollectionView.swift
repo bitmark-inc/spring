@@ -131,10 +131,8 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
                 .height(1)
             flex.addItem().direction(.row).define { (flex) in
                 flex.padding(38, 18, 28, 18)
-                flex.alignItems(.start)
-                flex.justifyContent(.start)
-                flex.addItem(countLabel).grow(1)
-                flex.addItem(actionDescriptionLabel).marginLeft(4).grow(1)
+                flex.addItem(countLabel)
+                flex.addItem(actionDescriptionLabel).marginLeft(4)
             }
         }
     }
@@ -143,10 +141,17 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
         super.init(coder: coder)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        invalidateIntrinsicContentSize()
+    }
+    
     func bindData(countText: String, actionDescriptionText: String) {
         countLabel.text = countText
         actionDescriptionLabel.text = actionDescriptionText
-        self.layout()
+        countLabel.flex.markDirty()
+        actionDescriptionLabel.flex.markDirty()
     }
 }
 

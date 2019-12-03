@@ -36,8 +36,15 @@ class UsageViewController: TabPageViewController {
     
     private lazy var periodNameLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 18))
     private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 10))
+    private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
     
     private lazy var collectionView = UsageCollectionView()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setThemedScreenTitle(text: R.string.localizable.usagE())
+    }
 
     override func bindViewModel() {
         super.bindViewModel()
@@ -45,6 +52,7 @@ class UsageViewController: TabPageViewController {
         // Fake data
         periodNameLabel.text = "THIS DECADE"
         periodDescriptionLabel.text = "2010-2019"
+        subTitleLabel.text = R.string.localizable.howyouusefacebooK()
 
         guard let viewModel = viewModel as? UsageViewModel else { return }
 
@@ -172,7 +180,8 @@ class UsageViewController: TabPageViewController {
         }
         
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(filterSegment).marginTop(Size.dh(27)).marginLeft(18).marginRight(18).height(40)
+            flex.addItem(subTitleLabel).marginTop(2).marginLeft(18).marginRight(18)
+            flex.addItem(filterSegment).marginTop(36).marginLeft(18).marginRight(18).height(40)
             flex.addItem(periodBrowseContentView).marginTop(18).marginLeft(18).marginRight(18).height(19)
             flex.addItem(periodDescriptionLabel).marginTop(6).height(10).alignSelf(.center)
             flex.addItem(collectionView).marginTop(10).marginBottom(0).grow(1)

@@ -106,6 +106,7 @@ class TabPageViewController: ThemedViewController {
     var viewModel: ViewModel?
 
     var screenTitleLabel: UILabel!
+    var titleView: UIView!
     let navigationViewHeight = Size.dh(50)
     var navigationViewHeightConstraint: Constraint!
 
@@ -145,29 +146,55 @@ class TabPageViewController: ThemedViewController {
         let fullView = UIView()
         screenTitleLabel = UILabel()
         screenTitleLabel.font = UIFont.navigationTitleFont
-
+        
+        titleView = UIView()
+        
         fullView.addSubview(navigationView)
-        fullView.addSubview(screenTitleLabel)
         fullView.addSubview(contentView)
+        
+        titleView.flex.direction(.row).define { (flex) in
+            flex.addItem(screenTitleLabel).marginLeft(17)
+        }
+        contentView.flex.direction(.column).addItem(titleView).height(39).width(100%)
+        
 
         navigationView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
             navigationViewHeightConstraint = make.height.equalTo(0).constraint
         }
 
-        screenTitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(navigationView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-        }
-
         contentView.snp.makeConstraints { (make) in
-            make.top.equalTo(screenTitleLabel.snp.bottom).offset(Size.dh(45))
-            make.leading.trailing.bottom.equalToSuperview()
+            make.top.leading.trailing.bottom.equalToSuperview()
         }
 
         view.addSubview(fullView)
         fullView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.edges
+                .equalTo(view.safeAreaLayoutGuide)
+                .inset(UIEdgeInsets(top: 17, left: 0, bottom: 0, right: 0))
         }
+        
+        
+    }
+}
+
+extension TabPageViewController {
+
+    func setThemedScreenTitle(text: String) {
+        screenTitleLabel.text = text
+        screenTitleLabel.font = R.font.domaineSansTextRegular(size: Size.ds(36))
+
+        themeService.rx
+            .bind({ $0.themeColor }, to: screenTitleLabel.rx.textColor)
+            .disposed(by: disposeBag)
+    }
+
+    func setLightScreenTitle(text: String) {
+        screenTitleLabel.text = text
+        screenTitleLabel.font = R.font.domaineSansTextRegular(size: Size.ds(36))
+
+        themeService.rx
+            .bind({ $0.lightTextColor }, to: screenTitleLabel.rx.textColor)
+            .disposed(by: disposeBag)
     }
 }
