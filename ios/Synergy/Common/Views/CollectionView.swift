@@ -17,20 +17,19 @@ class CollectionView: UICollectionView {
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         layout.headerReferenceSize = CGSize.zero
-        
+
         super.init(frame: CGRect.zero, collectionViewLayout: layout)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-
 final class FullWidthFlowLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let layoutAttributesObjects = super.layoutAttributesForElements(in: rect)?.map{ $0.copy() } as? [UICollectionViewLayoutAttributes]
+        let layoutAttributesObjects = super.layoutAttributesForElements(in: rect)?.map { $0.copy() } as? [UICollectionViewLayoutAttributes]
         layoutAttributesObjects?.forEach({ layoutAttributes in
             if layoutAttributes.representedElementCategory == .cell {
                 if let newFrame = layoutAttributesForItem(at: layoutAttributes.indexPath)?.frame {
@@ -59,16 +58,16 @@ final class FullWidthFlowLayout: UICollectionViewFlowLayout {
 class CollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         layout()
     }
-    
+
     override func sizeThatFits(_ size: CGSize) -> CGSize {
         contentView.size.width = size.width
         layout()
         return contentView.frame.size
     }
-    
+
     internal func layout() {
         contentView.flex.layout(mode: .adjustHeight)
     }

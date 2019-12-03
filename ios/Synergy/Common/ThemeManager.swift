@@ -33,6 +33,7 @@ protocol Theme {
     var indicatorColor: UIColor { get }
     var themeColor: UIColor { get }
     var controlBackgroundColor: UIColor { get }
+    var postCellBackgroundColor: UIColor { get }
 
     init(colorTheme: ColorTheme)
 }
@@ -56,6 +57,7 @@ struct LightTheme: Theme {
     let indicatorColor = UIColor.Material.grey
     let themeColor = UIColor(hexString: "#932C19")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
+    let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
 
     init(colorTheme: ColorTheme) {
     }
@@ -80,6 +82,7 @@ struct DarkTheme: Theme {
     let indicatorColor = UIColor.Material.grey
     let themeColor = UIColor(hexString: "#932C19")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
+    let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
 
     init(colorTheme: ColorTheme) {
     }

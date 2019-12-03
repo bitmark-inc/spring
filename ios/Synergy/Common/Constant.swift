@@ -29,8 +29,17 @@ public struct Constant {
     static let appName = "Synergy"
     public static let productLink = "https://apps.apple.com/us/app/bitmark/id1429427796"
     let numberOfPhrases = 12
+    static let postTimestampFormat = "MMM d 'at' h:mm a"
 
     public struct OneSignalTag {
         public static let key = "account_id"
+    }
+
+    public struct PostType {
+        public static let update = "update"
+        public static let photo = "photo"
+        public static let story = "story"
+        public static let video = "video"
+        public static let link = "link"
     }
 }

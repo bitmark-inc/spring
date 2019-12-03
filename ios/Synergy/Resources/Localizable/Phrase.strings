@@ -35,3 +35,6 @@
 
 "dataRequested.scheduleNotify.title" = "Check Facebook Archive";
 "dataRequested.scheduleNotify.message" = "Tap here to check if your Facebook Archive is ready";
+
+"post.postInfo.friendTags" = " with %@";
+"post.postInfo.locationTag" = " at %@";

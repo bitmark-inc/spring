@@ -76,7 +76,7 @@ class ViewController: ThemedViewController {
         view.addSubview(fullView)
         fullView.snp.makeConstraints { (make) in
             make.edges.equalTo(view.safeAreaLayoutGuide)
-                .inset(UIEdgeInsets(top: 0, left: Size.dw(18), bottom: Size.dw(34), right: Size.dw(18)))
+                .inset(UIEdgeInsets(top: 0, left: Size.dw(18), bottom: Size.dh(34), right: Size.dw(18)))
         }
     }
 }

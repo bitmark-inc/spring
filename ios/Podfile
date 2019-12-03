@@ -37,7 +37,7 @@ def sharedPods
   pod 'Charts'
   pod 'ChartsRealm'
   pod 'SwiftDate'
-  
+  pod 'Kingfisher'
 end
 
 target 'Synergy' do

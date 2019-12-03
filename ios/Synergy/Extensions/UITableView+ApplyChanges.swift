@@ -18,3 +18,13 @@ extension UITableView {
         endUpdates()
     }
 }
+
+extension UICollectionView {
+    func applyChangeset(_ changes: RealmChangeset) {
+        performBatchUpdates({
+            deleteItems(at: changes.deleted.map { IndexPath(row: $0, section: 0) })
+            insertItems(at: changes.inserted.map { IndexPath(row: $0, section: 0) })
+            reloadItems(at: changes.updated.map { IndexPath(row: $0, section: 0) })
+        })
+    }
+}

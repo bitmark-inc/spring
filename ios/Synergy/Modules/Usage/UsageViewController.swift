@@ -67,7 +67,7 @@ class UsageViewController: TabPageViewController {
             })
             .disposed(by: disposeBag)
 
-        viewModel.fetchUsage()
+//        viewModel.fetchUsage()
     }
 
     fileprivate func bindPostUsageData(_ realmUsage: Usage) {

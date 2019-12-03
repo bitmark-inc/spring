@@ -40,11 +40,11 @@ class UsageViewModel: ViewModel {
                 guard let self = self else { return }
 
                 var usageScope: UsageScope = (
-                    sectionID: 0,
+                    sectionName: "",
                     date: date, timeUnit: timeUnit.rawValue)
 
                 // Usage - POSTs
-                usageScope.sectionID = Section.posts.rawValue
+                usageScope.sectionName = Section.posts.rawValue
                 let postUsageScope = usageScope
 
                 _ = UsageDataEngine.rx.fetchAndSyncUsage(postUsageScope)
@@ -56,7 +56,7 @@ class UsageViewModel: ViewModel {
                     .bind(to: self.realmPostUsageObservable)
 
                 // Usage - Reactions
-                usageScope.sectionID = Section.reactions.rawValue
+                usageScope.sectionName = Section.reactions.rawValue
                 let reactionUsageScope = usageScope
 
                 _ = UsageDataEngine.rx.fetchAndSyncUsage(reactionUsageScope)

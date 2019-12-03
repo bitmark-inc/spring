@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import RxSwift
+import FlexLayout
+import Kingfisher
 
 class ImageView: UIImageView {
+
+    let disposeBag = DisposeBag()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,6 +33,14 @@ class ImageView: UIImageView {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupViews()
+    }
+
+    func loadURL(_ url: URL) {
+        kf.setImage(with: url)
+
+        guard let imageSize = image?.size else { return }
+        let heightImage = frame.size.width * imageSize.height / imageSize.width
+        flex.maxWidth(100%).height(heightImage)
     }
 
     func setupViews() {

@@ -76,6 +76,7 @@ enum AppError: Error {
     case incorrectMetadataLocal
     case missingFileNameFromServer
     case noInternetConnection
+    case incorrectPostFilter
 
     static func errorByNetworkConnection(_ error: Error) -> Bool {
         guard let error = error as? Self, error == .noInternetConnection else { return false }

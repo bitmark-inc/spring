@@ -40,6 +40,7 @@ class Navigator {
         case safari(URL)
         case safariController(URL)
         case hometabs
+        case postList(viewModel: PostListViewModel)
     }
 
     enum Transition {
@@ -77,6 +78,7 @@ class Navigator {
             } else {
                 return HomeTabbarController.tabbarController()
             }
+        case .postList(let viewModel): return PostListViewController(viewModel: viewModel)
         }
     }
 

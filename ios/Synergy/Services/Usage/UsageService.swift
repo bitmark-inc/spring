@@ -16,7 +16,7 @@ class UsageService {
         Global.log.info("[start] UsageService.get")
 
         let mockFileName: String!
-        guard let section = Section(rawValue: usageScope.sectionID) else { return Single.never() }
+        guard let section = Section(rawValue: usageScope.sectionName) else { return Single.never() }
 
         switch section {
         case .posts:
