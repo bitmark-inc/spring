@@ -4,24 +4,28 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.register.archiverequest
+package com.bitmark.fbm.feature.register.notification
 
 import androidx.lifecycle.Lifecycle
-import com.bitmark.fbm.data.source.AccountRepository
+import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 
 
-class ArchiveRequestContainerViewModel(
+class NotificationViewModel(
     lifecycle: Lifecycle,
-    private val accountRepo: AccountRepository,
+    private val appRepo: AppRepository,
     private val rxLiveDataTransformer: RxLiveDataTransformer
 ) : BaseViewModel(lifecycle) {
 
-    internal val getArchiveRequestedTimestamp = CompositeLiveData<Long>()
+    internal val setNotificationEnabledLiveData = CompositeLiveData<Any>()
 
-    fun getArchiveRequestedTimestamp() {
-        getArchiveRequestedTimestamp.add(rxLiveDataTransformer.single(accountRepo.getArchiveRequestedTimestamp()))
+    fun setNotificationEnabled(enabled: Boolean) {
+        setNotificationEnabledLiveData.add(
+            rxLiveDataTransformer.completable(
+                appRepo.setNotificationEnabled(enabled)
+            )
+        )
     }
 }

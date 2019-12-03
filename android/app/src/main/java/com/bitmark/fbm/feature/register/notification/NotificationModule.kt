@@ -6,33 +6,25 @@
  */
 package com.bitmark.fbm.feature.register.notification
 
-import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.di.ActivityScope
-import com.bitmark.fbm.feature.DialogController
+import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
 import dagger.Provides
 
 @Module
-class RegisterNotificationModule {
+class NotificationModule {
 
-    @Provides
     @ActivityScope
-    fun provideViewModel(
-        activity: RegisterNotificationActivity,
-        accountRepo: AccountRepository,
+    @Provides
+    fun provideNavigator(activity: NotificationActivity) = Navigator(activity)
+
+    @ActivityScope
+    @Provides
+    fun provideVM(
+        activity: NotificationActivity,
         appRepo: AppRepository,
         rxLiveDataTransformer: RxLiveDataTransformer
-    ) =
-        RegisterNotificationViewModel(
-            activity.lifecycle,
-            accountRepo,
-            appRepo,
-            rxLiveDataTransformer
-        )
-
-    @Provides
-    @ActivityScope
-    fun provideDialogController(activity: RegisterNotificationActivity) = DialogController(activity)
+    ) = NotificationViewModel(activity.lifecycle, appRepo, rxLiveDataTransformer)
 }

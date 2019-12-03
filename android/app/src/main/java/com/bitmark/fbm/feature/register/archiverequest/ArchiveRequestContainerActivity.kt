@@ -33,14 +33,7 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val isFromNotification =
-            intent?.getBooleanExtra("direct_from_notification", false) ?: false
-        if (isFromNotification) {
-            handleNotification()
-        } else {
-            viewModel.checkArchiveRequested()
-        }
+        viewModel.getArchiveRequestedTimestamp()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -48,31 +41,22 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
         val isFromNotification =
             intent?.getBooleanExtra("direct_from_notification", false) ?: false
         if (isFromNotification) {
-            handleNotification()
+            viewModel.getArchiveRequestedTimestamp()
         }
-    }
-
-    private fun handleNotification() {
-        navigator.anim(Navigator.NONE)
-            .replaceFragment(
-                R.id.layoutRoot,
-                ArchiveRequestFragment.newInstance(archiveRequested = true),
-                false
-            )
     }
 
     override fun observe() {
         super.observe()
 
-        viewModel.checkArchiveRequestedLiveData.asLiveData().observe(this, Observer { res ->
+        viewModel.getArchiveRequestedTimestamp.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    val requested = res.data() ?: false
+                    val requestedTimestamp = res.data() ?: -1L
                     navigator.anim(Navigator.NONE)
                         .replaceFragment(
                             R.id.layoutRoot,
-                            if (requested) {
-                                ArchiveRequestFragment.newInstance(archiveRequested = true)
+                            if (requestedTimestamp != -1L) {
+                                ArchiveRequestFragment.newInstance(requestedTimestamp)
                             } else {
                                 ArchiveRequestCredentialFragment.newInstance()
                             },

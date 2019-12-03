@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import com.bitmark.cryptography.crypto.Sha3256
 import com.bitmark.cryptography.crypto.encoder.Raw.RAW
 import com.bitmark.fbm.data.model.AutomationScriptData
+import com.bitmark.fbm.data.model.CredentialData
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.feature.BaseViewModel
@@ -17,6 +18,7 @@ import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 
 class ArchiveRequestViewModel(
     lifecycle: Lifecycle,
@@ -27,7 +29,10 @@ class ArchiveRequestViewModel(
 
     internal val registerAccountLiveData = CompositeLiveData<Any>()
 
-    internal val getAutomationScriptLiveData = CompositeLiveData<AutomationScriptData>()
+    internal val prepareDataLiveData =
+        CompositeLiveData<Pair<AutomationScriptData, CredentialData>>()
+
+    internal val checkNotificationEnabledLiveData = CompositeLiveData<Boolean>()
 
     internal val saveArchiveRequestedFlagLiveData = CompositeLiveData<Any>()
 
@@ -63,7 +68,8 @@ class ArchiveRequestViewModel(
                 "FBM_android_%s".format(Sha3256.hash(RAW.decode(account.id)))
             Completable.mergeArray(
                 accountRepo.registerIntercomUser(intercomId),
-                accountRepo.sendArchiveDownloadRequest(archiveUrl, cookie)
+                accountRepo.sendArchiveDownloadRequest(archiveUrl, cookie),
+                appRepo.registerNotificationService(mapOf(requester to "account_id"))
             ).andThen(Single.just(account))
         }.flatMapCompletable { account ->
             account.authRequired = false
@@ -72,17 +78,31 @@ class ArchiveRequestViewModel(
         }
     }
 
-    fun getAutomationScript() {
-        getAutomationScriptLiveData.add(rxLiveDataTransformer.single(appRepo.getAutomationScript()))
-    }
-
-    fun saveArchiveRequestedFlag() {
-        saveArchiveRequestedFlagLiveData.add(
-            rxLiveDataTransformer.completable(
-                accountRepo.setArchiveRequested(
-                    true
-                )
+    fun prepareData() {
+        prepareDataLiveData.add(
+            rxLiveDataTransformer.single(
+                Single.zip(
+                    appRepo.getAutomationScript(),
+                    accountRepo.getFbCredential(),
+                    BiFunction { script, credential ->
+                        Pair(
+                            script,
+                            credential
+                        )
+                    })
             )
         )
+    }
+
+    fun saveArchiveRequestedFlag(timestamp: Long) {
+        saveArchiveRequestedFlagLiveData.add(
+            rxLiveDataTransformer.completable(
+                accountRepo.setArchiveRequestedTime(timestamp)
+            )
+        )
+    }
+
+    fun checkNotificationEnabled() {
+        checkNotificationEnabledLiveData.add(rxLiveDataTransformer.single(appRepo.checkNotificationEnabled()))
     }
 }

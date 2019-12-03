@@ -9,6 +9,7 @@ package com.bitmark.fbm.feature.register.archiverequest.credential
 import android.os.Handler
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
+import androidx.lifecycle.Observer
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
@@ -30,11 +31,14 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
     @Inject
     internal lateinit var navigator: Navigator
 
+    @Inject
+    internal lateinit var viewModel: ArchiveRequestCredentialViewModel
+
     private val handler = Handler()
 
     override fun layoutRes(): Int = R.layout.fragment_archive_request_credential
 
-    override fun viewModel(): BaseViewModel? = null
+    override fun viewModel(): BaseViewModel? = viewModel
 
     override fun initComponents() {
         super.initComponents()
@@ -57,10 +61,7 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
             val fbId = etId.text.toString().trim()
             val fbPassword = etPassword.text.toString().trim()
             if (fbId.isBlank() || fbPassword.isBlank()) return@setSafetyOnclickListener
-            navigator.anim(RIGHT_LEFT).replaceFragment(
-                R.id.layoutRoot,
-                ArchiveRequestFragment.newInstance(fbId, fbPassword)
-            )
+            viewModel.saveFbCredential(fbId, fbPassword)
         }
 
         tvManual.setSafetyOnclickListener {
@@ -79,6 +80,21 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
     override fun deinitComponents() {
         handler.removeCallbacksAndMessages(null)
         super.deinitComponents()
+    }
+
+    override fun observe() {
+        super.observe()
+
+        viewModel.saveFbCredentialLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    navigator.anim(RIGHT_LEFT).replaceFragment(
+                        R.id.layoutRoot,
+                        ArchiveRequestFragment.newInstance()
+                    )
+                }
+            }
+        })
     }
 
     override fun onBackPressed(): Boolean {

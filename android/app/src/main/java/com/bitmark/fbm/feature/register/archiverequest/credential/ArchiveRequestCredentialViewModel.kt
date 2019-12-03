@@ -4,7 +4,7 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.register.archiverequest
+package com.bitmark.fbm.feature.register.archiverequest.credential
 
 import androidx.lifecycle.Lifecycle
 import com.bitmark.fbm.data.source.AccountRepository
@@ -13,15 +13,19 @@ import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 
 
-class ArchiveRequestContainerViewModel(
+class ArchiveRequestCredentialViewModel(
     lifecycle: Lifecycle,
     private val accountRepo: AccountRepository,
     private val rxLiveDataTransformer: RxLiveDataTransformer
 ) : BaseViewModel(lifecycle) {
 
-    internal val getArchiveRequestedTimestamp = CompositeLiveData<Long>()
+    internal val saveFbCredentialLiveData = CompositeLiveData<Any>()
 
-    fun getArchiveRequestedTimestamp() {
-        getArchiveRequestedTimestamp.add(rxLiveDataTransformer.single(accountRepo.getArchiveRequestedTimestamp()))
+    fun saveFbCredential(id: String, password: String) {
+        saveFbCredentialLiveData.add(
+            rxLiveDataTransformer.completable(
+                accountRepo.saveFbCredential(id, password)
+            )
+        )
     }
 }

@@ -18,13 +18,13 @@ class AppLocalDataSource @Inject constructor(
     fileStorageApi: FileStorageApi
 ) : LocalDataSource(databaseApi, sharedPrefApi, fileStorageApi) {
 
-    fun setNotificationServiceRegistration(registered: Boolean) =
+    fun setNotificationEnabled(enabled: Boolean) =
         sharedPrefApi.rxCompletable { sharedPrefGateway ->
-            sharedPrefGateway.put(SharedPrefApi.NOTIFICATION_ALREADY_REGISTERED, registered)
+            sharedPrefGateway.put(SharedPrefApi.NOTIFICATION_ENABLED, enabled)
         }
 
-    fun checkNotificationServiceRegistration() = sharedPrefApi.rxSingle { sharedPrefGateway ->
-        sharedPrefGateway.get(SharedPrefApi.NOTIFICATION_ALREADY_REGISTERED, Boolean::class)
+    fun checkNotificationEnabled() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        sharedPrefGateway.get(SharedPrefApi.NOTIFICATION_ENABLED, Boolean::class)
     }
 
     fun checkDataReady() = sharedPrefApi.rxSingle { sharedPrefGateway ->

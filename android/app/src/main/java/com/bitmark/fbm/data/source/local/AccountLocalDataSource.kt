@@ -7,6 +7,7 @@
 package com.bitmark.fbm.data.source.local
 
 import com.bitmark.fbm.data.model.AccountData
+import com.bitmark.fbm.data.model.CredentialData
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
 import com.bitmark.fbm.data.source.local.api.SharedPrefApi
@@ -39,11 +40,25 @@ class AccountLocalDataSource @Inject constructor(
         accountData ?: throw IllegalAccessException("account not found")
     }
 
-    fun setArchiveRequested(requested: Boolean) = sharedPrefApi.rxCompletable { sharedPrefGateway ->
-        sharedPrefGateway.put(SharedPrefApi.ARCHIVE_REQUESTED, requested)
+    fun setArchiveRequestedTimestamp(timestamp: Long) =
+        sharedPrefApi.rxCompletable { sharedPrefGateway ->
+            sharedPrefGateway.put(SharedPrefApi.ARCHIVE_REQUESTED_TIME, timestamp)
+        }
+
+    fun getArchiveRequestedTimestamp() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        sharedPrefGateway.get(SharedPrefApi.ARCHIVE_REQUESTED_TIME, Long::class, -1L)
     }
 
-    fun checkArchiveRequested() = sharedPrefApi.rxSingle { sharedPrefGateway ->
-        sharedPrefGateway.get(SharedPrefApi.ARCHIVE_REQUESTED, Boolean::class)
+    fun checkArchiveRequested() = getArchiveRequestedTimestamp().map { t -> t != -1L }
+
+    fun saveFbCredential(id: String, password: String) =
+        sharedPrefApi.rxCompletable { sharedPrefGateway ->
+            val credential = CredentialData(id, password)
+            sharedPrefGateway.put(SharedPrefApi.FB_CREDENTIAL, gson.toJson(credential))
+        }
+
+    fun getFbCredential() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        val credential = sharedPrefGateway.get(SharedPrefApi.FB_CREDENTIAL, String::class)
+        gson.fromJson(credential, CredentialData::class.java) ?: CredentialData.newInstance()
     }
 }

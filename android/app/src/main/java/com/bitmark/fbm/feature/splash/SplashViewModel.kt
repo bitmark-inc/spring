@@ -13,7 +13,7 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import io.reactivex.Single
-import io.reactivex.functions.BiFunction
+import io.reactivex.functions.Function3
 
 
 class SplashViewModel(
@@ -23,7 +23,7 @@ class SplashViewModel(
     private val rxLiveDataTransformer: RxLiveDataTransformer
 ) : BaseViewModel(lifecycle) {
 
-    internal val checkLoggedInLiveData = CompositeLiveData<Pair<Boolean, Boolean>>()
+    internal val checkLoggedInLiveData = CompositeLiveData<Triple<Boolean, Boolean, Long>>()
 
     fun checkLoggedIn() {
         checkLoggedInLiveData.add(
@@ -31,10 +31,12 @@ class SplashViewModel(
                 Single.zip(
                     accountRepo.checkLoggedIn(),
                     appRepo.checkDataReady(),
-                    BiFunction<Boolean, Boolean, Pair<Boolean, Boolean>> { loggedIn, dataReady ->
-                        Pair(
+                    accountRepo.getArchiveRequestedTimestamp(),
+                    Function3<Boolean, Boolean, Long, Triple<Boolean, Boolean, Long>> { loggedIn, dataReady, archiveRequested ->
+                        Triple(
                             loggedIn,
-                            dataReady
+                            dataReady,
+                            archiveRequested
                         )
                     })
             )

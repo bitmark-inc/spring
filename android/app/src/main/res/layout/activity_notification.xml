@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/dp_24"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_4"
+        android:src="@drawable/bg_3"
         app:layout_constraintBottom_toTopOf="@id/tvTitle"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -42,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back"
+            app:srcCompat="@drawable/ic_back_2"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -53,98 +53,27 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_14"
         android:fontFamily="@font/domaine_sans"
-        android:text="@string/how_it_works"
+        android:text="Notification"
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_36"
-        app:layout_constraintBottom_toTopOf="@id/tvMsg1"
+        app:layout_constraintBottom_toTopOf="@id/tvMsg"
         app:layout_constraintEnd_toEndOf="@id/btnContinue"
         app:layout_constraintStart_toStartOf="@id/btnContinue"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvIndex1"
+        android:id="@+id/tvMsg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_32"
-        android:fontFamily="@font/grotesk"
-        android:text="1"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_14"
-        app:layout_constraintStart_toStartOf="@id/tvIndex2"
-        app:layout_constraintTop_toTopOf="@id/tvMsg1"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvMsg1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_8"
-        android:fontFamily="@font/grotesk"
-        android:includeFontPadding="false"
-        android:text="@string/we_will_back_up_your_fb_data"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintBottom_toTopOf="@id/tvMsg2"
-        app:layout_constraintEnd_toEndOf="@id/tvMsg2"
-        app:layout_constraintStart_toEndOf="@id/tvIndex1"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvIndex2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/grotesk"
-        android:text="2"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_14"
-        app:layout_constraintStart_toStartOf="@id/tvIndex3"
-        app:layout_constraintTop_toTopOf="@id/tvMsg2"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvMsg2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_8"
-        android:fontFamily="@font/grotesk"
-        android:includeFontPadding="false"
-        android:text="@string/we_will_give_you_private_analytics"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
-        app:layout_constraintBottom_toTopOf="@id/tvMsg3"
-        app:layout_constraintEnd_toEndOf="@id/tvMsg3"
-        app:layout_constraintStart_toEndOf="@id/tvIndex2"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvIndex3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/grotesk"
-        android:text="3"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_14"
-        app:layout_constraintStart_toStartOf="@id/btnContinue"
-        app:layout_constraintTop_toTopOf="@id/tvMsg3"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvMsg3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_8"
         android:layout_marginBottom="@dimen/dp_48"
         android:fontFamily="@font/grotesk"
-        android:includeFontPadding="false"
-        android:text="@string/your_vault_will_be_updated"
+        android:text="@string/fb_is_preparing_your_data_2"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"
         app:layout_constraintBottom_toTopOf="@id/btnContinue"
         app:layout_constraintEnd_toEndOf="@id/btnContinue"
-        app:layout_constraintStart_toEndOf="@id/tvIndex3"
+        app:layout_constraintStart_toStartOf="@id/btnContinue"
         />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -154,12 +83,30 @@
         android:layout_height="@dimen/dp_48"
         android:layout_marginStart="@dimen/dp_18"
         android:layout_marginEnd="@dimen/dp_18"
-        android:layout_marginBottom="@dimen/dp_44"
+        android:layout_marginBottom="@dimen/dp_4"
         android:background="@drawable/bg_cognac_stateful"
         android:fontFamily="@font/grotesk"
-        android:text="@string/continue_arrow"
+        android:text="@string/notify_me"
         android:textAllCaps="false"
         android:textColor="@color/white"
+        android:textSize="@dimen/sp_17"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/btnSkip"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSkip"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginStart="@dimen/dp_18"
+        android:layout_marginEnd="@dimen/dp_18"
+        android:layout_marginBottom="@dimen/dp_24"
+        android:background="@null"
+        android:fontFamily="@font/grotesk"
+        android:text="@string/no_thanks"
+        android:textAllCaps="false"
+        android:textColor="@drawable/color_cognac_stateful"
         android:textSize="@dimen/sp_17"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

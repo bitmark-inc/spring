@@ -60,10 +60,17 @@
     <string name="write_down_the_following_word">Write down the following words in order:</string>
     <string name="about">About</string>
     <string name="faq">FAQ</string>
-    <string name="your_archive_is_ready">Your archive is ready?</string>
-    <string name="please_check_if_your_archive_is_ready">Please check if your archive is ready to download</string>
+    <string name="just_remind_you">Just reminding you to check if your Facebook archive is ready. Tap to continue.</string>
+    <string name="still_waiting_for_your_data">Still waiting for your data backup. Please continue to check back here regularly.</string>
+    <string name="fb_is_preparing_your_data_2">Facebook is preparing your data archive. This may take up to a few days, depending on how much data you have. \n\nWould you like us to remind you to check back here? If not, you will need to remember on your own to check if your backup is ready.</string>
+    <string name="check_now_arrow">Check now »</string>
+    <string name="still_waiting">Still Waiting</string>
+    <string name="analyzing_data">Analyzing Data</string>
+    <string name="your_fb_data_archive_has_been_successfully">Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready.</string>
+
 
     <string name="word_of_format">Word %1$d of %2$d</string>
-
+    <string name="you_requested_your_fb_data_format">You requested your Facebook data archive on %1$s. \n\nWe’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have.</string>
+    <string name="you_requested_your_fb_data_format_2">You requested your Facebook data archive on %1$s. \n\nSorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have.</string>
 
 </resources>

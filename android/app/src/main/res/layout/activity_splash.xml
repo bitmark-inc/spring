@@ -36,26 +36,14 @@
             android:text="@string/spring"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/sp_36"
-            />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvAppName2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/domaine_sans"
-            android:includeFontPadding="false"
-            android:text="@string/reports"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_48"
+            android:textSize="@dimen/sp_80"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvHowYouUseFB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_32"
+            android:layout_marginTop="@dimen/dp_8"
             android:layout_marginBottom="@dimen/dp_neg_4"
             android:fontFamily="@font/grotesk"
             android:includeFontPadding="false"
@@ -81,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_48"
             android:layout_marginTop="@dimen/dp_72"
-            android:background="@drawable/bg_international_klein_blue_stateful"
+            android:background="@drawable/bg_cognac_stateful"
             android:fontFamily="@font/grotesk"
             android:text="@string/get_started_arrow"
             android:textAllCaps="false"

@@ -16,14 +16,11 @@ class AppRepository(
 ) {
 
     fun registerNotificationService(tags: Map<String, String>) =
-        remoteDataSource.registerNotificationService(tags).andThen(
-            localDataSource.setNotificationServiceRegistration(
-                true
-            )
-        )
+        remoteDataSource.registerNotificationService(tags)
 
-    fun checkNotificationServiceRegistration() =
-        localDataSource.checkNotificationServiceRegistration()
+    fun setNotificationEnabled(enabled: Boolean) = localDataSource.setNotificationEnabled(enabled)
+
+    fun checkNotificationEnabled() = localDataSource.checkNotificationEnabled()
 
     fun checkDataReady() = localDataSource.checkDataReady()
 

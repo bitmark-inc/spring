@@ -20,9 +20,10 @@ class SharedPrefApi @Inject constructor(
 
     companion object {
         const val ACCOUNT_DATA = "account_data"
-        const val NOTIFICATION_ALREADY_REGISTERED = "notification_already_registered"
+        const val NOTIFICATION_ENABLED = "notification_enabled"
         const val DATA_READY = "data_ready"
-        const val ARCHIVE_REQUESTED = "archive_requested"
+        const val ARCHIVE_REQUESTED_TIME = "archive_requested_time"
+        const val FB_CREDENTIAL = "fb_credential"
     }
 
     private val sharePrefGateway = SharedPrefGateway(context, gson)

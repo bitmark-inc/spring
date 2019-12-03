@@ -20,6 +20,7 @@ import com.bitmark.cryptography.crypto.encoder.Hex
 import com.bitmark.cryptography.crypto.encoder.Raw
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.AutomationScriptData
+import com.bitmark.fbm.data.model.CredentialData
 import com.bitmark.fbm.data.model.Page
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
@@ -30,10 +31,11 @@ import com.bitmark.fbm.feature.notification.buildSimpleNotificationBundle
 import com.bitmark.fbm.feature.notification.cancelNotification
 import com.bitmark.fbm.feature.notification.pushDailyRepeatingNotification
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerActivity
-import com.bitmark.fbm.feature.register.notification.RegisterNotificationActivity
+import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
+import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.callback.Action0
 import com.bitmark.fbm.util.ext.evaluateJs
 import com.bitmark.fbm.util.ext.evaluateVerificationJs
@@ -57,24 +59,16 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
         private const val FB_ENDPOINT = "https://m.facebook.com"
 
-        private const val FB_ID = "fb_id"
-
-        private const val FB_PASSWORD = "fb_password"
-
-        private const val ARCHIVE_REQUESTED = "archive_requested"
+        private const val ARCHIVE_REQUESTED_TIMESTAMP = "archive_requested_timestamp"
 
         private const val NOTIFICATION_ID = 0xA1
 
         fun newInstance(
-            fbId: String? = null,
-            fbPassword: String? = null,
-            archiveRequested: Boolean = false
+            archiveRequestedTimestamp: Long = -1L
         ): ArchiveRequestFragment {
             val fragment = ArchiveRequestFragment()
             val bundle = Bundle()
-            if (fbId != null) bundle.putString(FB_ID, fbId)
-            if (fbPassword != null) bundle.putString(FB_PASSWORD, fbPassword)
-            bundle.putBoolean(ARCHIVE_REQUESTED, archiveRequested)
+            bundle.putLong(ARCHIVE_REQUESTED_TIMESTAMP, archiveRequestedTimestamp)
             fragment.arguments = bundle
             return fragment
         }
@@ -94,11 +88,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     private var blocked = false
 
-    private var fbId: String? = null
+    private lateinit var fbCredential: CredentialData
 
-    private var fbPassword: String? = null
-
-    private var archiveRequested = false
+    private var archiveRequestedTimestamp = -1L
 
     private var handlingPageUrl = ""
 
@@ -108,11 +100,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        archiveRequested = arguments?.getBoolean(ARCHIVE_REQUESTED) ?: false
-        fbId = arguments?.getString(FB_ID)
-        fbPassword = arguments?.getString(FB_PASSWORD)
+        archiveRequestedTimestamp = arguments?.getLong(ARCHIVE_REQUESTED_TIMESTAMP) ?: -1L
 
-        viewModel.getAutomationScript()
+        viewModel.prepareData()
     }
 
     override fun deinitComponents() {
@@ -175,7 +165,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                 Page.Name.LOGIN.value -> {
                     if (hasCredential()) {
                         wv.evaluateJs(
-                            script.getLoginScript(fbId!!, fbPassword!!) ?: return@detectPage
+                            script.getLoginScript(fbCredential.id, fbCredential.password)
+                                ?: return@detectPage
                         )
                     }
                 }
@@ -189,14 +180,14 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                 Page.Name.NEW_FEED.value -> {
                     // permanently save cookies for next session
                     CookieManager.getInstance().flush()
-                    if (hasCredential() || archiveRequested) {
+                    if (hasCredential() || isArchiveRequested()) {
                         wv.evaluateJs(script.getNewFeedGoToSettingPageScript())
                     } else {
                         // TODO show instruction
                     }
                 }
                 Page.Name.SETTINGS.value -> {
-                    if (hasCredential() || archiveRequested) {
+                    if (hasCredential() || isArchiveRequested()) {
                         wv.evaluateJs(script.getSettingGoToArchivePageScript())
                     } else {
                         // TODO show instruction
@@ -204,33 +195,46 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                 }
                 Page.Name.ARCHIVE.value -> {
                     when {
-                        archiveRequested -> {
+                        isArchiveRequested() -> {
                             wv.evaluateVerificationJs(
                                 script.getArchiveCreatingFileScript()!!,
                                 callback = { processing ->
                                     if (processing) {
-                                        dialogController.alert(
-                                            "Your archive request is processing!",
-                                            "Your archive is processing and will be available soon"
-                                        )
+                                        if (context != null) {
+                                            val bundle =
+                                                DataProcessingActivity.getBundle(
+                                                    getString(R.string.still_waiting),
+                                                    getString(R.string.you_requested_your_fb_data_format_2).format(
+                                                        DateTimeUtil.millisToString(
+                                                            archiveRequestedTimestamp,
+                                                            DateTimeUtil.DATE_TIME_FORMAT_1
+                                                        )
+                                                    )
+                                                )
+                                            navigator.anim(RIGHT_LEFT)
+                                                .startActivityAsRoot(
+                                                    DataProcessingActivity::class.java,
+                                                    bundle
+                                                )
+                                        }
+
                                     } else {
-                                        if (context != null) cancelNotification(
-                                            context!!,
-                                            NOTIFICATION_ID
-                                        )
+                                        if (context != null) {
+                                            cancelNotification(context!!, NOTIFICATION_ID)
+                                        }
                                         automateArchiveDownload(wv, script)
                                     }
                                 })
                         }
-                        hasCredential()  -> automateArchiveRequest(wv, script)
-                        else             -> {
+                        hasCredential()      -> automateArchiveRequest(wv, script)
+                        else                 -> {
                             // TODO show instruction
                         }
                     }
                 }
                 Page.Name.RE_AUTH.value -> {
                     if (hasCredential()) {
-                        wv.evaluateJs(script.getReAuthScript(fbPassword!!))
+                        wv.evaluateJs(script.getReAuthScript(fbCredential.password))
                     } else {
                         // TODO show instruction
                     }
@@ -303,8 +307,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     script.getArchiveCreatingFileScript() ?: "",
                     callback = { requested ->
                         if (requested) {
-                            archiveRequested = true
-                            viewModel.saveArchiveRequestedFlag()
+                            archiveRequestedTimestamp = System.currentTimeMillis()
+                            viewModel.saveArchiveRequestedFlag(archiveRequestedTimestamp)
                         }
                     })
             })
@@ -320,8 +324,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         })
     }
 
-    private fun hasCredential() =
-        !fbId.isNullOrBlank() && !fbPassword.isNullOrBlank()
+    private fun hasCredential() = fbCredential.isValid()
+
+    private fun isArchiveRequested() = archiveRequestedTimestamp != -1L
 
     private fun registerAccount(archiveUrl: String, cookie: String) {
         val account = Account()
@@ -383,8 +388,13 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             when {
                 res.isSuccess() -> {
                     progressBar.gone()
+                    val bundle =
+                        DataProcessingActivity.getBundle(
+                            getString(R.string.analyzing_data),
+                            getString(R.string.your_fb_data_archive_has_been_successfully)
+                        )
                     navigator.anim(RIGHT_LEFT)
-                        .startActivityAsRoot(RegisterNotificationActivity::class.java)
+                        .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                     blocked = false
                 }
 
@@ -401,17 +411,22 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             }
         })
 
-        viewModel.getAutomationScriptLiveData.asLiveData().observe(this, Observer { res ->
+        viewModel.prepareDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
                     progressBar.gone()
-                    val script = res.data()!!
+                    val data = res.data()!!
+                    val script = data.first
+                    fbCredential = data.second
                     loadPage(wv, FB_ENDPOINT, script)
                 }
 
                 res.isError()   -> {
                     progressBar.gone()
-                    // TODO handle error later
+                    dialogController.alert(
+                        R.string.error,
+                        R.string.unexpected_error
+                    )
                 }
 
                 res.isLoading() -> {
@@ -423,7 +438,30 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         viewModel.saveArchiveRequestedFlagLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    scheduleNotification()
+                    viewModel.checkNotificationEnabled()
+                }
+            }
+        })
+
+        viewModel.checkNotificationEnabledLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val enabled = res.data() ?: false
+                    if (enabled) {
+                        scheduleNotification()
+                    }
+                    val bundle =
+                        DataProcessingActivity.getBundle(
+                            getString(R.string.data_requested),
+                            getString(R.string.you_requested_your_fb_data_format).format(
+                                DateTimeUtil.millisToString(
+                                    archiveRequestedTimestamp,
+                                    DateTimeUtil.DATE_TIME_FORMAT_1
+                                )
+                            )
+                        )
+                    navigator.anim(RIGHT_LEFT)
+                        .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                 }
             }
         })
@@ -433,15 +471,15 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         if (context == null) return
         val bundle = buildSimpleNotificationBundle(
             context!!,
-            R.string.your_archive_is_ready,
-            R.string.please_check_if_your_archive_is_ready,
+            R.string.spring,
+            R.string.just_remind_you,
             NOTIFICATION_ID,
             ArchiveRequestContainerActivity::class.java
         )
         pushDailyRepeatingNotification(
             context!!,
             bundle,
-            System.currentTimeMillis() + AlarmManager.INTERVAL_DAY
+            System.currentTimeMillis() + 3 * AlarmManager.INTERVAL_DAY
         )
     }
 

@@ -16,8 +16,10 @@ import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerModule
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerActivity
 import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerModule
-import com.bitmark.fbm.feature.register.notification.RegisterNotificationActivity
-import com.bitmark.fbm.feature.register.notification.RegisterNotificationModule
+import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
+import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingModule
+import com.bitmark.fbm.feature.register.notification.NotificationActivity
+import com.bitmark.fbm.feature.register.notification.NotificationModule
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingModule
 import com.bitmark.fbm.feature.splash.SplashActivity
@@ -44,9 +46,9 @@ abstract class ActivityBuilderModule {
     @ActivityScope
     internal abstract fun bindGetStartedActivity(): SplashActivity
 
-    @ContributesAndroidInjector(modules = [RegisterNotificationModule::class])
+    @ContributesAndroidInjector(modules = [DataProcessingModule::class])
     @ActivityScope
-    internal abstract fun bindRegisterNotificationActivity(): RegisterNotificationActivity
+    internal abstract fun bindDataProcessingActivity(): DataProcessingActivity
 
     @ContributesAndroidInjector(modules = [MainModule::class])
     @ActivityScope
@@ -71,4 +73,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [SupportModule::class])
     @ActivityScope
     internal abstract fun bindSupportActivity(): SupportActivity
+
+    @ContributesAndroidInjector(modules = [NotificationModule::class])
+    @ActivityScope
+    internal abstract fun bindNotificationActivity(): NotificationActivity
 }

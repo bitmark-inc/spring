@@ -59,7 +59,15 @@ class AccountRepository(
 
     fun registerIntercomUser(id: String) = remoteDataSource.registerIntercomUser(id)
 
-    fun setArchiveRequested(requested: Boolean) = localDataSource.setArchiveRequested(requested)
+    fun setArchiveRequestedTime(timestamp: Long) =
+        localDataSource.setArchiveRequestedTimestamp(timestamp)
+
+    fun getArchiveRequestedTimestamp() = localDataSource.getArchiveRequestedTimestamp()
 
     fun checkArchiveRequested() = localDataSource.checkArchiveRequested()
+
+    fun saveFbCredential(id: String, password: String) =
+        localDataSource.saveFbCredential(id, password)
+
+    fun getFbCredential() = localDataSource.getFbCredential()
 }

@@ -33,7 +33,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
 
         <activity
-            android:name=".feature.register.notification.RegisterNotificationActivity"
+            android:name=".feature.register.dataprocessing.DataProcessingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
 
         <activity android:name=".feature.account.AccountActivity" />
@@ -47,7 +47,13 @@
 
         <activity android:name=".feature.support.SupportActivity" />
 
-        <receiver android:name=".feature.notification.ScheduledNotificationReceiver" />
+        <activity
+            android:name=".feature.register.notification.NotificationActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />/>
+
+        <receiver
+            android:name=".feature.notification.ScheduledNotificationReceiver"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />/>
 
         <meta-data
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"

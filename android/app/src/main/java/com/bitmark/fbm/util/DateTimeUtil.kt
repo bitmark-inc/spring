@@ -21,6 +21,8 @@ class DateTimeUtil {
 
         val OFFICIAL_DATE_FORMAT = "yyyy MMM dd"
 
+        val DATE_TIME_FORMAT_1 = "MMM dd hh:mm a"
+
         fun stringToString(date: String) =
             stringToString(date, OFFICIAL_DATE_TIME_FORMAT)
 
@@ -31,7 +33,7 @@ class DateTimeUtil {
             date: String,
             oldFormat: String,
             newFormat: String,
-            timezone: String = "UTC"
+            timezone: String = Calendar.getInstance().timeZone.id
         ): String {
             return try {
                 var formatter = SimpleDateFormat(oldFormat, Locale.getDefault())
@@ -51,7 +53,7 @@ class DateTimeUtil {
         fun dateToString(
             date: Date,
             format: String,
-            timezone: String = "UTC"
+            timezone: String = Calendar.getInstance().timeZone.id
         ): String {
             return try {
                 val formatter = SimpleDateFormat(format, Locale.getDefault())
@@ -67,7 +69,7 @@ class DateTimeUtil {
         fun stringToDate(
             date: String,
             format: String,
-            timezone: String = "UTC"
+            timezone: String = Calendar.getInstance().timeZone.id
         ): Date? {
             return try {
                 val formatter = SimpleDateFormat(format, Locale.getDefault())
@@ -82,6 +84,22 @@ class DateTimeUtil {
             val nowMillis = Date().time
             val diff = nowMillis - date.time
             return diff / (1000 * 60 * 60 * 24)
+        }
+
+        fun millisToString(millis: Long): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = millis
+            return dateToString(calendar.time, ISO8601_FORMAT)
+        }
+
+        fun millisToString(
+            millis: Long,
+            format: String,
+            timezone: String = Calendar.getInstance().timeZone.id
+        ): String {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = millis
+            return dateToString(calendar.time, format, timezone)
         }
     }
 }

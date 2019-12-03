@@ -15,7 +15,9 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.main.MainActivity
+import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
+import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.visible
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -66,21 +68,43 @@ class SplashActivity : BaseAppCompatActivity() {
                     val data = res.data()!!
                     val loggedIn = data.first
                     val dataReady = data.second
-                    if (loggedIn) {
-                        handler.postDelayed({
-                            navigator.anim(RIGHT_LEFT)
-                                .startActivityAsRoot(
-                                    if (dataReady) {
-                                        MainActivity::class.java
-                                    } else {
-                                        // FIXME for testing
-                                        MainActivity::class.java
-                                    }
-                                )
+                    val archiveRequestedTimestamp = data.third
+                    val archiveRequested = archiveRequestedTimestamp != -1L
+                    when {
+                        loggedIn         -> handler.postDelayed({
+                            if (dataReady) {
+                                navigator.anim(RIGHT_LEFT)
+                                    .startActivityAsRoot(MainActivity::class.java)
+                            } else {
+                                val bundle =
+                                    DataProcessingActivity.getBundle(
+                                        getString(R.string.analyzing_data),
+                                        getString(R.string.your_fb_data_archive_has_been_successfully)
+                                    )
+                                navigator.anim(RIGHT_LEFT)
+                                    .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
+                            }
                         }, 1000)
-                    } else {
-                        btnGetStarted.visible(true)
-                        tvLogin.visible(true)
+
+                        archiveRequested -> handler.postDelayed({
+                            val bundle =
+                                DataProcessingActivity.getBundle(
+                                    getString(R.string.data_requested),
+                                    getString(R.string.you_requested_your_fb_data_format).format(
+                                        DateTimeUtil.millisToString(
+                                            archiveRequestedTimestamp,
+                                            DateTimeUtil.DATE_TIME_FORMAT_1
+                                        )
+                                    ), true
+                                )
+                            navigator.anim(RIGHT_LEFT)
+                                .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
+                        }, 1000)
+
+                        else             -> {
+                            btnGetStarted.visible(true)
+                            tvLogin.visible(true)
+                        }
                     }
                 }
 
