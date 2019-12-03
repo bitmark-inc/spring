@@ -11,7 +11,17 @@ import RealmSwift
 import RxSwift
 import SwiftDate
 
-class PostDataEngine {}
+class PostDataEngine {
+    static func syncPosts() {
+        _ = PostService.getAll()
+            .flatMapCompletable { Storage.store($0) }
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onError: { (error) in
+                guard !AppError.errorByNetworkConnection(error) else { return }
+                Global.log.error(error)
+            })
+    }
+}
 
 extension PostDataEngine: ReactiveCompatible {}
 
@@ -32,15 +42,9 @@ extension Reactive where Base: PostDataEngine {
                     throw AppError.incorrectPostFilter
                 }
                 let posts = realm.objects(Post.self).filter(filterQuery)
-                event(.success(posts))
 
-                _ = PostService.getAll()
-                    .flatMapCompletable { Storage.store($0) }
-                    .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-                    .subscribe(onError: { (error) in
-                        guard !AppError.errorByNetworkConnection(error) else { return }
-                        Global.log.error(error)
-                    })
+                event(.success(posts))
+                PostDataEngine.syncPosts()
             } catch {
                 event(.error(error))
             }
@@ -69,7 +73,23 @@ extension Reactive where Base: PostDataEngine {
         }
 
         let datePredicate = NSPredicate(format: "timestamp >= %@ AND timestamp <= %@", startDate, endDate)
+        var filterPredicate: NSPredicate?
 
-        return NSCompoundPredicate(andPredicateWithSubpredicates: [datePredicate])
+        switch filterScope.filterBy {
+        case .friend:
+            let friendValue = filterScope.filterValue + Constant.separator
+            filterPredicate = NSPredicate(format: "friendTags CONTAINS %@", friendValue)
+        case .place:
+            filterPredicate = NSPredicate(format: "location == %@", filterScope.filterValue)
+        default:
+            break
+        }
+
+        var predicates: [NSPredicate] = [datePredicate]
+        if let filterPredicate = filterPredicate {
+            predicates.append(filterPredicate)
+        }
+
+        return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
     }
 }

@@ -17,6 +17,7 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
     fileprivate lazy var photoImageView = makePhotoImageView()
+    var clickableTextDelegate: ClickableTextDelegate?
 
     // MARK: - Inits
     override init(frame: CGRect) {
@@ -48,7 +49,10 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
     // MARK: - Data
     func bindData(post: Post) {
         postInfoLabel.attributedText = makePostInfo(of: post)
-        captionLabel.setText(post.caption)
+        captionLabel.attributedText = LinkAttributedString.make(
+            string: post.caption,
+            lineHeight: 1.25,
+            attributes: [.font: R.font.atlasGroteskThin(size: 16)!])
         if let photo = post.photo, let photoURL = URL(string: photo) {
             photoImageView.loadURL(photoURL)
         }
@@ -62,9 +66,8 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
 extension GeneralPostCollectionViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
-        print(URL)
-
-        return true
+        clickableTextDelegate?.click(textView, url: URL)
+        return false
     }
 }
 
@@ -83,11 +86,16 @@ extension GeneralPostCollectionViewCell {
         return textView
     }
 
-    fileprivate func makeCaptionLabel() -> Label {
-        let label = Label()
-        label.applyBlack(text: "", font: R.font.atlasGroteskThin(size: 16), lineHeight: 1.25)
-        label.numberOfLines = 0
-        return label
+    fileprivate func makeCaptionLabel() -> UITextView {
+        let textView = UITextView()
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.backgroundColor = .clear
+        textView.delegate = self
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.dataDetectorTypes = .link
+        return textView
     }
 
     fileprivate func makePhotoImageView() -> ImageView {

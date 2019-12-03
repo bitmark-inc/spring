@@ -20,14 +20,14 @@ class Post: Object, Decodable {
     @objc dynamic var photo: String?
     @objc dynamic var location: String = ""
     @objc dynamic var timestamp: Date = Date()
-    var tags = List<String>()
+    @objc dynamic var friendTags: String = ""
 
     override class func primaryKey() -> String? {
         return "id"
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, type, caption, url, photo, tags, location, timestamp
+        case id, type, caption, url, photo, tags, location, timestamp, friendTags
     }
 
     required public init(from decoder: Decoder) throws {
@@ -41,7 +41,13 @@ class Post: Object, Decodable {
         location = try values.decode(String.self, forKey: .location)
         let timestampInterval = try values.decode(Double.self, forKey: .timestamp)
         timestamp = Date(timeIntervalSince1970: timestampInterval)
-        tags = try values.decode(List<String>.self, forKey: .tags)
+
+        let tags = try values.decode(List<String>.self, forKey: .tags)
+        friendTags = tags.joined(separator: Constant.separator) + Constant.separator
+    }
+
+    var tags: [String] {
+        friendTags.split(separator: String.Element(Constant.separator)).map(String.init)
     }
 
     // MARK: - Realm Required Init

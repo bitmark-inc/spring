@@ -12,12 +12,15 @@ import RxSwift
 import RxCocoa
 import SwiftDate
 import RealmSwift
+import RxRealm
+import SafariServices
 
 class PostListViewController: TabPageViewController {
 
     // MARK: - Properties
     fileprivate lazy var collectionView = PostsCollectionView()
     var posts: Results<Post>?
+    lazy var thisViewModel = viewModel as? PostListViewModel
 
     // MARK: - bind ViewModel
     override func bindViewModel() {
@@ -25,17 +28,20 @@ class PostListViewController: TabPageViewController {
 
         guard let viewModel = viewModel as? PostListViewModel else { return }
         viewModel.postsObservable
-            .do(onNext: { [weak self] in
+            .subscribe(onNext: { [weak self] (realmPosts) in
                 guard let self = self else { return }
-                self.posts = $0
+                self.posts = realmPosts
                 self.collectionView.dataSource = self
-            })
-            .flatMap { Observable.changeset(from: $0) }
-            .subscribe(onNext: { [weak self] (_, changes) in
-                guard let self = self, let changes = changes else { return }
-                self.collectionView.applyChangeset(changes)
-            }, onError: { (error) in
-                Global.log.error(error)
+
+                Observable.changeset(from: realmPosts)
+                    .subscribe(onNext: { [weak self] (_, changes) in
+                        guard let self = self, let changes = changes else { return }
+                        self.collectionView.applyChangeset(changes)
+                    }, onError: { (error) in
+                        Global.log.error(error)
+                    })
+                    .disposed(by: self.disposeBag)
+
             })
             .disposed(by: disposeBag)
 
@@ -64,11 +70,30 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let post = posts![indexPath.row]
         let cell = collectionView.dequeueReusableCell(withClass: GeneralPostCollectionViewCell.self, for: indexPath)
+        cell.clickableTextDelegate = self
         cell.bindData(post: post)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
       return Size.dw(18)
+    }
+}
+
+extension PostListViewController: ClickableTextDelegate {
+    func click(_ textView: UITextView, url: URL) {
+        if url.scheme == Constant.appName {
+            guard let host = url.host,
+                let filterBy = GroupKey(rawValue: host)
+                else {
+                    return
+            }
+
+            let filterValue = url.lastPathComponent
+            thisViewModel?.gotoPostList(filterBy: filterBy, filterValue: filterValue)
+        } else {
+            let safariVC = SFSafariViewController(url: url)
+            self.present(safariVC, animated: true, completion: nil)
+        }
     }
 }

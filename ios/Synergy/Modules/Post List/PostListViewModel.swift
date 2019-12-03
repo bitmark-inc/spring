@@ -34,4 +34,15 @@ class PostListViewModel: ViewModel {
             .bind(to: postsObservable)
             .disposed(by: disposeBag)
     }
+
+    func gotoPostList(filterBy: GroupKey, filterValue: String) {
+        let filterScope: FilterScope = (
+            usageScope: self.filterScope.usageScope,
+            filterBy: filterBy,
+            filterValue: filterValue
+        )
+
+        let viewModel = PostListViewModel(filterScope: filterScope)
+        navigator.show(segue: .postList(viewModel: viewModel))
+    }
 }

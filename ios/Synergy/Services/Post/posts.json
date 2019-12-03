@@ -14,9 +14,9 @@
         "type" : "photo",
         "caption" : "Hello from Bitmark!!!",
         "url": null,
-        "photo" : "30-1659-4062-fdac-59e4ff0.png",
+        "photo" : null,
         "tags" : ["Casey", "Sean"],
-        "location" : "Hongtai Crossfit",
+        "location" : "Bitmark Inc",
         "timestamp" : 1575288658
     },
     {
@@ -24,7 +24,7 @@
         "type" : "update",
         "caption" : "What Orwell feared were those who would ban books. What Huxley feared was that there would be no reason to ban a book, for there would be no one who wanted to read one. Orwell feared those who would deprive us of information. Huxley feared those who would give us so much that we would be reduced to passivity and egoism. Orwell feared that the truth would be concealed from us. Huxley feared the truth would be drowned in a sea of irrelevance. Orwell feared we would become a captive culture. Huxley feared we would become a trivial culture, preoccupied with some equivalent of the feelies, the orgy porgy, and the centrifugal bumblepuppy. As Huxley remarked in 'Brave New World Revisited,' the civil libertarians and rationalists who are ever on the alert to oppose tyranny 'failed to take into account man's almost infinite appetite for distractions.' In ‘1984’, Orwell added, people are controlled by inflicting pain. In ‘Brave New World,’ they are controlled by inflicting pleasure. In short, Orwell feared that what we fear will ruin us. Huxley feared that what we desire will ruin us.\" — Neil Postman, \"Amusing Ourselves to Death: Public Discourse in the Age of Show Business (1985)",
         "url": null,
-        "photo" : "30-1659-4062-fdac-59e4ff0.png",
+        "photo" : null,
         "tags" : ["Phi Lin"],
         "location" : "Saffron 46",
         "timestamp" : 1575288658
@@ -54,8 +54,38 @@
         "type" : "photo",
         "caption" : "Happy 40th, dear Phil! 🎂🎈",
         "url": null,
-        "photo" : "http://media111.com/wp-content/uploads/2019/08/hero-Birthday-Freebies-You-Should-Know-About-960x500-1.jpg-1522690042-1-765x453.jpg",
+        "photo" : "https://nowyouknow.ca/wp-content/uploads/2019/09/hamster-1055x675.jpeg",
         "tags" : ["Sara"],
+        "location" : "",
+        "timestamp" : 1575288658
+    },
+    {
+        "id" : "8fd74a30-1659-4062-fdac-59e4ff088731",
+        "type" : "photo",
+        "caption" : "https://youtu.be/TBx22yfUcXA",
+        "url": null,
+        "photo" : null,
+        "tags" : ["Sara"],
+        "location" : "Capture, London",
+        "timestamp" : 1575288658
+    },
+    {
+        "id" : "8fd74a30-1659-4062-fdac-59e4ff088732",
+        "type" : "photo",
+        "caption" : "Happy Mother Day 🎂🎈",
+        "url": null,
+        "photo" : "https://cnet1.cbsistatic.com/img/PgbwyjrSBYG_pwKZeHPbQxnG98U=/1092x0/2019/10/16/9ee87309-945c-40da-9ecb-331a863f01c2/newc-yongqing-bao-wildlife-photographer-of-the-year-1.jpg",
+        "tags" : ["Sara Happy"],
+        "location" : "",
+        "timestamp" : 1575288658
+    },
+    {
+        "id" : "8fd74a30-1659-4062-fdac-59e4ff088733",
+        "type" : "photo",
+        "caption" : "Happy Father Day 🎂🎈",
+        "url": null,
+        "photo" : "https://www.nationalgeographic.com/content/dam/magazine/rights-exempt/2019/10/extinction/south-china-tiger.adapt.1900.1.jpg",
+        "tags" : ["Sara Happy"],
         "location" : "",
         "timestamp" : 1575288658
     }

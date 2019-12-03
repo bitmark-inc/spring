@@ -10,6 +10,10 @@ import UIKit
 import RxSwift
 import SwiftDate
 
+protocol ClickableTextDelegate {
+    func click(_ textView: UITextView, url: URL)
+}
+
 protocol PostDataCollectionViewCell where Self: UICollectionViewCell {
     func bindData(post: Post)
     func makePostInfo(of post: Post) -> NSMutableAttributedString
@@ -20,16 +24,16 @@ extension PostDataCollectionViewCell {
         var links: [(text: String, url: String)] = []
         let timestampText = post.timestamp.toFormat(Constant.postTimestampFormat)
 
-        let friendTags = post.tags.toArray().toSentence()
+        let friendTags = post.tags.toSentence()
         let friendTagsText = friendTags.isEmpty ? "" : R.string.phrase.postPostInfoFriendTags(friendTags)
 
-        links = post.tags.toArray().compactMap({ (text: $0, url: "\(Constant.appName)://friend/\($0.urlEncoded)") })
+        links = post.tags.compactMap({ (text: $0, url: "\(Constant.appName)://\(GroupKey.friend.rawValue)/\($0.urlEncoded)") })
 
         let location = post.location
         var locationTagText = ""
         if !location.isEmpty {
             locationTagText = R.string.phrase.postPostInfoLocationTag(post.location)
-            links.append((text: location, url: "\(Constant.appName)://location/\(location.urlEncoded)"))
+            links.append((text: location, url: "\(Constant.appName)://\(GroupKey.place.rawValue)/\(location.urlEncoded)"))
         }
 
         let postInfo = timestampText + friendTagsText + locationTagText

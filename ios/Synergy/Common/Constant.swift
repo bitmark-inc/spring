@@ -42,4 +42,6 @@ public struct Constant {
         public static let video = "video"
         public static let link = "link"
     }
+
+    static let separator = ","
 }
