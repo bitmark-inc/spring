@@ -13,6 +13,9 @@ import Charts
 
 class UsageCollectionView: CollectionView {
     private let disposeBag = DisposeBag()
+    var postListNavigateHandler: ((FilterScope) -> Void)?
+    var timeUnit: TimeUnit = .week
+    var startTime: Date = Date()
     
     override init() {
         super.init()
@@ -57,6 +60,10 @@ extension UsageCollectionView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let c = collectionView as? UsageCollectionView else {
+            assert(false, "collectionView is not UsageCollectionView")
+        }
+        
         switch (indexPath.section, indexPath.row) {
         case (0, _):
             return collectionView.dequeueReusableCell(withClass: UsageBadgeCollectionViewCell.self, for: indexPath)
@@ -66,7 +73,11 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return cell
         case (1, 1):
             let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
+            cell.section = .posts
+            cell.timeUnit = c.timeUnit
+            cell.startTime = c.startTime
             cell.bindData(data: [("Update", 2), ("Photos", 9), ("Stories", 8), ("Videos", 2), ("Links", 3)])
+            cell.postListNavigateHandler = c.postListNavigateHandler
             return cell
         case (1, 2):
             return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
@@ -84,6 +95,9 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return cell
         case (2, 1):
             let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
+            cell.section = .reactions
+            cell.timeUnit = c.timeUnit
+            cell.startTime = c.startTime
             cell.bindData(data: [("Like", 34), ("Love", 40), ("Haha", 19), ("Wow", 5), ("Sad", 2), ("Angry", 0)])
             return cell
         case (2, 2):
@@ -98,6 +112,9 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return cell
         case (3, 1):
             let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
+            cell.section = .message
+            cell.timeUnit = c.timeUnit
+            cell.startTime = c.startTime
             cell.bindData(data: [("TPE Pride 2019", 182), ("Beven Lan", 43), ("Danny & Phil", 39), ("Kevin Y", 25), ("Jeffy Davenport", 23), ("Others", 29)])
             return cell
         case (3, 2):
@@ -158,6 +175,11 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
 class FilterTypeCollectionViewCell: CollectionViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
     private let chartView = HorizontalBarChartView()
+    var postListNavigateHandler: ((FilterScope) -> Void)?
+    private var entries = [BarChartDataEntry]()
+    var section: Section = .posts
+    var timeUnit: TimeUnit = .week
+    var startTime: Date = Date()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -175,7 +197,8 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         chartView.pinchZoomEnabled = false
         chartView.doubleTapToZoomEnabled = false
         chartView.dragEnabled = false
-        chartView.highlightPerTapEnabled = false
+        chartView.highlightPerTapEnabled = true
+        chartView.delegate = self
                 
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
@@ -209,7 +232,8 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         headingLabel.text = "BY TYPE"
         
         var values = [String]()
-        var entries = [BarChartDataEntry]()
+        entries = [BarChartDataEntry]()
+        
         var i: Double = 0
         for (k,v) in data.reversed() {
             values.append(k)
@@ -241,9 +265,42 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
     }
 }
 
+extension FilterTypeCollectionViewCell: ChartViewDelegate {
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        var filterValue = ""
+        if section == .posts {
+            let index = entries.firstIndex(of: entry as! BarChartDataEntry)
+            switch index {
+            case 0:
+                filterValue = Constant.PostType.update
+            case 1:
+                filterValue = Constant.PostType.photo
+            case 2:
+                filterValue = Constant.PostType.story
+            case 3:
+                filterValue = Constant.PostType.video
+            case 4:
+                filterValue = Constant.PostType.link
+            default:
+                filterValue = Constant.PostType.update
+            }
+        }
+        
+        let filterScope: FilterScope = (
+            usageScope: (
+                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
+            ),
+            filterBy: .type,
+            filterValue: filterValue
+        )
+
+        self.postListNavigateHandler?(filterScope)
+    }
+}
+
 class FilterDayCollectionViewCell: CollectionViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
-    private let chartView = BarChartView()
+    let chartView = BarChartView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -322,7 +379,7 @@ class FilterDayCollectionViewCell: CollectionViewCell {
 
 class FilterFriendsCollectionViewCell: CollectionViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
-    private let chartView = HorizontalBarChartView()
+    let chartView = HorizontalBarChartView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -407,7 +464,7 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
 
 class FilterPlacesCollectionViewCell: CollectionViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
-    private let chartView = HorizontalBarChartView()
+    let chartView = HorizontalBarChartView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

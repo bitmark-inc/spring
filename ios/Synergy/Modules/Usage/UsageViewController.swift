@@ -38,7 +38,13 @@ class UsageViewController: TabPageViewController {
     private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 10))
     private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
     
-    private lazy var collectionView = UsageCollectionView()
+    private lazy var collectionView: UsageCollectionView = {
+        let v = UsageCollectionView()
+        v.postListNavigateHandler = { filterScope in
+            (self.viewModel as? UsageViewModel)?.goToPostListScreen(filterScope: filterScope)
+        }
+        return v
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
