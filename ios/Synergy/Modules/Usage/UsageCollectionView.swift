@@ -325,6 +325,8 @@ extension FilterTypeCollectionViewCell: ChartViewDelegate {
         )
 
         self.postListNavigateHandler?(filterScope)
+        
+        chartView.highlightValues(nil)
     }
 }
 
