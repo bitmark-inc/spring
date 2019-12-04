@@ -58,6 +58,8 @@ class UsageViewController: TabPageViewController {
         // Fake data
         periodNameLabel.text = "THIS DECADE"
         periodDescriptionLabel.text = "2010-2019"
+        periodNameLabel.textAlignment = .center
+        periodDescriptionLabel.textAlignment = .center
         subTitleLabel.text = R.string.localizable.howyouusefacebooK()
 
         guard let viewModel = viewModel as? UsageViewModel else { return }
@@ -81,7 +83,8 @@ class UsageViewController: TabPageViewController {
             })
             .disposed(by: disposeBag)
         
-        filterSegment.rx.selectedIndex.map { (index) -> TimeUnit in
+        let d = filterSegment.rx.selectedIndex.share(replay: 1, scope: .forever)
+        d.map { (index) -> TimeUnit in
             switch index {
             case 0:
                 return .week
@@ -94,7 +97,25 @@ class UsageViewController: TabPageViewController {
             }
             }.bind(to: collectionView.rx.timeUnit)
             .disposed(by: disposeBag)
-
+        
+        d.bind(to: periodNameLabel.rx.text)
+        .disposed(by: disposeBag)
+        
+        d.map { (index) -> String in
+            switch index {
+            case 0:
+                return "Dec 1st - Dec 7th"
+            case 1:
+                return "Jan 1st - Dec 31st"
+            case 2:
+                return "2010 - 2019"
+            default:
+                return ""
+            }
+        }.bind(to: periodDescriptionLabel.rx.text)
+        .disposed(by: disposeBag)
+        
+//        filterSegment.selectedIndex = 0
 //        viewModel.fetchUsage()
     }
 
@@ -192,21 +213,20 @@ class UsageViewController: TabPageViewController {
         
         let periodBrowseContentView = UIView()
         periodBrowseContentView.flex.direction(.row).define { (flex) in
-            flex.justifyContent(.spaceBetween)
+            flex.justifyContent(.center)
             flex.alignItems(.stretch)
-            flex.addItem(previousPeriodButton).alignContent(.start)
-            flex.addItem(periodNameLabel).alignContent(.center)
-            flex.addItem(nextPeriodButton).alignContent(.end)
+            flex.addItem(previousPeriodButton)
+            flex.addItem(periodNameLabel).grow(1)
+            flex.addItem(nextPeriodButton)
         }
         
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem(subTitleLabel).marginTop(2).marginLeft(18).marginRight(18)
             flex.addItem(filterSegment).marginTop(36).marginLeft(18).marginRight(18).height(40)
             flex.addItem(periodBrowseContentView).marginTop(18).marginLeft(18).marginRight(18).height(19)
-            flex.addItem(periodDescriptionLabel).marginTop(6).height(10).alignSelf(.center)
+            flex.addItem(periodDescriptionLabel).marginTop(6).height(10).alignSelf(.stretch)
             flex.addItem(collectionView).marginTop(10).marginBottom(0).grow(1)
         }
-        
         
     }
 }
