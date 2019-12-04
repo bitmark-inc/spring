@@ -108,7 +108,6 @@ class TabPageViewController: ThemedViewController {
     var screenTitleLabel: UILabel!
     var titleView: UIView!
     let navigationViewHeight = Size.dh(50)
-    var navigationViewHeightConstraint: Constraint!
 
     init(viewModel: ViewModel?) {
         self.viewModel = viewModel
@@ -128,8 +127,12 @@ class TabPageViewController: ThemedViewController {
         return view
     }()
 
-    lazy var navigationView: UIView = {
-        return UIView()
+    lazy var backNavigationButton: Button = {
+        let btn = Button()
+        btn.applyBlack(title: R.string.localizable.backNavigator(),
+                       font: R.font.avenir(size: 14))
+        btn.isHidden = true
+        return btn
     }()
 
     // MARK: - Setup Views
@@ -149,22 +152,32 @@ class TabPageViewController: ThemedViewController {
         
         titleView = UIView()
         
-        fullView.addSubview(navigationView)
+        fullView.addSubview(backNavigationButton)
         fullView.addSubview(contentView)
+        
+        backNavigationButton.isUserInteractionEnabled = true
         
         titleView.flex.direction(.row).define { (flex) in
             flex.addItem(screenTitleLabel).marginLeft(17)
         }
         contentView.flex.direction(.column).addItem(titleView).height(39).width(100%)
-        
 
-        navigationView.snp.makeConstraints { (make) in
-            make.top.leading.trailing.equalToSuperview()
-            navigationViewHeightConstraint = make.height.equalTo(0).constraint
+        var backButtonHeight: CGFloat = 0
+        if let v = self.navigationController?.viewControllers,
+            v.count > 1 {
+            backNavigationButton.isHidden = false
+            backButtonHeight = 24
+        }
+
+        backNavigationButton.snp.makeConstraints { (make) in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview().offset(17)
+            make.height.equalTo(backButtonHeight)
         }
 
         contentView.snp.makeConstraints { (make) in
-            make.top.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(backNavigationButton).offset(backButtonHeight)
+            make.leading.trailing.bottom.equalToSuperview()
         }
 
         view.addSubview(fullView)
@@ -173,8 +186,14 @@ class TabPageViewController: ThemedViewController {
                 .equalTo(view.safeAreaLayoutGuide)
                 .inset(UIEdgeInsets(top: 17, left: 0, bottom: 0, right: 0))
         }
+    }
+    
+    override func bindViewModel() {
+        super.bindViewModel()
         
-        
+        backNavigationButton.rx.tap.bind { [unowned self] in
+            self.navigationController?.popViewController(animated: true)
+        }.disposed(by: disposeBag)
     }
 }
 
