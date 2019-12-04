@@ -80,7 +80,7 @@ extension Reactive where Base: PostDataEngine {
             let friendValue = filterScope.filterValue + Constant.separator
             filterPredicate = NSPredicate(format: "friendTags CONTAINS %@", friendValue)
         case .place:
-            filterPredicate = NSPredicate(format: "location == %@", filterScope.filterValue)
+            filterPredicate = NSPredicate(format: "location.name == %@", filterScope.filterValue)
         default:
             break
         }

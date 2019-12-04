@@ -25,7 +25,7 @@ class LinkAttributedString {
             guard let range = string.range(of: text) else { return }
             var linkAttributes = linkAttributes
             linkAttributes[.link] = url
-            attributedText.addAttributes(linkAttributes, range: text.nsRange(from: range))
+            attributedText.addAttributes(linkAttributes, range: NSRange(range, in: string))
         }
 
         if let lineHeight = lineHeight {

@@ -53,6 +53,8 @@ class PostListViewController: TabPageViewController {
         super.setupViews()
 
         collectionView.delegate = self
+        screenTitleLabel.text = "POST"
+        backNavigationButton.isHidden = false
 
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem(collectionView).marginTop(10).marginBottom(0).grow(1)

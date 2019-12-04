@@ -16,32 +16,36 @@ protocol ClickableTextDelegate {
 
 protocol PostDataCollectionViewCell where Self: UICollectionViewCell {
     func bindData(post: Post)
-    func makePostInfo(of post: Post) -> NSMutableAttributedString
+    func makePostInfo(timestamp: Date, friends: [String], locationName: String?) -> Single<NSMutableAttributedString>
 }
 
 extension PostDataCollectionViewCell {
-    func makePostInfo(of post: Post) -> NSMutableAttributedString {
-        var links: [(text: String, url: String)] = []
-        let timestampText = post.timestamp.toFormat(Constant.postTimestampFormat)
+    func makePostInfo(timestamp: Date, friends: [String], locationName: String?) -> Single<NSMutableAttributedString> {
+        return Single.create { (event) -> Disposable in
+            var links: [(text: String, url: String)] = []
+            let timestampText = timestamp.toFormat(Constant.postTimestampFormat)
 
-        let friendTags = post.tags.toSentence()
-        let friendTagsText = friendTags.isEmpty ? "" : R.string.phrase.postPostInfoFriendTags(friendTags)
+            let friendTags = friends.toSentence()
+            let friendTagsText = friendTags.isEmpty ? "" : R.string.phrase.postPostInfoFriendTags(friendTags)
 
-        links = post.tags.compactMap({ (text: $0, url: "\(Constant.appName)://\(GroupKey.friend.rawValue)/\($0.urlEncoded)") })
+            links = friends.compactMap({ (text: $0, url: "\(Constant.appName)://\(GroupKey.friend.rawValue)/\($0.urlEncoded)") })
 
-        let location = post.location
-        var locationTagText = ""
-        if !location.isEmpty {
-            locationTagText = R.string.phrase.postPostInfoLocationTag(post.location)
-            links.append((text: location, url: "\(Constant.appName)://\(GroupKey.place.rawValue)/\(location.urlEncoded)"))
+            var locationTagText = ""
+            if let locationName = locationName {
+                locationTagText = R.string.phrase.postPostInfoLocationTag(locationName)
+                links.append((text: locationName, url: "\(Constant.appName)://\(GroupKey.place.rawValue)/\(locationName.urlEncoded)"))
+            }
+
+            let postInfo = timestampText + friendTagsText + locationTagText
+            let attributedPostInfo = LinkAttributedString.make(
+                       string: postInfo,
+                       lineHeight: 1.2,
+                       attributes: [.font: R.font.atlasGroteskThin(size: Size.ds(17))!],
+                       links: links,
+                       linkAttributes: [.font: R.font.atlasGroteskBold(size: Size.ds(17))!])
+
+            event(.success(attributedPostInfo))
+            return Disposables.create()
         }
-
-        let postInfo = timestampText + friendTagsText + locationTagText
-        return LinkAttributedString.make(
-                   string: postInfo,
-                   lineHeight: 1.2,
-                   attributes: [.font: R.font.atlasGroteskThin(size: Size.ds(17))!],
-                   links: links,
-                   linkAttributes: [.font: R.font.atlasGroteskBold(size: Size.ds(17))!])
     }
 }

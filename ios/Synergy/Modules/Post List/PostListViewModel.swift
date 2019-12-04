@@ -30,6 +30,7 @@ class PostListViewModel: ViewModel {
 
     func getPosts() {
         PostDataEngine.rx.fetch(with: filterScope)
+            .map { $0.sorted(byKeyPath: "timestamp", ascending: false)}
             .asObservable()
             .bind(to: postsObservable)
             .disposed(by: disposeBag)

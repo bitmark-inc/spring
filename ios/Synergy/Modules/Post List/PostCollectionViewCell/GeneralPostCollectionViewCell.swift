@@ -17,7 +17,10 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
     fileprivate lazy var photoImageView = makePhotoImageView()
+    fileprivate lazy var linkLabel = makeLinkLabel()
     var clickableTextDelegate: ClickableTextDelegate?
+
+    let disposeBag = DisposeBag()
 
     // MARK: - Inits
     override init(frame: CGRect) {
@@ -39,6 +42,7 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
         super.prepareForReuse()
 
         photoImageView.flex.height(0)
+        linkLabel.isHidden = true
         invalidateIntrinsicContentSize()
     }
 
@@ -48,17 +52,29 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
 
     // MARK: - Data
     func bindData(post: Post) {
-        postInfoLabel.attributedText = makePostInfo(of: post)
+        makePostInfo(timestamp: post.timestamp, friends: post.tags, locationName: post.location?.name)
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .background))
+            .observeOn(MainScheduler.instance)
+            .subscribe(onSuccess: { [weak self] in
+                self?.postInfoLabel.attributedText = $0
+            })
+            .disposed(by: disposeBag)
+
         captionLabel.attributedText = LinkAttributedString.make(
-            string: post.caption,
+            string: post.post ?? "",
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskThin(size: 16)!])
+
+        linkLabel.text = post.url
+        linkLabel.isHidden = post.url?.isEmpty ?? true
+
         if let photo = post.photo, let photoURL = URL(string: photo) {
             photoImageView.loadURL(photoURL)
         }
 
         postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
+        linkLabel.flex.markDirty()
         photoImageView.flex.markDirty()
     }
 }
@@ -95,6 +111,20 @@ extension GeneralPostCollectionViewCell {
         textView.isEditable = false
         textView.isScrollEnabled = false
         textView.dataDetectorTypes = .link
+        return textView
+    }
+
+    fileprivate func makeLinkLabel() -> UITextView {
+        let textView = UITextView()
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.backgroundColor = .clear
+        textView.delegate = self
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.dataDetectorTypes = .link
+        textView.font = R.font.atlasGroteskThin(size: Size.ds(17))
+        textView.isHidden = true
         return textView
     }
 
