@@ -36,7 +36,9 @@ class ImageView: UIImageView {
     }
 
     func loadURL(_ url: URL) {
-        kf.setImage(with: url)
+        let imagePath = url.path.replacingOccurrences(of: "photos_and_videos/", with: "")
+        let photoImageURL = Constant.fbImageServerURL?.appendingPathComponent(imagePath)
+        kf.setImage(with: photoImageURL)
 
         guard let imageSize = image?.size else { return }
         let heightImage = frame.size.width * imageSize.height / imageSize.width

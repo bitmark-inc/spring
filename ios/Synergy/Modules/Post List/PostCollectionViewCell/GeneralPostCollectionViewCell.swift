@@ -53,7 +53,6 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
     // MARK: - Data
     func bindData(post: Post) {
         makePostInfo(timestamp: post.timestamp, friends: post.tags, locationName: post.location?.name)
-            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .background))
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] in
                 self?.postInfoLabel.attributedText = $0
