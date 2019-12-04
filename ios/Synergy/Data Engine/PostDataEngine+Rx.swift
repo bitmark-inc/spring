@@ -23,6 +23,8 @@ class PostDataEngine {
     }
 }
 
+var didLoad = false
+
 extension PostDataEngine: ReactiveCompatible {}
 
 extension Reactive where Base: PostDataEngine {
@@ -45,7 +47,8 @@ extension Reactive where Base: PostDataEngine {
 
                 event(.success(posts))
 
-                if posts.isEmpty {
+                if !didLoad {
+                    didLoad = true
                     PostDataEngine.syncPosts()
                 }
 
@@ -81,7 +84,11 @@ extension Reactive where Base: PostDataEngine {
 
         switch filterScope.filterBy {
         case .type:
-            filterPredicate = NSPredicate(format: "type == %@", filterScope.filterValue)
+            if filterScope.filterValue == Constant.PostType.link {
+                filterPredicate = NSPredicate(format: "type == %@ AND url != nil", filterScope.filterValue)
+            } else {
+                filterPredicate = NSPredicate(format: "type == %@", filterScope.filterValue)
+            }
         case .friend:
             let friendValue = filterScope.filterValue + Constant.separator
             filterPredicate = NSPredicate(format: "friendTags CONTAINS %@", friendValue)

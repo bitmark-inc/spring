@@ -143,6 +143,10 @@
 		E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
 		E2364D6123979D0500752C9F /* posts_with_thumbnail.json in Resources */ = {isa = PBXBuildFile; fileRef = E2364D6023979D0500752C9F /* posts_with_thumbnail.json */; };
 		E2364D6223979D0500752C9F /* posts_with_thumbnail.json in Resources */ = {isa = PBXBuildFile; fileRef = E2364D6023979D0500752C9F /* posts_with_thumbnail.json */; };
+		E2364D6A2397D89200752C9F /* LinkPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2364D692397D89200752C9F /* LinkPostCollectionViewCell.swift */; };
+		E2364D6B2397D89200752C9F /* LinkPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2364D692397D89200752C9F /* LinkPostCollectionViewCell.swift */; };
+		E2364D6D2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2364D6C2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift */; };
+		E2364D6E2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2364D6C2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift */; };
 		E236B676238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
@@ -456,6 +460,8 @@
 		E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewController.swift; sourceTree = "<group>"; };
 		E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewModel.swift; sourceTree = "<group>"; };
 		E2364D6023979D0500752C9F /* posts_with_thumbnail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_with_thumbnail.json; sourceTree = "<group>"; };
+		E2364D692397D89200752C9F /* LinkPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPostCollectionViewCell.swift; sourceTree = "<group>"; };
+		E2364D6C2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCaptionPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FbmAccountDataEngine+Rx.swift"; sourceTree = "<group>"; };
 		E236B678238EAAF200C1A280 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		E23807C22395FEEA0079A3C4 /* GeneralPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPostCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -883,6 +889,8 @@
 			children = (
 				E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */,
 				E23807C22395FEEA0079A3C4 /* GeneralPostCollectionViewCell.swift */,
+				E2364D692397D89200752C9F /* LinkPostCollectionViewCell.swift */,
+				E2364D6C2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift */,
 			);
 			path = PostCollectionViewCell;
 			sourceTree = "<group>";
@@ -1545,6 +1553,7 @@
 				E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5832FC93237A889A00FA3196 /* BitmarkSDKService.swift in Sources */,
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
+				E2364D6D2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift in Sources */,
 				5832FC48237A863300FA3196 /* NavigationController.swift in Sources */,
 				5832FC57237A863300FA3196 /* Switch.swift in Sources */,
 				E2259CDB2387E56F00746280 /* ServerAPIError.swift in Sources */,
@@ -1581,6 +1590,7 @@
 				E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				E28B5618238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */,
 				E27959DF238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
+				E2364D6A2397D89200752C9F /* LinkPostCollectionViewCell.swift in Sources */,
 				5832FCA7237A8A9200FA3196 /* RxOptional+Single+Optional.swift in Sources */,
 				E222908F239509F900412CBC /* PostListViewModel.swift in Sources */,
 				5832FC7C237A883500FA3196 /* NetworkConnectionManager.swift in Sources */,
@@ -1676,6 +1686,7 @@
 				E2DB6688237D3B69005367C2 /* Global.swift in Sources */,
 				E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
+				E2364D6E2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift in Sources */,
 				E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
 				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
 				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
@@ -1712,6 +1723,7 @@
 				E27959E0238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
 				E2DB669D237D3B69005367C2 /* RxOptional+Single+Optional.swift in Sources */,
 				E2DB669E237D3B69005367C2 /* NetworkConnectionManager.swift in Sources */,
+				E2364D6B2397D89200752C9F /* LinkPostCollectionViewCell.swift in Sources */,
 				E2DB669F237D3B69005367C2 /* SecondaryButton.swift in Sources */,
 				E2229090239509F900412CBC /* PostListViewModel.swift in Sources */,
 				E2DB66A0237D3B69005367C2 /* Constant.swift in Sources */,
@@ -2035,6 +2047,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2058,6 +2071,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";

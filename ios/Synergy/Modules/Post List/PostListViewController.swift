@@ -90,7 +90,14 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let post = posts![indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withClass: GeneralPostCollectionViewCell.self, for: indexPath)
+        let cell: PostDataCollectionViewCell!
+        switch post.type {
+        case Constant.PostType.link:
+            let linkCollectionCell = (post.post?.isEmpty ?? true) ? LinkPostCollectionViewCell.self : LinkCaptionPostCollectionViewCell.self
+            cell = collectionView.dequeueReusableCell(withClass: linkCollectionCell, for: indexPath) as? PostDataCollectionViewCell
+        default:
+            cell = collectionView.dequeueReusableCell(withClass: GeneralPostCollectionViewCell.self, for: indexPath)
+        }
         cell.clickableTextDelegate = self
         cell.bindData(post: post)
         return cell

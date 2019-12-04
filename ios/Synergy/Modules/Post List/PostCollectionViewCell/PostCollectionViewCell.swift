@@ -15,6 +15,8 @@ protocol ClickableTextDelegate {
 }
 
 protocol PostDataCollectionViewCell where Self: UICollectionViewCell {
+    var clickableTextDelegate: ClickableTextDelegate? { get set }
+
     func bindData(post: Post)
     func makePostInfo(timestamp: Date, friends: [String], locationName: String?) -> Single<NSMutableAttributedString>
 }

@@ -20,6 +20,8 @@ class PostsCollectionView: CollectionView {
         super.init()
 
         self.register(cellWithClass: GeneralPostCollectionViewCell.self)
+        self.register(cellWithClass: LinkPostCollectionViewCell.self)
+        self.register(cellWithClass: LinkCaptionPostCollectionViewCell.self)
 
         themeService.rx
             .bind({ $0.background }, to: rx.backgroundColor)

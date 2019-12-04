@@ -1,8 +1,8 @@
 //
-//  GeneralCollectionViewCell.swift
+//  LinkCaptionPostCollectionViewCell.swift
 //  Synergy
 //
-//  Created by thuyentruong on 12/3/19.
+//  Created by thuyentruong on 12/4/19.
 //  Copyright © 2019 Bitmark Inc. All rights reserved.
 //
 
@@ -11,12 +11,12 @@ import FlexLayout
 import RxSwift
 import SwiftDate
 
-class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCell {
+class LinkCaptionPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCell {
 
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
-    fileprivate lazy var photoImageView = makePhotoImageView()
+    fileprivate lazy var linkLabel = makeLinkLabel()
     var clickableTextDelegate: ClickableTextDelegate?
 
     let disposeBag = DisposeBag()
@@ -29,18 +29,17 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem().padding(12, 17, 0, 12).define { (flex) in
+            flex.addItem().padding(12, 17, 17, 12).define { (flex) in
                 flex.addItem(postInfoLabel)
                 flex.addItem(captionLabel).marginTop(12).basis(1)
+                flex.addItem(linkLabel).marginTop(12)
             }
-            flex.addItem(photoImageView).marginTop(20)
         }
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        photoImageView.flex.height(0)
         invalidateIntrinsicContentSize()
     }
 
@@ -62,17 +61,15 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskThin(size: 16)!])
 
-        if let photo = post.photo, let photoURL = URL(string: photo) {
-            photoImageView.loadURL(photoURL)
-        }
+        linkLabel.text = post.url
 
         postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
-        photoImageView.flex.markDirty()
+        linkLabel.flex.markDirty()
     }
 }
 
-extension GeneralPostCollectionViewCell: UITextViewDelegate {
+extension LinkCaptionPostCollectionViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
         clickableTextDelegate?.click(textView, url: URL)
@@ -80,7 +77,7 @@ extension GeneralPostCollectionViewCell: UITextViewDelegate {
     }
 }
 
-extension GeneralPostCollectionViewCell {
+extension LinkCaptionPostCollectionViewCell {
     fileprivate func makePostInfoLabel() -> UITextView {
         let textView = UITextView()
         textView.textContainerInset = .zero
@@ -107,7 +104,16 @@ extension GeneralPostCollectionViewCell {
         return textView
     }
 
-    fileprivate func makePhotoImageView() -> ImageView {
-        return ImageView()
+    fileprivate func makeLinkLabel() -> UITextView {
+        let textView = UITextView()
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.backgroundColor = .clear
+        textView.delegate = self
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.dataDetectorTypes = .link
+        textView.font = R.font.atlasGroteskThin(size: Size.ds(17))
+        return textView
     }
 }
