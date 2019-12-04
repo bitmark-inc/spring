@@ -69,8 +69,8 @@ extension Reactive where Base: PostDataEngine {
 
         switch periodUnit {
         case .week:
-            startDate = date.dateAtStartOf(.weekOfYear) as NSDate
-            endDate = date.dateAtEndOf(.weekOfYear) as NSDate
+            startDate = date.dateAtStartOf(.weekOfMonth) as NSDate
+            endDate = date.dateAtEndOf(.weekOfMonth) as NSDate
         case .year:
             startDate = date.dateAtStartOf(.year) as NSDate
             endDate = date.dateAtEndOf(.year) as NSDate

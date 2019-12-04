@@ -35,14 +35,22 @@ class ImageView: UIImageView {
         setupViews()
     }
 
-    func loadURL(_ url: URL) {
-        let imagePath = url.path.replacingOccurrences(of: "photos_and_videos/", with: "")
-        let photoImageURL = Constant.fbImageServerURL?.appendingPathComponent(imagePath)
-        kf.setImage(with: photoImageURL)
+    func loadURL(_ url: URL) -> Completable {
+        return Completable.create { (event) -> Disposable in
+            self.flex.height(470)
+            let imagePath = url.path.replacingOccurrences(of: "photos_and_videos/", with: "")
+            let photoImageURL = Constant.fbImageServerURL?.appendingPathComponent(imagePath)
 
-        guard let imageSize = image?.size else { return }
-        let heightImage = frame.size.width * imageSize.height / imageSize.width
-        flex.maxWidth(100%).height(heightImage)
+            self.kf.setImage(with: photoImageURL) { [weak self] (_) in
+                guard let self = self, let imageSize = self.image?.size else { return }
+                let heightImage = self.frame.size.width * imageSize.height / imageSize.width
+                self.flex.maxWidth(100%).height(heightImage)
+                event(.completed)
+            }
+
+            return Disposables.create()
+        }
+
     }
 
     func setupViews() {

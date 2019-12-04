@@ -55,7 +55,8 @@ class Post: Object, Decodable {
         photo = try values.decodeIfPresent(String.self, forKey: .photo)
         location = try values.decodeIfPresent(Location.self, forKey: .location)
         let timestampInterval = try values.decode(Double.self, forKey: .timestamp)
-        timestamp = Date(timeIntervalSince1970: timestampInterval) + 3.years + 8.months
+
+        timestamp = min(Date(timeIntervalSince1970: timestampInterval) + 1.years + 1.days, Date())
         thumbnail = try values.decodeIfPresent(String.self, forKey: .thumbnail)
 
         let tags = try values.decodeIfPresent(List<String>.self, forKey: .tags)?.compactMap { $0.fbDecode() }

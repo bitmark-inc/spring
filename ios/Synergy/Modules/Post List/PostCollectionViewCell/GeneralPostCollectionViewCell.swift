@@ -64,6 +64,8 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
 
         if let photo = post.photo, let photoURL = URL(string: photo) {
             photoImageView.loadURL(photoURL)
+                .subscribe()
+                .disposed(by: disposeBag)
         }
 
         postInfoLabel.flex.markDirty()
