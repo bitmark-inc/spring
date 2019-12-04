@@ -6,7 +6,15 @@
  */
 package com.bitmark.fbm.feature.insights
 
+import com.bitmark.fbm.di.FragmentScope
+import com.bitmark.fbm.feature.Navigator
 import dagger.Module
+import dagger.Provides
 
 @Module
-class InsightsContainerModule
+class InsightsContainerModule {
+
+    @Provides
+    @FragmentScope
+    fun provideNavigator(fragment: InsightsContainerFragment) = Navigator(fragment)
+}

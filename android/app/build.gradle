@@ -251,6 +251,7 @@ dependencies {
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
     implementation 'com.yarolegovich:discrete-scrollview:1.4.9'
     implementation 'io.intercom.android:intercom-sdk:6.0.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // Testing
     testImplementation 'junit:junit:4.12'

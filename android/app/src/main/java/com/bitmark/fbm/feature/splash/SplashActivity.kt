@@ -16,7 +16,6 @@ import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
-import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.visible
@@ -46,7 +45,7 @@ class SplashActivity : BaseAppCompatActivity() {
         super.initComponents()
 
         btnGetStarted.setSafetyOnclickListener {
-            navigator.anim(RIGHT_LEFT).startActivity(OnboardingActivity::class.java)
+            navigator.anim(RIGHT_LEFT).startActivity(MainActivity::class.java)
         }
 
         tvLogin.setSafetyOnclickListener {

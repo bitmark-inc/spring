@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOverview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/domaine_sans"
+        android:includeFontPadding="false"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="24 POSTS"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOverviewSuffix"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_4"
+        android:fontFamily="@font/grotesk"
+        android:includeFontPadding="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_10"
+        app:layout_constraintStart_toEndOf="@id/tvOverview"
+        app:layout_constraintTop_toTopOf="@id/tvOverview"
+        tools:text="you made"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -41,6 +41,7 @@
         <activity
             android:name=".feature.unlink.UnlinkContainerActivity"
             android:windowSoftInputMode="adjustNothing" />
+
         <activity android:name=".feature.auth.BiometricAuthActivity" />
 
         <activity android:name=".feature.recovery.RecoveryContainerActivity" />
@@ -49,11 +50,9 @@
 
         <activity
             android:name=".feature.register.notification.NotificationActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
 
-        <receiver
-            android:name=".feature.notification.ScheduledNotificationReceiver"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />/>
+        <receiver android:name=".feature.notification.ScheduledNotificationReceiver" />
 
         <meta-data
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"

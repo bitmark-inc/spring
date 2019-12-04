@@ -20,5 +20,22 @@
     <color name="athens_gray">#EDF0F4</color>
     <color name="mercury">#E7E7E7</color>
     <color name="mercury_66">#66E7E7E7</color>
+    <color name="mabilu">#81CFFA</color>
+    <color name="carissma">#E688A1</color>
+    <color name="apricot">#ED9A73</color>
+    <color name="chenin">#E3C878</color>
+    <color name="tea_green">#BBEAA6</color>
+    <color name="perfume">#E29AF4</color>
+
+    <array name="chart_color_palette">
+        <item>@color/mabilu</item>
+        <item>@color/carissma</item>
+        <item>@color/apricot</item>
+        <item>@color/chenin</item>
+        <item>@color/tea_green</item>
+        <item>@color/perfume</item>
+        <item>@color/cognac</item>
+        <item>@color/olive</item>
+    </array>
 
 </resources>

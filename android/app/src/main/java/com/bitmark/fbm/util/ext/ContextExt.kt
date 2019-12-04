@@ -48,3 +48,8 @@ fun Context.getDimension(@DimenRes dimenRes: Int, default: Float = 0f): Float {
         default
     }
 }
+
+fun Context.pxToDp(px: Float) = px / resources.displayMetrics.density
+
+fun Context.dpToPx(dp: Int) = dp * resources.displayMetrics.density
+

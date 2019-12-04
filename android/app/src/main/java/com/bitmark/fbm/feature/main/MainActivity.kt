@@ -14,11 +14,7 @@ import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.BehaviorComponent
 import com.bitmark.fbm.feature.Navigator
-import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
-import com.bitmark.fbm.feature.account.AccountActivity
 import com.bitmark.fbm.util.ext.getDimensionPixelSize
-import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import com.bitmark.fbm.util.ext.setTextColorRes
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -60,35 +56,11 @@ class MainActivity : BaseAppCompatActivity() {
         bottomNav.setOnTabSelectedListener { position, wasSelected ->
             viewPager.setCurrentItem(position, false)
 
-            when (position) {
-                MainViewPagerAdapter.TAB_USAGE    -> {
-                    tvTitle.text = getString(R.string.usage)
-                    tvMsg.text = getString(R.string.how_you_use_fb)
-                    tvTitle.setTextColorRes(R.color.cognac)
-                }
-
-                MainViewPagerAdapter.TAB_INSIGHTS -> {
-                    tvTitle.text = getString(R.string.insights)
-                    tvMsg.text = getString(R.string.how_fb_use_you)
-                    tvTitle.setTextColorRes(R.color.international_klein_blue)
-                }
-
-                MainViewPagerAdapter.TAB_OFFER    -> {
-                    tvTitle.text = getString(R.string.offer)
-                    tvMsg.text = getString(R.string.for_your_fb_data)
-                    tvTitle.setTextColorRes(R.color.olive)
-                }
-            }
-
             if (wasSelected) {
                 (adapter.currentFragment as? BehaviorComponent)?.refresh()
             }
 
             true
-        }
-
-        ivAccount.setSafetyOnclickListener {
-            navigator.anim(RIGHT_LEFT).startActivity(AccountActivity::class.java)
         }
 
     }

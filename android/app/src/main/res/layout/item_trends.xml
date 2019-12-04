@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_20"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutSec1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSecTrend1"
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_circle_arrow_up"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSecTrend1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_4"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintBottom_toBottomOf="@id/ivSecTrend1"
+            app:layout_constraintStart_toEndOf="@id/ivSecTrend1"
+            app:layout_constraintTop_toTopOf="@id/ivSecTrend1"
+            tools:text="5%"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSecName1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toStartOf="@id/ivSecTrend1"
+            app:layout_constraintTop_toBottomOf="@id/ivSecTrend1"
+            tools:text="posts"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutSec2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/layoutSec1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layoutSec1"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSecTrend2"
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_circle_arrow_up"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSecTrend2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_4"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintBottom_toBottomOf="@id/ivSecTrend2"
+            app:layout_constraintStart_toEndOf="@id/ivSecTrend2"
+            app:layout_constraintTop_toTopOf="@id/ivSecTrend2"
+            tools:text="18%"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSecName2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toStartOf="@id/ivSecTrend2"
+            app:layout_constraintTop_toBottomOf="@id/ivSecTrend2"
+            tools:text="reactions"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutSec3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_20"
+        app:layout_constraintBottom_toBottomOf="@id/layoutSec2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layoutSec2"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivSecTrend3"
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_circle_arrow_up"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSecTrend3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_4"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintBottom_toBottomOf="@id/ivSecTrend3"
+            app:layout_constraintStart_toEndOf="@id/ivSecTrend3"
+            app:layout_constraintTop_toTopOf="@id/ivSecTrend3"
+            tools:text="22%"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSecName3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:fontFamily="@font/grotesk"
+            android:includeFontPadding="false"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintStart_toStartOf="@id/ivSecTrend3"
+            app:layout_constraintTop_toBottomOf="@id/ivSecTrend3"
+            tools:text="messages"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

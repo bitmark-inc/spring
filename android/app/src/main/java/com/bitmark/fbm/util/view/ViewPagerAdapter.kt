@@ -12,7 +12,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 
-open class ViewPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+open class ViewPagerAdapter(fm: FragmentManager) :
+    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     var currentFragment: Fragment? = null
         private set

@@ -4,7 +4,7 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.offer
+package com.bitmark.fbm.feature.statistic
 
 import com.bitmark.fbm.di.FragmentScope
 import com.bitmark.fbm.feature.Navigator
@@ -12,9 +12,14 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class OfferContainerModule {
+class StatisticModule {
 
     @Provides
     @FragmentScope
-    fun provideNavigator(fragment: OfferContainerFragment) = Navigator(fragment)
+    fun provideViewModel(fragment: StatisticFragment) = StatisticViewModel(fragment.lifecycle)
+
+    @Provides
+    @FragmentScope
+    fun provideNavigator(fragment: StatisticFragment) = Navigator(fragment)
+
 }
