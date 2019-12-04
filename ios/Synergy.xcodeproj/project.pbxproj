@@ -88,6 +88,10 @@
 		585D51DD2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585D51DB2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift */; };
 		58682EDB238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
 		58682EDC238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
+		58C009CB239796B800302F49 /* InsightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009C9239795DB00302F49 /* InsightCollectionView.swift */; };
+		58C009CC239796B800302F49 /* InsightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009C9239795DB00302F49 /* InsightCollectionView.swift */; };
+		58C009CD239796BB00302F49 /* InsightBadgeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009CA239795DB00302F49 /* InsightBadgeCollectionViewCell.swift */; };
+		58C009CE239796BB00302F49 /* InsightBadgeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009CA239795DB00302F49 /* InsightBadgeCollectionViewCell.swift */; };
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
@@ -418,6 +422,8 @@
 		5837957A238FB93A00494A2D /* UsageCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageCollectionView.swift; sourceTree = "<group>"; };
 		585D51DB2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeCollectionViewCell.swift; sourceTree = "<group>"; };
 		58682EDA238F7079009BDDDF /* FilterSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSegment.swift; sourceTree = "<group>"; };
+		58C009C9239795DB00302F49 /* InsightCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightCollectionView.swift; sourceTree = "<group>"; };
+		58C009CA239795DB00302F49 /* InsightBadgeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightBadgeCollectionViewCell.swift; sourceTree = "<group>"; };
 		681949F22DEE05C36955EBCD /* Pods-SynergyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynergyTests.release.xcconfig"; path = "Target Support Files/Pods-SynergyTests/Pods-SynergyTests.release.xcconfig"; sourceTree = "<group>"; };
 		858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Synergy_Dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SynergyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -592,6 +598,8 @@
 			children = (
 				5832D6FB238BC23D0074AEDC /* InsightViewController.swift */,
 				5832D6FC238BC23D0074AEDC /* InsightViewModel.swift */,
+				58C009C9239795DB00302F49 /* InsightCollectionView.swift */,
+				58C009CA239795DB00302F49 /* InsightBadgeCollectionViewCell.swift */,
 			);
 			path = Insight;
 			sourceTree = "<group>";
@@ -1533,6 +1541,7 @@
 				E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832D6FD238BC23D0074AEDC /* AccountViewModel.swift in Sources */,
 				5832FC40237A863300FA3196 /* Global.swift in Sources */,
+				58C009CD239796BB00302F49 /* InsightBadgeCollectionViewCell.swift in Sources */,
 				E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5832FC93237A889A00FA3196 /* BitmarkSDKService.swift in Sources */,
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
@@ -1606,6 +1615,7 @@
 				5832FC45237A863300FA3196 /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				5832FCC7237AB8AB00FA3196 /* R.generated.swift in Sources */,
 				5832FC43237A863300FA3196 /* ThemeManager.swift in Sources */,
+				58C009CB239796B800302F49 /* InsightCollectionView.swift in Sources */,
 				5832FC49237A863300FA3196 /* UnderlinedTextField.swift in Sources */,
 				5832D6E4238BBE390074AEDC /* UsageViewModel.swift in Sources */,
 				E28B561B238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
@@ -1662,6 +1672,7 @@
 				E2DB6687237D3B69005367C2 /* Credential.swift in Sources */,
 				E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832D6FE238BC23D0074AEDC /* AccountViewModel.swift in Sources */,
+				58C009CE239796BB00302F49 /* InsightBadgeCollectionViewCell.swift in Sources */,
 				E2DB6688237D3B69005367C2 /* Global.swift in Sources */,
 				E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
@@ -1735,6 +1746,7 @@
 				E2DB66AC237D3B69005367C2 /* UnderlinedTextField.swift in Sources */,
 				E28B5616238D1A3200F1BCF2 /* DataGeneratingViewModel.swift in Sources */,
 				5832D6E5238BBE390074AEDC /* UsageViewModel.swift in Sources */,
+				58C009CC239796B800302F49 /* InsightCollectionView.swift in Sources */,
 				E28B55FC238D0A6800F1BCF2 /* MoyaAuthPlugin.swift in Sources */,
 				E28B55F8238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
 				E28B5602238D0B4200F1BCF2 /* AuthAPI.swift in Sources */,
