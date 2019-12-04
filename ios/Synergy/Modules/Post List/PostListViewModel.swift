@@ -28,6 +28,15 @@ class PostListViewModel: ViewModel {
         super.init()
     }
 
+    var screenTitleFromFilter: String {
+        switch filterScope.filterBy {
+        case .type:
+            return "plural.\(filterScope.filterValue)".localized().localizedUppercase
+        default:
+            return R.string.localizable.pluralPost().localizedUppercase
+        }
+    }
+
     func getPosts() {
         PostDataEngine.rx.fetch(with: filterScope)
             .map { $0.sorted(byKeyPath: "timestamp", ascending: false)}

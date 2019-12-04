@@ -9,6 +9,7 @@
 import Foundation
 import Realm
 import RealmSwift
+import SwiftDate
 
 var i = 0
 
@@ -23,13 +24,14 @@ class Post: Object, Decodable {
     @objc dynamic var location: Location?
     @objc dynamic var timestamp: Date = Date()
     @objc dynamic var friendTags: String = ""
+    @objc dynamic var thumbnail: String?
 
     override class func primaryKey() -> String? {
         return "id"
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, type, post, url, photo, tags, location, timestamp, friendTags
+        case id, type, post, url, photo, tags, location, timestamp, friendTags, thumbnail
     }
 
     required public init(from decoder: Decoder) throws {
@@ -40,11 +42,21 @@ class Post: Object, Decodable {
         i = i + 1
         type = try values.decodeIfPresent(String.self, forKey: .type)
         post = try values.decodeIfPresent(String.self, forKey: .post)?.fbDecode()
+
+        if type == nil, let post = post, post.isNotEmpty {
+            type = Constant.PostType.update
+        }
+
+        if type == "external" {
+            type = Constant.PostType.link
+        }
+
         url = try values.decodeIfPresent(String.self, forKey: .url)
         photo = try values.decodeIfPresent(String.self, forKey: .photo)
         location = try values.decodeIfPresent(Location.self, forKey: .location)
         let timestampInterval = try values.decode(Double.self, forKey: .timestamp)
-        timestamp = Date(timeIntervalSince1970: timestampInterval)
+        timestamp = Date(timeIntervalSince1970: timestampInterval) + 3.years + 8.months
+        thumbnail = try values.decodeIfPresent(String.self, forKey: .thumbnail)
 
         let tags = try values.decodeIfPresent(List<String>.self, forKey: .tags)?.compactMap { $0.fbDecode() }
         if let tags = tags {

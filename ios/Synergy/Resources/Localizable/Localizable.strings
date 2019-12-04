@@ -25,3 +25,11 @@
 "and" = "and";
 "HOW YOU USE FACEBOOK" = "HOW YOU USE FACEBOOK";
 "HOW FACEBOOK USES YOU" = "HOW FACEBOOK USES YOU";
+
+"plural.post" = "posts";
+"plural.link" = "links";
+"plural.story" = "stories";
+"plural.update" = "updates";
+"plural.video" = "videos";
+"plural.photo" = "photos";
+

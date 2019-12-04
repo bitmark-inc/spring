@@ -44,7 +44,11 @@ extension Reactive where Base: PostDataEngine {
                 let posts = realm.objects(Post.self).filter(filterQuery)
 
                 event(.success(posts))
-                PostDataEngine.syncPosts()
+
+                if posts.isEmpty {
+                    PostDataEngine.syncPosts()
+                }
+
             } catch {
                 event(.error(error))
             }
@@ -76,6 +80,8 @@ extension Reactive where Base: PostDataEngine {
         var filterPredicate: NSPredicate?
 
         switch filterScope.filterBy {
+        case .type:
+            filterPredicate = NSPredicate(format: "type == %@", filterScope.filterValue)
         case .friend:
             let friendValue = filterScope.filterValue + Constant.separator
             filterPredicate = NSPredicate(format: "friendTags CONTAINS %@", friendValue)

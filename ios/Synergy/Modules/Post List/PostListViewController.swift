@@ -19,6 +19,7 @@ class PostListViewController: TabPageViewController {
 
     // MARK: - Properties
     fileprivate lazy var collectionView = PostsCollectionView()
+    fileprivate lazy var emptyView = makeEmptyView()
     var posts: Results<Post>?
     lazy var thisViewModel = viewModel as? PostListViewModel
 
@@ -27,15 +28,25 @@ class PostListViewController: TabPageViewController {
         super.bindViewModel()
 
         guard let viewModel = viewModel as? PostListViewModel else { return }
+
+        setThemedScreenTitle(text: viewModel.screenTitleFromFilter)
+
         viewModel.postsObservable
             .subscribe(onNext: { [weak self] (realmPosts) in
                 guard let self = self else { return }
                 self.posts = realmPosts
                 self.collectionView.dataSource = self
 
+                self.emptyView.isHidden = !realmPosts.isEmpty
+                self.collectionView.isHidden = realmPosts.isEmpty
+
                 Observable.changeset(from: realmPosts)
                     .subscribe(onNext: { [weak self] (_, changes) in
                         guard let self = self, let changes = changes else { return }
+
+                        self.emptyView.isHidden = !realmPosts.isEmpty
+                        self.collectionView.isHidden = realmPosts.isEmpty
+
                         self.collectionView.applyChangeset(changes)
                     }, onError: { (error) in
                         Global.log.error(error)
@@ -53,14 +64,22 @@ class PostListViewController: TabPageViewController {
         super.setupViews()
 
         collectionView.delegate = self
-        screenTitleLabel.text = "POST"
-        backNavigationButton.isHidden = false
+        screenTitleLabel.text = "ABCDDEBS"
 
         contentView.flex.direction(.column).define { (flex) in
+            flex.addItem(emptyView).marginTop(35)
             flex.addItem(collectionView).marginTop(10).marginBottom(0).grow(1)
         }
 
         contentView.flex.layout(mode: .adjustHeight)
+    }
+
+    fileprivate func makeEmptyView() -> Label {
+        let label = Label()
+        label.isDescription = true
+        label.applyBlack(text: R.string.phrase.postsEmpty(), font: R.font.atlasGroteskRegular(size: Size.ds(32)))
+        label.isHidden = true
+        return label
     }
 }
 

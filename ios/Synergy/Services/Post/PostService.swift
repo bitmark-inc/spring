@@ -15,7 +15,7 @@ class PostService {
     static var provider = MoyaProvider<PostAPI>(plugins: Global.default.networkLoggerPlugin)
 
     static func getAll() -> Single<[Post]> {
-        guard let url = Bundle.main.url(forResource: "posts-data", withExtension: "json") else {
+        guard let url = Bundle.main.url(forResource: "posts_with_thumbnail", withExtension: "json") else {
             return Single.never()
         }
 
