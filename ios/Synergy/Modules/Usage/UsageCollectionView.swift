@@ -8,14 +8,27 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import FlexLayout
 import Charts
 
 class UsageCollectionView: CollectionView {
     private let disposeBag = DisposeBag()
     var postListNavigateHandler: ((FilterScope) -> Void)?
-    var timeUnit: TimeUnit = .week
-    var startTime: Date = Date()
+    var timeUnit: TimeUnit = .week {
+        didSet {
+            self.reloadData { [unowned self] in
+                self.setContentOffset(.zero, animated: true)
+            }
+        }
+    }
+    var startTime: Date = Date() {
+        didSet {
+            self.reloadData { [unowned self] in
+                self.setContentOffset(.zero, animated: true)
+            }
+        }
+    }
     
     override init() {
         super.init()
@@ -123,6 +136,23 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
         }
             
+    }
+}
+
+extension Reactive where Base: UsageCollectionView {
+    
+    /// Reactive wrapper for `timeUnit` property.
+    var timeUnit: Binder<TimeUnit> {
+        return Binder(self.base) { view, attr in
+            view.timeUnit = attr
+        }
+    }
+    
+    /// Reactive wrapper for `timeUnit` property.
+    var startTime: Binder<Date> {
+        return Binder(self.base) { view, attr in
+            view.startTime = attr
+        }
     }
 }
 

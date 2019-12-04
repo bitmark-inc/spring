@@ -80,6 +80,20 @@ class UsageViewController: TabPageViewController {
                 Global.log.error(error)
             })
             .disposed(by: disposeBag)
+        
+        filterSegment.rx.selectedIndex.map { (index) -> TimeUnit in
+            switch index {
+            case 0:
+                return .week
+            case 1:
+                return .year
+            case 2:
+                return .decade
+            default:
+                return .week
+            }
+            }.bind(to: collectionView.rx.timeUnit)
+            .disposed(by: disposeBag)
 
 //        viewModel.fetchUsage()
     }
