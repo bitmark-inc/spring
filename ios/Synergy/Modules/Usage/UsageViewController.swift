@@ -98,7 +98,18 @@ class UsageViewController: TabPageViewController {
             }.bind(to: collectionView.rx.timeUnit)
             .disposed(by: disposeBag)
         
-        d.bind(to: periodNameLabel.rx.text)
+        d.map { (index) -> String in
+            switch index {
+            case 0:
+                return "THIS WEEK"
+            case 1:
+                return "THIS YEAR"
+            case 2:
+                return "THIS DECADE"
+            default:
+                return ""
+            }
+        }.bind(to: periodNameLabel.rx.text)
         .disposed(by: disposeBag)
         
         d.map { (index) -> String in
