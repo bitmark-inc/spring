@@ -302,15 +302,15 @@ extension FilterTypeCollectionViewCell: ChartViewDelegate {
             let index = entries.firstIndex(of: entry as! BarChartDataEntry)
             switch index {
             case 0:
-                filterValue = Constant.PostType.update
+                filterValue = Constant.PostType.link
             case 1:
-                filterValue = Constant.PostType.photo
+                filterValue = Constant.PostType.video
             case 2:
                 filterValue = Constant.PostType.story
             case 3:
-                filterValue = Constant.PostType.video
+                filterValue = Constant.PostType.photo
             case 4:
-                filterValue = Constant.PostType.link
+                filterValue = Constant.PostType.update
             default:
                 filterValue = Constant.PostType.update
             }

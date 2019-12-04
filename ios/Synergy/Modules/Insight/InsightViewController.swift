@@ -49,7 +49,7 @@ class InsightViewController: TabPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setThemedScreenTitle(text: R.string.localizable.usagE())
+        setThemedScreenTitle(text: R.string.localizable.insightS())
     }
 
     override func bindViewModel() {
@@ -58,7 +58,7 @@ class InsightViewController: TabPageViewController {
         // Fake data
         periodNameLabel.text = "THIS DECADE"
         periodDescriptionLabel.text = "2010-2019"
-        subTitleLabel.text = R.string.localizable.howyouusefacebooK()
+        subTitleLabel.text = R.string.localizable.howfacebookusesyoU()
 
 //        guard let viewModel = viewModel as? InsightViewModel else { return }
 //

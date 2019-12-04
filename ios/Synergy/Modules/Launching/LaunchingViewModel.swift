@@ -35,6 +35,6 @@ class LaunchingViewModel: ViewModel {
     }
 
     func gotoMainScreen() {
-        navigator.show(segue: .hometabs)
+        navigator.show(segue: .hometabs, transition: .replace(type: .auto))
     }
 }
