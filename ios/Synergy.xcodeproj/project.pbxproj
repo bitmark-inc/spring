@@ -171,8 +171,6 @@
 		E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807CB23962F380079A3C4 /* PostAPI.swift */; };
 		E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
 		E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
-		E24420312398D5A100520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E24420302398D5A100520FE9 /* posts_with_stories.json */; };
-		E24420322398D5A100520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E24420302398D5A100520FE9 /* posts_with_stories.json */; };
 		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E26268BD23964638000D7F51 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E26268BA23964638000D7F51 /* Localizable.strings */; };
@@ -486,7 +484,6 @@
 		E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		E23807D123963E3E0079A3C4 /* Array+Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Sentence.swift"; sourceTree = "<group>"; };
-		E24420302398D5A100520FE9 /* posts_with_stories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_with_stories.json; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
 		E26268BA23964638000D7F51 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E26268BB23964638000D7F51 /* Phrase.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Phrase.strings; sourceTree = "<group>"; };
@@ -923,7 +920,6 @@
 			isa = PBXGroup;
 			children = (
 				E2364D6023979D0500752C9F /* posts_with_thumbnail.json */,
-				E24420302398D5A100520FE9 /* posts_with_stories.json */,
 				E22290982395108F00412CBC /* PostService.swift */,
 				E23807CB23962F380079A3C4 /* PostAPI.swift */,
 				E222909B239510A200412CBC /* posts.json */,
@@ -1313,7 +1309,6 @@
 				E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E26268BD23964638000D7F51 /* Localizable.strings in Resources */,
-				E24420312398D5A100520FE9 /* posts_with_stories.json in Resources */,
 				E22290852394FC8900412CBC /* average_usage.json in Resources */,
 				E29F5A432383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A6F2383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
@@ -1361,7 +1356,6 @@
 				E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E26268BE23964638000D7F51 /* Localizable.strings in Resources */,
-				E24420322398D5A100520FE9 /* posts_with_stories.json in Resources */,
 				E22290862394FC8900412CBC /* average_usage.json in Resources */,
 				E29F5A442383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
