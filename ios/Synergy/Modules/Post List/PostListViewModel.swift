@@ -91,10 +91,10 @@ class PostListViewModel: ViewModel {
             endDate = date.dateAtEndOf(.weekOfMonth)
         case .year:
             startDate = date.dateAtStartOf(.year)
-            endDate = date.dateAtEndOf(.year) - 12.hours
+            endDate = date.dateAtEndOf(.year) - 12.hours // TODO:
         case .decade:
             startDate = (date - 10.years).dateAtStartOf(.year)
-            endDate = date.dateAtEndOf(.year) - 12.hours // TODO:
+            endDate = Date() // TODO:
         }
 
         return startDate.year == endDate.year ?

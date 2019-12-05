@@ -47,7 +47,7 @@ extension Reactive where Base: PostDataEngine {
 
                 event(.success(posts))
 
-                if !didLoad {
+                if !didLoad && realm.objects(Post.self).isEmpty {
                     didLoad = true
                     PostDataEngine.syncPosts()
                 }

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "E2DB667B237D3B69005367C2"
-               BuildableName = "Spring.app"
+               BuildableName = "Synergy Dev.app"
                BlueprintName = "Synergy Dev"
                ReferencedContainer = "container:Synergy.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E2DB667B237D3B69005367C2"
-            BuildableName = "Spring.app"
+            BuildableName = "Synergy Dev.app"
             BlueprintName = "Synergy Dev"
             ReferencedContainer = "container:Synergy.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "E2DB667B237D3B69005367C2"
-            BuildableName = "Spring.app"
+            BuildableName = "Synergy Dev.app"
             BlueprintName = "Synergy Dev"
             ReferencedContainer = "container:Synergy.xcodeproj">
          </BuildableReference>

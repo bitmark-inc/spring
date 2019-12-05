@@ -171,6 +171,8 @@
 		E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807CB23962F380079A3C4 /* PostAPI.swift */; };
 		E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
 		E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
+		E24420312398D5A100520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E24420302398D5A100520FE9 /* posts_with_stories.json */; };
+		E24420322398D5A100520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E24420302398D5A100520FE9 /* posts_with_stories.json */; };
 		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E26268BD23964638000D7F51 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E26268BA23964638000D7F51 /* Localizable.strings */; };
@@ -484,6 +486,7 @@
 		E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		E23807D123963E3E0079A3C4 /* Array+Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Sentence.swift"; sourceTree = "<group>"; };
+		E24420302398D5A100520FE9 /* posts_with_stories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_with_stories.json; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
 		E26268BA23964638000D7F51 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E26268BB23964638000D7F51 /* Phrase.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Phrase.strings; sourceTree = "<group>"; };
@@ -534,7 +537,7 @@
 		E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Light.otf"; sourceTree = "<group>"; };
 		E29F5A792383F8E900C1D9D8 /* HowItWorksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewModel.swift; sourceTree = "<group>"; };
 		E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewController.swift; sourceTree = "<group>"; };
-		E2DB66C2237D3B69005367C2 /* Synergy Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Synergy Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2DB66C2237D3B69005367C2 /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66C4237D3D20005367C2 /* Dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dev-Info.plist"; sourceTree = "<group>"; };
 		E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66CD237D40A8005367C2 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -643,7 +646,7 @@
 			children = (
 				5832FBE9237A6DB700FA3196 /* Synergy.app */,
 				5832FBFF237A6DB900FA3196 /* SynergyTests.xctest */,
-				E2DB66C2237D3B69005367C2 /* Synergy Dev.app */,
+				E2DB66C2237D3B69005367C2 /* Spring.app */,
 				E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
@@ -920,6 +923,7 @@
 			isa = PBXGroup;
 			children = (
 				E2364D6023979D0500752C9F /* posts_with_thumbnail.json */,
+				E24420302398D5A100520FE9 /* posts_with_stories.json */,
 				E22290982395108F00412CBC /* PostService.swift */,
 				E23807CB23962F380079A3C4 /* PostAPI.swift */,
 				E222909B239510A200412CBC /* posts.json */,
@@ -1211,7 +1215,7 @@
 			);
 			name = "Synergy Dev";
 			productName = Synergy;
-			productReference = E2DB66C2237D3B69005367C2 /* Synergy Dev.app */;
+			productReference = E2DB66C2237D3B69005367C2 /* Spring.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E2DB66CA237D40A8005367C2 /* OneSignalNotificationServiceExtension */ = {
@@ -1309,6 +1313,7 @@
 				E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E26268BD23964638000D7F51 /* Localizable.strings in Resources */,
+				E24420312398D5A100520FE9 /* posts_with_stories.json in Resources */,
 				E22290852394FC8900412CBC /* average_usage.json in Resources */,
 				E29F5A432383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A6F2383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
@@ -1356,6 +1361,7 @@
 				E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E26268BE23964638000D7F51 /* Localizable.strings in Resources */,
+				E24420322398D5A100520FE9 /* posts_with_stories.json in Resources */,
 				E22290862394FC8900412CBC /* average_usage.json in Resources */,
 				E29F5A442383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
@@ -2093,15 +2099,17 @@
 				CODE_SIGN_ENTITLEMENTS = "Synergy Dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Spring;
 				PROVISIONING_PROFILE_SPECIFIER = "Synergy Test Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2116,15 +2124,17 @@
 				CODE_SIGN_ENTITLEMENTS = "Synergy Dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Spring;
 				PROVISIONING_PROFILE_SPECIFIER = "Synergy Test Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

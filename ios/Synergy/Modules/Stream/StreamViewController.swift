@@ -52,7 +52,7 @@ class StreamViewController: ViewController {
             lineHeight: 1.06, level: 2)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(titleScreen)
+            flex.addItem(titleScreen).marginTop(-17)
             flex.addItem(subTitleButton).marginTop(2)
             flex.addItem(streamDescLabel).marginTop(36)
         }
