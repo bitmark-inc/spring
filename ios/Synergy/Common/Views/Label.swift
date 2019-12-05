@@ -101,6 +101,7 @@ extension Label {
     static func create(withFont font: UIFont?) -> Label {
         let l = Label()
         l.font = font
+        l.textColor = .black
         return l
     }
 }

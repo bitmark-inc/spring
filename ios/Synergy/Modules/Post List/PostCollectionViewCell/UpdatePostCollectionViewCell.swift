@@ -28,10 +28,12 @@ class UpdatePostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCe
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
+            flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
             flex.addItem().padding(12, 17, 17, 12).define { (flex) in
                 flex.addItem(postInfoLabel)
                 flex.addItem(captionLabel).marginTop(12)
             }
+            flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
         }
     }
 

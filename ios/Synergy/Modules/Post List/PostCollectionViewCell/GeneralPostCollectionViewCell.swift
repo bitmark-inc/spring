@@ -29,11 +29,13 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
+            flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
             flex.addItem().padding(12, 17, 0, 12).define { (flex) in
                 flex.addItem(postInfoLabel)
                 flex.addItem(captionLabel).marginTop(12).basis(1)
             }
             flex.addItem(photoImageView).marginTop(20)
+            flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
         }
     }
 
@@ -58,7 +60,7 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
             .disposed(by: disposeBag)
 
         captionLabel.attributedText = LinkAttributedString.make(
-            string: post.post ?? (post.title ?? ""),
+            string: post.post ?? (post.title ?? "KC Alt posted in Hongtai CrossFit"),
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
 

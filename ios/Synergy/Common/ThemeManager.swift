@@ -92,7 +92,7 @@ struct DarkTheme: Theme {
 }
 
 enum ColorTheme: Int, CaseIterable {
-    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord
+    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord, gray1
 
     var color: UIColor {
         switch self {
@@ -117,6 +117,7 @@ enum ColorTheme: Int, CaseIterable {
         case .blueGray:   return UIColor.Material.blueGrey
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
         case .concord:    return UIColor(hexString: "#828180")!
+        case .gray1:    return UIColor(hexString: "#C1C1C1")!
         }
     }
 
@@ -143,6 +144,7 @@ enum ColorTheme: Int, CaseIterable {
         case .blueGray:   return UIColor.Material.blueGrey900
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
         case .concord:    return UIColor(hexString: "#828180")!
+        case .gray1:    return UIColor(hexString: "#C1C1C1")!
         }
     }
 
@@ -169,6 +171,7 @@ enum ColorTheme: Int, CaseIterable {
         case .blueGray:   return "Blue Gray"
         case .internationalKleinBlue: return "international klein blue"
         case .concord:    return "concord"
+        case .gray1:        return ""
         }
     }
 }
