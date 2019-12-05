@@ -137,7 +137,7 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return cell
         case (1, 4):
             let cell = collectionView.dequeueReusableCell(withClass: FilterPlacesCollectionViewCell.self, for: indexPath)
-
+            cell.postListNavigateHandler = c.postListNavigateHandler
             let usageByPlaces = usage[GroupKey.place.rawValue]!
             let stats = usageByPlaces.map { (usageByPlace) -> (String, [Double]) in
                 let data = usageByPlace["data"] as! [String: [Any]]
@@ -613,6 +613,8 @@ extension FilterFriendsCollectionViewCell: ChartViewDelegate {
 class FilterPlacesCollectionViewCell: CollectionViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     let chartView = HorizontalBarChartView()
+    var postListNavigateHandler: ((FilterScope) -> Void)?
+    var places = [String]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -629,7 +631,8 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         chartView.pinchZoomEnabled = false
         chartView.doubleTapToZoomEnabled = false
         chartView.dragEnabled = false
-        chartView.highlightPerTapEnabled = false
+        chartView.highlightPerTapEnabled = true
+        chartView.delegate = self
                 
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
@@ -669,11 +672,11 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
     func bindData(data: [(String, [Double])]) {
         headingLabel.text = "BY PLACES TAGGED"
         
-        var values = [String]()
+        places = [String]()
         var entries = [BarChartDataEntry]()
         var i: Double = 0
         for (k,v) in data.reversed() {
-            values.append(k)
+            places.append(k)
             entries.append(BarChartDataEntry(x: i, yValues: v))
             i += 1
         }
@@ -691,7 +694,7 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         barData.setValueFormatter(StackedBarValueFormatter())
         
         chartView.data = barData
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: places)
         chartView.xAxis.labelCount = data.count
         chartView.legend.enabled = false
         
@@ -700,6 +703,27 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         layout()
     }
 }
+
+extension FilterPlacesCollectionViewCell: ChartViewDelegate {
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        let place = places[Int(entry.x)]
+        let section: Section = .posts
+        let timeUnit: TimeUnit = .week
+        let startTime: Date = Date()
+        let filterScope: FilterScope = (
+            usageScope: (
+                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
+            ),
+            filterBy: .place,
+            filterValue: place
+        )
+
+        self.postListNavigateHandler?(filterScope)
+        
+        chartView.highlightValues(nil)
+    }
+}
+
 
 final class StackedBarValueFormatter: IValueFormatter {
     private var lastEntry: ChartDataEntry? = nil
