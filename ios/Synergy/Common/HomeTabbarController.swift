@@ -89,7 +89,7 @@ class MainTabbarItemContentView: ESTabBarItemContentView {
     override func updateLayout() {
         super.updateLayout()
 
-        selectedIndicatorLineView.frame = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: 2)
+        selectedIndicatorLineView.frame = CGRect(x: 0, y: -1, width: self.bounds.size.width, height: 2)
     }
 }
 

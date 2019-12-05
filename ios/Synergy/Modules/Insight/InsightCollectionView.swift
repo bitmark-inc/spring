@@ -172,7 +172,7 @@ extension Reactive where Base: InsightCollectionView {
 }
 
 class InsightHeadingCollectionViewCell: CollectionViewCell {
-    private let countLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 24))
+    private let countLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 24))
     private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 10))
         
     override init(frame: CGRect) {
@@ -192,9 +192,10 @@ class InsightHeadingCollectionViewCell: CollectionViewCell {
                 .marginRight(0)
                 .height(1)
             flex.addItem().direction(.row).define { (flex) in
+                flex.alignItems(.start)
                 flex.padding(38, 18, 28, 18)
                 flex.addItem(countLabel)
-                flex.addItem(actionDescriptionLabel).marginLeft(4)
+                flex.addItem(actionDescriptionLabel).marginLeft(7)
             }
         }
     }
@@ -218,7 +219,7 @@ class InsightHeadingCollectionViewCell: CollectionViewCell {
 }
 
 class InsightFilterTypeCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
     private let chartView = HorizontalBarChartView()
     var postListNavigateHandler: ((FilterScope) -> Void)?
     private var entries = [BarChartDataEntry]()
@@ -230,11 +231,10 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
         super.init(frame: frame)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.paddingLeft(18).paddingRight(18)
             flex.justifyContent(.start)
-            flex.alignItems(.start)
-            flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(200)
+            flex.alignItems(.stretch)
+            flex.addItem(headingLabel).marginLeft(18).marginRight(18)
+            flex.addItem(chartView).margin(0, 20, 15, 0).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -250,6 +250,7 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
+        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -266,6 +267,12 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
+        
+        let xAxisRender = chartView.xAxisRenderer
+        chartView.xAxisRenderer = CustomxAxisRender(viewPortHandler: xAxisRender.viewPortHandler,
+                                                    xAxis: xAxis,
+                                                    transformer: xAxisRender.transformer,
+                                                    chart: chartView)
     }
        
     required init?(coder: NSCoder) {
@@ -292,36 +299,35 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#ED9A73")!,
             UIColor(hexString: "#E688A1")!,
             UIColor(hexString: "#81CFFA")!
-        ]
+        ].reversed()
         
         let barData = BarChartData(dataSets: [set1])
-        barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        barData.barWidth = 0.4
+        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.barWidth = 0.15
         barData.setValueFormatter(DefaultValueFormatter(decimals: 0))
         
         chartView.data = barData
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
         chartView.xAxis.labelCount = 5
         
-        chartView.flex.height(CGFloat(data.count * 50))
+        chartView.flex.height(CGFloat(data.count * 35 + 10))
         
         self.layout()
     }
 }
 
 class InsightFilterDayCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
     let chartView = BarChartView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.paddingLeft(18).paddingRight(18)
             flex.justifyContent(.start)
-            flex.alignItems(.start)
-            flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(300)
+            flex.alignItems(.stretch)
+            flex.addItem(headingLabel).marginLeft(18).marginRight(18)
+            flex.addItem(chartView).margin(0, 20, 15, 0).width(50%).height(220)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -340,6 +346,7 @@ class InsightFilterDayCollectionViewCell: CollectionViewCell {
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
         xAxis.granularity = 1
+        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -374,7 +381,7 @@ class InsightFilterDayCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#E3C878")!,
             UIColor(hexString: "#ED9A73")!,
             UIColor(hexString: "#E688A1")!
-        ]
+        ].reversed()
         
         let data = BarChartData(dataSet: set1)
         data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
@@ -389,18 +396,17 @@ class InsightFilterDayCollectionViewCell: CollectionViewCell {
 }
 
 class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
     let chartView = HorizontalBarChartView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.paddingLeft(18).paddingRight(18)
             flex.justifyContent(.start)
-            flex.alignItems(.start)
-            flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(200)
+            flex.alignItems(.stretch)
+            flex.addItem(headingLabel).marginLeft(18).marginRight(18)
+            flex.addItem(chartView).margin(0, 20, 15, 0).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -416,6 +422,7 @@ class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
+        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -432,6 +439,12 @@ class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
+        
+        let xAxisRender = chartView.xAxisRenderer
+        chartView.xAxisRenderer = CustomxAxisRender(viewPortHandler: xAxisRender.viewPortHandler,
+                                                    xAxis: xAxis,
+                                                    transformer: xAxisRender.transformer,
+                                                    chart: chartView)
     }
        
     required init?(coder: NSCoder) {
@@ -455,11 +468,11 @@ class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#81CFFA")!,
             UIColor(hexString: "#E688A1")!,
             UIColor(hexString: "#E3C878")!
-        ]
+        ].reversed()
         
         let barData = BarChartData(dataSet: set1)
-        barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        barData.barWidth = 0.4
+        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.barWidth = 0.15
         barData.setValueFormatter(StackedBarValueFormatter())
         
         chartView.data = barData
@@ -467,7 +480,7 @@ class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
         chartView.xAxis.labelCount = data.count
         chartView.legend.enabled = false
         
-        chartView.flex.height(CGFloat(data.count * 50))
+        chartView.flex.height(CGFloat(data.count * 35 + 10))
         
         layout()
     }

@@ -235,7 +235,7 @@ class UsageViewController: TabPageViewController {
             flex.addItem(subTitleLabel).marginTop(2).marginLeft(18).marginRight(18)
             flex.addItem(filterSegment).marginTop(36).marginLeft(18).marginRight(18).height(40)
             flex.addItem(periodBrowseContentView).marginTop(18).marginLeft(18).marginRight(18).height(19)
-            flex.addItem(periodDescriptionLabel).marginTop(6).height(10).alignSelf(.stretch)
+            flex.addItem(periodDescriptionLabel).marginTop(9).height(10).alignSelf(.stretch)
             flex.addItem(collectionView).marginTop(10).marginBottom(0).grow(1)
         }
         

@@ -159,7 +159,7 @@ extension Reactive where Base: UsageCollectionView {
 
 class UsageHeadingCollectionViewCell: CollectionViewCell {
     private let countLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 24))
-    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 10))
+    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 10))
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -273,7 +273,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         entries = [BarChartDataEntry]()
         
         var i: Double = 0
-        for (k,v) in data.reversed() {
+        for (k,v) in data {
             values.append(k)
             entries.append(BarChartDataEntry(x: i, y: v))
             i += 1
@@ -286,7 +286,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#ED9A73")!,
             UIColor(hexString: "#E688A1")!,
             UIColor(hexString: "#81CFFA")!
-        ]
+        ].reversed()
         
         let barData = BarChartData(dataSets: [set1])
         barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
@@ -403,7 +403,7 @@ class FilterDayCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#E3C878")!,
             UIColor(hexString: "#ED9A73")!,
             UIColor(hexString: "#E688A1")!
-        ]
+        ].reversed()
         
         let data = BarChartData(dataSet: set1)
         data.setValueFont(R.font.atlasGroteskThin(size: 12)!)
@@ -490,7 +490,7 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#81CFFA")!,
             UIColor(hexString: "#E688A1")!,
             UIColor(hexString: "#E3C878")!
-        ]
+        ].reversed()
         
         let barData = BarChartData(dataSet: set1)
         barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
