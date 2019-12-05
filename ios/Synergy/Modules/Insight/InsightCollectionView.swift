@@ -74,6 +74,7 @@ extension InsightCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let c = collectionView as? InsightCollectionView else {
             assert(false, "collectionView is not InsightCollectionView")
+            return UICollectionViewCell()
         }
         
         switch (indexPath.section, indexPath.row) {

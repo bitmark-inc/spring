@@ -46,6 +46,7 @@ class PostListViewModel: ViewModel {
     }
 
     func gotoPostList(filterBy: GroupKey, filterValue: String) {
+        loadingState.onNext(.loading)
         let filterScope: FilterScope = (
             usageScope: self.filterScope.usageScope,
             filterBy: filterBy,

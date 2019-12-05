@@ -63,6 +63,8 @@ class PostListViewController: TabPageViewController {
     override func setupViews() {
         super.setupViews()
 
+        loadingState.onNext(.hide)
+
         collectionView.delegate = self
         screenTitleLabel.text = "ABCDDEBS"
 

@@ -41,6 +41,7 @@ class InsightViewController: TabPageViewController {
     private lazy var collectionView: InsightCollectionView = {
         let v = InsightCollectionView()
         v.postListNavigateHandler = { filterScope in
+            loadingState.onNext(.loading)
             (self.viewModel as? InsightViewModel)?.goToPostListScreen(filterScope: filterScope)
         }
         return v

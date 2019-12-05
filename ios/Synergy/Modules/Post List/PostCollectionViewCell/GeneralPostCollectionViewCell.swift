@@ -62,7 +62,7 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskThin(size: 16)!])
 
-        if let photo = post.photo, let photoURL = URL(string: photo) {
+        if post.type != Constant.PostType.video, let photo = post.photo, let photoURL = URL(string: photo) {
             photoImageView.loadURL(photoURL)
                 .subscribe()
                 .disposed(by: disposeBag)

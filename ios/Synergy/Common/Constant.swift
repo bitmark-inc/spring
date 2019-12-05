@@ -26,7 +26,7 @@ public struct Constant {
     let oneSignalAppID = Credential.valueForKey(keyName: "ONESIGNAL_APP_ID")
     let fBMServerURL = Credential.valueForKey(keyName: "API_FBM_SERVER_URL")
 
-    static let appName = "Synergy"
+    static let appName = "Spring"
     public static let productLink = "https://apps.apple.com/us/app/bitmark/id1429427796"
     let numberOfPhrases = 12
     static let postTimestampFormat = "MMM d 'at' h:mm a"

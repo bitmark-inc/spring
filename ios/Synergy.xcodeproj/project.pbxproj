@@ -519,7 +519,7 @@
 		E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Light.otf"; sourceTree = "<group>"; };
 		E29F5A792383F8E900C1D9D8 /* HowItWorksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewModel.swift; sourceTree = "<group>"; };
 		E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewController.swift; sourceTree = "<group>"; };
-		E2DB66C2237D3B69005367C2 /* Synergy Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Synergy Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2DB66C2237D3B69005367C2 /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66C4237D3D20005367C2 /* Dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dev-Info.plist"; sourceTree = "<group>"; };
 		E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66CD237D40A8005367C2 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -628,7 +628,7 @@
 			children = (
 				5832FBE9237A6DB700FA3196 /* Synergy.app */,
 				5832FBFF237A6DB900FA3196 /* SynergyTests.xctest */,
-				E2DB66C2237D3B69005367C2 /* Synergy Dev.app */,
+				E2DB66C2237D3B69005367C2 /* Spring.app */,
 				E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
@@ -1167,7 +1167,7 @@
 			);
 			name = "Synergy Dev";
 			productName = Synergy;
-			productReference = E2DB66C2237D3B69005367C2 /* Synergy Dev.app */;
+			productReference = E2DB66C2237D3B69005367C2 /* Spring.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E2DB66CA237D40A8005367C2 /* OneSignalNotificationServiceExtension */ = {
@@ -2041,6 +2041,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Synergy Dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2050,7 +2051,7 @@
 				MARKETING_VERSION = 0.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Spring;
 				PROVISIONING_PROFILE_SPECIFIER = "Synergy Test Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2065,6 +2066,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Synergy Dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2074,7 +2076,7 @@
 				MARKETING_VERSION = 0.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Spring;
 				PROVISIONING_PROFILE_SPECIFIER = "Synergy Test Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

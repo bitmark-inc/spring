@@ -75,6 +75,7 @@ extension UsageCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let c = collectionView as? UsageCollectionView else {
             assert(false, "collectionView is not UsageCollectionView")
+            return UICollectionViewCell()
         }
         
         switch (indexPath.section, indexPath.row) {
@@ -587,6 +588,7 @@ final class StackedBarValueFormatter: IValueFormatter {
         guard let e = entry as? BarChartDataEntry,
             var values = e.yValues else {
             assert(false, "entry is not a BarChartDataEntry or empty yValues")
+            return ""
         }
         
         values = values.filter { $0 != 0 }
