@@ -105,6 +105,7 @@ extension UsageCollectionView: UICollectionViewDataSource {
             cell.section = .posts
             cell.timeUnit = c.timeUnit
             cell.startTime = c.startTime
+            cell.selectionEnabled = true
 
             let usageByType = usage[GroupKey.type.rawValue]!
             let data = usageByType.first!["data"] as! [String: [Any]]
@@ -154,6 +155,7 @@ extension UsageCollectionView: UICollectionViewDataSource {
             cell.section = .reactions
             cell.timeUnit = c.timeUnit
             cell.startTime = c.startTime
+            cell.selectionEnabled = false
             cell.bindData(data: [("Like", 34), ("Love", 40), ("Haha", 19), ("Wow", 5), ("Sad", 2), ("Angry", 0)])
             return cell
         case (2, 2):
@@ -171,6 +173,7 @@ extension UsageCollectionView: UICollectionViewDataSource {
             cell.section = .message
             cell.timeUnit = c.timeUnit
             cell.startTime = c.startTime
+            cell.selectionEnabled = false
             cell.bindData(data: [("TPE Pride 2019", 182), ("Beven Lan", 43), ("Danny & Phil", 39), ("Kevin Y", 25), ("Jeffy Davenport", 23), ("Others", 29)])
             return cell
         case (3, 2):
@@ -260,6 +263,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
     var section: Section = .posts
     var timeUnit: TimeUnit = .week
     var startTime: Date = Date()
+    var selectionEnabled = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -276,7 +280,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         chartView.pinchZoomEnabled = false
         chartView.doubleTapToZoomEnabled = false
         chartView.dragEnabled = false
-        chartView.highlightPerTapEnabled = true
+        chartView.highlightPerTapEnabled = selectionEnabled
         chartView.delegate = self
                 
         let xAxis = chartView.xAxis
