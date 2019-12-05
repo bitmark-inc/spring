@@ -93,7 +93,7 @@ extension LinkPostCollectionViewCell {
         textView.isEditable = false
         textView.isScrollEnabled = false
         textView.dataDetectorTypes = .link
-        textView.font = R.font.atlasGroteskThin(size: Size.ds(17))
+        textView.font = R.font.atlasGroteskLight(size: Size.ds(17))
         return textView
     }
 }

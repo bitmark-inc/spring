@@ -201,7 +201,7 @@ extension TabPageViewController {
 
     func setThemedScreenTitle(text: String, color: UIColor?) {
         screenTitleLabel.text = text
-        screenTitleLabel.font = R.font.domaineSansTextRegular(size: Size.ds(36))
+        screenTitleLabel.font = R.font.domaineSansTextLight(size: Size.ds(36))
         screenTitleLabel.textColor = color
 
 //        themeService.rx
@@ -211,7 +211,7 @@ extension TabPageViewController {
 
     func setLightScreenTitle(text: String) {
         screenTitleLabel.text = text
-        screenTitleLabel.font = R.font.domaineSansTextRegular(size: Size.ds(36))
+        screenTitleLabel.font = R.font.domaineSansTextLight(size: Size.ds(36))
 
         themeService.rx
             .bind({ $0.lightTextColor }, to: screenTitleLabel.rx.textColor)

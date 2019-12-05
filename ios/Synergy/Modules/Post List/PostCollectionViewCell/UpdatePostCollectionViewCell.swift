@@ -57,7 +57,7 @@ class UpdatePostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCe
         captionLabel.attributedText = LinkAttributedString.make(
             string: post.post ?? (post.title ?? ""),
             lineHeight: 1.25,
-            attributes: [.font: R.font.atlasGroteskThin(size: 16)!])
+            attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
 
         postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()

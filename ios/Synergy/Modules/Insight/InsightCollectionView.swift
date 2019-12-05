@@ -79,7 +79,9 @@ extension InsightCollectionView: UICollectionViewDataSource {
         
         switch (indexPath.section, indexPath.row) {
         case (0, _):
-            return collectionView.dequeueReusableCell(withClass: InsightBadgeCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: InsightBadgeCollectionViewCell.self, for: indexPath)
+            cell.timeUnit = c.timeUnit
+            return cell
         case (1, 0):
             let cell = collectionView.dequeueReusableCell(withClass: InsightHeadingCollectionViewCell.self, for: indexPath)
             cell.bindData(countText: "14 AD INTERESTS", actionDescriptionText: "tracked by Facebook")
@@ -172,8 +174,8 @@ extension Reactive where Base: InsightCollectionView {
 }
 
 class InsightHeadingCollectionViewCell: CollectionViewCell {
-    private let countLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 24))
-    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 10))
+    private let countLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 24))
+    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -219,7 +221,7 @@ class InsightHeadingCollectionViewCell: CollectionViewCell {
 }
 
 class InsightFilterTypeCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     private let chartView = HorizontalBarChartView()
     var postListNavigateHandler: ((FilterScope) -> Void)?
     private var entries = [BarChartDataEntry]()
@@ -250,7 +252,7 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
-        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
+        xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -302,7 +304,7 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
         ].reversed()
         
         let barData = BarChartData(dataSets: [set1])
-        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         barData.barWidth = 0.15
         barData.setValueFormatter(DefaultValueFormatter(decimals: 0))
         
@@ -317,7 +319,7 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
 }
 
 class InsightFilterDayCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     let chartView = BarChartView()
     
     override init(frame: CGRect) {
@@ -346,7 +348,7 @@ class InsightFilterDayCollectionViewCell: CollectionViewCell {
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
         xAxis.granularity = 1
-        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
+        xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -396,7 +398,7 @@ class InsightFilterDayCollectionViewCell: CollectionViewCell {
 }
 
 class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     let chartView = HorizontalBarChartView()
     
     override init(frame: CGRect) {
@@ -422,7 +424,7 @@ class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
-        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
+        xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -471,7 +473,7 @@ class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
         ].reversed()
         
         let barData = BarChartData(dataSet: set1)
-        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         barData.barWidth = 0.15
         barData.setValueFormatter(StackedBarValueFormatter())
         

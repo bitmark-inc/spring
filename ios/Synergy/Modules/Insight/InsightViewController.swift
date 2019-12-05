@@ -34,8 +34,8 @@ class InsightViewController: TabPageViewController {
         return btn
     }()
     
-    private lazy var periodNameLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 18))
-    private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 10))
+    private lazy var periodNameLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 18))
+    private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
     private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
     
     private lazy var collectionView: InsightCollectionView = {

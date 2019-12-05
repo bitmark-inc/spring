@@ -100,7 +100,7 @@ class PostListViewController: TabPageViewController {
     fileprivate func makeEmptyView() -> Label {
         let label = Label()
         label.isDescription = true
-        label.applyBlack(text: R.string.phrase.postsEmpty(), font: R.font.atlasGroteskThin(size: Size.ds(32)))
+        label.applyBlack(text: R.string.phrase.postsEmpty(), font: R.font.atlasGroteskLight(size: Size.ds(32)))
         label.isHidden = true
         return label
     }
@@ -161,7 +161,7 @@ extension PostListViewController {
         let label = Label()
         label.applyBlack(
             text: "",
-            font: R.font.atlasGroteskThin(size: Size.ds(14)),
+            font: R.font.atlasGroteskLight(size: Size.ds(14)),
             lineHeight: 1.06)
         return label
     }
@@ -179,7 +179,7 @@ extension PostListViewController {
         let label = Label()
         label.applyBlack(
             text: "",
-            font: R.font.atlasGroteskThin(size: Size.ds(10)),
+            font: R.font.atlasGroteskLight(size: Size.ds(10)),
             lineHeight: 1.06)
         return label
     }

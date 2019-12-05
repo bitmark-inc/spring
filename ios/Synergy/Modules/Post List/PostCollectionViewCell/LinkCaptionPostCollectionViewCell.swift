@@ -59,7 +59,7 @@ class LinkCaptionPostCollectionViewCell: CollectionViewCell, PostDataCollectionV
         captionLabel.attributedText = LinkAttributedString.make(
             string: post.post ?? "",
             lineHeight: 1.25,
-            attributes: [.font: R.font.atlasGroteskThin(size: 16)!])
+            attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
 
         linkLabel.text = post.url
 
@@ -113,7 +113,7 @@ extension LinkCaptionPostCollectionViewCell {
         textView.isEditable = false
         textView.isScrollEnabled = false
         textView.dataDetectorTypes = .link
-        textView.font = R.font.atlasGroteskThin(size: Size.ds(17))
+        textView.font = R.font.atlasGroteskLight(size: Size.ds(17))
         return textView
     }
 }

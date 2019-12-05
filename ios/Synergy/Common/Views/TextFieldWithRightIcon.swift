@@ -27,7 +27,7 @@ class TextFieldWithRightIcon: TextField {
     override func setupViews() {
         super.setupViews()
 
-        font = R.font.atlasGroteskThin(size: 18)
+        font = R.font.atlasGroteskLight(size: 18)
         backgroundColor = .white
 
         themeService.rx

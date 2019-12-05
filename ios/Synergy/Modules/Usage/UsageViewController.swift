@@ -34,8 +34,8 @@ class UsageViewController: TabPageViewController {
         return btn
     }()
     
-    private lazy var periodNameLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 18))
-    private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 10))
+    private lazy var periodNameLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 18))
+    private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
     private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
     
     private lazy var collectionView: UsageCollectionView = {
@@ -236,7 +236,7 @@ class UsageViewController: TabPageViewController {
             flex.addItem(filterSegment).marginTop(18).marginLeft(18).marginRight(18).height(40)
             flex.addItem(periodBrowseContentView).marginTop(18).marginLeft(18).marginRight(18).height(19)
             flex.addItem(periodDescriptionLabel).marginTop(9).height(10).alignSelf(.stretch)
-            flex.addItem(collectionView).marginTop(10).marginBottom(0).grow(1)
+            flex.addItem(collectionView).marginTop(30).marginBottom(0).grow(1)
         }
         
     }

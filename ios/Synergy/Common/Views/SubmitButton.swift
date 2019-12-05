@@ -14,7 +14,7 @@ class SubmitButton: Button {
     override func setupViews() {
         super.setupViews()
 
-        titleLabel?.font = R.font.atlasGroteskThin(size: Size.ds(18))
+        titleLabel?.font = R.font.atlasGroteskLight(size: Size.ds(18))
 
         themeService.rx
             .bind({ UIImage(color: $0.themeColor, size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .normal))

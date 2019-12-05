@@ -60,7 +60,7 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
         captionLabel.attributedText = LinkAttributedString.make(
             string: post.post ?? (post.title ?? ""),
             lineHeight: 1.25,
-            attributes: [.font: R.font.atlasGroteskThin(size: 16)!])
+            attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
 
         if post.type != Constant.PostType.video, let photo = post.photo, let photoURL = URL(string: photo) {
             photoImageView.loadURL(photoURL)

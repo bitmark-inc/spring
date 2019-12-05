@@ -42,7 +42,7 @@ extension PostDataCollectionViewCell {
             let attributedPostInfo = LinkAttributedString.make(
                        string: postInfo,
                        lineHeight: 1.2,
-                       attributes: [.font: R.font.atlasGroteskThin(size: Size.ds(17))!],
+                       attributes: [.font: R.font.atlasGroteskLight(size: Size.ds(17))!],
                        links: links,
                        linkAttributes: [.font: R.font.atlasGroteskBold(size: Size.ds(17))!])
 

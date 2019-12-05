@@ -113,7 +113,7 @@ class DataRequestedViewController: ViewController {
         dataRequestedDesc.numberOfLines = 0
         dataRequestedDesc.applyBlack(
             text: R.string.phrase.dataRequestedDescription(),
-            font: R.font.atlasGroteskThin(size: Size.ds(18)),
+            font: R.font.atlasGroteskLight(size: Size.ds(18)),
             lineHeight: 1.2)
 
         contentView.flex.direction(.column).define { (flex) in

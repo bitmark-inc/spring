@@ -94,7 +94,9 @@ extension UsageCollectionView: UICollectionViewDataSource {
 
         switch (indexPath.section, indexPath.row) {
         case (0, _):
-            return collectionView.dequeueReusableCell(withClass: UsageBadgeCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: UsageBadgeCollectionViewCell.self, for: indexPath)
+            cell.timeUnit = c.timeUnit
+            return cell
         case (1, 0):
             let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
             let numberOfPosts = Constant.numberOfPosts(timeUnit: timeUnit)
@@ -209,8 +211,8 @@ extension Reactive where Base: UsageCollectionView {
 }
 
 class UsageHeadingCollectionViewCell: CollectionViewCell {
-    private let countLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 24))
-    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 10))
+    private let countLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 24))
+    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -256,7 +258,7 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
 }
 
 class FilterTypeCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     private let chartView = HorizontalBarChartView()
     var postListNavigateHandler: ((FilterScope) -> Void)?
     private var entries = [BarChartDataEntry]()
@@ -289,7 +291,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
-        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
+        xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -341,7 +343,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         ].reversed()
         
         let barData = BarChartData(dataSets: [set1])
-        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         barData.barWidth = 0.15
         barData.setValueFormatter(DefaultValueFormatter(decimals: 0))
         
@@ -391,7 +393,7 @@ extension FilterTypeCollectionViewCell: ChartViewDelegate {
 }
 
 class FilterDayCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     var postListNavigateHandler: ((FilterScope) -> Void)?
     let chartView = BarChartView()
     
@@ -422,7 +424,7 @@ class FilterDayCollectionViewCell: CollectionViewCell {
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
         xAxis.granularity = 1
-        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
+        xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -460,7 +462,7 @@ class FilterDayCollectionViewCell: CollectionViewCell {
         ].reversed()
         
         let data = BarChartData(dataSet: set1)
-        data.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        data.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         data.barWidth = 0.4
         data.setValueFormatter(StackedBarValueFormatter())
         
@@ -492,7 +494,7 @@ extension FilterDayCollectionViewCell: ChartViewDelegate {
 }
 
 class FilterFriendsCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     var postListNavigateHandler: ((FilterScope) -> Void)?
     let chartView = HorizontalBarChartView()
     var friends = [String]()
@@ -521,7 +523,7 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
-        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
+        xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -570,7 +572,7 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         ].reversed()
         
         let barData = BarChartData(dataSet: set1)
-        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         barData.barWidth = 0.15
         barData.setValueFormatter(StackedBarValueFormatter())
         
@@ -606,7 +608,7 @@ extension FilterFriendsCollectionViewCell: ChartViewDelegate {
 }
 
 class FilterPlacesCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     let chartView = HorizontalBarChartView()
     
     override init(frame: CGRect) {
@@ -632,7 +634,7 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
-        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
+        xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -681,7 +683,7 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         ]
         
         let barData = BarChartData(dataSet: set1)
-        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         barData.barWidth = 0.15
         barData.setValueFormatter(StackedBarValueFormatter())
         

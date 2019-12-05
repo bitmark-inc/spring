@@ -36,6 +36,28 @@ class UsageBadgeCollectionViewCell: CollectionViewCell {
         return u
     }()
     
+    var timeUnit: TimeUnit = .week {
+        didSet {
+            switch timeUnit {
+            case .week:
+                postDataBadgeView.percentageLabel.text = "80%"
+                reactionsDataBadgeView.percentageLabel.text = "25%"
+                messagesDataBadgeView.percentageLabel.text = "22%"
+            case .year:
+                postDataBadgeView.percentageLabel.text = "15%"
+                reactionsDataBadgeView.percentageLabel.text = "25%"
+                messagesDataBadgeView.percentageLabel.text = "12%"
+            case .decade:
+                postDataBadgeView.percentageLabel.text = "70%"
+                reactionsDataBadgeView.percentageLabel.text = "68%"
+                messagesDataBadgeView.percentageLabel.text = "69%"
+            }
+            postDataBadgeView.layoutIfNeeded()
+            reactionsDataBadgeView.layoutIfNeeded()
+            messagesDataBadgeView.layoutIfNeeded()
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -62,8 +84,8 @@ final class UsageDataBadgeView: UIView {
     private let disposeBag = DisposeBag()
     
     let updownImageView = UIImageView()
-    let percentageLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 15))
-    let descriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    let percentageLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 15))
+    let descriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     
     override init(frame: CGRect) {
         super.init(frame: frame)

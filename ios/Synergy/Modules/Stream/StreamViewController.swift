@@ -73,7 +73,7 @@ extension StreamViewController {
         let label = Label()
         label.applyBlack(
             text: R.string.localizable.comingSoonDescription(),
-            font: R.font.atlasGroteskThin(size: Size.ds(18)),
+            font: R.font.atlasGroteskLight(size: Size.ds(18)),
             lineHeight: 1.2)
         label.numberOfLines = 0
         return label
