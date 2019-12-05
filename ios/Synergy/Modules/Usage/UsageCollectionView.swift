@@ -158,8 +158,8 @@ extension Reactive where Base: UsageCollectionView {
 }
 
 class UsageHeadingCollectionViewCell: CollectionViewCell {
-    private let countLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 24))
-    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 10))
+    private let countLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 24))
+    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 10))
         
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -178,9 +178,10 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
                 .marginRight(0)
                 .height(1)
             flex.addItem().direction(.row).define { (flex) in
+                flex.alignItems(.start)
                 flex.padding(38, 18, 28, 18)
                 flex.addItem(countLabel)
-                flex.addItem(actionDescriptionLabel).marginLeft(4)
+                flex.addItem(actionDescriptionLabel).marginLeft(7)
             }
         }
     }
@@ -204,7 +205,7 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
 }
 
 class FilterTypeCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
     private let chartView = HorizontalBarChartView()
     var postListNavigateHandler: ((FilterScope) -> Void)?
     private var entries = [BarChartDataEntry]()
@@ -216,11 +217,10 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         super.init(frame: frame)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.paddingLeft(18).paddingRight(18)
             flex.justifyContent(.start)
-            flex.alignItems(.start)
-            flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(200)
+            flex.alignItems(.stretch)
+            flex.addItem(headingLabel).marginLeft(18).marginRight(18)
+            flex.addItem(chartView).margin(0, 20, 15, 0).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -237,6 +237,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
+        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -253,6 +254,12 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
+        
+        let xAxisRender = chartView.xAxisRenderer
+        chartView.xAxisRenderer = CustomxAxisRender(viewPortHandler: xAxisRender.viewPortHandler,
+                                                    xAxis: xAxis,
+                                                    transformer: xAxisRender.transformer,
+                                                    chart: chartView)
     }
        
     required init?(coder: NSCoder) {
@@ -282,15 +289,15 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         ]
         
         let barData = BarChartData(dataSets: [set1])
-        barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        barData.barWidth = 0.4
+        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.barWidth = 0.15
         barData.setValueFormatter(DefaultValueFormatter(decimals: 0))
         
         chartView.data = barData
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
         chartView.xAxis.labelCount = 5
         
-        chartView.flex.height(CGFloat(data.count * 50))
+        chartView.flex.height(CGFloat(data.count * 35 + 10))
         
         self.layout()
     }
@@ -332,18 +339,17 @@ extension FilterTypeCollectionViewCell: ChartViewDelegate {
 }
 
 class FilterDayCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
     let chartView = BarChartView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.paddingLeft(18).paddingRight(18)
             flex.justifyContent(.start)
-            flex.alignItems(.start)
-            flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(300)
+            flex.alignItems(.stretch)
+            flex.addItem(headingLabel).marginLeft(18).marginRight(18)
+            flex.addItem(chartView).margin(0, 20, 15, 0).width(50%).height(220)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -362,6 +368,7 @@ class FilterDayCollectionViewCell: CollectionViewCell {
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
         xAxis.granularity = 1
+        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -399,7 +406,7 @@ class FilterDayCollectionViewCell: CollectionViewCell {
         ]
         
         let data = BarChartData(dataSet: set1)
-        data.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
+        data.setValueFont(R.font.atlasGroteskThin(size: 12)!)
         data.barWidth = 0.4
         data.setValueFormatter(StackedBarValueFormatter())
         
@@ -411,18 +418,17 @@ class FilterDayCollectionViewCell: CollectionViewCell {
 }
 
 class FilterFriendsCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
     let chartView = HorizontalBarChartView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.paddingLeft(18).paddingRight(18)
             flex.justifyContent(.start)
-            flex.alignItems(.start)
-            flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(200)
+            flex.alignItems(.stretch)
+            flex.addItem(headingLabel).marginLeft(18).marginRight(18)
+            flex.addItem(chartView).margin(0, 20, 15, 5).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -438,6 +444,7 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
+        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -454,6 +461,12 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
+        
+        let xAxisRender = chartView.xAxisRenderer
+        chartView.xAxisRenderer = CustomxAxisRender(viewPortHandler: xAxisRender.viewPortHandler,
+                                                    xAxis: xAxis,
+                                                    transformer: xAxisRender.transformer,
+                                                    chart: chartView)
     }
        
     required init?(coder: NSCoder) {
@@ -480,8 +493,8 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         ]
         
         let barData = BarChartData(dataSet: set1)
-        barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        barData.barWidth = 0.4
+        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.barWidth = 0.15
         barData.setValueFormatter(StackedBarValueFormatter())
         
         chartView.data = barData
@@ -496,18 +509,17 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
 }
 
 class FilterPlacesCollectionViewCell: CollectionViewCell {
-    private let headingLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
+    private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
     let chartView = HorizontalBarChartView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.paddingLeft(18).paddingRight(18)
             flex.justifyContent(.start)
-            flex.alignItems(.start)
-            flex.addItem(headingLabel)
-            flex.addItem(chartView).marginLeft(19).marginTop(10).marginBottom(25).minWidth(90%).height(200)
+            flex.alignItems(.stretch)
+            flex.addItem(headingLabel).marginLeft(18).marginRight(18)
+            flex.addItem(chartView).margin(0, 20, 15, 5).height(200)
         }
         
         chartView.drawBarShadowEnabled = false
@@ -523,6 +535,7 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         xAxis.drawAxisLineEnabled = false
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
+        xAxis.labelFont = R.font.atlasGroteskThin(size: 12)!
         
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
@@ -539,6 +552,12 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
+        
+        let xAxisRender = chartView.xAxisRenderer
+        chartView.xAxisRenderer = CustomxAxisRender(viewPortHandler: xAxisRender.viewPortHandler,
+                                                    xAxis: xAxis,
+                                                    transformer: xAxisRender.transformer,
+                                                    chart: chartView)
     }
        
     required init?(coder: NSCoder) {
@@ -565,8 +584,8 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         ]
         
         let barData = BarChartData(dataSet: set1)
-        barData.setValueFont(UIFont(name:"HelveticaNeue-Light", size:10)!)
-        barData.barWidth = 0.4
+        barData.setValueFont(R.font.atlasGroteskThin(size: 12)!)
+        barData.barWidth = 0.15
         barData.setValueFormatter(StackedBarValueFormatter())
         
         chartView.data = barData

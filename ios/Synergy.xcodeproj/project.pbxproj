@@ -92,6 +92,20 @@
 		58C009CC239796B800302F49 /* InsightCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009C9239795DB00302F49 /* InsightCollectionView.swift */; };
 		58C009CD239796BB00302F49 /* InsightBadgeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009CA239795DB00302F49 /* InsightBadgeCollectionViewCell.swift */; };
 		58C009CE239796BB00302F49 /* InsightBadgeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009CA239795DB00302F49 /* InsightBadgeCollectionViewCell.swift */; };
+		58C009D12398A43100302F49 /* CustomxAxisRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D02398A43100302F49 /* CustomxAxisRender.swift */; };
+		58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D02398A43100302F49 /* CustomxAxisRender.swift */; };
+		58C009D82398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift */; };
+		58C009D92398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift */; };
+		58C009DA2398C60D00302F49 /* LinkPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D72398C60D00302F49 /* LinkPostCollectionViewCell.swift */; };
+		58C009DB2398C60D00302F49 /* LinkPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D72398C60D00302F49 /* LinkPostCollectionViewCell.swift */; };
+		58C009DF2398C69400302F49 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */; };
+		58C009E02398C69400302F49 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */; };
+		58C009E12398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */; };
+		58C009E22398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */; };
+		58C009E62398C6CF00302F49 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* StreamViewController.swift */; };
+		58C009E72398C6CF00302F49 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* StreamViewController.swift */; };
+		58C009E82398C6CF00302F49 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
+		58C009E92398C6CF00302F49 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
 		7A5CBBA81EA5D84069611561 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD3458BDABE45BC66DFCFC96 /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		837BBDD599BB04B9CB7D2A9D /* Pods_Synergy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEEFB2453873472512CCA456 /* Pods_Synergy.framework */; };
 		A04DD7F5C0B0110264BACF84 /* Pods_SynergyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */; };
@@ -143,10 +157,6 @@
 		E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
 		E2364D6123979D0500752C9F /* posts_with_thumbnail.json in Resources */ = {isa = PBXBuildFile; fileRef = E2364D6023979D0500752C9F /* posts_with_thumbnail.json */; };
 		E2364D6223979D0500752C9F /* posts_with_thumbnail.json in Resources */ = {isa = PBXBuildFile; fileRef = E2364D6023979D0500752C9F /* posts_with_thumbnail.json */; };
-		E2364D6A2397D89200752C9F /* LinkPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2364D692397D89200752C9F /* LinkPostCollectionViewCell.swift */; };
-		E2364D6B2397D89200752C9F /* LinkPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2364D692397D89200752C9F /* LinkPostCollectionViewCell.swift */; };
-		E2364D6D2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2364D6C2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift */; };
-		E2364D6E2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2364D6C2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift */; };
 		E236B676238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
@@ -161,14 +171,6 @@
 		E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807CB23962F380079A3C4 /* PostAPI.swift */; };
 		E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
 		E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
-		E24420242398A7ED00520FE9 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420232398A7ED00520FE9 /* StreamViewController.swift */; };
-		E24420252398A7ED00520FE9 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420232398A7ED00520FE9 /* StreamViewController.swift */; };
-		E24420272398A7F800520FE9 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420262398A7F800520FE9 /* StreamViewModel.swift */; };
-		E24420282398A7F800520FE9 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420262398A7F800520FE9 /* StreamViewModel.swift */; };
-		E244202B2398B5B200520FE9 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244202A2398B5B200520FE9 /* DataAnalyzingViewController.swift */; };
-		E244202C2398B5B200520FE9 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244202A2398B5B200520FE9 /* DataAnalyzingViewController.swift */; };
-		E244202E2398B5BD00520FE9 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244202D2398B5BD00520FE9 /* DataAnalyzingViewModel.swift */; };
-		E244202F2398B5BD00520FE9 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244202D2398B5BD00520FE9 /* DataAnalyzingViewModel.swift */; };
 		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E26268BD23964638000D7F51 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E26268BA23964638000D7F51 /* Localizable.strings */; };
@@ -436,6 +438,13 @@
 		58682EDA238F7079009BDDDF /* FilterSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSegment.swift; sourceTree = "<group>"; };
 		58C009C9239795DB00302F49 /* InsightCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightCollectionView.swift; sourceTree = "<group>"; };
 		58C009CA239795DB00302F49 /* InsightBadgeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightBadgeCollectionViewCell.swift; sourceTree = "<group>"; };
+		58C009D02398A43100302F49 /* CustomxAxisRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomxAxisRender.swift; sourceTree = "<group>"; };
+		58C009D62398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkCaptionPostCollectionViewCell.swift; sourceTree = "<group>"; };
+		58C009D72398C60D00302F49 /* LinkPostCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPostCollectionViewCell.swift; sourceTree = "<group>"; };
+		58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewController.swift; sourceTree = "<group>"; };
+		58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewModel.swift; sourceTree = "<group>"; };
+		58C009E42398C6CF00302F49 /* StreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
+		58C009E52398C6CF00302F49 /* StreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewModel.swift; sourceTree = "<group>"; };
 		681949F22DEE05C36955EBCD /* Pods-SynergyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SynergyTests.release.xcconfig"; path = "Target Support Files/Pods-SynergyTests/Pods-SynergyTests.release.xcconfig"; sourceTree = "<group>"; };
 		858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Synergy_Dev.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		91FB07286340D291CCE0BAD9 /* Pods_SynergyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SynergyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -468,8 +477,6 @@
 		E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewController.swift; sourceTree = "<group>"; };
 		E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewModel.swift; sourceTree = "<group>"; };
 		E2364D6023979D0500752C9F /* posts_with_thumbnail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_with_thumbnail.json; sourceTree = "<group>"; };
-		E2364D692397D89200752C9F /* LinkPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkPostCollectionViewCell.swift; sourceTree = "<group>"; };
-		E2364D6C2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkCaptionPostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FbmAccountDataEngine+Rx.swift"; sourceTree = "<group>"; };
 		E236B678238EAAF200C1A280 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		E23807C22395FEEA0079A3C4 /* GeneralPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPostCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -477,10 +484,6 @@
 		E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		E23807D123963E3E0079A3C4 /* Array+Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Sentence.swift"; sourceTree = "<group>"; };
-		E24420232398A7ED00520FE9 /* StreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
-		E24420262398A7F800520FE9 /* StreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamViewModel.swift; sourceTree = "<group>"; };
-		E244202A2398B5B200520FE9 /* DataAnalyzingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewController.swift; sourceTree = "<group>"; };
-		E244202D2398B5BD00520FE9 /* DataAnalyzingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewModel.swift; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
 		E26268BA23964638000D7F51 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E26268BB23964638000D7F51 /* Phrase.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Phrase.strings; sourceTree = "<group>"; };
@@ -531,7 +534,7 @@
 		E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Light.otf"; sourceTree = "<group>"; };
 		E29F5A792383F8E900C1D9D8 /* HowItWorksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewModel.swift; sourceTree = "<group>"; };
 		E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewController.swift; sourceTree = "<group>"; };
-		E2DB66C2237D3B69005367C2 /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2DB66C2237D3B69005367C2 /* Synergy Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Synergy Dev.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66C4237D3D20005367C2 /* Dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dev-Info.plist"; sourceTree = "<group>"; };
 		E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66CD237D40A8005367C2 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
@@ -640,7 +643,7 @@
 			children = (
 				5832FBE9237A6DB700FA3196 /* Synergy.app */,
 				5832FBFF237A6DB900FA3196 /* SynergyTests.xctest */,
-				E2DB66C2237D3B69005367C2 /* Spring.app */,
+				E2DB66C2237D3B69005367C2 /* Synergy Dev.app */,
 				E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
@@ -726,6 +729,7 @@
 		5832FC22237A863300FA3196 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				58C009CF2398A40F00302F49 /* Charts */,
 				5832FC23237A863300FA3196 /* UnderlinedTextField.swift */,
 				5832FC24237A863300FA3196 /* Label.swift */,
 				5832FC26237A863300FA3196 /* SubmitButton.swift */,
@@ -820,13 +824,13 @@
 		5832FCB6237AA10600FA3196 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				58C009E32398C6CF00302F49 /* Stream */,
 				5832D6F7238BC23D0074AEDC /* Account */,
 				5832D6FA238BC23D0074AEDC /* Insight */,
 				5832D6E2238BBE240074AEDC /* Usage */,
 				E222908A239509CB00412CBC /* Post List */,
 				5832FCB7237AA12500FA3196 /* Launching */,
 				E29F5A162383E2E600C1D9D8 /* Onboarding */,
-				E24420222398A7D900520FE9 /* Stream */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -851,6 +855,32 @@
 				5832FCC3237AB8AB00FA3196 /* R.generated.swift */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		58C009CF2398A40F00302F49 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				58C009D02398A43100302F49 /* CustomxAxisRender.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
+		58C009DC2398C69400302F49 /* Data Analyzing */ = {
+			isa = PBXGroup;
+			children = (
+				58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */,
+				58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */,
+			);
+			path = "Data Analyzing";
+			sourceTree = "<group>";
+		};
+		58C009E32398C6CF00302F49 /* Stream */ = {
+			isa = PBXGroup;
+			children = (
+				58C009E42398C6CF00302F49 /* StreamViewController.swift */,
+				58C009E52398C6CF00302F49 /* StreamViewModel.swift */,
+			);
+			path = Stream;
 			sourceTree = "<group>";
 		};
 		86BC69C7FD35A72B7CC32EB1 /* Frameworks */ = {
@@ -900,10 +930,10 @@
 		E22290A423953B6600412CBC /* PostCollectionViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				58C009D62398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift */,
+				58C009D72398C60D00302F49 /* LinkPostCollectionViewCell.swift */,
 				E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */,
 				E23807C22395FEEA0079A3C4 /* GeneralPostCollectionViewCell.swift */,
-				E2364D692397D89200752C9F /* LinkPostCollectionViewCell.swift */,
-				E2364D6C2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift */,
 			);
 			path = PostCollectionViewCell;
 			sourceTree = "<group>";
@@ -969,24 +999,6 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
-		E24420222398A7D900520FE9 /* Stream */ = {
-			isa = PBXGroup;
-			children = (
-				E24420262398A7F800520FE9 /* StreamViewModel.swift */,
-				E24420232398A7ED00520FE9 /* StreamViewController.swift */,
-			);
-			path = Stream;
-			sourceTree = "<group>";
-		};
-		E24420292398B59F00520FE9 /* Data Analyzing */ = {
-			isa = PBXGroup;
-			children = (
-				E244202D2398B5BD00520FE9 /* DataAnalyzingViewModel.swift */,
-				E244202A2398B5B200520FE9 /* DataAnalyzingViewController.swift */,
-			);
-			path = "Data Analyzing";
-			sourceTree = "<group>";
-		};
 		E27959D623863067000E9CB9 /* Bitmark */ = {
 			isa = PBXGroup;
 			children = (
@@ -1043,13 +1055,13 @@
 		E29F5A162383E2E600C1D9D8 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				58C009DC2398C69400302F49 /* Data Analyzing */,
 				E29F5A1A2383E2E600C1D9D8 /* Sign In Wall */,
 				E29F5A782383F8C900C1D9D8 /* How It Works */,
 				E22BB3322384E7030044BC95 /* Get Your Data */,
 				E27959DA23868763000E9CB9 /* Request Data */,
 				E28B55EB238CE63200F1BCF2 /* Data Requested */,
 				E28B5613238D1A1700F1BCF2 /* Data Generating */,
-				E24420292398B59F00520FE9 /* Data Analyzing */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1199,7 +1211,7 @@
 			);
 			name = "Synergy Dev";
 			productName = Synergy;
-			productReference = E2DB66C2237D3B69005367C2 /* Spring.app */;
+			productReference = E2DB66C2237D3B69005367C2 /* Synergy Dev.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E2DB66CA237D40A8005367C2 /* OneSignalNotificationServiceExtension */ = {
@@ -1570,7 +1582,6 @@
 				5832FC58237A863300FA3196 /* TextField.swift in Sources */,
 				E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */,
 				E27959DC23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
-				E244202B2398B5B200520FE9 /* DataAnalyzingViewController.swift in Sources */,
 				5832FC44237A863300FA3196 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
 				E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				E222907C2394F19D00412CBC /* Graphs.swift in Sources */,
@@ -1579,7 +1590,6 @@
 				5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */,
 				5832FC97237A889A00FA3196 /* Credential.swift in Sources */,
 				E23807C9239618000079A3C4 /* PostCollectionViewCell.swift in Sources */,
-				E24420272398A7F800520FE9 /* StreamViewModel.swift in Sources */,
 				E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832D6FD238BC23D0074AEDC /* AccountViewModel.swift in Sources */,
 				5832FC40237A863300FA3196 /* Global.swift in Sources */,
@@ -1587,7 +1597,8 @@
 				E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5832FC93237A889A00FA3196 /* BitmarkSDKService.swift in Sources */,
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
-				E2364D6D2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift in Sources */,
+				58C009D82398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift in Sources */,
+				58C009E62398C6CF00302F49 /* StreamViewController.swift in Sources */,
 				5832FC48237A863300FA3196 /* NavigationController.swift in Sources */,
 				5832FC57237A863300FA3196 /* Switch.swift in Sources */,
 				E2259CDB2387E56F00746280 /* ServerAPIError.swift in Sources */,
@@ -1602,6 +1613,7 @@
 				E28B560B238D162400F1BCF2 /* FbmAccountService.swift in Sources */,
 				E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				E23807C62396023F0079A3C4 /* LinkAttributedString.swift in Sources */,
+				58C009DF2398C69400302F49 /* DataAnalyzingViewController.swift in Sources */,
 				5832FC5B237A863300FA3196 /* ImageView.swift in Sources */,
 				E21EF9F7239111E3004D4513 /* UsageService.swift in Sources */,
 				E27959E22386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
@@ -1611,6 +1623,7 @@
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
+				58C009E82398C6CF00302F49 /* StreamViewModel.swift in Sources */,
 				5832FC50237A863300FA3196 /* MakeUnderline.swift in Sources */,
 				E236B676238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */,
 				5832FC94237A889A00FA3196 /* Storage.swift in Sources */,
@@ -1624,7 +1637,6 @@
 				E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				E28B5618238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */,
 				E27959DF238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
-				E2364D6A2397D89200752C9F /* LinkPostCollectionViewCell.swift in Sources */,
 				5832FCA7237A8A9200FA3196 /* RxOptional+Single+Optional.swift in Sources */,
 				E222908F239509F900412CBC /* PostListViewModel.swift in Sources */,
 				5832FC7C237A883500FA3196 /* NetworkConnectionManager.swift in Sources */,
@@ -1637,6 +1649,7 @@
 				5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */,
 				5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
+				58C009D12398A43100302F49 /* CustomxAxisRender.swift in Sources */,
 				E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				585D51DC2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift in Sources */,
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
@@ -1647,10 +1660,9 @@
 				E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
 				E21EF9ED23910E7F004D4513 /* Group.swift in Sources */,
 				E28B55FE238D0AFC00F1BCF2 /* AuthService.swift in Sources */,
-				E24420242398A7ED00520FE9 /* StreamViewController.swift in Sources */,
-				E244202E2398B5BD00520FE9 /* DataAnalyzingViewModel.swift in Sources */,
 				E222909F2395116900412CBC /* PostDataEngine+Rx.swift in Sources */,
 				E28B55ED238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
+				58C009E12398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */,
 				E28B55F7238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
 				5832FCAA237A8A9200FA3196 /* UIViewController+Error.swift in Sources */,
 				5832D703238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
@@ -1669,6 +1681,7 @@
 				E22290742394B2A300412CBC /* UsageDataEngine+Rx.swift in Sources */,
 				5832FC41237A863300FA3196 /* Currency.swift in Sources */,
 				5832FC42237A863300FA3196 /* ViewModel.swift in Sources */,
+				58C009DA2398C60D00302F49 /* LinkPostCollectionViewCell.swift in Sources */,
 				E22290822394FBC500412CBC /* Average.swift in Sources */,
 				E22290992395108F00412CBC /* PostService.swift in Sources */,
 				5832FCA8237A8A9200FA3196 /* Observable+Operators.swift in Sources */,
@@ -1707,7 +1720,6 @@
 				E27959DD23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
 				E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */,
 				E28B55EE238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
-				E244202C2398B5B200520FE9 /* DataAnalyzingViewController.swift in Sources */,
 				E28B5619238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */,
 				E2DB6684237D3B69005367C2 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
 				E222907D2394F19D00412CBC /* Graphs.swift in Sources */,
@@ -1716,7 +1728,6 @@
 				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
 				E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */,
 				E23807CA239618000079A3C4 /* PostCollectionViewCell.swift in Sources */,
-				E24420282398A7F800520FE9 /* StreamViewModel.swift in Sources */,
 				E2DB6687237D3B69005367C2 /* Credential.swift in Sources */,
 				E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832D6FE238BC23D0074AEDC /* AccountViewModel.swift in Sources */,
@@ -1724,7 +1735,8 @@
 				E2DB6688237D3B69005367C2 /* Global.swift in Sources */,
 				E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
-				E2364D6E2397E03B00752C9F /* LinkCaptionPostCollectionViewCell.swift in Sources */,
+				58C009D92398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift in Sources */,
+				58C009E72398C6CF00302F49 /* StreamViewController.swift in Sources */,
 				E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
 				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
 				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
@@ -1739,6 +1751,7 @@
 				E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */,
 				E28B55FF238D0AFC00F1BCF2 /* AuthService.swift in Sources */,
 				E23807C72396023F0079A3C4 /* LinkAttributedString.swift in Sources */,
+				58C009E02398C69400302F49 /* DataAnalyzingViewController.swift in Sources */,
 				E2DB6692237D3B69005367C2 /* ImageView.swift in Sources */,
 				E21EF9F8239111E3004D4513 /* UsageService.swift in Sources */,
 				E27959E32386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
@@ -1748,6 +1761,7 @@
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
+				58C009E92398C6CF00302F49 /* StreamViewModel.swift in Sources */,
 				E2DB6697237D3B69005367C2 /* Storage.swift in Sources */,
 				E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */,
 				E2DB6698237D3B69005367C2 /* IconButtonView.swift in Sources */,
@@ -1761,7 +1775,6 @@
 				E27959E0238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
 				E2DB669D237D3B69005367C2 /* RxOptional+Single+Optional.swift in Sources */,
 				E2DB669E237D3B69005367C2 /* NetworkConnectionManager.swift in Sources */,
-				E2364D6B2397D89200752C9F /* LinkPostCollectionViewCell.swift in Sources */,
 				E2DB669F237D3B69005367C2 /* SecondaryButton.swift in Sources */,
 				E2229090239509F900412CBC /* PostListViewModel.swift in Sources */,
 				E2DB66A0237D3B69005367C2 /* Constant.swift in Sources */,
@@ -1774,6 +1787,7 @@
 				E28B560F238D16E800F1BCF2 /* FbmAccount.swift in Sources */,
 				5832D700238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
+				58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */,
 				E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				585D51DD2394FAA00088D56F /* UsageBadgeCollectionViewCell.swift in Sources */,
 				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,
@@ -1784,10 +1798,9 @@
 				E27959D92386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
 				E21EF9EE23910E7F004D4513 /* Group.swift in Sources */,
 				E22290A02395116900412CBC /* PostDataEngine+Rx.swift in Sources */,
-				E24420252398A7ED00520FE9 /* StreamViewController.swift in Sources */,
-				E244202F2398B5BD00520FE9 /* DataAnalyzingViewModel.swift in Sources */,
 				E2DB66A6237D3B69005367C2 /* UIViewController+Error.swift in Sources */,
 				5832D704238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
+				58C009E22398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */,
 				E2259CD1238783AE00746280 /* FBScript.swift in Sources */,
 				E2DB66A7237D3B69005367C2 /* ViewController.swift in Sources */,
 				E2DB66A8237D3B69005367C2 /* KeychainStore.swift in Sources */,
@@ -1806,6 +1819,7 @@
 				E22290752394B2A300412CBC /* UsageDataEngine+Rx.swift in Sources */,
 				E2DB66AD237D3B69005367C2 /* Currency.swift in Sources */,
 				E28B55F5238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */,
+				58C009DB2398C60D00302F49 /* LinkPostCollectionViewCell.swift in Sources */,
 				E22290832394FBC500412CBC /* Average.swift in Sources */,
 				E222909A2395108F00412CBC /* PostService.swift in Sources */,
 				E2DB66AF237D3B69005367C2 /* ViewModel.swift in Sources */,
@@ -1988,9 +2002,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Synergy/Synergy.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = Z5CE7A3A7N;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Synergy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1999,7 +2012,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D PRODUCTION";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Synergy Development";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2012,9 +2025,8 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Synergy/Synergy.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = Z5CE7A3A7N;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Synergy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2023,7 +2035,7 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D PRODUCTION";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Synergy Development";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2081,17 +2093,15 @@
 				CODE_SIGN_ENTITLEMENTS = "Synergy Dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
-				PRODUCT_NAME = Spring;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Synergy Test Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2106,17 +2116,15 @@
 				CODE_SIGN_ENTITLEMENTS = "Synergy Dev.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = Z5CE7A3A7N;
 				INFOPLIST_FILE = "$(SRCROOT)/Synergy/Dev-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1;
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEVELOPMENT";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bitmark.Synergy.test;
-				PRODUCT_NAME = Spring;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Synergy Test Development";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
