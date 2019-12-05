@@ -164,7 +164,7 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
         case (2, 3):
             let cell = collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
-            cell.bindData(data: [("Phillip Botha", [1,4,2]), ("Jeep Ampol", [0,4,2]), ("Hezali Nel", [1,4,0])])
+            cell.bindData(data: [("Phillip Botha", [1,4,2]), ("Jeep Ampol", [3,4,2]), ("Hezali Nel", [1,4,1])])
             return cell
         case (3, 0):
             let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
@@ -724,6 +724,6 @@ final class StackedBarValueFormatter: IValueFormatter {
             return ""
         }
         
-        return String(Int(value))
+        return String(Int(values.reduce(0, +)))
     }
 }

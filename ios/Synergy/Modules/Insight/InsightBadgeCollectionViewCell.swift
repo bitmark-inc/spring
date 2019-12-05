@@ -49,8 +49,8 @@ class InsightBadgeCollectionViewCell: CollectionViewCell {
                 messagesDataBadgeView.percentageLabel.text = "17%"
             case .decade:
                 postDataBadgeView.percentageLabel.text = "70%"
-                reactionsDataBadgeView.percentageLabel.text = "68%"
-                messagesDataBadgeView.percentageLabel.text = "69%"
+                reactionsDataBadgeView.percentageLabel.text = "77%"
+                messagesDataBadgeView.percentageLabel.text = "61%"
             }
             postDataBadgeView.flex.markDirty()
             reactionsDataBadgeView.flex.markDirty()
@@ -71,6 +71,12 @@ class InsightBadgeCollectionViewCell: CollectionViewCell {
                 flex.addItem(reactionsDataBadgeView).width(33.33%)
                 flex.addItem(messagesDataBadgeView).width(33.33%)
             }
+            postDataBadgeView.setNeedsLayout()
+            reactionsDataBadgeView.setNeedsLayout()
+            messagesDataBadgeView.setNeedsLayout()
+            postDataBadgeView.layoutIfNeeded()
+            reactionsDataBadgeView.layoutIfNeeded()
+            messagesDataBadgeView.layoutIfNeeded()
         }
     }
     

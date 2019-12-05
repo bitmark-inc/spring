@@ -49,9 +49,12 @@ class UsageBadgeCollectionViewCell: CollectionViewCell {
                 messagesDataBadgeView.percentageLabel.text = "12%"
             case .decade:
                 postDataBadgeView.percentageLabel.text = "70%"
-                reactionsDataBadgeView.percentageLabel.text = "68%"
-                messagesDataBadgeView.percentageLabel.text = "69%"
+                reactionsDataBadgeView.percentageLabel.text = "71%"
+                messagesDataBadgeView.percentageLabel.text = "61%"
             }
+            postDataBadgeView.setNeedsLayout()
+            reactionsDataBadgeView.setNeedsLayout()
+            messagesDataBadgeView.setNeedsLayout()
             postDataBadgeView.layoutIfNeeded()
             reactionsDataBadgeView.layoutIfNeeded()
             messagesDataBadgeView.layoutIfNeeded()

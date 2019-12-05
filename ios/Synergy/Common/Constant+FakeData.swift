@@ -85,7 +85,7 @@ extension Constant {
                     "name": "Bitmark",
                     "data": [
                         "keys": ["Updates", "Photos", "Stories", "Videos", "Links"],
-                        "values": [0, 4, 1, 0, 0]
+                        "values": [1, 4, 1, 2, 1]
                     ]
                 ],
                 [
