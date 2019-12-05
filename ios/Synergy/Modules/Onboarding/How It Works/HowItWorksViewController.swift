@@ -28,10 +28,18 @@ class HowItWorksViewController: ViewController, BackNavigator {
 
     override func setupViews() {
         let thumbImage = ImageView(image: R.image.howItWorksThumb())
-        thumbImage.contentMode = .scaleAspectFill
+        let blackView = UIView()
+        blackView.backgroundColor = .black
 
-        view.addSubview(thumbImage)
-        thumbImage.snp.makeConstraints { (make) in
+        blackView.addSubview(thumbImage)
+        thumbImage.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.height.equalToSuperview().offset(-40)
+            $0.bottom.equalToSuperview().offset(-10)
+        }
+
+        view.addSubview(blackView)
+        blackView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalToSuperview().multipliedBy(0.5)
         }
