@@ -24,7 +24,6 @@ class UsageViewModel: ViewModel {
 
     override init() {
         super.init()
-
     }
 
     func fetchAverage() {

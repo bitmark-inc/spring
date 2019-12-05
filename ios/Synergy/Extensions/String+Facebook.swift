@@ -10,10 +10,11 @@ import Foundation
 
 extension String {
     func fbDecode() -> String {
-        guard let data = self.data(using: .isoLatin1) else {
-            return ""
-        }
-
-        return String(data: data, encoding: .utf8) ?? ""
+        return self
+//        guard let data = self.data(using: .isoLatin1) else {
+//            return ""
+//        }
+//
+//        return String(data: data, encoding: .utf8) ?? ""
     }
 }

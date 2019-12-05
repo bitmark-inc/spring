@@ -44,7 +44,6 @@ extension Reactive where Base: PostDataEngine {
                     throw AppError.incorrectPostFilter
                 }
                 let posts = realm.objects(Post.self).filter(filterQuery)
-
                 event(.success(posts))
 
                 if !didLoad && realm.objects(Post.self).isEmpty {
@@ -58,6 +57,28 @@ extension Reactive where Base: PostDataEngine {
 
             return Disposables.create()
         }
+    }
+
+    static func makeFilterQueryByDate(_ filterScope: FilterScope) -> NSPredicate? {
+        let (_, timeUnit, date) = filterScope.usageScope
+
+        guard let periodUnit = TimeUnit(rawValue: timeUnit) else { return nil }
+        let startDate: NSDate!
+        let endDate: NSDate!
+
+        switch periodUnit {
+        case .week:
+            startDate = date.dateAtStartOf(.weekOfMonth) as NSDate
+            endDate = date.dateAtEndOf(.weekOfMonth) as NSDate
+        case .year:
+            startDate = date.dateAtStartOf(.year) as NSDate
+            endDate = date.dateAtEndOf(.year) as NSDate
+        case .decade:
+            startDate = (date - 10.years).dateAtStartOf(.year) as NSDate
+            endDate = date.dateAtEndOf(.year) as NSDate
+        }
+
+        return NSPredicate(format: "timestamp >= %@ AND timestamp <= %@", startDate, endDate)
     }
 
     static func makeFilterQuery(_ filterScope: FilterScope) -> NSCompoundPredicate? {
@@ -84,11 +105,7 @@ extension Reactive where Base: PostDataEngine {
 
         switch filterScope.filterBy {
         case .type:
-            if filterScope.filterValue == Constant.PostType.link {
-                filterPredicate = NSPredicate(format: "type == %@ AND url != nil", filterScope.filterValue)
-            } else {
-                filterPredicate = NSPredicate(format: "type == %@", filterScope.filterValue)
-            }
+            filterPredicate = NSPredicate(format: "type == %@", filterScope.filterValue)
         case .friend:
             let friendValue = filterScope.filterValue + Constant.separator
             filterPredicate = NSPredicate(format: "friendTags CONTAINS %@", friendValue)

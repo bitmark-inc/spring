@@ -29,6 +29,8 @@ class UsageCollectionView: CollectionView {
             }
         }
     }
+
+    var usage: [String: Any] = [:]
     
     override init() {
         super.init()
@@ -73,35 +75,73 @@ extension UsageCollectionView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
         guard let c = collectionView as? UsageCollectionView else {
             assert(false, "collectionView is not UsageCollectionView")
             return UICollectionViewCell()
         }
-        
+
+        var usage: [String: [[String: Any]]]!
+
+        switch timeUnit {
+        case .week:
+            usage = Constant.postWeekUsage()
+        case .year:
+            usage = Constant.postYearUsage()
+        case .decade:
+            usage = Constant.postDecadeUsage()
+        }
+
         switch (indexPath.section, indexPath.row) {
         case (0, _):
             return collectionView.dequeueReusableCell(withClass: UsageBadgeCollectionViewCell.self, for: indexPath)
         case (1, 0):
             let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
-            cell.bindData(countText: "24 POSTS", actionDescriptionText: "you made")
+            let numberOfPosts = Constant.numberOfPosts(timeUnit: timeUnit)
+            cell.bindData(countText: "\(numberOfPosts) POSTS", actionDescriptionText: "you made")
             return cell
         case (1, 1):
             let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
             cell.section = .posts
             cell.timeUnit = c.timeUnit
             cell.startTime = c.startTime
-            cell.bindData(data: [("Update", 2), ("Photos", 9), ("Stories", 8), ("Videos", 2), ("Links", 3)])
+
+            let usageByType = usage[GroupKey.type.rawValue]!
+            let data = usageByType.first!["data"] as! [String: [Any]]
+            let keys = data["keys"] as! [String]
+            let values = data["values"] as! [Int]
+
+            let stats = (0..<keys.count).map { (keys[$0], Double(values[$0])) }
+            cell.bindData(data: stats)
             cell.postListNavigateHandler = c.postListNavigateHandler
             return cell
         case (1, 2):
             return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
         case (1, 3):
             let cell = collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
-            cell.bindData(data: [("Phil Lin", [2,2]), ("Hongtai CrossFit", [2,0]), ("Mars Chen", [2,0])])
+
+            let usageByFriends = usage[GroupKey.friend.rawValue]!
+            let stats = usageByFriends.map { (usageByFriend) -> (String, [Double]) in
+                let data = usageByFriend["data"] as! [String: [Any]]
+                let values = data["values"] as! [Int]
+
+                return (usageByFriend["name"] as! String, values.map { Double($0) })
+            }
+
+            cell.bindData(data: stats)
             return cell
         case (1, 4):
             let cell = collectionView.dequeueReusableCell(withClass: FilterPlacesCollectionViewCell.self, for: indexPath)
-            cell.bindData(data: [("Hongtai CrossFit", [2,8]), ("Saffron 46", [2,2])])
+
+            let usageByPlaces = usage[GroupKey.place.rawValue]!
+            let stats = usageByPlaces.map { (usageByPlace) -> (String, [Double]) in
+                let data = usageByPlace["data"] as! [String: [Any]]
+                let values = data["values"] as! [Int]
+
+                return (usageByPlace["name"] as! String, values.map { Double($0) })
+            }
+
+            cell.bindData(data: stats)
             return cell
         case (2, 0):
             let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
@@ -153,6 +193,12 @@ extension Reactive where Base: UsageCollectionView {
     var startTime: Binder<Date> {
         return Binder(self.base) { view, attr in
             view.startTime = attr
+        }
+    }
+
+    var usage: Binder<[String: Any]> {
+        return Binder(self.base) { view, attr in
+            view.usage = attr
         }
     }
 }

@@ -171,6 +171,10 @@
 		E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807CB23962F380079A3C4 /* PostAPI.swift */; };
 		E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
 		E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
+		E24420312398D5A100520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E24420302398D5A100520FE9 /* posts_with_stories.json */; };
+		E24420322398D5A100520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E24420302398D5A100520FE9 /* posts_with_stories.json */; };
+		E24420372398E1FA00520FE9 /* Constant+FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420362398E1FA00520FE9 /* Constant+FakeData.swift */; };
+		E24420382398E1FA00520FE9 /* Constant+FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420362398E1FA00520FE9 /* Constant+FakeData.swift */; };
 		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E26268BD23964638000D7F51 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E26268BA23964638000D7F51 /* Localizable.strings */; };
@@ -484,6 +488,8 @@
 		E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		E23807D123963E3E0079A3C4 /* Array+Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Sentence.swift"; sourceTree = "<group>"; };
+		E24420302398D5A100520FE9 /* posts_with_stories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_with_stories.json; sourceTree = "<group>"; };
+		E24420362398E1FA00520FE9 /* Constant+FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Constant+FakeData.swift"; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
 		E26268BA23964638000D7F51 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E26268BB23964638000D7F51 /* Phrase.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Phrase.strings; sourceTree = "<group>"; };
@@ -702,6 +708,7 @@
 				5832FC1E237A863300FA3196 /* Controllers */,
 				5832FC22237A863300FA3196 /* Views */,
 				E27959D623863067000E9CB9 /* Bitmark */,
+				E24420362398E1FA00520FE9 /* Constant+FakeData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1622,6 +1629,7 @@
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
+				E24420372398E1FA00520FE9 /* Constant+FakeData.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
 				58C009E82398C6CF00302F49 /* StreamViewModel.swift in Sources */,
 				5832FC50237A863300FA3196 /* MakeUnderline.swift in Sources */,
@@ -1760,6 +1768,7 @@
 				E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
+				E24420382398E1FA00520FE9 /* Constant+FakeData.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
 				58C009E92398C6CF00302F49 /* StreamViewModel.swift in Sources */,
 				E2DB6697237D3B69005367C2 /* Storage.swift in Sources */,
