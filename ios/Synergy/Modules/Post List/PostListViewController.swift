@@ -18,8 +18,12 @@ import SafariServices
 class PostListViewController: TabPageViewController {
 
     // MARK: - Properties
+    fileprivate lazy var sectionTitleLabel = makeSectionTitleLabel()
+    fileprivate lazy var sectionTagLabel = makeSectionTagLabel()
+    fileprivate lazy var timelineLabel = makeTimelineLabel()
     fileprivate lazy var collectionView = PostsCollectionView()
     fileprivate lazy var emptyView = makeEmptyView()
+
     var posts: Results<Post>?
     lazy var thisViewModel = viewModel as? PostListViewModel
 
@@ -29,24 +33,24 @@ class PostListViewController: TabPageViewController {
 
         guard let viewModel = viewModel as? PostListViewModel else { return }
 
-        setThemedScreenTitle(text: viewModel.screenTitleFromFilter)
+        print(viewModel.screenTitleFromFilter)
+        let sectionInfo = viewModel.generateSectionInfoText()
+        sectionTitleLabel.setText(sectionInfo.sectionTitle)
+        sectionTagLabel.setText(sectionInfo.taggedText)
+        timelineLabel.setText(sectionInfo.timelineText)
 
         viewModel.postsObservable
             .subscribe(onNext: { [weak self] (realmPosts) in
                 guard let self = self else { return }
                 self.posts = realmPosts
                 self.collectionView.dataSource = self
-
-                self.emptyView.isHidden = !realmPosts.isEmpty
-                self.collectionView.isHidden = realmPosts.isEmpty
+                self.refreshView()
 
                 Observable.changeset(from: realmPosts)
                     .subscribe(onNext: { [weak self] (_, changes) in
                         guard let self = self, let changes = changes else { return }
 
-                        self.emptyView.isHidden = !realmPosts.isEmpty
-                        self.collectionView.isHidden = realmPosts.isEmpty
-
+                        self.refreshView()
                         self.collectionView.applyChangeset(changes)
                     }, onError: { (error) in
                         Global.log.error(error)
@@ -59,6 +63,18 @@ class PostListViewController: TabPageViewController {
         viewModel.getPosts()
     }
 
+    func refreshView() {
+        if posts?.isEmpty ?? true {
+            emptyView.isHidden = false
+            collectionView.isHidden = true
+            emptyView.flex.marginTop(35)
+        } else {
+            emptyView.isHidden = true
+            emptyView.flex.marginTop(0)
+            collectionView.isHidden = false
+        }
+    }
+
     // MARK: - setup Views
     override func setupViews() {
         super.setupViews()
@@ -66,11 +82,17 @@ class PostListViewController: TabPageViewController {
         loadingState.onNext(.hide)
 
         collectionView.delegate = self
-        screenTitleLabel.text = "ABCDDEBS"
+
+        titleView.flex.addItem().direction(.row).define { (flex) in
+            flex.addItem(sectionTitleLabel).marginTop(15).shrink(1)
+            flex.addItem(sectionTagLabel).marginLeft(5)
+        }
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(emptyView).marginTop(35)
-            flex.addItem(collectionView).marginTop(10).marginBottom(0).grow(1)
+            flex.addItem(timelineLabel).marginTop(15).marginLeft(17)
+
+            flex.addItem(emptyView)
+            flex.addItem(collectionView).marginBottom(0).grow(1)
         }
 
         contentView.flex.layout(mode: .adjustHeight)
@@ -125,5 +147,34 @@ extension PostListViewController: ClickableTextDelegate {
             let safariVC = SFSafariViewController(url: url)
             self.present(safariVC, animated: true, completion: nil)
         }
+    }
+}
+
+extension PostListViewController {
+    func makeTimelineLabel() -> Label {
+        let label = Label()
+        label.applyBlack(
+            text: "",
+            font: R.font.atlasGroteskRegular(size: Size.ds(14)),
+            lineHeight: 1.06)
+        return label
+    }
+
+    func makeSectionTitleLabel() -> Label {
+        let label = Label()
+        label.applyBlack(
+            text: "",
+            font: R.font.domaineSansTextRegular(size: Size.ds(36)),
+            lineHeight: 1.06, level: 3)
+        return label
+    }
+
+    func makeSectionTagLabel() -> Label {
+        let label = Label()
+        label.applyBlack(
+            text: "",
+            font: R.font.atlasGroteskRegular(size: Size.ds(10)),
+            lineHeight: 1.06)
+        return label
     }
 }

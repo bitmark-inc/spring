@@ -30,6 +30,8 @@ public struct Constant {
     public static let productLink = "https://apps.apple.com/us/app/bitmark/id1429427796"
     let numberOfPhrases = 12
     static let postTimestampFormat = "MMM d 'at' h:mm a"
+    static let fullTimestampFormat = "YYYY MMM d"
+    static let shortTimestampFormat = "MMM d"
 
     public struct OneSignalTag {
         public static let key = "account_id"

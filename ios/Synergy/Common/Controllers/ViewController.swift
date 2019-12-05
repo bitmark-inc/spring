@@ -160,7 +160,7 @@ class TabPageViewController: ThemedViewController {
         titleView.flex.direction(.row).define { (flex) in
             flex.addItem(screenTitleLabel).marginLeft(17)
         }
-        contentView.flex.direction(.column).addItem(titleView).height(39).width(100%)
+        contentView.flex.direction(.column).addItem(titleView).height(42).width(100%)
 
         var backButtonHeight: CGFloat = 0
         if let v = self.navigationController?.viewControllers,

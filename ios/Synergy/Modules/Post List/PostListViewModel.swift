@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import RealmSwift
 import Realm
+import SwiftDate
 
 typealias FilterScope = (usageScope: UsageScope, filterBy: GroupKey, filterValue: String)
 
@@ -55,5 +56,49 @@ class PostListViewModel: ViewModel {
 
         let viewModel = PostListViewModel(filterScope: filterScope)
         navigator.show(segue: .postList(viewModel: viewModel))
+    }
+
+    func generateSectionInfoText() -> (sectionTitle: String, taggedText: String, timelineText: String) {
+        let sectionTitle: String!
+        var taggedText: String = ""
+        let timelineText: String!
+        switch filterScope.filterBy {
+        case .type:
+            sectionTitle = "plural.\(filterScope.filterValue)".localized().localizedUppercase
+            timelineText = buidlTimestamp()
+        case .friend, .place:
+            sectionTitle = R.string.localizable.pluralPost().localizedUppercase
+            taggedText = R.string.phrase.postSectionTitleTag(filterScope.filterValue)
+            timelineText = buidlTimestamp()
+        case .day:
+            sectionTitle = R.string.localizable.pluralPost().localizedUppercase
+            timelineText = Date().toFormat(Constant.fullTimestampFormat) // TODO not filter by day now
+        }
+
+        return (sectionTitle: sectionTitle, taggedText: taggedText, timelineText: timelineText)
+    }
+
+    func buidlTimestamp() -> String {
+        let date = filterScope.usageScope.date
+        guard let periodUnit = TimeUnit(rawValue: filterScope.usageScope.timeUnit) else { return "" }
+
+        let startDate: Date!
+        let endDate: Date!
+
+        switch periodUnit {
+        case .week:
+            startDate = date.dateAtStartOf(.weekOfMonth)
+            endDate = date.dateAtEndOf(.weekOfMonth)
+        case .year:
+            startDate = date.dateAtStartOf(.year)
+            endDate = date.dateAtEndOf(.year) - 12.hours
+        case .decade:
+            startDate = (date - 10.years).dateAtStartOf(.year)
+            endDate = date.dateAtEndOf(.year) - 12.hours // TODO:
+        }
+
+        return startDate.year == endDate.year ?
+            startDate.toFormat(Constant.fullTimestampFormat) + "-" + endDate.toFormat(Constant.shortTimestampFormat) :
+            startDate.toFormat(Constant.fullTimestampFormat) + " - " + endDate.toFormat(Constant.fullTimestampFormat)
     }
 }

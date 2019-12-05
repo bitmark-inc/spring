@@ -42,3 +42,4 @@
 "posts.empty" = "You have no posts!";
 "post.postInfo.friendTags" = " with %@";
 "post.postInfo.locationTag" = " at %@";
+"post.sectionTitle.tag" = "tagged with %@";

@@ -48,6 +48,7 @@ extension Label {
         if let lineHeight = lineHeight {
             lineHeightMultiple(lineHeight)
         }
+        flex.markDirty()
     }
 
     func applyLight(text: String, font: UIFont?, lineHeight: CGFloat? = nil) {
@@ -76,6 +77,11 @@ extension Label {
         case 2:
             themeService.rx
                 .bind({ $0.black2TextColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
+        case 3:
+            themeService.rx
+                .bind({ $0.themeColor }, to: rx.textColor)
                 .disposed(by: disposeBag)
 
         default:
