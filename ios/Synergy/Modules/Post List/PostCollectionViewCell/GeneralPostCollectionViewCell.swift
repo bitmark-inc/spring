@@ -58,7 +58,7 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
             .disposed(by: disposeBag)
 
         captionLabel.attributedText = LinkAttributedString.make(
-            string: post.post ?? "",
+            string: post.post ?? (post.title ?? ""),
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskThin(size: 16)!])
 

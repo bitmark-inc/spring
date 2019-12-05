@@ -19,6 +19,7 @@ class Post: Object, Decodable {
     @objc dynamic var id: String = ""
     @objc dynamic var type: String?
     @objc dynamic var post: String?
+    @objc dynamic var title: String?
     @objc dynamic var url: String?
     @objc dynamic var photo: String?
     @objc dynamic var location: Location?
@@ -31,7 +32,7 @@ class Post: Object, Decodable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, type, post, url, photo, tags, location, timestamp, friendTags, thumbnail
+        case id, type, post, url, photo, tags, location, timestamp, friendTags, thumbnail, title
     }
 
     required public init(from decoder: Decoder) throws {
@@ -41,6 +42,7 @@ class Post: Object, Decodable {
         id = "\(id)\(i)"
         i = i + 1
         type = try values.decodeIfPresent(String.self, forKey: .type)
+        title = try values.decodeIfPresent(String.self, forKey: .title)
         post = try values.decodeIfPresent(String.self, forKey: .post)?.fbDecode()
 
         if type == nil, let post = post, post.isNotEmpty {

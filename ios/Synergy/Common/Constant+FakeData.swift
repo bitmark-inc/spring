@@ -13,11 +13,11 @@ extension Constant {
     static func numberOfPosts(timeUnit: TimeUnit) -> Int {
         switch timeUnit {
         case .week:
-            return 24
+            return 17
         case .year:
-            return 30
+            return 733
         case .decade:
-            return 90
+            return 25728
         }
     }
 

@@ -33,7 +33,6 @@ class PostListViewController: TabPageViewController {
 
         guard let viewModel = viewModel as? PostListViewModel else { return }
 
-        print(viewModel.screenTitleFromFilter)
         let sectionInfo = viewModel.generateSectionInfoText()
         sectionTitleLabel.setText(sectionInfo.sectionTitle)
         sectionTagLabel.setText(sectionInfo.taggedText)
@@ -116,9 +115,16 @@ extension PostListViewController: UICollectionViewDataSource, UICollectionViewDe
         let post = posts![indexPath.row]
         let cell: PostDataCollectionViewCell!
         switch post.type {
+        case Constant.PostType.update:
+            cell = collectionView.dequeueReusableCell(withClass: UpdatePostCollectionViewCell.self, for: indexPath)
+
         case Constant.PostType.link:
             let linkCollectionCell = (post.post?.isEmpty ?? true) ? LinkPostCollectionViewCell.self : LinkCaptionPostCollectionViewCell.self
             cell = collectionView.dequeueReusableCell(withClass: linkCollectionCell, for: indexPath) as? PostDataCollectionViewCell
+
+        case Constant.PostType.video:
+            cell = collectionView.dequeueReusableCell(withClass: VideoPostCollectionViewCell.self, for: indexPath)
+
         default:
             cell = collectionView.dequeueReusableCell(withClass: GeneralPostCollectionViewCell.self, for: indexPath)
         }

@@ -155,8 +155,6 @@
 		E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */; };
 		E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
 		E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
-		E2364D6123979D0500752C9F /* posts_with_thumbnail.json in Resources */ = {isa = PBXBuildFile; fileRef = E2364D6023979D0500752C9F /* posts_with_thumbnail.json */; };
-		E2364D6223979D0500752C9F /* posts_with_thumbnail.json in Resources */ = {isa = PBXBuildFile; fileRef = E2364D6023979D0500752C9F /* posts_with_thumbnail.json */; };
 		E236B676238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
@@ -171,10 +169,14 @@
 		E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807CB23962F380079A3C4 /* PostAPI.swift */; };
 		E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
 		E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
-		E24420312398D5A100520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E24420302398D5A100520FE9 /* posts_with_stories.json */; };
-		E24420322398D5A100520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E24420302398D5A100520FE9 /* posts_with_stories.json */; };
 		E24420372398E1FA00520FE9 /* Constant+FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420362398E1FA00520FE9 /* Constant+FakeData.swift */; };
 		E24420382398E1FA00520FE9 /* Constant+FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420362398E1FA00520FE9 /* Constant+FakeData.swift */; };
+		E244203A2399067600520FE9 /* VideoPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* VideoPostCollectionViewCell.swift */; };
+		E244203B2399067600520FE9 /* VideoPostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* VideoPostCollectionViewCell.swift */; };
+		E244203D239909B000520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E244203C239909B000520FE9 /* posts_with_stories.json */; };
+		E244203E239909B000520FE9 /* posts_with_stories.json in Resources */ = {isa = PBXBuildFile; fileRef = E244203C239909B000520FE9 /* posts_with_stories.json */; };
+		E2442040239910E100520FE9 /* UpdatePostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244203F239910E100520FE9 /* UpdatePostCollectionViewCell.swift */; };
+		E2442041239910E100520FE9 /* UpdatePostCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244203F239910E100520FE9 /* UpdatePostCollectionViewCell.swift */; };
 		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E26268BD23964638000D7F51 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E26268BA23964638000D7F51 /* Localizable.strings */; };
@@ -480,7 +482,6 @@
 		E2259CDA2387E56F00746280 /* ServerAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIError.swift; sourceTree = "<group>"; };
 		E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewController.swift; sourceTree = "<group>"; };
 		E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewModel.swift; sourceTree = "<group>"; };
-		E2364D6023979D0500752C9F /* posts_with_thumbnail.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_with_thumbnail.json; sourceTree = "<group>"; };
 		E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FbmAccountDataEngine+Rx.swift"; sourceTree = "<group>"; };
 		E236B678238EAAF200C1A280 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		E23807C22395FEEA0079A3C4 /* GeneralPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPostCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -488,8 +489,10 @@
 		E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		E23807D123963E3E0079A3C4 /* Array+Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Sentence.swift"; sourceTree = "<group>"; };
-		E24420302398D5A100520FE9 /* posts_with_stories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_with_stories.json; sourceTree = "<group>"; };
 		E24420362398E1FA00520FE9 /* Constant+FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Constant+FakeData.swift"; sourceTree = "<group>"; };
+		E24420392399067600520FE9 /* VideoPostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPostCollectionViewCell.swift; sourceTree = "<group>"; };
+		E244203C239909B000520FE9 /* posts_with_stories.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = posts_with_stories.json; sourceTree = "<group>"; };
+		E244203F239910E100520FE9 /* UpdatePostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
 		E26268BA23964638000D7F51 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E26268BB23964638000D7F51 /* Phrase.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Phrase.strings; sourceTree = "<group>"; };
@@ -926,7 +929,7 @@
 		E22290972395107700412CBC /* Post */ = {
 			isa = PBXGroup;
 			children = (
-				E2364D6023979D0500752C9F /* posts_with_thumbnail.json */,
+				E244203C239909B000520FE9 /* posts_with_stories.json */,
 				E22290982395108F00412CBC /* PostService.swift */,
 				E23807CB23962F380079A3C4 /* PostAPI.swift */,
 				E222909B239510A200412CBC /* posts.json */,
@@ -938,9 +941,11 @@
 			isa = PBXGroup;
 			children = (
 				58C009D62398C60D00302F49 /* LinkCaptionPostCollectionViewCell.swift */,
+				E244203F239910E100520FE9 /* UpdatePostCollectionViewCell.swift */,
 				58C009D72398C60D00302F49 /* LinkPostCollectionViewCell.swift */,
 				E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */,
 				E23807C22395FEEA0079A3C4 /* GeneralPostCollectionViewCell.swift */,
+				E24420392399067600520FE9 /* VideoPostCollectionViewCell.swift */,
 			);
 			path = PostCollectionViewCell;
 			sourceTree = "<group>";
@@ -1308,7 +1313,6 @@
 				E29F5A412383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf in Resources */,
 				5832FCC4237AB8AB00FA3196 /* Assets.xcassets in Resources */,
 				E29F5A5F2383E70000C1D9D8 /* DomaineSansText-Bold.otf in Resources */,
-				E2364D6123979D0500752C9F /* posts_with_thumbnail.json in Resources */,
 				E29F5A3D2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf in Resources */,
 				E29F5A652383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf in Resources */,
 				E29F5A5D2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
@@ -1316,6 +1320,7 @@
 				E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E26268BD23964638000D7F51 /* Localizable.strings in Resources */,
+				E244203D239909B000520FE9 /* posts_with_stories.json in Resources */,
 				E22290852394FC8900412CBC /* average_usage.json in Resources */,
 				E29F5A432383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A6F2383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
@@ -1355,7 +1360,6 @@
 				E29F5A422383E59700C1D9D8 /* AtlasGrotesk-MediumItalic.otf in Resources */,
 				E2DB66BC237D3B69005367C2 /* Assets.xcassets in Resources */,
 				E29F5A602383E70000C1D9D8 /* DomaineSansText-Bold.otf in Resources */,
-				E2364D6223979D0500752C9F /* posts_with_thumbnail.json in Resources */,
 				E29F5A3E2383E59700C1D9D8 /* AtlasGrotesk-LightItalic.otf in Resources */,
 				E29F5A662383E70000C1D9D8 /* DomaineSansText-MediumItalic.otf in Resources */,
 				E29F5A5E2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
@@ -1363,6 +1367,7 @@
 				E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
 				E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E26268BE23964638000D7F51 /* Localizable.strings in Resources */,
+				E244203E239909B000520FE9 /* posts_with_stories.json in Resources */,
 				E22290862394FC8900412CBC /* average_usage.json in Resources */,
 				E29F5A442383E59700C1D9D8 /* AtlasGrotesk-Regular.otf in Resources */,
 				E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */,
@@ -1625,6 +1630,7 @@
 				E21EF9F7239111E3004D4513 /* UsageService.swift in Sources */,
 				E27959E22386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
 				E28B5615238D1A3200F1BCF2 /* DataGeneratingViewModel.swift in Sources */,
+				E244203A2399067600520FE9 /* VideoPostCollectionViewCell.swift in Sources */,
 				E29F5A7A2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
@@ -1669,6 +1675,7 @@
 				E21EF9ED23910E7F004D4513 /* Group.swift in Sources */,
 				E28B55FE238D0AFC00F1BCF2 /* AuthService.swift in Sources */,
 				E222909F2395116900412CBC /* PostDataEngine+Rx.swift in Sources */,
+				E2442040239910E100520FE9 /* UpdatePostCollectionViewCell.swift in Sources */,
 				E28B55ED238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
 				58C009E12398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */,
 				E28B55F7238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
@@ -1764,6 +1771,7 @@
 				E21EF9F8239111E3004D4513 /* UsageService.swift in Sources */,
 				E27959E32386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
 				E29F5A7B2383F8E900C1D9D8 /* HowItWorksViewModel.swift in Sources */,
+				E244203B2399067600520FE9 /* VideoPostCollectionViewCell.swift in Sources */,
 				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
 				E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
@@ -1808,6 +1816,7 @@
 				E21EF9EE23910E7F004D4513 /* Group.swift in Sources */,
 				E22290A02395116900412CBC /* PostDataEngine+Rx.swift in Sources */,
 				E2DB66A6237D3B69005367C2 /* UIViewController+Error.swift in Sources */,
+				E2442041239910E100520FE9 /* UpdatePostCollectionViewCell.swift in Sources */,
 				5832D704238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
 				58C009E22398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */,
 				E2259CD1238783AE00746280 /* FBScript.swift in Sources */,
