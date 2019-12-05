@@ -124,6 +124,7 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return cell
         case (1, 3):
             let cell = collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
+            cell.timeUnit = timeUnit
             cell.postListNavigateHandler = c.postListNavigateHandler
             let usageByFriends = usage[GroupKey.friend.rawValue]!
             let stats = usageByFriends.map { (usageByFriend) -> (String, [Double]) in
@@ -137,6 +138,7 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return cell
         case (1, 4):
             let cell = collectionView.dequeueReusableCell(withClass: FilterPlacesCollectionViewCell.self, for: indexPath)
+            cell.timeUnit = timeUnit
             cell.postListNavigateHandler = c.postListNavigateHandler
             let usageByPlaces = usage[GroupKey.place.rawValue]!
             let stats = usageByPlaces.map { (usageByPlace) -> (String, [Double]) in
@@ -501,6 +503,7 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
     var postListNavigateHandler: ((FilterScope) -> Void)?
     let chartView = HorizontalBarChartView()
     var friends = [String]()
+    var timeUnit: TimeUnit = .week
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -594,7 +597,7 @@ extension FilterFriendsCollectionViewCell: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         let friend = friends[Int(entry.x)]
         let section: Section = .posts
-        let timeUnit: TimeUnit = .week
+
         let startTime: Date = Date()
         let filterScope: FilterScope = (
             usageScope: (
@@ -615,7 +618,8 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
     let chartView = HorizontalBarChartView()
     var postListNavigateHandler: ((FilterScope) -> Void)?
     var places = [String]()
-    
+    var timeUnit: TimeUnit = .week
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -708,7 +712,6 @@ extension FilterPlacesCollectionViewCell: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         let place = places[Int(entry.x)]
         let section: Section = .posts
-        let timeUnit: TimeUnit = .week
         let startTime: Date = Date()
         let filterScope: FilterScope = (
             usageScope: (

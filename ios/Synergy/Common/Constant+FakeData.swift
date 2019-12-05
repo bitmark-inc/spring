@@ -48,35 +48,35 @@ extension Constant {
                     "name": "PW Du Plessis",
                     "data": [
                         "keys": ["Updates", "Photos", "Stories", "Videos", "Links"],
-                        "values": [0, 1]
+                        "values": [0, 1, 1]
                     ]
                 ],
                 [
                     "name": "Gigi DelaCruz",
                     "data": [
                         "keys": ["Updates", "Photos", "Stories", "Videos", "Links"],
-                        "values": [0, 1]
+                        "values": [0, 1, 1]
                     ]
                 ],
                 [
                     "name": "Ivy Chuang",
                     "data": [
                         "keys": ["Updates", "Photos", "Stories", "Videos", "Links"],
-                        "values": [0, 1]
+                        "values": [0, 1, 1]
                     ]
                 ],
                 [
                     "name": "Pg Mikey",
                     "data": [
                         "keys": ["Updates", "Photos", "Stories", "Videos", "Links"],
-                        "values": [0, 1]
+                        "values": [0, 1, 1]
                     ]
                 ],
                 [
                     "name": "楊斯傑",
                     "data": [
                         "keys": ["Updates", "Photos", "Stories", "Videos", "Links"],
-                        "values": [0, 1]
+                        "values": [0, 1, 1]
                     ]
                 ]
             ],
