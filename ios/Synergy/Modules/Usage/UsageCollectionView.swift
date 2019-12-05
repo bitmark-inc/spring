@@ -116,10 +116,12 @@ extension UsageCollectionView: UICollectionViewDataSource {
             cell.postListNavigateHandler = c.postListNavigateHandler
             return cell
         case (1, 2):
-            return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
+            let cell = collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
+            cell.postListNavigateHandler = c.postListNavigateHandler
+            return cell
         case (1, 3):
             let cell = collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
-
+            cell.postListNavigateHandler = c.postListNavigateHandler
             let usageByFriends = usage[GroupKey.friend.rawValue]!
             let stats = usageByFriends.map { (usageByFriend) -> (String, [Double]) in
                 let data = usageByFriend["data"] as! [String: [Any]]
@@ -319,7 +321,7 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         entries = [BarChartDataEntry]()
         
         var i: Double = 0
-        for (k,v) in data {
+        for (k,v) in data.reversed() {
             values.append(k)
             entries.append(BarChartDataEntry(x: i, y: v))
             i += 1
@@ -386,6 +388,7 @@ extension FilterTypeCollectionViewCell: ChartViewDelegate {
 
 class FilterDayCollectionViewCell: CollectionViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    var postListNavigateHandler: ((FilterScope) -> Void)?
     let chartView = BarChartView()
     
     override init(frame: CGRect) {
@@ -405,7 +408,8 @@ class FilterDayCollectionViewCell: CollectionViewCell {
         chartView.pinchZoomEnabled = false
         chartView.doubleTapToZoomEnabled = false
         chartView.dragEnabled = false
-        chartView.highlightPerTapEnabled = false
+        chartView.highlightPerTapEnabled = true
+        chartView.delegate = self
         
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
@@ -463,9 +467,31 @@ class FilterDayCollectionViewCell: CollectionViewCell {
     }
 }
 
+extension FilterDayCollectionViewCell: ChartViewDelegate {
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        let filterValue = Constant.PostType.photo
+        let section: Section = .posts
+        let timeUnit: TimeUnit = .week
+        let startTime: Date = Date()
+        let filterScope: FilterScope = (
+            usageScope: (
+                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
+            ),
+            filterBy: .type,
+            filterValue: filterValue
+        )
+
+        self.postListNavigateHandler?(filterScope)
+        
+        chartView.highlightValues(nil)
+    }
+}
+
 class FilterFriendsCollectionViewCell: CollectionViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
+    var postListNavigateHandler: ((FilterScope) -> Void)?
     let chartView = HorizontalBarChartView()
+    var friends = [String]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -482,7 +508,8 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         chartView.pinchZoomEnabled = false
         chartView.doubleTapToZoomEnabled = false
         chartView.dragEnabled = false
-        chartView.highlightPerTapEnabled = false
+        chartView.highlightPerTapEnabled = true
+        chartView.delegate = self
                 
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
@@ -522,11 +549,11 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
     func bindData(data: [(String, [Double])]) {
         headingLabel.text = "BY FRIENDS TAGGED"
         
-        var values = [String]()
+        friends = [String]()
         var entries = [BarChartDataEntry]()
         var i: Double = 0
         for (k,v) in data.reversed() {
-            values.append(k)
+            friends.append(k)
             entries.append(BarChartDataEntry(x: i, yValues: v))
             i += 1
         }
@@ -544,13 +571,33 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         barData.setValueFormatter(StackedBarValueFormatter())
         
         chartView.data = barData
-        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
+        chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: friends)
         chartView.xAxis.labelCount = data.count
         chartView.legend.enabled = false
         
         chartView.flex.height(CGFloat(data.count * 50))
         
         layout()
+    }
+}
+
+extension FilterFriendsCollectionViewCell: ChartViewDelegate {
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        let friend = friends[Int(entry.x)]
+        let section: Section = .posts
+        let timeUnit: TimeUnit = .week
+        let startTime: Date = Date()
+        let filterScope: FilterScope = (
+            usageScope: (
+                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
+            ),
+            filterBy: .friend,
+            filterValue: friend
+        )
+
+        self.postListNavigateHandler?(filterScope)
+        
+        chartView.highlightValues(nil)
     }
 }
 
