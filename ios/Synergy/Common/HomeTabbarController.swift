@@ -46,6 +46,8 @@ class HomeTabbarController: ESTabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.tabBar.isTranslucent = false
 
         themeService.rx
             .bind({ $0.background }, to: view.rx.backgroundColor)
@@ -87,7 +89,7 @@ class MainTabbarItemContentView: ESTabBarItemContentView {
     override func updateLayout() {
         super.updateLayout()
 
-        selectedIndicatorLineView.frame = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: 1)
+        selectedIndicatorLineView.frame = CGRect(x: 0, y: 0, width: self.bounds.size.width, height: 2)
     }
 }
 
