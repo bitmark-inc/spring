@@ -39,7 +39,7 @@ class GetYourDataViewController: ViewController, BackNavigator {
             .disposed(by: disposeBag)
 
         automateAuthorizeButton.rx.tap.bind {
-            viewModel.gotoRequestData()
+            viewModel.fakeCreateAccountAndgotoAnalyzingScreen()
         }.disposed(by: disposeBag)
 
         viewModel.loginRelay.accept(loginTextField.text!)

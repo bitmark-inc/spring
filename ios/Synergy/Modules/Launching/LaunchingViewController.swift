@@ -19,28 +19,17 @@ class LaunchingViewController: ViewController {
 
         guard let viewModel = viewModel as? LaunchingViewModel else { return }
 
-        // NOTE: For first demo, no require Onboarding Flow
-        let createdAccounCompletable = Completable.deferred {
-            if Global.current.account != nil {
-                return Completable.empty()
-            } else {
-                return AccountService.rx.createNewAccount()
-                    .flatMapCompletable({
-                        Global.current.account = $0
-                        return Global.current.setupCoreData()
-                    })
-            }
-        }
-
+        // NOTE: For first demo, make quick Onboarding Flow
         AccountService.rx.existsCurrentAccount()
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { (account) in
                 Global.current.account = account
 
-                _ = createdAccounCompletable
-                    .subscribe(onCompleted: {
-                        viewModel.gotoMainScreen()
-                    })
+                if Global.current.account != nil {
+                    viewModel.gotoMainScreen()
+                } else {
+                    viewModel.gotoSignInWallScreen()
+                }
             }, onError: { (error) in
                 Global.log.error(error)
             })

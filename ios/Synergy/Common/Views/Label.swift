@@ -73,6 +73,11 @@ extension Label {
                 .bind({ $0.black1TextColor }, to: rx.textColor)
                 .disposed(by: disposeBag)
 
+        case 2:
+            themeService.rx
+                .bind({ $0.black2TextColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
         default:
             themeService.rx
                 .bind({ $0.blackTextColor }, to: rx.textColor)

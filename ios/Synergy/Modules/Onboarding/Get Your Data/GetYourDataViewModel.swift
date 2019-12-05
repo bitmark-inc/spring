@@ -39,4 +39,34 @@ class GetYourDataViewModel: ViewModel {
         let viewModel = RequestDataViewModel(login: loginRelay.value, password: passwordRelay.value, .requestData)
         navigator.show(segue: .requestData(viewModel: viewModel))
     }
+
+    func fakeCreateAccountAndgotoAnalyzingScreen() {
+        loadingState.onNext(.loading)
+
+        let createdAccounCompletable = Completable.deferred {
+            if Global.current.account != nil {
+                return Completable.empty()
+            } else {
+                return AccountService.rx.createNewAccount()
+                    .flatMapCompletable({
+                        Global.current.account = $0
+                        return Global.current.setupCoreData()
+                    })
+            }
+        }
+
+        createdAccounCompletable
+            .andThen(FbmAccountService.create())
+            .asObservable()
+            .subscribe(onNext: { [weak self] (_) in
+                loadingState.onNext(.hide)
+                self?.gotoDataAnalyzing()
+            })
+            .disposed(by: disposeBag)
+    }
+
+    func gotoDataAnalyzing() {
+        let viewModel = DataAnalyzingViewModel()
+        navigator.show(segue: .dataAnalyzing(viewModel: viewModel))
+    }
 }

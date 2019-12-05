@@ -50,7 +50,7 @@ class Storage {
 
         return Completable.create { (event) -> Disposable in
             do {
-                let mainRealm = try RealmConfig.currentRealm()
+                let mainRealm = try RealmConfig.globalRealm()
                 try mainRealm.write {
                     try block(mainRealm)
                 }
@@ -68,7 +68,7 @@ class Storage {
             var storageError: Error?
 
             do {
-                let backgroundRealm = try RealmConfig.currentRealm()
+                let backgroundRealm = try RealmConfig.globalRealm()
                 backgroundRealm.beginWrite()
                 try writeBlock(backgroundRealm)
                 try backgroundRealm.commitWrite()

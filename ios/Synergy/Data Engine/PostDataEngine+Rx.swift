@@ -38,7 +38,7 @@ extension Reactive where Base: PostDataEngine {
                     throw AppError.incorrectThread
                 }
 
-                let realm = try RealmConfig.currentRealm()
+                let realm = try RealmConfig.globalRealm()
 
                 guard let filterQuery = makeFilterQuery(filterScope) else {
                     throw AppError.incorrectPostFilter

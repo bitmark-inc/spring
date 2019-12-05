@@ -33,6 +33,9 @@
 "dataGenerating.notify.message" = "We’ll notify you to check if your insights is ready.";
 "dataGenerating.notify.rejectedMessage" = "Still waiting for your insights generate. Please continue to check back here regularly.";
 
+"dataAnalyzing.screenTitle" = "Analyzing Data";
+"dataAnalyzing.description" = "Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready.";
+
 "dataRequested.scheduleNotify.title" = "Check Facebook Archive";
 "dataRequested.scheduleNotify.message" = "Tap here to check if your Facebook Archive is ready";
 

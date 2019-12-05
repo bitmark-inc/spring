@@ -17,6 +17,7 @@ var themeService = ThemeType.currentThemeService(for: .unspecified)
 protocol Theme {
     var blackTextColor: UIColor { get }
     var black1TextColor: UIColor { get }
+    var black2TextColor: UIColor { get }
     var lightTextColor: UIColor { get }
     var highlightTextBackgroundColor: UIColor { get }
     var background: UIColor { get }
@@ -41,6 +42,7 @@ protocol Theme {
 struct LightTheme: Theme {
     let blackTextColor = UIColor.Material.black
     let black1TextColor = UIColor(hexString: "#444")!
+    let black2TextColor = UIColor(hexString: "#5F6D07")!
     let lightTextColor = UIColor.Material.white
     let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!
@@ -66,6 +68,7 @@ struct LightTheme: Theme {
 struct DarkTheme: Theme {
     let blackTextColor = UIColor.Material.black
     let black1TextColor = UIColor(hexString: "#444")!
+    let black2TextColor = UIColor(hexString: "#5F6D07")!
     let lightTextColor = UIColor.Material.white
     let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!

@@ -161,6 +161,14 @@
 		E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807CB23962F380079A3C4 /* PostAPI.swift */; };
 		E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
 		E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
+		E24420242398A7ED00520FE9 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420232398A7ED00520FE9 /* StreamViewController.swift */; };
+		E24420252398A7ED00520FE9 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420232398A7ED00520FE9 /* StreamViewController.swift */; };
+		E24420272398A7F800520FE9 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420262398A7F800520FE9 /* StreamViewModel.swift */; };
+		E24420282398A7F800520FE9 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420262398A7F800520FE9 /* StreamViewModel.swift */; };
+		E244202B2398B5B200520FE9 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244202A2398B5B200520FE9 /* DataAnalyzingViewController.swift */; };
+		E244202C2398B5B200520FE9 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244202A2398B5B200520FE9 /* DataAnalyzingViewController.swift */; };
+		E244202E2398B5BD00520FE9 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244202D2398B5BD00520FE9 /* DataAnalyzingViewModel.swift */; };
+		E244202F2398B5BD00520FE9 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244202D2398B5BD00520FE9 /* DataAnalyzingViewModel.swift */; };
 		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		E26268BD23964638000D7F51 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E26268BA23964638000D7F51 /* Localizable.strings */; };
@@ -469,6 +477,10 @@
 		E23807C8239618000079A3C4 /* PostCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCollectionViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		E23807D123963E3E0079A3C4 /* Array+Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Sentence.swift"; sourceTree = "<group>"; };
+		E24420232398A7ED00520FE9 /* StreamViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
+		E24420262398A7F800520FE9 /* StreamViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamViewModel.swift; sourceTree = "<group>"; };
+		E244202A2398B5B200520FE9 /* DataAnalyzingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewController.swift; sourceTree = "<group>"; };
+		E244202D2398B5BD00520FE9 /* DataAnalyzingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewModel.swift; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
 		E26268BA23964638000D7F51 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		E26268BB23964638000D7F51 /* Phrase.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Phrase.strings; sourceTree = "<group>"; };
@@ -814,6 +826,7 @@
 				E222908A239509CB00412CBC /* Post List */,
 				5832FCB7237AA12500FA3196 /* Launching */,
 				E29F5A162383E2E600C1D9D8 /* Onboarding */,
+				E24420222398A7D900520FE9 /* Stream */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -956,6 +969,24 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		E24420222398A7D900520FE9 /* Stream */ = {
+			isa = PBXGroup;
+			children = (
+				E24420262398A7F800520FE9 /* StreamViewModel.swift */,
+				E24420232398A7ED00520FE9 /* StreamViewController.swift */,
+			);
+			path = Stream;
+			sourceTree = "<group>";
+		};
+		E24420292398B59F00520FE9 /* Data Analyzing */ = {
+			isa = PBXGroup;
+			children = (
+				E244202D2398B5BD00520FE9 /* DataAnalyzingViewModel.swift */,
+				E244202A2398B5B200520FE9 /* DataAnalyzingViewController.swift */,
+			);
+			path = "Data Analyzing";
+			sourceTree = "<group>";
+		};
 		E27959D623863067000E9CB9 /* Bitmark */ = {
 			isa = PBXGroup;
 			children = (
@@ -1018,6 +1049,7 @@
 				E27959DA23868763000E9CB9 /* Request Data */,
 				E28B55EB238CE63200F1BCF2 /* Data Requested */,
 				E28B5613238D1A1700F1BCF2 /* Data Generating */,
+				E24420292398B59F00520FE9 /* Data Analyzing */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -1538,6 +1570,7 @@
 				5832FC58237A863300FA3196 /* TextField.swift in Sources */,
 				E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */,
 				E27959DC23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
+				E244202B2398B5B200520FE9 /* DataAnalyzingViewController.swift in Sources */,
 				5832FC44237A863300FA3196 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
 				E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				E222907C2394F19D00412CBC /* Graphs.swift in Sources */,
@@ -1546,6 +1579,7 @@
 				5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */,
 				5832FC97237A889A00FA3196 /* Credential.swift in Sources */,
 				E23807C9239618000079A3C4 /* PostCollectionViewCell.swift in Sources */,
+				E24420272398A7F800520FE9 /* StreamViewModel.swift in Sources */,
 				E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832D6FD238BC23D0074AEDC /* AccountViewModel.swift in Sources */,
 				5832FC40237A863300FA3196 /* Global.swift in Sources */,
@@ -1613,6 +1647,8 @@
 				E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
 				E21EF9ED23910E7F004D4513 /* Group.swift in Sources */,
 				E28B55FE238D0AFC00F1BCF2 /* AuthService.swift in Sources */,
+				E24420242398A7ED00520FE9 /* StreamViewController.swift in Sources */,
+				E244202E2398B5BD00520FE9 /* DataAnalyzingViewModel.swift in Sources */,
 				E222909F2395116900412CBC /* PostDataEngine+Rx.swift in Sources */,
 				E28B55ED238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
 				E28B55F7238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
@@ -1671,6 +1707,7 @@
 				E27959DD23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
 				E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */,
 				E28B55EE238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
+				E244202C2398B5B200520FE9 /* DataAnalyzingViewController.swift in Sources */,
 				E28B5619238D1A3D00F1BCF2 /* DataGeneratingViewController.swift in Sources */,
 				E2DB6684237D3B69005367C2 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
 				E222907D2394F19D00412CBC /* Graphs.swift in Sources */,
@@ -1679,6 +1716,7 @@
 				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
 				E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */,
 				E23807CA239618000079A3C4 /* PostCollectionViewCell.swift in Sources */,
+				E24420282398A7F800520FE9 /* StreamViewModel.swift in Sources */,
 				E2DB6687237D3B69005367C2 /* Credential.swift in Sources */,
 				E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832D6FE238BC23D0074AEDC /* AccountViewModel.swift in Sources */,
@@ -1746,6 +1784,8 @@
 				E27959D92386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
 				E21EF9EE23910E7F004D4513 /* Group.swift in Sources */,
 				E22290A02395116900412CBC /* PostDataEngine+Rx.swift in Sources */,
+				E24420252398A7ED00520FE9 /* StreamViewController.swift in Sources */,
+				E244202F2398B5BD00520FE9 /* DataAnalyzingViewModel.swift in Sources */,
 				E2DB66A6237D3B69005367C2 /* UIViewController+Error.swift in Sources */,
 				5832D704238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
 				E2259CD1238783AE00746280 /* FBScript.swift in Sources */,

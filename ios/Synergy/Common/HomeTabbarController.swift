@@ -14,16 +14,30 @@ import RxCocoa
 class HomeTabbarController: ESTabBarController {
     class func tabbarController() -> HomeTabbarController {
         let usageVC = UsageViewController(viewModel: UsageViewModel())
-        usageVC.tabBarItem = ESTabBarItem(MainTabbarItemContentView(), title: "USAGE".localized(), image: R.image.usage_tab_icon(), tag: 0)
+        usageVC.tabBarItem = ESTabBarItem(
+            MainTabbarItemContentView(),
+            title: R.string.localizable.usage().localizedUppercase,
+            image: R.image.usage_tab_icon(),
+            tag: 0)
 
         let insightsVC = InsightViewController(viewModel: InsightViewModel())
-        insightsVC.tabBarItem = ESTabBarItem(MainTabbarItemContentView(), title: "INSIGHTS".localized(), image: R.image.insights_tab_icon(), tag: 1)
+        insightsVC.tabBarItem = ESTabBarItem(
+            MainTabbarItemContentView(),
+            title: R.string.localizable.insights().localizedUppercase,
+            image: R.image.insights_tab_icon(),
+            tag: 1
+        )
 
-        let accountVC = AccountViewController(viewModel: AccountViewModel())
-        accountVC.tabBarItem = ESTabBarItem(MainTabbarItemContentView(), title: "ACCOUNT".localized(), image: R.image.account_tab_icon(), tag: 2)
+        let streamVC = StreamViewController(viewModel: StreamViewModel())
+        streamVC.tabBarItem = ESTabBarItem(
+            MainTabbarItemContentView(),
+            title: R.string.localizable.streams().localizedUppercase,
+            image: R.image.stream(),
+            tag: 2
+        )
 
         let tabbarController = HomeTabbarController()
-        tabbarController.viewControllers = [usageVC, insightsVC, accountVC]
+        tabbarController.viewControllers = [usageVC, insightsVC, streamVC]
 
         return tabbarController
     }

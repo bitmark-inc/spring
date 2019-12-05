@@ -26,19 +26,32 @@ enum RealmConfig {
         return try Realm(configuration: userConfiguration)
     }
 
+    static func globalRealm() throws -> Realm {
+        let configuration = try RealmConfig.anonymous.configuration()
+        Global.log.debug("globalRealm: \(configuration)")
+        return try Realm(configuration: configuration)
+    }
+
+    case anonymous
     case user(String)
 
     func configuration() throws -> Realm.Configuration {
-        switch self {
-        case .user(let accountNumber):
-            let encryptionKeyData = try getKey()
+        var fileURL: URL!
+        let encryptionKeyData = try getKey()
 
-            return Realm.Configuration(
-                fileURL: dbDirectoryURL().appendingPathComponent("\(accountNumber).realm"),
-                encryptionKey: encryptionKeyData,
-                schemaVersion: 1
-            )
+        switch self {
+        case .anonymous:
+            fileURL = dbDirectoryURL().appendingPathComponent("data.realm")
+
+        case .user(let accountNumber):
+            fileURL = dbDirectoryURL().appendingPathComponent("\(accountNumber).realm")
         }
+
+        return Realm.Configuration(
+            fileURL: fileURL,
+            encryptionKey: encryptionKeyData,
+            schemaVersion: 1
+        )
     }
 
     fileprivate func dbDirectoryURL() -> URL {

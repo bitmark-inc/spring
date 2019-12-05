@@ -13,6 +13,9 @@
 "USAGE" = "USAGE";
 "INSIGHTS" = "INSIGHTS";
 "ACCOUNT" = "ACCOUNT";
+"Usage" = "Usage";
+"Insights" = "Insights";
+"Streams" = "Streams";
 "YourAuthorizationIsRequired" = "Your authorization is required.";
 "notify_me" = "Notify me";
 "Enable" = "Enable";
@@ -33,3 +36,5 @@
 "plural.video" = "videos";
 "plural.photo" = "photos";
 
+"ComingSoon!" = "Coming Soon!";
+"ComingSoon.description" = "Remember RSS? Coming soon you will be able to publish and subscribe to data streams. Understand people through their data, and make money off of your data, too.";

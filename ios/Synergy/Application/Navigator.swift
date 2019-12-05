@@ -37,6 +37,7 @@ class Navigator {
         case requestData(viewModel: RequestDataViewModel)
         case dataRequested(viewModel: DataRequestedViewModel)
         case dataGenerating(viewModel: DataGeneratingViewModel)
+        case dataAnalyzing(viewModel: DataAnalyzingViewModel)
         case safari(URL)
         case safariController(URL)
         case hometabs
@@ -64,6 +65,7 @@ class Navigator {
         case .requestData(let viewModel): return RequestDataViewController(viewModel: viewModel)
         case .dataRequested(let viewModel): return DataRequestedViewController(viewModel: viewModel)
         case .dataGenerating(let viewModel): return DataGeneratingViewController(viewModel: viewModel)
+        case .dataAnalyzing(let viewModel): return DataAnalyzingViewController(viewModel: viewModel)
         case .safari(let url):
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
             return nil
@@ -166,13 +168,13 @@ class Navigator {
     static func refreshOnboardingStateIfNeeded() {
         // check if scene is on onboarding flow's refresh state
         guard let currentVC = Navigator.default.rootViewController.viewControllers.last,
-            [DataRequestedViewController.self, DataGeneratingViewController.self].contains(where: { $0 == type(of: currentVC) }),
+            [DataRequestedViewController.self, DataGeneratingViewController.self, DataAnalyzingViewController.self].contains(where: { $0 == type(of: currentVC) }),
             let enteredBackgroundTime = UserDefaults.standard.enteredBackgroundTime
             else {
                 return
         }
 
-        let refreshOnboardingFlowLap = 30 // seconds
+        let refreshOnboardingFlowLap = 1 // seconds
         let refreshTime = enteredBackgroundTime.adding(.second, value: refreshOnboardingFlowLap)
         guard Date() >= refreshTime else { return }
 

@@ -37,7 +37,7 @@ class HowItWorksViewController: ViewController, BackNavigator {
         }
 
         super.setupViews()
-        showBlackBackItem()
+        showLightBackItem()
 
         let howItWorksTitle = Label()
         howItWorksTitle.applyBlack(
