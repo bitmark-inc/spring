@@ -16,7 +16,7 @@ class UpdatePostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCe
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
-    var clickableTextDelegate: ClickableTextDelegate?
+    weak var clickableTextDelegate: ClickableTextDelegate?
 
     let disposeBag = DisposeBag()
 

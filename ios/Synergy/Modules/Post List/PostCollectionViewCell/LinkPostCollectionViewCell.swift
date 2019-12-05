@@ -16,7 +16,7 @@ class LinkPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCell
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var linkLabel = makeLinkLabel()
-    var clickableTextDelegate: ClickableTextDelegate?
+    weak var clickableTextDelegate: ClickableTextDelegate?
 
     let disposeBag = DisposeBag()
 

@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import SwiftDate
 
-protocol ClickableTextDelegate {
+protocol ClickableTextDelegate: class {
     func click(_ textView: UITextView, url: URL)
 }
 

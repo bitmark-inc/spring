@@ -17,7 +17,7 @@ class GeneralPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewC
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
     fileprivate lazy var photoImageView = makePhotoImageView()
-    var clickableTextDelegate: ClickableTextDelegate?
+    weak var clickableTextDelegate: ClickableTextDelegate?
 
     let disposeBag = DisposeBag()
 

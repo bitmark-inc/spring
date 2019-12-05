@@ -17,7 +17,7 @@ class LinkCaptionPostCollectionViewCell: CollectionViewCell, PostDataCollectionV
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
     fileprivate lazy var linkLabel = makeLinkLabel()
-    var clickableTextDelegate: ClickableTextDelegate?
+    weak var clickableTextDelegate: ClickableTextDelegate?
 
     let disposeBag = DisposeBag()
 
