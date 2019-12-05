@@ -265,7 +265,11 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
     var section: Section = .posts
     var timeUnit: TimeUnit = .week
     var startTime: Date = Date()
-    var selectionEnabled = true
+    var selectionEnabled = true {
+        didSet {
+            chartView.highlightPerTapEnabled = selectionEnabled
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -282,7 +286,6 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         chartView.pinchZoomEnabled = false
         chartView.doubleTapToZoomEnabled = false
         chartView.dragEnabled = false
-        chartView.highlightPerTapEnabled = selectionEnabled
         chartView.delegate = self
                 
         let xAxis = chartView.xAxis
