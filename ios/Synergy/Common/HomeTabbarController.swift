@@ -15,14 +15,14 @@ class HomeTabbarController: ESTabBarController {
     class func tabbarController() -> HomeTabbarController {
         let usageVC = UsageViewController(viewModel: UsageViewModel())
         usageVC.tabBarItem = ESTabBarItem(
-            MainTabbarItemContentView(),
+            MainTabbarItemContentView(highlightColor: UIColor(hexString: "#932C19")!),
             title: R.string.localizable.usage().localizedUppercase,
             image: R.image.usage_tab_icon(),
             tag: 0)
 
         let insightsVC = InsightViewController(viewModel: InsightViewModel())
         insightsVC.tabBarItem = ESTabBarItem(
-            MainTabbarItemContentView(),
+            MainTabbarItemContentView(highlightColor: UIColor(hexString: "#0011AF")!),
             title: R.string.localizable.insights().localizedUppercase,
             image: R.image.insights_tab_icon(),
             tag: 1
@@ -30,7 +30,7 @@ class HomeTabbarController: ESTabBarController {
 
         let streamVC = StreamViewController(viewModel: StreamViewModel())
         streamVC.tabBarItem = ESTabBarItem(
-            MainTabbarItemContentView(),
+            MainTabbarItemContentView(highlightColor: UIColor(hexString: "#5F6D07")!),
             title: R.string.localizable.streams().localizedUppercase,
             image: R.image.stream(),
             tag: 2
@@ -58,6 +58,14 @@ class HomeTabbarController: ESTabBarController {
 class MainTabbarItemContentView: ESTabBarItemContentView {
     let disposeBag = DisposeBag()
     let selectedIndicatorLineView = UIView()
+    
+    convenience init(highlightColor: UIColor) {
+        self.init()
+        
+        selectedIndicatorLineView.backgroundColor = highlightColor
+        highlightIconColor = highlightColor
+        highlightTextColor = highlightColor
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,11 +74,8 @@ class MainTabbarItemContentView: ESTabBarItemContentView {
         addSubview(selectedIndicatorLineView)
 
         themeService.rx
-            .bind({ $0.themeColor }, to: selectedIndicatorLineView.rx.backgroundColor)
             .bind({ $0.blackTextColor }, to: rx.textColor)
-            .bind({ $0.themeColor }, to: rx.highlightTextColor)
             .bind({ $0.blackTextColor }, to: rx.iconColor)
-            .bind({ $0.themeColor }, to: rx.highlightIconColor)
             .bind({ $0.textViewBackgroundColor }, to: rx.backdropColor)
             .bind({ $0.textViewBackgroundColor }, to: rx.highlightBackdropColor)
         .disposed(by: disposeBag)

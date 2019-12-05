@@ -49,15 +49,15 @@ class UsageViewController: TabPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setThemedScreenTitle(text: R.string.localizable.usagE())
+        setThemedScreenTitle(text: R.string.localizable.usagE(), color: UIColor(hexString: "#932C19"))
     }
 
     override func bindViewModel() {
         super.bindViewModel()
         
         // Fake data
-        periodNameLabel.text = "THIS DECADE"
-        periodDescriptionLabel.text = "2010-2019"
+        periodNameLabel.text = "THIS WEEK"
+        periodDescriptionLabel.text = "2019 Dec 1st - Dec 7th"
         periodNameLabel.textAlignment = .center
         periodDescriptionLabel.textAlignment = .center
         subTitleLabel.text = R.string.localizable.howyouusefacebooK()
@@ -115,9 +115,9 @@ class UsageViewController: TabPageViewController {
         d.map { (index) -> String in
             switch index {
             case 0:
-                return "Dec 1st - Dec 7th"
+                return "2019 Dec 1st - Dec 7th"
             case 1:
-                return "Jan 1st - Dec 31st"
+                return "2019 Jan 1st - Dec 31st"
             case 2:
                 return "2010 - 2019"
             default:
@@ -233,7 +233,7 @@ class UsageViewController: TabPageViewController {
         
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem(subTitleLabel).marginTop(2).marginLeft(18).marginRight(18)
-            flex.addItem(filterSegment).marginTop(36).marginLeft(18).marginRight(18).height(40)
+            flex.addItem(filterSegment).marginTop(18).marginLeft(18).marginRight(18).height(40)
             flex.addItem(periodBrowseContentView).marginTop(18).marginLeft(18).marginRight(18).height(19)
             flex.addItem(periodDescriptionLabel).marginTop(9).height(10).alignSelf(.stretch)
             flex.addItem(collectionView).marginTop(10).marginBottom(0).grow(1)

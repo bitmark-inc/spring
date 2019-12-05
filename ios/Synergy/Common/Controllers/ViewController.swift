@@ -199,13 +199,14 @@ class TabPageViewController: ThemedViewController {
 
 extension TabPageViewController {
 
-    func setThemedScreenTitle(text: String) {
+    func setThemedScreenTitle(text: String, color: UIColor?) {
         screenTitleLabel.text = text
         screenTitleLabel.font = R.font.domaineSansTextRegular(size: Size.ds(36))
+        screenTitleLabel.textColor = color
 
-        themeService.rx
-            .bind({ $0.themeColor }, to: screenTitleLabel.rx.textColor)
-            .disposed(by: disposeBag)
+//        themeService.rx
+//            .bind({ $0.themeColor }, to: screenTitleLabel.rx.textColor)
+//            .disposed(by: disposeBag)
     }
 
     func setLightScreenTitle(text: String) {
