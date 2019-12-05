@@ -54,7 +54,7 @@ class FilterSegment: UIView {
                                              width: width,
                                              height: height))
             btn.setTitle(elements[i], for: .normal)
-            btn.titleLabel?.font = R.font.atlasGroteskRegular(size: 18)
+            btn.titleLabel?.font = R.font.atlasGroteskThin(size: 18)
             btn.tag = i
             btn.addTarget(self, action: #selector(btnTapped), for: .touchUpInside)
             addSubview(btn)

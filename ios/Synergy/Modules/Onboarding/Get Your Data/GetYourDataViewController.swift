@@ -57,7 +57,7 @@ class GetYourDataViewController: ViewController, BackNavigator {
         giveAutomateTrust.numberOfLines = 0
         giveAutomateTrust.applyLight(
             text: R.string.phrase.getYourDataGiveAutomateTrust(),
-            font: R.font.atlasGroteskRegular(size: Size.ds(18)),
+            font: R.font.atlasGroteskThin(size: Size.ds(18)),
             lineHeight: 1.2)
 
         contentView.flex.direction(.column).define { (flex) in
@@ -103,7 +103,7 @@ extension GetYourDataViewController {
         let button = Button()
         button.applyLight(
             title: R.string.phrase.getYourDataAuthorizeAutomate(),
-            font: R.font.atlasGroteskRegular(size: 18))
+            font: R.font.atlasGroteskThin(size: 18))
         return button
     }
 }

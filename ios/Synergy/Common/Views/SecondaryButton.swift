@@ -14,7 +14,7 @@ class SecondaryButton: Button {
     override func setupViews() {
         super.setupViews()
 
-        titleLabel?.font = R.font.atlasGroteskRegular(size: Size.ds(14))
+        titleLabel?.font = R.font.atlasGroteskThin(size: Size.ds(14))
         backgroundColor = .clear
 
         themeService.rx

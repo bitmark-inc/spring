@@ -207,7 +207,7 @@ extension Reactive where Base: UsageCollectionView {
 
 class UsageHeadingCollectionViewCell: CollectionViewCell {
     private let countLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 24))
-    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 10))
+    private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 10))
         
     override init(frame: CGRect) {
         super.init(frame: frame)

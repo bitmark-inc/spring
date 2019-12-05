@@ -62,8 +62,8 @@ final class UsageDataBadgeView: UIView {
     private let disposeBag = DisposeBag()
     
     let updownImageView = UIImageView()
-    let percentageLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 15))
-    let descriptionLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 14))
+    let percentageLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 15))
+    let descriptionLabel = Label.create(withFont: R.font.atlasGroteskThin(size: 14))
     
     override init(frame: CGRect) {
         super.init(frame: frame)
