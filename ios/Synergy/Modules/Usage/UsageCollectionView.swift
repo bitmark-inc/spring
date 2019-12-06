@@ -736,7 +736,27 @@ final class StackedBarValueFormatter: IValueFormatter {
             return ""
         }
         
-        values = values.filter { $0 != 0 }
+        // The library calls to this func twice,
+        // one doesn't care type of data set
+        // one after that, if the data set is stacked, then call this function again to recalculate.
+        if value == entry.y && !values.contains(value) {
+            // Find out if it's first place.
+            return ""
+        }
+        
+        // Trim all 0 values on right hand side of the array as
+        // bar chart label doesn't display them.
+        if let idx = values.lastIndex(where: { $0 == 0 }) {
+            values.remove(at: idx)
+        }
+        
+        while true {
+            if values.last == 0 {
+                values.removeLast()
+            } else {
+                break
+            }
+        }
         
         if lastEntry != entry {
             lastEntry = entry
