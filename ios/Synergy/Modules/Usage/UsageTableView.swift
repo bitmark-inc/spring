@@ -17,9 +17,7 @@ class UsageTableView: TableView {
     var postListNavigateHandler: ((FilterScope) -> Void)?
     var timeUnit: TimeUnit = .week {
         didSet {
-            self.reloadData { [unowned self] in
-                self.setContentOffset(.zero, animated: true)
-            }
+            self.reloadSections(IndexSet(integersIn: 1...4), with: .automatic)
         }
     }
     var startTime: Date = Date() {
@@ -36,6 +34,7 @@ class UsageTableView: TableView {
         super.init(frame: frame, style: style)
 
         self.dataSource = self
+        self.register(cellWithClass: TimeFilterTableViewCell.self)
         self.register(cellWithClass: UsageBadgeTableViewCell.self)
         self.register(cellWithClass: UsageHeadingTableViewCell.self)
         self.register(cellWithClass: FilterTypeTableViewCell.self)
@@ -57,7 +56,7 @@ class UsageTableView: TableView {
 extension UsageTableView: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return 5
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -65,10 +64,12 @@ extension UsageTableView: UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return 5
+            return 1
         case 2:
-            return 4
+            return 5
         case 3:
+            return 4
+        case 4:
             return 3
         default:
             return 0
@@ -94,15 +95,24 @@ extension UsageTableView: UITableViewDataSource {
 
          switch (indexPath.section, indexPath.row) {
          case (0, _):
+            let cell = tableView.dequeueReusableCell(withClass: TimeFilterTableViewCell.self, for: indexPath)
+            cell.filterChangeSubject
+                .subscribeOn(MainScheduler())
+                .subscribe(onNext: { [weak self] (timeUnit) in
+                    self?.timeUnit = timeUnit
+                })
+                .disposed(by: disposeBag)
+            return cell
+         case (1, _):
              let cell = tableView.dequeueReusableCell(withClass: UsageBadgeTableViewCell.self, for: indexPath)
              cell.timeUnit = c.timeUnit
              return cell
-         case (1, 0):
+         case (2, 0):
              let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
              let numberOfPosts = Constant.numberOfPosts(timeUnit: timeUnit)
              cell.bindData(countText: "\(numberOfPosts) POSTS", actionDescriptionText: "you made")
              return cell
-         case (1, 1):
+         case (2, 1):
              let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
              cell.section = .posts
              cell.timeUnit = c.timeUnit
@@ -118,11 +128,11 @@ extension UsageTableView: UITableViewDataSource {
              cell.bindData(data: stats)
              cell.postListNavigateHandler = c.postListNavigateHandler
              return cell
-         case (1, 2):
+         case (2, 2):
              let cell = tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
              cell.postListNavigateHandler = c.postListNavigateHandler
              return cell
-         case (1, 3):
+         case (2, 3):
              let cell = tableView.dequeueReusableCell(withClass: FilterFriendsTableViewCell.self, for: indexPath)
              cell.timeUnit = timeUnit
              cell.postListNavigateHandler = c.postListNavigateHandler
@@ -136,7 +146,7 @@ extension UsageTableView: UITableViewDataSource {
 
              cell.bindData(data: stats)
              return cell
-         case (1, 4):
+         case (2, 4):
              let cell = tableView.dequeueReusableCell(withClass: FilterPlacesTableViewCell.self, for: indexPath)
              cell.timeUnit = timeUnit
              cell.postListNavigateHandler = c.postListNavigateHandler
@@ -150,11 +160,11 @@ extension UsageTableView: UITableViewDataSource {
 
              cell.bindData(data: stats)
              return cell
-         case (2, 0):
+         case (3, 0):
              let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
              cell.bindData(countText: "100 REACTIONS", actionDescriptionText: "you gave")
              return cell
-         case (2, 1):
+         case (3, 1):
              let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
              cell.section = .reactions
              cell.timeUnit = c.timeUnit
@@ -162,17 +172,17 @@ extension UsageTableView: UITableViewDataSource {
              cell.selectionEnabled = false
              cell.bindData(data: [("Like", 34), ("Love", 40), ("Haha", 19), ("Wow", 5), ("Sad", 2), ("Angry", 0)])
              return cell
-         case (2, 2):
+         case (3, 2):
              return tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
-         case (2, 3):
+         case (3, 3):
              let cell = tableView.dequeueReusableCell(withClass: FilterFriendsTableViewCell.self, for: indexPath)
              cell.bindData(data: [("Phillip Botha", [1,4,2]), ("Jeep Ampol", [3,4,2]), ("Hezali Nel", [1,4,1])])
              return cell
-         case (3, 0):
+         case (4, 0):
              let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
              cell.bindData(countText: "341 MESSAGES", actionDescriptionText: "you sent or received")
              return cell
-         case (3, 1):
+         case (4, 1):
              let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
              cell.section = .message
              cell.timeUnit = c.timeUnit
@@ -180,7 +190,7 @@ extension UsageTableView: UITableViewDataSource {
              cell.selectionEnabled = false
              cell.bindData(data: [("TPE Pride 2019", 182), ("Beven Lan", 43), ("Danny & Phil", 39), ("Kevin Y", 25), ("Jeffy Davenport", 23), ("Others", 29)])
              return cell
-         case (3, 2):
+         case (4, 2):
              return tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
          default:
              return tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
@@ -209,6 +219,110 @@ extension Reactive where Base: UsageTableView {
         return Binder(self.base) { view, attr in
             view.usage = attr
         }
+    }
+}
+
+class TimeFilterTableViewCell: TableViewCell {
+    private let filterSegment = FilterSegment(elements: ["WEEK".localized(),
+                                                          "YEAR".localized(),
+                                                          "DECADE".localized()
+    ])
+    
+    private let previousPeriodButton: Button = {
+        let btn = Button()
+        btn.setImage(R.image.previous_period()!, for: .normal)
+        return btn
+    }()
+    
+    private let nextPeriodButton: Button = {
+        let btn = Button()
+        btn.setImage(R.image.next_period()!, for: .normal)
+        return btn
+    }()
+    
+    private lazy var periodNameLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 18))
+    private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
+    
+    let filterChangeSubject = PublishSubject<TimeUnit>()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        periodNameLabel.text = "THIS WEEK"
+        periodDescriptionLabel.text = "2019 Dec 1st - Dec 7th"
+        periodNameLabel.textAlignment = .center
+        periodDescriptionLabel.textAlignment = .center
+        
+        contentView.flex.direction(.column).define { (flex) in
+            flex.paddingTop(20).paddingBottom(30)
+            flex.addItem(filterSegment).marginLeft(18).marginRight(18).height(40)
+            flex.addItem().direction(.row).define { (flex) in
+                flex.marginTop(18).marginLeft(18).marginRight(18).height(19)
+                flex.justifyContent(.center)
+                flex.alignItems(.stretch)
+                flex.addItem(previousPeriodButton)
+                flex.addItem(periodNameLabel).grow(1)
+                flex.addItem(nextPeriodButton)
+            }
+            flex.addItem(periodDescriptionLabel).marginTop(9).height(10).alignSelf(.stretch)
+        }
+        
+        bindData()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+
+        invalidateIntrinsicContentSize()
+    }
+    
+    private func bindData() {
+        let d = filterSegment.rx.selectedIndex.share(replay: 1, scope: .forever)
+        d.map { (index) -> TimeUnit in
+            switch index {
+            case 0:
+                return .week
+            case 1:
+                return .year
+            case 2:
+                return .decade
+            default:
+                return .week
+            }
+            }.bind(to: filterChangeSubject)
+            .disposed(by: disposeBag)
+        
+        d.map { (index) -> String in
+            switch index {
+            case 0:
+                return "THIS WEEK"
+            case 1:
+                return "THIS YEAR"
+            case 2:
+                return "THIS DECADE"
+            default:
+                return ""
+            }
+        }.bind(to: periodNameLabel.rx.text)
+        .disposed(by: disposeBag)
+        
+        d.map { (index) -> String in
+            switch index {
+            case 0:
+                return "2019 Dec 1st - Dec 7th"
+            case 1:
+                return "2019 Jan 1st - Dec 31st"
+            case 2:
+                return "2010 - 2019"
+            default:
+                return ""
+            }
+        }.bind(to: periodDescriptionLabel.rx.text)
+        .disposed(by: disposeBag)
     }
 }
 

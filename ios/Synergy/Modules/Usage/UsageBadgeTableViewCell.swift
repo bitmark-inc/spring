@@ -52,12 +52,9 @@ class UsageBadgeTableViewCell: TableViewCell {
                 reactionsDataBadgeView.percentageLabel.text = "71%"
                 messagesDataBadgeView.percentageLabel.text = "61%"
             }
-            postDataBadgeView.setNeedsLayout()
-            reactionsDataBadgeView.setNeedsLayout()
-            messagesDataBadgeView.setNeedsLayout()
-            postDataBadgeView.layoutIfNeeded()
-            reactionsDataBadgeView.layoutIfNeeded()
-            messagesDataBadgeView.layoutIfNeeded()
+            postDataBadgeView.flex.markDirty()
+            reactionsDataBadgeView.flex.markDirty()
+            messagesDataBadgeView.flex.markDirty()
         }
     }
     

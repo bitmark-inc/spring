@@ -17,25 +17,6 @@ import Realm
 
 class UsageViewController: TabPageViewController {
     
-    private let filterSegment = FilterSegment(elements: ["WEEK".localized(),
-                                                          "YEAR".localized(),
-                                                          "DECADE".localized()
-    ])
-    
-    private let previousPeriodButton: Button = {
-        let btn = Button()
-        btn.setImage(R.image.previous_period()!, for: .normal)
-        return btn
-    }()
-    
-    private let nextPeriodButton: Button = {
-        let btn = Button()
-        btn.setImage(R.image.next_period()!, for: .normal)
-        return btn
-    }()
-    
-    private lazy var periodNameLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 18))
-    private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
     private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
     
     private lazy var tableView: UsageTableView = {
@@ -56,10 +37,6 @@ class UsageViewController: TabPageViewController {
         super.bindViewModel()
         
         // Fake data
-        periodNameLabel.text = "THIS WEEK"
-        periodDescriptionLabel.text = "2019 Dec 1st - Dec 7th"
-        periodNameLabel.textAlignment = .center
-        periodDescriptionLabel.textAlignment = .center
         subTitleLabel.text = R.string.localizable.howyouusefacebooK()
 
         guard let viewModel = viewModel as? UsageViewModel else { return }
@@ -82,49 +59,6 @@ class UsageViewController: TabPageViewController {
                 Global.log.error(error)
             })
             .disposed(by: disposeBag)
-        
-        let d = filterSegment.rx.selectedIndex.share(replay: 1, scope: .forever)
-        d.map { (index) -> TimeUnit in
-            switch index {
-            case 0:
-                return .week
-            case 1:
-                return .year
-            case 2:
-                return .decade
-            default:
-                return .week
-            }
-            }.bind(to: tableView.rx.timeUnit)
-            .disposed(by: disposeBag)
-        
-        d.map { (index) -> String in
-            switch index {
-            case 0:
-                return "THIS WEEK"
-            case 1:
-                return "THIS YEAR"
-            case 2:
-                return "THIS DECADE"
-            default:
-                return ""
-            }
-        }.bind(to: periodNameLabel.rx.text)
-        .disposed(by: disposeBag)
-        
-        d.map { (index) -> String in
-            switch index {
-            case 0:
-                return "2019 Dec 1st - Dec 7th"
-            case 1:
-                return "2019 Jan 1st - Dec 31st"
-            case 2:
-                return "2010 - 2019"
-            default:
-                return ""
-            }
-        }.bind(to: periodDescriptionLabel.rx.text)
-        .disposed(by: disposeBag)
         
 //        filterSegment.selectedIndex = 0
 //        viewModel.fetchUsage()
@@ -222,21 +156,9 @@ class UsageViewController: TabPageViewController {
     override func setupViews() {
         super.setupViews()
         
-        let periodBrowseContentView = UIView()
-        periodBrowseContentView.flex.direction(.row).define { (flex) in
-            flex.justifyContent(.center)
-            flex.alignItems(.stretch)
-            flex.addItem(previousPeriodButton)
-            flex.addItem(periodNameLabel).grow(1)
-            flex.addItem(nextPeriodButton)
-        }
-        
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem(subTitleLabel).marginTop(2).marginLeft(18).marginRight(18)
-            flex.addItem(filterSegment).marginTop(18).marginLeft(18).marginRight(18).height(40)
-            flex.addItem(periodBrowseContentView).marginTop(18).marginLeft(18).marginRight(18).height(19)
-            flex.addItem(periodDescriptionLabel).marginTop(9).height(10).alignSelf(.stretch)
-            flex.addItem(tableView).marginTop(30).marginBottom(0).grow(1)
+            flex.addItem(tableView).marginBottom(10).grow(1)
         }
         
     }
