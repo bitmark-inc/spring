@@ -1,5 +1,5 @@
 //
-//  UsageBadgeCollectionViewCell.swift
+//  UsageBadgeTableViewCell.swift
 //  Synergy
 //
 //  Created by Anh Nguyen on 12/2/19.
@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import FlexLayout
 
-class UsageBadgeCollectionViewCell: CollectionViewCell {
+class UsageBadgeTableViewCell: TableViewCell {
     
     private lazy var postDataBadgeView: UsageDataBadgeView = {
         let u = UsageDataBadgeView()
@@ -61,8 +61,8 @@ class UsageBadgeCollectionViewCell: CollectionViewCell {
         }
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.flex.direction(.column).define { (flex) in
             flex.alignItems(.stretch)

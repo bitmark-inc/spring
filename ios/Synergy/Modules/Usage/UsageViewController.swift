@@ -38,8 +38,8 @@ class UsageViewController: TabPageViewController {
     private lazy var periodDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
     private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
     
-    private lazy var collectionView: UsageCollectionView = {
-        let v = UsageCollectionView()
+    private lazy var tableView: UsageTableView = {
+        let v = UsageTableView()
         v.postListNavigateHandler = { filterScope in
             (self.viewModel as? UsageViewModel)?.goToPostListScreen(filterScope: filterScope)
         }
@@ -95,7 +95,7 @@ class UsageViewController: TabPageViewController {
             default:
                 return .week
             }
-            }.bind(to: collectionView.rx.timeUnit)
+            }.bind(to: tableView.rx.timeUnit)
             .disposed(by: disposeBag)
         
         d.map { (index) -> String in
@@ -236,7 +236,7 @@ class UsageViewController: TabPageViewController {
             flex.addItem(filterSegment).marginTop(18).marginLeft(18).marginRight(18).height(40)
             flex.addItem(periodBrowseContentView).marginTop(18).marginLeft(18).marginRight(18).height(19)
             flex.addItem(periodDescriptionLabel).marginTop(9).height(10).alignSelf(.stretch)
-            flex.addItem(collectionView).marginTop(30).marginBottom(0).grow(1)
+            flex.addItem(tableView).marginTop(30).marginBottom(0).grow(1)
         }
         
     }

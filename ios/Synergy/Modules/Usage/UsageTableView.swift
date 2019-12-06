@@ -1,5 +1,5 @@
 //
-//  UsageCollectionView.swift
+//  UsageTableView.swift
 //  Synergy
 //
 //  Created by Anh Nguyen on 11/28/19.
@@ -12,8 +12,8 @@ import RxCocoa
 import FlexLayout
 import Charts
 
-class UsageCollectionView: CollectionView {
-    private let disposeBag = DisposeBag()
+class UsageTableView: TableView {
+
     var postListNavigateHandler: ((FilterScope) -> Void)?
     var timeUnit: TimeUnit = .week {
         didSet {
@@ -31,35 +31,36 @@ class UsageCollectionView: CollectionView {
     }
 
     var usage: [String: Any] = [:]
-    
-    override init() {
-        super.init()
-        
+
+    override init(frame: CGRect, style: UITableView.Style) {
+        super.init(frame: frame, style: style)
+
         self.dataSource = self
-        self.register(cellWithClass: UsageBadgeCollectionViewCell.self)
-        self.register(cellWithClass: UsageHeadingCollectionViewCell.self)
-        self.register(cellWithClass: FilterTypeCollectionViewCell.self)
-        self.register(cellWithClass: FilterDayCollectionViewCell.self)
-        self.register(cellWithClass: FilterFriendsCollectionViewCell.self)
-        self.register(cellWithClass: FilterPlacesCollectionViewCell.self)
-        
+        self.register(cellWithClass: UsageBadgeTableViewCell.self)
+        self.register(cellWithClass: UsageHeadingTableViewCell.self)
+        self.register(cellWithClass: FilterTypeTableViewCell.self)
+        self.register(cellWithClass: FilterDayTableViewCell.self)
+        self.register(cellWithClass: FilterFriendsTableViewCell.self)
+        self.register(cellWithClass: FilterPlacesTableViewCell.self)
+
         themeService.rx
             .bind({ $0.background }, to: rx.backgroundColor)
         .disposed(by: disposeBag)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 }
 
-extension UsageCollectionView: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+extension UsageTableView: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 1
@@ -73,131 +74,130 @@ extension UsageCollectionView: UICollectionViewDataSource {
             return 0
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let c = collectionView as? UsageCollectionView else {
-            assert(false, "collectionView is not UsageCollectionView")
-            return UICollectionViewCell()
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+         guard let c = tableView as? UsageTableView else {
+             assert(false, "tableView is not UsageTableView")
+             return UITableViewCell()
+         }
 
-        var usage: [String: [[String: Any]]]!
+         var usage: [String: [[String: Any]]]!
 
-        switch timeUnit {
-        case .week:
-            usage = Constant.postWeekUsage()
-        case .year:
-            usage = Constant.postYearUsage()
-        case .decade:
-            usage = Constant.postDecadeUsage()
-        }
+         switch timeUnit {
+         case .week:
+             usage = Constant.postWeekUsage()
+         case .year:
+             usage = Constant.postYearUsage()
+         case .decade:
+             usage = Constant.postDecadeUsage()
+         }
 
-        switch (indexPath.section, indexPath.row) {
-        case (0, _):
-            let cell = collectionView.dequeueReusableCell(withClass: UsageBadgeCollectionViewCell.self, for: indexPath)
-            cell.timeUnit = c.timeUnit
-            return cell
-        case (1, 0):
-            let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
-            let numberOfPosts = Constant.numberOfPosts(timeUnit: timeUnit)
-            cell.bindData(countText: "\(numberOfPosts) POSTS", actionDescriptionText: "you made")
-            return cell
-        case (1, 1):
-            let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
-            cell.section = .posts
-            cell.timeUnit = c.timeUnit
-            cell.startTime = c.startTime
-            cell.selectionEnabled = true
+         switch (indexPath.section, indexPath.row) {
+         case (0, _):
+             let cell = tableView.dequeueReusableCell(withClass: UsageBadgeTableViewCell.self, for: indexPath)
+             cell.timeUnit = c.timeUnit
+             return cell
+         case (1, 0):
+             let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
+             let numberOfPosts = Constant.numberOfPosts(timeUnit: timeUnit)
+             cell.bindData(countText: "\(numberOfPosts) POSTS", actionDescriptionText: "you made")
+             return cell
+         case (1, 1):
+             let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
+             cell.section = .posts
+             cell.timeUnit = c.timeUnit
+             cell.startTime = c.startTime
+             cell.selectionEnabled = true
 
-            let usageByType = usage[GroupKey.type.rawValue]!
-            let data = usageByType.first!["data"] as! [String: [Any]]
-            let keys = data["keys"] as! [String]
-            let values = data["values"] as! [Int]
+             let usageByType = usage[GroupKey.type.rawValue]!
+             let data = usageByType.first!["data"] as! [String: [Any]]
+             let keys = data["keys"] as! [String]
+             let values = data["values"] as! [Int]
 
-            let stats = (0..<keys.count).map { (keys[$0], Double(values[$0])) }
-            cell.bindData(data: stats)
-            cell.postListNavigateHandler = c.postListNavigateHandler
-            return cell
-        case (1, 2):
-            let cell = collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
-            cell.postListNavigateHandler = c.postListNavigateHandler
-            return cell
-        case (1, 3):
-            let cell = collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
-            cell.timeUnit = timeUnit
-            cell.postListNavigateHandler = c.postListNavigateHandler
-            let usageByFriends = usage[GroupKey.friend.rawValue]!
-            let stats = usageByFriends.map { (usageByFriend) -> (String, [Double]) in
-                let data = usageByFriend["data"] as! [String: [Any]]
-                let values = data["values"] as! [Int]
+             let stats = (0..<keys.count).map { (keys[$0], Double(values[$0])) }
+             cell.bindData(data: stats)
+             cell.postListNavigateHandler = c.postListNavigateHandler
+             return cell
+         case (1, 2):
+             let cell = tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
+             cell.postListNavigateHandler = c.postListNavigateHandler
+             return cell
+         case (1, 3):
+             let cell = tableView.dequeueReusableCell(withClass: FilterFriendsTableViewCell.self, for: indexPath)
+             cell.timeUnit = timeUnit
+             cell.postListNavigateHandler = c.postListNavigateHandler
+             let usageByFriends = usage[GroupKey.friend.rawValue]!
+             let stats = usageByFriends.map { (usageByFriend) -> (String, [Double]) in
+                 let data = usageByFriend["data"] as! [String: [Any]]
+                 let values = data["values"] as! [Int]
 
-                return (usageByFriend["name"] as! String, values.map { Double($0) })
-            }
+                 return (usageByFriend["name"] as! String, values.map { Double($0) })
+             }
 
-            cell.bindData(data: stats)
-            return cell
-        case (1, 4):
-            let cell = collectionView.dequeueReusableCell(withClass: FilterPlacesCollectionViewCell.self, for: indexPath)
-            cell.timeUnit = timeUnit
-            cell.postListNavigateHandler = c.postListNavigateHandler
-            let usageByPlaces = usage[GroupKey.place.rawValue]!
-            let stats = usageByPlaces.map { (usageByPlace) -> (String, [Double]) in
-                let data = usageByPlace["data"] as! [String: [Any]]
-                let values = data["values"] as! [Int]
+             cell.bindData(data: stats)
+             return cell
+         case (1, 4):
+             let cell = tableView.dequeueReusableCell(withClass: FilterPlacesTableViewCell.self, for: indexPath)
+             cell.timeUnit = timeUnit
+             cell.postListNavigateHandler = c.postListNavigateHandler
+             let usageByPlaces = usage[GroupKey.place.rawValue]!
+             let stats = usageByPlaces.map { (usageByPlace) -> (String, [Double]) in
+                 let data = usageByPlace["data"] as! [String: [Any]]
+                 let values = data["values"] as! [Int]
 
-                return (usageByPlace["name"] as! String, values.map { Double($0) })
-            }
+                 return (usageByPlace["name"] as! String, values.map { Double($0) })
+             }
 
-            cell.bindData(data: stats)
-            return cell
-        case (2, 0):
-            let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
-            cell.bindData(countText: "100 REACTIONS", actionDescriptionText: "you gave")
-            return cell
-        case (2, 1):
-            let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
-            cell.section = .reactions
-            cell.timeUnit = c.timeUnit
-            cell.startTime = c.startTime
-            cell.selectionEnabled = false
-            cell.bindData(data: [("Like", 34), ("Love", 40), ("Haha", 19), ("Wow", 5), ("Sad", 2), ("Angry", 0)])
-            return cell
-        case (2, 2):
-            return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
-        case (2, 3):
-            let cell = collectionView.dequeueReusableCell(withClass: FilterFriendsCollectionViewCell.self, for: indexPath)
-            cell.bindData(data: [("Phillip Botha", [1,4,2]), ("Jeep Ampol", [3,4,2]), ("Hezali Nel", [1,4,1])])
-            return cell
-        case (3, 0):
-            let cell = collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
-            cell.bindData(countText: "341 MESSAGES", actionDescriptionText: "you sent or received")
-            return cell
-        case (3, 1):
-            let cell = collectionView.dequeueReusableCell(withClass: FilterTypeCollectionViewCell.self, for: indexPath)
-            cell.section = .message
-            cell.timeUnit = c.timeUnit
-            cell.startTime = c.startTime
-            cell.selectionEnabled = false
-            cell.bindData(data: [("TPE Pride 2019", 182), ("Beven Lan", 43), ("Danny & Phil", 39), ("Kevin Y", 25), ("Jeffy Davenport", 23), ("Others", 29)])
-            return cell
-        case (3, 2):
-            return collectionView.dequeueReusableCell(withClass: FilterDayCollectionViewCell.self, for: indexPath)
-        default:
-            return collectionView.dequeueReusableCell(withClass: UsageHeadingCollectionViewCell.self, for: indexPath)
-        }
-            
+             cell.bindData(data: stats)
+             return cell
+         case (2, 0):
+             let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
+             cell.bindData(countText: "100 REACTIONS", actionDescriptionText: "you gave")
+             return cell
+         case (2, 1):
+             let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
+             cell.section = .reactions
+             cell.timeUnit = c.timeUnit
+             cell.startTime = c.startTime
+             cell.selectionEnabled = false
+             cell.bindData(data: [("Like", 34), ("Love", 40), ("Haha", 19), ("Wow", 5), ("Sad", 2), ("Angry", 0)])
+             return cell
+         case (2, 2):
+             return tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
+         case (2, 3):
+             let cell = tableView.dequeueReusableCell(withClass: FilterFriendsTableViewCell.self, for: indexPath)
+             cell.bindData(data: [("Phillip Botha", [1,4,2]), ("Jeep Ampol", [3,4,2]), ("Hezali Nel", [1,4,1])])
+             return cell
+         case (3, 0):
+             let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
+             cell.bindData(countText: "341 MESSAGES", actionDescriptionText: "you sent or received")
+             return cell
+         case (3, 1):
+             let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
+             cell.section = .message
+             cell.timeUnit = c.timeUnit
+             cell.startTime = c.startTime
+             cell.selectionEnabled = false
+             cell.bindData(data: [("TPE Pride 2019", 182), ("Beven Lan", 43), ("Danny & Phil", 39), ("Kevin Y", 25), ("Jeffy Davenport", 23), ("Others", 29)])
+             return cell
+         case (3, 2):
+             return tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
+         default:
+             return tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
+         }
+
     }
 }
 
-extension Reactive where Base: UsageCollectionView {
-    
+extension Reactive where Base: UsageTableView {
+
     /// Reactive wrapper for `timeUnit` property.
     var timeUnit: Binder<TimeUnit> {
         return Binder(self.base) { view, attr in
             view.timeUnit = attr
         }
     }
-    
+
     /// Reactive wrapper for `timeUnit` property.
     var startTime: Binder<Date> {
         return Binder(self.base) { view, attr in
@@ -212,13 +212,14 @@ extension Reactive where Base: UsageCollectionView {
     }
 }
 
-class UsageHeadingCollectionViewCell: CollectionViewCell {
+class UsageHeadingTableViewCell: TableViewCell {
+
     private let countLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 24))
     private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
-        
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem()
                 .backgroundColor(UIColor(hexString: "#828180")!)
@@ -240,17 +241,17 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
             }
         }
     }
-    
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+
         invalidateIntrinsicContentSize()
     }
-    
+
     func bindData(countText: String, actionDescriptionText: String) {
         countLabel.text = countText
         actionDescriptionLabel.text = actionDescriptionText
@@ -259,7 +260,8 @@ class UsageHeadingCollectionViewCell: CollectionViewCell {
     }
 }
 
-class FilterTypeCollectionViewCell: CollectionViewCell {
+class FilterTypeTableViewCell: TableViewCell {
+
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     private let chartView = HorizontalBarChartView()
     var postListNavigateHandler: ((FilterScope) -> Void)?
@@ -272,9 +274,9 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
             chartView.highlightPerTapEnabled = selectionEnabled
         }
     }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.flex.direction(.column).define { (flex) in
             flex.justifyContent(.start)
@@ -282,14 +284,14 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
             flex.addItem(headingLabel).marginLeft(18).marginRight(18)
             flex.addItem(chartView).margin(0, 20, 15, 0).height(200)
         }
-        
+
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
         chartView.pinchZoomEnabled = false
         chartView.doubleTapToZoomEnabled = false
         chartView.dragEnabled = false
         chartView.delegate = self
-                
+
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10)
@@ -297,13 +299,13 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
         xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
-        
+
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
         leftAxis.drawAxisLineEnabled = false
         leftAxis.drawLabelsEnabled = false
         leftAxis.drawGridLinesEnabled = false
-        
+
         let rightAxis = chartView.rightAxis
         rightAxis.axisMinimum = 0
         rightAxis.drawAxisLineEnabled = false
@@ -313,31 +315,31 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
-        
+
         let xAxisRender = chartView.xAxisRenderer
         chartView.xAxisRenderer = CustomxAxisRender(viewPortHandler: xAxisRender.viewPortHandler,
                                                     xAxis: xAxis,
                                                     transformer: xAxisRender.transformer,
                                                     chart: chartView)
     }
-       
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     func bindData(data: [(String, Double)]) {
         headingLabel.text = "BY TYPE"
-        
+
         var values = [String]()
         entries = [BarChartDataEntry]()
-        
+
         var i: Double = 0
         for (k,v) in data.reversed() {
             values.append(k)
             entries.append(BarChartDataEntry(x: i, y: v))
             i += 1
         }
-        
+
         let set1 = BarChartDataSet(entries: entries)
         set1.colors = [
             UIColor(hexString: "#BBEAA6")!,
@@ -346,23 +348,23 @@ class FilterTypeCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#E688A1")!,
             UIColor(hexString: "#81CFFA")!
         ].reversed()
-        
+
         let barData = BarChartData(dataSets: [set1])
         barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         barData.barWidth = 0.15
         barData.setValueFormatter(DefaultValueFormatter(decimals: 0))
-        
+
         chartView.data = barData
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: values)
         chartView.xAxis.labelCount = 5
-        
+
         chartView.flex.height(CGFloat(data.count * 35 + 10))
-        
+
         self.layout()
     }
 }
 
-extension FilterTypeCollectionViewCell: ChartViewDelegate {
+extension FilterTypeTableViewCell: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         var filterValue = ""
         if section == .posts {
@@ -382,7 +384,7 @@ extension FilterTypeCollectionViewCell: ChartViewDelegate {
                 filterValue = Constant.PostType.update
             }
         }
-        
+
         let filterScope: FilterScope = (
             usageScope: (
                 sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
@@ -392,18 +394,18 @@ extension FilterTypeCollectionViewCell: ChartViewDelegate {
         )
 
         self.postListNavigateHandler?(filterScope)
-        
+
         chartView.highlightValues(nil)
     }
 }
 
-class FilterDayCollectionViewCell: CollectionViewCell {
+class FilterDayTableViewCell: TableViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     var postListNavigateHandler: ((FilterScope) -> Void)?
     let chartView = BarChartView()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.flex.direction(.column).define { (flex) in
             flex.justifyContent(.start)
@@ -411,17 +413,17 @@ class FilterDayCollectionViewCell: CollectionViewCell {
             flex.addItem(headingLabel).marginLeft(18).marginRight(18)
             flex.addItem(chartView).margin(0, 20, 15, 0).width(50%).height(220)
         }
-        
+
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
-        
+
         chartView.maxVisibleCount = 60
         chartView.pinchZoomEnabled = false
         chartView.doubleTapToZoomEnabled = false
         chartView.dragEnabled = false
         chartView.highlightPerTapEnabled = true
         chartView.delegate = self
-        
+
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10)
@@ -430,26 +432,26 @@ class FilterDayCollectionViewCell: CollectionViewCell {
         xAxis.drawLabelsEnabled = true
         xAxis.granularity = 1
         xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
-        
+
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
-        
+
         let rightAxis = chartView.rightAxis
         rightAxis.axisMinimum = 0
-        
+
         chartView.leftAxis.enabled = false
         chartView.rightAxis.enabled = false
 
         bindData()
     }
-       
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     func bindData() {
         headingLabel.text = "BY DAY"
-        
+
         let set1 = BarChartDataSet(entries: [
             BarChartDataEntry(x: 0, yValues: [2, 3, 5, 8]),
             BarChartDataEntry(x: 1, yValues: [3, 4, 8, 8]),
@@ -465,12 +467,12 @@ class FilterDayCollectionViewCell: CollectionViewCell {
             UIColor(hexString: "#ED9A73")!,
             UIColor(hexString: "#E688A1")!
         ].reversed()
-        
+
         let data = BarChartData(dataSet: set1)
         data.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         data.barWidth = 0.4
         data.setValueFormatter(StackedBarValueFormatter())
-        
+
         chartView.data = data
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: ["S", "M", "T", "W", "T", "F", "S"])
         chartView.xAxis.labelCount = 7
@@ -478,7 +480,7 @@ class FilterDayCollectionViewCell: CollectionViewCell {
     }
 }
 
-extension FilterDayCollectionViewCell: ChartViewDelegate {
+extension FilterDayTableViewCell: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         let filterValue = Constant.PostType.photo
         let section: Section = .posts
@@ -493,20 +495,20 @@ extension FilterDayCollectionViewCell: ChartViewDelegate {
         )
 
         self.postListNavigateHandler?(filterScope)
-        
+
         chartView.highlightValues(nil)
     }
 }
 
-class FilterFriendsCollectionViewCell: CollectionViewCell {
+class FilterFriendsTableViewCell: TableViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     var postListNavigateHandler: ((FilterScope) -> Void)?
     let chartView = HorizontalBarChartView()
     var friends = [String]()
     var timeUnit: TimeUnit = .week
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.flex.direction(.column).define { (flex) in
             flex.justifyContent(.start)
@@ -514,7 +516,7 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
             flex.addItem(headingLabel).marginLeft(18).marginRight(18)
             flex.addItem(chartView).margin(0, 20, 15, 5).height(200)
         }
-        
+
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
         chartView.pinchZoomEnabled = false
@@ -522,7 +524,7 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         chartView.dragEnabled = false
         chartView.highlightPerTapEnabled = true
         chartView.delegate = self
-                
+
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10)
@@ -530,13 +532,13 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
         xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
-        
+
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
         leftAxis.drawAxisLineEnabled = false
         leftAxis.drawLabelsEnabled = false
         leftAxis.drawGridLinesEnabled = false
-        
+
         let rightAxis = chartView.rightAxis
         rightAxis.axisMinimum = 0
         rightAxis.drawAxisLineEnabled = false
@@ -546,21 +548,21 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
-        
+
         let xAxisRender = chartView.xAxisRenderer
         chartView.xAxisRenderer = CustomxAxisRender(viewPortHandler: xAxisRender.viewPortHandler,
                                                     xAxis: xAxis,
                                                     transformer: xAxisRender.transformer,
                                                     chart: chartView)
     }
-       
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     func bindData(data: [(String, [Double])]) {
         headingLabel.text = "BY FRIENDS TAGGED"
-        
+
         friends = [String]()
         var entries = [BarChartDataEntry]()
         var i: Double = 0
@@ -569,31 +571,31 @@ class FilterFriendsCollectionViewCell: CollectionViewCell {
             entries.append(BarChartDataEntry(x: i, yValues: v))
             i += 1
         }
-        
+
         let set1 = BarChartDataSet(entries: entries, label: "")
         set1.colors = [
             UIColor(hexString: "#81CFFA")!,
             UIColor(hexString: "#E688A1")!,
             UIColor(hexString: "#E3C878")!
         ].reversed()
-        
+
         let barData = BarChartData(dataSet: set1)
         barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         barData.barWidth = 0.15
         barData.setValueFormatter(StackedBarValueFormatter())
-        
+
         chartView.data = barData
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: friends)
         chartView.xAxis.labelCount = data.count
         chartView.legend.enabled = false
-        
+
         chartView.flex.height(CGFloat(data.count * 50))
-        
+
         layout()
     }
 }
 
-extension FilterFriendsCollectionViewCell: ChartViewDelegate {
+extension FilterFriendsTableViewCell: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         let friend = friends[Int(entry.x)]
         let section: Section = .posts
@@ -608,20 +610,20 @@ extension FilterFriendsCollectionViewCell: ChartViewDelegate {
         )
 
         self.postListNavigateHandler?(filterScope)
-        
+
         chartView.highlightValues(nil)
     }
 }
 
-class FilterPlacesCollectionViewCell: CollectionViewCell {
+class FilterPlacesTableViewCell: TableViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     let chartView = HorizontalBarChartView()
     var postListNavigateHandler: ((FilterScope) -> Void)?
     var places = [String]()
     var timeUnit: TimeUnit = .week
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.flex.direction(.column).define { (flex) in
             flex.justifyContent(.start)
@@ -629,7 +631,7 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
             flex.addItem(headingLabel).marginLeft(18).marginRight(18)
             flex.addItem(chartView).margin(0, 20, 15, 5).height(200)
         }
-        
+
         chartView.drawBarShadowEnabled = false
         chartView.drawValueAboveBarEnabled = true
         chartView.pinchZoomEnabled = false
@@ -637,7 +639,7 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         chartView.dragEnabled = false
         chartView.highlightPerTapEnabled = true
         chartView.delegate = self
-                
+
         let xAxis = chartView.xAxis
         xAxis.labelPosition = .bottom
         xAxis.labelFont = .systemFont(ofSize: 10)
@@ -645,13 +647,13 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         xAxis.drawGridLinesEnabled = false
         xAxis.drawLabelsEnabled = true
         xAxis.labelFont = R.font.atlasGroteskLight(size: 12)!
-        
+
         let leftAxis = chartView.leftAxis
         leftAxis.axisMinimum = 0
         leftAxis.drawAxisLineEnabled = false
         leftAxis.drawLabelsEnabled = false
         leftAxis.drawGridLinesEnabled = false
-        
+
         let rightAxis = chartView.rightAxis
         rightAxis.axisMinimum = 0
         rightAxis.drawAxisLineEnabled = false
@@ -661,21 +663,21 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
         let l = chartView.legend
         l.enabled = false
         chartView.fitBars = true
-        
+
         let xAxisRender = chartView.xAxisRenderer
         chartView.xAxisRenderer = CustomxAxisRender(viewPortHandler: xAxisRender.viewPortHandler,
                                                     xAxis: xAxis,
                                                     transformer: xAxisRender.transformer,
                                                     chart: chartView)
     }
-       
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     func bindData(data: [(String, [Double])]) {
         headingLabel.text = "BY PLACES TAGGED"
-        
+
         places = [String]()
         var entries = [BarChartDataEntry]()
         var i: Double = 0
@@ -684,31 +686,31 @@ class FilterPlacesCollectionViewCell: CollectionViewCell {
             entries.append(BarChartDataEntry(x: i, yValues: v))
             i += 1
         }
-        
+
         let set1 = BarChartDataSet(entries: entries, label: "")
         set1.colors = [
             UIColor(hexString: "#81CFFA")!,
             UIColor(hexString: "#E688A1")!,
             UIColor(hexString: "#E3C878")!
         ]
-        
+
         let barData = BarChartData(dataSet: set1)
         barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
         barData.barWidth = 0.15
         barData.setValueFormatter(StackedBarValueFormatter())
-        
+
         chartView.data = barData
         chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: places)
         chartView.xAxis.labelCount = data.count
         chartView.legend.enabled = false
-        
+
         chartView.flex.height(CGFloat(data.count * 50))
-        
+
         layout()
     }
 }
 
-extension FilterPlacesCollectionViewCell: ChartViewDelegate {
+extension FilterPlacesTableViewCell: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         let place = places[Int(entry.x)]
         let section: Section = .posts
@@ -722,7 +724,7 @@ extension FilterPlacesCollectionViewCell: ChartViewDelegate {
         )
 
         self.postListNavigateHandler?(filterScope)
-        
+
         chartView.highlightValues(nil)
     }
 }
@@ -731,14 +733,13 @@ extension FilterPlacesCollectionViewCell: ChartViewDelegate {
 final class StackedBarValueFormatter: IValueFormatter {
     private var lastEntry: ChartDataEntry? = nil
     private var iteratedStackIndex = 1
-    
+
     func stringForValue(_ value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String {
         guard let e = entry as? BarChartDataEntry,
             var values = e.yValues else {
             assert(false, "entry is not a BarChartDataEntry or empty yValues")
             return ""
         }
-        
         // The library calls to this func twice,
         // one doesn't care type of data set
         // one after that, if the data set is stacked, then call this function again to recalculate.
@@ -746,13 +747,13 @@ final class StackedBarValueFormatter: IValueFormatter {
             // Find out if it's first place.
             return ""
         }
-        
+
         // Trim all 0 values on right hand side of the array as
         // bar chart label doesn't display them.
         if let idx = values.lastIndex(where: { $0 == 0 }) {
             values.remove(at: idx)
         }
-        
+
         while true {
             if values.last == 0 {
                 values.removeLast()
@@ -760,7 +761,7 @@ final class StackedBarValueFormatter: IValueFormatter {
                 break
             }
         }
-        
+
         if lastEntry != entry {
             lastEntry = entry
             iteratedStackIndex = 1
@@ -769,11 +770,11 @@ final class StackedBarValueFormatter: IValueFormatter {
         defer {
             iteratedStackIndex += 1
         }
-        
+
         if iteratedStackIndex < values.count {
             return ""
         }
-        
+
         return String(Int(values.reduce(0, +)))
     }
 }

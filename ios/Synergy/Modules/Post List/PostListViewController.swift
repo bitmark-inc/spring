@@ -21,7 +21,7 @@ class PostListViewController: TabPageViewController {
     fileprivate lazy var sectionTitleLabel = makeSectionTitleLabel()
     fileprivate lazy var sectionTagLabel = makeSectionTagLabel()
     fileprivate lazy var timelineLabel = makeTimelineLabel()
-    fileprivate lazy var collectionView = PostsCollectionView()
+    fileprivate lazy var tableView = PostTableView()
     fileprivate lazy var emptyView = makeEmptyView()
 
     var posts: Results<Post>?
@@ -42,7 +42,7 @@ class PostListViewController: TabPageViewController {
             .subscribe(onNext: { [weak self] (realmPosts) in
                 guard let self = self else { return }
                 self.posts = realmPosts
-                self.collectionView.dataSource = self
+                self.tableView.dataSource = self
                 self.refreshView()
 
                 Observable.changeset(from: realmPosts)
@@ -50,7 +50,7 @@ class PostListViewController: TabPageViewController {
                         guard let self = self, let changes = changes else { return }
 
                         self.refreshView()
-                        self.collectionView.applyChangeset(changes)
+                        self.tableView.applyChangeset(changes)
                     }, onError: { (error) in
                         Global.log.error(error)
                     })
@@ -65,12 +65,12 @@ class PostListViewController: TabPageViewController {
     func refreshView() {
         if posts?.isEmpty ?? true {
             emptyView.isHidden = false
-            collectionView.isHidden = true
+            tableView.isHidden = true
             emptyView.flex.marginTop(35)
         } else {
             emptyView.isHidden = true
             emptyView.flex.marginTop(0)
-            collectionView.isHidden = false
+            tableView.isHidden = false
         }
     }
 
@@ -91,7 +91,7 @@ class PostListViewController: TabPageViewController {
             flex.addItem(timelineLabel).marginTop(15).marginLeft(17)
 
             flex.addItem(emptyView)
-            flex.addItem(collectionView).marginBottom(0).grow(1)
+            flex.addItem(tableView).marginBottom(0).grow(1)
         }
 
         contentView.flex.layout(mode: .adjustHeight)
@@ -106,35 +106,31 @@ class PostListViewController: TabPageViewController {
     }
 }
 
-extension PostListViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension PostListViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts?.count ?? 0
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let post = posts![indexPath.row]
-        let cell: PostDataCollectionViewCell!
+        let cell: PostDataTableViewCell!
         switch post.type {
         case Constant.PostType.update:
-            cell = collectionView.dequeueReusableCell(withClass: UpdatePostCollectionViewCell.self, for: indexPath)
+            cell = tableView.dequeueReusableCell(withClass: UpdatePostTableViewCell.self, for: indexPath)
 
         case Constant.PostType.link:
-            let linkCollectionCell = (post.post?.isEmpty ?? true) ? LinkPostCollectionViewCell.self : LinkCaptionPostCollectionViewCell.self
-            cell = collectionView.dequeueReusableCell(withClass: linkCollectionCell, for: indexPath) as? PostDataCollectionViewCell
+            let linkTableCell = (post.post?.isEmpty ?? true) ? LinkPostTableViewCell.self : LinkCaptionPostTableViewCell.self
+            cell = tableView.dequeueReusableCell(withClass: linkTableCell, for: indexPath) as? PostDataTableViewCell
 
         case Constant.PostType.video:
-            cell = collectionView.dequeueReusableCell(withClass: VideoPostCollectionViewCell.self, for: indexPath)
+            cell = tableView.dequeueReusableCell(withClass: VideoPostTableViewCell.self, for: indexPath)
 
         default:
-            cell = collectionView.dequeueReusableCell(withClass: GeneralPostCollectionViewCell.self, for: indexPath)
+            cell = tableView.dequeueReusableCell(withClass: GeneralPostTableViewCell.self, for: indexPath)
         }
         cell.clickableTextDelegate = self
         cell.bindData(post: post)
         return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-      return Size.dw(18)
     }
 }
 

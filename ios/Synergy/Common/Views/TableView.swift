@@ -26,5 +26,6 @@ class TableView: UITableView {
     func setupViews() {
         backgroundColor = .clear
         tableFooterView = UIView()
+        separatorStyle = .none
     }
 }

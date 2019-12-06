@@ -14,14 +14,14 @@ protocol ClickableTextDelegate: class {
     func click(_ textView: UITextView, url: URL)
 }
 
-protocol PostDataCollectionViewCell where Self: UICollectionViewCell {
+protocol PostDataTableViewCell where Self: UITableViewCell {
     var clickableTextDelegate: ClickableTextDelegate? { get set }
 
     func bindData(post: Post)
     func makePostInfo(timestamp: Date, friends: [String], locationName: String?) -> Single<NSMutableAttributedString>
 }
 
-extension PostDataCollectionViewCell {
+extension PostDataTableViewCell {
     func makePostInfo(timestamp: Date, friends: [String], locationName: String?) -> Single<NSMutableAttributedString> {
         return Single.create { (event) -> Disposable in
             var links: [(text: String, url: String)] = []

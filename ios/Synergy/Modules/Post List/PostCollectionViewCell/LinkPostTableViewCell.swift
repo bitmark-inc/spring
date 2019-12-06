@@ -1,5 +1,5 @@
 //
-//  LinkPostCollectionViewCell.swift
+//  LinkPostTableViewCell.swift
 //  Synergy
 //
 //  Created by thuyentruong on 12/4/19.
@@ -11,23 +11,22 @@ import FlexLayout
 import RxSwift
 import SwiftDate
 
-class LinkPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCell {
+class LinkPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var linkLabel = makeLinkLabel()
     weak var clickableTextDelegate: ClickableTextDelegate?
 
-    let disposeBag = DisposeBag()
-
     // MARK: - Inits
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         themeService.rx
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
+            flex.addItem().height(18).backgroundColor(.white)
             flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
             flex.addItem().padding(12, 17, 17, 12).define { (flex) in
                 flex.addItem(postInfoLabel)
@@ -63,7 +62,7 @@ class LinkPostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCell
     }
 }
 
-extension LinkPostCollectionViewCell: UITextViewDelegate {
+extension LinkPostTableViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
         clickableTextDelegate?.click(textView, url: URL)
@@ -71,7 +70,7 @@ extension LinkPostCollectionViewCell: UITextViewDelegate {
     }
 }
 
-extension LinkPostCollectionViewCell {
+extension LinkPostTableViewCell {
     fileprivate func makePostInfoLabel() -> UITextView {
         let textView = UITextView()
         textView.textContainerInset = .zero

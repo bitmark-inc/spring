@@ -1,5 +1,5 @@
 //
-//  UpdatePostCollectionViewCell.swift
+//  VideoPostTableViewCell.swift
 //  Synergy
 //
 //  Created by thuyentruong on 12/5/19.
@@ -11,28 +11,29 @@ import FlexLayout
 import RxSwift
 import SwiftDate
 
-class UpdatePostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCell {
+class VideoPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
+    fileprivate lazy var photoImageView = makePhotoImageView()
     weak var clickableTextDelegate: ClickableTextDelegate?
 
-    let disposeBag = DisposeBag()
-
     // MARK: - Inits
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         themeService.rx
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
+            flex.addItem().height(18).backgroundColor(.white)
             flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
-            flex.addItem().padding(12, 17, 17, 12).define { (flex) in
+            flex.addItem().padding(12, 17, 0, 12).define { (flex) in
                 flex.addItem(postInfoLabel)
-                flex.addItem(captionLabel).marginTop(12)
+                flex.addItem(captionLabel).marginTop(12).basis(1)
             }
+            flex.addItem(photoImageView).marginTop(20).height(300).maxWidth(100%)
             flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
         }
     }
@@ -40,6 +41,7 @@ class UpdatePostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCe
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        photoImageView.flex.height(0)
         invalidateIntrinsicContentSize()
     }
 
@@ -61,12 +63,19 @@ class UpdatePostCollectionViewCell: CollectionViewCell, PostDataCollectionViewCe
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
 
+        if let thumbnail = post.thumbnail, let thumbnailURL = URL(string: thumbnail) {
+            photoImageView.loadURL(thumbnailURL)
+                .subscribe()
+                .disposed(by: disposeBag)
+        }
+
         postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
+        photoImageView.flex.markDirty()
     }
 }
 
-extension UpdatePostCollectionViewCell: UITextViewDelegate {
+extension VideoPostTableViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
         clickableTextDelegate?.click(textView, url: URL)
@@ -74,7 +83,7 @@ extension UpdatePostCollectionViewCell: UITextViewDelegate {
     }
 }
 
-extension UpdatePostCollectionViewCell {
+extension VideoPostTableViewCell {
     fileprivate func makePostInfoLabel() -> UITextView {
         let textView = UITextView()
         textView.textContainerInset = .zero
@@ -99,5 +108,9 @@ extension UpdatePostCollectionViewCell {
         textView.isScrollEnabled = false
         textView.dataDetectorTypes = .link
         return textView
+    }
+
+    fileprivate func makePhotoImageView() -> ImageView {
+        return ImageView()
     }
 }
