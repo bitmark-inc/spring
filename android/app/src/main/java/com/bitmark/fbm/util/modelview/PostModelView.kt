@@ -60,4 +60,12 @@ data class PostModelView(
             )
         }
     }
+
+    fun hasSingleTag() = tags.size == 1
+
+    fun hasMultiTags() = tags.size > 1
+
+    fun hasEmptyTags() = tags.isEmpty()
+
+    fun hasLocation() = location != null
 }

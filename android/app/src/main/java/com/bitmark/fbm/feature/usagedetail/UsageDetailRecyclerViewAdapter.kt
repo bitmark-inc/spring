@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.feature.usagedetail
 
+import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.util.DateTimeUtil
+import com.bitmark.fbm.util.ext.toHtmlSpan
 import com.bitmark.fbm.util.modelview.PostModelView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_link.view.*
@@ -88,7 +90,8 @@ class UsageDetailRecyclerViewAdapter(private val period: Period) :
     }
 
     open class VH(view: View, private val period: Period) : RecyclerView.ViewHolder(view) {
-        protected fun getInfo(item: PostModelView): String {
+        protected fun getInfo(item: PostModelView): Spanned {
+            val context = itemView.context!!
             val date = DateTimeUtil.millisToString(
                 item.timestamp, if (period == Period.DECADE) {
                     DateTimeUtil.DATE_FORMAT_2
@@ -97,19 +100,26 @@ class UsageDetailRecyclerViewAdapter(private val period: Period) :
                 }
             )
             val time = DateTimeUtil.millisToString(item.timestamp, DateTimeUtil.TIME_FORMAT_1)
-            val info = StringBuilder("$date at $time")
+            val info = StringBuilder(context.getString(R.string.date_format_1).format(date, time))
             val tags = item.tags
-            if (tags.isNotEmpty()) {
-                if (tags.size == 1) {
-                    info.append(" with ${tags[0]}")
+            val firstTag = if (tags.isNotEmpty()) tags[0] else null
+            if (firstTag != null) {
+                info.append(" ")
+                if (item.hasSingleTag()) {
+                    info.append(context.getString(R.string.with_format_1).format(firstTag))
                 } else {
-                    info.append(" with ${tags[0]} and ${tags.size - 1} others")
+                    info.append(
+                        context.getString(R.string.with_format_2).format(
+                            firstTag,
+                            tags.size - 1
+                        )
+                    )
                 }
             }
-            if (item.location != null) {
-                info.append(" at ${item.location}")
+            if (item.hasLocation()) {
+                info.append(" ").append(context.getString(R.string.at_format).format(item.location))
             }
-            return info.toString()
+            return info.toString().toHtmlSpan()
         }
     }
 

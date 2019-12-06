@@ -164,6 +164,9 @@
     <string name="decadely_avg_format">Decadely average = %1$d</string>
     <string name="you_requested_your_fb_data_format">You requested your Facebook data archive on %1$s. \n\nWe’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have.</string>
     <string name="you_requested_your_fb_data_format_2">You requested your Facebook data archive on %1$s. \n\nSorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have.</string>
-    <string name="by_format">By %1$s</string>
+    <string name="date_format_1"><![CDATA[%1$s at %2$s]]></string>
+    <string name="with_format_1"><![CDATA[with <b>%s</b>]]></string>
+    <string name="with_format_2"><![CDATA[with <b>%s</b> and <b>%d others</b>]]></string>
+    <string name="at_format"><![CDATA[at <b>%s</b>]]></string>
 
 </resources>
