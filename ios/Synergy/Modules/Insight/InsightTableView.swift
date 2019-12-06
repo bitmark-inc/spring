@@ -1,5 +1,5 @@
 //
-//  InsightCollectionView.swift
+//  InsightTableView.swift
 //  Synergy
 //
 //  Created by Anh Nguyen on 11/28/19.
@@ -12,33 +12,29 @@ import RxCocoa
 import FlexLayout
 import Charts
 
-class InsightCollectionView: CollectionView {
-    private let disposeBag = DisposeBag()
+class InsightTableView: TableView {
     var postListNavigateHandler: ((FilterScope) -> Void)?
     var timeUnit: TimeUnit = .week {
         didSet {
-            self.reloadData { [unowned self] in
-                self.setContentOffset(.zero, animated: true)
-            }
+            self.reloadSections(IndexSet(integersIn: 1...4), with: .automatic)
         }
     }
     var startTime: Date = Date() {
         didSet {
-            self.reloadData { [unowned self] in
-                self.setContentOffset(.zero, animated: true)
-            }
+            self.reloadSections(IndexSet(integersIn: 1...4), with: .automatic)
         }
     }
     
-    override init() {
-        super.init()
+    override init(frame: CGRect, style: UITableView.Style) {
+        super.init(frame: frame, style: style)
         
         self.dataSource = self
-        self.register(cellWithClass: InsightBadgeCollectionViewCell.self)
-        self.register(cellWithClass: InsightHeadingCollectionViewCell.self)
-        self.register(cellWithClass: InsightFilterTypeCollectionViewCell.self)
-        self.register(cellWithClass: InsightFilterDayCollectionViewCell.self)
-        self.register(cellWithClass: InsightFilterPlacesCollectionViewCell.self)
+        self.register(cellWithClass: TimeFilterTableViewCell.self)
+        self.register(cellWithClass: InsightBadgeTableViewCell.self)
+        self.register(cellWithClass: InsightHeadingTableViewCell.self)
+        self.register(cellWithClass: InsightFilterTypeTableViewCell.self)
+        self.register(cellWithClass: InsightFilterDayTableViewCell.self)
+        self.register(cellWithClass: InsightFilterPlacesTableViewCell.self)
         
         themeService.rx
             .bind({ $0.background }, to: rx.backgroundColor)
@@ -51,43 +47,54 @@ class InsightCollectionView: CollectionView {
     
 }
 
-extension InsightCollectionView: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+extension InsightTableView: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 1
         case 1:
-            return 3
+            return 1
         case 2:
             return 3
         case 3:
+            return 3
+        case 4:
             return 4
         default:
             return 0
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let c = collectionView as? InsightCollectionView else {
-            assert(false, "collectionView is not InsightCollectionView")
-            return UICollectionViewCell()
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let c = tableView as? InsightTableView else {
+            assert(false, "tableView is not InsightTableView")
+            return UITableViewCell()
         }
         
         switch (indexPath.section, indexPath.row) {
         case (0, _):
-            let cell = collectionView.dequeueReusableCell(withClass: InsightBadgeCollectionViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: TimeFilterTableViewCell.self, for: indexPath)
+            cell.filterChangeSubject
+                .subscribeOn(MainScheduler())
+                .subscribe(onNext: { [weak self] (timeUnit) in
+                    self?.timeUnit = timeUnit
+                })
+                .disposed(by: disposeBag)
+            return cell
+        case (0, _):
+            let cell = tableView.dequeueReusableCell(withClass: InsightBadgeTableViewCell.self, for: indexPath)
             cell.timeUnit = c.timeUnit
             return cell
         case (1, 0):
-            let cell = collectionView.dequeueReusableCell(withClass: InsightHeadingCollectionViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: InsightHeadingTableViewCell.self, for: indexPath)
             cell.bindData(countText: "14 AD INTERESTS", actionDescriptionText: "tracked by Facebook")
             return cell
         case (1, 1):
-            let cell = collectionView.dequeueReusableCell(withClass: InsightFilterTypeCollectionViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: InsightFilterTypeTableViewCell.self, for: indexPath)
             cell.section = .posts
             cell.timeUnit = c.timeUnit
             cell.startTime = c.startTime
@@ -100,13 +107,13 @@ extension InsightCollectionView: UICollectionViewDataSource {
             cell.postListNavigateHandler = c.postListNavigateHandler
             return cell
         case (1, 2):
-            return collectionView.dequeueReusableCell(withClass: InsightFilterDayCollectionViewCell.self, for: indexPath)
+            return tableView.dequeueReusableCell(withClass: InsightFilterDayTableViewCell.self, for: indexPath)
         case (2, 0):
-            let cell = collectionView.dequeueReusableCell(withClass: InsightHeadingCollectionViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: InsightHeadingTableViewCell.self, for: indexPath)
             cell.bindData(countText: "5 ADVERTISERS", actionDescriptionText: "collected data about you")
             return cell
         case (2, 1):
-            let cell = collectionView.dequeueReusableCell(withClass: InsightFilterTypeCollectionViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: InsightFilterTypeTableViewCell.self, for: indexPath)
             cell.section = .reactions
             cell.timeUnit = c.timeUnit
             cell.startTime = c.startTime
@@ -118,13 +125,13 @@ extension InsightCollectionView: UICollectionViewDataSource {
                      ("Shopping & Fashion", 2)])
             return cell
         case (2, 2):
-            return collectionView.dequeueReusableCell(withClass: InsightFilterDayCollectionViewCell.self, for: indexPath)
+            return tableView.dequeueReusableCell(withClass: InsightFilterDayTableViewCell.self, for: indexPath)
         case (3, 0):
-            let cell = collectionView.dequeueReusableCell(withClass: InsightHeadingCollectionViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: InsightHeadingTableViewCell.self, for: indexPath)
             cell.bindData(countText: "35 LOCATIONS", actionDescriptionText: "tracked by Facebook")
             return cell
         case (3, 1):
-            let cell = collectionView.dequeueReusableCell(withClass: InsightFilterTypeCollectionViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: InsightFilterTypeTableViewCell.self, for: indexPath)
             cell.section = .message
             cell.timeUnit = c.timeUnit
             cell.startTime = c.startTime
@@ -136,7 +143,7 @@ extension InsightCollectionView: UICollectionViewDataSource {
                                  ("San Francisco, California, USA", 2)])
             return cell
         case (3, 2):
-            let cell = collectionView.dequeueReusableCell(withClass: InsightFilterTypeCollectionViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: InsightFilterTypeTableViewCell.self, for: indexPath)
             cell.section = .message
             cell.timeUnit = c.timeUnit
             cell.startTime = c.startTime
@@ -148,15 +155,15 @@ extension InsightCollectionView: UICollectionViewDataSource {
                                  ("Airport", 2)])
             return cell
         case (3, 3):
-            return collectionView.dequeueReusableCell(withClass: InsightFilterDayCollectionViewCell.self, for: indexPath)
+            return tableView.dequeueReusableCell(withClass: InsightFilterDayTableViewCell.self, for: indexPath)
         default:
-            return collectionView.dequeueReusableCell(withClass: InsightHeadingCollectionViewCell.self, for: indexPath)
+            return tableView.dequeueReusableCell(withClass: InsightHeadingTableViewCell.self, for: indexPath)
         }
             
     }
 }
 
-extension Reactive where Base: InsightCollectionView {
+extension Reactive where Base: InsightTableView {
     
     /// Reactive wrapper for `timeUnit` property.
     var timeUnit: Binder<TimeUnit> {
@@ -173,12 +180,12 @@ extension Reactive where Base: InsightCollectionView {
     }
 }
 
-class InsightHeadingCollectionViewCell: CollectionViewCell {
+class InsightHeadingTableViewCell: TableViewCell {
     private let countLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 24))
     private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
         
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem()
@@ -220,7 +227,7 @@ class InsightHeadingCollectionViewCell: CollectionViewCell {
     }
 }
 
-class InsightFilterTypeCollectionViewCell: CollectionViewCell {
+class InsightFilterTypeTableViewCell: TableViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     private let chartView = HorizontalBarChartView()
     var postListNavigateHandler: ((FilterScope) -> Void)?
@@ -229,8 +236,8 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
     var timeUnit: TimeUnit = .week
     var startTime: Date = Date()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.flex.direction(.column).define { (flex) in
             flex.justifyContent(.start)
@@ -318,12 +325,12 @@ class InsightFilterTypeCollectionViewCell: CollectionViewCell {
     }
 }
 
-class InsightFilterDayCollectionViewCell: CollectionViewCell {
+class InsightFilterDayTableViewCell: TableViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     let chartView = BarChartView()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.flex.direction(.column).define { (flex) in
             flex.justifyContent(.start)
@@ -397,12 +404,12 @@ class InsightFilterDayCollectionViewCell: CollectionViewCell {
     }
 }
 
-class InsightFilterPlacesCollectionViewCell: CollectionViewCell {
+class InsightFilterPlacesTableViewCell: TableViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     let chartView = HorizontalBarChartView()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
 
         contentView.flex.direction(.column).define { (flex) in
             flex.justifyContent(.start)

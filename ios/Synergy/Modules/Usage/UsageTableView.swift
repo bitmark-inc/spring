@@ -22,9 +22,7 @@ class UsageTableView: TableView {
     }
     var startTime: Date = Date() {
         didSet {
-            self.reloadData { [unowned self] in
-                self.setContentOffset(.zero, animated: true)
-            }
+            self.reloadSections(IndexSet(integersIn: 1...4), with: .automatic)
         }
     }
 
