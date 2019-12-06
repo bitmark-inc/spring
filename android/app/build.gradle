@@ -243,6 +243,10 @@ dependencies {
     implementation 'com.bitmark.sdk:api-service:2.1.0'
     implementation 'com.bitmark.sdk:cryptography:1.5.0'
 
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    kapt 'com.github.bumptech.glide:compiler:4.10.0'
+
     // Other
     implementation('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
         transitive = true

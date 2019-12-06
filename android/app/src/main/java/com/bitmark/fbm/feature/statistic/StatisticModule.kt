@@ -6,8 +6,12 @@
  */
 package com.bitmark.fbm.feature.statistic
 
+import com.bitmark.fbm.data.source.InsightsRepository
+import com.bitmark.fbm.data.source.UsageRepository
 import com.bitmark.fbm.di.FragmentScope
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
 import dagger.Provides
 
@@ -16,10 +20,20 @@ class StatisticModule {
 
     @Provides
     @FragmentScope
-    fun provideViewModel(fragment: StatisticFragment) = StatisticViewModel(fragment.lifecycle)
+    fun provideViewModel(
+        fragment: StatisticFragment,
+        usageRepo: UsageRepository,
+        insightsRepo: InsightsRepository,
+        rxLiveDataTransformer: RxLiveDataTransformer
+    ) = StatisticViewModel(fragment.lifecycle, usageRepo, insightsRepo, rxLiveDataTransformer)
 
     @Provides
     @FragmentScope
-    fun provideNavigator(fragment: StatisticFragment) = Navigator(fragment)
+    fun provideNavigator(fragment: StatisticFragment) =
+        Navigator(fragment.parentFragment?.parentFragment!!)
+
+    @Provides
+    @FragmentScope
+    fun provideDialogController(fragment: StatisticFragment) = DialogController(fragment.activity!!)
 
 }

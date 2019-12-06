@@ -10,10 +10,10 @@ import android.content.Context
 import androidx.room.Room
 import com.bitmark.fbm.data.source.local.AccountLocalDataSource
 import com.bitmark.fbm.data.source.local.AppLocalDataSource
+import com.bitmark.fbm.data.source.local.InsightsLocalDataSource
+import com.bitmark.fbm.data.source.local.UsageLocalDataSource
 import com.bitmark.fbm.data.source.local.api.DatabaseGateway
-import com.bitmark.fbm.data.source.remote.AccountRemoteDataSource
-import com.bitmark.fbm.data.source.remote.AppRemoteDataSource
-import com.bitmark.fbm.data.source.remote.BitmarkRemoteDataSource
+import com.bitmark.fbm.data.source.remote.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -46,6 +46,22 @@ class RepositoryModule {
     ): AppRepository {
         return AppRepository(remoteDataSource, localDataSource)
     }
+
+    @Singleton
+    @Provides
+    fun provideInsightsRepo(
+        remoteDataSource: InsightsRemoteDataSource,
+        localDataSource: InsightsLocalDataSource
+    ): InsightsRepository {
+        return InsightsRepository(remoteDataSource, localDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideUsageRepo(
+        remoteDataSource: UsageRemoteDataSource,
+        localDataSource: UsageLocalDataSource
+    ) = UsageRepository(remoteDataSource, localDataSource)
 
     @Singleton
     @Provides

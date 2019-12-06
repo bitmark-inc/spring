@@ -6,18 +6,21 @@
  */
 package com.bitmark.fbm.feature.statistic
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
 import com.bitmark.fbm.util.modelview.SectionModelView
+import com.bitmark.fbm.util.view.statistic.GroupView
 import com.bitmark.fbm.util.view.statistic.SectionView
 import kotlinx.android.synthetic.main.item_trends.view.*
 import kotlin.math.abs
 
 
-class StatisticRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class StatisticRecyclerViewAdapter(private val context: Context) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val HEADER = 0x01
@@ -29,9 +32,15 @@ class StatisticRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private val items = mutableListOf<Item>()
 
+    private var chartClickListener: GroupView.ChartClickListener? = null
+
+    fun setChartClickListener(listener: GroupView.ChartClickListener) {
+        this.chartClickListener = listener
+    }
+
     fun set(sections: List<SectionModelView>) {
         items.clear()
-        val headerItems = getHeaderItems(sections)
+        val headerItems = getHeaderItems(context, sections)
         items.add(Item(HEADER, headerItems, null))
         items.addAll(sections.map { s -> Item(BODY, null, s) })
         notifyDataSetChanged()
@@ -47,7 +56,11 @@ class StatisticRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
                 )
             )
         } else {
-            BodyVH(SectionView(parent.context))
+            val sectionView = SectionView(parent.context)
+            if (chartClickListener != null) {
+                sectionView.setChartClickListener(chartClickListener!!)
+            }
+            BodyVH(sectionView)
         }
     }
 
@@ -66,11 +79,28 @@ class StatisticRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolde
         return items[position].type
     }
 
-    private fun getHeaderItems(sections: List<SectionModelView>): List<HeaderItem> {
+    private fun getHeaderItems(
+        context: Context,
+        sections: List<SectionModelView>
+    ): List<HeaderItem> {
         if (sections.isEmpty()) return listOf()
         val items = mutableListOf<HeaderItem>()
         for (section in sections) {
-            items.add(HeaderItem(section.name, section.diffFromPrev))
+            items.add(
+                HeaderItem(
+                    context.getString(
+                        when (section.name) {
+                            "posts"        -> R.string.posts
+                            "reactions"    -> R.string.reactions
+                            "messages"     -> R.string.messages
+                            "ad_interests" -> R.string.ad_interests
+                            "advertisers"  -> R.string.advertisers
+                            "locations"    -> R.string.locations
+                            else           -> error("invalid section name: ${section.name}")
+                        }
+                    ), section.diffFromPrev
+                )
+            )
         }
         return items
     }

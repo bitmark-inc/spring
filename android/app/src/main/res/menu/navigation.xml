@@ -12,6 +12,6 @@
 
     <item
         android:id="@+id/navAccount"
-        android:icon="@drawable/ic_dollar"
-        android:title="@string/offer"/>
+        android:icon="@drawable/ic_streams"
+        android:title="@string/streams"/>
 </menu>

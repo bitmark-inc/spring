@@ -6,9 +6,9 @@
  */
 package com.bitmark.fbm.util
 
+import com.bitmark.fbm.data.model.entity.Period
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.abs
 
 class DateTimeUtil {
 
@@ -35,6 +35,8 @@ class DateTimeUtil {
         val DATE_FORMAT_8 = "yyyy"
 
         val DATE_TIME_FORMAT_1 = "MMM dd hh:mm a"
+
+        val TIME_FORMAT_1 = "hh:mm a"
 
         fun stringToString(date: String) =
             stringToString(date, DATE_FORMAT_1)
@@ -119,6 +121,106 @@ class DateTimeUtil {
 
         fun getToday() = Calendar.getInstance().time
 
+        fun getStartOfLastWeekMillis(): Long {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+            calendar.set(Calendar.WEEK_OF_YEAR, calendar.get(Calendar.WEEK_OF_YEAR) - 1)
+            val startOfSunday = getStartOfDate(calendar)
+            return startOfSunday.timeInMillis
+        }
+
+        fun getStartOfLastWeekMillis(thisWeekMillis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = thisWeekMillis
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+            calendar.set(Calendar.WEEK_OF_YEAR, calendar.get(Calendar.WEEK_OF_YEAR) - 1)
+            val startOfSunday = getStartOfDate(calendar)
+            return startOfSunday.timeInMillis
+        }
+
+        fun getStartOfNextWeekMillis(thisWeekMillis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = thisWeekMillis
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+            calendar.set(Calendar.WEEK_OF_YEAR, calendar.get(Calendar.WEEK_OF_YEAR) + 1)
+            val startOfSunday = getStartOfDate(calendar)
+            return startOfSunday.timeInMillis
+        }
+
+        fun getEndOfWeek(millis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = millis
+            calendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
+            return getEndOfDate(calendar).timeInMillis
+        }
+
+        fun getStartOfThisYearMillis(): Long {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+            val startOfYear = getStartOfDate(calendar)
+            return startOfYear.timeInMillis
+        }
+
+        fun getStartOfLastYearMillis(thisYearMillis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = thisYearMillis
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 1)
+            val startOfYear = getStartOfDate(calendar)
+            return startOfYear.timeInMillis
+        }
+
+        fun getStartOfNextYearMillis(thisYearMillis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = thisYearMillis
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 1)
+            val startOfYear = getStartOfDate(calendar)
+            return startOfYear.timeInMillis
+        }
+
+        fun getEndOfYear(millis: Long): Long {
+            val nextYearMillis = getStartOfNextYearMillis(millis)
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = nextYearMillis
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 1)
+            return getEndOfDate(calendar).timeInMillis
+        }
+
+        fun getStartOfThisDecadeMillis(): Long {
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 9)
+            val startOfDecade = getStartOfDate(calendar)
+            return startOfDecade.timeInMillis
+        }
+
+        fun getStartOfLastDecadeMillis(startOfThisDecadeMillis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = startOfThisDecadeMillis
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 10)
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+            val startOfDecade = getStartOfDate(calendar)
+            return startOfDecade.timeInMillis
+        }
+
+        fun getStartOfNextDecadeMillis(startOfThisDecadeMillis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = startOfThisDecadeMillis
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 10)
+            calendar.set(Calendar.DAY_OF_YEAR, 1)
+            val startOfDecade = getStartOfDate(calendar)
+            return startOfDecade.timeInMillis
+        }
+
+        fun getEndOfDecade(startOfThisDecadeMillis: Long): Long {
+            val nextDecadeMillis = getStartOfNextDecadeMillis(startOfThisDecadeMillis)
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = nextDecadeMillis
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 1)
+            return getEndOfDate(calendar).timeInMillis
+        }
+
         fun getStartOfDate(calendar: Calendar): Calendar {
             calendar.set(Calendar.HOUR_OF_DAY, 0)
             calendar.set(Calendar.MINUTE, 0)
@@ -135,33 +237,23 @@ class DateTimeUtil {
             return calendar
         }
 
-        fun getDateRangeOfWeek(numWeekFromNow: Int): Pair<Date, Date> {
-            val startDate = Calendar.getInstance()
-            startDate.set(
-                Calendar.WEEK_OF_YEAR,
-                startDate.get(Calendar.WEEK_OF_YEAR) + numWeekFromNow
-            )
-            val endDate = Calendar.getInstance()
-            endDate.set(Calendar.WEEK_OF_YEAR, endDate.get(Calendar.WEEK_OF_YEAR) + numWeekFromNow)
-            startDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-            endDate.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
-            return Pair(getStartOfDate(startDate).time, getEndOfDate(endDate).time)
+        fun getDateRangeOfWeek(startOfWeekMillis: Long): Pair<Date, Date> {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = startOfWeekMillis
+            val startDate = getStartOfDate(calendar).time
+            calendar.set(Calendar.WEEK_OF_YEAR, calendar.get(Calendar.WEEK_OF_YEAR) + 1)
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 1)
+            val endDate = getEndOfDate(calendar).time
+            return Pair(startDate, endDate)
         }
 
-        fun getYearFromNowWithGap(gap: Int): IntArray {
-            val years = IntArray(abs(gap))
+        fun getDateRangeOfDecade(startOfDecadeMillis: Long): Pair<Date, Date> {
             val calendar = Calendar.getInstance()
-            years[if (gap > 0) 0 else years.size - 1] = calendar.get(Calendar.YEAR)
-            var count = 1
-
-            while (count < years.size) {
-                val currentYear = calendar.get(Calendar.YEAR)
-                calendar.set(Calendar.YEAR, if (gap > 0) currentYear + 1 else currentYear - 1)
-                val index = if (gap > 0) count else years.size - count - 1
-                years[index] = calendar.get(Calendar.YEAR)
-                count++
-            }
-            return years
+            calendar.timeInMillis = startOfDecadeMillis
+            val startDate = getStartOfDate(calendar).time
+            calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) + 9)
+            val endDate = getEndOfDate(calendar).time
+            return Pair(startDate, endDate)
         }
 
         fun getDoW(date: Date): Int {
@@ -176,10 +268,36 @@ class DateTimeUtil {
             return calendar.get(Calendar.MONTH)
         }
 
-        fun getYear(date: Date) : Int {
+        fun getYear(date: Date): Int {
             val calendar = Calendar.getInstance()
             calendar.time = date
             return calendar.get(Calendar.YEAR)
+        }
+
+    }
+}
+
+fun DateTimeUtil.Companion.formatPeriod(period: Period, startedTimeMillis: Long): String {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = startedTimeMillis
+    return when (period) {
+        Period.WEEK   -> {
+            val range = getDateRangeOfWeek(startedTimeMillis)
+            "%d %s-%s".format(
+                getYear(calendar.time),
+                dateToString(range.first, DATE_FORMAT_3),
+                dateToString(range.second, DATE_FORMAT_3)
+            )
+        }
+        Period.YEAR   -> {
+            "%d".format(getYear(calendar.time))
+        }
+        Period.DECADE -> {
+            val range = getDateRangeOfDecade(startedTimeMillis)
+            "%s-%s".format(
+                dateToString(range.first, DATE_FORMAT_8),
+                dateToString(range.second, DATE_FORMAT_8)
+            )
         }
     }
 }

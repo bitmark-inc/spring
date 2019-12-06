@@ -27,15 +27,38 @@
     <color name="tea_green">#BBEAA6</color>
     <color name="perfume">#E29AF4</color>
 
-    <array name="chart_color_palette">
+    <array name="color_palette_1">
+        <item>@color/mabilu</item>
+        <item>@color/carissma</item>
+        <item>@color/apricot</item>
+        <item>@color/chenin</item>
+        <item>@color/tea_green</item>
+    </array>
+
+    <array name="color_palette_2">
+        <item>@color/perfume</item>
+        <item>@color/tea_green</item>
+        <item>@color/apricot</item>
+        <item>@color/chenin</item>
+        <item>@color/carissma</item>
+        <item>@color/mabilu</item>
+    </array>
+
+    <array name="color_palette_4">
+        <item>@color/tea_green</item>
+        <item>@color/apricot</item>
+        <item>@color/chenin</item>
+        <item>@color/carissma</item>
+        <item>@color/mabilu</item>
+    </array>
+
+    <array name="color_palette_3">
         <item>@color/mabilu</item>
         <item>@color/carissma</item>
         <item>@color/apricot</item>
         <item>@color/chenin</item>
         <item>@color/tea_green</item>
         <item>@color/perfume</item>
-        <item>@color/cognac</item>
-        <item>@color/olive</item>
     </array>
 
 </resources>

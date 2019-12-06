@@ -8,8 +8,10 @@ package com.bitmark.fbm.di
 
 import com.bitmark.fbm.feature.insights.InsightsContainerFragment
 import com.bitmark.fbm.feature.insights.InsightsContainerModule
-import com.bitmark.fbm.feature.offer.OfferContainerFragment
-import com.bitmark.fbm.feature.offer.OfferContainerModule
+import com.bitmark.fbm.feature.insights.InsightsFragment
+import com.bitmark.fbm.feature.insights.InsightsModule
+import com.bitmark.fbm.feature.stream.StreamContainerFragment
+import com.bitmark.fbm.feature.stream.StreamContainerModule
 import com.bitmark.fbm.feature.recovery.access.RecoveryAccessFragment
 import com.bitmark.fbm.feature.recovery.access.RecoveryAccessModule
 import com.bitmark.fbm.feature.recovery.notice.RecoveryNoticeFragment
@@ -26,6 +28,10 @@ import com.bitmark.fbm.feature.unlink.unlink.UnlinkFragment
 import com.bitmark.fbm.feature.unlink.unlink.UnlinkModule
 import com.bitmark.fbm.feature.usage.UsageContainerFragment
 import com.bitmark.fbm.feature.usage.UsageContainerModule
+import com.bitmark.fbm.feature.usage.UsageFragment
+import com.bitmark.fbm.feature.usage.UsageModule
+import com.bitmark.fbm.feature.usagedetail.UsageDetailFragment
+import com.bitmark.fbm.feature.usagedetail.UsageDetailModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -36,13 +42,21 @@ abstract class FragmentBuilderModule {
     @FragmentScope
     internal abstract fun bindUsageContainerFragment(): UsageContainerFragment
 
+    @ContributesAndroidInjector(modules = [UsageModule::class])
+    @FragmentScope
+    internal abstract fun bindUsageFragment(): UsageFragment
+
     @ContributesAndroidInjector(modules = [InsightsContainerModule::class])
     @FragmentScope
     internal abstract fun bindInsightsContainerFragment(): InsightsContainerFragment
 
-    @ContributesAndroidInjector(modules = [OfferContainerModule::class])
+    @ContributesAndroidInjector(modules = [InsightsModule::class])
     @FragmentScope
-    internal abstract fun bindOfferContainerFragment(): OfferContainerFragment
+    internal abstract fun bindInsightsFragment(): InsightsFragment
+
+    @ContributesAndroidInjector(modules = [StreamContainerModule::class])
+    @FragmentScope
+    internal abstract fun bindOfferContainerFragment(): StreamContainerFragment
 
     @ContributesAndroidInjector(modules = [UnlinkNoticeModule::class])
     @FragmentScope
@@ -71,4 +85,8 @@ abstract class FragmentBuilderModule {
     @ContributesAndroidInjector(modules = [StatisticModule::class])
     @FragmentScope
     internal abstract fun bindStatisticFragment(): StatisticFragment
+
+    @ContributesAndroidInjector(modules = [UsageDetailModule::class])
+    @FragmentScope
+    internal abstract fun bindUsageDetailFragment(): UsageDetailFragment
 }

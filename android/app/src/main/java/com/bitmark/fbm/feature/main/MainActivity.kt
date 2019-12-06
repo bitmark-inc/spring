@@ -14,6 +14,7 @@ import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.BehaviorComponent
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.feature.usage.UsageContainerFragment
 import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -22,6 +23,8 @@ class MainActivity : BaseAppCompatActivity() {
 
     @Inject
     internal lateinit var navigator: Navigator
+
+    private lateinit var vpAdapter: MainViewPagerAdapter
 
     override fun layoutRes(): Int = R.layout.activity_main
 
@@ -37,7 +40,7 @@ class MainActivity : BaseAppCompatActivity() {
             R.color.white
         )
         bottomNav.accentColor =
-            ContextCompat.getColor(this, R.color.colorAccent)
+            ContextCompat.getColor(this, R.color.cognac)
         bottomNav.inactiveColor =
             ContextCompat.getColor(this, R.color.black)
         bottomNav.setTitleTypeface(
@@ -48,20 +51,40 @@ class MainActivity : BaseAppCompatActivity() {
             getDimensionPixelSize(R.dimen.sp_10).toFloat()
         )
 
-        val adapter = MainViewPagerAdapter(supportFragmentManager)
-        viewPager.offscreenPageLimit = adapter.count
-        viewPager.adapter = adapter
+        vpAdapter = MainViewPagerAdapter(supportFragmentManager)
+        viewPager.offscreenPageLimit = vpAdapter.count
+        viewPager.adapter = vpAdapter
         viewPager.setCurrentItem(0, false)
 
         bottomNav.setOnTabSelectedListener { position, wasSelected ->
-            viewPager.setCurrentItem(position, false)
+            viewPager.setCurrentItem(position, true)
+
+            bottomNav.accentColor =
+                ContextCompat.getColor(
+                    this, when (position) {
+                        0    -> R.color.cognac
+                        1    -> R.color.international_klein_blue
+                        2    -> R.color.olive
+                        else -> error("invalid tab pos")
+                    }
+                )
 
             if (wasSelected) {
-                (adapter.currentFragment as? BehaviorComponent)?.refresh()
+                (vpAdapter.currentFragment as? BehaviorComponent)?.refresh()
             }
 
             true
         }
 
+    }
+
+    override fun onBackPressed() {
+        val currentFragment = vpAdapter.currentFragment as? BehaviorComponent
+        if (currentFragment is UsageContainerFragment && !currentFragment.onBackPressed())
+            super.onBackPressed()
+        else if (currentFragment?.onBackPressed() == false) {
+            bottomNav.currentItem = 0
+            viewPager.setCurrentItem(0, false)
+        }
     }
 }

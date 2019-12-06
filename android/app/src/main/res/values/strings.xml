@@ -85,6 +85,47 @@
     <string name="tracked_by_fb">Tracked by Facebook</string>
     <string name="collected_data_about_you">Collected data about you</string>
 
+    <string name="updates">Updates</string>
+    <string name="photos">Photos</string>
+    <string name="stories">Stories</string>
+    <string name="videos">Videos</string>
+    <string name="links">Links</string>
+    <string name="like">Like</string>
+    <string name="love">Love</string>
+    <string name="wow">Wow</string>
+    <string name="haha">Haha</string>
+    <string name="sad">Sad</string>
+    <string name="angry">Angry</string>
+    <string name="streams">STREAMS</string>
+    <string name="you_reacted">You reacted</string>
+    <string name="you_reacted_to">You reacted to</string>
+    <string name="with_person_or_group">With person or group</string>
+    <string name="sent_or_received">Sent or received</string>
+    <string name="empty" />
+    <string name="by_type">By type</string>
+    <string name="by_day">By day</string>
+    <string name="by_friends_tagged">By friends tagged</string>
+    <string name="by_place_tagged">By place tagged</string>
+    <string name="by_friend">By friend</string>
+    <string name="by_chat">By chat</string>
+    <string name="of_topic">Of topic</string>
+    <string name="fb_tracked_them">Facebook tracked them</string>
+    <string name="of_industry">Of industry</string>
+    <string name="that_your_data_was_collected">That your data was collected</string>
+    <string name="of_location">Of location</string>
+    <string name="by_area">By area</string>
+    <string name="entertainment">Entertainment</string>
+    <string name="fitness_and_wellness">Fitness &amp; Wellness</string>
+    <string name="food_and_drink">Food &amp; Drink</string>
+    <string name="hobbies_and_activities">Hobbies &amp; Activities</string>
+    <string name="shopping_and_fashion">Shopping &amp; Fashion</string>
+    <string name="shopping_center">Shopping Center</string>
+    <string name="restaurant">Restaurant</string>
+    <string name="gym">Gym</string>
+    <string name="park">Park</string>
+    <string name="airport">Airport</string>
+
+
     <string-array name="day_of_week">
         <item>S</item>
         <item>M</item>

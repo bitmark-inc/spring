@@ -14,8 +14,17 @@ data class GroupModelView(
     val sectionName: String,
     val name: String,
     val typeCount: Int,
-    val entries: List<Entry>
-) : ModelView
+    var entries: List<Entry>
+) : ModelView {
+
+    fun reversed() {
+        entries = entries.reversed()
+    }
+
+    fun sort() {
+        entries = entries.sortedBy { e -> e.yValues.sum() }
+    }
+}
 
 data class Entry(val xValue: String, val yValues: FloatArray)
 

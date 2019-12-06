@@ -28,13 +28,35 @@ data class SectionModelView(
             val diffFromPrev = sectionR.diffFromPrev
             val groups = mutableListOf<GroupModelView>()
 
+            // by area if has
+            if (sectionName == "locations") {
+                val types = sectionR.getGroup<GroupEntity>("area")
+                val typesCount = types.data.size
+                val typeEntries =
+                    types.data.entries.map { e ->
+                        Entry(
+                            e.key,
+                            floatArrayOf(e.value.toFloat())
+                        )
+                    }
+                groups.add(
+                    GroupModelView(
+                        period,
+                        sectionName,
+                        "area",
+                        typesCount,
+                        typeEntries
+                    )
+                )
+            }
+
             // by type
             val types = sectionR.getGroup<GroupEntity>("type")
             val typesCount = types.data.size
             val typeEntries =
                 types.data.entries.map { e ->
                     Entry(
-                        e.key.capitalize(),
+                        e.key,
                         floatArrayOf(e.value.toFloat())
                     )
                 }
@@ -48,9 +70,10 @@ data class SectionModelView(
                 )
             )
 
+
             for (entry in sectionR.groups.entries) {
                 val key = entry.key
-                if (key == "type") continue
+                if (key == "type" || key == "area") continue
                 val group = sectionR.getArrayGroup<GroupEntity>(key)
                 val entries = group.map { e ->
                     val xVal = e.name.capitalize()

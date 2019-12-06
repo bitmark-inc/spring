@@ -45,7 +45,7 @@ class SplashActivity : BaseAppCompatActivity() {
         super.initComponents()
 
         btnGetStarted.setSafetyOnclickListener {
-            navigator.anim(RIGHT_LEFT).startActivity(MainActivity::class.java)
+            navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
         }
 
         tvLogin.setSafetyOnclickListener {

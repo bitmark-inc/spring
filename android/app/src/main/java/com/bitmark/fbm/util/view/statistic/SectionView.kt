@@ -29,6 +29,8 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     private var groupsAdded = false
 
+    private var chartClickListener: GroupView.ChartClickListener? = null
+
     init {
         inflate(context, R.layout.layout_section, this)
 
@@ -37,6 +39,10 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         setPadding(padding, padding, padding, padding)
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         layoutParams = params
+    }
+
+    fun setChartClickListener(listener: GroupView.ChartClickListener) {
+        this.chartClickListener = listener
     }
 
     fun bind(section: SectionModelView) {
@@ -56,7 +62,7 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                 tvOverviewSuffix.text =
                     context.getString(R.string.you_sent_or_received).toLowerCase()
             }
-            "ad-interests" -> {
+            "ad_interests" -> {
                 tvOverview.text =
                     context.getString(R.string.ad_interests_format).format(section.quantity)
                 tvOverviewSuffix.text = context.getString(R.string.tracked_by_fb).toLowerCase()
@@ -88,6 +94,9 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
             val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
             params.setMargins(0, context.getDimensionPixelSize(R.dimen.dp_16), 0, 0)
             groupView.layoutParams = params
+            if (chartClickListener != null) {
+                groupView.setChartClickListener(chartClickListener!!)
+            }
             addView(groupView, index + DEFAULT_CHILD_COUNT)
         }
     }

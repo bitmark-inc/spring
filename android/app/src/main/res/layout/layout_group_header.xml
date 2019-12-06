@@ -23,16 +23,19 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvNameSuffix"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_4"
+        android:ellipsize="end"
         android:fontFamily="@font/grotesk"
         android:includeFontPadding="false"
+        android:maxLines="1"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_10"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/tvName"
         app:layout_constraintTop_toTopOf="@id/tvName"
-        tools:text="of post:"
+        tools:text="of post"
         />
 
 
