@@ -366,7 +366,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                         )
                     }
                     chartClickListener?.onClick(data)
-                    postDelayed({ chartView.highlightValues(null) }, 100)
+                    postDelayed({ chartView.highlightValues(null) }, 50)
                 }
             }
         })

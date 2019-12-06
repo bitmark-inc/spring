@@ -123,6 +123,7 @@ class StatisticFragment : BaseSupportFragment() {
             ContextCompat.getDrawable(context!!, R.drawable.double_divider_athens_gray)
         if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
         rvStatistic.addItemDecoration(itemDecoration)
+        rvStatistic.isNestedScrollingEnabled = false
         rvStatistic.adapter = adapter
 
         adapter.setChartClickListener(object : GroupView.ChartClickListener {

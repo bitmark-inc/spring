@@ -1,97 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/toolbar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/layoutAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/dp_18"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="@dimen/dp_124"
+        app:elevation="0dp"
         >
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvTitle"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_44"
-            android:layout_marginEnd="@dimen/dp_8"
-            android:fontFamily="@font/domaine_sans"
-            android:includeFontPadding="false"
-            android:text="@string/usage"
-            android:textAllCaps="true"
-            android:textColor="@color/cognac"
-            app:autoSizeMaxTextSize="@dimen/sp_36"
-            app:autoSizeMinTextSize="@dimen/sp_24"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintEnd_toStartOf="@id/ivAccount"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMsg"
-            android:layout_width="wrap_content"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/domaine_sans"
-            android:includeFontPadding="false"
-            android:text="@string/how_you_use_fb"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_18"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
-            />
+            app:layout_scrollFlags="scroll|enterAlways"
+            >
 
-        <com.bitmark.fbm.util.view.TouchableOpacityAppCompatImageView
-            android:id="@+id/ivAccount"
-            android:layout_width="@dimen/dp_24"
-            android:layout_height="@dimen/dp_24"
-            android:layout_marginTop="@dimen/dp_8"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_user"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvTitle"
-            />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp_18"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_scrollFlags="scroll|enterAlways"
+                >
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_44"
+                    android:layout_marginEnd="@dimen/dp_8"
+                    android:fontFamily="@font/domaine_sans"
+                    android:includeFontPadding="false"
+                    android:text="@string/usage"
+                    android:textAllCaps="true"
+                    android:textColor="@color/cognac"
+                    app:autoSizeMaxTextSize="@dimen/sp_36"
+                    app:autoSizeMinTextSize="@dimen/sp_24"
+                    app:autoSizeTextType="uniform"
+                    app:layout_constraintEnd_toStartOf="@id/ivAccount"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvMsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/domaine_sans"
+                    android:includeFontPadding="false"
+                    android:text="@string/how_you_use_fb"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_18"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvTitle"
+                    />
+
+                <com.bitmark.fbm.util.view.TouchableOpacityAppCompatImageView
+                    android:id="@+id/ivAccount"
+                    android:layout_width="@dimen/dp_24"
+                    android:layout_height="@dimen/dp_24"
+                    android:layout_marginTop="@dimen/dp_8"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_user"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvTitle"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginStart="@dimen/dp_18"
-        android:layout_marginTop="@dimen/dp_20"
-        android:layout_marginEnd="@dimen/dp_18"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:tabBackground="@color/athens_gray"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@color/black"
-        app:tabIndicatorGravity="bottom"
-        app:tabIndicatorHeight="@dimen/dp_1"
-        app:tabSelectedTextColor="@color/black"
-        app:tabTextAppearance="@style/TabLayout"
-        app:tabTextColor="@color/black"
-        />
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vpSection"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tabLayout"
-        tools:visibility="visible"
-        />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
+            >
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginStart="@dimen/dp_18"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginEnd="@dimen/dp_18"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabBackground="@color/athens_gray"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/black"
+                app:tabIndicatorGravity="bottom"
+                app:tabIndicatorHeight="@dimen/dp_1"
+                app:tabSelectedTextColor="@color/black"
+                app:tabTextAppearance="@style/TabLayout"
+                app:tabTextColor="@color/black"
+                />
+
+            <com.bitmark.fbm.util.view.NestedViewPager
+                android:id="@+id/vpSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tabLayout"
+                tools:visibility="visible"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 
