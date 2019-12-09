@@ -18,14 +18,12 @@ import SafariServices
 class PostListViewController: ViewController, BackNavigator {
 
     // MARK: - Properties
-    fileprivate lazy var sectionTitleLabel = makeSectionTitleLabel()
-    fileprivate lazy var sectionTagLabel = makeSectionTagLabel()
-    fileprivate lazy var timelineLabel = makeTimelineLabel()
     fileprivate lazy var tableView = PostTableView()
     fileprivate lazy var emptyView = makeEmptyView()
+    fileprivate lazy var backItem = makeBlackBackItem()
 
     var posts: Results<Post>?
-    lazy var thisViewModel = viewModel as? PostListViewModel
+    lazy var thisViewModel = viewModel as! PostListViewModel
 
     // MARK: - bind ViewModel
     override func bindViewModel() {
@@ -33,16 +31,11 @@ class PostListViewController: ViewController, BackNavigator {
 
         guard let viewModel = viewModel as? PostListViewModel else { return }
 
-        let sectionInfo = viewModel.generateSectionInfoText()
-        sectionTitleLabel.setText(sectionInfo.sectionTitle)
-        sectionTagLabel.setText(sectionInfo.taggedText)
-        timelineLabel.setText(sectionInfo.timelineText)
-
         viewModel.postsObservable
             .subscribe(onNext: { [weak self] (realmPosts) in
                 guard let self = self else { return }
                 self.posts = realmPosts
-                self.tableView.dataSource = self
+                self.tableView.reloadData()
                 self.refreshView()
 
                 Observable.changeset(from: realmPosts)
@@ -63,18 +56,11 @@ class PostListViewController: ViewController, BackNavigator {
     }
 
     func refreshView() {
-        if posts?.isEmpty ?? true {
-            emptyView.isHidden = false
-            tableView.isHidden = true
-            emptyView.flex.marginTop(35)
+        if let posts = posts {
+            emptyView.isHidden = !posts.isEmpty
         } else {
-            emptyView.isHidden = true
-            emptyView.flex.marginTop(0)
-            tableView.isHidden = false
+            emptyView.isHidden = false
         }
-
-        emptyView.flex.markDirty()
-        tableView.flex.markDirty()
     }
 
     // MARK: - setup Views
@@ -83,24 +69,14 @@ class PostListViewController: ViewController, BackNavigator {
 
         loadingState.onNext(.hide)
 
-        let blackBackItem = makeBlackBackItem()
+        tableView.dataSource = self
 
         contentView.flex
-            .direction(.column).define { (flex) in
-                flex.addItem().padding(OurTheme.paddingInset)
-                    .direction(.column).define { (flex) in
-                        flex.addItem(blackBackItem)
-
-                        flex.addItem().direction(.row).marginTop(6).define { (flex) in
-                            flex.addItem(sectionTitleLabel).shrink(1)
-                            flex.addItem(sectionTagLabel).marginLeft(5).marginTop(-15)
-                        }
-
-                        flex.addItem(timelineLabel).marginTop(7)
-                }
-
-                flex.addItem(emptyView)
+            .direction(.column).alignContent(.center).define { (flex) in
                 flex.addItem(tableView).marginBottom(0).grow(1)
+                flex.addItem(emptyView)
+                    .position(.absolute)
+                    .top(150).left(OurTheme.paddingInset.left)
             }
     }
 
@@ -114,30 +90,56 @@ class PostListViewController: ViewController, BackNavigator {
 }
 
 extension PostListViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts?.count ?? 0
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return posts?.count ?? 0
+        default:
+            return 0
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let post = posts![indexPath.row]
-        let cell: PostDataTableViewCell!
-        switch post.type {
-        case Constant.PostType.update:
-            cell = tableView.dequeueReusableCell(withClass: UpdatePostTableViewCell.self, for: indexPath)
 
-        case Constant.PostType.link:
-            let linkTableCell = (post.post?.isEmpty ?? true) ? LinkPostTableViewCell.self : LinkCaptionPostTableViewCell.self
-            cell = tableView.dequeueReusableCell(withClass: linkTableCell, for: indexPath) as? PostDataTableViewCell
+        switch indexPath.section {
+        case 0:
+            let cell = tableView.dequeueReusableCell(withClass: PostHeadingViewCell.self, for: indexPath)
 
-        case Constant.PostType.video:
-            cell = tableView.dequeueReusableCell(withClass: VideoPostTableViewCell.self, for: indexPath)
+            let sectionInfo = thisViewModel.generateSectionInfoText()
+            cell.fillInfo(backButton: backItem, sectionInfo: sectionInfo)
+
+            return cell
+
+        case 1:
+            let post = posts![indexPath.row]
+            let cell: PostDataTableViewCell!
+            switch post.type {
+            case Constant.PostType.update:
+                cell = tableView.dequeueReusableCell(withClass: UpdatePostTableViewCell.self, for: indexPath)
+
+            case Constant.PostType.link:
+                let linkTableCell = (post.post?.isEmpty ?? true) ? LinkPostTableViewCell.self : LinkCaptionPostTableViewCell.self
+                cell = tableView.dequeueReusableCell(withClass: linkTableCell, for: indexPath) as? PostDataTableViewCell
+
+            case Constant.PostType.video:
+                cell = tableView.dequeueReusableCell(withClass: VideoPostTableViewCell.self, for: indexPath)
+
+            default:
+                cell = tableView.dequeueReusableCell(withClass: GeneralPostTableViewCell.self, for: indexPath)
+            }
+            cell.clickableTextDelegate = self
+            cell.bindData(post: post)
+            return cell
 
         default:
-            cell = tableView.dequeueReusableCell(withClass: GeneralPostTableViewCell.self, for: indexPath)
+            return tableView.dequeueReusableCell(withClass: PostHeadingViewCell.self, for: indexPath)
         }
-        cell.clickableTextDelegate = self
-        cell.bindData(post: post)
-        return cell
     }
 }
 

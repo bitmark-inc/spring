@@ -155,6 +155,8 @@
 		E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */; };
 		E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
 		E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */; };
+		E22BC2EB239E3FF000018BC4 /* PostHeadingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC2EA239E3FF000018BC4 /* PostHeadingViewCell.swift */; };
+		E22BC2EC239E3FF000018BC4 /* PostHeadingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC2EA239E3FF000018BC4 /* PostHeadingViewCell.swift */; };
 		E236B676238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
@@ -484,6 +486,7 @@
 		E2259CDA2387E56F00746280 /* ServerAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerAPIError.swift; sourceTree = "<group>"; };
 		E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewController.swift; sourceTree = "<group>"; };
 		E22BB3362384E73F0044BC95 /* GetYourDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetYourDataViewModel.swift; sourceTree = "<group>"; };
+		E22BC2EA239E3FF000018BC4 /* PostHeadingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeadingViewCell.swift; sourceTree = "<group>"; };
 		E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FbmAccountDataEngine+Rx.swift"; sourceTree = "<group>"; };
 		E236B678238EAAF200C1A280 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
 		E23807C22395FEEA0079A3C4 /* GeneralPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPostTableViewCell.swift; sourceTree = "<group>"; };
@@ -944,6 +947,7 @@
 		E22290A423953B6600412CBC /* PostCollectionViewCell */ = {
 			isa = PBXGroup;
 			children = (
+				E22BC2EA239E3FF000018BC4 /* PostHeadingViewCell.swift */,
 				E23807C8239618000079A3C4 /* PostDataTableViewCell.swift */,
 				58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */,
 				E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */,
@@ -1691,6 +1695,7 @@
 				5832FC96237A889A00FA3196 /* KeychainStore.swift in Sources */,
 				5832FC45237A863300FA3196 /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				5832FCC7237AB8AB00FA3196 /* R.generated.swift in Sources */,
+				E22BC2EB239E3FF000018BC4 /* PostHeadingViewCell.swift in Sources */,
 				5832FC43237A863300FA3196 /* ThemeManager.swift in Sources */,
 				58C009CB239796B800302F49 /* InsightTableView.swift in Sources */,
 				5832FC49237A863300FA3196 /* UnderlinedTextField.swift in Sources */,
@@ -1833,6 +1838,7 @@
 				E2DB66AB237D3B69005367C2 /* ThemeManager.swift in Sources */,
 				E2DB66AC237D3B69005367C2 /* UnderlinedTextField.swift in Sources */,
 				E28B5616238D1A3200F1BCF2 /* DataGeneratingViewModel.swift in Sources */,
+				E22BC2EC239E3FF000018BC4 /* PostHeadingViewCell.swift in Sources */,
 				5832D6E5238BBE390074AEDC /* UsageViewModel.swift in Sources */,
 				58C009CC239796B800302F49 /* InsightTableView.swift in Sources */,
 				E28B55FC238D0A6800F1BCF2 /* MoyaAuthPlugin.swift in Sources */,
