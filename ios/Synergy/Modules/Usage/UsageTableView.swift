@@ -862,10 +862,6 @@ final class StackedBarValueFormatter: IValueFormatter {
 
         // Trim all 0 values on right hand side of the array as
         // bar chart label doesn't display them.
-        if let idx = values.lastIndex(where: { $0 == 0 }) {
-            values.remove(at: idx)
-        }
-
         while true {
             if values.last == 0 {
                 values.removeLast()
