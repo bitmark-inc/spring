@@ -19,10 +19,8 @@ class HowItWorksViewController: ViewController, BackNavigator {
     override func bindViewModel() {
         super.bindViewModel()
 
-        guard let viewModel = viewModel as? HowItWorksViewModel else { return }
-
-        continueButton.rx.tap.bind {
-            viewModel.gotoGetYourDataScreen()
+        continueButton.rx.tap.bind { [weak self] in
+            self?.gotoGetYourDataScreen()
         }.disposed(by: disposeBag)
     }
 
@@ -71,6 +69,14 @@ class HowItWorksViewController: ViewController, BackNavigator {
                     .left(OurTheme.paddingInset.left)
                     .bottom(OurTheme.paddingBottom)
             }
+    }
+}
+
+// MARK: - Navigator
+extension HowItWorksViewController {
+    func gotoGetYourDataScreen() {
+        let viewModel = GetYourDataViewModel()
+        navigator.show(segue: .getYourData(viewModel: viewModel), sender: self)
     }
 }
 

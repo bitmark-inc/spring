@@ -67,7 +67,7 @@ class RequestDataViewController: ViewController {
                     self.errorWhenSignUpAndSubmitArchive(error: error)
                 case .completed:
                     Global.log.info("[done] SignUpAndSubmitArchive")
-                    viewModel.gotoDataGenerating()
+                    self.gotoDataGenerating()
                 default:
                     break
                 }
@@ -233,7 +233,7 @@ extension RequestDataViewController {
 
             Global.log.info("[done] createFBArchive")
             UserDefaults.standard.isCreatingFBArchive = true
-            self.thisViewModel.gotoDataRequested()
+            self.gotoDataRequested()
         }
     }
 
@@ -251,7 +251,7 @@ extension RequestDataViewController {
             }
 
             isCreatingFile ?
-                self.thisViewModel.gotoDataRequested() :
+                self.gotoDataRequested() :
                 self.runJSTodownloadFBArchive()
         }
     }
@@ -344,6 +344,19 @@ extension RequestDataViewController {
                 )
             })
             .disposed(by: self.disposeBag)
+    }
+}
+
+// MARK: - Navigator
+extension RequestDataViewController {
+   func gotoDataRequested() {
+        let viewModel = DataRequestedViewModel()
+        navigator.show(segue: .dataRequested(viewModel: viewModel), sender: self)
+    }
+
+    func gotoDataGenerating() {
+        let viewModel = DataGeneratingViewModel()
+        navigator.show(segue: .dataGenerating(viewModel: viewModel), sender: self)
     }
 }
 

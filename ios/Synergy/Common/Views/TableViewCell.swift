@@ -25,6 +25,7 @@ class TableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
+        backgroundColor = .clear
         layout()
     }
 

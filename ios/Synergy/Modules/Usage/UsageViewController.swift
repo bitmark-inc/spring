@@ -18,8 +18,9 @@ import Realm
 class UsageViewController: ViewController {
     private lazy var tableView: UsageTableView = {
         let v = UsageTableView()
-        v.postListNavigateHandler = { filterScope in
-            (self.viewModel as? UsageViewModel)?.goToPostListScreen(filterScope: filterScope)
+        v.backgroundColor = .clear
+        v.postListNavigateHandler = { [weak self] filterScope in
+            self?.goToPostListScreen(filterScope: filterScope)
         }
         return v
     }()
@@ -143,6 +144,7 @@ class UsageViewController: ViewController {
 
     override func setupViews() {
         super.setupViews()
+        themeForContentView()
 
         let screenTitleLabel = Label()
         screenTitleLabel.applyTitleTheme(
@@ -155,3 +157,12 @@ class UsageViewController: ViewController {
             }
     }
 }
+
+// MARK: - Navigator
+extension UsageViewController {
+    fileprivate func goToPostListScreen(filterScope: FilterScope) {
+        let viewModel = PostListViewModel(filterScope: filterScope)
+        navigator.show(segue: .postList(viewModel: viewModel), sender: self)
+    }
+}
+

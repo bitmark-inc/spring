@@ -17,18 +17,19 @@ class LaunchingViewController: ViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        guard let viewModel = viewModel as? LaunchingViewModel else { return }
-
         // NOTE: For first demo, make quick Onboarding Flow
         AccountService.rx.existsCurrentAccount()
             .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { (account) in
+            .subscribe(onSuccess: { [weak self] (account) in
+                guard let self = self else { return }
+
+                print("---------onSuccess--------------LOG THUYEN_____________________")
                 Global.current.account = account
 
                 if Global.current.account != nil {
-                    viewModel.gotoMainScreen()
+                    self.gotoMainScreen()
                 } else {
-                    viewModel.gotoSignInWallScreen()
+                    self.gotoSignInWallScreen()
                 }
             }, onError: { (error) in
                 Global.log.error(error)
@@ -39,7 +40,7 @@ class LaunchingViewController: ViewController {
         // END
 
         if UserDefaults.standard.isCreatingFBArchive {
-            viewModel.gotoDownloadFBArchiveScreen()
+            gotoDownloadFBArchiveScreen()
             return
         }
 
@@ -56,24 +57,22 @@ class LaunchingViewController: ViewController {
     }
 
     func prepareAndGotoNext(account: Account?) throws -> Completable {
-        guard let viewModel = viewModel as? LaunchingViewModel else {
-            return Completable.never()
-        }
-
         if let account = account {
             Global.current.account = account
             try RealmConfig.setupDBForCurrentAccount()
 
             FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
-                .subscribe(onSuccess: { (_) in
+                .subscribe(onSuccess: {  [weak self] (_) in
+                    guard let self = self else { return }
                     // TODO: Check if finish generating data's insights
-                    viewModel.gotoDataGeneratingScreen()
+                    self.gotoDataGeneratingScreen()
                 }, onError: { [weak self] (error) in
+                    guard let self = self else { return }
                     // is not FBM's Account => link to HowItWorks
                     if let error = error as? ServerAPIError {
                         switch error.code {
                         case .AccountNotFound:
-                             viewModel.gotoHowItWorksScreen()
+                             self.gotoHowItWorksScreen()
                             return
                         default:
                             break
@@ -82,11 +81,11 @@ class LaunchingViewController: ViewController {
 
                     guard !AppError.errorByNetworkConnection(error) else { return }
                     Global.log.error(error)
-                    self?.showErrorAlertWithSupport(message: R.string.error.system())
+                    self.showErrorAlertWithSupport(message: R.string.error.system())
                 })
                 .disposed(by: disposeBag)
         } else {
-            viewModel.gotoSignInWallScreen()
+            gotoSignInWallScreen()
         }
 
         return Completable.empty()
@@ -95,6 +94,8 @@ class LaunchingViewController: ViewController {
     override func setupViews() {
         setupBackground(image: R.image.onboardingSplash())
         super.setupViews()
+
+        contentView.backgroundColor = .clear
 
         // *** Setup subviews ***
         let titleScreen = Label()
@@ -116,5 +117,36 @@ class LaunchingViewController: ViewController {
                 flex.addItem(titleScreen).marginTop(Size.dh(380)).width(100%)
                 flex.addItem(descriptionLabel).marginTop(Size.dh(10))
             }
+    }
+}
+
+// MARK: - Navigator
+extension LaunchingViewController {
+    func gotoSignInWallScreen() {
+        let viewModel = SignInWallViewModel()
+        navigator.show(segue: .signInWall(viewModel: viewModel), sender: self)
+    }
+
+    func gotoHowItWorksScreen() {
+        let viewModel = HowItWorksViewModel()
+        navigator.show(segue: .howItWorks(viewModel: viewModel), sender: self)
+    }
+
+    func gotoDownloadFBArchiveScreen() {
+        let viewModel = RequestDataViewModel(.downloadData)
+        navigator.show(segue: .requestData(viewModel: viewModel), sender: self)
+    }
+
+    func gotoDataGeneratingScreen() {
+        let viewModel = DataGeneratingViewModel()
+        navigator.show(segue: .dataGenerating(viewModel: viewModel), sender: self)
+    }
+
+    func gotoSignInScreen() {
+
+    }
+
+    func gotoMainScreen() {
+        navigator.show(segue: .hometabs, sender: self, transition: .replace(type: .auto))
     }
 }

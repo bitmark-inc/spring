@@ -22,6 +22,7 @@ class NavigationController: UINavigationController {
         themeService.switchThemeType(for: traitCollection.userInterfaceStyle)
         navigationBar.isTranslucent = false
         navigationBar.shadowImage = UIImage()
+        isNavigationBarHidden = true
 
         // Do any additional setup after loading the view.
         interactivePopGestureRecognizer?.delegate = nil // Enable default iOS back swipe gesture

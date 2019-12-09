@@ -12,7 +12,6 @@ def sharedPods
 
   pod 'RxSwift', '~> 5'
   pod 'RxCocoa', '~> 5'
-  pod 'RxFlow'
   pod 'RxOptional'
   pod 'Moya/RxSwift', git: "https://github.com/Moya/Moya.git", tag: "14.0.0-beta.3"
   pod 'RealmSwift'

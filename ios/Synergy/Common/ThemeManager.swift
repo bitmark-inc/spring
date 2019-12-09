@@ -18,7 +18,7 @@ struct OurTheme {
     static let paddingInset = UIEdgeInsets(top: 0, left: Size.dw(18), bottom: 0, right: Size.dw(18))
     static let paddingBottom: CGFloat = Size.dh(45)
     static let onboardingPaddingScreenTitle: CGFloat = Size.dh(28)
-    static let dashboardPaddingScreenTitle: CGFloat = Size.dh(17)
+    static let dashboardPaddingScreenTitle: CGFloat = Size.dh(8)
 }
 
 protocol Theme {

@@ -8,11 +8,7 @@
 
 import RxSwift
 import RxCocoa
-import RxFlow
 
-class ViewModel: Stepper, Navigatable {
-    var navigator: Navigator! = Navigator.default
-
-    let steps = PublishRelay<Step>()
+class ViewModel {
     let disposeBag = DisposeBag()
 }

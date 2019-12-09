@@ -24,13 +24,14 @@ class StreamViewController: ViewController {
         guard let viewModel = viewModel as? StreamViewModel else { return }
 
         viewModel.signOutResultSubject
-            .subscribe(onNext: { (event) in
+            .subscribe(onNext: { [weak self] (event) in
+                guard let self = self else { return }
                 switch event {
                 case .error(let error):
                     Global.log.error(error)
                 case .completed:
                     Global.log.info("[done] signOut")
-                    viewModel.moveToOnboardingFlow()
+                    self.moveToOnboardingFlow()
                 default:
                     break
                 }
@@ -58,6 +59,14 @@ class StreamViewController: ViewController {
 
                 flex.addItem(streamDescLabel).marginTop(36)
             }
+    }
+}
+
+// MARK: - Navigator
+extension StreamViewController {
+    func moveToOnboardingFlow() {
+        let viewModel = SignInWallViewModel()
+        navigator.show(segue: .signInWall(viewModel: viewModel), sender: self, transition: .replace(type: .auto))
     }
 }
 

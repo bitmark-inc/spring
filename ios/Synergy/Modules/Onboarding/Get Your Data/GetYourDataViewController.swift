@@ -37,6 +37,18 @@ class GetYourDataViewController: ViewController, BackNavigator {
 
         viewModel.loginRelay.accept(loginTextField.text!)
         viewModel.passwordRelay.accept(passwordTextField.text!)
+
+        viewModel.resultSubject
+            .subscribe(onNext: { [weak self] (event) in
+                guard let self = self else { return }
+                switch event {
+                case .completed:
+                    self.gotoDataAnalyzing()
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
     }
 
     // MARK: - Setup Views
@@ -75,6 +87,23 @@ class GetYourDataViewController: ViewController, BackNavigator {
                     .left(OurTheme.paddingInset.left)
                     .bottom(OurTheme.paddingBottom)
             }
+    }
+}
+
+// MARK: - Navigator
+extension GetYourDataViewController {
+    fileprivate func gotoRequestData() {
+        guard let viewModel = viewModel as? GetYourDataViewModel else { return }
+        let requestDataViewModel = RequestDataViewModel(
+            login: viewModel.loginRelay.value,
+            password: viewModel.passwordRelay.value,
+            .requestData)
+        navigator.show(segue: .requestData(viewModel: requestDataViewModel), sender: self)
+    }
+
+    fileprivate func gotoDataAnalyzing() {
+        let viewModel = DataAnalyzingViewModel()
+        navigator.show(segue: .dataAnalyzing(viewModel: viewModel), sender: self)
     }
 }
 

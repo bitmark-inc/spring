@@ -46,18 +46,6 @@ class PostListViewModel: ViewModel {
             .disposed(by: disposeBag)
     }
 
-    func gotoPostList(filterBy: GroupKey, filterValue: String) {
-        loadingState.onNext(.loading)
-        let filterScope: FilterScope = (
-            usageScope: self.filterScope.usageScope,
-            filterBy: filterBy,
-            filterValue: filterValue
-        )
-
-        let viewModel = PostListViewModel(filterScope: filterScope)
-        navigator.show(segue: .postList(viewModel: viewModel))
-    }
-
     func generateSectionInfoText() -> (sectionTitle: String, taggedText: String, timelineText: String) {
         let sectionTitle: String!
         var taggedText: String = ""

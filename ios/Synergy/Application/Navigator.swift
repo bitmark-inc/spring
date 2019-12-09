@@ -21,16 +21,9 @@ protocol Navigatable {
 class Navigator {
     static var `default` = Navigator()
 
-    private lazy var rootViewController: NavigationController = {
-        let viewController = NavigationController()
-        viewController.hero.isEnabled = true
-        viewController.isNavigationBarHidden = true
-        return viewController
-    }()
-
     // MARK: - segues list, all app scenes
     enum Scene {
-        case launching(viewModel: LaunchingViewModel)
+        case launching
         case signInWall(viewModel: SignInWallViewModel)
         case howItWorks(viewModel: HowItWorksViewModel)
         case getYourData(viewModel: GetYourDataViewModel)
@@ -58,7 +51,10 @@ class Navigator {
     // MARK: - get a single VC
     func get(segue: Scene) -> UIViewController? {
         switch segue {
-        case .launching(let viewModel): return LaunchingViewController(viewModel: viewModel)
+        case .launching:
+            let viewModel = LaunchingViewModel()
+            let lauchingVC = LaunchingViewController(viewModel: viewModel)
+            return NavigationController(rootViewController: lauchingVC)
         case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
         case .howItWorks(let viewModel): return HowItWorksViewController(viewModel: viewModel)
         case .getYourData(let viewModel): return GetYourDataViewController(viewModel: viewModel)
@@ -75,20 +71,16 @@ class Navigator {
             return vc
 
         case .hometabs:
-            if let h = self.rootViewController.viewControllers.first as? ESTabBarController {
-                return h
-            } else {
-                return HomeTabbarController.tabbarController()
-            }
+            return HomeTabbarController.tabbarController()
         case .postList(let viewModel): return PostListViewController(viewModel: viewModel)
         }
     }
 
-    func pop(toRoot: Bool = false) {
+    func pop(sender: UIViewController?, toRoot: Bool = false) {
         if toRoot {
-            rootViewController.popToRootViewController(animated: true)
+            sender?.navigationController?.popToRootViewController(animated: true)
         } else {
-            rootViewController.popViewController()
+            sender?.navigationController?.popViewController()
         }
     }
 
@@ -97,9 +89,8 @@ class Navigator {
     }
 
     // MARK: - invoke a single segue
-    func show(segue: Scene, transition: Transition = .navigation(type: .cover(direction: .left))) {
+    func show(segue: Scene, sender: UIViewController?, transition: Transition = .navigation(type: .cover(direction: .left))) {
         if let target = get(segue: segue) {
-            let sender = rootViewController.viewControllers.last ?? rootViewController
             show(target: target, sender: sender, transition: transition)
         }
     }
@@ -107,9 +98,8 @@ class Navigator {
     private func show(target: UIViewController, sender: UIViewController?, transition: Transition) {
         switch transition {
         case .root(in: let window):
-            UIView.transition(with: window, duration: 0.3, options: .transitionFlipFromLeft, animations: {
-                self.rootViewController.setViewControllers([target], animated: false)
-                window.rootViewController = self.rootViewController
+            UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
+                window.rootViewController = target
             }, completion: nil)
             return
         case .custom: return
@@ -166,8 +156,11 @@ class Navigator {
     }
 
     static func refreshOnboardingStateIfNeeded() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
+            let rootViewController = appDelegate.window?.rootViewController as? NavigationController else { return }
+
         // check if scene is on onboarding flow's refresh state
-        guard let currentVC = Navigator.default.rootViewController.viewControllers.last,
+        guard let currentVC = rootViewController.viewControllers.last,
             [DataRequestedViewController.self, DataGeneratingViewController.self, DataAnalyzingViewController.self].contains(where: { $0 == type(of: currentVC) }),
             let enteredBackgroundTime = UserDefaults.standard.enteredBackgroundTime
             else {
@@ -178,7 +171,6 @@ class Navigator {
         let refreshTime = enteredBackgroundTime.adding(.second, value: refreshOnboardingFlowLap)
         guard Date() >= refreshTime else { return }
 
-        let viewModel = LaunchingViewModel()
-        Navigator.default.show(segue: .launching(viewModel: viewModel))
+        Navigator.default.show(segue: .launching, sender: rootViewController)
     }
 }

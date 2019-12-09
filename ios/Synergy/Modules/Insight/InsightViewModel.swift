@@ -69,9 +69,4 @@ class InsightViewModel: ViewModel {
 //            })
 //            .disposed(by: disposeBag)
 //    }
-    
-    func goToPostListScreen(filterScope: FilterScope) {
-        let viewModel = PostListViewModel(filterScope: filterScope)
-        navigator.show(segue: .postList(viewModel: viewModel))
-    }
 }

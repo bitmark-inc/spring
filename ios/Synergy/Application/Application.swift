@@ -28,7 +28,6 @@ final class Application: NSObject {
         guard let window = window else { return }
         self.window = window
 
-        let viewModel = LaunchingViewModel()
-        self.navigator.show(segue: .launching(viewModel: viewModel), transition: .root(in: window))
+        self.navigator.show(segue: .launching, sender: nil, transition: .root(in: window))
     }
 }

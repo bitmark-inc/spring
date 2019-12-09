@@ -11,12 +11,4 @@ import RxSwift
 import RxCocoa
 
 class SignInWallViewModel: ViewModel {
-
-    func gotoHowItWorksScreen() {
-        let viewModel = HowItWorksViewModel()
-        navigator.show(segue: .howItWorks(viewModel: viewModel))
-    }
-
-    func goToSignInScreen() {
-    }
 }

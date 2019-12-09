@@ -18,9 +18,9 @@ import Realm
 class InsightViewController: ViewController {    
     private lazy var tableView: InsightTableView = {
         let v = InsightTableView()
-        v.postListNavigateHandler = { filterScope in
+        v.postListNavigateHandler = { [weak self] filterScope in
             loadingState.onNext(.loading)
-            (self.viewModel as? InsightViewModel)?.goToPostListScreen(filterScope: filterScope)
+            self?.goToPostListScreen(filterScope: filterScope)
         }
         return v
     }()
@@ -37,5 +37,13 @@ class InsightViewController: ViewController {
             .direction(.column).define { (flex) in
                 flex.addItem(tableView).marginBottom(10).grow(1)
             }
+    }
+}
+
+// MARK: - Navigator
+extension InsightViewController {
+    fileprivate func goToPostListScreen(filterScope: FilterScope) {
+        let viewModel = PostListViewModel(filterScope: filterScope)
+        navigator.show(segue: .postList(viewModel: viewModel), sender: self)
     }
 }

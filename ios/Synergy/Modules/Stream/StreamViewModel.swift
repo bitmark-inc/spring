@@ -27,10 +27,5 @@ class StreamViewModel: ViewModel {
             signOutResultSubject.onNext(Event.error(error))
         }
     }
-
-    func moveToOnboardingFlow() {
-        let viewModel = SignInWallViewModel()
-        navigator.show(segue: .signInWall(viewModel: viewModel), transition: .replace(type: .auto))
-    }
 }
 

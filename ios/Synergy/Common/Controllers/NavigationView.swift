@@ -43,6 +43,6 @@ extension BackNavigator where Self: ViewController {
     }
 
     func tapToBack() {
-        Navigator.default.pop()
+        Navigator.default.pop(sender: self)
     }
 }

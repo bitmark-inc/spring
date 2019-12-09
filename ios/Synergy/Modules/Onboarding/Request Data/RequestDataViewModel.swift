@@ -90,14 +90,4 @@ class RequestDataViewModel: ViewModel {
             }
             .disposed(by: disposeBag)
     }
-
-    func gotoDataRequested() {
-        let viewModel = DataRequestedViewModel()
-        navigator.show(segue: .dataRequested(viewModel: viewModel))
-    }
-
-    func gotoDataGenerating() {
-        let viewModel = DataGeneratingViewModel()
-        navigator.show(segue: .dataGenerating(viewModel: viewModel))
-    }
 }

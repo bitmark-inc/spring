@@ -14,6 +14,7 @@ import Realm
 class PostTableView: TableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
+        self.register(cellWithClass: PostHeadingViewCell.self)
         self.register(cellWithClass: GeneralPostTableViewCell.self)
         self.register(cellWithClass: UpdatePostTableViewCell.self)
         self.register(cellWithClass: LinkPostTableViewCell.self)

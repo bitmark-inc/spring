@@ -14,14 +14,17 @@ import RxCocoa
 class HomeTabbarController: ESTabBarController {
     class func tabbarController() -> HomeTabbarController {
         let usageVC = UsageViewController(viewModel: UsageViewModel())
-        usageVC.tabBarItem = ESTabBarItem(
+        let usageNavVC = NavigationController(rootViewController: usageVC)
+
+        usageNavVC.tabBarItem = ESTabBarItem(
             MainTabbarItemContentView(highlightColor: UIColor(hexString: "#932C19")!),
             title: R.string.localizable.usage().localizedUppercase,
             image: R.image.usage_tab_icon(),
             tag: 0)
 
         let insightsVC = InsightViewController(viewModel: InsightViewModel())
-        insightsVC.tabBarItem = ESTabBarItem(
+        let insightsNavVC = NavigationController(rootViewController: insightsVC)
+        insightsNavVC.tabBarItem = ESTabBarItem(
             MainTabbarItemContentView(highlightColor: UIColor(hexString: "#0011AF")!),
             title: R.string.localizable.insights().localizedUppercase,
             image: R.image.insights_tab_icon(),
@@ -29,7 +32,8 @@ class HomeTabbarController: ESTabBarController {
         )
 
         let streamVC = StreamViewController(viewModel: StreamViewModel())
-        streamVC.tabBarItem = ESTabBarItem(
+        let streamNavVC = NavigationController(rootViewController: streamVC)
+        streamNavVC.tabBarItem = ESTabBarItem(
             MainTabbarItemContentView(highlightColor: UIColor(hexString: "#5F6D07")!),
             title: R.string.localizable.streams().localizedUppercase,
             image: R.image.stream(),
@@ -37,7 +41,7 @@ class HomeTabbarController: ESTabBarController {
         )
 
         let tabbarController = HomeTabbarController()
-        tabbarController.viewControllers = [usageVC, insightsVC, streamVC]
+        tabbarController.viewControllers = [usageNavVC, insightsNavVC, streamNavVC]
 
         return tabbarController
     }
@@ -51,7 +55,7 @@ class HomeTabbarController: ESTabBarController {
 
         themeService.rx
             .bind({ $0.background }, to: view.rx.backgroundColor)
-        .disposed(by: disposeBag)
+            .disposed(by: disposeBag)
     }
 }
 

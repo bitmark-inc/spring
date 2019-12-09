@@ -151,11 +151,27 @@ extension PostListViewController: ClickableTextDelegate {
             }
 
             let filterValue = url.lastPathComponent
-            thisViewModel?.gotoPostList(filterBy: filterBy, filterValue: filterValue)
+            gotoPostListScreen(filterBy: filterBy, filterValue: filterValue)
         } else {
             let safariVC = SFSafariViewController(url: url)
             self.present(safariVC, animated: true, completion: nil)
         }
+    }
+}
+
+// MARK: - Navigator
+extension PostListViewController {
+    func gotoPostListScreen(filterBy: GroupKey, filterValue: String) {
+        guard let viewModel = viewModel as? PostListViewModel else { return }
+        loadingState.onNext(.loading)
+        let filterScope: FilterScope = (
+            usageScope: viewModel.filterScope.usageScope,
+            filterBy: filterBy,
+            filterValue: filterValue
+        )
+
+        let postListviewModel = PostListViewModel(filterScope: filterScope)
+        navigator.show(segue: .postList(viewModel: postListviewModel), sender: self)
     }
 }
 

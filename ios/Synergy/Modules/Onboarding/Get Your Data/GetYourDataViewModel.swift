@@ -15,6 +15,8 @@ class GetYourDataViewModel: ViewModel {
     let loginRelay = BehaviorRelay(value: "")
     let passwordRelay = BehaviorRelay(value: "")
 
+    let resultSubject = PublishSubject<Event<Never>>()
+
     // MARK: - Outputs
     var automateAuthorizeBtnEnabled: Driver<Bool>!
 
@@ -29,15 +31,12 @@ class GetYourDataViewModel: ViewModel {
         }.asDriver(onErrorJustReturn: false)
     }
 
-    func gotoRequestData() {
+    func saveFBCredentialToKeychain() {
         do {
             try KeychainStore.saveFBCredentialToKeychain(loginRelay.value, password: passwordRelay.value)
         } catch {
             Global.log.error(error)
         }
-
-        let viewModel = RequestDataViewModel(login: loginRelay.value, password: passwordRelay.value, .requestData)
-        navigator.show(segue: .requestData(viewModel: viewModel))
     }
 
     func fakeCreateAccountAndgotoAnalyzingScreen() {
@@ -60,13 +59,8 @@ class GetYourDataViewModel: ViewModel {
             .asObservable()
             .subscribe(onNext: { [weak self] (_) in
                 loadingState.onNext(.hide)
-                self?.gotoDataAnalyzing()
+                self?.resultSubject.onNext(Event.completed)
             })
             .disposed(by: disposeBag)
-    }
-
-    func gotoDataAnalyzing() {
-        let viewModel = DataAnalyzingViewModel()
-        navigator.show(segue: .dataAnalyzing(viewModel: viewModel))
     }
 }

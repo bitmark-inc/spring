@@ -12,9 +12,11 @@ import RxCocoa
 import FlexLayout
 import SnapKit
 
-class ViewController: ThemedViewController {
+class ViewController: ThemedViewController, Navigatable {
 
     var viewModel: ViewModel?
+    var navigator: Navigator! = Navigator.default
+
     lazy var contentView: UIView = makeContentView()
 
     init(viewModel: ViewModel?) {
@@ -38,10 +40,6 @@ class ViewController: ThemedViewController {
     override func setupViews() {
         super.setupViews()
 
-        themeService.rx
-            .bind({ $0.background }, to: contentView.rx.backgroundColor)
-            .disposed(by: disposeBag)
-
         view.addSubview(contentView)
         contentView.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -56,5 +54,11 @@ extension ViewController {
         view.backgroundColor = .clear
         view.frame = self.view.safeAreaLayoutGuide.layoutFrame
         return view
+    }
+
+    func themeForContentView() {
+        themeService.rx
+            .bind({ $0.background }, to: contentView.rx.backgroundColor)
+            .disposed(by: disposeBag)
     }
 }
