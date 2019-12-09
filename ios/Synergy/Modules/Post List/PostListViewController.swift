@@ -80,8 +80,6 @@ class PostListViewController: TabPageViewController {
 
         loadingState.onNext(.hide)
 
-        collectionView.delegate = self
-
         titleView.flex.addItem().direction(.row).define { (flex) in
             flex.addItem(sectionTitleLabel).marginTop(15).shrink(1)
             flex.addItem(sectionTagLabel).marginLeft(5)
