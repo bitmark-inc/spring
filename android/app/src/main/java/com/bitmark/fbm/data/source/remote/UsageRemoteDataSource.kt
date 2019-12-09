@@ -7,9 +7,7 @@
 package com.bitmark.fbm.data.source.remote
 
 import android.content.Context
-import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.model.entity.PostR
-import com.bitmark.fbm.data.model.entity.PostType
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.response.GetStatisticResponse
@@ -40,7 +38,7 @@ class UsageRemoteDataSource @Inject constructor(
     }.subscribeOn(Schedulers.io())
 
     fun getPost(type: PostType, from: Long, to: Long) =
-        getPost().map { post -> post.filter { p -> p.getTimestamp() in from..to && p.getType() == type } }
+        getPost().map { post -> post.filter { p -> p.timestamp in from..to && p.type == type } }
 
     private fun getPost() = Single.fromCallable {
         val json = context.assets.open("posts.json").bufferedReader()
@@ -48,6 +46,6 @@ class UsageRemoteDataSource @Inject constructor(
         val gson = Gson().newBuilder().create()
         gson.fromJson(json, List::class.java).map { p ->
             gson.fromJson(gson.toJson(p), PostR::class.java)
-        }.filter { p -> p.getType() != PostType.UNSPECIFIED }
+        }.filter { p -> p.type != PostType.UNSPECIFIED }
     }.subscribeOn(Schedulers.io())
 }

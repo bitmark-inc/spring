@@ -7,23 +7,23 @@
 package com.bitmark.fbm.util.modelview
 
 import com.bitmark.fbm.data.model.entity.Period
+import com.bitmark.fbm.data.model.entity.SectionName
 
 
 data class GroupModelView(
     val period: Period,
-    val sectionName: String,
+    val sectionName: SectionName,
     val name: String,
     val typeCount: Int,
     var entries: List<Entry>
-) : ModelView {
+) : ModelView
 
-    fun reversed() {
-        entries = entries.reversed()
-    }
+fun GroupModelView.reverse() {
+    entries = entries.reversed()
+}
 
-    fun sort() {
-        entries = entries.sortedBy { e -> e.yValues.sum() }
-    }
+fun GroupModelView.sort() {
+    entries = entries.sortedBy { e -> e.yValues.sum() }
 }
 
 data class Entry(val xValue: String, val yValues: FloatArray)

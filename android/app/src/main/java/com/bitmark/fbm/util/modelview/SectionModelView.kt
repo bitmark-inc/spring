@@ -6,13 +6,11 @@
  */
 package com.bitmark.fbm.util.modelview
 
-import com.bitmark.fbm.data.model.entity.GroupEntity
-import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.model.entity.SectionR
+import com.bitmark.fbm.data.model.entity.*
 
 
 data class SectionModelView(
-    val name: String,
+    val name: SectionName,
     val period: Period,
     val quantity: Int,
     val diffFromPrev: Int,
@@ -29,7 +27,7 @@ data class SectionModelView(
             val groups = mutableListOf<GroupModelView>()
 
             // by area if has
-            if (sectionName == "locations") {
+            if (sectionName == SectionName.LOCATION) {
                 val types = sectionR.getGroup<GroupEntity>("area")
                 val typesCount = types.data.size
                 val typeEntries =

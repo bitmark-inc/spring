@@ -18,7 +18,7 @@ data class PostR(
 
     @Expose
     @SerializedName("type")
-    private val type: String?,
+    val rawType: String?,
 
     @Expose
     @SerializedName("post")
@@ -30,7 +30,7 @@ data class PostR(
 
     @Expose
     @SerializedName("photo")
-    val mediaName: String?,
+    val mediaDir: String?,
 
     @Expose
     @SerializedName("tags")
@@ -42,7 +42,7 @@ data class PostR(
 
     @Expose
     @SerializedName("timestamp")
-    private val timestamp: Long,
+    val timestampSec: Long,
 
     @Expose
     @SerializedName("title")
@@ -55,37 +55,39 @@ data class PostR(
     @Expose
     @SerializedName("thumbnail")
     val thumbnail: String?
-) : Record {
+) : Record
 
-    fun getType() = when {
-        type == null && content != null -> PostType.UPDATE
-        type == "photo"                 -> PostType.PHOTO
-        type == "video"                 -> PostType.VIDEO
-        type == "story"                 -> PostType.STORY
-        type == "external"              -> PostType.LINK
-        else                            -> PostType.UNSPECIFIED
+val PostR.type: PostType
+    get() = when {
+        rawType == null && content != null -> PostType.UPDATE
+        rawType == "photo"                 -> PostType.PHOTO
+        rawType == "video"                 -> PostType.VIDEO
+        rawType == "story"                 -> PostType.STORY
+        rawType == "external"              -> PostType.LINK
+        else                               -> PostType.UNSPECIFIED
     }
 
-    fun getTimestamp() = timestamp * 1000
+val PostR.timestamp: Long
+    get() = timestampSec * 1000
 
+val PostR.mediaName: String?
+    get() = mediaDir?.replace("photos_and_videos/", "")
+
+enum class PostType {
+    UPDATE,
+    PHOTO,
+    VIDEO,
+    STORY,
+    LINK,
+    UNSPECIFIED
 }
 
-enum class PostType(val value: String) {
-    UPDATE("update"),
-    PHOTO("photo"),
-    VIDEO("video"),
-    STORY("story"),
-    LINK("link"),
-    UNSPECIFIED("unspecified");
-
-    companion object {
-        fun fromString(type: String) = when (type) {
-            "update" -> UPDATE
-            "photo"  -> PHOTO
-            "video"  -> VIDEO
-            "story"  -> STORY
-            "link"   -> LINK
-            else     -> UNSPECIFIED
-        }
+val PostType.value: String
+    get() = when (this) {
+        PostType.UPDATE      -> "update"
+        PostType.PHOTO       -> "photo"
+        PostType.VIDEO       -> "video"
+        PostType.STORY       -> "story"
+        PostType.LINK        -> "link"
+        PostType.UNSPECIFIED -> "unspecified"
     }
-}

@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.PostType
+import com.bitmark.fbm.data.model.entity.fromString
+import com.bitmark.fbm.data.model.entity.value
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator

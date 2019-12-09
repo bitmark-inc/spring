@@ -6,8 +6,8 @@
  */
 package com.bitmark.fbm.util.modelview
 
-import com.bitmark.fbm.data.model.entity.PostR
-import com.bitmark.fbm.data.model.entity.PostType
+import com.bitmark.fbm.BuildConfig
+import com.bitmark.fbm.data.model.entity.*
 
 
 data class PostModelView(
@@ -36,25 +36,22 @@ data class PostModelView(
             val location = post.location?.name
             val content = post.content ?: ""
             val title = post.title ?: ""
-            val url = when (post.getType()) {
-                PostType.PHOTO, PostType.STORY, PostType.VIDEO -> "https://bitmark-mobile-files.s3-ap-northeast-1.amazonaws.com/fb_data/%s".format(
-                    post.mediaName?.replace("photos_and_videos/", "") ?: ""
-                )
+            val url = when (post.type) {
+                PostType.PHOTO, PostType.STORY, PostType.VIDEO -> BuildConfig.FBM_ASSET_ENDPOINT + "/${post.mediaName
+                    ?: ""}"
                 PostType.LINK                                  -> post.url
                 else                                           -> null
             }
-            val thumbnail = if (post.getType() == PostType.VIDEO) {
-                "https://bitmark-mobile-files.s3-ap-northeast-1.amazonaws.com/fb_data/%s".format(
-                    post.mediaName?.replace("photos_and_videos/", "") ?: ""
-                )
+            val thumbnail = if (post.type == PostType.VIDEO) {
+                BuildConfig.FBM_ASSET_ENDPOINT + "/${post.mediaName ?: ""}"
             } else ""
             return PostModelView(
-                post.getType(),
+                post.type,
                 content,
                 url,
                 tags,
                 location,
-                post.getTimestamp(),
+                post.timestamp,
                 title,
                 thumbnail
             )
@@ -62,10 +59,6 @@ data class PostModelView(
     }
 
     fun hasSingleTag() = tags.size == 1
-
-    fun hasMultiTags() = tags.size > 1
-
-    fun hasEmptyTags() = tags.isEmpty()
 
     fun hasLocation() = location != null
 }

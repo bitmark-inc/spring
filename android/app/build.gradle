@@ -149,6 +149,8 @@ android {
 
             buildConfigField "String", "FBM_API_ENDPOINT",
                     "\"https://fbm.test.bitmark.com\""
+            buildConfigField "String", "FBM_ASSET_ENDPOINT",
+                    "\"https://bitmark-mobile-files.s3-ap-northeast-1.amazonaws.com/fb_data\""
 
         }
 
@@ -166,6 +168,8 @@ android {
 
             buildConfigField "String", "FBM_API_ENDPOINT",
                     "\"https://fbm.bitmark.com\""
+            buildConfigField "String", "FBM_ASSET_ENDPOINT",
+                    "\"https://bitmark-mobile-files.s3-ap-northeast-1.amazonaws.com/fb_data\""
 
         }
     }

@@ -13,9 +13,12 @@ import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.Period
+import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.bitmark.fbm.util.modelview.GroupModelView
+import com.bitmark.fbm.util.modelview.reverse
+import com.bitmark.fbm.util.modelview.sort
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -85,7 +88,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     fun bind(group: GroupModelView) {
         tvName.text = context.getString(
             when (group.sectionName) {
-                "posts"        -> {
+                SectionName.POST        -> {
                     when (group.name) {
                         "type"   -> R.string.by_type
                         "day"    -> R.string.by_day
@@ -94,7 +97,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                         else     -> R.string.empty
                     }
                 }
-                "reactions"    -> {
+                SectionName.REACTION    -> {
                     when (group.name) {
                         "type"   -> R.string.by_type
                         "day"    -> R.string.by_day
@@ -102,28 +105,28 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                         else     -> R.string.empty
                     }
                 }
-                "messages"     -> {
+                SectionName.MESSAGE     -> {
                     when (group.name) {
                         "type" -> R.string.by_chat
                         "day"  -> R.string.by_day
                         else   -> R.string.empty
                     }
                 }
-                "ad_interests" -> {
+                SectionName.AD_INTEREST -> {
                     when (group.name) {
                         "type" -> R.string.by_type
                         "day"  -> R.string.by_day
                         else   -> R.string.empty
                     }
                 }
-                "advertisers"  -> {
+                SectionName.ADVERTISER  -> {
                     when (group.name) {
                         "type" -> R.string.by_type
                         "day"  -> R.string.by_day
                         else   -> R.string.empty
                     }
                 }
-                "locations"    -> {
+                SectionName.LOCATION    -> {
                     when (group.name) {
                         "type" -> R.string.by_type
                         "day"  -> R.string.by_day
@@ -131,40 +134,39 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                         else   -> R.string.empty
                     }
                 }
-                else           -> R.string.empty
             }
         ).toUpperCase()
         tvNameSuffix.text = context.getString(
             when (group.sectionName) {
-                "reactions"    -> {
+                SectionName.REACTION    -> {
                     when (group.name) {
                         "day"    -> R.string.you_reacted
                         "friend" -> R.string.you_reacted_to
                         else     -> R.string.empty
                     }
                 }
-                "messages"     -> {
+                SectionName.MESSAGE     -> {
                     when (group.name) {
                         "type" -> R.string.with_person_or_group
                         "day"  -> R.string.sent_or_received
                         else   -> R.string.empty
                     }
                 }
-                "ad_interests" -> {
+                SectionName.AD_INTEREST -> {
                     when (group.name) {
                         "type" -> R.string.of_topic
                         "day"  -> R.string.fb_tracked_them
                         else   -> R.string.empty
                     }
                 }
-                "advertisers"  -> {
+                SectionName.ADVERTISER  -> {
                     when (group.name) {
                         "type" -> R.string.of_industry
                         "day"  -> R.string.that_your_data_was_collected
                         else   -> R.string.empty
                     }
                 }
-                "locations"    -> {
+                SectionName.LOCATION    -> {
                     when (group.name) {
                         "type" -> R.string.of_location
                         "area" -> R.string.of_location
@@ -172,16 +174,16 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                         else   -> R.string.empty
                     }
                 }
-                else           -> R.string.empty
+                else                    -> R.string.empty
             }
         ).toLowerCase()
         val vertical = group.name == "day"
 
         if (group.name == "type") {
-            if (group.sectionName == "messages") {
+            if (group.sectionName == SectionName.MESSAGE) {
                 group.sort()
             } else {
-                group.reversed()
+                group.reverse()
             }
         } else if (group.name != "day") {
             group.sort()
@@ -242,10 +244,10 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         val colors =
             context.resources.getIntArray(
                 when (group.sectionName) {
-                    "posts", "ad_interests", "locations" -> R.array.color_palette_1
-                    "reactions"                          -> R.array.color_palette_2
-                    "advertisers"                        -> R.array.color_palette_4
-                    else                                 -> R.array.color_palette_3
+                    SectionName.POST, SectionName.AD_INTEREST, SectionName.LOCATION -> R.array.color_palette_1
+                    SectionName.REACTION                                            -> R.array.color_palette_2
+                    SectionName.ADVERTISER                                          -> R.array.color_palette_4
+                    else                                                            -> R.array.color_palette_3
                 }
             )
         if (group.name !in arrayOf("type", "area")) colors.reverse() // reverse all stacked chart
@@ -310,11 +312,11 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     }
 
     private fun needResIdAsAdditionalData(group: GroupModelView) = group.sectionName in arrayOf(
-        "posts",
-        "reactions",
-        "ad_interests",
-        "advertisers",
-        "locations"
+        SectionName.POST,
+        SectionName.REACTION,
+        SectionName.AD_INTEREST,
+        SectionName.ADVERTISER,
+        SectionName.LOCATION
     ) && group.name == "type"
 
     private fun buildBarChart(group: GroupModelView, barXValues: List<String>): BarChart {
@@ -381,7 +383,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     @Parcelize
     data class ChartItem(
-        val sectionName: String,
+        val sectionName: SectionName,
 
         val groupName: String,
 

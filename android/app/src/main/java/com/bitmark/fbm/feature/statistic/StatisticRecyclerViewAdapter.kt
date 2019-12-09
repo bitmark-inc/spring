@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.util.modelview.SectionModelView
 import com.bitmark.fbm.util.view.statistic.GroupView
 import com.bitmark.fbm.util.view.statistic.SectionView
@@ -90,13 +91,12 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
                 HeaderItem(
                     context.getString(
                         when (section.name) {
-                            "posts"        -> R.string.posts
-                            "reactions"    -> R.string.reactions
-                            "messages"     -> R.string.messages
-                            "ad_interests" -> R.string.ad_interests
-                            "advertisers"  -> R.string.advertisers
-                            "locations"    -> R.string.locations
-                            else           -> error("invalid section name: ${section.name}")
+                            SectionName.POST        -> R.string.posts
+                            SectionName.REACTION    -> R.string.reactions
+                            SectionName.MESSAGE     -> R.string.messages
+                            SectionName.AD_INTEREST -> R.string.ad_interests
+                            SectionName.ADVERTISER  -> R.string.advertisers
+                            SectionName.LOCATION    -> R.string.locations
                         }
                     ), section.diffFromPrev
                 )
