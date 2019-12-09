@@ -31,3 +31,6 @@ onesignal:
   endpoint: https://onesignal.com
   key: 
   appid: 
+fbarchive:
+  endpoint:
+  token:
