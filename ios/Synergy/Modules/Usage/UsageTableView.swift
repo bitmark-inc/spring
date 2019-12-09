@@ -97,7 +97,7 @@ extension UsageTableView: UITableViewDataSource {
          switch (indexPath.section, indexPath.row) {
          case (0, _):
             let cell = tableView.dequeueReusableCell(withClass: HeadingTableViewCell.self, for: indexPath)
-            cell.setHeading(title: R.string.localizable.usagE(), color:  UIColor(hexString: "#932C19"))
+            cell.setHeading(title: R.string.localizable.usage().localizedUppercase, color:  UIColor(hexString: "#932C19"))
             cell.subTitle = R.string.localizable.howyouusefacebooK()
             return cell
          case (1, _):
@@ -260,7 +260,7 @@ class TimeFilterTableViewCell: TableViewCell {
         periodDescriptionLabel.textAlignment = .center
         
         contentView.flex.direction(.column).define { (flex) in
-            flex.paddingTop(20).paddingBottom(30)
+            flex.paddingTop(13).paddingBottom(30)
             flex.addItem(filterSegment).marginLeft(18).marginRight(18).height(40)
             flex.addItem().direction(.row).define { (flex) in
                 flex.marginTop(18).marginLeft(18).marginRight(18).height(19)

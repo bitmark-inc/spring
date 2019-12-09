@@ -15,9 +15,7 @@ import FlexLayout
 import RealmSwift
 import Realm
 
-class InsightViewController: ViewController {
-    private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
-    
+class InsightViewController: ViewController {    
     private lazy var tableView: InsightTableView = {
         let v = InsightTableView()
         v.postListNavigateHandler = { filterScope in
@@ -35,16 +33,8 @@ class InsightViewController: ViewController {
             text: R.string.localizable.insights().localizedUppercase,
             colorTheme: .internationalKleinBlue)
 
-        subTitleLabel.text = R.string.localizable.howfacebookusesyoU()
-
         contentView.flex
             .direction(.column).define { (flex) in
-                flex.addItem().padding(OurTheme.paddingInset)
-                    .direction(.column).define { (flex) in
-                        flex.addItem(screenTitleLabel).marginTop(OurTheme.dashboardPaddingScreenTitle)
-                        flex.addItem(subTitleLabel).marginTop(2)
-                }
-
                 flex.addItem(tableView).marginBottom(10).grow(1)
             }
     }

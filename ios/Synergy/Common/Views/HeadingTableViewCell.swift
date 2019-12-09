@@ -14,7 +14,7 @@ class HeadingTableViewCell: TableViewCell {
     lazy var backButton = Button(title: R.string.localizable.backNavigator())
     lazy var titleLabel = Label.create(withFont: R.font.domaineSansTextLight(size: 36))
     lazy var rightDescriptionLabel = Label.create(withFont: R.font.atlasGroteskRegular(size: 10))
-    lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
+    lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextLight(size: 18))
     
     private var backButtonHandler: (() -> Void)? = nil
     
@@ -56,7 +56,7 @@ class HeadingTableViewCell: TableViewCell {
             flex.alignItems(.stretch)
             flex.padding(10, 18, 23, 18)
             
-            flex.addItem(backButton)
+            flex.addItem(backButton).height(0)
             
             flex.addItem().direction(.row).define { (flex) in
                 flex.alignItems(.start)
@@ -64,7 +64,7 @@ class HeadingTableViewCell: TableViewCell {
                 flex.addItem(rightDescriptionLabel).marginLeft(3)
             }
             
-            flex.addItem(subTitleLabel).marginTop(6)
+            flex.addItem(subTitleLabel).marginTop(0)
         }
         
         backButton.titleLabel?.font = R.font.avenir(size: 14)

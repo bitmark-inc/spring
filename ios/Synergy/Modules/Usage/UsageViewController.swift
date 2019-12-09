@@ -16,9 +16,6 @@ import RealmSwift
 import Realm
 
 class UsageViewController: ViewController {
-    
-    private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
-    
     private lazy var tableView: UsageTableView = {
         let v = UsageTableView()
         v.postListNavigateHandler = { filterScope in
@@ -152,16 +149,8 @@ class UsageViewController: ViewController {
             text: R.string.localizable.usage().localizedUppercase,
             colorTheme: .cognac)
 
-        subTitleLabel.setText(R.string.localizable.howyouusefacebooK())
-
         contentView.flex
             .direction(.column).define { (flex) in
-                flex.addItem().padding(OurTheme.paddingInset)
-                    .direction(.column).define { (flex) in
-                        flex.addItem(screenTitleLabel).marginTop(OurTheme.dashboardPaddingScreenTitle)
-                        flex.addItem(subTitleLabel).marginTop(2)
-                }
-
                 flex.addItem(tableView).marginBottom(10).grow(1)
             }
     }

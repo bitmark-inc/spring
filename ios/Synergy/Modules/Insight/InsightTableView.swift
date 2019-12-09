@@ -81,7 +81,7 @@ extension InsightTableView: UITableViewDataSource {
         switch (indexPath.section, indexPath.row) {
         case (0, _):
             let cell = tableView.dequeueReusableCell(withClass: HeadingTableViewCell.self, for: indexPath)
-            cell.setHeading(title: R.string.localizable.insightS(), color:  UIColor(hexString: "#0011AF"))
+            cell.setHeading(title: R.string.localizable.insights().localizedUppercase, color:  UIColor(hexString: "#0011AF"))
             cell.subTitle = R.string.localizable.howyouusefacebooK()
             return cell
         case (1, _):
