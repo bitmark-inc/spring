@@ -15,7 +15,7 @@ import FlexLayout
 import RealmSwift
 import Realm
 
-class UsageViewController: TabPageViewController {
+class UsageViewController: ViewController {
     
     private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
     
@@ -27,18 +27,9 @@ class UsageViewController: TabPageViewController {
         return v
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setThemedScreenTitle(text: R.string.localizable.usagE(), color: UIColor(hexString: "#932C19"))
-    }
-
     override func bindViewModel() {
         super.bindViewModel()
         
-        // Fake data
-        subTitleLabel.text = R.string.localizable.howyouusefacebooK()
-
         guard let viewModel = viewModel as? UsageViewModel else { return }
 
         viewModel.realmPostUsageObservable
@@ -155,11 +146,23 @@ class UsageViewController: TabPageViewController {
 
     override func setupViews() {
         super.setupViews()
-        
-        contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(subTitleLabel).marginTop(2).marginLeft(18).marginRight(18)
-            flex.addItem(tableView).marginBottom(10).grow(1)
-        }
-        
+
+        let screenTitleLabel = Label()
+        screenTitleLabel.applyTitleTheme(
+            text: R.string.localizable.usage().localizedUppercase,
+            colorTheme: .cognac)
+
+        subTitleLabel.setText(R.string.localizable.howyouusefacebooK())
+
+        contentView.flex
+            .direction(.column).define { (flex) in
+                flex.addItem().padding(OurTheme.paddingInset)
+                    .direction(.column).define { (flex) in
+                        flex.addItem(screenTitleLabel).marginTop(OurTheme.dashboardPaddingScreenTitle)
+                        flex.addItem(subTitleLabel).marginTop(2)
+                }
+
+                flex.addItem(tableView).marginBottom(10).grow(1)
+            }
     }
 }

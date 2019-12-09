@@ -51,6 +51,44 @@ extension Label {
         flex.markDirty()
     }
 
+    func applyTitleTheme(
+        text: String, colorTheme: ColorTheme,
+        font: UIFont = R.font.domaineSansTextRegular(size: Size.ds(36))!,
+        lineHeight: CGFloat = 1.1) {
+
+        self.text = text
+        self.font = font
+
+        switch colorTheme {
+        case .white:
+            themeService.rx
+                .bind({ $0.lightTextColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
+        case .cognac:
+            themeService.rx
+                .bind({ $0.themeColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
+        case .internationalKleinBlue:
+            themeService.rx
+                .bind({ $0.themeBlueColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
+        case .yukonGold:
+            themeService.rx
+                .bind({ $0.themeGreenColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
+        default:
+            themeService.rx
+                .bind({ $0.themeColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+        }
+
+        lineHeightMultiple(lineHeight)
+    }
+
     func applyLight(text: String, font: UIFont?, lineHeight: CGFloat? = nil) {
         self.text = text
         self.font = font

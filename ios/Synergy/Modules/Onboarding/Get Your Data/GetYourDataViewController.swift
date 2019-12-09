@@ -19,13 +19,6 @@ class GetYourDataViewController: ViewController, BackNavigator {
     lazy var manualAuthorizeButton = makeManualAuthorizeButton()
     lazy var automateAuthorizeButton = makeAutomateAuthorizeButton()
 
-    // MARK: - Setup Views
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        contentView.layoutIfNeeded()
-        contentView.flex.layout()
-    }
-
     override func bindViewModel() {
         super.bindViewModel()
 
@@ -46,12 +39,15 @@ class GetYourDataViewController: ViewController, BackNavigator {
         viewModel.passwordRelay.accept(passwordTextField.text!)
     }
 
+    // MARK: - Setup Views
     override func setupViews() {
         setupBackground(image: R.image.cognacBackground())
         super.setupViews()
 
-        showLightBackItem()
-        setLightScreenTitle(text: R.string.phrase.getYourDataScreenTitle().localizedUppercase)
+        let screenTitle = Label()
+        screenTitle.applyTitleTheme(
+            text: R.string.phrase.getYourDataScreenTitle().localizedUppercase,
+            colorTheme: .white)
 
         let giveAutomateTrust = Label()
         giveAutomateTrust.numberOfLines = 0
@@ -60,17 +56,25 @@ class GetYourDataViewController: ViewController, BackNavigator {
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
             lineHeight: 1.2)
 
-        contentView.flex.direction(.column).define { (flex) in
-            flex.addItem().direction(.column).define { (flex) in
-                flex.addItem(loginTextField).height(50)
-                flex.addItem(passwordTextField).height(50).marginTop(Size.dh(19))
+        contentView.flex
+            .padding(OurTheme.paddingInset)
+            .direction(.column).define { (flex) in
+                flex.addItem(screenTitle).marginTop(OurTheme.onboardingPaddingScreenTitle)
+                flex.addItem().marginTop(Size.dh(45))
+                    .direction(.column).define { (flex) in
+                        flex.addItem(loginTextField).height(50)
+                        flex.addItem(passwordTextField).height(50).marginTop(Size.dh(19))
+                    }
+
+                flex.addItem(giveAutomateTrust).marginTop(Size.dh(35))
+
+                flex.addItem(manualAuthorizeButton).marginTop(Size.dh(35))
+                flex.addItem(automateAuthorizeButton)
+                    .width(100%)
+                    .position(.absolute)
+                    .left(OurTheme.paddingInset.left)
+                    .bottom(OurTheme.paddingBottom)
             }
-
-            flex.addItem(giveAutomateTrust).marginTop(Size.dh(35))
-
-            flex.addItem(manualAuthorizeButton).marginTop(Size.dh(35))
-            flex.addItem(automateAuthorizeButton).width(100%).position(.absolute).bottom(0)
-        }
     }
 }
 

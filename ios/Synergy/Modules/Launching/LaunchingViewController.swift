@@ -110,9 +110,11 @@ class LaunchingViewController: ViewController {
             font: R.font.atlasGroteskLight(size: Size.ds(22)),
             lineHeight: 1.1)
 
-        contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(titleScreen).marginTop(50%).width(100%)
-            flex.addItem(descriptionLabel).marginTop(Size.dh(10))
-        }
+        contentView.flex
+            .padding(OurTheme.paddingInset)
+            .direction(.column).define { (flex) in
+                flex.addItem(titleScreen).marginTop(Size.dh(380)).width(100%)
+                flex.addItem(descriptionLabel).marginTop(Size.dh(10))
+            }
     }
 }

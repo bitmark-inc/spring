@@ -45,24 +45,32 @@ class HowItWorksViewController: ViewController, BackNavigator {
         }
 
         super.setupViews()
-        showLightBackItem()
+
+        let lightBackItem = makeLightBackItem()
 
         let howItWorksTitle = Label()
         howItWorksTitle.applyBlack(
             text: R.string.phrase.howitworksTitle().localizedUppercase,
             font: R.font.domaineSansTextLight(size: Size.ds(36)))
 
-        contentView.flex.direction(.column).define { (flex) in
-            flex.addItem().height(50%)
+        contentView.flex
+            .padding(OurTheme.paddingInset)
+            .direction(.column).define { (flex) in
+                flex.addItem(lightBackItem)
+                flex.addItem().height(45%)
 
-            flex.addItem(howItWorksTitle).marginTop(-navigationViewHeight + Size.dh(27))
+                flex.addItem(howItWorksTitle).marginTop(Size.dh(27))
 
-            flex.addItem(howItWorkContent(part: 1, text: R.string.phrase.howitworksContent1())).marginTop(Size.dh(15))
-            flex.addItem(howItWorkContent(part: 2, text: R.string.phrase.howitworksContent2())).marginTop(Size.dh(10))
-            flex.addItem(howItWorkContent(part: 3, text: R.string.phrase.howitworksContent3())).marginTop(Size.dh(10))
+                flex.addItem(howItWorkContent(part: 1, text: R.string.phrase.howitworksContent1())).marginTop(Size.dh(15))
+                flex.addItem(howItWorkContent(part: 2, text: R.string.phrase.howitworksContent2())).marginTop(Size.dh(10))
+                flex.addItem(howItWorkContent(part: 3, text: R.string.phrase.howitworksContent3())).marginTop(Size.dh(10))
 
-            flex.addItem(continueButton).position(.absolute).bottom(0).width(100%)
-        }
+                flex.addItem(continueButton)
+                    .width(100%)
+                    .position(.absolute)
+                    .left(OurTheme.paddingInset.left)
+                    .bottom(OurTheme.paddingBottom)
+            }
     }
 }
 

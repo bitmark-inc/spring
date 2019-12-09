@@ -14,6 +14,13 @@ import RxTheme
 let globalStatusBarStyle = BehaviorRelay<UIStatusBarStyle>(value: .default)
 var themeService = ThemeType.currentThemeService(for: .unspecified)
 
+struct OurTheme {
+    static let paddingInset = UIEdgeInsets(top: 0, left: Size.dw(18), bottom: 0, right: Size.dw(18))
+    static let paddingBottom: CGFloat = Size.dh(45)
+    static let onboardingPaddingScreenTitle: CGFloat = Size.dh(28)
+    static let dashboardPaddingScreenTitle: CGFloat = Size.dh(17)
+}
+
 protocol Theme {
     var blackTextColor: UIColor { get }
     var black1TextColor: UIColor { get }
@@ -33,6 +40,8 @@ protocol Theme {
     var textViewTextColor: UIColor { get }
     var indicatorColor: UIColor { get }
     var themeColor: UIColor { get }
+    var themeBlueColor: UIColor { get }
+    var themeGreenColor: UIColor { get }
     var controlBackgroundColor: UIColor { get }
     var postCellBackgroundColor: UIColor { get }
 
@@ -58,6 +67,8 @@ struct LightTheme: Theme {
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
     let indicatorColor = UIColor.Material.grey
     let themeColor = UIColor(hexString: "#932C19")!
+    let themeBlueColor = UIColor(hexString: "#0011AF")!
+    let themeGreenColor = UIColor(hexString: "#5F6D07")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
 
@@ -84,6 +95,8 @@ struct DarkTheme: Theme {
     let textViewTextColor = UIColor(hexString: "#2B47FD")!
     let indicatorColor = UIColor.Material.grey
     let themeColor = UIColor(hexString: "#932C19")!
+    let themeBlueColor = UIColor(hexString: "#0011AF")!
+    let themeGreenColor = UIColor(hexString: "#5F6D07")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
 
@@ -92,7 +105,9 @@ struct DarkTheme: Theme {
 }
 
 enum ColorTheme: Int, CaseIterable {
-    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord, gray1
+    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord, gray1, yukonGold
+
+    case white, cognac
 
     var color: UIColor {
         switch self {
@@ -117,7 +132,10 @@ enum ColorTheme: Int, CaseIterable {
         case .blueGray:   return UIColor.Material.blueGrey
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
         case .concord:    return UIColor(hexString: "#828180")!
-        case .gray1:    return UIColor(hexString: "#C1C1C1")!
+        case .gray1:        return UIColor(hexString: "#C1C1C1")!
+        case .white:        return UIColor.white
+        case .cognac:       return UIColor(hexString: "#932C19")!
+        case .yukonGold:    return UIColor(hexString: "#5F6D07")!
         }
     }
 
@@ -145,6 +163,9 @@ enum ColorTheme: Int, CaseIterable {
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
         case .concord:    return UIColor(hexString: "#828180")!
         case .gray1:    return UIColor(hexString: "#C1C1C1")!
+        case .white:        return UIColor.white
+        case .cognac:       return UIColor(hexString: "#932C19")!
+        case .yukonGold:    return UIColor(hexString: "#5F6D07")!
         }
     }
 
@@ -172,6 +193,9 @@ enum ColorTheme: Int, CaseIterable {
         case .internationalKleinBlue: return "international klein blue"
         case .concord:    return "concord"
         case .gray1:        return ""
+        case .white:        return "White"
+        case .cognac:       return "Cognac"
+        case .yukonGold:    return "Yokon Gold"
         }
     }
 }

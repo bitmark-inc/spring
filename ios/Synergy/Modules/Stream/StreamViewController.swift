@@ -45,17 +45,19 @@ class StreamViewController: ViewController {
     override func setupViews() {
         super.setupViews()
 
-        let titleScreen = Label()
-        titleScreen.applyBlack(
+        let screenTitleLabel = Label()
+        screenTitleLabel.applyTitleTheme(
             text: R.string.localizable.streams().localizedUppercase,
-            font: R.font.domaineSansTextRegular(size: Size.ds(36)),
-            lineHeight: 1.06, level: 2)
+            colorTheme: .yukonGold)
 
-        contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(titleScreen).marginTop(-17)
-            flex.addItem(subTitleButton).marginTop(2)
-            flex.addItem(streamDescLabel).marginTop(36)
-        }
+        contentView.flex
+            .padding(OurTheme.paddingInset)
+            .direction(.column).define { (flex) in
+                flex.addItem(screenTitleLabel).marginTop(OurTheme.dashboardPaddingScreenTitle)
+                flex.addItem(subTitleButton).marginTop(2)
+
+                flex.addItem(streamDescLabel).marginTop(36)
+            }
     }
 }
 

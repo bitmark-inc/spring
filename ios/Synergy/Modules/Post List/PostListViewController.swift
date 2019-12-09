@@ -15,7 +15,7 @@ import RealmSwift
 import RxRealm
 import SafariServices
 
-class PostListViewController: TabPageViewController {
+class PostListViewController: ViewController, BackNavigator {
 
     // MARK: - Properties
     fileprivate lazy var sectionTitleLabel = makeSectionTitleLabel()
@@ -72,6 +72,9 @@ class PostListViewController: TabPageViewController {
             emptyView.flex.marginTop(0)
             tableView.isHidden = false
         }
+
+        emptyView.flex.markDirty()
+        tableView.flex.markDirty()
     }
 
     // MARK: - setup Views
@@ -80,19 +83,25 @@ class PostListViewController: TabPageViewController {
 
         loadingState.onNext(.hide)
 
-        titleView.flex.addItem().direction(.row).define { (flex) in
-            flex.addItem(sectionTitleLabel).marginTop(15).shrink(1)
-            flex.addItem(sectionTagLabel).marginLeft(5)
-        }
+        let blackBackItem = makeBlackBackItem()
 
-        contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(timelineLabel).marginTop(15).marginLeft(17)
+        contentView.flex
+            .direction(.column).define { (flex) in
+                flex.addItem().padding(OurTheme.paddingInset)
+                    .direction(.column).define { (flex) in
+                        flex.addItem(blackBackItem)
 
-            flex.addItem(emptyView)
-            flex.addItem(tableView).marginBottom(0).grow(1)
-        }
+                        flex.addItem().direction(.row).marginTop(6).define { (flex) in
+                            flex.addItem(sectionTitleLabel).shrink(1)
+                            flex.addItem(sectionTagLabel).marginLeft(5).marginTop(-15)
+                        }
 
-        contentView.flex.layout(mode: .adjustHeight)
+                        flex.addItem(timelineLabel).marginTop(7)
+                }
+
+                flex.addItem(emptyView)
+                flex.addItem(tableView).marginBottom(0).grow(1)
+            }
     }
 
     fileprivate func makeEmptyView() -> Label {

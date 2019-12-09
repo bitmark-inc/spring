@@ -44,7 +44,11 @@ class SignInWallViewController: LaunchingViewController {
             flex.addItem(signInButton).width(100%).marginTop(Size.dh(20))
         }
 
-        contentView.flex.addItem(buttonsGroup).position(.absolute).bottom(0).width(100%)
+        contentView.flex
+            .addItem(buttonsGroup)
+            .width(100%)
+            .position(.absolute)
+            .left(OurTheme.paddingInset.left).bottom(OurTheme.paddingBottom)
     }
 }
 

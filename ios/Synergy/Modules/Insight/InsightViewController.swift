@@ -15,7 +15,7 @@ import FlexLayout
 import RealmSwift
 import Realm
 
-class InsightViewController: TabPageViewController {
+class InsightViewController: ViewController {
     private lazy var subTitleLabel = Label.create(withFont: R.font.domaineSansTextRegular(size: 18))
     
     private lazy var tableView: InsightTableView = {
@@ -26,25 +26,26 @@ class InsightViewController: TabPageViewController {
         }
         return v
     }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setThemedScreenTitle(text: R.string.localizable.insightS(), color: UIColor(hexString: "#0011AF"))
-    }
-
-    override func bindViewModel() {
-        super.bindViewModel()
-        
-        subTitleLabel.text = R.string.localizable.howfacebookusesyoU()
-    }
 
     override func setupViews() {
         super.setupViews()
-        
-        contentView.flex.direction(.column).define { (flex) in
-            flex.addItem(subTitleLabel).marginTop(2).marginLeft(18).marginRight(18)
-            flex.addItem(tableView).marginBottom(10).grow(1)
-        }
+
+        let screenTitleLabel = Label()
+        screenTitleLabel.applyTitleTheme(
+            text: R.string.localizable.insights().localizedUppercase,
+            colorTheme: .internationalKleinBlue)
+
+        subTitleLabel.text = R.string.localizable.howfacebookusesyoU()
+
+        contentView.flex
+            .direction(.column).define { (flex) in
+                flex.addItem().padding(OurTheme.paddingInset)
+                    .direction(.column).define { (flex) in
+                        flex.addItem(screenTitleLabel).marginTop(OurTheme.dashboardPaddingScreenTitle)
+                        flex.addItem(subTitleLabel).marginTop(2)
+                }
+
+                flex.addItem(tableView).marginBottom(10).grow(1)
+            }
     }
 }

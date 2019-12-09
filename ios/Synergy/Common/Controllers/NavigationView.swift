@@ -9,44 +9,40 @@
 import UIKit
 
 protocol BackNavigator {
-    func showBlackBackItem()
-    func showLightBackItem()
+    func makeBlackBackItem() -> Button
+    func makeLightBackItem() -> Button
 }
 
 extension BackNavigator where Self: ViewController {
-
-    func showBlackBackItem() {
+    func makeBlackBackItem() -> Button {
         let backButton = Button()
         backButton.applyBlack(
             title: R.string.localizable.backNavigator().localizedUppercase,
             font: R.font.avenir(size: Size.ds(14)))
-
-        addIntoNavigationView(backButton: backButton)
-    }
-
-    func showLightBackItem() {
-        let backButton = Button()
-        backButton.applyLight(
-            title: R.string.localizable.backNavigator().localizedUppercase,
-            font: R.font.avenir(size: Size.ds(14)))
-
-        addIntoNavigationView(backButton: backButton)
-    }
-
-    func tapToBack() {
-        Navigator.default.pop()
-    }
-
-    fileprivate func addIntoNavigationView(backButton: Button) {
-        navigationViewHeightConstraint.update(offset: navigationViewHeight)
-        navigationView.addSubview(backButton)
-
-        backButton.snp.makeConstraints { (make) in
-            make.top.leading.bottom.equalToSuperview()
-        }
+        backButton.contentHorizontalAlignment = .left
 
         backButton.rx.tap.bind { [weak self] in
             self?.tapToBack()
         }.disposed(by: disposeBag)
+
+        return backButton
+    }
+
+    func makeLightBackItem() -> Button {
+        let backButton = Button()
+        backButton.applyLight(
+            title: R.string.localizable.backNavigator().localizedUppercase,
+            font: R.font.avenir(size: Size.ds(14)))
+        backButton.contentHorizontalAlignment = .left
+
+        backButton.rx.tap.bind { [weak self] in
+            self?.tapToBack()
+        }.disposed(by: disposeBag)
+
+        return backButton
+    }
+
+    func tapToBack() {
+        Navigator.default.pop()
     }
 }

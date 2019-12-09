@@ -10,11 +10,9 @@
 "SignIn" = "I already have an account »";
 "Continue" = "Continue »";
 "BackNavigator" = "< BACK";
-"USAGE" = "USAGE";
-"INSIGHTS" = "INSIGHTS";
-"ACCOUNT" = "ACCOUNT";
 "Usage" = "Usage";
 "Insights" = "Insights";
+"Account" = "Account";
 "Streams" = "Streams";
 "YourAuthorizationIsRequired" = "Your authorization is required.";
 "notify_me" = "Notify me";
