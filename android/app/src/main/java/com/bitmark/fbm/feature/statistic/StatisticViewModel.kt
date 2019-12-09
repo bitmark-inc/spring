@@ -28,25 +28,31 @@ class StatisticViewModel(
     internal val getStatisticLiveData = CompositeLiveData<List<SectionModelView>>()
 
     fun getUsageStatistic(period: Period, periodStartedTime: Long) {
-        getStatisticLiveData.add(rxLiveDataTransformer.single(usageRepo.getStatistic(period).map { sections ->
-            sections.map { s ->
-                SectionModelView.newInstance(
-                    s,
-                    Random().nextInt(100)
-                )
-            }
-        }))
+        getStatisticLiveData.add(
+            rxLiveDataTransformer.single(
+                usageRepo.getStatistic(period).map { sections ->
+                    sections.map { s ->
+                        SectionModelView.newInstance(
+                            s,
+                            Random().nextInt(100)
+                        )
+                    }
+                })
+        )
     }
 
     fun getInsightsStatistic(period: Period, periodStartedTime: Long) {
-        getStatisticLiveData.add(rxLiveDataTransformer.single(insightsRepo.getStatistic(period).map { sections ->
-            sections.map { s ->
-                SectionModelView.newInstance(
-                    s,
-                    Random().nextInt(100)
-                )
-            }
-        }))
+        getStatisticLiveData.add(
+            rxLiveDataTransformer.single(
+                insightsRepo.getStatistic(period).map { sections ->
+                    sections.map { s ->
+                        SectionModelView.newInstance(
+                            s,
+                            Random().nextInt(100)
+                        )
+                    }
+                })
+        )
     }
 
 }

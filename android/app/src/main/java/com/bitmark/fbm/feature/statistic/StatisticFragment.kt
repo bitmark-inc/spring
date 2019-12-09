@@ -8,8 +8,8 @@ package com.bitmark.fbm.feature.statistic
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
-import androidx.annotation.StringDef
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,6 +25,7 @@ import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.usagedetail.UsageDetailFragment
+import com.bitmark.fbm.util.Constants.MASTER_DELAY_TIME
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
@@ -39,19 +40,11 @@ class StatisticFragment : BaseSupportFragment() {
 
     companion object {
 
-        const val USAGE = "usage"
-
-        const val INSIGHTS = "insights"
-
-        @Retention(AnnotationRetention.SOURCE)
-        @StringDef(USAGE, INSIGHTS)
-        annotation class Type
-
         private const val TYPE = "type"
 
         private const val PERIOD = "period"
 
-        fun newInstance(@Type type: String, period: Period): StatisticFragment {
+        fun newInstance(@Statistic.Type type: String, period: Period): StatisticFragment {
             val fragment = StatisticFragment()
             val bundle = Bundle()
             bundle.putString(TYPE, type)
@@ -70,7 +63,7 @@ class StatisticFragment : BaseSupportFragment() {
     @Inject
     internal lateinit var dialogController: DialogController
 
-    @Type
+    @Statistic.Type
     private lateinit var type: String
 
     private lateinit var period: Period
@@ -78,6 +71,8 @@ class StatisticFragment : BaseSupportFragment() {
     private var periodStartedTime = -1L
 
     private var blocked = false
+
+    private val handler = Handler()
 
     private lateinit var adapter: StatisticRecyclerViewAdapter
 
@@ -98,11 +93,14 @@ class StatisticFragment : BaseSupportFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (type == USAGE) {
-            viewModel.getUsageStatistic(period, periodStartedTime)
-        } else {
-            viewModel.getInsightsStatistic(period, periodStartedTime)
-        }
+
+        handler.postDelayed({
+            if (type == Statistic.USAGE) {
+                viewModel.getUsageStatistic(period, periodStartedTime)
+            } else {
+                viewModel.getInsightsStatistic(period, periodStartedTime)
+            }
+        }, MASTER_DELAY_TIME)
     }
 
     override fun initComponents() {
@@ -153,6 +151,11 @@ class StatisticFragment : BaseSupportFragment() {
             viewModel.getUsageStatistic(period, periodStartedTime)
         }
 
+    }
+
+    override fun deinitComponents() {
+        handler.removeCallbacksAndMessages(null)
+        super.deinitComponents()
     }
 
     override fun observe() {

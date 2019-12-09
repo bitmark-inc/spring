@@ -9,10 +9,16 @@ package com.bitmark.fbm.feature.statistic
 import android.content.Context
 import androidx.fragment.app.FragmentManager
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.util.view.ViewPagerAdapter
 
 
-class StatisticViewPagerAdapter(private val context: Context, fm: FragmentManager) :
+class StatisticViewPagerAdapter(
+    private val context: Context,
+    @Statistic.Type
+    type: String,
+    fm: FragmentManager
+) :
     ViewPagerAdapter(fm) {
 
     companion object {
@@ -21,13 +27,21 @@ class StatisticViewPagerAdapter(private val context: Context, fm: FragmentManage
         const val DECADE = 0x02
     }
 
+    init {
+        add(
+            StatisticFragment.newInstance(type, Period.WEEK),
+            StatisticFragment.newInstance(type, Period.YEAR),
+            StatisticFragment.newInstance(type, Period.DECADE)
+        )
+    }
+
     override fun getPageTitle(position: Int): CharSequence? {
         return context.getString(
             when (position) {
-                WEEK   -> R.string.week
-                YEAR   -> R.string.year
+                WEEK -> R.string.week
+                YEAR -> R.string.year
                 DECADE -> R.string.decade
-                else   -> throw IllegalArgumentException("invalid tab pos")
+                else -> throw IllegalArgumentException("invalid tab pos")
             }
         )
     }
