@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		384F82AF531FBD6AC31B948A /* Pods_Synergy_Dev.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 858D1ECCC3AD4514A7F1B32A /* Pods_Synergy_Dev.framework */; };
 		553BD3C9298A8B9E14EABF26 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		58097057239E28C30081715C /* HeadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58097056239E28C30081715C /* HeadingTableViewCell.swift */; };
+		58097058239E28C30081715C /* HeadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58097056239E28C30081715C /* HeadingTableViewCell.swift */; };
 		582CC4C92390DBC400E4530B /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582CC4C82390DBC400E4530B /* CollectionView.swift */; };
 		582CC4CA2390DBC400E4530B /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 582CC4C82390DBC400E4530B /* CollectionView.swift */; };
 		5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832D6DF238BB9B40074AEDC /* HomeTabbarController.swift */; };
@@ -370,6 +372,7 @@
 		29B903524CADE343316F1074 /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		29E0A207B5D7E4C847A2AEBA /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		565CBC042B4D43C3D73FFEAF /* Pods-Synergy Dev.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Synergy Dev.release.xcconfig"; path = "Target Support Files/Pods-Synergy Dev/Pods-Synergy Dev.release.xcconfig"; sourceTree = "<group>"; };
+		58097056239E28C30081715C /* HeadingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingTableViewCell.swift; sourceTree = "<group>"; };
 		582CC4C82390DBC400E4530B /* CollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		5832D6DF238BB9B40074AEDC /* HomeTabbarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTabbarController.swift; sourceTree = "<group>"; };
 		5832D6E3238BBE390074AEDC /* UsageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageViewModel.swift; sourceTree = "<group>"; };
@@ -763,6 +766,7 @@
 				58682EDA238F7079009BDDDF /* FilterSegment.swift */,
 				582CC4C82390DBC400E4530B /* CollectionView.swift */,
 				E23807C52396023F0079A3C4 /* LinkAttributedString.swift */,
+				58097056239E28C30081715C /* HeadingTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1702,6 +1706,7 @@
 				5832FCA8237A8A9200FA3196 /* Observable+Operators.swift in Sources */,
 				E28B5607238D103300F1BCF2 /* Auth.swift in Sources */,
 				5832FC3F237A863300FA3196 /* Global+Log.swift in Sources */,
+				58097057239E28C30081715C /* HeadingTableViewCell.swift in Sources */,
 				E28B5601238D0B4200F1BCF2 /* AuthAPI.swift in Sources */,
 				E2259CD42387E35300746280 /* ServerAssetsAPI.swift in Sources */,
 				5832FC55237A863300FA3196 /* SVProgressHUD+rxState.swift in Sources */,
@@ -1843,6 +1848,7 @@
 				E2DB66AF237D3B69005367C2 /* ViewModel.swift in Sources */,
 				E2DB66B0237D3B69005367C2 /* Observable+Operators.swift in Sources */,
 				E2DB66B1237D3B69005367C2 /* Global+Log.swift in Sources */,
+				58097058239E28C30081715C /* HeadingTableViewCell.swift in Sources */,
 				E2259CD52387E35300746280 /* ServerAssetsAPI.swift in Sources */,
 				E2DB66B2237D3B69005367C2 /* SVProgressHUD+rxState.swift in Sources */,
 				E2259CD82387E36600746280 /* ServerAssetsService.swift in Sources */,

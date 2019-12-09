@@ -32,6 +32,7 @@ class UsageTableView: TableView {
         super.init(frame: frame, style: style)
 
         self.dataSource = self
+        self.register(cellWithClass: HeadingTableViewCell.self)
         self.register(cellWithClass: TimeFilterTableViewCell.self)
         self.register(cellWithClass: UsageBadgeTableViewCell.self)
         self.register(cellWithClass: UsageHeadingTableViewCell.self)
@@ -54,7 +55,7 @@ class UsageTableView: TableView {
 extension UsageTableView: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 6
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,10 +65,12 @@ extension UsageTableView: UITableViewDataSource {
         case 1:
             return 1
         case 2:
-            return 5
+            return 1
         case 3:
-            return 4
+            return 5
         case 4:
+            return 4
+        case 5:
             return 3
         default:
             return 0
@@ -93,6 +96,11 @@ extension UsageTableView: UITableViewDataSource {
 
          switch (indexPath.section, indexPath.row) {
          case (0, _):
+            let cell = tableView.dequeueReusableCell(withClass: HeadingTableViewCell.self, for: indexPath)
+            cell.setHeading(title: R.string.localizable.usagE(), color:  UIColor(hexString: "#932C19"))
+            cell.subTitle = R.string.localizable.howyouusefacebooK()
+            return cell
+         case (1, _):
             let cell = tableView.dequeueReusableCell(withClass: TimeFilterTableViewCell.self, for: indexPath)
             cell.filterChangeSubject
                 .subscribeOn(MainScheduler())
@@ -101,16 +109,16 @@ extension UsageTableView: UITableViewDataSource {
                 })
                 .disposed(by: disposeBag)
             return cell
-         case (1, _):
+         case (2, _):
              let cell = tableView.dequeueReusableCell(withClass: UsageBadgeTableViewCell.self, for: indexPath)
              cell.timeUnit = c.timeUnit
              return cell
-         case (2, 0):
+         case (3, 0):
              let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
              let numberOfPosts = Constant.numberOfPosts(timeUnit: timeUnit)
              cell.bindData(countText: "\(numberOfPosts) POSTS", actionDescriptionText: "you made")
              return cell
-         case (2, 1):
+         case (3, 1):
              let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
              cell.section = .posts
              cell.timeUnit = c.timeUnit
@@ -126,11 +134,11 @@ extension UsageTableView: UITableViewDataSource {
              cell.bindData(data: stats)
              cell.postListNavigateHandler = c.postListNavigateHandler
              return cell
-         case (2, 2):
+         case (3, 2):
              let cell = tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
              cell.postListNavigateHandler = c.postListNavigateHandler
              return cell
-         case (2, 3):
+         case (3, 3):
              let cell = tableView.dequeueReusableCell(withClass: FilterFriendsTableViewCell.self, for: indexPath)
              cell.timeUnit = timeUnit
              cell.postListNavigateHandler = c.postListNavigateHandler
@@ -144,7 +152,7 @@ extension UsageTableView: UITableViewDataSource {
 
              cell.bindData(data: stats)
              return cell
-         case (2, 4):
+         case (3, 4):
              let cell = tableView.dequeueReusableCell(withClass: FilterPlacesTableViewCell.self, for: indexPath)
              cell.timeUnit = timeUnit
              cell.postListNavigateHandler = c.postListNavigateHandler
@@ -158,11 +166,11 @@ extension UsageTableView: UITableViewDataSource {
 
              cell.bindData(data: stats)
              return cell
-         case (3, 0):
+         case (4, 0):
              let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
              cell.bindData(countText: "100 REACTIONS", actionDescriptionText: "you gave")
              return cell
-         case (3, 1):
+         case (4, 1):
              let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
              cell.section = .reactions
              cell.timeUnit = c.timeUnit
@@ -170,17 +178,17 @@ extension UsageTableView: UITableViewDataSource {
              cell.selectionEnabled = false
              cell.bindData(data: [("Like", 34), ("Love", 40), ("Haha", 19), ("Wow", 5), ("Sad", 2), ("Angry", 0)])
              return cell
-         case (3, 2):
+         case (4, 2):
              return tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
-         case (3, 3):
+         case (4, 3):
              let cell = tableView.dequeueReusableCell(withClass: FilterFriendsTableViewCell.self, for: indexPath)
              cell.bindData(data: [("Phillip Botha", [1,4,2]), ("Jeep Ampol", [3,4,2]), ("Hezali Nel", [1,4,1])])
              return cell
-         case (4, 0):
+         case (5, 0):
              let cell = tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)
              cell.bindData(countText: "341 MESSAGES", actionDescriptionText: "you sent or received")
              return cell
-         case (4, 1):
+         case (5, 1):
              let cell = tableView.dequeueReusableCell(withClass: FilterTypeTableViewCell.self, for: indexPath)
              cell.section = .message
              cell.timeUnit = c.timeUnit
@@ -188,7 +196,7 @@ extension UsageTableView: UITableViewDataSource {
              cell.selectionEnabled = false
              cell.bindData(data: [("TPE Pride 2019", 182), ("Beven Lan", 43), ("Danny & Phil", 39), ("Kevin Y", 25), ("Jeffy Davenport", 23), ("Others", 29)])
              return cell
-         case (4, 2):
+         case (5, 2):
              return tableView.dequeueReusableCell(withClass: FilterDayTableViewCell.self, for: indexPath)
          default:
              return tableView.dequeueReusableCell(withClass: UsageHeadingTableViewCell.self, for: indexPath)

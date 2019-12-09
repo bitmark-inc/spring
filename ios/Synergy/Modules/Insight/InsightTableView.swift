@@ -16,12 +16,12 @@ class InsightTableView: TableView {
     var postListNavigateHandler: ((FilterScope) -> Void)?
     var timeUnit: TimeUnit = .week {
         didSet {
-            self.reloadSections(IndexSet(integersIn: 1...4), with: .automatic)
+            self.reloadSections(IndexSet(integersIn: 2...5), with: .automatic)
         }
     }
     var startTime: Date = Date() {
         didSet {
-            self.reloadSections(IndexSet(integersIn: 1...4), with: .automatic)
+            self.reloadSections(IndexSet(integersIn: 2...5), with: .automatic)
         }
     }
     
@@ -29,6 +29,7 @@ class InsightTableView: TableView {
         super.init(frame: frame, style: style)
         
         self.dataSource = self
+        self.register(cellWithClass: HeadingTableViewCell.self)
         self.register(cellWithClass: TimeFilterTableViewCell.self)
         self.register(cellWithClass: InsightBadgeTableViewCell.self)
         self.register(cellWithClass: InsightHeadingTableViewCell.self)
@@ -49,7 +50,7 @@ class InsightTableView: TableView {
 
 extension InsightTableView: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return 6
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -59,10 +60,12 @@ extension InsightTableView: UITableViewDataSource {
         case 1:
             return 1
         case 2:
-            return 3
+            return 1
         case 3:
             return 3
         case 4:
+            return 3
+        case 5:
             return 4
         default:
             return 0
@@ -77,6 +80,11 @@ extension InsightTableView: UITableViewDataSource {
         
         switch (indexPath.section, indexPath.row) {
         case (0, _):
+            let cell = tableView.dequeueReusableCell(withClass: HeadingTableViewCell.self, for: indexPath)
+            cell.setHeading(title: R.string.localizable.insightS(), color:  UIColor(hexString: "#0011AF"))
+            cell.subTitle = R.string.localizable.howyouusefacebooK()
+            return cell
+        case (1, _):
             let cell = tableView.dequeueReusableCell(withClass: TimeFilterTableViewCell.self, for: indexPath)
             cell.filterChangeSubject
                 .subscribeOn(MainScheduler())
@@ -85,15 +93,15 @@ extension InsightTableView: UITableViewDataSource {
                 })
                 .disposed(by: disposeBag)
             return cell
-        case (1, _):
+        case (2, _):
             let cell = tableView.dequeueReusableCell(withClass: InsightBadgeTableViewCell.self, for: indexPath)
             cell.timeUnit = c.timeUnit
             return cell
-        case (2, 0):
+        case (3, 0):
             let cell = tableView.dequeueReusableCell(withClass: InsightHeadingTableViewCell.self, for: indexPath)
             cell.bindData(countText: "14 AD INTERESTS", actionDescriptionText: "tracked by Facebook")
             return cell
-        case (2, 1):
+        case (3, 1):
             let cell = tableView.dequeueReusableCell(withClass: InsightFilterTypeTableViewCell.self, for: indexPath)
             cell.section = .posts
             cell.timeUnit = c.timeUnit
@@ -106,13 +114,13 @@ extension InsightTableView: UITableViewDataSource {
                                    ("Shopping & Fashion", 2)])
             cell.postListNavigateHandler = c.postListNavigateHandler
             return cell
-        case (2, 2):
+        case (3, 2):
             return tableView.dequeueReusableCell(withClass: InsightFilterDayTableViewCell.self, for: indexPath)
-        case (3, 0):
+        case (4, 0):
             let cell = tableView.dequeueReusableCell(withClass: InsightHeadingTableViewCell.self, for: indexPath)
             cell.bindData(countText: "5 ADVERTISERS", actionDescriptionText: "collected data about you")
             return cell
-        case (3, 1):
+        case (4, 1):
             let cell = tableView.dequeueReusableCell(withClass: InsightFilterTypeTableViewCell.self, for: indexPath)
             cell.section = .reactions
             cell.timeUnit = c.timeUnit
@@ -124,13 +132,13 @@ extension InsightTableView: UITableViewDataSource {
                      ("Hobbies & Activities", 1),
                      ("Shopping & Fashion", 2)])
             return cell
-        case (3, 2):
+        case (4, 2):
             return tableView.dequeueReusableCell(withClass: InsightFilterDayTableViewCell.self, for: indexPath)
-        case (4, 0):
+        case (5, 0):
             let cell = tableView.dequeueReusableCell(withClass: InsightHeadingTableViewCell.self, for: indexPath)
             cell.bindData(countText: "35 LOCATIONS", actionDescriptionText: "tracked by Facebook")
             return cell
-        case (4, 1):
+        case (5, 1):
             let cell = tableView.dequeueReusableCell(withClass: InsightFilterTypeTableViewCell.self, for: indexPath)
             cell.section = .message
             cell.timeUnit = c.timeUnit
@@ -142,7 +150,7 @@ extension InsightTableView: UITableViewDataSource {
                                  ("Narita, Japan", 1),
                                  ("San Francisco, California, USA", 2)])
             return cell
-        case (4, 2):
+        case (5, 2):
             let cell = tableView.dequeueReusableCell(withClass: InsightFilterTypeTableViewCell.self, for: indexPath)
             cell.section = .message
             cell.timeUnit = c.timeUnit
@@ -154,7 +162,7 @@ extension InsightTableView: UITableViewDataSource {
                                  ("Park", 1),
                                  ("Airport", 2)])
             return cell
-        case (4, 3):
+        case (5, 3):
             return tableView.dequeueReusableCell(withClass: InsightFilterDayTableViewCell.self, for: indexPath)
         default:
             return tableView.dequeueReusableCell(withClass: InsightHeadingTableViewCell.self, for: indexPath)
