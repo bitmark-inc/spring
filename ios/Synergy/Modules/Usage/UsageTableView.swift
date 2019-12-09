@@ -17,12 +17,12 @@ class UsageTableView: TableView {
     var postListNavigateHandler: ((FilterScope) -> Void)?
     var timeUnit: TimeUnit = .week {
         didSet {
-            self.reloadSections(IndexSet(integersIn: 1...4), with: .automatic)
+            self.reloadSections(IndexSet(integersIn: 2...5), with: .automatic)
         }
     }
     var startTime: Date = Date() {
         didSet {
-            self.reloadSections(IndexSet(integersIn: 1...4), with: .automatic)
+            self.reloadSections(IndexSet(integersIn: 2...5), with: .automatic)
         }
     }
 

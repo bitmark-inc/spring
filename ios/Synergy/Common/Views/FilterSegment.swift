@@ -76,6 +76,9 @@ class FilterSegment: UIView {
     }
     
     @objc func btnTapped(sender: UIButton) {
+        if sender.tag == self.selectedIndex {
+            return
+        }
         self.selectedIndex = sender.tag
         UIView.animate(withDuration: 0.3) { [unowned self] in
             self.setUnderlinePosition(withIndex: self.selectedIndex)
