@@ -52,9 +52,12 @@ class UsageBadgeTableViewCell: TableViewCell {
                 reactionsDataBadgeView.percentageLabel.text = "71%"
                 messagesDataBadgeView.percentageLabel.text = "61%"
             }
-            postDataBadgeView.flex.markDirty()
-            reactionsDataBadgeView.flex.markDirty()
-            messagesDataBadgeView.flex.markDirty()
+//            postDataBadgeView.flex.markDirty()
+//            reactionsDataBadgeView.flex.markDirty()
+//            messagesDataBadgeView.flex.markDirty()
+//            postDataBadgeView.flex.layout()
+//            reactionsDataBadgeView.flex.layout()
+//            messagesDataBadgeView.flex.layout()
         }
     }
     
@@ -94,11 +97,11 @@ final class UsageDataBadgeView: UIView {
         toplineView.flex.direction(.row).define { (flex) in
             flex.alignItems(.center)
             flex.addItem(updownImageView)
-            flex.addItem(percentageLabel).margin(4)
+            flex.addItem(percentageLabel).margin(4).grow(1)
         }
         
         self.flex.direction(.column).define { (flex) in
-            flex.alignItems(.start)
+            flex.alignItems(.stretch)
             flex.addItem(toplineView)
             flex.addItem(descriptionLabel).marginTop(6)
         }

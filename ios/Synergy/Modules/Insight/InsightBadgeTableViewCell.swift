@@ -104,7 +104,7 @@ final class InsightDataBadgeView: UIView {
         }
         
         self.flex.direction(.column).define { (flex) in
-            flex.alignItems(.start)
+            flex.alignItems(.stretch)
             flex.addItem(toplineView)
             flex.addItem(descriptionLabel).marginTop(6)
         }
