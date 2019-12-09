@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.util.modelview
 
+import com.bitmark.fbm.data.model.entity.GroupName
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.SectionName
 
@@ -13,7 +14,7 @@ import com.bitmark.fbm.data.model.entity.SectionName
 data class GroupModelView(
     val period: Period,
     val sectionName: SectionName,
-    val name: String,
+    val name: GroupName,
     val typeCount: Int,
     var entries: List<Entry>
 ) : ModelView

@@ -37,16 +37,16 @@ data class SectionR(
     val groups: Map<String, Any>
 ) : Record
 
-inline fun <reified T> SectionR.getGroup(key: String): T {
+inline fun <reified T> SectionR.getGroup(g: GroupName): T {
     val gson = Gson().newBuilder().create()
-    val group = groups[key] ?: error("$key is not existing")
+    val group = groups[g.value] ?: error("${g.value} is not existing")
     val json = gson.toJson(group)
     return gson.fromJson(json, T::class.java)
 }
 
-inline fun <reified T> SectionR.getArrayGroup(key: String): List<T> {
+inline fun <reified T> SectionR.getArrayGroup(g: GroupName): List<T> {
     val gson = Gson().newBuilder().create()
-    val group = groups[key] ?: error("$key is not existing")
+    val group = groups[g.value] ?: error("${g.value} is not existing")
     if (group !is List<*>) error("not a list")
     val result = mutableListOf<T>()
     group.forEach { g ->
@@ -100,6 +100,34 @@ data class GroupEntity(
     @SerializedName("data")
     val data: Map<String, Int>
 ) : Record
+
+enum class GroupName {
+    TYPE,
+    DAY,
+    FRIEND,
+    PLACE,
+    AREA;
+
+    companion object
+}
+
+val GroupName.value: String
+    get() = when (this) {
+        GroupName.TYPE   -> "type"
+        GroupName.DAY    -> "day"
+        GroupName.FRIEND -> "friend"
+        GroupName.PLACE  -> "place"
+        GroupName.AREA   -> "area"
+    }
+
+fun GroupName.Companion.fromString(name: String) = when (name) {
+    "type"   -> GroupName.TYPE
+    "day"    -> GroupName.DAY
+    "friend" -> GroupName.FRIEND
+    "place"  -> GroupName.PLACE
+    "area"   -> GroupName.AREA
+    else     -> error("invalid group name")
+}
 
 enum class Period {
     @Expose

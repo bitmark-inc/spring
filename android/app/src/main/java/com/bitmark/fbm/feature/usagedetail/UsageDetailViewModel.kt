@@ -7,6 +7,7 @@
 package com.bitmark.fbm.feature.usagedetail
 
 import androidx.lifecycle.Lifecycle
+import com.bitmark.fbm.data.model.entity.PostR
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.data.source.UsageRepository
 import com.bitmark.fbm.feature.BaseViewModel
@@ -21,16 +22,44 @@ class UsageDetailViewModel(
     private val rxLiveDataTransformer: RxLiveDataTransformer
 ) : BaseViewModel(lifecycle) {
 
-    internal val getPostLiveData = CompositeLiveData<List<PostModelView>>()
+    internal val listPostLiveData = CompositeLiveData<List<PostModelView>>()
 
-    fun getPost(type: PostType, from: Long, to: Long) {
-        getPostLiveData.add(
+    fun listPostByType(type: PostType, from: Long, to: Long) {
+        listPostLiveData.add(
             rxLiveDataTransformer.single(
-                usageRepo.getPost(
+                usageRepo.listPostByType(
                     type,
                     from,
                     to
-                ).map { posts -> posts.map { p -> PostModelView.newInstance(p) } })
+                ).map(mapPosts())
+            )
         )
     }
+
+    fun listPostByTag(tag: String, from: Long, to: Long) {
+        listPostLiveData.add(
+            rxLiveDataTransformer.single(
+                usageRepo.listPostByTag(
+                    tag,
+                    from,
+                    to
+                ).map(mapPosts())
+            )
+        )
+    }
+
+    fun listPostByLocation(location: String, from: Long, to: Long) {
+        listPostLiveData.add(
+            rxLiveDataTransformer.single(
+                usageRepo.listPostByLocation(
+                    location,
+                    from,
+                    to
+                ).map(mapPosts())
+            )
+        )
+    }
+
+    private fun mapPosts(): (List<PostR>) -> List<PostModelView> =
+        { posts -> posts.map { p -> PostModelView.newInstance(p) } }
 }

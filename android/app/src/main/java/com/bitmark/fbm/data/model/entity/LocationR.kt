@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName
 
 data class LocationR(
     @Expose
-    @SerializedName("")
+    @SerializedName("name")
     val name: String,
 
     @Expose

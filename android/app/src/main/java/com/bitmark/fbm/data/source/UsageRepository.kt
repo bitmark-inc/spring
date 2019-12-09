@@ -19,6 +19,13 @@ class UsageRepository(
 
     fun getStatistic(period: Period) = remoteDataSource.getStatistic(period)
 
-    fun getPost(type: PostType, from: Long, to: Long) = remoteDataSource.getPost(type, from, to)
+    fun listPostByType(type: PostType, from: Long, to: Long) =
+        remoteDataSource.listPostByType(type, from, to)
+
+    fun listPostByTag(tag: String, from: Long, to: Long) =
+        remoteDataSource.listPostByTag(tag, from, to)
+
+    fun listPostByLocation(location: String, from: Long, to: Long) =
+        remoteDataSource.listPostByLocation(location, from, to)
 
 }

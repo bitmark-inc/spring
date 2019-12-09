@@ -12,6 +12,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.model.entity.GroupName
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.util.DateTimeUtil
@@ -90,48 +91,48 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
             when (group.sectionName) {
                 SectionName.POST        -> {
                     when (group.name) {
-                        "type"   -> R.string.by_type
-                        "day"    -> R.string.by_day
-                        "friend" -> R.string.by_friends_tagged
-                        "place"  -> R.string.by_place_tagged
-                        else     -> R.string.empty
+                        GroupName.TYPE   -> R.string.by_type
+                        GroupName.DAY    -> R.string.by_day
+                        GroupName.FRIEND -> R.string.by_friends_tagged
+                        GroupName.PLACE  -> R.string.by_place_tagged
+                        else             -> R.string.empty
                     }
                 }
                 SectionName.REACTION    -> {
                     when (group.name) {
-                        "type"   -> R.string.by_type
-                        "day"    -> R.string.by_day
-                        "friend" -> R.string.by_friend
-                        else     -> R.string.empty
+                        GroupName.TYPE   -> R.string.by_type
+                        GroupName.DAY    -> R.string.by_day
+                        GroupName.FRIEND -> R.string.by_friend
+                        else             -> R.string.empty
                     }
                 }
                 SectionName.MESSAGE     -> {
                     when (group.name) {
-                        "type" -> R.string.by_chat
-                        "day"  -> R.string.by_day
-                        else   -> R.string.empty
+                        GroupName.TYPE -> R.string.by_chat
+                        GroupName.DAY  -> R.string.by_day
+                        else           -> R.string.empty
                     }
                 }
                 SectionName.AD_INTEREST -> {
                     when (group.name) {
-                        "type" -> R.string.by_type
-                        "day"  -> R.string.by_day
-                        else   -> R.string.empty
+                        GroupName.TYPE -> R.string.by_type
+                        GroupName.DAY  -> R.string.by_day
+                        else           -> R.string.empty
                     }
                 }
                 SectionName.ADVERTISER  -> {
                     when (group.name) {
-                        "type" -> R.string.by_type
-                        "day"  -> R.string.by_day
-                        else   -> R.string.empty
+                        GroupName.TYPE -> R.string.by_type
+                        GroupName.DAY  -> R.string.by_day
+                        else           -> R.string.empty
                     }
                 }
                 SectionName.LOCATION    -> {
                     when (group.name) {
-                        "type" -> R.string.by_type
-                        "day"  -> R.string.by_day
-                        "area" -> R.string.by_area
-                        else   -> R.string.empty
+                        GroupName.TYPE -> R.string.by_type
+                        GroupName.DAY  -> R.string.by_day
+                        GroupName.AREA -> R.string.by_area
+                        else           -> R.string.empty
                     }
                 }
             }
@@ -140,52 +141,52 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
             when (group.sectionName) {
                 SectionName.REACTION    -> {
                     when (group.name) {
-                        "day"    -> R.string.you_reacted
-                        "friend" -> R.string.you_reacted_to
-                        else     -> R.string.empty
+                        GroupName.DAY    -> R.string.you_reacted
+                        GroupName.FRIEND -> R.string.you_reacted_to
+                        else             -> R.string.empty
                     }
                 }
                 SectionName.MESSAGE     -> {
                     when (group.name) {
-                        "type" -> R.string.with_person_or_group
-                        "day"  -> R.string.sent_or_received
-                        else   -> R.string.empty
+                        GroupName.TYPE -> R.string.with_person_or_group
+                        GroupName.DAY  -> R.string.sent_or_received
+                        else           -> R.string.empty
                     }
                 }
                 SectionName.AD_INTEREST -> {
                     when (group.name) {
-                        "type" -> R.string.of_topic
-                        "day"  -> R.string.fb_tracked_them
-                        else   -> R.string.empty
+                        GroupName.TYPE -> R.string.of_topic
+                        GroupName.DAY  -> R.string.fb_tracked_them
+                        else           -> R.string.empty
                     }
                 }
                 SectionName.ADVERTISER  -> {
                     when (group.name) {
-                        "type" -> R.string.of_industry
-                        "day"  -> R.string.that_your_data_was_collected
-                        else   -> R.string.empty
+                        GroupName.TYPE -> R.string.of_industry
+                        GroupName.DAY  -> R.string.that_your_data_was_collected
+                        else           -> R.string.empty
                     }
                 }
                 SectionName.LOCATION    -> {
                     when (group.name) {
-                        "type" -> R.string.of_location
-                        "area" -> R.string.of_location
-                        "day"  -> R.string.fb_tracked_them
-                        else   -> R.string.empty
+                        GroupName.TYPE -> R.string.of_location
+                        GroupName.AREA -> R.string.of_location
+                        GroupName.DAY  -> R.string.fb_tracked_them
+                        else           -> R.string.empty
                     }
                 }
                 else                    -> R.string.empty
             }
         ).toLowerCase()
-        val vertical = group.name == "day"
+        val vertical = group.name == GroupName.DAY
 
-        if (group.name == "type") {
+        if (group.name == GroupName.TYPE) {
             if (group.sectionName == SectionName.MESSAGE) {
                 group.sort()
             } else {
                 group.reverse()
             }
-        } else if (group.name != "day") {
+        } else if (group.name != GroupName.DAY) {
             group.sort()
         }
 
@@ -219,7 +220,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     private fun getBarData(group: GroupModelView, barXValues: List<String>): BarData {
         val font = ResourcesCompat.getFont(context, R.font.grotesk)
-        val vertical = group.name == "day"
+        val vertical = group.name == GroupName.DAY
         val gEntries = group.entries
         val barEntries = mutableListOf<BarEntry>()
 
@@ -250,7 +251,11 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                     else                                                            -> R.array.color_palette_3
                 }
             )
-        if (group.name !in arrayOf("type", "area")) colors.reverse() // reverse all stacked chart
+        if (group.name !in arrayOf(
+                GroupName.TYPE,
+                GroupName.AREA
+            )
+        ) colors.reverse() // reverse all stacked chart
         dataSet.colors = colors.toList()
         val barData = BarData(dataSet)
         barData.barWidth = if (vertical) 0.4f else 0.15f
@@ -268,7 +273,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
 
     private fun getBarXValues(group: GroupModelView): List<String> {
-        val vertical = group.name == "day"
+        val vertical = group.name == GroupName.DAY
         val gEntries = group.entries
 
         return when {
@@ -317,11 +322,11 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         SectionName.AD_INTEREST,
         SectionName.ADVERTISER,
         SectionName.LOCATION
-    ) && group.name == "type"
+    ) && group.name == GroupName.TYPE
 
     private fun buildBarChart(group: GroupModelView, barXValues: List<String>): BarChart {
         val font = ResourcesCompat.getFont(context, R.font.grotesk)
-        val vertical = group.name == "day"
+        val vertical = group.name == GroupName.DAY
         val chartView = if (vertical) BarChart(context) else HorizontalBarChart(context)
         chartView.description.isEnabled = false
         val axisLeft = chartView.axisLeft
@@ -385,7 +390,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     data class ChartItem(
         val sectionName: SectionName,
 
-        val groupName: String,
+        val groupName: GroupName,
 
         val entryVal: String,
 

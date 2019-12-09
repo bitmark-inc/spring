@@ -28,7 +28,7 @@ data class SectionModelView(
 
             // by area if has
             if (sectionName == SectionName.LOCATION) {
-                val types = sectionR.getGroup<GroupEntity>("area")
+                val types = sectionR.getGroup<GroupEntity>(GroupName.AREA)
                 val typesCount = types.data.size
                 val typeEntries =
                     types.data.entries.map { e ->
@@ -41,7 +41,7 @@ data class SectionModelView(
                     GroupModelView(
                         period,
                         sectionName,
-                        "area",
+                        GroupName.AREA,
                         typesCount,
                         typeEntries
                     )
@@ -49,7 +49,7 @@ data class SectionModelView(
             }
 
             // by type
-            val types = sectionR.getGroup<GroupEntity>("type")
+            val types = sectionR.getGroup<GroupEntity>(GroupName.TYPE)
             val typesCount = types.data.size
             val typeEntries =
                 types.data.entries.map { e ->
@@ -62,7 +62,7 @@ data class SectionModelView(
                 GroupModelView(
                     period,
                     sectionName,
-                    "type",
+                    GroupName.TYPE,
                     typesCount,
                     typeEntries
                 )
@@ -70,9 +70,9 @@ data class SectionModelView(
 
 
             for (entry in sectionR.groups.entries) {
-                val key = entry.key
-                if (key == "type" || key == "area") continue
-                val group = sectionR.getArrayGroup<GroupEntity>(key)
+                val groupName = GroupName.fromString(entry.key)
+                if (groupName == GroupName.TYPE || groupName == GroupName.AREA) continue
+                val group = sectionR.getArrayGroup<GroupEntity>(groupName)
                 val entries = group.map { e ->
                     val xVal = e.name.capitalize()
                     val yVals = e.data.entries.map { e -> e.value.toFloat() }.toFloatArray()
@@ -82,7 +82,7 @@ data class SectionModelView(
                     GroupModelView(
                         period,
                         sectionName,
-                        key,
+                        groupName,
                         typesCount,
                         entries
                     )

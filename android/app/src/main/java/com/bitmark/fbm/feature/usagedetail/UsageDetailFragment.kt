@@ -15,10 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
-import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.model.entity.PostType
-import com.bitmark.fbm.data.model.entity.fromString
-import com.bitmark.fbm.data.model.entity.value
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
@@ -97,21 +94,75 @@ class UsageDetailFragment : BaseSupportFragment() {
             Period.YEAR   -> DateTimeUtil.getEndOfYear(periodStartedTime)
             Period.DECADE -> DateTimeUtil.getEndOfDecade(periodStartedTime)
         }
-        val postType = when (chartItem.entryVal) {
-            "updates" -> PostType.UPDATE
-            "photos"  -> PostType.PHOTO
-            "videos"  -> PostType.VIDEO
-            "stories" -> PostType.STORY
-            "links"   -> PostType.LINK
-            else      -> PostType.UNSPECIFIED
+
+        when (chartItem.sectionName) {
+            SectionName.POST     -> {
+                when (chartItem.groupName) {
+                    GroupName.TYPE   -> {
+                        val postType = when (chartItem.entryVal) {
+                            "updates" -> PostType.UPDATE
+                            "photos"  -> PostType.PHOTO
+                            "videos"  -> PostType.VIDEO
+                            "stories" -> PostType.STORY
+                            "links"   -> PostType.LINK
+                            else      -> PostType.UNSPECIFIED
+                        }
+                        viewModel.listPostByType(postType, periodStartedTime, to)
+                    }
+                    GroupName.FRIEND -> {
+                        viewModel.listPostByTag(chartItem.entryVal, periodStartedTime, to)
+                    }
+
+                    GroupName.PLACE  -> {
+                        viewModel.listPostByLocation(chartItem.entryVal, periodStartedTime, to)
+                    }
+                }
+            }
+
+            SectionName.REACTION -> {
+                // TODO implement later
+            }
+
+            SectionName.MESSAGE  -> {
+                // TODO implement later
+            }
+
         }
-        viewModel.getPost(postType, periodStartedTime, to)
+
     }
 
     override fun initComponents() {
         super.initComponents()
 
-        tvTitle.text = chartItem.entryVal
+        tvTitle.text = getString(
+            when (chartItem.sectionName) {
+                SectionName.POST, SectionName.REACTION -> R.string.posts
+                SectionName.MESSAGE                    -> R.string.messages
+                SectionName.AD_INTEREST                -> R.string.ad_interests
+                SectionName.ADVERTISER                 -> R.string.advertisers
+                SectionName.LOCATION                   -> R.string.locations
+            }
+        )
+        tvTitleSuffix.text = when (chartItem.sectionName) {
+            SectionName.POST     -> {
+                when (chartItem.groupName) {
+                    GroupName.FRIEND -> getString(R.string.tagged_with_lower_format).format(
+                        chartItem.entryVal
+                    )
+                    GroupName.PLACE  -> getString(R.string.tagged_at_lower_format).format(chartItem.entryVal)
+                    else             -> ""
+                }
+            }
+
+            SectionName.REACTION -> {
+                when (chartItem.groupName) {
+                    GroupName.FRIEND -> getString(R.string.reacted_to_lower_format).format(chartItem.entryVal)
+                    else             -> ""
+                }
+            }
+
+            else                 -> ""
+        }
         tvPeriod.text = DateTimeUtil.formatPeriod(period, periodStartedTime)
 
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -132,7 +183,7 @@ class UsageDetailFragment : BaseSupportFragment() {
     override fun observe() {
         super.observe()
 
-        viewModel.getPostLiveData.asLiveData().observe(this, Observer { res ->
+        viewModel.listPostLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
                     progressBar.gone()

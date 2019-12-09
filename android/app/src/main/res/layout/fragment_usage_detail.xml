@@ -58,7 +58,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvTitle"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_44"
                     android:layout_marginStart="@dimen/dp_18"
                     android:layout_marginEnd="@dimen/dp_18"
@@ -66,20 +66,34 @@
                     android:includeFontPadding="false"
                     android:textAllCaps="true"
                     android:textColor="@color/cognac"
-                    app:autoSizeMaxTextSize="@dimen/sp_36"
-                    app:autoSizeMinTextSize="@dimen/sp_24"
-                    app:autoSizeTextType="uniform"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:textSize="@dimen/sp_36"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
                     tools:text="updates"
                     />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTitleSuffix"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/dp_44"
+                    android:layout_marginEnd="@dimen/dp_18"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/grotesk"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_10"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvTitle"
+                    app:layout_constraintTop_toTopOf="@id/tvTitle"
+                    tools:text="you tagged by him"
+                    />
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPeriod"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/domaine_sans"
+                    android:fontFamily="@font/grotesk"
                     android:includeFontPadding="false"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_14"

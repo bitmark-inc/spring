@@ -168,5 +168,8 @@
     <string name="with_format_1"><![CDATA[with <b>%s</b>]]></string>
     <string name="with_format_2"><![CDATA[with <b>%s</b> and <b>%d others</b>]]></string>
     <string name="at_format"><![CDATA[at <b>%s</b>]]></string>
+    <string name="tagged_with_lower_format">tagged with %1$s</string>
+    <string name="tagged_at_lower_format">tagged at %1$s</string>
+    <string name="reacted_to_lower_format">reacted to %1$s</string>
 
 </resources>

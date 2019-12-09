@@ -37,10 +37,22 @@ class UsageRemoteDataSource @Inject constructor(
         gson.fromJson(json, GetStatisticResponse::class.java).sectionRs
     }.subscribeOn(Schedulers.io())
 
-    fun getPost(type: PostType, from: Long, to: Long) =
-        getPost().map { post -> post.filter { p -> p.timestamp in from..to && p.type == type } }
+    fun listPostByType(type: PostType, from: Long, to: Long) =
+        listPosts().map { posts -> posts.filter { p -> p.timestamp in from..to && p.type == type } }
 
-    private fun getPost() = Single.fromCallable {
+    fun listPostByTag(tag: String, from: Long, to: Long) = listPosts().map { posts ->
+        posts.filter { p ->
+            p.timestamp in from..to && p.tags?.contains(tag) == true
+        }
+    }
+
+    fun listPostByLocation(location: String, from: Long, to: Long) = listPosts().map { posts ->
+        posts.filter { p ->
+            p.timestamp in from..to && p.location?.name == location
+        }
+    }
+
+    private fun listPosts() = Single.fromCallable {
         val json = context.assets.open("posts.json").bufferedReader()
             .use { r -> r.readText() }
         val gson = Gson().newBuilder().create()
