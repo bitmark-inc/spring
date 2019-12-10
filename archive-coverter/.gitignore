@@ -106,3 +106,5 @@ dist
 *.sqlite
 data/*
 !data/.empty
+upload/*
+!upload/.empty
