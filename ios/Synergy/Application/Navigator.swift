@@ -131,11 +131,11 @@ class Navigator {
                 sender.present(nav, animated: true, completion: nil)
             }
         case .replace(let type):
-            if let nav = sender.navigationController {
-                // replace controllers in navigation stack
-                nav.hero.navigationAnimationType = .autoReverse(presenting: type)
-                nav.setViewControllers([target], animated: true)
-            }
+            guard let rootViewController = Self.getRootViewController() else { return }
+
+            // replace controllers in navigation stack
+            rootViewController.hero.navigationAnimationType = .autoReverse(presenting: type)
+            rootViewController.setViewControllers([target], animated: true)
         case .modal:
             // present modally
             DispatchQueue.main.async {
@@ -156,8 +156,7 @@ class Navigator {
     }
 
     static func refreshOnboardingStateIfNeeded() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate,
-            let rootViewController = appDelegate.window?.rootViewController as? NavigationController else { return }
+        guard let rootViewController = getRootViewController() else { return }
 
         // check if scene is on onboarding flow's refresh state
         guard let currentVC = rootViewController.viewControllers.last,
@@ -169,8 +168,17 @@ class Navigator {
 
         let refreshOnboardingFlowLap = 1 // seconds
         let refreshTime = enteredBackgroundTime.adding(.second, value: refreshOnboardingFlowLap)
-        guard Date() >= refreshTime else { return }
+        guard Date() >= refreshTime, let window = getWindow() else { return }
 
-        Navigator.default.show(segue: .launching, sender: rootViewController)
+        Navigator.default.show(segue: .launching, sender: nil, transition: .root(in: window))
+    }
+
+    static func getRootViewController() -> NavigationController? {
+        return getWindow()?.rootViewController as? NavigationController
+    }
+
+    static func getWindow() -> UIWindow? {
+        return UIApplication.shared.windows
+            .filter({ $0.isKeyWindow }).first
     }
 }

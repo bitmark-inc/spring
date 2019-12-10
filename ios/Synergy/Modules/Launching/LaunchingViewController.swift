@@ -22,8 +22,6 @@ class LaunchingViewController: ViewController {
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] (account) in
                 guard let self = self else { return }
-
-                print("---------onSuccess--------------LOG THUYEN_____________________")
                 Global.current.account = account
 
                 if Global.current.account != nil {

@@ -44,11 +44,13 @@ class DataAnalyzingViewController: ViewController {
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
             lineHeight: 1.2)
 
-        contentView.flex.direction(.column).define { (flex) in
-            flex.addItem().height(47%)
+        contentView.flex
+            .padding(OurTheme.paddingInset)
+            .direction(.column).define { (flex) in
+                flex.addItem().height(47%)
 
-            flex.addItem(dataGeneratingTitle).marginTop(Size.dh(27))
-            flex.addItem(dataGeneratingDesc).marginTop(Size.dh(15))
-        }
+                flex.addItem(dataGeneratingTitle).marginTop(Size.dh(27))
+                flex.addItem(dataGeneratingDesc).marginTop(Size.dh(15))
+            }
     }
 }
