@@ -5,8 +5,14 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const _ = require('lodash');
 
+const fs = require('fs');
+const path = require('path');
+const unzip = require('unzip');
+
 const app = express();
 const port = process.env.PORT || 8080;
+const uploadDir = process.env.UPLOAD_DIR || path.resolve(__dirname, 'upload');
+const dataDir = process.env.DATA_DIR || path.resolve(__dirname, 'data');
 
 // enable files upload
 app.use(fileUpload({
@@ -28,7 +34,14 @@ app.post('/upload', async (req, res) => {
       });
     } else {
       let archive = req.files.archive;
-      avatar.mv('./upload/archive.zip');
+      let archivePath = path.resolve(uploadDir, 'archive.zip');
+      archive.mv(archivePath);
+
+      fs.createReadStream(archivePath)
+        .pipe(unzip.Extract({path: dataDir}))
+        .on('close', () => {
+          console.log('Finished unzip archive');
+        });
 
       //send response
       res.send({
@@ -37,7 +50,8 @@ app.post('/upload', async (req, res) => {
       });
     }
   } catch (err) {
-      res.status(500).send(err);
+    console.log(err);
+    res.status(500).send(err);
   }
 });
 
