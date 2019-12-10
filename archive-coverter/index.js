@@ -20,7 +20,9 @@ const reactionsParser = require('./reactions.js');
 
 // enable files upload
 app.use(fileUpload({
-  createParentPath: true
+  createParentPath: true,
+  useTempFiles : true,
+  tempFileDir : UPLOAD_DIR
 }));
 
 //add other middleware
@@ -38,13 +40,15 @@ app.post('/upload', async (req, res) => {
       });
     } else {
       let archive = req.files.archive;
-      let archivePath = path.resolve(UPLOAD_DIR, 'archive.zip');
-      archive.mv(archivePath);
 
-      fs.createReadStream(archivePath)
+      fs.createReadStream(archive.tempFilePath)
         .pipe(unzip.Extract({path: DATA_DIR}))
-        .on('close', () => {
-          console.log('Finished unzip archive');
+        .on('close', async () => {
+          console.log('Finished unzip the archive');
+          let db = await database.init();
+          await postsParser(db);
+          await reactionsParser(db);
+          db.close();
         });
 
       //send response
@@ -52,11 +56,6 @@ app.post('/upload', async (req, res) => {
         status: true,
         message: 'File is uploaded'
       });
-
-      let db = await database.init();
-      await postsParser(db);
-      await reactionsParser(db);
-      db.close();
     }
   } catch (err) {
     console.log(err);
