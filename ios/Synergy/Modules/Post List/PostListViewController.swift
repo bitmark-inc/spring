@@ -56,11 +56,9 @@ class PostListViewController: ViewController, BackNavigator {
     }
 
     func refreshView() {
-        if let posts = posts {
-            emptyView.isHidden = !posts.isEmpty
-        } else {
-            emptyView.isHidden = false
-        }
+        let hasPosts = posts != nil && !posts!.isEmpty
+        emptyView.isHidden = hasPosts
+        tableView.isScrollEnabled = hasPosts
     }
 
     // MARK: - setup Views
@@ -73,7 +71,7 @@ class PostListViewController: ViewController, BackNavigator {
 
         contentView.flex
             .direction(.column).alignContent(.center).define { (flex) in
-                flex.addItem(tableView).marginBottom(0).grow(1)
+                flex.addItem(tableView).grow(1)
                 flex.addItem(emptyView)
                     .position(.absolute)
                     .top(150).left(OurTheme.paddingInset.left)

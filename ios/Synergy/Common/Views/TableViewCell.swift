@@ -16,6 +16,7 @@ class TableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         self.selectionStyle = .none
+        backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
@@ -25,7 +26,6 @@ class TableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        backgroundColor = .clear
         layout()
     }
 
