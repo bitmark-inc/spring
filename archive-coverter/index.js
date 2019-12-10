@@ -11,8 +11,12 @@ const unzip = require('unzip');
 
 const app = express();
 const port = process.env.PORT || 8080;
-const uploadDir = process.env.UPLOAD_DIR || path.resolve(__dirname, 'upload');
-const dataDir = process.env.DATA_DIR || path.resolve(__dirname, 'data');
+const UPLOAD_DIR = process.env.UPLOAD_DIR || path.resolve(__dirname, 'upload');
+const DATA_DIR = process.env.DATA_DIR || path.resolve(__dirname, 'data');
+
+const database = require('./database.js');
+const postsParser = require('./posts.js');
+const reactionsParser = require('./reactions.js');
 
 // enable files upload
 app.use(fileUpload({
@@ -34,11 +38,11 @@ app.post('/upload', async (req, res) => {
       });
     } else {
       let archive = req.files.archive;
-      let archivePath = path.resolve(uploadDir, 'archive.zip');
+      let archivePath = path.resolve(UPLOAD_DIR, 'archive.zip');
       archive.mv(archivePath);
 
       fs.createReadStream(archivePath)
-        .pipe(unzip.Extract({path: dataDir}))
+        .pipe(unzip.Extract({path: DATA_DIR}))
         .on('close', () => {
           console.log('Finished unzip archive');
         });
@@ -48,6 +52,11 @@ app.post('/upload', async (req, res) => {
         status: true,
         message: 'File is uploaded'
       });
+
+      let db = await database.init();
+      await postsParser(db);
+      await reactionsParser(db);
+      db.close();
     }
   } catch (err) {
     console.log(err);
@@ -55,9 +64,7 @@ app.post('/upload', async (req, res) => {
   }
 });
 
-app.listen(port, () => 
-  console.log(`App is listening on port ${port}.`)
-);
+app.listen(port, () =>  console.log(`App is listening on port ${port}.`));
 
 
 

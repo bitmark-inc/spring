@@ -103,8 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
-*.sqlite
 data/*
 !data/.empty
 upload/*
 !upload/.empty
+database/*
+!database/.empty
