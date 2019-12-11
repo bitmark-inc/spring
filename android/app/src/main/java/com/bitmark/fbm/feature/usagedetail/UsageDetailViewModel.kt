@@ -7,13 +7,14 @@
 package com.bitmark.fbm.feature.usagedetail
 
 import androidx.lifecycle.Lifecycle
-import com.bitmark.fbm.data.model.entity.PostR
+import com.bitmark.fbm.data.model.PostData
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.data.source.UsageRepository
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import com.bitmark.fbm.util.modelview.PostModelView
+import io.reactivex.schedulers.Schedulers
 
 
 class UsageDetailViewModel(
@@ -31,7 +32,7 @@ class UsageDetailViewModel(
                     type,
                     from,
                     to
-                ).map(mapPosts())
+                ).observeOn(Schedulers.computation()).map(mapPosts())
             )
         )
     }
@@ -43,7 +44,7 @@ class UsageDetailViewModel(
                     tag,
                     from,
                     to
-                ).map(mapPosts())
+                ).observeOn(Schedulers.computation()).map(mapPosts())
             )
         )
     }
@@ -55,11 +56,14 @@ class UsageDetailViewModel(
                     location,
                     from,
                     to
-                ).map(mapPosts())
+                ).observeOn(Schedulers.computation()).map(mapPosts())
             )
         )
     }
 
-    private fun mapPosts(): (List<PostR>) -> List<PostModelView> =
-        { posts -> posts.map { p -> PostModelView.newInstance(p) } }
+    private fun mapPosts(): (List<PostData>) -> List<PostModelView> =
+        { posts ->
+            posts.filter { p -> p.type != PostType.UNSPECIFIED }
+                .map { p -> PostModelView.newInstance(p) }
+        }
 }

@@ -4,7 +4,7 @@
       "section_name": "ad_interests",
       "diff_from_previous": 5,
       "period": "year",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1546275600000,
       "quantity": 103,
       "groups": {
         "type": {
@@ -144,7 +144,7 @@
       "section_name": "advertisers",
       "diff_from_previous": 3,
       "period": "year",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1546275600000,
       "quantity": 103,
       "groups": {
         "type": {
@@ -284,7 +284,7 @@
       "section_name": "locations",
       "diff_from_previous": 22,
       "period": "year",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1546275600000,
       "quantity": 105,
       "groups": {
         "type": {

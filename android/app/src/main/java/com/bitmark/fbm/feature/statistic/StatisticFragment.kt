@@ -9,12 +9,12 @@ package com.bitmark.fbm.feature.statistic
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.fromString
@@ -25,7 +25,7 @@ import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.usagedetail.UsageDetailFragment
-import com.bitmark.fbm.util.Constants.MASTER_DELAY_TIME
+import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
@@ -91,16 +91,12 @@ class StatisticFragment : BaseSupportFragment() {
         periodStartedTime = getStartOfPeriod(period)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+    override fun onResume() {
+        super.onResume()
+        if(adapter.itemCount > 0) return
         handler.postDelayed({
-            if (type == Statistic.USAGE) {
-                viewModel.getUsageStatistic(period, periodStartedTime)
-            } else {
-                viewModel.getInsightsStatistic(period, periodStartedTime)
-            }
-        }, MASTER_DELAY_TIME)
+            viewModel.getStatistic(type, period, periodStartedTime)
+        }, Constants.MASTER_DELAY_TIME)
     }
 
     override fun initComponents() {
@@ -123,6 +119,7 @@ class StatisticFragment : BaseSupportFragment() {
             ContextCompat.getDrawable(context!!, R.drawable.double_divider_athens_gray)
         if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
         rvStatistic.addItemDecoration(itemDecoration)
+        (rvStatistic.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         rvStatistic.isNestedScrollingEnabled = false
         rvStatistic.adapter = adapter
 
@@ -140,7 +137,7 @@ class StatisticFragment : BaseSupportFragment() {
             periodStartedTime = getStartOfPeriodMillis(period, periodStartedTime, true)
             ivNextPeriod.isEnabled = periodStartedTime != getStartOfPeriod(period)
             tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedTime)
-            viewModel.getUsageStatistic(period, periodStartedTime)
+            viewModel.getStatistic(type, period, periodStartedTime)
         }
 
         ivPrevPeriod.setSafetyOnclickListener {
@@ -148,7 +145,7 @@ class StatisticFragment : BaseSupportFragment() {
             periodStartedTime = getStartOfPeriodMillis(period, periodStartedTime, false)
             ivNextPeriod.isEnabled = periodStartedTime != getStartOfPeriod(period)
             tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedTime)
-            viewModel.getUsageStatistic(period, periodStartedTime)
+            viewModel.getStatistic(type, period, periodStartedTime)
         }
 
     }

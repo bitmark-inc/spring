@@ -86,7 +86,8 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         this.chartClickListener = listener
     }
 
-    fun bind(group: GroupModelView) {
+    fun bind(g: GroupModelView) {
+        val group = g.copy()
         tvName.text = context.getString(
             when (group.sectionName) {
                 SectionName.POST        -> {
@@ -251,11 +252,10 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                     else                                                            -> R.array.color_palette_3
                 }
             )
-        if (group.name !in arrayOf(
-                GroupName.TYPE,
-                GroupName.AREA
-            )
-        ) colors.reverse() // reverse all stacked chart
+        if (group.name !in arrayOf(GroupName.TYPE, GroupName.AREA)) {
+            // reverse all stacked chart
+            colors.reverse()
+        }
         dataSet.colors = colors.toList()
         val barData = BarData(dataSet)
         barData.barWidth = if (vertical) 0.4f else 0.15f

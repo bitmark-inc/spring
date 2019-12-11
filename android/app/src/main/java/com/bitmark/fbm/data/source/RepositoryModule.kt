@@ -8,10 +8,7 @@ package com.bitmark.fbm.data.source
 
 import android.content.Context
 import androidx.room.Room
-import com.bitmark.fbm.data.source.local.AccountLocalDataSource
-import com.bitmark.fbm.data.source.local.AppLocalDataSource
-import com.bitmark.fbm.data.source.local.InsightsLocalDataSource
-import com.bitmark.fbm.data.source.local.UsageLocalDataSource
+import com.bitmark.fbm.data.source.local.*
 import com.bitmark.fbm.data.source.local.api.DatabaseGateway
 import com.bitmark.fbm.data.source.remote.*
 import dagger.Module
@@ -32,29 +29,17 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideBitmarkRepo(
-        remoteDataSource: BitmarkRemoteDataSource
-    ): BitmarkRepository {
-        return BitmarkRepository(remoteDataSource)
-    }
-
-    @Singleton
-    @Provides
     fun provideAppRepo(
         remoteDataSource: AppRemoteDataSource,
         localDataSource: AppLocalDataSource
-    ): AppRepository {
-        return AppRepository(remoteDataSource, localDataSource)
-    }
+    ) = AppRepository(remoteDataSource, localDataSource)
 
     @Singleton
     @Provides
     fun provideInsightsRepo(
         remoteDataSource: InsightsRemoteDataSource,
         localDataSource: InsightsLocalDataSource
-    ): InsightsRepository {
-        return InsightsRepository(remoteDataSource, localDataSource)
-    }
+    ) = InsightsRepository(remoteDataSource, localDataSource)
 
     @Singleton
     @Provides
@@ -62,6 +47,13 @@ class RepositoryModule {
         remoteDataSource: UsageRemoteDataSource,
         localDataSource: UsageLocalDataSource
     ) = UsageRepository(remoteDataSource, localDataSource)
+
+    @Singleton
+    @Provides
+    fun provideStatisticRepo(
+        remoteDataSource: StatisticRemoteDataSource,
+        localDataSource: StatisticLocalDataSource
+    ) = StatisticRepository(remoteDataSource, localDataSource)
 
     @Singleton
     @Provides

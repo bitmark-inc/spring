@@ -6,59 +6,91 @@
  */
 package com.bitmark.fbm.data.model.entity
 
+import androidx.room.*
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-
+@Entity(
+    tableName = "Post",
+    indices = [Index(
+        value = ["timestamp"],
+        unique = true
+    ), Index(value = ["type"])]
+)
 data class PostR(
 
     @Expose
-    @SerializedName("id")
-    val id: String,
-
-    @Expose
-    @SerializedName("type")
-    val rawType: String?,
-
-    @Expose
     @SerializedName("post")
+    @ColumnInfo(name = "content")
     val content: String?,
 
     @Expose
     @SerializedName("url")
-    val url: String,
+    @ColumnInfo(name = "url")
+    val url: String?,
 
     @Expose
     @SerializedName("photo")
+    @ColumnInfo(name = "photo")
     val mediaDir: String?,
 
     @Expose
     @SerializedName("tags")
+    @ColumnInfo(name = "tags")
     val tags: List<String>?,
 
     @Expose
-    @SerializedName("location")
-    val location: LocationR?,
-
-    @Expose
     @SerializedName("timestamp")
+    @ColumnInfo(name = "timestamp")
+    @PrimaryKey
     val timestampSec: Long,
 
     @Expose
     @SerializedName("title")
+    @ColumnInfo(name = "title")
     val title: String?,
 
     @Expose
-    @SerializedName("comment")
-    val comment: CommentR,
+    @SerializedName("thumbnail")
+    @ColumnInfo(name = "thumbnail")
+    val thumbnail: String?,
 
     @Expose
-    @SerializedName("thumbnail")
-    val thumbnail: String?
-) : Record
+    @SerializedName("type")
+    @ColumnInfo(name = "raw_type")
+    val rawType: String?,
 
-val PostR.type: PostType
-    get() = when {
+    @Expose
+    @SerializedName("post_type")
+    @ColumnInfo(name = "type")
+    var type: PostType,
+
+    @Expose
+    @SerializedName("location_name")
+    @ColumnInfo(name = "location_name")
+    var locationName: String?
+) : Record {
+
+    @Expose
+    @SerializedName("location")
+    @Ignore
+    var location: LocationR? = null
+
+    @Expose
+    @SerializedName("comment")
+    @Ignore
+    var comments: List<CommentR>? = null
+}
+
+fun List<PostR>.applyRequiredValues() {
+    for (post in this) {
+        post.applyPostType()
+        post.applyLocation()
+    }
+}
+
+internal fun PostR.applyPostType() {
+    type = when {
         rawType == null && content != null -> PostType.UPDATE
         rawType == "photo"                 -> PostType.PHOTO
         rawType == "video"                 -> PostType.VIDEO
@@ -66,6 +98,11 @@ val PostR.type: PostType
         rawType == "external"              -> PostType.LINK
         else                               -> PostType.UNSPECIFIED
     }
+}
+
+internal fun PostR.applyLocation() {
+    locationName = location?.name
+}
 
 val PostR.timestamp: Long
     get() = timestampSec * 1000
@@ -79,7 +116,19 @@ enum class PostType {
     VIDEO,
     STORY,
     LINK,
-    UNSPECIFIED
+    UNSPECIFIED;
+
+    companion object
+}
+
+fun PostType.Companion.fromString(type: String) = when (type) {
+    "update"      -> PostType.UPDATE
+    "photo"       -> PostType.PHOTO
+    "video"       -> PostType.VIDEO
+    "story"       -> PostType.STORY
+    "link"        -> PostType.LINK
+    "unspecified" -> PostType.UNSPECIFIED
+    else          -> error("invalid type: $type")
 }
 
 val PostType.value: String

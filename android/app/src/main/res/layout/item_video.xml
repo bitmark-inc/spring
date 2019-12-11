@@ -27,13 +27,14 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvCaptionVideo"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
         android:fontFamily="@font/grotesk"
         android:includeFontPadding="false"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_14"
+        app:layout_constraintEnd_toEndOf="@id/tvInfoVideo"
         app:layout_constraintStart_toStartOf="@id/tvInfoVideo"
         app:layout_constraintTop_toBottomOf="@id/tvInfoVideo"
         tools:text="Happy 40th, dear Phil! 🎂🎈"

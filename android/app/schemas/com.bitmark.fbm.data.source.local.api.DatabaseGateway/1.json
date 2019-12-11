@@ -2,15 +2,51 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "074dc63b4a086ebd674cbd84b83d4692",
+    "identityHash": "a0ad0f160df8b2420f1739104dc0ce0c",
     "entities": [
       {
-        "tableName": "Bitmark",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "tableName": "Section",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `section_name` TEXT NOT NULL, `period` TEXT NOT NULL, `period_started_at` INTEGER NOT NULL, `diff_from_previous` INTEGER NOT NULL, `quantity` INTEGER NOT NULL, `groups` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "section_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "period",
+            "columnName": "period",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "periodStartedAt",
+            "columnName": "period_started_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "diffFromPrev",
+            "columnName": "diff_from_previous",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "groups",
+            "columnName": "groups",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -19,16 +55,260 @@
           "columnNames": [
             "id"
           ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Section_period_started_at",
+            "unique": false,
+            "columnNames": [
+              "period_started_at"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Section_period_started_at` ON `${TABLE_NAME}` (`period_started_at`)"
+          },
+          {
+            "name": "index_Section_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Section_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Post",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`content` TEXT, `url` TEXT, `photo` TEXT, `tags` TEXT, `timestamp` INTEGER NOT NULL, `title` TEXT, `thumbnail` TEXT, `raw_type` TEXT, `type` TEXT NOT NULL, `location_name` TEXT, PRIMARY KEY(`timestamp`))",
+        "fields": [
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mediaDir",
+            "columnName": "photo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timestampSec",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "thumbnail",
+            "columnName": "thumbnail",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "rawType",
+            "columnName": "raw_type",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locationName",
+            "columnName": "location_name",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "timestamp"
+          ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_Post_timestamp",
+            "unique": true,
+            "columnNames": [
+              "timestamp"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Post_timestamp` ON `${TABLE_NAME}` (`timestamp`)"
+          },
+          {
+            "name": "index_Post_type",
+            "unique": false,
+            "columnNames": [
+              "type"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Post_type` ON `${TABLE_NAME}` (`type`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Comment",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `post_id` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL, `content` TEXT NOT NULL, `author` TEXT NOT NULL, FOREIGN KEY(`post_id`) REFERENCES `Post`(`timestamp`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "postId",
+            "columnName": "post_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "content",
+            "columnName": "content",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "author",
+            "columnName": "author",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Comment_id",
+            "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Comment_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_Comment_timestamp",
+            "unique": false,
+            "columnNames": [
+              "timestamp"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_timestamp` ON `${TABLE_NAME}` (`timestamp`)"
+          },
+          {
+            "name": "index_Comment_post_id",
+            "unique": false,
+            "columnNames": [
+              "post_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Comment_post_id` ON `${TABLE_NAME}` (`post_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Post",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "post_id"
+            ],
+            "referencedColumns": [
+              "timestamp"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Location",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `coordinate` TEXT, `address` TEXT, `url` TEXT, PRIMARY KEY(`name`))",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "coordinate",
+            "columnName": "coordinate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "name"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Location_address",
+            "unique": false,
+            "columnNames": [
+              "address"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Location_address` ON `${TABLE_NAME}` (`address`)"
+          },
+          {
+            "name": "index_Location_name",
+            "unique": true,
+            "columnNames": [
+              "name"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Location_name` ON `${TABLE_NAME}` (`name`)"
+          }
+        ],
         "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '074dc63b4a086ebd674cbd84b83d4692')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a0ad0f160df8b2420f1739104dc0ce0c')"
     ]
   }
 }

@@ -4,7 +4,7 @@
       "section_name": "posts",
       "diff_from_previous": -5,
       "period": "week",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1575133200000,
       "quantity": 103,
       "groups": {
         "type": {
@@ -122,7 +122,7 @@
         ],
         "place": [
           {
-            "name": "台北市北投區行義路300巷10號, Taipei, Taiwan 112",
+            "name": "Hongtai CrossFit",
             "data": {
               "updates": 2,
               "photos": 4,
@@ -132,7 +132,7 @@
             }
           },
           {
-            "name": "漢口街二段, Taipei, Taiwan 108",
+            "name": "Bitmark",
             "data": {
               "updates": 2,
               "photos": 0,
@@ -148,7 +148,7 @@
       "section_name": "reactions",
       "diff_from_previous": 18,
       "period": "week",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1575133200000,
       "quantity": 103,
       "groups": {
         "type": {
@@ -281,7 +281,7 @@
       "section_name": "messages",
       "diff_from_previous": 24,
       "period": "week",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1575133200000,
       "quantity": 105,
       "groups": {
         "type": {

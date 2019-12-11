@@ -6,34 +6,54 @@
  */
 package com.bitmark.fbm.data.model.entity
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-
+@Entity(
+    tableName = "Section",
+    indices = [Index(value = ["period_started_at"]), Index(value = ["id"], unique = true)]
+)
 data class SectionR(
+
+    @Expose
+    @SerializedName("id")
+    @ColumnInfo(name = "id")
+    @PrimaryKey(autoGenerate = true)
+    val id: Long,
+
     @Expose
     @SerializedName("section_name")
+    @ColumnInfo(name = "section_name")
     val name: SectionName,
 
     @Expose
     @SerializedName("period")
+    @ColumnInfo(name = "period")
     val period: Period,
 
     @Expose
     @SerializedName("period_started_at")
+    @ColumnInfo(name = "period_started_at")
     val periodStartedAt: Long,
 
     @Expose
     @SerializedName("diff_from_previous")
+    @ColumnInfo(name = "diff_from_previous")
     val diffFromPrev: Int,
 
     @Expose
     @SerializedName("quantity")
+    @ColumnInfo(name = "quantity")
     val quantity: Int,
 
     @Expose
     @SerializedName("groups")
+    @ColumnInfo(name = "groups")
     val groups: Map<String, Any>
 ) : Record
 
@@ -78,7 +98,19 @@ enum class SectionName {
 
     @Expose
     @SerializedName("locations")
-    LOCATION
+    LOCATION;
+
+    companion object
+}
+
+fun SectionName.Companion.fromString(name: String) = when (name) {
+    "posts"        -> SectionName.POST
+    "reactions"    -> SectionName.REACTION
+    "messages"     -> SectionName.MESSAGE
+    "ad_interests" -> SectionName.AD_INTEREST
+    "advertisers"  -> SectionName.ADVERTISER
+    "locations"    -> SectionName.LOCATION
+    else           -> error("invalid name")
 }
 
 val SectionName.value: String

@@ -8,43 +8,44 @@ package com.bitmark.fbm.feature.statistic
 
 import androidx.lifecycle.Lifecycle
 import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.source.InsightsRepository
-import com.bitmark.fbm.data.source.UsageRepository
+import com.bitmark.fbm.data.model.entity.SectionName
+import com.bitmark.fbm.data.source.StatisticRepository
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import com.bitmark.fbm.util.modelview.SectionModelView
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 
 class StatisticViewModel(
     lifecycle: Lifecycle,
-    private val usageRepo: UsageRepository,
-    private val insightsRepo: InsightsRepository,
+    private val statisticRepo: StatisticRepository,
     private val rxLiveDataTransformer: RxLiveDataTransformer
 ) :
     BaseViewModel(lifecycle) {
 
     internal val getStatisticLiveData = CompositeLiveData<List<SectionModelView>>()
 
-    fun getUsageStatistic(period: Period, periodStartedTime: Long) {
+    fun getStatistic(@Statistic.Type type: String, period: Period, periodStartedTime: Long) {
         getStatisticLiveData.add(
             rxLiveDataTransformer.single(
-                usageRepo.getStatistic(period).map { sections ->
-                    sections.map { s ->
-                        SectionModelView.newInstance(
-                            s,
-                            Random().nextInt(100)
+                statisticRepo.listStatistic(
+                    if (type == Statistic.USAGE) {
+                        arrayOf(
+                            SectionName.POST,
+                            SectionName.REACTION,
+                            SectionName.MESSAGE
+                        )
+                    } else {
+                        arrayOf(
+                            SectionName.AD_INTEREST,
+                            SectionName.ADVERTISER,
+                            SectionName.LOCATION
                         )
                     }
-                })
-        )
-    }
-
-    fun getInsightsStatistic(period: Period, periodStartedTime: Long) {
-        getStatisticLiveData.add(
-            rxLiveDataTransformer.single(
-                insightsRepo.getStatistic(period).map { sections ->
+                    , period, periodStartedTime
+                ).observeOn(Schedulers.computation()).map { sections ->
                     sections.map { s ->
                         SectionModelView.newInstance(
                             s,

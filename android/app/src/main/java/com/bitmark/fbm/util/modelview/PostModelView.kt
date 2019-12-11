@@ -7,7 +7,8 @@
 package com.bitmark.fbm.util.modelview
 
 import com.bitmark.fbm.BuildConfig
-import com.bitmark.fbm.data.model.entity.*
+import com.bitmark.fbm.data.model.PostData
+import com.bitmark.fbm.data.model.entity.PostType
 
 
 data class PostModelView(
@@ -31,7 +32,7 @@ data class PostModelView(
 
     companion object {
 
-        fun newInstance(post: PostR): PostModelView {
+        fun newInstance(post: PostData): PostModelView {
             val tags = post.tags ?: listOf()
             val location = post.location?.name
             val content = post.content ?: ""

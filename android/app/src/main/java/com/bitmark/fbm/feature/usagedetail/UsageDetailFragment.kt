@@ -89,11 +89,12 @@ class UsageDetailFragment : BaseSupportFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val to = when (period) {
+        val toSec = when (period) {
             Period.WEEK   -> DateTimeUtil.getEndOfWeek(periodStartedTime)
             Period.YEAR   -> DateTimeUtil.getEndOfYear(periodStartedTime)
             Period.DECADE -> DateTimeUtil.getEndOfDecade(periodStartedTime)
-        }
+        } / 1000
+        val fromSec = periodStartedTime / 1000
 
         when (chartItem.sectionName) {
             SectionName.POST     -> {
@@ -107,14 +108,14 @@ class UsageDetailFragment : BaseSupportFragment() {
                             "links"   -> PostType.LINK
                             else      -> PostType.UNSPECIFIED
                         }
-                        viewModel.listPostByType(postType, periodStartedTime, to)
+                        viewModel.listPostByType(postType, fromSec, toSec)
                     }
                     GroupName.FRIEND -> {
-                        viewModel.listPostByTag(chartItem.entryVal, periodStartedTime, to)
+                        viewModel.listPostByTag(chartItem.entryVal, fromSec, toSec)
                     }
 
                     GroupName.PLACE  -> {
-                        viewModel.listPostByLocation(chartItem.entryVal, periodStartedTime, to)
+                        viewModel.listPostByLocation(chartItem.entryVal, fromSec, toSec)
                     }
                 }
             }

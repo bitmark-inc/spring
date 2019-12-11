@@ -4,7 +4,7 @@
       "section_name": "posts",
       "diff_from_previous": 30,
       "period": "decade",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1262278800000,
       "quantity": 103,
       "groups": {
         "type": {
@@ -142,7 +142,7 @@
         ],
         "place": [
           {
-            "name": "Taipei, Taiwan 112",
+            "name": "Hongtai CrossFit",
             "data": {
               "updates": 2,
               "photos": 95,
@@ -152,7 +152,7 @@
             }
           },
           {
-            "name": "Shibuya, Tokyo",
+            "name": "Tainan, Taiwan",
             "data": {
               "updates": 2,
               "photos": 19,
@@ -168,7 +168,7 @@
       "section_name": "reactions",
       "diff_from_previous": 18,
       "period": "decade",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1262278800000,
       "quantity": 103,
       "groups": {
         "type": {
@@ -323,7 +323,7 @@
       "section_name": "messages",
       "diff_from_previous": 24,
       "period": "decade",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1262278800000,
       "quantity": 105,
       "groups": {
         "type": {

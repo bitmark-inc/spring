@@ -4,7 +4,7 @@
       "section_name": "posts",
       "diff_from_previous": 30,
       "period": "year",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1546275600000,
       "quantity": 103,
       "groups": {
         "type": {
@@ -162,7 +162,7 @@
         ],
         "place": [
           {
-            "name": "1759 Lewis Rd Bldg 614, Suite 111, Monterey, California 93944",
+            "name": "Bitmark",
             "data": {
               "updates": 2,
               "photos": 95,
@@ -172,7 +172,7 @@
             }
           },
           {
-            "name": "West Point, New York 10996",
+            "name": "Hongtai CrossFit",
             "data": {
               "updates": 2,
               "photos": 19,
@@ -188,7 +188,7 @@
       "section_name": "reactions",
       "diff_from_previous": 18,
       "period": "year",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1546275600000,
       "quantity": 103,
       "groups": {
         "type": {
@@ -376,7 +376,7 @@
       "section_name": "messages",
       "diff_from_previous": 24,
       "period": "year",
-      "period_started_at": 1573318800000,
+      "period_started_at": 1546275600000,
       "quantity": 105,
       "groups": {
         "type": {

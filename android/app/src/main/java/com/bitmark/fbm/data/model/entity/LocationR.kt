@@ -6,25 +6,36 @@
  */
 package com.bitmark.fbm.data.model.entity
 
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+@Entity(
+    tableName = "Location",
+    indices = [Index(
+        value = ["address"]
+    ), Index(value = ["name"], unique = true)]
+)
 data class LocationR(
+
     @Expose
     @SerializedName("name")
+    @PrimaryKey
     val name: String,
 
     @Expose
     @SerializedName("coordinate")
-    val coordinate: Coordinate,
+    val coordinate: Coordinate?,
 
     @Expose
     @SerializedName("address")
-    val address: String,
+    val address: String?,
 
     @Expose
     @SerializedName("url")
-    val url: String
+    val url: String?
 )
 
 data class Coordinate(
