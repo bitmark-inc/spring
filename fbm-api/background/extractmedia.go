@@ -66,7 +66,7 @@ func (b *BackgroundContext) extractMedia(job *work.Job) error {
 	for i, f := range r.File {
 		job.Checkin("Unziping: " + strconv.Itoa(i) + "/" + strconv.Itoa(total))
 		if !strings.HasPrefix(f.Name, "photos_and_videos") ||
-			!strings.HasSuffix(f.Name, "no-data.txt") ||
+			strings.HasSuffix(f.Name, "no-data.txt") ||
 			f.FileInfo().IsDir() {
 			logEntity.Info("Skiping file: ", f.Name)
 			continue
