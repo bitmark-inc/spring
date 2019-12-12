@@ -11,23 +11,26 @@ import Moya
 
 enum ServerAssetsAPI {
     case fbAutomation
+    case appInformation
 }
 
 extension ServerAssetsAPI: TargetType {
     var baseURL: URL {
-        return URL(string: Constant.default.fBMServerURL + "/assets")!
+        return URL(string: Constant.default.fBMServerURL)!
     }
 
     var path: String {
         switch self {
         case .fbAutomation:
-            return "fb_automation.json"
+            return "assets/fb_automation.json"
+        case .appInformation:
+            return "api/information"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .fbAutomation:
+        case .fbAutomation, .appInformation:
             return .get
         }
     }
