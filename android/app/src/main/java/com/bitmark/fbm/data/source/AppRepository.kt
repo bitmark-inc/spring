@@ -15,8 +15,8 @@ class AppRepository(
     private val localDataSource: AppLocalDataSource
 ) {
 
-    fun registerNotificationService(tags: Map<String, String>) =
-        remoteDataSource.registerNotificationService(tags)
+    fun registerNotificationService(accountId: String) =
+        remoteDataSource.registerNotificationService(accountId)
 
     fun setNotificationEnabled(enabled: Boolean) = localDataSource.setNotificationEnabled(enabled)
 

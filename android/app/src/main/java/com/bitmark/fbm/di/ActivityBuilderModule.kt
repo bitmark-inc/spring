@@ -22,6 +22,8 @@ import com.bitmark.fbm.feature.register.notification.NotificationActivity
 import com.bitmark.fbm.feature.register.notification.NotificationModule
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingModule
+import com.bitmark.fbm.feature.register.trustnotice.TrustNoticeActivity
+import com.bitmark.fbm.feature.register.trustnotice.TrustNoticeModule
 import com.bitmark.fbm.feature.splash.SplashActivity
 import com.bitmark.fbm.feature.splash.SplashModule
 import com.bitmark.fbm.feature.support.SupportActivity
@@ -77,4 +79,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [NotificationModule::class])
     @ActivityScope
     internal abstract fun bindNotificationActivity(): NotificationActivity
+
+    @ContributesAndroidInjector(modules = [TrustNoticeModule::class])
+    @ActivityScope
+    internal abstract fun bindTrustNoticeActivity(): TrustNoticeActivity
 }

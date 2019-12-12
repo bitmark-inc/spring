@@ -16,6 +16,7 @@ import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
+import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.visible
@@ -45,7 +46,7 @@ class SplashActivity : BaseAppCompatActivity() {
         super.initComponents()
 
         btnGetStarted.setSafetyOnclickListener {
-            navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
+            navigator.anim(RIGHT_LEFT).startActivityAsRoot(OnboardingActivity::class.java)
         }
 
         tvLogin.setSafetyOnclickListener {
@@ -92,7 +93,11 @@ class SplashActivity : BaseAppCompatActivity() {
                                     getString(R.string.you_requested_your_fb_data_format).format(
                                         DateTimeUtil.millisToString(
                                             archiveRequestedTimestamp,
-                                            DateTimeUtil.DATE_TIME_FORMAT_1
+                                            DateTimeUtil.DATE_FORMAT_3
+                                        ),
+                                        DateTimeUtil.millisToString(
+                                            archiveRequestedTimestamp,
+                                            DateTimeUtil.TIME_FORMAT_1
                                         )
                                     ), true
                                 )

@@ -10,7 +10,6 @@ import androidx.lifecycle.Lifecycle
 import com.bitmark.cryptography.crypto.Sha3256
 import com.bitmark.cryptography.crypto.encoder.Raw.RAW
 import com.bitmark.fbm.data.model.AutomationScriptData
-import com.bitmark.fbm.data.model.CredentialData
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.feature.BaseViewModel
@@ -30,7 +29,7 @@ class ArchiveRequestViewModel(
     internal val registerAccountLiveData = CompositeLiveData<Any>()
 
     internal val prepareDataLiveData =
-        CompositeLiveData<Pair<AutomationScriptData, CredentialData>>()
+        CompositeLiveData<Pair<AutomationScriptData, String>>()
 
     internal val checkNotificationEnabledLiveData = CompositeLiveData<Boolean>()
 
@@ -69,7 +68,7 @@ class ArchiveRequestViewModel(
             Completable.mergeArray(
                 accountRepo.registerIntercomUser(intercomId),
                 accountRepo.sendArchiveDownloadRequest(archiveUrl, cookie),
-                appRepo.registerNotificationService(mapOf(requester to "account_id"))
+                appRepo.registerNotificationService(requester)
             ).andThen(Single.just(account))
         }.flatMapCompletable { account ->
             account.authRequired = false
@@ -83,11 +82,11 @@ class ArchiveRequestViewModel(
             rxLiveDataTransformer.single(
                 Single.zip(
                     appRepo.getAutomationScript(),
-                    accountRepo.getFbCredential(),
-                    BiFunction { script, credential ->
+                    accountRepo.getFbCredentialAlias(),
+                    BiFunction { script, alias ->
                         Pair(
                             script,
-                            credential
+                            alias
                         )
                     })
             )

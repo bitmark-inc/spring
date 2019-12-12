@@ -41,11 +41,6 @@ android {
             }
         }
 
-        manifestPlaceholders = [
-                onesignal_app_id               : '3b35e435-02e9-4ade-93f6-41e2da46bc18',
-                // Project number pulled from dashboard, local value is ignored.
-                onesignal_google_project_number: 'REMOTE'
-        ]
     }
 
     splits {
@@ -140,7 +135,10 @@ android {
             resValue "string", "app_name", "FBM"
             manifestPlaceholders = [
                     appIcon     : "@mipmap/ic_launcher_dev",
-                    appIconRound: "@mipmap/ic_launcher_dev_round"
+                    appIconRound: "@mipmap/ic_launcher_dev_round",
+                    onesignal_app_id               : '60935eed-b209-4af5-8ba6-82e28183a788',
+                    // Project number pulled from dashboard, local value is ignored.
+                    onesignal_google_project_number: 'REMOTE'
             ]
             ext.betaDistributionReleaseNotesFilePath =
                     "${project.rootDir}/distribution/release_note.txt"
@@ -159,7 +157,10 @@ android {
             resValue "string", "app_name", "FBM"
             manifestPlaceholders = [
                     appIcon     : "@mipmap/ic_launcher",
-                    appIconRound: "@mipmap/ic_launcher_round"
+                    appIconRound: "@mipmap/ic_launcher_round",
+                    onesignal_app_id               : '3b35e435-02e9-4ade-93f6-41e2da46bc18',
+                    // Project number pulled from dashboard, local value is ignored.
+                    onesignal_google_project_number: 'REMOTE'
             ]
             ext.betaDistributionReleaseNotesFilePath =
                     "${project.rootDir}/distribution/release_note.txt"

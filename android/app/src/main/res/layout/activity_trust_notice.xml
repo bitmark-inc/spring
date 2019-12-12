@@ -4,18 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     >
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/dp_24"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_3"
-        app:layout_constraintBottom_toTopOf="@id/tvTitle"
-        app:layout_constraintTop_toTopOf="parent"
-        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutToolbar"
@@ -47,34 +38,66 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvTitle"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_14"
-        android:fontFamily="@font/domaine_sans"
-        android:text="Notification"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_36"
-        app:layout_constraintBottom_toTopOf="@id/tvMsg"
-        app:layout_constraintEnd_toEndOf="@id/btnContinue"
-        app:layout_constraintStart_toStartOf="@id/btnContinue"
-        />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvMsg"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp_48"
-        android:fontFamily="@font/grotesk"
-        android:text="@string/fb_may_take_a_few_days"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_18"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_18"
         app:layout_constraintBottom_toTopOf="@id/btnContinue"
-        app:layout_constraintEnd_toEndOf="@id/btnContinue"
-        app:layout_constraintStart_toStartOf="@id/btnContinue"
-        />
+        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_48"
+            android:fontFamily="@font/domaine_sans"
+            android:text="@string/trust_is_critical"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            app:autoSizeMaxTextSize="@dimen/sp_36"
+            app:autoSizeMinTextSize="@dimen/sp_24"
+            app:autoSizeTextType="uniform"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_24"
+            android:fontFamily="@font/grotesk"
+            android:text="@string/spring_is_from_bitmark"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_24"
+            android:fontFamily="@font/grotesk"
+            android:text="@string/sincerely_colon"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18"
+            />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_68"
+            android:adjustViewBounds="true"
+            android:src="@drawable/sean_sig"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:fontFamily="@font/grotesk"
+            android:text="@string/sean_name_and_title"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_18"
+            />
+
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnContinue"
@@ -83,30 +106,12 @@
         android:layout_height="@dimen/dp_48"
         android:layout_marginStart="@dimen/dp_18"
         android:layout_marginEnd="@dimen/dp_18"
-        android:layout_marginBottom="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_44"
         android:background="@drawable/bg_cognac_stateful"
         android:fontFamily="@font/grotesk"
-        android:text="@string/notify_me_arrow"
+        android:text="@string/continue_arrow"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_17"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/btnSkip"
-        />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnSkip"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
-        android:layout_marginStart="@dimen/dp_18"
-        android:layout_marginEnd="@dimen/dp_18"
-        android:layout_marginBottom="@dimen/dp_24"
-        android:background="@null"
-        android:fontFamily="@font/grotesk"
-        android:text="@string/no_thanks"
-        android:textAllCaps="false"
-        android:textColor="@drawable/color_cognac_stateful"
         android:textSize="@dimen/sp_17"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

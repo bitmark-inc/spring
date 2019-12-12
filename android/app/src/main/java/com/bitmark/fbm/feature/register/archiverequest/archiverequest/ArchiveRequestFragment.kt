@@ -16,12 +16,14 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
 import com.bitmark.apiservice.utils.callback.Callback0
+import com.bitmark.apiservice.utils.callback.Callback1
 import com.bitmark.cryptography.crypto.encoder.Hex
 import com.bitmark.cryptography.crypto.encoder.Raw
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.AutomationScriptData
 import com.bitmark.fbm.data.model.CredentialData
 import com.bitmark.fbm.data.model.Page
+import com.bitmark.fbm.data.model.load
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
@@ -207,7 +209,11 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                                     getString(R.string.you_requested_your_fb_data_format_2).format(
                                                         DateTimeUtil.millisToString(
                                                             archiveRequestedTimestamp,
-                                                            DateTimeUtil.DATE_TIME_FORMAT_1
+                                                            DateTimeUtil.DATE_FORMAT_3
+                                                        ),
+                                                        DateTimeUtil.millisToString(
+                                                            archiveRequestedTimestamp,
+                                                            DateTimeUtil.TIME_FORMAT_1
                                                         )
                                                     )
                                                 )
@@ -417,8 +423,25 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     progressBar.gone()
                     val data = res.data()!!
                     val script = data.first
-                    fbCredential = data.second
-                    loadPage(wv, FB_ENDPOINT, script)
+                    val fbCredentialAlias = data.second
+                    CredentialData.load(
+                        activity!!,
+                        fbCredentialAlias,
+                        object : Callback1<CredentialData> {
+                            override fun onSuccess(credential: CredentialData?) {
+                                fbCredential = credential!!
+                                loadPage(wv, FB_ENDPOINT, script)
+                            }
+
+                            override fun onError(throwable: Throwable?) {
+                                Tracer.ERROR.log(TAG, throwable?.message ?: "unknown")
+                                dialogController.alert(
+                                    R.string.error,
+                                    R.string.unexpected_error
+                                )
+                            }
+
+                        })
                 }
 
                 res.isError()   -> {
@@ -456,7 +479,11 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                             getString(R.string.you_requested_your_fb_data_format).format(
                                 DateTimeUtil.millisToString(
                                     archiveRequestedTimestamp,
-                                    DateTimeUtil.DATE_TIME_FORMAT_1
+                                    DateTimeUtil.DATE_FORMAT_3
+                                ),
+                                DateTimeUtil.millisToString(
+                                    archiveRequestedTimestamp,
+                                    DateTimeUtil.TIME_FORMAT_1
                                 )
                             )
                         )

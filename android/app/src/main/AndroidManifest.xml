@@ -52,6 +52,10 @@
             android:name=".feature.register.notification.NotificationActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
 
+        <activity
+            android:name=".feature.register.trustnotice.TrustNoticeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
+
         <receiver android:name=".feature.notification.ScheduledNotificationReceiver" />
 
         <meta-data

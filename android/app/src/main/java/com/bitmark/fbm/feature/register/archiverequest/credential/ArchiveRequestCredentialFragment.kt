@@ -10,12 +10,19 @@ import android.os.Handler
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import androidx.lifecycle.Observer
+import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.model.CredentialData
+import com.bitmark.fbm.data.model.save
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.register.archiverequest.archiverequest.ArchiveRequestFragment
+import com.bitmark.fbm.logging.Event
+import com.bitmark.fbm.logging.EventLogger
+import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.showKeyBoard
 import kotlinx.android.synthetic.main.fragment_archive_request_credential.*
@@ -25,6 +32,9 @@ import javax.inject.Inject
 class ArchiveRequestCredentialFragment : BaseSupportFragment() {
 
     companion object {
+
+        private const val TAG = "ArchiveRequestCredentialFragment"
+
         fun newInstance() = ArchiveRequestCredentialFragment()
     }
 
@@ -32,7 +42,13 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
     internal lateinit var navigator: Navigator
 
     @Inject
+    internal lateinit var dialogController: DialogController
+
+    @Inject
     internal lateinit var viewModel: ArchiveRequestCredentialViewModel
+
+    @Inject
+    internal lateinit var logger: EventLogger
 
     private val handler = Handler()
 
@@ -61,7 +77,24 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
             val fbId = etId.text.toString().trim()
             val fbPassword = etPassword.text.toString().trim()
             if (fbId.isBlank() || fbPassword.isBlank()) return@setSafetyOnclickListener
-            viewModel.saveFbCredential(fbId, fbPassword)
+            val credential = CredentialData(fbId, fbPassword)
+            val alias = "fb-credential-${System.currentTimeMillis()}"
+            credential.save(activity!!, alias, object : Callback0 {
+                override fun onSuccess() {
+                    viewModel.saveFbCredentialAlias(alias)
+                }
+
+                override fun onError(throwable: Throwable?) {
+                    val errMsg = throwable?.message ?: "could not save credential"
+                    Tracer.ERROR.log(TAG, errMsg)
+                    logger.logError(
+                        Event.ACCOUNT_SAVE_FB_CREDENTIAL_ERROR,
+                        IllegalAccessException(errMsg)
+                    )
+                    dialogController.alert(R.string.error, R.string.unexpected_error)
+                }
+
+            })
         }
 
         tvManual.setSafetyOnclickListener {

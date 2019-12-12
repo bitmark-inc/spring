@@ -66,8 +66,8 @@ class AccountRepository(
 
     fun checkArchiveRequested() = localDataSource.checkArchiveRequested()
 
-    fun saveFbCredential(id: String, password: String) =
-        localDataSource.saveFbCredential(id, password)
+    fun saveFbCredentialAlias(alias: String) =
+        localDataSource.saveFbCredentialAlias(alias)
 
-    fun getFbCredential() = localDataSource.getFbCredential()
+    fun getFbCredentialAlias() = localDataSource.getFbCredentialAlias()
 }

@@ -7,7 +7,6 @@
 package com.bitmark.fbm.data.source.local
 
 import com.bitmark.fbm.data.model.AccountData
-import com.bitmark.fbm.data.model.CredentialData
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
 import com.bitmark.fbm.data.source.local.api.SharedPrefApi
@@ -51,14 +50,12 @@ class AccountLocalDataSource @Inject constructor(
 
     fun checkArchiveRequested() = getArchiveRequestedTimestamp().map { t -> t != -1L }
 
-    fun saveFbCredential(id: String, password: String) =
+    fun saveFbCredentialAlias(alias: String) =
         sharedPrefApi.rxCompletable { sharedPrefGateway ->
-            val credential = CredentialData(id, password)
-            sharedPrefGateway.put(SharedPrefApi.FB_CREDENTIAL, gson.toJson(credential))
+            sharedPrefGateway.put(SharedPrefApi.FB_CREDENTIAL_ALIAS, alias)
         }
 
-    fun getFbCredential() = sharedPrefApi.rxSingle { sharedPrefGateway ->
-        val credential = sharedPrefGateway.get(SharedPrefApi.FB_CREDENTIAL, String::class)
-        gson.fromJson(credential, CredentialData::class.java) ?: CredentialData.newInstance()
+    fun getFbCredentialAlias() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        sharedPrefGateway.get(SharedPrefApi.FB_CREDENTIAL_ALIAS, String::class)
     }
 }

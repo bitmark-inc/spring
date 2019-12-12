@@ -21,10 +21,10 @@ class ArchiveRequestCredentialViewModel(
 
     internal val saveFbCredentialLiveData = CompositeLiveData<Any>()
 
-    fun saveFbCredential(id: String, password: String) {
+    fun saveFbCredentialAlias(alias: String) {
         saveFbCredentialLiveData.add(
             rxLiveDataTransformer.completable(
-                accountRepo.saveFbCredential(id, password)
+                accountRepo.saveFbCredentialAlias(alias)
             )
         )
     }
