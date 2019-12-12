@@ -132,7 +132,7 @@ android {
         inhouse {
             dimension "version"
             applicationIdSuffix ".inhouse"
-            resValue "string", "app_name", "FBM"
+            resValue "string", "app_name", "Spring"
             manifestPlaceholders = [
                     appIcon     : "@mipmap/ic_launcher_dev",
                     appIconRound: "@mipmap/ic_launcher_dev_round",
@@ -154,7 +154,7 @@ android {
 
         prd {
             dimension "version"
-            resValue "string", "app_name", "FBM"
+            resValue "string", "app_name", "Spring"
             manifestPlaceholders = [
                     appIcon     : "@mipmap/ic_launcher",
                     appIconRound: "@mipmap/ic_launcher_round",
