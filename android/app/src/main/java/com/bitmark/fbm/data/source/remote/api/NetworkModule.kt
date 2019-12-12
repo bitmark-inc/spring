@@ -7,10 +7,10 @@
 package com.bitmark.fbm.data.source.remote.api
 
 import com.bitmark.fbm.BuildConfig
+import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.source.remote.api.middleware.FbmApiInterceptor
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
 import com.bitmark.fbm.data.source.remote.api.service.ServiceGenerator
-import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -21,13 +21,12 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideFbmServerApi(
-        gson: Gson,
         authInterceptor: FbmApiInterceptor
     ): FbmApi {
         return ServiceGenerator.createService(
             BuildConfig.FBM_API_ENDPOINT,
             FbmApi::class.java,
-            gson,
+            newGsonInstance(),
             appInterceptors = listOf(authInterceptor)
         )
     }

@@ -7,13 +7,13 @@
 package com.bitmark.fbm.data.source.remote
 
 import android.content.Context
+import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.response.GetStatisticResponse
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
-import com.google.gson.Gson
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -21,7 +21,6 @@ import javax.inject.Inject
 
 class StatisticRemoteDataSource @Inject constructor(
     private val context: Context, // TODO remove later
-    private val gson: Gson, // TODO remove later
     fbmApi: FbmApi,
     converter: Converter,
     rxErrorHandlingComposer: RxErrorHandlingComposer
@@ -37,7 +36,7 @@ class StatisticRemoteDataSource @Inject constructor(
                     Period.DECADE -> if (isUsage) "usage_decade.json" else "insight_decade.json"
                 }
             )?.bufferedReader().use { r -> r?.readText() }
-            gson.fromJson(json, GetStatisticResponse::class.java)
+            newGsonInstance().fromJson(json, GetStatisticResponse::class.java)
                 .sectionRs.filter { s -> s.name in sectionNames && s.periodStartedAt == periodStartedAt }
         }.subscribeOn(Schedulers.io())
 }

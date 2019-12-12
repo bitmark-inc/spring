@@ -7,16 +7,13 @@
 package com.bitmark.fbm.data.source.local.api
 
 import android.content.Context
-import com.google.gson.Gson
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleOnSubscribe
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SharedPrefApi @Inject constructor(
-    context: Context, gson: Gson
-) {
+class SharedPrefApi @Inject constructor(context: Context) {
 
     companion object {
         const val ACCOUNT_DATA = "account_data"
@@ -26,7 +23,7 @@ class SharedPrefApi @Inject constructor(
         const val FB_CREDENTIAL_ALIAS = "fb_credential_alias"
     }
 
-    private val sharePrefGateway = SharedPrefGateway(context, gson)
+    private val sharePrefGateway = SharedPrefGateway(context)
 
     fun <T> rxSingle(action: (SharedPrefGateway) -> T): Single<T> {
         return Single.create(SingleOnSubscribe<T> { e ->

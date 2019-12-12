@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source
 
+import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.source.local.AppLocalDataSource
 import com.bitmark.fbm.data.source.remote.AppRemoteDataSource
 
@@ -25,4 +26,7 @@ class AppRepository(
     fun checkDataReady() = localDataSource.checkDataReady()
 
     fun getAutomationScript() = remoteDataSource.getAutomationScript()
+
+    fun checkVersionOutOfDate() =
+        remoteDataSource.getAppInfo().map { info -> BuildConfig.VERSION_CODE < info.androidAppInfo.requiredVersion }
 }

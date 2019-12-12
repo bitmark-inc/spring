@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source.remote.api.service
 
+import com.bitmark.fbm.data.model.AppInfoData
 import com.bitmark.fbm.data.model.AutomationScriptData
 import com.bitmark.fbm.data.model.JwtData
 import com.bitmark.fbm.data.source.remote.api.request.ArchiveRequestPayload
@@ -31,4 +32,7 @@ interface FbmApi {
 
     @GET("assets/fb_automation.json")
     fun getAutomationScript(): Single<AutomationScriptData>
+
+    @GET("api/information")
+    fun getAppInfo(): Single<Map<String, AppInfoData>>
 }

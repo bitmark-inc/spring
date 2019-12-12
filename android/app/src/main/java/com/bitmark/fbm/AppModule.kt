@@ -11,8 +11,6 @@ import android.content.Context
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.SentryEventLogger
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -27,12 +25,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAppLifecycleHandler() = AppLifecycleHandler()
-
-    @Provides
-    @Singleton
-    fun provideGson(): Gson {
-        return GsonBuilder().excludeFieldsWithoutExposeAnnotation().setLenient().create()
-    }
 
     @Provides
     @Singleton

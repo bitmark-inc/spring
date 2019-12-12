@@ -9,6 +9,7 @@ package com.bitmark.fbm.feature.splash
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.di.ActivityScope
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
@@ -29,4 +30,8 @@ class SplashModule {
         appRepo: AppRepository,
         rxLiveDataTransformer: RxLiveDataTransformer
     ) = SplashViewModel(activity.lifecycle, accountRepo, appRepo, rxLiveDataTransformer)
+
+    @Provides
+    @ActivityScope
+    fun provideDialogController(activity: SplashActivity) = DialogController(activity)
 }

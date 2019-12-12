@@ -12,5 +12,9 @@ enum class Event(val value: String) {
 
     FB_ARCHIVE_AUTOMATE_PAGE_DETECTION_FAILED("fb_archive_automate_page_detection_failed"),
 
-    ACCOUNT_SAVE_FB_CREDENTIAL_ERROR("account_save_fb_credential_error")
+    ACCOUNT_SAVE_FB_CREDENTIAL_ERROR("account_save_fb_credential_error"),
+
+    SPLASH_LOADING_ERROR("splash_loading_error"),
+
+    SPLASH_VERSION_CHECK_ERROR("splash_version_check_error")
 }

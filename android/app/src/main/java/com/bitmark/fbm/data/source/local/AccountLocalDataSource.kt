@@ -6,11 +6,11 @@
  */
 package com.bitmark.fbm.data.source.local
 
+import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
 import com.bitmark.fbm.data.source.local.api.SharedPrefApi
-import com.google.gson.Gson
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -18,8 +18,7 @@ import javax.inject.Inject
 class AccountLocalDataSource @Inject constructor(
     databaseApi: DatabaseApi,
     sharedPrefApi: SharedPrefApi,
-    fileStorageApi: FileStorageApi,
-    private val gson: Gson
+    fileStorageApi: FileStorageApi
 ) : LocalDataSource(databaseApi, sharedPrefApi, fileStorageApi) {
 
     fun checkJwtExpired() = Single.fromCallable {
@@ -28,11 +27,11 @@ class AccountLocalDataSource @Inject constructor(
 
     fun saveAccountData(accountData: AccountData) =
         sharedPrefApi.rxCompletable { sharedPrefGateway ->
-            sharedPrefGateway.put(SharedPrefApi.ACCOUNT_DATA, gson.toJson(accountData))
+            sharedPrefGateway.put(SharedPrefApi.ACCOUNT_DATA, newGsonInstance().toJson(accountData))
         }
 
     fun getAccountData(): Single<AccountData> = sharedPrefApi.rxSingle { sharedPrefGateway ->
-        val accountData = gson.fromJson(
+        val accountData = newGsonInstance().fromJson(
             sharedPrefGateway.get(SharedPrefApi.ACCOUNT_DATA, String::class),
             AccountData::class.java
         )

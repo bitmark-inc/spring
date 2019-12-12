@@ -6,13 +6,16 @@
  */
 package com.bitmark.fbm.util.ext
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
 import android.provider.Settings
+import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.NONE
+
 
 fun Navigator.gotoSecuritySetting() {
     val intent = Intent(Settings.ACTION_SECURITY_SETTINGS)
@@ -47,10 +50,10 @@ fun Navigator.openMail(
             Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
         intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
         startActivity(
-                Intent.createChooser(
-                        intent,
-                        "send to %s".format(email)
-                )
+            Intent.createChooser(
+                intent,
+                "send to %s".format(email)
+            )
         )
     } catch (ignore: Throwable) {
     }
@@ -64,15 +67,15 @@ fun Navigator.browseMedia(
     when (mime) {
         "image/*" -> {
             intent.setDataAndType(
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    mime
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                mime
             )
         }
 
         "video/*" -> {
             intent.setDataAndType(
-                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                    mime
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                mime
             )
         }
     }
@@ -84,4 +87,23 @@ fun Navigator.browseDocument(requestCode: Int) {
     intent.addCategory(Intent.CATEGORY_OPENABLE)
     intent.type = "*/*"
     anim(NONE).startActivityForResult(intent, requestCode)
+}
+
+fun Navigator.goToPlayStore() {
+    try {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("market://details?id=${BuildConfig.APPLICATION_ID}")
+            )
+        )
+    } catch (e: ActivityNotFoundException) {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=${BuildConfig.APPLICATION_ID}")
+            )
+        )
+    }
+
 }

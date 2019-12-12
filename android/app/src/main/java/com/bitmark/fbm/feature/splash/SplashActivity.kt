@@ -12,12 +12,16 @@ import androidx.lifecycle.Observer
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
+import com.bitmark.fbm.logging.Event
+import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.util.DateTimeUtil
+import com.bitmark.fbm.util.ext.goToPlayStore
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.visible
 import kotlinx.android.synthetic.main.activity_splash.*
@@ -31,6 +35,12 @@ class SplashActivity : BaseAppCompatActivity() {
     @Inject
     internal lateinit var navigator: Navigator
 
+    @Inject
+    internal lateinit var dialogController: DialogController
+
+    @Inject
+    internal lateinit var logger: EventLogger
+
     private val handler = Handler()
 
     override fun layoutRes(): Int = R.layout.activity_splash
@@ -39,7 +49,7 @@ class SplashActivity : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.checkLoggedIn()
+        viewModel.checkVersionOutOfDate()
     }
 
     override fun initComponents() {
@@ -61,6 +71,34 @@ class SplashActivity : BaseAppCompatActivity() {
 
     override fun observe() {
         super.observe()
+
+        viewModel.checkVersionOutOfDateLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val versionOutOfDate = res.data() ?: false
+                    if (versionOutOfDate) {
+                        // TODO change text later
+                        dialogController.alert(
+                            "New Update Available",
+                            "Your app is out of date, please update the latest version."
+                        ) {
+                            navigator.goToPlayStore()
+                            navigator.finishActivity(true)
+                        }
+                    } else {
+                        viewModel.checkLoggedIn()
+                    }
+                }
+
+                res.isError()   -> {
+                    logger.logError(
+                        Event.SPLASH_VERSION_CHECK_ERROR,
+                        res.throwable() ?: IllegalAccessException("unknown")
+                    )
+                }
+
+            }
+        })
 
         viewModel.checkLoggedInLiveData.asLiveData().observe(this, Observer { res ->
             when {
@@ -113,7 +151,13 @@ class SplashActivity : BaseAppCompatActivity() {
                 }
 
                 res.isError()   -> {
-                    // Unexpected error from shared preference
+                    logger.logError(
+                        Event.SPLASH_LOADING_ERROR,
+                        res.throwable() ?: IllegalAccessException("unknown")
+                    )
+                    dialogController.alert(R.string.error, R.string.unexpected_error) {
+                        navigator.finishActivity(true)
+                    }
                 }
             }
         })

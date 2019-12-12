@@ -7,13 +7,13 @@
 package com.bitmark.fbm.data.source.remote
 
 import android.content.Context
+import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.model.entity.PostR
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.data.model.entity.applyRequiredValues
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
-import com.google.gson.Gson
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
@@ -44,7 +44,7 @@ class UsageRemoteDataSource @Inject constructor(
     private fun listPosts() = Single.fromCallable {
         val json = context.assets.open("posts.json").bufferedReader()
             .use { r -> r.readText() }
-        val gson = Gson().newBuilder().create()
+        val gson = newGsonInstance()
         val posts = gson.fromJson(json, List::class.java).map { p ->
             gson.fromJson(gson.toJson(p), PostR::class.java)
         }.filter { p -> p.type != PostType.UNSPECIFIED }
