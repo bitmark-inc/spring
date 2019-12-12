@@ -30,4 +30,8 @@ class AppLocalDataSource @Inject constructor(
     fun checkDataReady() = sharedPrefApi.rxSingle { sharedPrefGateway ->
         sharedPrefGateway.get(SharedPrefApi.DATA_READY, Boolean::class)
     }
+
+    fun setDataReady() = sharedPrefApi.rxCompletable { sharedPrefGateway ->
+        sharedPrefGateway.put(SharedPrefApi.DATA_READY, true)
+    }
 }

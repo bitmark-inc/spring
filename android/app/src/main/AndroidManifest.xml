@@ -63,5 +63,7 @@
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"
             android:value="@color/colorAccent" />
 
+        <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT" android:value="DISABLE" />
+
     </application>
 </manifest>

@@ -26,6 +26,7 @@ import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.showKeyBoard
 import kotlinx.android.synthetic.main.fragment_archive_request_credential.*
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 
@@ -51,6 +52,8 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
     internal lateinit var logger: EventLogger
 
     private val handler = Handler()
+
+    private val executor = Executors.newSingleThreadExecutor()
 
     override fun layoutRes(): Int = R.layout.fragment_archive_request_credential
 
@@ -79,7 +82,7 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
             if (fbId.isBlank() || fbPassword.isBlank()) return@setSafetyOnclickListener
             val credential = CredentialData(fbId, fbPassword)
             val alias = "fb-credential-${System.currentTimeMillis()}"
-            credential.save(activity!!, alias, object : Callback0 {
+            credential.save(activity!!, alias, executor, object : Callback0 {
                 override fun onSuccess() {
                     viewModel.saveFbCredentialAlias(alias)
                 }
@@ -111,6 +114,7 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
     }
 
     override fun deinitComponents() {
+        executor.shutdown()
         handler.removeCallbacksAndMessages(null)
         super.deinitComponents()
     }

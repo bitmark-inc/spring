@@ -47,6 +47,7 @@ import com.bitmark.sdk.authentication.KeyAuthenticationSpec
 import com.bitmark.sdk.features.Account
 import kotlinx.android.synthetic.main.fragment_archive_request.*
 import java.net.URL
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
@@ -90,6 +91,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     private var blocked = false
 
+    private val executor = Executors.newSingleThreadExecutor()
+
     private lateinit var fbCredential: CredentialData
 
     private var archiveRequestedTimestamp = -1L
@@ -108,6 +111,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     }
 
     override fun deinitComponents() {
+        executor.shutdown()
         wv.webChromeClient = null
         wv.webViewClient = null
         wv.setDownloadListener(null)
@@ -427,6 +431,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     CredentialData.load(
                         activity!!,
                         fbCredentialAlias,
+                        executor,
                         object : Callback1<CredentialData> {
                             override fun onSuccess(credential: CredentialData?) {
                                 fbCredential = credential!!
