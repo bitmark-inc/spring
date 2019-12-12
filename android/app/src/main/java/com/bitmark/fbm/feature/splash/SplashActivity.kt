@@ -95,6 +95,7 @@ class SplashActivity : BaseAppCompatActivity() {
                         Event.SPLASH_VERSION_CHECK_ERROR,
                         res.throwable() ?: IllegalAccessException("unknown")
                     )
+                    viewModel.checkLoggedIn()
                 }
 
             }

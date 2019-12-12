@@ -10,17 +10,12 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-class ArchiveRequestPayload(
-    archiveUrl: String,
-    cookie: String
-) : Request {
-
+data class ArchiveRequestPayload(
     @SerializedName("file_url")
     @Expose
-    private val archiveUrl: String = archiveUrl
+    val archiveUrl: String,
 
     @SerializedName("raw_cookie")
     @Expose
-    private val cookie: String = cookie
-
-}
+    val cookie: String
+) : Request
