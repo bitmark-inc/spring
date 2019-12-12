@@ -14,11 +14,12 @@ class Storage {
 
     // MARK: - Properties
     static private var dispatchQueue = DispatchQueue(label: "Synergy Storage", qos: .background)
+    static private var notificationToken: NotificationToken?
 
     // MARK: - Handlers
     static func store(_ objects: [Object]) -> Completable {
         return Completable.create { (event) -> Disposable in
-            self.performSerialBackgroundWrite(writeBlock: { (backgroundRealm) in
+            self.performWrite(writeBlock: { (backgroundRealm) in
                 objects.forEach { (object) in
                     backgroundRealm.add(object, update: .modified)
                 }
@@ -34,7 +35,7 @@ class Storage {
         Global.log.info("[start] store object")
 
         return Completable.create { (event) -> Disposable in
-            self.performSerialBackgroundWrite(writeBlock: { (backgroundRealm) in
+            self.performWrite(writeBlock: { (backgroundRealm) in
                 backgroundRealm.add(object, update: .modified)
             }, completionBlock: { (error) in
                 Global.log.info("[done] store object")
@@ -62,22 +63,25 @@ class Storage {
         }
     }
 
-    static private func performSerialBackgroundWrite(writeBlock: @escaping (Realm) throws -> Void,
+    static private func performWrite(writeBlock: @escaping (Realm) throws -> Void,
                                               completionBlock: ((Error?) -> Void)? = nil) {
-        dispatchQueue.async {
-            var storageError: Error?
+        DispatchQueue.main.async {
+          var storageError: Error?
 
-            do {
-                let backgroundRealm = try RealmConfig.globalRealm()
-                backgroundRealm.beginWrite()
-                try writeBlock(backgroundRealm)
-                try backgroundRealm.commitWrite()
-                backgroundRealm.invalidate()
-            } catch {
-                storageError = error
+          do {
+            let backgroundRealm = try RealmConfig.currentRealm()
+            self.notificationToken = backgroundRealm.observe { (notification, realm) in
+              completionBlock?(storageError)
+              self.notificationToken?.invalidate()
             }
 
-            completionBlock?(storageError)
+            backgroundRealm.beginWrite()
+            try writeBlock(backgroundRealm)
+            try backgroundRealm.commitWrite()
+
+          } catch {
+            storageError = error
+          }
         }
     }
 }

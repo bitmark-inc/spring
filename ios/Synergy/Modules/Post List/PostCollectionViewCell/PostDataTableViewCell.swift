@@ -25,7 +25,7 @@ extension PostDataTableViewCell {
     func makePostInfo(timestamp: Date, friends: [String], locationName: String?) -> Single<NSMutableAttributedString> {
         return Single.create { (event) -> Disposable in
             var links: [(text: String, url: String)] = []
-            let timestampText = timestamp.toFormat(Constant.postTimestampFormat)
+            let timestampText = timestamp.toFormat(Constant.TimeFormat.post)
 
             let friendTags = friends.toSentence()
             let friendTagsText = friendTags.isEmpty ? "" : R.string.phrase.postPostInfoFriendTags(friendTags)

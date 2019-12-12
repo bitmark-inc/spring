@@ -15,6 +15,14 @@
 "howitworks.content.2" = "We’ll give you private analytics on your Facebook data.";
 "howitworks.content.3" = "Your vault will be updated each week with new Facebook data and insights.";
 
+"trustIsCritical.title" = "Trust is Critical";
+"trustIsCritical.description" = "Spring is from Bitmark, makers of the universal system for digital property rights. Our mission is to restore trust in data. We believe an internet where individuals control their own data will lead to a better future. Building this platform to unlock the value of your data is our business.";
+"trustIsCritical.sincerely" = "Sincerely,";
+"trustIsCritical.titleSignature" = "Sean Moss-Pultz\nCo-founder and CEO ";
+
+"askNotifications.title" = "Notifications";
+"askNotifications.description" = "Facebook may take a few days to prepare your data archive, depending on how much data you have.\n\nWould you like us to remind you to check back here? If not, you will need to remember on your own to check if your backup is ready.";
+
 "getYourData.screenTitle" = "Get Your Data";
 "getYourData.login.placeholder" = "Facebook login";
 "getYourData.password.placeholder" = "Facebook password";
@@ -23,21 +31,14 @@
 "getYourData.authorize.manual" = "Prefer not to automate this?";
 
 "dataRequested.screenTitle" = "Data Requested";
-"dataRequested.description" = "Facebook is preparing your data archive. This may take up to a few days, depending on how much data you have.\n\nWould you like us to remind you daily to check if your backup is ready?";
-"dataRequested.notify.message" = "We’ll notify you to check if your backup is ready.";
-"dataRequested.notify.rejectedMessage" = "Still waiting for your data backup. Please continue to check back here regularly.";
-
-"dataGenerating.screenTitle" = "Generate Insights";
-"dataGenerating.description" = "We’re generating private insights about your Facebook data.\n\nWould you like to notify you when your insights is ready? If not, you will need to return back here regularly to check if the insights is ready.";
-"dataGenerating.notify.rejectedMessage" = "Still generating private insights for your data. Please continue to check back here regularly.";
-"dataGenerating.notify.message" = "We’ll notify you to check if your insights is ready.";
-"dataGenerating.notify.rejectedMessage" = "Still waiting for your insights generate. Please continue to check back here regularly.";
+"dataRequested.description" = "You requested your Facebook data archive on %@.\n\nWe’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have.";
+"dataRequested.waiting.screenTitle" = "Still Waiting";
+"dataRequested.waiting.description" = "You requested your Facebook data archive on %@.\n\nSorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have.";
 
 "dataAnalyzing.screenTitle" = "Analyzing Data";
 "dataAnalyzing.description" = "Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready.";
 
-"dataRequested.scheduleNotify.title" = "Check Facebook Archive";
-"dataRequested.scheduleNotify.message" = "Tap here to check if your Facebook Archive is ready";
+"dataRequested.scheduleNotify.message" = "Just reminding you to check if your Facebook archive is ready. Tap to continue.";
 
 "posts.empty" = "You have no posts!";
 "post.postInfo.friendTags" = " with %@";

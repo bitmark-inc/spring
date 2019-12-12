@@ -29,9 +29,13 @@ public struct Constant {
     static let appName = "Spring"
     public static let productLink = "https://apps.apple.com/us/app/bitmark/id1429427796"
     let numberOfPhrases = 12
-    static let postTimestampFormat = "MMM d 'at' h:mm a"
-    static let fullTimestampFormat = "YYYY MMM d"
-    static let shortTimestampFormat = "MMM d"
+    
+    struct TimeFormat {
+        static let post = "MMM d 'at' h:mm a"
+        static let archive = "MMM d 'at' h:mm a"
+        static let full = "YYYY MMM d"
+        static let short = "MMM d"
+    }
 
     public struct OneSignalTag {
         public static let key = "account_id"

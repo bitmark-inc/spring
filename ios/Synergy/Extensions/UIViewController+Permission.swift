@@ -45,20 +45,23 @@ extension UIViewController {
     }
 
     func askEnableNotificationAlert() {
-        let alertController = UIAlertController(
-            title: R.string.error.notificationTitle(),
-            message: R.string.error.notificationMessage(),
-            preferredStyle: .alert)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            let alertController = UIAlertController(
+                title: R.string.error.notificationTitle(),
+                message: R.string.error.notificationMessage(),
+                preferredStyle: .alert)
 
-        alertController.addAction(
-            title: R.string.localizable.enable(),
-            style: .default, handler: openAppSettings)
+            alertController.addAction(
+                title: R.string.localizable.enable(),
+                style: .default, handler: self.openAppSettings)
 
-        alertController.show()
+            alertController.show()
+        }
     }
 
     @objc func openAppSettings(_ sender: UIAlertAction) {
-        guard let url = URL.init(string: UIApplication.openSettingsURLString) else {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else {
             return
         }
 

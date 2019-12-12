@@ -26,10 +26,11 @@ class Navigator {
         case launching
         case signInWall(viewModel: SignInWallViewModel)
         case howItWorks(viewModel: HowItWorksViewModel)
+        case trustIsCritical(viewModel: TrustIsCriticalViewModel)
+        case askNotifications(viewModel: AskNotificationsViewModel)
         case getYourData(viewModel: GetYourDataViewModel)
         case requestData(viewModel: RequestDataViewModel)
         case dataRequested(viewModel: DataRequestedViewModel)
-        case dataGenerating(viewModel: DataGeneratingViewModel)
         case dataAnalyzing(viewModel: DataAnalyzingViewModel)
         case safari(URL)
         case safariController(URL)
@@ -57,10 +58,11 @@ class Navigator {
             return NavigationController(rootViewController: lauchingVC)
         case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
         case .howItWorks(let viewModel): return HowItWorksViewController(viewModel: viewModel)
+        case .trustIsCritical(let viewModel): return TrustIsCriticalViewController(viewModel: viewModel)
+        case .askNotifications(let viewModel): return AskNotificationsViewController(viewModel: viewModel)
         case .getYourData(let viewModel): return GetYourDataViewController(viewModel: viewModel)
         case .requestData(let viewModel): return RequestDataViewController(viewModel: viewModel)
         case .dataRequested(let viewModel): return DataRequestedViewController(viewModel: viewModel)
-        case .dataGenerating(let viewModel): return DataGeneratingViewController(viewModel: viewModel)
         case .dataAnalyzing(let viewModel): return DataAnalyzingViewController(viewModel: viewModel)
         case .safari(let url):
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -160,15 +162,11 @@ class Navigator {
 
         // check if scene is on onboarding flow's refresh state
         guard let currentVC = rootViewController.viewControllers.last,
-            [DataRequestedViewController.self, DataGeneratingViewController.self, DataAnalyzingViewController.self].contains(where: { $0 == type(of: currentVC) }),
-            let enteredBackgroundTime = UserDefaults.standard.enteredBackgroundTime
+            [DataRequestedViewController.self, DataAnalyzingViewController.self].contains(where: { $0 == type(of: currentVC) }),
+            let window = getWindow()
             else {
                 return
         }
-
-        let refreshOnboardingFlowLap = 1 // seconds
-        let refreshTime = enteredBackgroundTime.adding(.second, value: refreshOnboardingFlowLap)
-        guard Date() >= refreshTime, let window = getWindow() else { return }
 
         Navigator.default.show(segue: .launching, sender: nil, transition: .root(in: window))
     }

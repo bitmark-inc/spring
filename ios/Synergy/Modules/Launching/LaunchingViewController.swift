@@ -17,41 +17,28 @@ class LaunchingViewController: ViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        // NOTE: For first demo, make quick Onboarding Flow
-        AccountService.rx.existsCurrentAccount()
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] (account) in
-                guard let self = self else { return }
-                Global.current.account = account
-
-                if Global.current.account != nil {
-                    self.gotoMainScreen()
-                } else {
-                    self.gotoSignInWallScreen()
-                }
-            }, onError: { (error) in
-                Global.log.error(error)
-            })
-            .disposed(by: disposeBag)
-
+        Global.log.error(AppError.emptyLocal)
         return
-        // END
 
-        if UserDefaults.standard.isCreatingFBArchive {
-            gotoDownloadFBArchiveScreen()
-            return
-        }
-
-        AccountService.rx.existsCurrentAccount()
-            .observeOn(MainScheduler.instance)
-            .flatMapCompletable { [weak self] in
-                guard let self = self else { return Completable.never() }
-                return try self.prepareAndGotoNext(account: $0)
+        if UserDefaults.standard.FBArchiveCreatedAt != nil {
+            if Global.current.didUserTapNotification {
+                Global.current.didUserTapNotification = false
+                gotoDownloadFBArchiveScreen()
+            } else {
+                gotoDataRequestedWithCheckButtonScreen()
             }
-            .subscribe(onError: { (error) in
-                Global.log.error(error)
-            })
-            .disposed(by: disposeBag)
+        } else {
+            AccountService.rx.existsCurrentAccount()
+                .observeOn(MainScheduler.instance)
+                .flatMapCompletable { [weak self] in
+                    guard let self = self else { return Completable.never() }
+                    return try self.prepareAndGotoNext(account: $0)
+                }
+                .subscribe(onError: { (error) in
+                    Global.log.error(error)
+                })
+                .disposed(by: disposeBag)
+        }
     }
 
     func prepareAndGotoNext(account: Account?) throws -> Completable {
@@ -62,8 +49,8 @@ class LaunchingViewController: ViewController {
             FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
                 .subscribe(onSuccess: {  [weak self] (_) in
                     guard let self = self else { return }
-                    // TODO: Check if finish generating data's insights
-                    self.gotoDataGeneratingScreen()
+                    // TODO: Check if finish data analyzing
+                    self.gotoDataAnalyzingScreen()
                 }, onError: { [weak self] (error) in
                     guard let self = self else { return }
                     // is not FBM's Account => link to HowItWorks
@@ -135,16 +122,21 @@ extension LaunchingViewController {
         navigator.show(segue: .requestData(viewModel: viewModel), sender: self)
     }
 
-    func gotoDataGeneratingScreen() {
-        let viewModel = DataGeneratingViewModel()
-        navigator.show(segue: .dataGenerating(viewModel: viewModel), sender: self)
-    }
-
     func gotoSignInScreen() {
 
     }
 
     func gotoMainScreen() {
         navigator.show(segue: .hometabs, sender: self, transition: .replace(type: .auto))
+    }
+    
+    func gotoDataRequestedWithCheckButtonScreen() {
+        let viewModel = DataRequestedViewModel(.checkRequestedData)
+        navigator.show(segue: .dataRequested(viewModel: viewModel), sender: self)
+    }
+
+    func gotoDataAnalyzingScreen() {
+        let viewModel = DataAnalyzingViewModel()
+        navigator.show(segue: .dataAnalyzing(viewModel: viewModel), sender: self)
     }
 }

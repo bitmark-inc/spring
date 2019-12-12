@@ -31,8 +31,10 @@ class GetYourDataViewController: ViewController, BackNavigator {
             .drive(automateAuthorizeButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
-        automateAuthorizeButton.rx.tap.bind {
-            viewModel.fakeCreateAccountAndgotoAnalyzingScreen()
+        automateAuthorizeButton.rx.tap.bind { [weak self] in
+            guard let self = self else { return }
+            viewModel.saveFBCredentialToKeychain()
+            self.gotoRequestData()
         }.disposed(by: disposeBag)
 
         viewModel.loginRelay.accept(loginTextField.text!)
@@ -80,7 +82,7 @@ class GetYourDataViewController: ViewController, BackNavigator {
 
                 flex.addItem(giveAutomateTrust).marginTop(Size.dh(35))
 
-                flex.addItem(manualAuthorizeButton).marginTop(Size.dh(35))
+//                flex.addItem(manualAuthorizeButton).marginTop(Size.dh(35))
                 flex.addItem(automateAuthorizeButton)
                     .width(100%)
                     .position(.absolute)

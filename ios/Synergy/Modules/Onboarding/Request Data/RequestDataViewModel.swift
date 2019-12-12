@@ -9,9 +9,11 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import OneSignal
 
 enum Mission {
     case requestData
+    case checkRequestedData
     case downloadData
 }
 
@@ -76,18 +78,34 @@ class RequestDataViewModel: ViewModel {
 
         createdAccounCompletable
             .andThen(FbmAccountService.create())
-            .flatMapCompletable { _ in
-                return FBArchiveService.submit(
+            .catchErrorJustReturn(FbmAccount())
+            .flatMapCompletable({ [weak self] (_) -> Completable in
+                guard let self = self,
+                    let accountNumber = Global.current.account?.getAccountNumber() else {
+                        return Completable.never()
+                }
+                return self.registerOneSignal(accountNumber: accountNumber)
+            })
+            .andThen(
+                FBArchiveService.submit(
                     headers: headers,
                     fileURL: archiveURL.absoluteString,
-                    rawCookie: rawCookie
-                )
-            }
+                    rawCookie: rawCookie))
             .asObservable()
             .materialize().bind { [weak self] in
                 loadingState.onNext(.hide)
                 self?.signUpAndSubmitArchiveResultSubject.onNext($0)
             }
             .disposed(by: disposeBag)
+    }
+    
+    fileprivate func registerOneSignal(accountNumber: String) -> Completable {
+        OneSignal.promptForPushNotifications(userResponse: { _ in
+          OneSignal.sendTags([
+            Constant.OneSignalTag.key: accountNumber
+          ])
+        })
+
+        return Completable.empty()
     }
 }

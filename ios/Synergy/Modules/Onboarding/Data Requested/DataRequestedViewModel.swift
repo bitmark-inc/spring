@@ -9,4 +9,12 @@
 import Foundation
 
 class DataRequestedViewModel: ViewModel {
+    
+    // MARK: - Properties
+    var mission: Mission!
+    
+    init(_ mission: Mission) {
+        super.init()
+        self.mission = mission
+    }
 }

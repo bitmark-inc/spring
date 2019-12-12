@@ -49,7 +49,7 @@ class DataAnalyzingViewController: ViewController {
             .direction(.column).define { (flex) in
                 flex.addItem().height(47%)
 
-                flex.addItem(dataGeneratingTitle).marginTop(Size.dh(27))
+                flex.addItem(dataGeneratingTitle).marginTop(Size.dh(15))
                 flex.addItem(dataGeneratingDesc).marginTop(Size.dh(15))
             }
     }

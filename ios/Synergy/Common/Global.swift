@@ -17,6 +17,7 @@ class Global {
 
     var account: Account?
     var currency: Currency?
+    var didUserTapNotification: Bool = false
 
     lazy var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
@@ -89,13 +90,18 @@ enum AccountError: Error {
 }
 
 extension UserDefaults {
-    var isCreatingFBArchive: Bool {
-        get { return bool(forKey: #function) }
+    var FBArchiveCreatedAt: Date? {
+        get { return date(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
 
     var enteredBackgroundTime: Date? {
         get { return date(forKey: #function) }
+        set { set(newValue, forKey: #function) }
+    }
+    
+    var enablePushNotification: Bool {
+        get { return bool(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
 }

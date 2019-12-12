@@ -32,6 +32,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // setup Intercom
         Intercom.setApiKey(Constant.default.intercomAppKey, forAppId: Constant.default.intercomAppID)
+        
+        // Local Notification
+        UNUserNotificationCenter.current().delegate = self
 
         // OneSignal
         let onesignalInitSettings = [kOSSettingsKeyAutoPrompt: false]
@@ -81,5 +84,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         UserDefaults.standard.enteredBackgroundTime = Date()
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        Global.current.didUserTapNotification = true
+        completionHandler()
     }
 }

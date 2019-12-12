@@ -67,7 +67,9 @@ class RequestDataViewController: ViewController {
                     self.errorWhenSignUpAndSubmitArchive(error: error)
                 case .completed:
                     Global.log.info("[done] SignUpAndSubmitArchive")
-                    self.gotoDataGenerating()
+                    UserDefaults.standard.FBArchiveCreatedAt = nil
+                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                    self.gotoDataAnalyzing()
                 default:
                     break
                 }
@@ -99,6 +101,7 @@ class RequestDataViewController: ViewController {
     }
 }
 
+// MARK: - WKNavigationDelegate
 extension RequestDataViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
         guard let response = navigationResponse.response as? HTTPURLResponse else { return }
@@ -111,11 +114,12 @@ extension RequestDataViewController: WKNavigationDelegate {
                 decisionHandler(.allow)
                 return
         }
-
-        webView.evaluateJavaScript("document.cookie") { (result, error) in
-            guard let result = result as? String, error == nil else { return }
-            self.thisViewModel.signUpAndSubmitFBArchive(headers: cachedRequestHeader, archiveURL: archiveURL, rawCookie: result)
-        }
+        
+        webView.configuration.websiteDataStore.httpCookieStore.getAllCookies({ (cookies) in
+            let rawCookie = cookies.compactMap { "\($0.name)=\($0.value)" }.joined(separator: "; ")
+            
+            self.thisViewModel.signUpAndSubmitFBArchive(headers: cachedRequestHeader, archiveURL: archiveURL, rawCookie: rawCookie)
+        })
 
         decisionHandler(.cancel)
     }
@@ -195,17 +199,20 @@ extension RequestDataViewController {
         }
     }
 
-    fileprivate func doMisiongInArchivePage() {
+    fileprivate func doMissionInArchivePage() {
         checkIsArchivePage()
-            .retry(.delayed(maxCount: 10, time: 0.5))
-            .subscribe(onCompleted: {
+            .retry(.delayed(maxCount: 1000, time: 0.5))
+            .subscribe(onError: { (error) in
+                Global.log.info("[error] checkIsArchivePage")
+                Global.log.error(error)
+            }, onCompleted: {
                 Global.log.info("[start] evaluateJS for archive")
                 switch self.thisViewModel.mission {
                 case .requestData:
                     self.runJSToCreateDataArchive()
                 case .downloadData:
                     self.runJSTodownloadFBArchiveIfExist()
-                case .none:
+                default:
                     return
                 }
             })
@@ -232,7 +239,7 @@ extension RequestDataViewController {
             }
 
             Global.log.info("[done] createFBArchive")
-            UserDefaults.standard.isCreatingFBArchive = true
+            UserDefaults.standard.FBArchiveCreatedAt = Date()
             self.gotoDataRequested()
         }
     }
@@ -273,9 +280,6 @@ extension RequestDataViewController {
                 self.showErrorAlertWithSupport(message: R.string.error.fbDownloadData())
                 return
             }
-
-            UserDefaults.standard.isCreatingFBArchive = false
-            UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         }
     }
 
@@ -325,7 +329,7 @@ extension RequestDataViewController {
                 Global.log.error(error)
                 return
             }
-            self.doMisiongInArchivePage() // it's not trigger webView#didFinish function
+            self.doMissionInArchivePage() // it's not trigger webView#didFinish function
         }
     }
 
@@ -342,7 +346,9 @@ extension RequestDataViewController {
                 self?.webView.evaluateJavaScript(reauthAction
                     .replacingOccurrences(of: "%password%", with: credential.password)
                 )
-            })
+                }, onError: {(error) in
+                    Global.log.error(error)
+                })
             .disposed(by: self.disposeBag)
     }
 }
@@ -350,13 +356,14 @@ extension RequestDataViewController {
 // MARK: - Navigator
 extension RequestDataViewController {
    func gotoDataRequested() {
-        let viewModel = DataRequestedViewModel()
-        navigator.show(segue: .dataRequested(viewModel: viewModel), sender: self)
+        guard let viewModel = viewModel as? RequestDataViewModel else { return }
+        let dataRquestedViewModel = DataRequestedViewModel(viewModel.mission)
+        navigator.show(segue: .dataRequested(viewModel: dataRquestedViewModel), sender: self)
     }
 
-    func gotoDataGenerating() {
-        let viewModel = DataGeneratingViewModel()
-        navigator.show(segue: .dataGenerating(viewModel: viewModel), sender: self)
+    func gotoDataAnalyzing() {
+        let viewModel = DataAnalyzingViewModel()
+        navigator.show(segue: .dataAnalyzing(viewModel: viewModel), sender: self)
     }
 }
 

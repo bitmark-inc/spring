@@ -15,7 +15,7 @@
 "Account" = "Account";
 "Streams" = "Streams";
 "YourAuthorizationIsRequired" = "Your authorization is required.";
-"notify_me" = "Notify me";
+"notify_me" = "Notify me »";
 "Enable" = "Enable";
 "WEEK" = "WEEK";
 "YEAR" = "YEAR";
@@ -26,6 +26,8 @@
 "and" = "and";
 "HOW YOU USE FACEBOOK" = "HOW YOU USE FACEBOOK";
 "HOW FACEBOOK USES YOU" = "HOW FACEBOOK USES YOU";
+"No_thanks" = "No thanks";
+"Check_now" = "Check now »";
 
 "plural.post" = "posts";
 "plural.link" = "links";

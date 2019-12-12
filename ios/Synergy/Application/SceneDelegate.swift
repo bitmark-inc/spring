@@ -50,5 +50,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         UserDefaults.standard.enteredBackgroundTime = Date()
     }
-
 }

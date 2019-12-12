@@ -20,7 +20,7 @@ class HowItWorksViewController: ViewController, BackNavigator {
         super.bindViewModel()
 
         continueButton.rx.tap.bind { [weak self] in
-            self?.gotoGetYourDataScreen()
+            self?.gotoTrustIsCriticalScreen()
         }.disposed(by: disposeBag)
     }
 
@@ -57,7 +57,7 @@ class HowItWorksViewController: ViewController, BackNavigator {
                 flex.addItem(lightBackItem)
                 flex.addItem().height(45%)
 
-                flex.addItem(howItWorksTitle).marginTop(Size.dh(27))
+                flex.addItem(howItWorksTitle).marginTop(Size.dh(15))
 
                 flex.addItem(howItWorkContent(part: 1, text: R.string.phrase.howitworksContent1())).marginTop(Size.dh(15))
                 flex.addItem(howItWorkContent(part: 2, text: R.string.phrase.howitworksContent2())).marginTop(Size.dh(10))
@@ -74,9 +74,9 @@ class HowItWorksViewController: ViewController, BackNavigator {
 
 // MARK: - Navigator
 extension HowItWorksViewController {
-    func gotoGetYourDataScreen() {
-        let viewModel = GetYourDataViewModel()
-        navigator.show(segue: .getYourData(viewModel: viewModel), sender: self)
+    func gotoTrustIsCriticalScreen() {
+        let viewModel = TrustIsCriticalViewModel()
+        navigator.show(segue: .trustIsCritical(viewModel: viewModel), sender: self)
     }
 }
 

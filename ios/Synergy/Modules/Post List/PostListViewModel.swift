@@ -60,7 +60,7 @@ class PostListViewModel: ViewModel {
             timelineText = buidlTimestamp()
         case .day:
             sectionTitle = R.string.localizable.pluralPost().localizedUppercase
-            timelineText = Date().toFormat(Constant.fullTimestampFormat) // TODO not filter by day now
+            timelineText = Date().toFormat(Constant.TimeFormat.full) // TODO not filter by day now
         }
 
         return (sectionTitle: sectionTitle, taggedText: taggedText, timelineText: timelineText)
@@ -86,7 +86,7 @@ class PostListViewModel: ViewModel {
         }
 
         return startDate.year == endDate.year ?
-            startDate.toFormat(Constant.fullTimestampFormat) + "-" + endDate.toFormat(Constant.shortTimestampFormat) :
-            startDate.toFormat(Constant.fullTimestampFormat) + " - " + endDate.toFormat(Constant.fullTimestampFormat)
+            startDate.toFormat(Constant.TimeFormat.full) + "-" + endDate.toFormat(Constant.TimeFormat.short) :
+            startDate.toFormat(Constant.TimeFormat.full) + " - " + endDate.toFormat(Constant.TimeFormat.full)
     }
 }

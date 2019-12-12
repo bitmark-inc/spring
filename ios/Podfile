@@ -63,6 +63,15 @@ target 'Synergy Dev' do
   pod 'SwiftLint'
 end
 
+target 'Synergy Inhouse' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Synergy Dev
+  sharedPods
+  pod 'SwiftLint'
+end
+
 target 'OneSignalNotificationServiceExtension' do
   use_frameworks!
 
