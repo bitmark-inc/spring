@@ -22,6 +22,7 @@ class AppRemoteDataSource @Inject constructor(
 ) : RemoteDataSource(fbmApi, converter, rxErrorHandlingComposer) {
 
     fun registerNotificationService(accountId: String) = Completable.fromCallable {
+        OneSignal.deleteTag("account_id")
         OneSignal.sendTag("account_id", accountId)
     }.subscribeOn(Schedulers.io())
 
