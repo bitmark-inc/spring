@@ -158,7 +158,7 @@ android {
             manifestPlaceholders = [
                     appIcon     : "@mipmap/ic_launcher",
                     appIconRound: "@mipmap/ic_launcher_round",
-                    onesignal_app_id               : '3b35e435-02e9-4ade-93f6-41e2da46bc18',
+                    onesignal_app_id               : '082142f1-39a9-4588-928c-b3d5890b36b0',
                     // Project number pulled from dashboard, local value is ignored.
                     onesignal_google_project_number: 'REMOTE'
             ]
