@@ -130,10 +130,6 @@ func (os *OneSignalClient) NotifyFBArchiveAvailable(ctx context.Context, userID 
 
 	log.WithContext(ctx).WithField("prefix", "onesignal").WithField("resp", string(dumpBytes)).Info("response from onesignal")
 
-	if resp.StatusCode < 300 {
-		return nil
-	}
-
 	// Decode response body to see what actually happened
 	decoder := json.NewDecoder(resp.Body)
 	var errBody OneSignalError

@@ -113,7 +113,7 @@ func main() {
 	pool.Middleware(b.Log)
 
 	// Map the name of jobs to handler functions
-	pool.Job("download_archive", b.DownloadArchive)
+	pool.JobWithOptions("download_archive", work.JobOptions{Priority: 10, MaxFails: 1}, b.DownloadArchive)
 
 	log.Info("Start listening")
 
@@ -171,6 +171,8 @@ func (b *BackgroundContext) DownloadArchive(job *work.Job) error {
 		return err
 	}
 
+	job.Checkin("Start downloading archives")
+
 	// Print out the response in console log
 	dumpBytes, err := httputil.DumpResponse(resp, false)
 	if err != nil {
@@ -181,6 +183,7 @@ func (b *BackgroundContext) DownloadArchive(job *work.Job) error {
 
 	if resp.StatusCode > 300 {
 		logEntity.Error("Request failed")
+		job.Checkin("Request failed")
 		return nil
 	}
 
@@ -190,6 +193,7 @@ func (b *BackgroundContext) DownloadArchive(job *work.Job) error {
 	_, p, err := mime.ParseMediaType(resp.Header.Get("Content-Disposition"))
 	if err != nil {
 		logEntity.Error(err)
+		job.Checkin("Looks like it's a html page")
 		return nil
 	}
 	filename := p["filename"]
@@ -197,6 +201,7 @@ func (b *BackgroundContext) DownloadArchive(job *work.Job) error {
 	defer resp.Body.Close()
 
 	logEntity.Info("Start uploading to S3")
+	job.Checkin("Start uploading to S3")
 
 	_, err = svc.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(viper.GetString("aws.s3.bucket")),
@@ -213,6 +218,7 @@ func (b *BackgroundContext) DownloadArchive(job *work.Job) error {
 	}
 
 	logEntity.Info("Send notification to: ", accountNumber)
+	job.Checkin("Send notification to: " + accountNumber)
 	if err := b.oneSignalClient.NotifyFBArchiveAvailable(ctx, accountNumber); err != nil {
 		logEntity.Error(err)
 		return err
