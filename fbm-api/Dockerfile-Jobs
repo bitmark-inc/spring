@@ -1,0 +1,21 @@
+FROM golang:1.13-alpine as build
+
+WORKDIR /go/src/github.com/bitmark-inc/fbm-apps/fbm-api
+
+ADD . .
+
+WORKDIR /go/src/github.com/bitmark-inc/fbm-apps/fbm-api/background
+RUN go mod download
+
+RUN go install github.com/bitmark-inc/fbm-apps/fbm-api/background
+
+# ---
+
+FROM alpine:3.10
+ARG dist=0.0
+COPY --from=build /go/bin/background /
+
+ENV FBM_LOG_LEVEL=INFO
+ENV FBM_SERVER_VERSION=$dist
+
+CMD ["/background"]

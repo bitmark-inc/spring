@@ -8,11 +8,12 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/bitmark-inc/bitmark-sdk-go/account"
-	"github.com/bitmark-inc/fbm-apps/fbm-api/external/onesignal"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/background/onesignal"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/logmodule"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/gin"
+	"github.com/gocraft/work"
 	"github.com/spf13/viper"
 )
 
@@ -38,23 +39,28 @@ type Server struct {
 
 	// http client for calling external services
 	httpClient *http.Client
+
+	// job pool enqueuer
+	backgroundEnqueuer *work.Enqueuer
 }
 
 // NewServer new instance of server
 func NewServer(store store.Store,
 	jwtKey *rsa.PrivateKey,
 	awsConf *aws.Config,
-	bitmarkAccount *account.AccountV2) *Server {
+	bitmarkAccount *account.AccountV2,
+	backgroundEnqueuer *work.Enqueuer) *Server {
 	httpClient := &http.Client{
 		Timeout: 5 * time.Minute,
 	}
 	return &Server{
-		store:           store,
-		jwtPrivateKey:   jwtKey,
-		awsConf:         awsConf,
-		httpClient:      httpClient,
-		bitmarkAccount:  bitmarkAccount,
-		oneSignalClient: onesignal.NewClient(httpClient),
+		store:              store,
+		jwtPrivateKey:      jwtKey,
+		awsConf:            awsConf,
+		httpClient:         httpClient,
+		bitmarkAccount:     bitmarkAccount,
+		oneSignalClient:    onesignal.NewClient(httpClient),
+		backgroundEnqueuer: backgroundEnqueuer,
 	}
 }
 
@@ -75,6 +81,7 @@ func (s *Server) Run(addr string) error {
 
 	apiRoute := r.Group("/api")
 	apiRoute.Use(logmodule.Ginrus("API"))
+	apiRoute.GET("/information", s.information)
 
 	apiRoute.POST("/auth", s.requestJWT)
 
@@ -140,5 +147,17 @@ func (s *Server) healthz(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"status": "OK",
 		"version": viper.GetString("server.version"),
+	})
+}
+
+func (s *Server) information(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"information": map[string]map[string]interface{}{
+			"server": map[string]interface{}{
+				"version": viper.GetString("server.version"),
+			},
+			"android": viper.GetStringMap("clients.android"),
+			"ios":     viper.GetStringMap("clients.ios"),
+		},
 	})
 }

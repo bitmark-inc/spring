@@ -34,3 +34,8 @@ onesignal:
 fbarchive:
   endpoint:
   token:
+clients:
+  android:
+    minimum_client_version: 1
+  ios:
+    minimum_client_version: "0.1"

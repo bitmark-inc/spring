@@ -1,0 +1,20 @@
+FROM golang:1.13-alpine as build
+
+WORKDIR $GOPATH/github.com/gocraft/work/cmd/workwebui
+
+ADD go.mod .
+ADD go.sum .
+
+RUN go mod download
+
+ADD . .
+
+RUN go install github.com/gocraft/work/cmd/workwebui
+
+# ---
+
+FROM alpine:3.10
+ARG dist=0.0
+COPY --from=build /go/bin/workwebui /
+
+CMD ["/workwebui"]

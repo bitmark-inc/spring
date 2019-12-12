@@ -1,0 +1,10 @@
+log:
+    level: debug
+aws:
+    region: 
+    s3:
+        bucket: 
+onesignal:
+    endpoint: https://onesignal.com
+    key: 
+    appid: 
