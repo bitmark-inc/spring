@@ -21,9 +21,19 @@ class AppRemoteDataSource @Inject constructor(
     rxErrorHandlingComposer: RxErrorHandlingComposer
 ) : RemoteDataSource(fbmApi, converter, rxErrorHandlingComposer) {
 
-    fun registerNotificationService(accountId: String) = Completable.fromCallable {
-        OneSignal.deleteTag("account_id")
-        OneSignal.sendTag("account_id", accountId)
+    fun registerNotificationService(accountId: String) = Completable.create { emt ->
+        try {
+            val tag = "account_id"
+            OneSignal.getTags { tags ->
+                if (tags?.has(tag) == true) {
+                    OneSignal.deleteTag(tag)
+                }
+                OneSignal.sendTag(tag, accountId)
+                emt.onComplete()
+            }
+        } catch (e: Throwable) {
+            emt.onError(e)
+        }
     }.subscribeOn(Schedulers.io())
 
     fun getAutomationScript() = fbmApi.getAutomationScript().subscribeOn(Schedulers.io())

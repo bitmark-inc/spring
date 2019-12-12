@@ -3,6 +3,7 @@
 
     <application
         android:name="com.bitmark.fbm.FbmApplication"
+        android:allowBackup="false"
         android:icon="${appIcon}"
         android:label="@string/app_name"
         android:roundIcon="${appIconRound}"
