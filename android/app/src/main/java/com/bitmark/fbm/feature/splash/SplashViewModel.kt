@@ -25,7 +25,7 @@ class SplashViewModel(
 
     internal val checkLoggedInLiveData = CompositeLiveData<Triple<Boolean, Boolean, Long>>()
 
-    internal val checkVersionOutOfDateLiveData = CompositeLiveData<Boolean>()
+    internal val checkVersionOutOfDateLiveData = CompositeLiveData<Pair<Boolean, String>>()
 
     fun checkLoggedIn() {
         checkLoggedInLiveData.add(

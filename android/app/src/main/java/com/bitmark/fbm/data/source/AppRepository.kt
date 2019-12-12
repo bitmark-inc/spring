@@ -30,5 +30,10 @@ class AppRepository(
     fun getAutomationScript() = remoteDataSource.getAutomationScript()
 
     fun checkVersionOutOfDate() =
-        remoteDataSource.getAppInfo().map { info -> BuildConfig.VERSION_CODE < info.androidAppInfo.requiredVersion }
+        remoteDataSource.getAppInfo().map { info ->
+            Pair(
+                BuildConfig.VERSION_CODE < info.androidAppInfo.requiredVersion,
+                info.androidAppInfo.updateUrl
+            )
+        }
 }

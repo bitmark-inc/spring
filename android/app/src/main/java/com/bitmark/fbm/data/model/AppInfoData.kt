@@ -27,13 +27,21 @@ data class AppInfoData(
 data class AndroidAppInfo(
     @Expose
     @SerializedName("minimum_client_version")
-    val requiredVersion: Int
+    val requiredVersion: Int,
+
+    @Expose
+    @SerializedName("app_update_url")
+    val updateUrl: String
 )
 
 data class IosAppInfo(
     @Expose
     @SerializedName("minimum_client_version")
-    val requiredVersion: String
+    val requiredVersion: String,
+
+    @Expose
+    @SerializedName("app_update_url")
+    val updateUrl: String
 )
 
 data class ServerInfo(

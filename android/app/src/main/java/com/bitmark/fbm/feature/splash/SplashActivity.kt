@@ -20,11 +20,14 @@ import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
+import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.goToPlayStore
+import com.bitmark.fbm.util.ext.openBrowser
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.visible
 import kotlinx.android.synthetic.main.activity_splash.*
+import java.net.URL
 import javax.inject.Inject
 
 class SplashActivity : BaseAppCompatActivity() {
@@ -75,14 +78,21 @@ class SplashActivity : BaseAppCompatActivity() {
         viewModel.checkVersionOutOfDateLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    val versionOutOfDate = res.data() ?: false
+                    val data = res.data()!!
+                    val versionOutOfDate = data.first
                     if (versionOutOfDate) {
                         // TODO change text later
                         dialogController.alert(
                             "New Update Available",
-                            "Your app is out of date, please update the latest version."
+                            "Your app is out of date, please update to the latest version."
                         ) {
-                            navigator.goToPlayStore()
+                            val updateUrl = data.second
+                            val url = URL(updateUrl)
+                            if (url.host == Constants.GOOGLE_PLAY_HOST) {
+                                navigator.goToPlayStore()
+                            } else {
+                                navigator.openBrowser(updateUrl)
+                            }
                             navigator.finishActivity(true)
                         }
                     } else {
