@@ -25,6 +25,8 @@ class AppRepository(
 
     fun checkDataReady() = localDataSource.checkDataReady()
 
+    fun setDataReady() = localDataSource.setDataReady()
+
     fun getAutomationScript() = remoteDataSource.getAutomationScript()
 
     fun checkVersionOutOfDate() =

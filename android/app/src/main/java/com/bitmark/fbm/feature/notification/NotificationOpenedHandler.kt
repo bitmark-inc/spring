@@ -22,7 +22,7 @@ class NotificationOpenedHandler @Inject constructor(private val context: Context
         if (event.isNullOrBlank() || event != "fb_archive_available") return
 
         val intent = Intent(context, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
     }
 }
