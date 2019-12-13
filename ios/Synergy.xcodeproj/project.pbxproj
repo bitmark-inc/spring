@@ -275,6 +275,9 @@
 		5B5DFFFD23A1F0F4003D1A1C /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
 		5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8E237A889A00FA3196 /* Storage.swift */; };
 		5B5DFFFF23A1F0F4003D1A1C /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
+		5B93232423A39BFC00C3C408 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B93232323A39BFC00C3C408 /* Archive.swift */; };
+		5B93232523A39BFC00C3C408 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B93232323A39BFC00C3C408 /* Archive.swift */; };
+		5B93232623A39BFC00C3C408 /* Archive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B93232323A39BFC00C3C408 /* Archive.swift */; };
 		5BB2852A23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
 		5BB2852B23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
 		5BB2852C23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
@@ -638,6 +641,7 @@
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
 		5B5D007423A1F0F4003D1A1C /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Inhouse-Info.plist"; path = "/Users/thuyentruong/code/3-bitmark/fbm-apps/ios/Inhouse-Info.plist"; sourceTree = "<absolute>"; };
+		5B93232323A39BFC00C3C408 /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		5BB2852923A33796000C04CA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		5BB2852E23A34235000C04CA /* SettingsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundle.swift; sourceTree = "<group>"; };
 		5BB319B023A09876005F7C58 /* AskNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskNotificationsViewModel.swift; sourceTree = "<group>"; };
@@ -1227,6 +1231,7 @@
 				E222907B2394F19D00412CBC /* Graphs.swift */,
 				E22290812394FBC500412CBC /* Average.swift */,
 				E222909123950B2500412CBC /* Post.swift */,
+				5B93232323A39BFC00C3C408 /* Archive.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1972,6 +1977,7 @@
 				E27959DC23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
 				5BB319B123A09876005F7C58 /* AskNotificationsViewModel.swift in Sources */,
 				5832FC44237A863300FA3196 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
+				5B93232423A39BFC00C3C408 /* Archive.swift in Sources */,
 				E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				E222907C2394F19D00412CBC /* Graphs.swift in Sources */,
 				5832FC52237A863300FA3196 /* ActivityIndicator.swift in Sources */,
@@ -2118,6 +2124,7 @@
 				5B5DFFCF23A1F0F4003D1A1C /* DataRequestedViewModel.swift in Sources */,
 				5B5DFFD023A1F0F4003D1A1C /* AskNotificationsViewModel.swift in Sources */,
 				5B5DFFD123A1F0F4003D1A1C /* ConfirmRecoveryKeyViewModel.swift in Sources */,
+				5B93232623A39BFC00C3C408 /* Archive.swift in Sources */,
 				5B5DFFD223A1F0F4003D1A1C /* Graphs.swift in Sources */,
 				5B5DFFD323A1F0F4003D1A1C /* FbmAccountService.swift in Sources */,
 				5B5DFFD423A1F0F4003D1A1C /* GetYourDataViewModel.swift in Sources */,
@@ -2256,6 +2263,7 @@
 				E28B55EE238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
 				5BB319B223A09876005F7C58 /* AskNotificationsViewModel.swift in Sources */,
 				E2DB6684237D3B69005367C2 /* ConfirmRecoveryKeyViewModel.swift in Sources */,
+				5B93232523A39BFC00C3C408 /* Archive.swift in Sources */,
 				E222907D2394F19D00412CBC /* Graphs.swift in Sources */,
 				E28B560C238D162400F1BCF2 /* FbmAccountService.swift in Sources */,
 				E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,

@@ -11,6 +11,7 @@ import Moya
 
 enum FBArchiveAPI {
     case submit(headers: [String: String], fileURL: String, rawCookie: String, startedAt: Date?, endedAt: Date)
+    case getAll
 }
 
 extension FBArchiveAPI: AuthorizedTargetType {
@@ -44,6 +45,8 @@ extension FBArchiveAPI: AuthorizedTargetType {
             params["raw_cookie"] = rawCookie
             params["started_at"] = Int(startedAt?.timeIntervalSince1970 ?? 0)
             params["ended_at"] = Int(endedAt.timeIntervalSince1970)
+        case .getAll:
+            return nil
         }
         return params
     }

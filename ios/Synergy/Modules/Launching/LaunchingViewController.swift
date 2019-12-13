@@ -70,9 +70,8 @@ class LaunchingViewController: ViewController {
 
             FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
                 .subscribe(onSuccess: {  [weak self] (_) in
-                    guard let self = self else { return }
-                    // TODO: Check if finish data analyzing
-                    self.gotoDataAnalyzingScreen()
+                    self?.checkArchivesStatusToNavigate()
+
                 }, onError: { [weak self] (error) in
                     guard let self = self else { return }
                     // is not FBM's Account => link to HowItWorks
@@ -96,6 +95,23 @@ class LaunchingViewController: ViewController {
         }
 
         return Completable.empty()
+    }
+
+    fileprivate func checkArchivesStatusToNavigate() {
+        guard let viewModel = self.viewModel as? LaunchingViewModel else { return }
+        viewModel.checkIsArchivesFailed()
+            .subscribe(onSuccess: { (isArchivesFailed) in
+                if isArchivesFailed {
+                    self.gotoSignInWallScreen()
+                } else {
+                    self.gotoDataAnalyzingScreen()
+                }
+            }, onError: { (error) in
+                guard !AppError.errorByNetworkConnection(error) else { return }
+                Global.log.error(error)
+                self.showErrorAlertWithSupport(message: R.string.error.system())
+            })
+            .disposed(by: disposeBag)
     }
 
     override func setupViews() {

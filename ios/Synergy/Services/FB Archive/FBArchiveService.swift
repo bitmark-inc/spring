@@ -22,4 +22,13 @@ class FBArchiveService {
             .filterSuccess()
             .asCompletable()
     }
+
+    static func getAll() -> Single<[Archive]> {
+        Global.log.info("[start] getAll")
+
+        return provider.rx
+            .requestWithRefreshJwt(.getAll)
+            .filterSuccess()
+            .map([Archive].self, atKeyPath: "result", using: Global.default.decoder)
+    }
 }
