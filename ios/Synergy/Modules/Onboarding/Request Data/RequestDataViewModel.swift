@@ -76,6 +76,14 @@ class RequestDataViewModel: ViewModel {
             }
         }
 
+        let fbArchiveCreatedAtTime: Date!
+        if let fbArchiveCreatedAt = UserDefaults.standard.FBArchiveCreatedAt {
+            fbArchiveCreatedAtTime = fbArchiveCreatedAt
+        } else {
+            fbArchiveCreatedAtTime = Date()
+            Global.log.error(AppError.emptyFBArchiveCreatedAtInUserDefaults)
+        }
+
         createdAccounCompletable
             .andThen(FbmAccountService.create())
             .catchErrorJustReturn(FbmAccount())
@@ -90,7 +98,9 @@ class RequestDataViewModel: ViewModel {
                 FBArchiveService.submit(
                     headers: headers,
                     fileURL: archiveURL.absoluteString,
-                    rawCookie: rawCookie))
+                    rawCookie: rawCookie,
+                    startedAt: nil,
+                    endedAt: fbArchiveCreatedAtTime))
             .asObservable()
             .materialize().bind { [weak self] in
                 loadingState.onNext(.hide)

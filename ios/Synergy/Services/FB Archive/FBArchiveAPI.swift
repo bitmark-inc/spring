@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 enum FBArchiveAPI {
-    case submit(headers: [String: String], fileURL: String, rawCookie: String)
+    case submit(headers: [String: String], fileURL: String, rawCookie: String, startedAt: Date?, endedAt: Date)
 }
 
 extension FBArchiveAPI: AuthorizedTargetType {
@@ -23,7 +23,12 @@ extension FBArchiveAPI: AuthorizedTargetType {
     }
 
     var method: Moya.Method {
-        return .post
+        switch self {
+        case .submit:
+            return .post
+        case .getAll:
+            return .get
+        }
     }
 
     var sampleData: Data {
@@ -33,10 +38,12 @@ extension FBArchiveAPI: AuthorizedTargetType {
     var parameters: [String: Any]? {
         var params: [String: Any] = [:]
         switch self {
-        case .submit(let headers, let fileURL, let rawCookie):
+        case .submit(let headers, let fileURL, let rawCookie, let startedAt, let endedAt):
             params["headers"] = headers
             params["file_url"] = fileURL
             params["raw_cookie"] = rawCookie
+            params["started_at"] = Int(startedAt?.timeIntervalSince1970 ?? 0)
+            params["ended_at"] = Int(endedAt.timeIntervalSince1970)
         }
         return params
     }

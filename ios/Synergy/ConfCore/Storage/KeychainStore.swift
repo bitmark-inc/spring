@@ -96,6 +96,7 @@ class KeychainStore {
                 do {
                     guard let username = try keychain.get(fbCredentialUsernameKey),
                         let password = try keychain.get(fbCredentialPasswordKey) else {
+                            Global.log.error(AppError.emptyCredentialKeychain)
                             return
                     }
 

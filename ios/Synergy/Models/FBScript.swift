@@ -25,6 +25,7 @@ enum FBPage: String {
     case settings
     case archive
     case reauth
+    case accountPicking
 }
 
 enum FBAction: String {
@@ -35,8 +36,10 @@ enum FBAction: String {
     case reauth
     case selectRequestTab
     case selectJSONOption
+    case selectHighResolutionOption
     case createFile
     case selectDownloadTab
     case isCreatingFile
     case downloadFirstFile
+    case pickAnother
 }

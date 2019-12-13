@@ -174,6 +174,8 @@ extension RequestDataViewController: WKNavigationDelegate {
                 self.runJS(reAuthScript: pageScript)
             case .archive:
                 break
+            case .accountPicking:
+                self.runJS(accountPickingScript: pageScript)
             }
         }
     }
@@ -189,7 +191,7 @@ extension RequestDataViewController {
 
             self.webView.evaluateJavaScript(detection) { (result, error) in
                 guard error == nil, let isArchivePage = result as? Bool, isArchivePage else {
-                    event.onError(AppError.emptyLocal)
+                    event.onError(AppError.fbArchivePageIsNotReady)
                     return
                 }
                 event.onCompleted()
@@ -203,7 +205,6 @@ extension RequestDataViewController {
         checkIsArchivePage()
             .retry(.delayed(maxCount: 1000, time: 0.5))
             .subscribe(onError: { (error) in
-                Global.log.info("[error] checkIsArchivePage")
                 Global.log.error(error)
             }, onCompleted: {
                 Global.log.info("[start] evaluateJS for archive")
@@ -223,12 +224,13 @@ extension RequestDataViewController {
         guard let archivePageScript = archivePageScript,
             let selectRequestTabAction = archivePageScript.script(for: .selectRequestTab),
             let selectJSONOptionAction = archivePageScript.script(for: .selectJSONOption),
+            let selectHighResolutionOptionAction = archivePageScript.script(for: .selectHighResolutionOption),
             let createFileAction = archivePageScript.script(for: .createFile)
             else {
                 return
         }
 
-        let action = [selectRequestTabAction, selectJSONOptionAction, createFileAction].joined()
+        let action = [selectRequestTabAction, selectJSONOptionAction, selectHighResolutionOptionAction, createFileAction].joined()
 
         webView.evaluateJavaScript(action) { [weak self] (_, error) in
             guard let self = self else { return }
@@ -283,6 +285,7 @@ extension RequestDataViewController {
         }
     }
 
+    // MARK: - Login Script
     fileprivate func runJS(loginScript: FBScript) {
         guard let viewModel = viewModel as? RequestDataViewModel,
             let loginAction = loginScript.script(for: .login)
@@ -350,6 +353,15 @@ extension RequestDataViewController {
                     Global.log.error(error)
                 })
             .disposed(by: self.disposeBag)
+    }
+
+    fileprivate func runJS(accountPickingScript: FBScript) {
+        guard let pickAnotherAction = accountPickingScript.script(for: .pickAnother)
+            else {
+                return
+        }
+
+        webView.evaluateJavaScript(pickAnotherAction)
     }
 }
 

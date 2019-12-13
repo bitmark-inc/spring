@@ -72,6 +72,8 @@ enum AppError: Error {
     case emptyLocal
     case emptyCurrentAccount
     case emptyJWT
+    case emptyFBArchiveCreatedAtInUserDefaults
+    case emptyCredentialKeychain
     case incorrectLocal
     case incorrectThread
     case incorrectMetadataLocal
@@ -79,6 +81,7 @@ enum AppError: Error {
     case noInternetConnection
     case incorrectPostFilter
     case requireAppUpdate(updateURL: URL)
+    case fbArchivePageIsNotReady
 
     static func errorByNetworkConnection(_ error: Error) -> Bool {
         guard let error = error as? Self else { return false }

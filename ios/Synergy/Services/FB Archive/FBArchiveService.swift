@@ -14,11 +14,11 @@ class FBArchiveService {
 
     static var provider = MoyaProvider<FBArchiveAPI>(plugins: Global.default.networkLoggerPlugin)
 
-    static func submit(headers: [String: String], fileURL: String, rawCookie: String) -> Completable {
+    static func submit(headers: [String: String], fileURL: String, rawCookie: String, startedAt: Date?, endedAt: Date) -> Completable {
         Global.log.info("[start] submitFBArchive")
 
         return provider.rx
-            .requestWithRefreshJwt(.submit(headers: headers, fileURL: fileURL, rawCookie: rawCookie))
+            .requestWithRefreshJwt(.submit(headers: headers, fileURL: fileURL, rawCookie: rawCookie, startedAt: startedAt, endedAt: endedAt))
             .filterSuccess()
             .asCompletable()
     }
