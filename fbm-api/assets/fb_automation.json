@@ -32,6 +32,7 @@
     },
     {
       "name": "settings",
+      "urlSignal": "/settings/",
       "detection": "!!document.querySelector('a[href*=\"/dyi/\"]');",
       "actions": {
         "goToArchivePage": "document.querySelector('a[href*=\"/dyi/\"]').click();"
