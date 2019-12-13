@@ -275,6 +275,12 @@
 		5B5DFFFD23A1F0F4003D1A1C /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
 		5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8E237A889A00FA3196 /* Storage.swift */; };
 		5B5DFFFF23A1F0F4003D1A1C /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
+		5BB2852A23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
+		5BB2852B23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
+		5BB2852C23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
+		5BB2852F23A34235000C04CA /* SettingsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB2852E23A34235000C04CA /* SettingsBundle.swift */; };
+		5BB2853023A34235000C04CA /* SettingsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB2852E23A34235000C04CA /* SettingsBundle.swift */; };
+		5BB2853123A34235000C04CA /* SettingsBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB2852E23A34235000C04CA /* SettingsBundle.swift */; };
 		5BB319B123A09876005F7C58 /* AskNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB319B023A09876005F7C58 /* AskNotificationsViewModel.swift */; };
 		5BB319B223A09876005F7C58 /* AskNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB319B023A09876005F7C58 /* AskNotificationsViewModel.swift */; };
 		5BB319B423A09882005F7C58 /* AskNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB319B323A09882005F7C58 /* AskNotificationsViewController.swift */; };
@@ -632,6 +638,8 @@
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
 		5B5D007423A1F0F4003D1A1C /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Inhouse-Info.plist"; path = "/Users/thuyentruong/code/3-bitmark/fbm-apps/ios/Inhouse-Info.plist"; sourceTree = "<absolute>"; };
+		5BB2852923A33796000C04CA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		5BB2852E23A34235000C04CA /* SettingsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundle.swift; sourceTree = "<group>"; };
 		5BB319B023A09876005F7C58 /* AskNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskNotificationsViewModel.swift; sourceTree = "<group>"; };
 		5BB319B323A09882005F7C58 /* AskNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskNotificationsViewController.swift; sourceTree = "<group>"; };
 		5BC5C69023A0A4B000EA211E /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
@@ -874,6 +882,7 @@
 				5832FBFA237A6DB900FA3196 /* Info.plist */,
 				E2DB66C4237D3D20005367C2 /* Dev-Info.plist */,
 				5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */,
+				5BB2852923A33796000C04CA /* Settings.bundle */,
 			);
 			path = Synergy;
 			sourceTree = "<group>";
@@ -1036,13 +1045,14 @@
 		5832FCB6237AA10600FA3196 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				58C009E32398C6CF00302F49 /* Stream */,
-				5832D6F7238BC23D0074AEDC /* Account */,
-				5832D6FA238BC23D0074AEDC /* Insight */,
-				5832D6E2238BBE240074AEDC /* Usage */,
-				E222908A239509CB00412CBC /* Post List */,
 				5832FCB7237AA12500FA3196 /* Launching */,
 				E29F5A162383E2E600C1D9D8 /* Onboarding */,
+				5832D6E2238BBE240074AEDC /* Usage */,
+				5832D6FA238BC23D0074AEDC /* Insight */,
+				58C009E32398C6CF00302F49 /* Stream */,
+				E222908A239509CB00412CBC /* Post List */,
+				5832D6F7238BC23D0074AEDC /* Account */,
+				5BB2852D23A341F4000C04CA /* App Settings */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -1102,6 +1112,14 @@
 				5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */,
 			);
 			path = "Trust Critical";
+			sourceTree = "<group>";
+		};
+		5BB2852D23A341F4000C04CA /* App Settings */ = {
+			isa = PBXGroup;
+			children = (
+				5BB2852E23A34235000C04CA /* SettingsBundle.swift */,
+			);
+			path = "App Settings";
 			sourceTree = "<group>";
 		};
 		5BB319AF23A0982E005F7C58 /* Notifications */ = {
@@ -1556,6 +1574,7 @@
 				E29F5A5D2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
 				E21EF9F0239110A9004D4513 /* post_insights.json in Resources */,
 				E29F5A392383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
+				5BB2852A23A33796000C04CA /* Settings.bundle in Resources */,
 				E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E26268BD23964638000D7F51 /* Localizable.strings in Resources */,
 				E244203D239909B000520FE9 /* posts_with_stories.json in Resources */,
@@ -1604,6 +1623,7 @@
 				5B5D006523A1F0F4003D1A1C /* DomaineSansText-BlackItalic.otf in Resources */,
 				5B5D006623A1F0F4003D1A1C /* post_insights.json in Resources */,
 				5B5D006723A1F0F4003D1A1C /* AtlasGrotesk-Black.otf in Resources */,
+				5BB2852C23A33796000C04CA /* Settings.bundle in Resources */,
 				5B5D006823A1F0F4003D1A1C /* DomaineSansText-BoldItalic.otf in Resources */,
 				5B5D006923A1F0F4003D1A1C /* Localizable.strings in Resources */,
 				5B5D006A23A1F0F4003D1A1C /* posts_with_stories.json in Resources */,
@@ -1645,6 +1665,7 @@
 				E29F5A5E2383E70000C1D9D8 /* DomaineSansText-BlackItalic.otf in Resources */,
 				E21EF9F1239110A9004D4513 /* post_insights.json in Resources */,
 				E29F5A3A2383E59700C1D9D8 /* AtlasGrotesk-Black.otf in Resources */,
+				5BB2852B23A33796000C04CA /* Settings.bundle in Resources */,
 				E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				E26268BE23964638000D7F51 /* Localizable.strings in Resources */,
 				E244203E239909B000520FE9 /* posts_with_stories.json in Resources */,
@@ -1993,6 +2014,7 @@
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
 				E24420372398E1FA00520FE9 /* Constant+FakeData.swift in Sources */,
+				5BB2852F23A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
 				58C009E82398C6CF00302F49 /* StreamViewModel.swift in Sources */,
 				5832FC50237A863300FA3196 /* MakeUnderline.swift in Sources */,
@@ -2138,6 +2160,7 @@
 				5B5DFFF923A1F0F4003D1A1C /* EditingTextView.swift in Sources */,
 				5B5DFFFA23A1F0F4003D1A1C /* LaunchingViewModel.swift in Sources */,
 				5B5DFFFB23A1F0F4003D1A1C /* Constant+FakeData.swift in Sources */,
+				5BB2853123A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */,
 				5B5DFFFD23A1F0F4003D1A1C /* StreamViewModel.swift in Sources */,
 				5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */,
@@ -2275,6 +2298,7 @@
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
 				E24420382398E1FA00520FE9 /* Constant+FakeData.swift in Sources */,
+				5BB2853023A34235000C04CA /* SettingsBundle.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
 				58C009E92398C6CF00302F49 /* StreamViewModel.swift in Sources */,
 				E2DB6697237D3B69005367C2 /* Storage.swift in Sources */,

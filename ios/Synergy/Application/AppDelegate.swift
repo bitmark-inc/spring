@@ -85,6 +85,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         UserDefaults.standard.enteredBackgroundTime = Date()
     }
+
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        SettingsBundle.setVersion()
+    }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

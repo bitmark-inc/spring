@@ -110,4 +110,10 @@ extension UserDefaults {
         get { return bool(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
+
+    // MARK: - Settings
+    var appVersion: String? {
+        get { return string(forKey: "version_preference") }
+        set { set(newValue, forKey: "version_preference") }
+    }
 }
