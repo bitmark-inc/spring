@@ -2,7 +2,6 @@ package main
 
 import (
 	"archive/zip"
-	"context"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -25,7 +24,7 @@ func (b *BackgroundContext) extractMedia(job *work.Job) error {
 		return err
 	}
 
-	ctx := context.Background()
+	// ctx := context.Background()
 
 	sess := session.New(b.awsConf)
 	downloader := s3manager.NewDownloader(sess)
@@ -96,12 +95,12 @@ func (b *BackgroundContext) extractMedia(job *work.Job) error {
 		rc.Close()
 	}
 
-	logEntity.Info("Send notification to: ", accountNumber)
-	job.Checkin("Send notification to: " + accountNumber)
-	if err := b.oneSignalClient.NotifyFBArchiveAvailable(ctx, accountNumber); err != nil {
-		logEntity.Error(err)
-		return err
-	}
+	// logEntity.Info("Send notification to: ", accountNumber)
+	// job.Checkin("Send notification to: " + accountNumber)
+	// if err := b.oneSignalClient.NotifyFBArchiveAvailable(ctx, accountNumber); err != nil {
+	// 	logEntity.Error(err)
+	// 	return err
+	// }
 
 	logEntity.Info("Finish...")
 

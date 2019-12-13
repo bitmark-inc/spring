@@ -137,5 +137,9 @@ func (os *OneSignalClient) NotifyFBArchiveAvailable(ctx context.Context, userID 
 		return err
 	}
 
-	return &errBody
+	if errBody.Errors != nil {
+		return &errBody
+	}
+
+	return nil
 }

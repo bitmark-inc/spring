@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
-	"github.com/bitmark-inc/fbm-apps/fbm-api/background/onesignal"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/external/onesignal"
 	"github.com/gocraft/work"
 	"github.com/gomodule/redigo/redis"
 	log "github.com/sirupsen/logrus"
@@ -97,7 +97,7 @@ func main() {
 
 	oneSignalClient := onesignal.NewClient(httpClient)
 
-	b := BackgroundContext{
+	b := &BackgroundContext{
 		awsConf:         awsConf,
 		httpClient:      httpClient,
 		oneSignalClient: oneSignalClient,
@@ -111,7 +111,7 @@ func main() {
 			return redis.Dial("tcp", viper.GetString("redis.conn"), redis.DialPassword(viper.GetString("redis.password")))
 		},
 	}
-	pool := work.NewWorkerPool(b, 2, "fbm", redisPool)
+	pool := work.NewWorkerPool(*b, 2, "fbm", redisPool)
 	enqueuer = work.NewEnqueuer("fbm", redisPool)
 
 	// Add middleware for logging for each job
