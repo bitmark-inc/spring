@@ -30,6 +30,7 @@ enum FBPage: String {
 
 enum FBAction: String {
     case login
+    case isLogInFailed
     case notNow
     case goToSettingsPage
     case goToArchivePage

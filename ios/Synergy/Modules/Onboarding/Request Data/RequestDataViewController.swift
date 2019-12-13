@@ -25,6 +25,8 @@ class RequestDataViewController: ViewController {
         fbScripts?.first(where: { $0.name == FBPage.archive.rawValue })
     }()
 
+    var checkLoginFailedDisposable: Disposable?
+
     lazy var thisViewModel = {
         return self.viewModel as! RequestDataViewModel
     }()
@@ -167,6 +169,7 @@ extension RequestDataViewController: WKNavigationDelegate {
             case .saveDevice:
                 self.runJS(saveDeviceScript: pageScript)
             case .newFeed:
+                self.checkLoginFailedDisposable?.dispose()
                 self.runJS(newFeedScript: pageScript)
             case .settings:
                 self.runJS(settingsScript: pageScript)
@@ -288,10 +291,20 @@ extension RequestDataViewController {
     // MARK: - Login Script
     fileprivate func runJS(loginScript: FBScript) {
         guard let viewModel = viewModel as? RequestDataViewModel,
-            let loginAction = loginScript.script(for: .login)
+            let loginAction = loginScript.script(for: .login),
+            let checkLoginFailedDetection = loginScript.script(for: .isLogInFailed)
             else {
                 return
         }
+
+        checkLoginFailedDisposable = checkIsLoginFailed(detection: checkLoginFailedDetection)
+            .retry(.delayed(maxCount: 1000, time: 0.5))
+            .subscribe(onNext: { [weak self] (_) in
+                Global.log.info("[start] loginFailed detection")
+                self?.showIncorrectCredentialAlert()
+            }, onError: { (error) in
+                Global.log.error(error)
+            })
 
         Single.just((username: viewModel.login, password: viewModel.password))
             .flatMap { (credential) -> Single<(username: String, password: String)> in
@@ -311,6 +324,34 @@ extension RequestDataViewController {
                 Global.log.error(error)
             })
             .disposed(by: self.disposeBag)
+    }
+
+    fileprivate func checkIsLoginFailed(detection: String) -> Observable<Void> {
+        return Observable<Void>.create { (event) -> Disposable in
+            self.webView.evaluateJavaScript(detection) { (result, error) in
+                guard error == nil, let isLoginFailed = result as? Bool, isLoginFailed else {
+                    event.onError(AppError.loginFailedIsNotDetected)
+                    return
+                }
+                event.onNext(())
+                event.onCompleted()
+            }
+
+            return Disposables.create()
+        }
+    }
+
+    fileprivate func showIncorrectCredentialAlert() {
+        let alertController = UIAlertController(
+            title: R.string.error.fbCredentialTitle(),
+            message: R.string.error.fbCredentialMessage(),
+            preferredStyle: .alert)
+
+        alertController.addAction(title: R.string.localizable.ok(), style: .default) { (_) in
+            Navigator.default.pop(sender: self)
+        }
+
+        alertController.show()
     }
 
     fileprivate func runJS(saveDeviceScript: FBScript) {

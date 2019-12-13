@@ -10,6 +10,9 @@
 "fb.requestData" = "There was an error while creating your Facebook data archive.";
 "fb.downloadData" = "There was an error while downloading your Facebook data archive.";
 
+"fb.credential.title" = "Error";
+"fb.credential.message" = "Incorrect authentication credentials.";
+
 "notification.title" = "Enable Notification";
 "notification.message" = "To get started, allow Synergy to push notification.";
 "system" = "There was an system error. We will update to fix it soon. Please try later.";

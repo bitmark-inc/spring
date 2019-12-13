@@ -82,6 +82,7 @@ enum AppError: Error {
     case incorrectPostFilter
     case requireAppUpdate(updateURL: URL)
     case fbArchivePageIsNotReady
+    case loginFailedIsNotDetected
 
     static func errorByNetworkConnection(_ error: Error) -> Bool {
         guard let error = error as? Self else { return false }

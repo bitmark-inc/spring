@@ -53,6 +53,17 @@ class GetYourDataViewController: ViewController, BackNavigator {
             .disposed(by: disposeBag)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        // clear credential inputs
+        guard let viewModel = viewModel as? GetYourDataViewModel else { return }
+        viewModel.loginRelay.accept("")
+        viewModel.passwordRelay.accept("")
+        loginTextField.text = nil
+        passwordTextField.text = nil
+    }
+
     // MARK: - Setup Views
     override func setupViews() {
         setupBackground(image: R.image.cognacBackground())
