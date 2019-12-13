@@ -25,21 +25,21 @@ class DataAnalyzingViewController: ViewController {
         view.addSubview(thumbImage)
         thumbImage.snp.makeConstraints { (make) in
             make.top.leading.trailing.equalToSuperview()
-            make.height.equalToSuperview().multipliedBy(0.47)
+            make.height.equalToSuperview().multipliedBy(0.5)
         }
 
         super.setupViews()
 
-        let dataGeneratingTitle = Label()
-        dataGeneratingTitle.adjustsFontSizeToFitWidth = true
-        dataGeneratingTitle.applyBlack(
+        let dataAnalyzingTitleLabel = Label()
+        dataAnalyzingTitleLabel.adjustsFontSizeToFitWidth = true
+        dataAnalyzingTitleLabel.applyBlack(
             text: R.string.phrase.dataAnalyzingScreenTitle().localizedUppercase,
             font: R.font.domaineSansTextLight(size: Size.ds(36)),
             lineHeight: 1.06)
 
-        let dataGeneratingDesc = Label()
-        dataGeneratingDesc.numberOfLines = 0
-        dataGeneratingDesc.applyBlack(
+        let dataAnalyzingDescLabel = Label()
+        dataAnalyzingDescLabel.numberOfLines = 0
+        dataAnalyzingDescLabel.applyBlack(
             text: R.string.phrase.dataAnalyzingDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
             lineHeight: 1.2)
@@ -47,10 +47,10 @@ class DataAnalyzingViewController: ViewController {
         contentView.flex
             .padding(OurTheme.paddingInset)
             .direction(.column).define { (flex) in
-                flex.addItem().height(47%)
+                flex.addItem().height(45%)
 
-                flex.addItem(dataGeneratingTitle).marginTop(Size.dh(15))
-                flex.addItem(dataGeneratingDesc).marginTop(Size.dh(15))
+                flex.addItem(dataAnalyzingTitleLabel).marginTop(Size.dh(45))
+                flex.addItem(dataAnalyzingDescLabel).marginTop(Size.dh(15))
             }
     }
 }

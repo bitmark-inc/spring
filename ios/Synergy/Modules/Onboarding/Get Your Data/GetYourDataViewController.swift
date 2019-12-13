@@ -125,6 +125,8 @@ extension GetYourDataViewController {
         let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
         textfield.textContentType = .username
         textfield.set(placeholder: R.string.phrase.getYourDataLoginPlaceholder())
+        textfield.autocapitalizationType = .none
+        textfield.returnKeyType = .done
         return textfield
     }
 
@@ -133,6 +135,7 @@ extension GetYourDataViewController {
         textfield.set(placeholder: R.string.phrase.getYourDataPasswordPlaceholder())
         textfield.textContentType = .password
         textfield.isSecureTextEntry = true
+        textfield.returnKeyType = .done
         return textfield
     }
 

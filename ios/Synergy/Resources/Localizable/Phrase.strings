@@ -12,8 +12,8 @@
 
 "howitworks.title" = "How It Works";
 "howitworks.content.1" = "We’ll back up your Facebook data archive into a personal data vault that only you control.";
-"howitworks.content.2" = "We’ll give you private analytics on your Facebook data.";
-"howitworks.content.3" = "Your vault will be updated each week with new Facebook data and insights.";
+"howitworks.content.2" = "We’ll generate private insights about your Facebook data.";
+"howitworks.content.3" = "We’ll give you ways to take action and solve planetary problems.";
 
 "trustIsCritical.title" = "Trust is Critical";
 "trustIsCritical.description" = "Spring is from Bitmark, makers of the universal system for digital property rights. Our mission is to restore trust in data. We believe an internet where individuals control their own data will lead to a better future. Building this platform to unlock the value of your data is our business.";

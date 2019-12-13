@@ -100,7 +100,7 @@ extension HowItWorksViewController {
 
         let view = UIView()
         view.flex.direction(.row).define { (flex) in
-            flex.addItem(partIndexLabel).width(Size.dw(25)).height(Size.dh(25))
+            flex.addItem(partIndexLabel).width(Size.dw(18)).height(Size.dh(24))
             flex.addItem(textLabel)
         }
         return view

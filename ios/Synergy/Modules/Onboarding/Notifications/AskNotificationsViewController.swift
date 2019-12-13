@@ -41,8 +41,10 @@ class AskNotificationsViewController: ViewController {
                 })
         }.disposed(by: disposeBag)
         
-        notNotifyMeButton.rx.tap.bind {
+        notNotifyMeButton.rx.tap.bind { [weak self] in
+            guard let self = self else { return }
             UserDefaults.standard.enablePushNotification = false
+            self.gotoGetYourDataScreen()
         }.disposed(by: disposeBag)
     }
 
@@ -76,9 +78,9 @@ class AskNotificationsViewController: ViewController {
         contentView.flex
             .padding(OurTheme.paddingInset)
             .direction(.column).define { (flex) in
-                flex.addItem().height(50%)
+                flex.addItem().height(45%)
 
-                flex.addItem(dataRequestedTitle).marginTop(Size.dh(15))
+                flex.addItem(dataRequestedTitle).marginTop(Size.dh(45))
                 flex.addItem(dataRequestedDesc).marginTop(Size.dh(15))
                 
                 flex.addItem()

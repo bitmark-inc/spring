@@ -95,9 +95,9 @@ class DataRequestedViewController: ViewController {
         contentView.flex
             .padding(OurTheme.paddingInset)
             .direction(.column).define { (flex) in
-                flex.addItem().height(50%)
+                flex.addItem().height(45%)
 
-                flex.addItem(dataRequestedTitleLabel).marginTop(Size.dh(15))
+                flex.addItem(dataRequestedTitleLabel).marginTop(Size.dh(45))
                 flex.addItem(dataRequestedDescLabel).marginTop(Size.dh(15))
                 
                 flex.addItem(checkNowButton)

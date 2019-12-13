@@ -38,7 +38,6 @@ class LaunchingViewController: ViewController {
                 self.showErrorAlertWithSupport(message: R.string.error.system())
             })
             .disposed(by: disposeBag)
-
     }
 
     fileprivate func navigate() {
