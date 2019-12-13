@@ -4,7 +4,8 @@
       "name": "login",
       "detection": "!!document.querySelector(\"input#m_login_email\");",
       "actions": {
-        "login": "document.querySelector(\"input#m_login_email\").value = \"%username%\";document.querySelector(\"input#m_login_password\").value = \"%password%\";document.querySelector('button[name=\"login\"]').click();"
+        "login": "document.querySelector(\"input#m_login_email\").value = \"%username%\";document.querySelector(\"input#m_login_password\").value = \"%password%\";document.querySelector('button[name=\"login\"]').click();",
+        "isLogInFailed": "!!document.querySelector(\"#login_error\");"
       }
     },
     {
