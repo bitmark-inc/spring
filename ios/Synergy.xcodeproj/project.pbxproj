@@ -2645,7 +2645,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Synergy Inhouse.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = A52M7AQ8B2;
 				INFOPLIST_FILE = "Inhouse-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2670,7 +2670,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Synergy Inhouse.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = A52M7AQ8B2;
 				INFOPLIST_FILE = "Inhouse-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

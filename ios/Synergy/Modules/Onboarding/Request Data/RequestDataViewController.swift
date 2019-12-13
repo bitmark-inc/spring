@@ -70,12 +70,18 @@ class RequestDataViewController: ViewController {
                 case .completed:
                     Global.log.info("[done] SignUpAndSubmitArchive")
                     UserDefaults.standard.FBArchiveCreatedAt = nil
-                    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+                    self.clearAllNotifications()
                     self.gotoDataAnalyzing()
                 default:
                     break
                 }
             }).disposed(by: disposeBag)
+    }
+
+    fileprivate func clearAllNotifications() {
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
 
     fileprivate func errorWhenRequestFBScript(error: Error) {

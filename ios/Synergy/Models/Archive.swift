@@ -12,7 +12,7 @@ import RealmSwift
 
 class Archive: Decodable {
     let id: Int
-    let startedAt, endedAt: Date
+    let startedAt, endedAt: String
     let status, createdAt, updatedAt: String
 
     enum CodingKeys: String, CodingKey {
