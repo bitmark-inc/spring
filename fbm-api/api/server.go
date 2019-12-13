@@ -8,7 +8,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/bitmark-inc/bitmark-sdk-go/account"
-	"github.com/bitmark-inc/fbm-apps/fbm-api/background/onesignal"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/external/onesignal"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/logmodule"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	sentrygin "github.com/getsentry/sentry-go/gin"
@@ -101,6 +101,7 @@ func (s *Server) Run(addr string) error {
 	archivesRoute.Use(s.recognizeAccountMiddleware())
 	{
 		archivesRoute.POST("", s.downloadFBArchive)
+		archivesRoute.GET("", s.getAllArchives)
 	}
 
 	assetRoute := r.Group("/assets")

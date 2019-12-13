@@ -35,5 +35,20 @@ CREATE TABLE fbm.token (
     expired_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
+CREATE TYPE archive_status AS ENUM ('submitted', 'stored', 'processed', 'invalid');
+CREATE TABLE fbm.fbarchive (
+    id SERIAL PRIMARY KEY,
+    account_number TEXT NOT NULL REFERENCES fbm.account(account_number), 
+    file_key TEXT NOT NULL,
+    starting_time TIMESTAMP WITH TIME ZONE NOT NULL,
+    ending_time TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    processing_status archive_status DEFAULT 'submitted',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+CREATE INDEX fbarchive_filekey ON fbm.fbarchive (file_key);
+CREATE INDEX fbarchive_account_number ON fbm.fbarchive (account_number);
+
 -- finished
 SET search_path TO DEFAULT;

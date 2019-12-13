@@ -5,6 +5,7 @@ import (
 	"mime"
 	"net/http"
 	"net/http/httputil"
+	"strconv"
 	"strings"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -19,6 +20,7 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
 	fileURL := job.ArgString("file_url")
 	rawCookie := job.ArgString("raw_cookie")
+	archiveid := job.ArgInt64("archive_id")
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {
 		return err
@@ -90,7 +92,8 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 		Key:    aws.String(s3key),
 		Body:   resp.Body,
 		Metadata: map[string]*string{
-			"url": aws.String(fileURL),
+			"url":        aws.String(fileURL),
+			"archive_id": aws.String(strconv.FormatInt(archiveid, 10)),
 		},
 	})
 
@@ -102,6 +105,7 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 	enqueuer.EnqueueUniqueIn(jobExtract, 3, map[string]interface{}{
 		"s3_key":         s3key,
 		"account_number": accountNumber,
+		"archive_id":     archiveid,
 	})
 
 	logEntity.Info("Finish...")

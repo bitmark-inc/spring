@@ -2,6 +2,7 @@ package main
 
 import (
 	"archive/zip"
+	"context"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -11,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/gocraft/work"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -19,12 +21,13 @@ import (
 func (b *BackgroundContext) extractMedia(job *work.Job) error {
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
 	s3key := job.ArgString("s3_key")
+	archiveid := job.ArgInt64("archive_id")
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {
 		return err
 	}
 
-	// ctx := context.Background()
+	ctx := context.Background()
 
 	sess := session.New(b.awsConf)
 	downloader := s3manager.NewDownloader(sess)
@@ -90,9 +93,26 @@ func (b *BackgroundContext) extractMedia(job *work.Job) error {
 		if err != nil {
 			logEntity.Error(err)
 			rc.Close()
+			b.store.UpdateFBArchiveStatus(ctx, &store.FBArchiveQueryParam{
+				ID: &archiveid,
+			}, &store.FBArchiveQueryParam{
+				S3Key:  &s3key,
+				Status: &store.FBArchiveStatusInvalid,
+			})
 			return err
 		}
 		rc.Close()
+	}
+
+	_, err = b.store.UpdateFBArchiveStatus(ctx, &store.FBArchiveQueryParam{
+		ID: &archiveid,
+	}, &store.FBArchiveQueryParam{
+		S3Key:  &s3key,
+		Status: &store.FBArchiveStatusStored,
+	})
+	if err != nil {
+		logEntity.Error(err)
+		return err
 	}
 
 	// logEntity.Info("Send notification to: ", accountNumber)

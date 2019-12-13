@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/external/onesignal"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/gocraft/work"
 	"github.com/gomodule/redigo/redis"
 	log "github.com/sirupsen/logrus"
@@ -28,6 +30,9 @@ const (
 )
 
 type BackgroundContext struct {
+	// Stores
+	store store.Store
+
 	// AWS Config
 	awsConf *aws.Config
 
@@ -97,7 +102,14 @@ func main() {
 
 	oneSignalClient := onesignal.NewClient(httpClient)
 
+	// Init db
+	pgstore, err := store.NewPGStore(context.Background())
+	if err != nil {
+		log.Panic(err)
+	}
+
 	b := &BackgroundContext{
+		store:           pgstore,
 		awsConf:         awsConf,
 		httpClient:      httpClient,
 		oneSignalClient: oneSignalClient,
