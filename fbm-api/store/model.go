@@ -27,8 +27,8 @@ type FBArchive struct {
 	ID               int64     `json:"id"`
 	AccountNumber    string    `json:"-"`
 	S3Key            string    `json:"-"`
-	StartingTime     time.Time `json:"starting_time"`
-	EndingTime       time.Time `json:"ending_time"`
+	StartingTime     time.Time `json:"started_at"`
+	EndingTime       time.Time `json:"ended_at"`
 	ProcessingStatus string    `json:"status"`
 	CreatedAt        time.Time `json:"created_at"`
 	UpdatedAt        time.Time `json:"updated_at"`
