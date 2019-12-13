@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"mime"
 	"net/http"
 	"net/http/httputil"
@@ -11,6 +12,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -67,6 +69,7 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 	if resp.StatusCode > 300 {
 		logEntity.Error("Request failed")
 		job.Checkin("Request failed")
+		sentry.CaptureException(errors.New("Request failed"))
 		return nil
 	}
 
@@ -77,6 +80,7 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 	if err != nil {
 		logEntity.Error(err)
 		job.Checkin("Looks like it's a html page")
+		sentry.CaptureException(err)
 		return nil
 	}
 	filename := p["filename"]

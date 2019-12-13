@@ -13,6 +13,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/external/onesignal"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
+	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
 	"github.com/gomodule/redigo/redis"
 	log "github.com/sirupsen/logrus"
@@ -95,6 +96,15 @@ func main() {
 		Timeout: 10 * time.Second,
 	}
 
+	// Sentry
+	if err := sentry.Init(sentry.ClientOptions{
+		Dsn:              viper.GetString("sentry.dsn"),
+		AttachStacktrace: true,
+		Environment:      viper.GetString("bitmarksdk.network"),
+	}); err != nil {
+		log.Error(err)
+	}
+
 	awsConf := &aws.Config{
 		Region:     aws.String(viper.GetString("aws.region")),
 		HTTPClient: httpClient,
@@ -145,6 +155,7 @@ func main() {
 
 	// Stop the pool
 	pool.Stop()
+	sentry.Flush(time.Second * 5)
 }
 
 func (b *BackgroundContext) log(job *work.Job, next work.NextMiddlewareFunc) error {
