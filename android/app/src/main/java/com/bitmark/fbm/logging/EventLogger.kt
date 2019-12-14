@@ -15,4 +15,6 @@ interface EventLogger {
     )
 
     fun logError(event: Event, error: Throwable?)
+
+    fun logError(event: Event, error: String)
 }

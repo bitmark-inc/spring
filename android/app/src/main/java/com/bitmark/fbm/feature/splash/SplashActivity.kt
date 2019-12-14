@@ -10,6 +10,9 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.lifecycle.Observer
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.model.AccountData
+import com.bitmark.fbm.data.model.isValid
+import com.bitmark.fbm.data.source.remote.api.error.UnknownException
 import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
@@ -22,15 +25,18 @@ import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
-import com.bitmark.fbm.util.ext.goToPlayStore
-import com.bitmark.fbm.util.ext.openBrowser
-import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import com.bitmark.fbm.util.ext.visible
+import com.bitmark.fbm.util.ext.*
+import com.bitmark.sdk.authentication.KeyAuthenticationSpec
+import com.bitmark.sdk.features.Account
 import kotlinx.android.synthetic.main.activity_splash.*
 import java.net.URL
 import javax.inject.Inject
 
 class SplashActivity : BaseAppCompatActivity() {
+
+    companion object {
+        private const val TAG = "SplashActivity"
+    }
 
     @Inject
     internal lateinit var viewModel: SplashViewModel
@@ -93,10 +99,10 @@ class SplashActivity : BaseAppCompatActivity() {
                             } else {
                                 navigator.openBrowser(updateUrl)
                             }
-                            navigator.finishActivity(true)
+                            navigator.exitApp()
                         }
                     } else {
-                        viewModel.checkLoggedIn()
+                        viewModel.getAccountInfo()
                     }
                 }
 
@@ -105,72 +111,156 @@ class SplashActivity : BaseAppCompatActivity() {
                         Event.SPLASH_VERSION_CHECK_ERROR,
                         res.throwable() ?: IllegalAccessException("unknown")
                     )
-                    viewModel.checkLoggedIn()
+                    viewModel.getAccountInfo()
                 }
 
             }
         })
 
-        viewModel.checkLoggedInLiveData.asLiveData().observe(this, Observer { res ->
+        viewModel.getAccountInfoLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
                     val data = res.data()!!
-                    val loggedIn = data.first
-                    val dataReady = data.second
-                    val archiveRequestedTimestamp = data.third
-                    val archiveRequested = archiveRequestedTimestamp != -1L
+                    val accountData = data.first
+                    val archiveRequestedAt = data.second
+                    val archiveRequested = archiveRequestedAt != -1L
+                    val loggedIn = accountData.isValid() && !archiveRequested
                     when {
-                        loggedIn         -> handler.postDelayed({
-                            if (dataReady) {
-                                navigator.anim(RIGHT_LEFT)
-                                    .startActivityAsRoot(MainActivity::class.java)
-                            } else {
-                                val bundle =
-                                    DataProcessingActivity.getBundle(
-                                        getString(R.string.analyzing_data),
-                                        getString(R.string.your_fb_data_archive_has_been_successfully)
-                                    )
-                                navigator.anim(RIGHT_LEFT)
-                                    .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
-                            }
-                        }, 1000)
+                        // account already registered
+                        loggedIn -> prepareData(accountData)
 
+                        // requested archive
                         archiveRequested -> handler.postDelayed({
                             val bundle =
                                 DataProcessingActivity.getBundle(
                                     getString(R.string.data_requested),
                                     getString(R.string.you_requested_your_fb_data_format).format(
                                         DateTimeUtil.millisToString(
-                                            archiveRequestedTimestamp,
+                                            archiveRequestedAt,
                                             DateTimeUtil.DATE_FORMAT_3
                                         ),
                                         DateTimeUtil.millisToString(
-                                            archiveRequestedTimestamp,
+                                            archiveRequestedAt,
                                             DateTimeUtil.TIME_FORMAT_1
                                         )
                                     ), true
                                 )
                             navigator.anim(RIGHT_LEFT)
                                 .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
-                        }, 1000)
+                        }, 250)
 
-                        else             -> {
-                            btnGetStarted.visible(true)
-                            tvLogin.visible(true)
+                        else -> {
+                            // do onboarding
+                            showOnboarding()
                         }
                     }
                 }
 
                 res.isError()   -> {
                     logger.logError(
-                        Event.SPLASH_LOADING_ERROR,
-                        res.throwable() ?: IllegalAccessException("unknown")
+                        Event.SHARE_PREF_ERROR,
+                        "$TAG: get account info error: ${res.throwable()?.message ?: "unknown"}"
                     )
-                    dialogController.alert(R.string.error, R.string.unexpected_error) {
-                        navigator.finishActivity(true)
+                    dialogController.alert(
+                        R.string.error,
+                        R.string.unexpected_error
+                    ) { navigator.exitApp() }
+                }
+            }
+        })
+
+        viewModel.prepareDataLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val dataDeleted = res.data() ?: false
+                    if (dataDeleted) {
+                        // do onboarding again
+                        showOnboarding()
+                    } else {
+                        viewModel.checkDataReady()
+                    }
+                }
+
+                res.isError()   -> {
+                    val error = res.throwable()
+                    logger.logError(
+                        Event.SPLASH_PREPARE_DATA_ERROR,
+                        "$TAG: prepare data error: ${error?.message ?: "unknown"}"
+                    )
+                    if (error is UnknownException) {
+                        dialogController.alert(R.string.error, R.string.unexpected_error) {
+                            navigator.exitApp()
+                        }
+                    } else {
+                        dialogController.alert(getString(R.string.error), error?.message!!)
                     }
                 }
             }
         })
+
+        viewModel.checkDataReadyLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val dataReady = res.data() ?: false
+                    handler.postDelayed({
+                        if (dataReady) {
+                            navigator.anim(RIGHT_LEFT)
+                                .startActivityAsRoot(MainActivity::class.java)
+                        } else {
+                            val bundle =
+                                DataProcessingActivity.getBundle(
+                                    getString(R.string.analyzing_data),
+                                    getString(R.string.your_fb_data_archive_has_been_successfully)
+                                )
+                            navigator.anim(RIGHT_LEFT)
+                                .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
+                        }
+                    }, 250)
+                }
+
+                res.isError()   -> {
+                    logger.logError(
+                        Event.SHARE_PREF_ERROR,
+                        "$TAG: check data ready error: ${res.throwable()?.message ?: "unknown"}"
+                    )
+                    dialogController.alert(
+                        R.string.error,
+                        R.string.unexpected_error
+                    ) { navigator.exitApp() }
+                }
+            }
+        })
+
+    }
+
+    private fun showOnboarding() {
+        btnGetStarted.visible(true)
+        tvLogin.visible(true)
+    }
+
+    private fun prepareData(accountData: AccountData) {
+        loadAccount(accountData) { account ->
+            viewModel.prepareData(account)
+        }
+    }
+
+    private fun loadAccount(accountData: AccountData, action: (Account) -> Unit) {
+        val spec =
+            KeyAuthenticationSpec.Builder(this).setKeyAlias(accountData.keyAlias)
+                .setAuthenticationDescription(getString(R.string.your_authorization_is_required))
+                .setAuthenticationRequired(accountData.authRequired).build()
+        loadAccount(
+            accountData.id,
+            spec,
+            dialogController,
+            successAction = action,
+            setupRequiredAction = { navigator.gotoSecuritySetting() },
+            invalidErrorAction = { e ->
+                logger.logError(Event.ACCOUNT_LOAD_KEY_STORE_ERROR, e)
+                dialogController.alert(
+                    R.string.error,
+                    R.string.unexpected_error
+                ) { navigator.exitApp() }
+            })
     }
 }

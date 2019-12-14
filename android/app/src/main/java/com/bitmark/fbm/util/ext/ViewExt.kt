@@ -107,7 +107,7 @@ fun WebView.evaluateJs(script: String?, success: () -> Unit = {}, error: () -> U
 
 fun WebView.evaluateVerificationJs(
     script: String,
-    timeout: Long = 3000,
+    timeout: Long = 30000,
     callback: (Boolean) -> Unit
 ) {
     val startTime = System.currentTimeMillis()

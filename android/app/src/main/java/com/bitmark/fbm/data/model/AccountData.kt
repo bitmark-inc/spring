@@ -34,4 +34,11 @@ data class AccountData(
     @Expose
     @SerializedName("key_alias")
     var keyAlias: String = ""
-) : Data
+) : Data {
+    companion object {
+        fun newEmptyInstance() = AccountData("", null, "", "", false, "")
+    }
+}
+
+fun AccountData.isValid() =
+    id != "" && createdAt != "" && updatedAt != "" && keyAlias != ""

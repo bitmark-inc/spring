@@ -34,4 +34,22 @@ class AppLocalDataSource @Inject constructor(
     fun setDataReady() = sharedPrefApi.rxCompletable { sharedPrefGateway ->
         sharedPrefGateway.put(SharedPrefApi.DATA_READY, true)
     }
+
+    fun deleteDb() = databaseApi.rxCompletable { databaseGateway ->
+        databaseGateway.locationDao().delete()
+        databaseGateway.postDao().delete()
+        databaseGateway.sectionDao().delete()
+        databaseGateway.commentDao().delete()
+    }
+
+    fun deleteSharePref(keepAccountData: Boolean = false) =
+        sharedPrefApi.rxCompletable { sharedPrefGateway ->
+            if (keepAccountData) {
+                val accountData = sharedPrefGateway.get(SharedPrefApi.ACCOUNT_DATA, String::class)
+                sharedPrefGateway.clear()
+                sharedPrefGateway.put(SharedPrefApi.ACCOUNT_DATA, accountData)
+            } else {
+                sharedPrefGateway.clear()
+            }
+        }
 }

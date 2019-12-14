@@ -24,6 +24,8 @@ data class AutomationScriptData(
             fbId
         )?.replace("%password%", fbPassword)
 
+    fun getCheckLoginFailedScript() = getPage(Page.Name.LOGIN)?.actions?.get("isLogInFailed")
+
     fun getSaveDeviceNotNowScript() = getPage(Page.Name.SAVE_DEVICE)?.actions?.get("notNow")
 
     fun getSaveDeviceOkScript() = getPage(Page.Name.SAVE_DEVICE)?.actions?.get("ok")
@@ -45,6 +47,9 @@ data class AutomationScriptData(
 
     fun getArchiveSelectJsonOptionScript() =
         getPage(Page.Name.ARCHIVE)?.actions?.get("selectJSONOption")
+
+    fun getArchiveSelectHighResolution() =
+        getPage(Page.Name.ARCHIVE)?.actions?.get("selectHighResolutionOption")
 
     fun getArchiveSetFromTimestampScript() =
         getPage(Page.Name.ARCHIVE)?.actions?.get("setFromTimestamp")
@@ -76,29 +81,59 @@ data class Page(
     @SerializedName("actions")
     val actions: Map<String, String>
 ) {
-    enum class Name(val value: String) {
+    enum class Name {
         @Expose
         @SerializedName("login")
-        LOGIN("login"),
+        LOGIN,
+
+        @Expose
+        @SerializedName("account_picking")
+        ACCOUNT_PICKING,
 
         @Expose
         @SerializedName("save_device")
-        SAVE_DEVICE("save_device"),
+        SAVE_DEVICE,
 
         @Expose
         @SerializedName("new_feed")
-        NEW_FEED("new_feed"),
+        NEW_FEED,
 
         @Expose
         @SerializedName("settings")
-        SETTINGS("settings"),
+        SETTINGS,
 
         @Expose
         @SerializedName("archive")
-        ARCHIVE("archive"),
+        ARCHIVE,
 
         @Expose
         @SerializedName("reauth")
-        RE_AUTH("reauth")
+        RE_AUTH;
+
+        companion object
+
     }
 }
+
+val Page.Name.value: String
+    get() = when (this) {
+        Page.Name.LOGIN           -> "login"
+        Page.Name.ACCOUNT_PICKING -> "account_picking"
+        Page.Name.SAVE_DEVICE     -> "save_device"
+        Page.Name.NEW_FEED        -> "new_feed"
+        Page.Name.SETTINGS        -> "settings"
+        Page.Name.ARCHIVE         -> "archive"
+        Page.Name.RE_AUTH         -> "reauth"
+    }
+
+fun Page.Name.Companion.fromString(name: String) = when (name) {
+    "login"           -> Page.Name.LOGIN
+    "account_picking" -> Page.Name.ACCOUNT_PICKING
+    "save_device"     -> Page.Name.SAVE_DEVICE
+    "new_feed"        -> Page.Name.NEW_FEED
+    "settings"        -> Page.Name.SETTINGS
+    "archive"         -> Page.Name.ARCHIVE
+    "reauth"          -> Page.Name.RE_AUTH
+    else              -> error("invalid name: $name")
+}
+

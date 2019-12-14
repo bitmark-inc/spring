@@ -19,9 +19,9 @@ class ArchiveRequestContainerViewModel(
     private val rxLiveDataTransformer: RxLiveDataTransformer
 ) : BaseViewModel(lifecycle) {
 
-    internal val getArchiveRequestedTimestamp = CompositeLiveData<Long>()
+    internal val getArchiveRequestedAt = CompositeLiveData<Long>()
 
-    fun getArchiveRequestedTimestamp() {
-        getArchiveRequestedTimestamp.add(rxLiveDataTransformer.single(accountRepo.getArchiveRequestedTimestamp()))
+    fun getArchiveRequestedAt() {
+        getArchiveRequestedAt.add(rxLiveDataTransformer.single(accountRepo.getArchiveRequestedAt()))
     }
 }

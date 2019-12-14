@@ -8,16 +8,20 @@ package com.bitmark.fbm.feature.register.archiverequest.archiverequest
 
 import androidx.lifecycle.Lifecycle
 import com.bitmark.cryptography.crypto.Sha3256
+import com.bitmark.cryptography.crypto.encoder.Hex.HEX
 import com.bitmark.cryptography.crypto.encoder.Raw.RAW
+import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.model.AutomationScriptData
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
+import com.bitmark.sdk.features.Account
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import io.reactivex.schedulers.Schedulers
 
 class ArchiveRequestViewModel(
     lifecycle: Lifecycle,
@@ -33,48 +37,92 @@ class ArchiveRequestViewModel(
 
     internal val checkNotificationEnabledLiveData = CompositeLiveData<Boolean>()
 
-    internal val saveArchiveRequestedFlagLiveData = CompositeLiveData<Any>()
+    internal val saveArchiveRequestedAtLiveData = CompositeLiveData<Any>()
+
+    internal val getExistingAccountDataLiveData = CompositeLiveData<AccountData>()
 
     fun registerAccount(
-        requester: String,
-        timestamp: String,
-        signature: String,
+        account: Account,
         archiveUrl: String,
         cookie: String,
-        alias: String
+        alias: String,
+        registered: Boolean
     ) {
         registerAccountLiveData.add(
             rxLiveDataTransformer.completable(
-                registerAccountStream(requester, timestamp, signature, archiveUrl, cookie, alias)
+                registerAccountStream(
+                    account,
+                    archiveUrl,
+                    cookie,
+                    alias,
+                    registered
+                )
             )
         )
     }
 
     private fun registerAccountStream(
-        requester: String,
-        timestamp: String,
-        signature: String,
+        account: Account,
         archiveUrl: String,
         cookie: String,
-        alias: String
+        alias: String,
+        registered: Boolean
     ): Completable {
-        return accountRepo.registerFbmServerAccount(
-            timestamp,
-            signature,
-            requester
-        ).flatMap { account ->
-            val intercomId =
-                "FBM_android_%s".format(Sha3256.hash(RAW.decode(account.id)))
-            Completable.mergeArray(
-                accountRepo.registerIntercomUser(intercomId),
-                accountRepo.sendArchiveDownloadRequest(archiveUrl, cookie),
-                appRepo.registerNotificationService(requester)
-            ).andThen(Single.just(account))
-        }.flatMapCompletable { account ->
-            account.authRequired = false
-            account.keyAlias = alias
-            accountRepo.saveAccountData(account)
-        }
+
+        val registerAccountStream = Single.fromCallable {
+            val requester = account.accountNumber
+            val timestamp = System.currentTimeMillis().toString()
+            val signature = HEX.encode(account.sign(RAW.decode(timestamp)))
+            Triple(requester, timestamp, signature)
+        }.subscribeOn(Schedulers.computation()).observeOn(Schedulers.io())
+            .flatMap { t ->
+                val requester = t.first
+                val timestamp = t.second
+                val signature = t.third
+                if (registered) {
+                    accountRepo.registerFbmServerJwt(timestamp, signature, requester)
+                        .andThen(accountRepo.getAccountData())
+                } else {
+                    accountRepo.registerFbmServerAccount(
+                        timestamp,
+                        signature,
+                        requester
+                    )
+                }
+            }
+
+
+        return Single.zip(registerAccountStream,
+            accountRepo.getArchiveRequestedAt(),
+            BiFunction<AccountData, Long, Pair<AccountData, Long>> { accountData, archiveRequestedAt ->
+                Pair(
+                    accountData,
+                    archiveRequestedAt
+                )
+            })
+            .flatMap { p ->
+                val accountData = p.first
+                val archiveRequestedAt = p.second
+                val intercomId =
+                    "FBM_android_%s".format(Sha3256.hash(RAW.decode(accountData.id)))
+                Completable.mergeArray(
+                    accountRepo.registerIntercomUser(intercomId),
+                    accountRepo.sendArchiveDownloadRequest(
+                        archiveUrl,
+                        cookie,
+                        0L,
+                        archiveRequestedAt / 1000
+                    ),
+                    appRepo.registerNotificationService(accountData.id)
+                ).andThen(Single.just(accountData))
+            }.flatMapCompletable { accountData ->
+                accountData.authRequired = false
+                accountData.keyAlias = alias
+                Completable.mergeArray(
+                    accountRepo.saveAccountData(accountData),
+                    accountRepo.clearArchiveRequestedAt()
+                )
+            }
     }
 
     fun prepareData() {
@@ -93,10 +141,10 @@ class ArchiveRequestViewModel(
         )
     }
 
-    fun saveArchiveRequestedFlag(timestamp: Long) {
-        saveArchiveRequestedFlagLiveData.add(
+    fun saveArchiveRequestedAt(timestamp: Long) {
+        saveArchiveRequestedAtLiveData.add(
             rxLiveDataTransformer.completable(
-                accountRepo.setArchiveRequestedTime(timestamp)
+                accountRepo.setArchiveRequestedAt(timestamp)
             )
         )
     }
@@ -104,4 +152,11 @@ class ArchiveRequestViewModel(
     fun checkNotificationEnabled() {
         checkNotificationEnabledLiveData.add(rxLiveDataTransformer.single(appRepo.checkNotificationEnabled()))
     }
+
+    fun getExistingAccountData() {
+        getExistingAccountDataLiveData.add(
+            rxLiveDataTransformer.single(accountRepo.getAccountData())
+        )
+    }
+
 }

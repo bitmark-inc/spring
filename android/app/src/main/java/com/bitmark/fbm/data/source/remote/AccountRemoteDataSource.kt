@@ -50,9 +50,9 @@ class AccountRemoteDataSource @Inject constructor(
     }
 
     fun sendArchiveDownloadRequest(
-        archiveUrl: String, cookie: String
+        archiveUrl: String, cookie: String, startedAtSec: Long, endedAtSec: Long
     ): Completable {
-        val payload = ArchiveRequestPayload(archiveUrl, cookie)
+        val payload = ArchiveRequestPayload(archiveUrl, cookie, startedAtSec, endedAtSec)
         return fbmApi.sendArchiveDownloadRequest(payload)
     }
 
@@ -60,4 +60,6 @@ class AccountRemoteDataSource @Inject constructor(
         val registration = Registration.create().withUserId(id)
         Intercom.client().registerIdentifiedUser(registration)
     }.subscribeOn(Schedulers.io())
+
+    fun getArchives() = fbmApi.getArchives().map { res -> res["result"] }
 }

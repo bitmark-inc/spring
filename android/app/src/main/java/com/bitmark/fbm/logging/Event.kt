@@ -10,11 +10,18 @@ enum class Event(val value: String) {
 
     ACCOUNT_SAVE_TO_KEY_STORE_ERROR("account_save_to_keystore_error"),
 
-    FB_ARCHIVE_AUTOMATE_PAGE_DETECTION_FAILED("fb_archive_automate_page_detection_failed"),
+    ACCOUNT_LOAD_KEY_STORE_ERROR("account_load_keystore_error"),
 
     ACCOUNT_SAVE_FB_CREDENTIAL_ERROR("account_save_fb_credential_error"),
 
-    SPLASH_LOADING_ERROR("splash_loading_error"),
+    ARCHIVE_REQUEST_AUTOMATE_PAGE_DETECTION_ERROR("archive_automate_page_detection_error"),
 
-    SPLASH_VERSION_CHECK_ERROR("splash_version_check_error")
+    ARCHIVE_REQUEST_PREPARE_DATA_ERROR("archive_request_prepare_data_error"),
+
+    SPLASH_PREPARE_DATA_ERROR("splash_prepare_data_error"),
+
+    SPLASH_VERSION_CHECK_ERROR("splash_version_check_error"),
+
+    SHARE_PREF_ERROR("share_pref_error"),
+
 }

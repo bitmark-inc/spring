@@ -35,19 +35,21 @@ class AccountLocalDataSource @Inject constructor(
             sharedPrefGateway.get(SharedPrefApi.ACCOUNT_DATA, String::class),
             AccountData::class.java
         )
-        accountData ?: throw IllegalAccessException("account not found")
+        accountData ?: AccountData.newEmptyInstance()
     }
 
-    fun setArchiveRequestedTimestamp(timestamp: Long) =
+    fun clearArchiveRequestedAt() = sharedPrefApi.rxCompletable { sharedPrefGateway ->
+        sharedPrefGateway.clear(SharedPrefApi.ARCHIVE_REQUESTED_TIME)
+    }
+
+    fun setArchiveRequestedAt(timestamp: Long) =
         sharedPrefApi.rxCompletable { sharedPrefGateway ->
             sharedPrefGateway.put(SharedPrefApi.ARCHIVE_REQUESTED_TIME, timestamp)
         }
 
-    fun getArchiveRequestedTimestamp() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+    fun getArchiveRequestedAt() = sharedPrefApi.rxSingle { sharedPrefGateway ->
         sharedPrefGateway.get(SharedPrefApi.ARCHIVE_REQUESTED_TIME, Long::class, -1L)
     }
-
-    fun checkArchiveRequested() = getArchiveRequestedTimestamp().map { t -> t != -1L }
 
     fun saveFbCredentialAlias(alias: String) =
         sharedPrefApi.rxCompletable { sharedPrefGateway ->

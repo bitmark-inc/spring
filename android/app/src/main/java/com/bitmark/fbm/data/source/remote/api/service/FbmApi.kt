@@ -7,6 +7,7 @@
 package com.bitmark.fbm.data.source.remote.api.service
 
 import com.bitmark.fbm.data.model.AppInfoData
+import com.bitmark.fbm.data.model.ArchiveData
 import com.bitmark.fbm.data.model.AutomationScriptData
 import com.bitmark.fbm.data.model.JwtData
 import com.bitmark.fbm.data.source.remote.api.request.ArchiveRequestPayload
@@ -35,4 +36,7 @@ interface FbmApi {
 
     @GET("api/information")
     fun getAppInfo(): Single<Map<String, AppInfoData>>
+
+    @GET("api/archives")
+    fun getArchives(): Single<Map<String, List<ArchiveData>>>
 }

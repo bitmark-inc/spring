@@ -61,6 +61,10 @@ class SharedPrefGateway internal constructor(context: Context) {
         editor.apply()
     }
 
+    fun clear(key: String) {
+        sharedPreferences.edit().remove(key).apply()
+    }
+
     fun clear() {
         sharedPreferences.edit().clear().apply()
     }

@@ -9,6 +9,7 @@ package com.bitmark.fbm.data.source
 import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.source.local.AppLocalDataSource
 import com.bitmark.fbm.data.source.remote.AppRemoteDataSource
+import io.reactivex.Completable
 
 
 class AppRepository(
@@ -36,4 +37,9 @@ class AppRepository(
                 info.androidAppInfo.updateUrl
             )
         }
+
+    fun deleteAppData(keepAccountData: Boolean = false) = Completable.mergeArray(
+        localDataSource.deleteDb(),
+        localDataSource.deleteSharePref(keepAccountData)
+    )
 }

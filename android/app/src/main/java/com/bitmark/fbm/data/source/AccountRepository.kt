@@ -7,9 +7,9 @@
 package com.bitmark.fbm.data.source
 
 import com.bitmark.fbm.data.model.AccountData
+import com.bitmark.fbm.data.model.isValid
 import com.bitmark.fbm.data.source.local.AccountLocalDataSource
 import com.bitmark.fbm.data.source.remote.AccountRemoteDataSource
-import io.reactivex.Single
 
 
 class AccountRepository(
@@ -19,8 +19,10 @@ class AccountRepository(
 
     fun sendArchiveDownloadRequest(
         archiveUrl: String,
-        cookie: String
-    ) = remoteDataSource.sendArchiveDownloadRequest(archiveUrl, cookie)
+        cookie: String,
+        startedAtSec: Long,
+        endedAtSec: Long
+    ) = remoteDataSource.sendArchiveDownloadRequest(archiveUrl, cookie, startedAtSec, endedAtSec)
 
     fun registerFbmServerAccount(
         timestamp: String,
@@ -49,25 +51,21 @@ class AccountRepository(
 
     fun getAccountData() = localDataSource.getAccountData()
 
-    fun checkLoggedIn() = getAccountData().map { true }.onErrorResumeNext { e ->
-        if (e is IllegalAccessException) {
-            Single.just(false)
-        } else {
-            Single.error(e)
-        }
-    }
-
     fun registerIntercomUser(id: String) = remoteDataSource.registerIntercomUser(id)
 
-    fun setArchiveRequestedTime(timestamp: Long) =
-        localDataSource.setArchiveRequestedTimestamp(timestamp)
+    fun setArchiveRequestedAt(timestamp: Long) =
+        localDataSource.setArchiveRequestedAt(timestamp)
 
-    fun getArchiveRequestedTimestamp() = localDataSource.getArchiveRequestedTimestamp()
+    fun clearArchiveRequestedAt() = localDataSource.clearArchiveRequestedAt()
 
-    fun checkArchiveRequested() = localDataSource.checkArchiveRequested()
+    fun getArchiveRequestedAt() = localDataSource.getArchiveRequestedAt()
 
     fun saveFbCredentialAlias(alias: String) =
         localDataSource.saveFbCredentialAlias(alias)
 
     fun getFbCredentialAlias() = localDataSource.getFbCredentialAlias()
+
+    fun checkInvalidArchives() = remoteDataSource.getArchives().map { archives ->
+        archives.none { a -> a.isValid() }
+    }
 }

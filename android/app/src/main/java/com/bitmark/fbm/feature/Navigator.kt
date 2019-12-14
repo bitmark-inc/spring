@@ -163,6 +163,10 @@ class Navigator(host: Any) {
         finishTransactionAnim(activity)
     }
 
+    fun exitApp() {
+        finishActivity(true)
+    }
+
     private fun startTransactionAnim(activity: FragmentActivity?) {
         when (anim) {
             BOTTOM_UP  -> activity?.overridePendingTransition(

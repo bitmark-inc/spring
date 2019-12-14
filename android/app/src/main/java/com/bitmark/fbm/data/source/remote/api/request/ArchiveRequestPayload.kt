@@ -17,5 +17,13 @@ data class ArchiveRequestPayload(
 
     @SerializedName("raw_cookie")
     @Expose
-    val cookie: String
+    val cookie: String,
+
+    @Expose
+    @SerializedName("started_at")
+    val startedAt: Long,
+
+    @Expose
+    @SerializedName("ended_at")
+    val endedAt: Long
 ) : Request

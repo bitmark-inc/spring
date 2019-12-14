@@ -33,7 +33,7 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getArchiveRequestedTimestamp()
+        viewModel.getArchiveRequestedAt()
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -41,22 +41,22 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
         val isFromNotification =
             intent?.getBooleanExtra("direct_from_notification", false) ?: false
         if (isFromNotification) {
-            viewModel.getArchiveRequestedTimestamp()
+            viewModel.getArchiveRequestedAt()
         }
     }
 
     override fun observe() {
         super.observe()
 
-        viewModel.getArchiveRequestedTimestamp.asLiveData().observe(this, Observer { res ->
+        viewModel.getArchiveRequestedAt.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    val requestedTimestamp = res.data() ?: -1L
+                    val requestedAt = res.data() ?: -1L
                     navigator.anim(Navigator.NONE)
                         .replaceFragment(
                             R.id.layoutRoot,
-                            if (requestedTimestamp != -1L) {
-                                ArchiveRequestFragment.newInstance(requestedTimestamp)
+                            if (requestedAt != -1L) {
+                                ArchiveRequestFragment.newInstance(requestedAt)
                             } else {
                                 ArchiveRequestCredentialFragment.newInstance()
                             },

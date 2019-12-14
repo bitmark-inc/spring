@@ -26,6 +26,7 @@ import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.showKeyBoard
 import kotlinx.android.synthetic.main.fragment_archive_request_credential.*
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
@@ -53,7 +54,7 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
 
     private val handler = Handler()
 
-    private val executor = Executors.newSingleThreadExecutor()
+    private lateinit var executor: ExecutorService
 
     override fun layoutRes(): Int = R.layout.fragment_archive_request_credential
 
@@ -61,6 +62,8 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
 
     override fun initComponents() {
         super.initComponents()
+
+        executor = Executors.newSingleThreadExecutor()
 
         val spannableContent = getString(R.string.prefer_to_do_this_manually)
         val spannableString = SpannableString(spannableContent)

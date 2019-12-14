@@ -127,6 +127,9 @@
     <string name="spring_is_from_bitmark">Spring is from Bitmark, makers of the universal system for digital property rights. Our mission is to restore trust in data. We believe an internet where individuals control their own data will lead to a better future. Building this platform to unlock the value of your data is our business.</string>
     <string name="sincerely_colon">Sincerely,</string>
     <string name="sean_name_and_title">Sean Moss-Pultz \nCo-founder and CEO</string>
+    <string name="passcode_pin_required">Device PIN setup is required</string>
+    <string name="fingerprint_required">Biometric authentication setup is required</string>
+    <string name="your_authorization_is_required">Your authorization is required.</string>
 
     <string-array name="day_of_week">
         <item>S</item>

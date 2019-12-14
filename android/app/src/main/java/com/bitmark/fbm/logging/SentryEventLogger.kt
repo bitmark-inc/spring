@@ -21,6 +21,7 @@ import io.sentry.event.interfaces.ExceptionInterface
 
 
 class SentryEventLogger(private val accountRepo: AccountRepository) : EventLogger {
+
     private val compositeDisposable = CompositeDisposable()
 
     fun destroy() {
@@ -93,6 +94,10 @@ class SentryEventLogger(private val accountRepo: AccountRepository) : EventLogge
                         Sentry.capture(p.second.withLevel(io.sentry.event.Event.Level.ERROR).build())
                     }
                 })
+    }
+
+    override fun logError(event: Event, error: String) {
+        logError(event, IllegalAccessException(error))
     }
 
     private fun buildBaseEventBuilder(
