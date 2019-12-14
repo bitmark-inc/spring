@@ -52,7 +52,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
         private const val FB_ENDPOINT = "https://m.facebook.com"
 
-        private const val ARCHIVE_REQUESTED_TIMESTAMP = "archive_requested_timestamp"
+        private const val ARCHIVE_REQUESTED_AT = "archive_requested_at"
 
         private const val NOTIFICATION_ID = 0xA1
 
@@ -68,7 +68,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         ): ArchiveRequestFragment {
             val fragment = ArchiveRequestFragment()
             val bundle = Bundle()
-            bundle.putLong(ARCHIVE_REQUESTED_TIMESTAMP, archiveRequestedTimestamp)
+            bundle.putLong(ARCHIVE_REQUESTED_AT, archiveRequestedTimestamp)
             fragment.arguments = bundle
             return fragment
         }
@@ -94,7 +94,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     private lateinit var fbCredential: CredentialData
 
-    private var archiveRequestedTimestamp = -1L
+    private var archiveRequestedAt = -1L
 
     private var expectedPage: List<Page.Name>? = null
 
@@ -108,7 +108,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        archiveRequestedTimestamp = arguments?.getLong(ARCHIVE_REQUESTED_TIMESTAMP) ?: -1L
+        archiveRequestedAt = arguments?.getLong(ARCHIVE_REQUESTED_AT) ?: -1L
 
         viewModel.prepareData()
     }
@@ -257,11 +257,11 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                                     getString(R.string.still_waiting),
                                                     getString(R.string.you_requested_your_fb_data_format_2).format(
                                                         DateTimeUtil.millisToString(
-                                                            archiveRequestedTimestamp,
+                                                            archiveRequestedAt,
                                                             DateTimeUtil.DATE_FORMAT_3
                                                         ),
                                                         DateTimeUtil.millisToString(
-                                                            archiveRequestedTimestamp,
+                                                            archiveRequestedAt,
                                                             DateTimeUtil.TIME_FORMAT_1
                                                         )
                                                     )
@@ -366,8 +366,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                         script.getArchiveCreatingFileScript() ?: "",
                         callback = { requested ->
                             if (requested) {
-                                archiveRequestedTimestamp = System.currentTimeMillis()
-                                viewModel.saveArchiveRequestedAt(archiveRequestedTimestamp)
+                                archiveRequestedAt = System.currentTimeMillis()
+                                viewModel.saveArchiveRequestedAt(archiveRequestedAt)
                             }
                         })
                 })
@@ -394,7 +394,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     private fun hasCredential() = fbCredential.isValid()
 
-    private fun isArchiveRequested() = archiveRequestedTimestamp != -1L
+    private fun isArchiveRequested() = archiveRequestedAt != -1L
 
     private fun registerAccount(
         downloadArchiveCredential: DownloadArchiveCredential,
@@ -585,11 +585,11 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                             getString(R.string.data_requested),
                             getString(R.string.you_requested_your_fb_data_format).format(
                                 DateTimeUtil.millisToString(
-                                    archiveRequestedTimestamp,
+                                    archiveRequestedAt,
                                     DateTimeUtil.DATE_FORMAT_3
                                 ),
                                 DateTimeUtil.millisToString(
-                                    archiveRequestedTimestamp,
+                                    archiveRequestedAt,
                                     DateTimeUtil.TIME_FORMAT_1
                                 )
                             )

@@ -10,7 +10,6 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Handler
 import android.view.View
-import android.webkit.ValueCallback
 import android.webkit.WebView
 import android.widget.TextView
 import androidx.annotation.ColorRes
@@ -107,17 +106,18 @@ fun WebView.evaluateJs(script: String?, success: () -> Unit = {}, error: () -> U
 
 fun WebView.evaluateVerificationJs(
     script: String,
-    timeout: Long = 30000,
     callback: (Boolean) -> Unit
 ) {
-    val startTime = System.currentTimeMillis()
-    evaluateJavascript(script, object : ValueCallback<String> {
-        override fun onReceiveValue(value: String?) {
-            when {
-                value?.toBoolean() == true                       -> callback(true)
-                System.currentTimeMillis() - startTime < timeout -> evaluateJavascript(script, this)
-                else                                             -> callback(false)
+    evaluateJavascript(script) { value ->
+        when {
+            value.isBoolean() -> callback(value?.toBoolean() ?: false)
+            else              -> {
+                Tracer.ERROR.log(
+                    "WebView.evaluateVerificationJs()",
+                    "Script: $script, value: $value"
+                )
+                callback(false)
             }
         }
-    })
+    }
 }
