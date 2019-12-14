@@ -65,5 +65,6 @@
 
         <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT" android:value="DISABLE" />
 
+        <meta-data android:name="io.sentry.dsn" android:value="https://130cf5848b034aba80d026039d64974e@sentry.io/1857021" />
     </application>
 </manifest>
