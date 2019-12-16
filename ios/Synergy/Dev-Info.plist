@@ -8,14 +8,14 @@
 		<string>https://fbm.test.bitmark.com</string>
 		<key>ENVIRONMENT</key>
 		<string>development</string>
-        <key>INTERCOM_APP_ID</key>
-        <string>ejkeunzw</string>
-        <key>INTERCOM_APP_KEY</key>
-        <string>ios_sdk-73c4808d20211944196736d561a405f6ffcdaded</string>
-        <key>ONESIGNAL_APP_ID</key>
-        <string>60935eed-b209-4af5-8ba6-82e28183a788</string>
-        <key>SENTRY_DSN</key>
-        <string>https://e561f86580544b00b2e8cf283b120b64@sentry.io/1854725</string>
+		<key>INTERCOM_APP_ID</key>
+		<string>ejkeunzw</string>
+		<key>INTERCOM_APP_KEY</key>
+		<string>ios_sdk-73c4808d20211944196736d561a405f6ffcdaded</string>
+		<key>ONESIGNAL_APP_ID</key>
+		<string>60935eed-b209-4af5-8ba6-82e28183a788</string>
+		<key>SENTRY_DSN</key>
+		<string>https://e561f86580544b00b2e8cf283b120b64@sentry.io/1854725</string>
 	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
@@ -30,11 +30,15 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>0.0.2</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+    <key>NSFaceIDUsageDescription</key>
+    <string>Please enable FaceID to increase the security of your app.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>$(PRODUCT_NAME) will use photos from your library.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AtlasGrotesk-Black.otf</string>
