@@ -1,9 +1,11 @@
 package api
 
 import (
+	"encoding/hex"
 	"net/http"
 
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,7 +25,28 @@ func (s *Server) accountRegister(c *gin.Context) {
 		return
 	}
 
-	account, err = s.store.InsertAccount(c, accountNumber, nil)
+	var params struct {
+		EncPubKey string `json:"enc_pub_key"`
+	}
+
+	if err := c.BindJSON(&params); err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+
+	var encPubKey []byte
+	if params.EncPubKey != "" {
+		e, err := hex.DecodeString(params.EncPubKey)
+		if err != nil {
+			log.Debug(err)
+			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+			return
+		}
+		encPubKey = e
+	}
+
+	account, err = s.store.InsertAccount(c, accountNumber, encPubKey)
 	if shouldInterupt(err, c) {
 		return
 	}
