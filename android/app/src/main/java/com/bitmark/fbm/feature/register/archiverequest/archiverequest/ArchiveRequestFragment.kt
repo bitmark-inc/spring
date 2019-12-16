@@ -461,11 +461,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         account: Account,
         successAction: (String) -> Unit
     ) {
-        val keyAlias =
-            "%s.%d.encryption_key".format(
-                account.accountNumber,
-                System.currentTimeMillis()
-            )
+        val keyAlias = account.generateKeyAlias()
         val accountAuthBuilder = KeyAuthenticationSpec.Builder(context)
             .setKeyAlias(keyAlias)
             .setAuthenticationRequired(false)
@@ -483,7 +479,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     dialogController.alert(
                         getString(R.string.error),
                         throwable?.message ?: getString(R.string.unexpected_error)
-                    )
+                    ) { navigator.exitApp() }
                 }
 
             })

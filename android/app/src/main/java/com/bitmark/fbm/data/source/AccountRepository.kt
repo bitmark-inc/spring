@@ -66,4 +66,7 @@ class AccountRepository(
     fun checkInvalidArchives() = remoteDataSource.getArchives().map { archives ->
         archives.none { a -> a.isValid() }
     }
+
+    fun saveAccountKeyData(alias: String, authRequired: Boolean) =
+        localDataSource.saveAccountKeyAlias(alias, authRequired)
 }

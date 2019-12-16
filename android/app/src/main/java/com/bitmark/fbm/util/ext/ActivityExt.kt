@@ -9,6 +9,7 @@ package com.bitmark.fbm.util.ext
 import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.inputmethod.InputMethodManager
+import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.apiservice.utils.callback.Callback1
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.DialogController
@@ -60,7 +61,7 @@ fun Activity.loadAccount(
                 when (throwable) {
 
                     // authentication error
-                    is AuthenticationException -> {
+                    is AuthenticationException         -> {
                         when (throwable.type) {
                             // action cancel authentication
                             AuthenticationException.Type.CANCELLED -> {
@@ -94,11 +95,72 @@ fun Activity.loadAccount(
                             }
                         }
                     }
-                    else -> {
+                    else                               -> {
                         invalidErrorAction.invoke(throwable)
                     }
                 }
             }
 
         })
+}
+
+fun Activity.removeAccount(
+    accountNumber: String,
+    spec: KeyAuthenticationSpec,
+    dialogController: DialogController,
+    successAction: () -> Unit,
+    canceledAction: () -> Unit = {},
+    setupRequiredAction: () -> Unit = {},
+    invalidErrorAction: (Throwable?) -> Unit = {}
+) {
+    Account.removeFromKeyStore(this, accountNumber, spec, object : Callback0 {
+        override fun onSuccess() {
+            successAction.invoke()
+        }
+
+        override fun onError(throwable: Throwable?) {
+            when (throwable) {
+
+                // authentication error
+                is AuthenticationException         -> {
+                    when (throwable.type) {
+                        // action cancel authentication
+                        AuthenticationException.Type.CANCELLED -> {
+                            canceledAction.invoke()
+                        }
+
+                        else                                   -> {
+                            // do nothing
+                        }
+                    }
+                }
+
+                // missing security requirement
+                is AuthenticationRequiredException -> {
+                    when (throwable.provider) {
+
+                        // did not set up fingerprint/biometric
+                        Provider.FINGERPRINT, Provider.BIOMETRIC -> {
+                            dialogController.alert(
+                                R.string.error,
+                                R.string.fingerprint_required
+                            ) { setupRequiredAction.invoke() }
+                        }
+
+                        // did not set up pass code
+                        else                                     -> {
+                            dialogController.alert(
+                                R.string.error,
+                                R.string.passcode_pin_required
+                            ) { setupRequiredAction.invoke() }
+                        }
+                    }
+                }
+                else                               -> {
+                    invalidErrorAction.invoke(throwable)
+                }
+            }
+        }
+
+    })
 }

@@ -55,4 +55,11 @@ class AccountLocalDataSource @Inject constructor(
     fun checkFbCredentialExisting() = fileStorageApi.rxSingle { fileStorageGateway ->
         fileStorageGateway.isExistingOnFilesDir(CredentialData.CREDENTIAL_FILE_NAME)
     }
+
+    fun saveAccountKeyAlias(alias: String, authRequired: Boolean) =
+        getAccountData().flatMapCompletable { accountData ->
+            accountData.keyAlias = alias
+            accountData.authRequired = authRequired
+            saveAccountData(accountData)
+        }
 }

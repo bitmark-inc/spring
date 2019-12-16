@@ -6,9 +6,11 @@
  */
 package com.bitmark.fbm.feature.auth
 
+import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.di.ActivityScope
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
 import dagger.Provides
 
@@ -21,8 +23,12 @@ class BiometricAuthModule {
 
     @Provides
     @ActivityScope
-    fun provideViewModel(activity: BiometricAuthActivity) =
-        BiometricAuthViewModel(activity.lifecycle)
+    fun provideViewModel(
+        activity: BiometricAuthActivity,
+        accountRepo: AccountRepository,
+        rxLiveDataTransformer: RxLiveDataTransformer
+    ) =
+        BiometricAuthViewModel(activity.lifecycle, accountRepo, rxLiveDataTransformer)
 
     @Provides
     @ActivityScope

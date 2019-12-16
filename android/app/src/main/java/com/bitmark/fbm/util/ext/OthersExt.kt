@@ -6,3 +6,7 @@
  */
 package com.bitmark.fbm.util.ext
 
+import com.bitmark.sdk.features.Account
+
+fun Account.generateKeyAlias() =
+    "%s.%d.encryption_key".format(accountNumber, System.currentTimeMillis())
