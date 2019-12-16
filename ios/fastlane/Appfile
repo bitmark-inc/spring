@@ -1,0 +1,11 @@
+apple_id("quynhthuyentruong@gmail.com") # Your Apple email address
+
+for_lane :dev do
+	app_identifier "com.bitmark.Synergy.test"
+	team_id "Z5CE7A3A7N"
+end
+
+for_lane :enterprise do
+	app_identifier "com.bitmark.synergy.inhouse"
+	team_id "A52M7AQ8B2"
+end

@@ -1,0 +1,81 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new dev build to AppCenter"
+  lane :dev do
+  	increment_version_number_in_plist(
+		scheme: "Synergy Dev")
+
+	cert
+	sigh(force: true)
+
+	build_app(
+		scheme: "Synergy Dev",
+		export_method: "ad-hoc",
+		workspace: "Synergy.xcworkspace",
+		include_bitcode: false,
+		clean: true,
+		output_directory: "./ipas")
+
+	sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'bitmark-registry',
+      dsym_path: 'Bitmark beta.app.dSYM.zip'
+    )
+
+	appcenter_upload(
+	  api_token: ENV["APPCENTER_API_TOKEN"],
+	  owner_name: "support-zzd0-28",
+	  owner_type: "organization",
+	  app_name: "Synergy",
+	  notify_testers: true
+	)
+  end
+
+  lane :enterprise do
+	increment_version_number_in_plist(
+		scheme: "Synergy Inhouse")
+
+	cert
+	sigh(force: true)
+
+	build_app(
+		scheme: "Synergy Inhouse",
+		export_method: "enterprise",
+		workspace: "Synergy.xcworkspace",
+		include_bitcode: false,
+		clean: false,
+		output_directory: "./ipas")
+
+	sentry_upload_dsym(
+      auth_token: ENV['SENTRY_AUTH_TOKEN'],
+      org_slug: 'bitmark-inc',
+      project_slug: 'fbm-spring',
+      dsym_path: './ipas/Spring.app.dSYM.zip'
+    )
+ 
+	appcenter_upload(
+	  api_token: ENV["APPCENTER_API_TOKEN"],
+	  owner_name: "support-zzd0-28",
+	  owner_type: "organization",
+	  app_name: "Spring-Inhouse",
+	  notify_testers: true
+	)
+  end
+end
