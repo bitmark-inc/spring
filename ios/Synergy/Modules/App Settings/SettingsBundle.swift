@@ -25,8 +25,7 @@ class SettingsBundle {
     }
 
     static func setAccountNumber(accountNumber: String?) {
-        guard let accountNumber = accountNumber else { return }
-        UserDefaults.standard.accountNumber = accountNumber.middleShorten()
+        UserDefaults.standard.accountNumber = accountNumber?.middleShorten()
     }
 }
 

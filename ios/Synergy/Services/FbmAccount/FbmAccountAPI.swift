@@ -11,7 +11,7 @@ import BitmarkSDK
 import Moya
 
 enum FbmAccountAPI {
-    case create
+    case create(encryptedPublicKey: String)
     case getMe
 }
 
@@ -44,7 +44,14 @@ extension FbmAccountAPI: AuthorizedTargetType {
     }
 
     var parameters: [String: Any]? {
-        return nil
+        var params: [String: Any] = [:]
+        switch self {
+        case .create(let encryptedPublicKey):
+            params["enc_pub_key"] = encryptedPublicKey
+        case .getMe:
+            return nil
+        }
+        return params
     }
 
     var task: Task {
