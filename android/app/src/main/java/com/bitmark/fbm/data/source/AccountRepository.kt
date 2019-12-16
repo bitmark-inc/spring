@@ -60,10 +60,7 @@ class AccountRepository(
 
     fun getArchiveRequestedAt() = localDataSource.getArchiveRequestedAt()
 
-    fun saveFbCredentialAlias(alias: String) =
-        localDataSource.saveFbCredentialAlias(alias)
-
-    fun getFbCredentialAlias() = localDataSource.getFbCredentialAlias()
+    fun checkFbCredentialExisting() = localDataSource.checkFbCredentialExisting()
 
     fun checkInvalidArchives() = remoteDataSource.getArchives().map { archives ->
         archives.none { a -> a.isValid() }

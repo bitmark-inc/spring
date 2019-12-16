@@ -51,12 +51,14 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
         viewModel.getArchiveRequestedAt.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    val requestedAt = res.data() ?: -1L
+                    val requestedAt = res.data()!!
                     navigator.anim(Navigator.NONE)
                         .replaceFragment(
                             R.id.layoutRoot,
                             if (requestedAt != -1L) {
-                                ArchiveRequestFragment.newInstance(requestedAt)
+                                ArchiveRequestFragment.newInstance(
+                                    requestedAt = requestedAt
+                                )
                             } else {
                                 ArchiveRequestCredentialFragment.newInstance()
                             },

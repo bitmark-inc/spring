@@ -17,6 +17,7 @@ import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.apiservice.utils.callback.Callback1
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.*
+import com.bitmark.fbm.data.source.remote.api.error.UnknownException
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
@@ -57,18 +58,22 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         private const val NOTIFICATION_ID = 0xA1
 
         private val EXPECTED_PAGES = mapOf(
-            Page.Name.LOGIN to listOf(Page.Name.SAVE_DEVICE, Page.Name.NEW_FEED),
+            Page.Name.LOGIN to listOf(
+                Page.Name.SAVE_DEVICE,
+                Page.Name.ACCOUNT_PICKING,
+                Page.Name.NEW_FEED
+            ),
             Page.Name.SAVE_DEVICE to listOf(Page.Name.NEW_FEED),
             Page.Name.NEW_FEED to listOf(Page.Name.SETTINGS),
             Page.Name.SETTINGS to listOf(Page.Name.ARCHIVE)
         )
 
         fun newInstance(
-            archiveRequestedTimestamp: Long = -1L
+            requestedAt: Long = -1L
         ): ArchiveRequestFragment {
             val fragment = ArchiveRequestFragment()
             val bundle = Bundle()
-            bundle.putLong(ARCHIVE_REQUESTED_AT, archiveRequestedTimestamp)
+            bundle.putLong(ARCHIVE_REQUESTED_AT, requestedAt)
             fragment.arguments = bundle
             return fragment
         }
@@ -92,7 +97,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     private val handler = Handler()
 
-    private lateinit var fbCredential: CredentialData
+    private var fbCredential: CredentialData? = null
 
     private var archiveRequestedAt = -1L
 
@@ -190,6 +195,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             val pageName = Page.Name.fromString(name)
             val unexpectedOccurred = expectedPage != null && !expectedPage!!.contains(pageName)
             if (unexpectedOccurred) {
+                // only automate if has fb credential or archive is already requested
+                if (!hasCredential() && !isArchiveRequested()) return@detectPage
                 if (pageName == Page.Name.LOGIN) {
                     checkLoginFailed(wv, script) { failed ->
                         if (failed) {
@@ -197,9 +204,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                             dialogController.alert(
                                 "Error",
                                 "Incorrect authentication credentials."
-                            ) {
-                                navigator.anim(RIGHT_LEFT).popFragment()
-                            }
+                            ) { navigator.anim(RIGHT_LEFT).popFragment() }
                         } else {
                             reload(wv)
                         }
@@ -213,7 +218,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     Page.Name.LOGIN.value -> {
                         if (hasCredential()) {
                             wv.evaluateJs(
-                                script.getLoginScript(fbCredential.id, fbCredential.password)
+                                script.getLoginScript(fbCredential!!.id, fbCredential!!.password)
                                     ?: return@detectPage
                             )
                         }
@@ -282,13 +287,13 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                             }
                             hasCredential()      -> automateArchiveRequest(wv, script)
                             else                 -> {
-                                // TODO show instruction
+                                checkArchiveIsCreating(wv, script)
                             }
                         }
                     }
                     Page.Name.RE_AUTH.value -> {
                         if (hasCredential()) {
-                            wv.evaluateJs(script.getReAuthScript(fbCredential.password))
+                            wv.evaluateJs(script.getReAuthScript(fbCredential!!.password))
                         } else {
                             // TODO show instruction
                         }
@@ -310,13 +315,13 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         val timeout = 30000 // 30 sec
 
         val evaluateJs = fun(p: Page, onDone: () -> Unit) {
-            wv.evaluateJavascript(p.detection) { result ->
+            wv.evaluateVerificationJs(p.detection) { detected ->
                 evaluated.incrementAndGet()
-                if (result?.toBoolean() == true) {
+                if (detected) {
                     detectedPage = p.name.value
-                } else if (!result.equals("false", true)) {
+                } else {
                     // error go here
-                    Tracer.ERROR.log(TAG, result)
+                    Tracer.DEBUG.log(TAG, "evaluateJavascript: ${p.detection}, result: $detected")
                 }
                 onDone()
             }
@@ -362,17 +367,21 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         wv.evaluateJs(script.getArchiveSelectJsonOptionScript(), success = {
             wv.evaluateJs(script.getArchiveSelectHighResolution(), success = {
                 wv.evaluateJs(script.getArchiveCreateFileScript(), success = {
-                    wv.evaluateVerificationJs(
-                        script.getArchiveCreatingFileScript() ?: "",
-                        callback = { requested ->
-                            if (requested) {
-                                archiveRequestedAt = System.currentTimeMillis()
-                                viewModel.saveArchiveRequestedAt(archiveRequestedAt)
-                            }
-                        })
+                    checkArchiveIsCreating(wv, script)
                 })
             })
         })
+    }
+
+    private fun checkArchiveIsCreating(wv: WebView, script: AutomationScriptData) {
+        wv.evaluateVerificationJs(
+            script.getArchiveCreatingFileScript() ?: "",
+            callback = { requested ->
+                if (requested) {
+                    archiveRequestedAt = System.currentTimeMillis()
+                    viewModel.saveArchiveRequestedAt(archiveRequestedAt)
+                }
+            })
     }
 
     private fun automateArchiveDownload(
@@ -392,7 +401,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         wv.evaluateVerificationJs(script.getCheckLoginFailedScript()!!, callback = callback)
     }
 
-    private fun hasCredential() = fbCredential.isValid()
+    private fun hasCredential() = fbCredential?.isValid() == true
 
     private fun isArchiveRequested() = archiveRequestedAt != -1L
 
@@ -499,6 +508,10 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
                 res.isError()   -> {
                     progressBar.gone()
+                    logger.logError(
+                        Event.ARCHIVE_REQUEST_REGISTER_ACCOUNT_ERROR,
+                        res.throwable() ?: UnknownException("unknown")
+                    )
                     dialogController.alert(R.string.error, R.string.could_not_register_account)
                     blocked = false
                 }
@@ -516,26 +529,32 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     progressBar.gone()
                     val data = res.data()!!
                     val script = data.first
-                    val fbCredentialAlias = data.second
-                    CredentialData.load(
-                        activity!!,
-                        fbCredentialAlias,
-                        executor,
-                        object : Callback1<CredentialData> {
-                            override fun onSuccess(credential: CredentialData?) {
-                                fbCredential = credential!!
-                                loadPage(wv, FB_ENDPOINT, script)
-                            }
+                    val hasCredential = data.second
+                    if (hasCredential) {
+                        CredentialData.load(
+                            activity!!,
+                            executor,
+                            object : Callback1<CredentialData> {
+                                override fun onSuccess(credential: CredentialData?) {
+                                    fbCredential = credential!!
+                                    loadPage(wv, FB_ENDPOINT, script)
+                                }
 
-                            override fun onError(throwable: Throwable?) {
-                                Tracer.ERROR.log(TAG, throwable?.message ?: "unknown")
-                                dialogController.alert(
-                                    R.string.error,
-                                    R.string.unexpected_error
-                                )
-                            }
+                                override fun onError(throwable: Throwable?) {
+                                    logger.logError(
+                                        Event.ACCOUNT_LOAD_FB_CREDENTIAL_ERROR,
+                                        throwable ?: UnknownException("unknown")
+                                    )
+                                    dialogController.alert(
+                                        R.string.error,
+                                        R.string.unexpected_error
+                                    )
+                                }
 
-                        })
+                            })
+                    } else {
+                        loadPage(wv, FB_ENDPOINT, script)
+                    }
                 }
 
                 res.isError()   -> {

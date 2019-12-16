@@ -7,6 +7,9 @@
 package com.bitmark.fbm.data.source.remote.api.error
 
 class UnknownException(cause: Throwable) : Exception(cause) {
+
+    constructor(message: String) : this(Throwable(message))
+
     override val message: String?
-        get() = "Unknown error"
+        get() = cause?.message ?: "unknown"
 }

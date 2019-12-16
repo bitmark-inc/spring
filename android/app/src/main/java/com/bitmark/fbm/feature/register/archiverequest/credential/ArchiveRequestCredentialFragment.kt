@@ -9,7 +9,6 @@ package com.bitmark.fbm.feature.register.archiverequest.credential
 import android.os.Handler
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
-import androidx.lifecycle.Observer
 import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.CredentialData
@@ -47,9 +46,6 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
     internal lateinit var dialogController: DialogController
 
     @Inject
-    internal lateinit var viewModel: ArchiveRequestCredentialViewModel
-
-    @Inject
     internal lateinit var logger: EventLogger
 
     private val handler = Handler()
@@ -58,7 +54,7 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
 
     override fun layoutRes(): Int = R.layout.fragment_archive_request_credential
 
-    override fun viewModel(): BaseViewModel? = viewModel
+    override fun viewModel(): BaseViewModel? = null
 
     override fun initComponents() {
         super.initComponents()
@@ -84,10 +80,12 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
             val fbPassword = etPassword.text.toString().trim()
             if (fbId.isBlank() || fbPassword.isBlank()) return@setSafetyOnclickListener
             val credential = CredentialData(fbId, fbPassword)
-            val alias = "fb-credential-${System.currentTimeMillis()}"
-            credential.save(activity!!, alias, executor, object : Callback0 {
+            credential.save(activity!!, executor, object : Callback0 {
                 override fun onSuccess() {
-                    viewModel.saveFbCredentialAlias(alias)
+                    navigator.anim(RIGHT_LEFT).replaceFragment(
+                        R.id.layoutRoot,
+                        ArchiveRequestFragment.newInstance()
+                    )
                 }
 
                 override fun onError(throwable: Throwable?) {
@@ -120,21 +118,6 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
         executor.shutdown()
         handler.removeCallbacksAndMessages(null)
         super.deinitComponents()
-    }
-
-    override fun observe() {
-        super.observe()
-
-        viewModel.saveFbCredentialLiveData.asLiveData().observe(this, Observer { res ->
-            when {
-                res.isSuccess() -> {
-                    navigator.anim(RIGHT_LEFT).replaceFragment(
-                        R.id.layoutRoot,
-                        ArchiveRequestFragment.newInstance()
-                    )
-                }
-            }
-        })
     }
 
     override fun onBackPressed(): Boolean {

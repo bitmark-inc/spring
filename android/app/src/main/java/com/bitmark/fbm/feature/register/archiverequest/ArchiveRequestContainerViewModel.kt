@@ -22,6 +22,10 @@ class ArchiveRequestContainerViewModel(
     internal val getArchiveRequestedAt = CompositeLiveData<Long>()
 
     fun getArchiveRequestedAt() {
-        getArchiveRequestedAt.add(rxLiveDataTransformer.single(accountRepo.getArchiveRequestedAt()))
+        getArchiveRequestedAt.add(
+            rxLiveDataTransformer.single(
+                accountRepo.getArchiveRequestedAt()
+            )
+        )
     }
 }

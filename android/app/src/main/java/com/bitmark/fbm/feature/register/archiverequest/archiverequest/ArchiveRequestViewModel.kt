@@ -32,8 +32,7 @@ class ArchiveRequestViewModel(
 
     internal val registerAccountLiveData = CompositeLiveData<Any>()
 
-    internal val prepareDataLiveData =
-        CompositeLiveData<Pair<AutomationScriptData, String>>()
+    internal val prepareDataLiveData = CompositeLiveData<Pair<AutomationScriptData, Boolean>>()
 
     internal val checkNotificationEnabledLiveData = CompositeLiveData<Boolean>()
 
@@ -130,11 +129,11 @@ class ArchiveRequestViewModel(
             rxLiveDataTransformer.single(
                 Single.zip(
                     appRepo.getAutomationScript(),
-                    accountRepo.getFbCredentialAlias(),
-                    BiFunction { script, alias ->
+                    accountRepo.checkFbCredentialExisting(),
+                    BiFunction<AutomationScriptData, Boolean, Pair<AutomationScriptData, Boolean>> { script, credentialExisting ->
                         Pair(
                             script,
-                            alias
+                            credentialExisting
                         )
                     })
             )

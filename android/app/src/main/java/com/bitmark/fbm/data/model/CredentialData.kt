@@ -13,6 +13,7 @@ import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.apiservice.utils.callback.Callback1
 import com.bitmark.fbm.data.ext.fromJson
 import com.bitmark.fbm.data.ext.newGsonInstance
+import com.bitmark.fbm.data.model.CredentialData.Companion.CREDENTIAL_ALIAS
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec
 import com.bitmark.sdk.keymanagement.KeyManager
 import com.bitmark.sdk.keymanagement.KeyManagerImpl
@@ -32,6 +33,11 @@ data class CredentialData(
     val password: String
 ) : Data {
     companion object {
+
+        internal const val CREDENTIAL_ALIAS = "fb-credential"
+
+        const val CREDENTIAL_FILE_NAME = "$CREDENTIAL_ALIAS.key"
+
         fun newInstance() = CredentialData("", "")
     }
 
@@ -40,7 +46,6 @@ data class CredentialData(
 
 fun CredentialData.save(
     activity: Activity,
-    alias: String,
     executor: Executor = Executors.newSingleThreadExecutor(),
     callback: Callback0
 ) {
@@ -49,11 +54,11 @@ fun CredentialData.save(
         val keyManager = KeyManagerImpl(activity) as KeyManager
         val credential = newGsonInstance().toJson(this)
         val keyAuthSpec =
-            KeyAuthenticationSpec.Builder(activity).setKeyAlias(alias)
+            KeyAuthenticationSpec.Builder(activity).setKeyAlias(CREDENTIAL_ALIAS)
                 .setAuthenticationRequired(false)
                 .build()
         keyManager.saveKey(
-            alias,
+            CREDENTIAL_ALIAS,
             keyAuthSpec,
             credential.toByteArray(Charsets.UTF_8),
             object : Callback0 {
@@ -72,7 +77,6 @@ fun CredentialData.save(
 
 fun CredentialData.Companion.load(
     activity: Activity,
-    alias: String,
     executor: Executor = Executors.newSingleThreadExecutor(),
     callback: Callback1<CredentialData>
 ) {
@@ -80,10 +84,10 @@ fun CredentialData.Companion.load(
         val handler = Handler(Looper.getMainLooper())
         val keyManager = KeyManagerImpl(activity) as KeyManager
         val keyAuthSpec =
-            KeyAuthenticationSpec.Builder(activity).setKeyAlias(alias)
+            KeyAuthenticationSpec.Builder(activity).setKeyAlias(CREDENTIAL_ALIAS)
                 .setAuthenticationRequired(false)
                 .build()
-        keyManager.getKey(alias, keyAuthSpec, object : Callback1<ByteArray> {
+        keyManager.getKey(CREDENTIAL_ALIAS, keyAuthSpec, object : Callback1<ByteArray> {
             override fun onSuccess(data: ByteArray?) {
                 handler.post {
                     if (data == null) {

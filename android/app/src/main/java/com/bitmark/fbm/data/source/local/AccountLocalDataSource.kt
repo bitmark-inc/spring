@@ -8,6 +8,7 @@ package com.bitmark.fbm.data.source.local
 
 import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.model.AccountData
+import com.bitmark.fbm.data.model.CredentialData
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
 import com.bitmark.fbm.data.source.local.api.SharedPrefApi
@@ -51,12 +52,7 @@ class AccountLocalDataSource @Inject constructor(
         sharedPrefGateway.get(SharedPrefApi.ARCHIVE_REQUESTED_TIME, Long::class, -1L)
     }
 
-    fun saveFbCredentialAlias(alias: String) =
-        sharedPrefApi.rxCompletable { sharedPrefGateway ->
-            sharedPrefGateway.put(SharedPrefApi.FB_CREDENTIAL_ALIAS, alias)
-        }
-
-    fun getFbCredentialAlias() = sharedPrefApi.rxSingle { sharedPrefGateway ->
-        sharedPrefGateway.get(SharedPrefApi.FB_CREDENTIAL_ALIAS, String::class)
+    fun checkFbCredentialExisting() = fileStorageApi.rxSingle { fileStorageGateway ->
+        fileStorageGateway.isExistingOnFilesDir(CredentialData.CREDENTIAL_FILE_NAME)
     }
 }

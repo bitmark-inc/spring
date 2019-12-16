@@ -14,9 +14,13 @@ enum class Event(val value: String) {
 
     ACCOUNT_SAVE_FB_CREDENTIAL_ERROR("account_save_fb_credential_error"),
 
+    ACCOUNT_LOAD_FB_CREDENTIAL_ERROR("account_load_fb_credential_error"),
+
     ARCHIVE_REQUEST_AUTOMATE_PAGE_DETECTION_ERROR("archive_automate_page_detection_error"),
 
     ARCHIVE_REQUEST_PREPARE_DATA_ERROR("archive_request_prepare_data_error"),
+
+    ARCHIVE_REQUEST_REGISTER_ACCOUNT_ERROR("archive_request_register_account_error"),
 
     SPLASH_PREPARE_DATA_ERROR("splash_prepare_data_error"),
 
