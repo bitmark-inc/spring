@@ -33,7 +33,7 @@
     {
       "name": "settings",
       "urlSignal": "/settings/",
-      "detection": "!!document.querySelector('a[href*=\"/dyi/\"]');",
+      "detection": "document.querySelector('a[href*=\"/dyi/\"]') && document.location.href.indexOf('/settings') !== -1;",
       "actions": {
         "goToArchivePage": "document.querySelector('a[href*=\"/dyi/\"]').click();"
       }
