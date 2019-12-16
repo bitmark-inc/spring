@@ -6,8 +6,11 @@
  */
 package com.bitmark.fbm.feature.recovery.notice
 
+import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.di.FragmentScope
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
 import dagger.Provides
 
@@ -20,6 +23,15 @@ class RecoveryNoticeModule {
 
     @Provides
     @FragmentScope
-    fun provideViewModel(fragment: RecoveryNoticeFragment) =
-        RecoveryNoticeViewModel(fragment.lifecycle)
+    fun provideViewModel(
+        fragment: RecoveryNoticeFragment,
+        accountRepo: AccountRepository,
+        rxLiveDataTransformer: RxLiveDataTransformer
+    ) =
+        RecoveryNoticeViewModel(fragment.lifecycle, accountRepo, rxLiveDataTransformer)
+
+    @Provides
+    @FragmentScope
+    fun provideDialogController(fragment: RecoveryNoticeFragment) =
+        DialogController(fragment.activity!!)
 }

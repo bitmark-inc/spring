@@ -53,7 +53,7 @@ class RecoveryAccessFragment : BaseSupportFragment() {
         rvPhrase.setItemTransformer(
             ScaleTransformer.Builder()
                 .setMaxScale(1.0f)
-                .setMinScale(0.6f)
+                .setMinScale(0.5f)
                 .setPivotX(Pivot.X.CENTER)
                 .setPivotY(Pivot.Y.CENTER)
                 .build()
