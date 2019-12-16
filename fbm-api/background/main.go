@@ -92,9 +92,7 @@ func main() {
 
 	initLog()
 
-	httpClient := &http.Client{
-		Timeout: 10 * time.Second,
-	}
+	httpClient := http.DefaultClient
 
 	// Sentry
 	if err := sentry.Init(sentry.ClientOptions{
