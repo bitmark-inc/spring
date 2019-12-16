@@ -22,6 +22,9 @@ class InsightViewController: ViewController {
             loadingState.onNext(.loading)
             self?.goToPostListScreen(filterScope: filterScope)
         }
+        v.accountNavigationHandler = { [weak self] in
+            self?.gotoAccountScreen()
+        }
         return v
     }()
 
@@ -45,5 +48,10 @@ extension InsightViewController {
     fileprivate func goToPostListScreen(filterScope: FilterScope) {
         let viewModel = PostListViewModel(filterScope: filterScope)
         navigator.show(segue: .postList(viewModel: viewModel), sender: self)
+    }
+
+    fileprivate func gotoAccountScreen() {
+        let viewModel = AccountViewModel()
+        navigator.show(segue: .account(viewModel: viewModel), sender: self)
     }
 }

@@ -22,6 +22,9 @@ class UsageViewController: ViewController {
         v.postListNavigateHandler = { [weak self] filterScope in
             self?.goToPostListScreen(filterScope: filterScope)
         }
+        v.accountNavigationHandler = { [weak self] in
+            self?.gotoAccountScreen()
+        }
         return v
     }()
     
@@ -163,6 +166,11 @@ extension UsageViewController {
     fileprivate func goToPostListScreen(filterScope: FilterScope) {
         let viewModel = PostListViewModel(filterScope: filterScope)
         navigator.show(segue: .postList(viewModel: viewModel), sender: self)
+    }
+
+    fileprivate func gotoAccountScreen() {
+        let viewModel = AccountViewModel()
+        navigator.show(segue: .account(viewModel: viewModel), sender: self)
     }
 }
 

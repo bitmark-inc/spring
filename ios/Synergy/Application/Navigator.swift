@@ -36,7 +36,7 @@ class Navigator {
         case safariController(URL)
         case hometabs
         case postList(viewModel: PostListViewModel)
-        case account
+        case account(viewModel: AccountViewModel)
         case signOutWarning
         case signOut(viewModel: SignOutViewModel)
         case viewRecoveryKeyWarning
@@ -82,7 +82,11 @@ class Navigator {
         case .hometabs:
             return HomeTabbarController.tabbarController()
         case .postList(let viewModel): return PostListViewController(viewModel: viewModel)
-        case .account: return AccountViewController()
+        case .account(let viewModel):
+            let accountViewController = AccountViewController(viewModel: viewModel)
+            accountViewController.hidesBottomBarWhenPushed = true
+            return accountViewController
+
         case .signOutWarning: return SignOutWarningViewController()
         case .signOut(let viewModel): return SignOutViewController(viewModel: viewModel)
         case .viewRecoveryKeyWarning: return ViewRecoveryKeyWarningViewController()

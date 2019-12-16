@@ -14,7 +14,9 @@ import Charts
 
 class UsageTableView: TableView {
 
+    // MARK: - Properties
     var postListNavigateHandler: ((FilterScope) -> Void)?
+    var accountNavigationHandler: (() -> Void)?
     var timeUnit: TimeUnit = .week {
         didSet {
             self.reloadSections(IndexSet(integersIn: 2...5), with: .automatic)
@@ -28,6 +30,7 @@ class UsageTableView: TableView {
 
     var usage: [String: Any] = [:]
 
+    // MARK: - Inits
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
 
@@ -52,8 +55,8 @@ class UsageTableView: TableView {
 
 }
 
+// MARK: - UITableViewDataSource
 extension UsageTableView: UITableViewDataSource {
-
     func numberOfSections(in tableView: UITableView) -> Int {
         return 6
     }
@@ -99,6 +102,9 @@ extension UsageTableView: UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withClass: HeadingTableViewCell.self, for: indexPath)
             cell.setHeading(title: R.string.localizable.usage().localizedUppercase, color:  UIColor(hexString: "#932C19"))
             cell.subTitle = R.string.localizable.howyouusefacebooK()
+            cell.accountButton.rx.tap.bind { [weak self] in
+                self?.accountNavigationHandler?()
+            }.disposed(by: disposeBag)
             return cell
          case (1, _):
             let cell = tableView.dequeueReusableCell(withClass: TimeFilterTableViewCell.self, for: indexPath)
