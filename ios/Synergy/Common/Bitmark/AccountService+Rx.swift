@@ -10,7 +10,29 @@ import BitmarkSDK
 import RxSwift
 import Intercom
 
-class AccountService {}
+class AccountService {
+    static func registerIntercom(for accountNumber: String?, metadata: [String: String] = [:]) {
+        Global.log.info("[start] registerIntercom")
+        
+        Intercom.logout()
+        
+        if let accountNumber = accountNumber {
+            let intercomUserID = accountNumber.hexDecodedData.sha3(length: 256).hexEncodedString
+            Intercom.registerUser(withUserId: intercomUserID)
+        } else {
+            Intercom.registerUnidentifiedUser()
+        }
+        
+        let userAttributes = ICMUserAttributes()
+        
+        var metadata = metadata
+        metadata["Service"] = (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String) ?? ""
+        userAttributes.customAttributes = metadata
+        
+        Intercom.updateUser(userAttributes)
+        Global.log.info("[done] registerIntercom")
+    }
+}
 
 extension AccountService: ReactiveCompatible {}
 
@@ -44,23 +66,5 @@ extension Reactive where Base: AccountService {
         } catch {
             return Single.error(error)
         }
-    }
-
-    static func registerIntercom(for accountNumber: String, metadata: [String: String]) {
-        Global.log.info("[start] registerIntercom")
-
-        Intercom.logout()
-        let intercomUserID = accountNumber.hexDecodedData.sha3(length: 256).hexEncodedString
-        Intercom.registerUser(withUserId: intercomUserID)
-
-        let userAttributes = ICMUserAttributes()
-        userAttributes.name = metadata["Name"]
-
-        var metadata = metadata
-        metadata["Service"] = (Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String) ?? ""
-        userAttributes.customAttributes = metadata
-
-        Intercom.updateUser(userAttributes)
-        Global.log.info("[done] registerIntercom")
     }
 }

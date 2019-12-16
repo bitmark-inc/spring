@@ -51,6 +51,9 @@ class LaunchingViewController: ViewController {
         } else {
             AccountService.rx.existsCurrentAccount()
                 .observeOn(MainScheduler.instance)
+                .do(onSuccess: { (account) in
+                    AccountService.registerIntercom(for: account?.getAccountNumber())
+                })
                 .flatMapCompletable { [weak self] in
                     guard let self = self else { return Completable.never() }
                     return try self.prepareAndGotoNext(account: $0)

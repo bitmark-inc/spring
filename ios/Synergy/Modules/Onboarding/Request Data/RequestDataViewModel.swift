@@ -71,6 +71,7 @@ class RequestDataViewModel: ViewModel {
                 return AccountService.rx.createNewAccount()
                     .flatMapCompletable({
                         Global.current.account = $0
+                        AccountService.registerIntercom(for: $0.getAccountNumber())
                         return Global.current.setupCoreData()
                     })
             }
