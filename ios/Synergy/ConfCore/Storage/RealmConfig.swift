@@ -56,7 +56,7 @@ enum RealmConfig {
 
     fileprivate func dbDirectoryURL() -> URL {
         Global.log.debug("[start] dbDirectoryURL")
-        let dbDirectory = URL(fileURLWithPath: "db", relativeTo: FileManager.documentDirectoryURL)
+        let dbDirectory = FileManager.databaseDirectoryURL
 
         do {
             if KeychainStore.getEncryptedDBKeyFromKeychain() == nil && FileManager.default.fileExists(atPath: dbDirectory.path) {

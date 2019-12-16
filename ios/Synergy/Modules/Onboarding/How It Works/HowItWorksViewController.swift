@@ -75,14 +75,15 @@ class HowItWorksViewController: ViewController, BackNavigator {
 // MARK: - Navigator
 extension HowItWorksViewController {
     func gotoTrustIsCriticalScreen() {
-        let viewModel = TrustIsCriticalViewModel()
-        navigator.show(segue: .trustIsCritical(viewModel: viewModel), sender: self)
+        navigator.show(segue: .trustIsCritical, sender: self)
     }
 }
 
 extension HowItWorksViewController {
     fileprivate func makeContinueButton() -> Button {
-        return SubmitButton(title: R.string.localizable.continue())
+        let submitButton = SubmitButton(title: R.string.localizable.continueArrow())
+        submitButton.applyTheme(colorTheme: .cognac)
+        return submitButton
     }
 
     fileprivate func howItWorkContent(part: Int, text: String) -> UIView {

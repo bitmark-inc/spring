@@ -137,6 +137,8 @@ extension DataRequestedViewController {
     }
     
     fileprivate func makeCheckNowButton() -> SubmitButton {
-        return SubmitButton(title: R.string.localizable.check_now())
+        let submitButton = SubmitButton(title: R.string.localizable.check_now())
+        submitButton.applyTheme(colorTheme: .cognac)
+        return submitButton
     }
 }

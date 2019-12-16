@@ -86,6 +86,8 @@ extension TrustIsCriticalViewController {
 
 extension TrustIsCriticalViewController {
     fileprivate func makeContinueButton() -> Button {
-        return SubmitButton(title: R.string.localizable.continue())
+        let submitButton = SubmitButton(title: R.string.localizable.continueArrow())
+        submitButton.applyTheme(colorTheme: .cognac)
+        return submitButton
     }
 }

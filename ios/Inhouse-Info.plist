@@ -8,6 +8,10 @@
 		<string>https://fbm.bitmark.com</string>
 		<key>ENVIRONMENT</key>
 		<string>inhouse</string>
+        <key>INTERCOM_APP_ID</key>
+        <string>ejkeunzw</string>
+        <key>INTERCOM_APP_KEY</key>
+        <string>ios_sdk-73c4808d20211944196736d561a405f6ffcdaded</string>
 		<key>ONESIGNAL_APP_ID</key>
 		<string>082142f1-39a9-4588-928c-b3d5890b36b0</string>
 		<key>SENTRY_DSN</key>

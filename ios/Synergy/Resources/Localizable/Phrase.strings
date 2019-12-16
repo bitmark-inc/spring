@@ -44,3 +44,39 @@
 "post.postInfo.friendTags" = " with %@";
 "post.postInfo.locationTag" = " at %@";
 "post.sectionTitle.tag" = "tagged with %@";
+
+"account.settings.title" = "Account";
+"account.settings.security" = "Security";
+"account.settings.security.signOut" = "Unlink from device »";
+"account.settings.security.faceID" = "Face ID »";
+"account.settings.security.recoveryKey" = "Recovery key »";
+"account.settings.support" = "Support";
+"account.settings.support.about" = "About »";
+"account.settings.support.faq" = "FAQ »";
+"account.settings.support.contact" = "Contact »";
+
+"account.signOut.warning.title" = "Unlink Account";
+"account.signOut.warning.description" = "If you unlink your account, you will be completely logged out on this device and will need to enter your 12-word recovery key to regain access and relink your account to this device.\n\nTo make ensure that you will not completely lose access to your account, you will next be asked to enter your 12-word recovery key before unlinking your account. If you haven’t already written down your recovery key, %@.";
+"account.signOut.warning.description.linkToViewRecoveryKey" = "please do so now";
+"account.signOut.submitTitle" = "Unlink Account";
+
+"account.signOut.title" = "Unlink Account";
+"account.recoveryKey.input.guide" = "Enter your 12-word recovery key above.";
+
+"account.faceID.title" = "";
+"account.faceID.description" = "Enable iOS Face ID to secure your Spring data and account:";
+"account.faceID.enableButton" = "Enable Face ID";
+
+"account.recoveryKey.warning.title" = "Recovery Key";
+"account.recoveryKey.warning.description" = "Your recovery key allows you to fully recover your Spring account even if your device is lost or damaged. It is the only way to recover your account (Spring does not have access to your recovery key or store it anywhere for you).\n\nPlease make sure you are in a safe location then write down your recovery key on a piece of paper and keep it safe.";
+"account.recoveryKey.warning.writeDownAction" = "Write down recovery key";
+
+"account.recoveryKey.title" = "Recovery Key";
+"account.recoveryKey.output.guide" = "Write down the following words in order:";
+"account.recoveryKey.index" = "Word %@ of 12";
+
+"account.about.title" = "About";
+"account.about.description" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum metus scelerisque vehicula mattis. Quisque molestie nisl et mauris laoreet, sed euismod ipsum tempor. Pellentesque mattis lobortis lacus, sed interdum leo gravida non. Etiam nulla erat, auctor eu odio ac, tincidunt ultricies ante. Aenean eleifend pharetra dolor. Mauris urna orci, consectetur eu vulputate in, pretium vitae tellus.";
+
+"account.faq.title" = "FAQ";
+"account.faq.description" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ultricies integer quis auctor elit sed vulputate mi sit. Ac tortor dignissim convallis aenean et tortor at risus viverra. Facilisi nullam vehicula ipsum a arcu. Ut etiam sit amet nisl purus in. Commodo ullamcorper a lacus vestibulum sed arcu non odio euismod. Leo in vitae turpis massa sed elementum tempus. Dictum fusce ut placerat orci nulla pellentesque dignissim. Eu non diam phasellus vestibulum lorem sed. Sollicitudin ac orci phasellus egestas tellus rutrum tellus pellentesque eu. Scelerisque purus semper eget duis at tellus. Aenean euismod elementum nisi quis eleifend quam adipiscing vitae. Condimentum id venenatis a condimentum. Adipiscing at in tellus integer feugiat scelerisque varius. Risus nec feugiat in fermentum posuere urna. Tristique magna sit amet purus gravida quis blandit turpis cursus. Nisi quis eleifend quam adipiscing vitae. Fermentum iaculis eu non diam. In eu mi bibendum neque egestas congue quisque egestas diam. Non consectetur a erat nam at lectus urna duis. Bibendum neque egestas congue quisque egestas diam in. Nec ullamcorper sit amet risus nullam eget. Tellus integer feugiat scelerisque varius morbi enim nunc. Amet dictum sit amet justo donec. Facilisis volutpat est velit egestas dui id ornare arcu. Mi ipsum faucibus vitae aliquet. Pretium viverra suspendisse potenti nullam ac tortor vitae. Suspendisse sed nisi lacus sed viverra. Sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum. Venenatis urna cursus eget nunc scelerisque viverra.";

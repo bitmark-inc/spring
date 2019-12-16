@@ -76,8 +76,7 @@ class SignInWallViewController: ViewController {
 // MARK: - Navigator
 extension SignInWallViewController {
     fileprivate func gotoHowItWorksScreen() {
-        let viewModel = HowItWorksViewModel()
-        navigator.show(segue: .howItWorks(viewModel: viewModel), sender: self)
+        navigator.show(segue: .howItWorks, sender: self)
     }
 
     func goToSignInScreen() {
@@ -86,7 +85,9 @@ extension SignInWallViewController {
 
 extension SignInWallViewController {
     fileprivate func makeGetStartedButton() -> SubmitButton {
-        return SubmitButton(title: R.string.localizable.getStarted())
+        let submitButton = SubmitButton(title: R.string.localizable.getStarted())
+        submitButton.applyTheme(colorTheme: .cognac)
+        return submitButton
     }
 
     fileprivate func makeSignInButton() -> Button {

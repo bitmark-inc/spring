@@ -25,8 +25,8 @@ class Navigator {
     enum Scene {
         case launching
         case signInWall(viewModel: SignInWallViewModel)
-        case howItWorks(viewModel: HowItWorksViewModel)
-        case trustIsCritical(viewModel: TrustIsCriticalViewModel)
+        case howItWorks
+        case trustIsCritical
         case askNotifications(viewModel: AskNotificationsViewModel)
         case getYourData(viewModel: GetYourDataViewModel)
         case requestData(viewModel: RequestDataViewModel)
@@ -36,6 +36,13 @@ class Navigator {
         case safariController(URL)
         case hometabs
         case postList(viewModel: PostListViewModel)
+        case account
+        case signOutWarning
+        case signOut(viewModel: SignOutViewModel)
+        case viewRecoveryKeyWarning
+        case viewRecoverykey(viewModel: ViewRecoveryKeyViewModel)
+        case about
+        case faq
     }
 
     enum Transition {
@@ -57,8 +64,8 @@ class Navigator {
             let lauchingVC = LaunchingViewController(viewModel: viewModel)
             return NavigationController(rootViewController: lauchingVC)
         case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
-        case .howItWorks(let viewModel): return HowItWorksViewController(viewModel: viewModel)
-        case .trustIsCritical(let viewModel): return TrustIsCriticalViewController(viewModel: viewModel)
+        case .howItWorks: return HowItWorksViewController()
+        case .trustIsCritical: return TrustIsCriticalViewController()
         case .askNotifications(let viewModel): return AskNotificationsViewController(viewModel: viewModel)
         case .getYourData(let viewModel): return GetYourDataViewController(viewModel: viewModel)
         case .requestData(let viewModel): return RequestDataViewController(viewModel: viewModel)
@@ -75,6 +82,13 @@ class Navigator {
         case .hometabs:
             return HomeTabbarController.tabbarController()
         case .postList(let viewModel): return PostListViewController(viewModel: viewModel)
+        case .account: return AccountViewController()
+        case .signOutWarning: return SignOutWarningViewController()
+        case .signOut(let viewModel): return SignOutViewController(viewModel: viewModel)
+        case .viewRecoveryKeyWarning: return ViewRecoveryKeyWarningViewController()
+        case .viewRecoverykey(let viewModel): return ViewRecoveryKeyViewController(viewModel: viewModel)
+        case .about: return AboutViewController()
+        case .faq: return FAQViewController()
         }
     }
 

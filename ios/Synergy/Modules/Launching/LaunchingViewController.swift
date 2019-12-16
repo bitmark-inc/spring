@@ -150,8 +150,7 @@ extension LaunchingViewController {
     }
 
     func gotoHowItWorksScreen() {
-        let viewModel = HowItWorksViewModel()
-        navigator.show(segue: .howItWorks(viewModel: viewModel), sender: self)
+        navigator.show(segue: .howItWorks, sender: self)
     }
 
     func gotoDownloadFBArchiveScreen() {

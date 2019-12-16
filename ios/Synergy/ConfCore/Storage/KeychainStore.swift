@@ -75,6 +75,13 @@ class KeychainStore {
         }
     }
 
+    static func removeEncryptedDBKeyFromKeychain() throws {
+      Global.log.info("[start] removeEncryptedDBKeyFromKeychain")
+      defer { Global.log.info("[done] removeEncryptedDBKeyFromKeychain") }
+
+      try keychain.remove(encryptedDBKey)
+    }
+
     // *** FB Credential ***
     static func saveFBCredentialToKeychain(_ username: String, password: String) throws {
         Global.log.info("[start] saveFBCredentialToKeychain")

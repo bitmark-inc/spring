@@ -27,12 +27,12 @@ class LinkPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
         contentView.flex.direction(.column).define { (flex) in
             flex.addItem().height(18).backgroundColor(.white)
-            flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
+            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
             flex.addItem().padding(12, 17, 17, 12).define { (flex) in
                 flex.addItem(postInfoLabel)
                 flex.addItem(linkLabel).marginTop(12)
             }
-            flex.addItem().backgroundColor(ColorTheme.gray1.color).height(1)
+            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
         }
     }
 

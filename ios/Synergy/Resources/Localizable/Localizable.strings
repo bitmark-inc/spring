@@ -8,7 +8,8 @@
 
 "GetStarted" = "Get Started »";
 "SignIn" = "I already have an account »";
-"Continue" = "Continue »";
+"ContinueArrow" = "Continue »";
+"Continue" = "Continue";
 "BackNavigator" = "< BACK";
 "Usage" = "Usage";
 "Insights" = "Insights";

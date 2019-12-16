@@ -13,6 +13,10 @@ extension FileManager {
         return `default`.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }
 
+    static var databaseDirectoryURL: URL {
+      return URL(fileURLWithPath: "db", relativeTo: FileManager.documentDirectoryURL)
+    }
+
     static var filesDocumentDirectoryURL: URL {
         let filesDirectory = URL(fileURLWithPath: "files", relativeTo: documentDirectoryURL)
 

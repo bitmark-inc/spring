@@ -104,7 +104,9 @@ extension AskNotificationsViewController {
 
 extension AskNotificationsViewController {
     fileprivate func makeNotifyMeButton() -> SubmitButton {
-        return SubmitButton(title: R.string.localizable.notify_me())
+        let submitButton = SubmitButton(title: R.string.localizable.notify_me())
+        submitButton.applyTheme(colorTheme: .cognac)
+        return submitButton
     }
     
     fileprivate func makeNotNotifyMeButton() -> Button {

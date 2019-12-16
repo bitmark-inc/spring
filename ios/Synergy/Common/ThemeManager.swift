@@ -16,15 +16,17 @@ var themeService = ThemeType.currentThemeService(for: .unspecified)
 
 struct OurTheme {
     static let paddingInset = UIEdgeInsets(top: 0, left: Size.dw(18), bottom: 0, right: Size.dw(18))
+    static let scrollingPaddingInset = UIEdgeInsets(top: 0, left: Size.dw(18), bottom: Size.dh(150), right: Size.dw(18))
     static let paddingBottom: CGFloat = Size.dh(45)
     static let onboardingPaddingScreenTitle: CGFloat = Size.dh(28)
     static let dashboardPaddingScreenTitle: CGFloat = Size.dh(8)
+    static let accountPaddingScreenTitleInset = UIEdgeInsets(top: Size.dh(21), left: 0, bottom: Size.dh(43), right: 0)
+    static let accountColorTheme = ColorTheme.black
 }
 
 protocol Theme {
     var blackTextColor: UIColor { get }
-    var black1TextColor: UIColor { get }
-    var black2TextColor: UIColor { get }
+    var tundoraTextColor: UIColor { get }
     var lightTextColor: UIColor { get }
     var highlightTextBackgroundColor: UIColor { get }
     var background: UIColor { get }
@@ -42,16 +44,17 @@ protocol Theme {
     var themeColor: UIColor { get }
     var themeBlueColor: UIColor { get }
     var themeGreenColor: UIColor { get }
+    var themeMercuryColor: UIColor { get }
     var controlBackgroundColor: UIColor { get }
     var postCellBackgroundColor: UIColor { get }
+    var sectionBackgroundColor: UIColor { get }
 
     init(colorTheme: ColorTheme)
 }
 
 struct LightTheme: Theme {
     let blackTextColor = UIColor.Material.black
-    let black1TextColor = UIColor(hexString: "#444")!
-    let black2TextColor = UIColor(hexString: "#5F6D07")!
+    let tundoraTextColor = UIColor(hexString: "#444")!
     let lightTextColor = UIColor.Material.white
     let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!
@@ -69,8 +72,10 @@ struct LightTheme: Theme {
     let themeColor = UIColor(hexString: "#932C19")!
     let themeBlueColor = UIColor(hexString: "#0011AF")!
     let themeGreenColor = UIColor(hexString: "#5F6D07")!
+    let themeMercuryColor = UIColor(hexString: "#E7E7E7")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
+    let sectionBackgroundColor = UIColor(hexString: "#EDF0F4")!
 
     init(colorTheme: ColorTheme) {
     }
@@ -78,8 +83,7 @@ struct LightTheme: Theme {
 
 struct DarkTheme: Theme {
     let blackTextColor = UIColor.Material.black
-    let black1TextColor = UIColor(hexString: "#444")!
-    let black2TextColor = UIColor(hexString: "#5F6D07")!
+    let tundoraTextColor = UIColor(hexString: "#444")!
     let lightTextColor = UIColor.Material.white
     let highlightTextBackgroundColor = UIColor(hexString: "#000", transparency: 0.4)!
     let background = UIColor(hexString: "#FFFFFF")!
@@ -97,17 +101,19 @@ struct DarkTheme: Theme {
     let themeColor = UIColor(hexString: "#932C19")!
     let themeBlueColor = UIColor(hexString: "#0011AF")!
     let themeGreenColor = UIColor(hexString: "#5F6D07")!
+    let themeMercuryColor = UIColor(hexString: "#E7E7E7")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
+    let sectionBackgroundColor = UIColor(hexString: "#EDF0F4")!
 
     init(colorTheme: ColorTheme) {
     }
 }
 
 enum ColorTheme: Int, CaseIterable {
-    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord, gray1, yukonGold
+    case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord, silver, yukonGold
 
-    case white, cognac
+    case white, cognac, black, tundora, mercury
 
     var color: UIColor {
         switch self {
@@ -132,10 +138,13 @@ enum ColorTheme: Int, CaseIterable {
         case .blueGray:   return UIColor.Material.blueGrey
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
         case .concord:    return UIColor(hexString: "#828180")!
-        case .gray1:        return UIColor(hexString: "#C1C1C1")!
+        case .silver:        return UIColor(hexString: "#C1C1C1")!
         case .white:        return UIColor.white
         case .cognac:       return UIColor(hexString: "#932C19")!
         case .yukonGold:    return UIColor(hexString: "#5F6D07")!
+        case .black:        return UIColor.black
+        case .tundora:      return UIColor(hexString: "#444")!
+        case .mercury:      return UIColor(hexString: "#E7E7E7")!
         }
     }
 
@@ -162,10 +171,13 @@ enum ColorTheme: Int, CaseIterable {
         case .blueGray:   return UIColor.Material.blueGrey900
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
         case .concord:    return UIColor(hexString: "#828180")!
-        case .gray1:    return UIColor(hexString: "#C1C1C1")!
+        case .silver:    return UIColor(hexString: "#C1C1C1")!
         case .white:        return UIColor.white
         case .cognac:       return UIColor(hexString: "#932C19")!
         case .yukonGold:    return UIColor(hexString: "#5F6D07")!
+        case .black:        return UIColor.black
+        case .tundora:      return UIColor(hexString: "#444")!
+        case .mercury:      return UIColor(hexString: "#E7E7E7")!
         }
     }
 
@@ -192,10 +204,13 @@ enum ColorTheme: Int, CaseIterable {
         case .blueGray:   return "Blue Gray"
         case .internationalKleinBlue: return "international klein blue"
         case .concord:    return "concord"
-        case .gray1:        return ""
+        case .silver:        return ""
         case .white:        return "White"
         case .cognac:       return "Cognac"
         case .yukonGold:    return "Yokon Gold"
+        case .black:        return "Black"
+        case .tundora:      return "Tundora"
+        case .mercury:      return "Mercury"
         }
     }
 }

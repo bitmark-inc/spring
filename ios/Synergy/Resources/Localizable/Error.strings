@@ -16,3 +16,6 @@
 "notification.title" = "Enable Notification";
 "notification.message" = "To get started, allow Synergy to push notification.";
 "system" = "There was an system error. We will update to fix it soon. Please try later.";
+
+"account.signOut.invalidRecoveryKey" = "Your recovery key is invalid. Please recheck and try again.";
+"account.signOut.error" = "There was an error while unlinking your account from this device.";

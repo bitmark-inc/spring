@@ -19,7 +19,7 @@ class ViewController: ThemedViewController, Navigatable {
 
     lazy var contentView: UIView = makeContentView()
 
-    init(viewModel: ViewModel?) {
+    init(viewModel: ViewModel? = nil) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

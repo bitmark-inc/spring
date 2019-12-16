@@ -9,14 +9,15 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import SnapKit
+import FlexLayout
 
 class ConfirmRecoveryKeyViewController: ViewController {
 
     // MARK: - Properties
-    var recoveryKeyTextView: EditingTextView!
-    var guideLabel: Label!
-    var submitButton: SubmitButton!
+    lazy var recoveryKeyTextView = makeRecoveryKeyTextView()
+    lazy var guideLabel = makeGuideLabel()
+    lazy var submitButton = makeSignOutButton()
+    lazy var recoveryKeyView = makeRecoveryKeyView()
 
     override func bindViewModel() {
         super.bindViewModel()
@@ -29,33 +30,60 @@ class ConfirmRecoveryKeyViewController: ViewController {
 
         _ = recoveryKeyTextView.rx.textInput => viewModel.recoveryKeyStringRelay
     }
+}
 
-    override func setupViews() {
-        super.setupViews()
+// MARK: - UITextViewDelegate
+extension ConfirmRecoveryKeyViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+      if text == "\n" {
+        textView.resignFirstResponder()
+      }
+      return true
+    }
+}
 
-        recoveryKeyTextView = EditingTextView()
-        recoveryKeyTextView.autocapitalizationType = .none
-
-        guideLabel = Label()
-        submitButton = SubmitButton()
-
-        contentView.addSubview(recoveryKeyTextView)
-        contentView.addSubview(guideLabel)
-        contentView.addSubview(submitButton)
-
-        recoveryKeyTextView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(180)
+extension ConfirmRecoveryKeyViewController {
+    fileprivate func makeRecoveryKeyView() -> UIView {
+        let view = UIView()
+        view.flex.direction(.column).define { (flex) in
+            flex.addItem(recoveryKeyTextView).height(Size.dh(145))
+            flex.addItem(guideLabel).marginTop(Size.dh(27))
         }
+        return view
+    }
 
-        guideLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(recoveryKeyTextView.snp.bottom).offset(Size.dh(20))
-            make.leading.trailing.equalToSuperview()
-        }
+    fileprivate func makeRecoveryKeyTextView() -> UITextView {
+        let textView = UITextView()
+        textView.font = R.font.atlasGroteskLight(size: Size.ds(22))
+        textView.autocapitalizationType = .none
+        textView.returnKeyType = .done
+        textView.delegate = self
+        textView.borderWidth = 1
+        textView.contentInset = UIEdgeInsets(top: 14, left: 20, bottom: 14, right: 21)
 
-        submitButton.snp.makeConstraints { (make) in
-            make.leading.trailing.bottom.equalToSuperview()
-        }
+        themeService.rx
+            .bind({ $0.blackTextColor }, to: textView.rx.borderColor)
+            .bind({ $0.blackTextColor }, to: textView.rx.textColor)
+            .bind({ $0.blackTextColor }, to: textView.rx.tintColor)
+            .disposed(by: disposeBag)
+
+        return textView
+    }
+
+    fileprivate func makeGuideLabel() -> Label {
+        let label = Label()
+        label.isDescription = true
+        label.apply(
+            text: R.string.phrase.accountRecoveryKeyInputGuide(),
+            font: R.font.atlasGroteskLight(size: Size.ds(22)),
+            colorTheme: .tundora,
+            lineHeight: 1.32)
+        return label
+    }
+
+    fileprivate func makeSignOutButton() -> SubmitButton {
+        let submitButton = SubmitButton()
+        submitButton.applyTheme(colorTheme: .mercury)
+        return submitButton
     }
 }

@@ -6,12 +6,16 @@
 	<dict>
 		<key>API_FBM_SERVER_URL</key>
 		<string>https://fbm.test.bitmark.com</string>
-		<key>ONESIGNAL_APP_ID</key>
-		<string>3b35e435-02e9-4ade-93f6-41e2da46bc18</string>
-		<key>SENTRY_DSN</key>
-		<string>https://e561f86580544b00b2e8cf283b120b64@sentry.io/1854725</string>
 		<key>ENVIRONMENT</key>
 		<string>production</string>
+        <key>INTERCOM_APP_ID</key>
+        <string>ejkeunzw</string>
+        <key>INTERCOM_APP_KEY</key>
+        <string>ios_sdk-73c4808d20211944196736d561a405f6ffcdaded</string>
+        <key>ONESIGNAL_APP_ID</key>
+        <string>3b35e435-02e9-4ade-93f6-41e2da46bc18</string>
+        <key>SENTRY_DSN</key>
+        <string>https://e561f86580544b00b2e8cf283b120b64@sentry.io/1854725</string>
 	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>

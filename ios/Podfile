@@ -37,6 +37,7 @@ def sharedPods
   pod 'ChartsRealm'
   pod 'SwiftDate'
   pod 'Kingfisher'
+  pod 'UPCarouselFlowLayout'
 end
 
 target 'Synergy' do
