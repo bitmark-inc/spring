@@ -37,7 +37,7 @@ data class AndroidAppInfo(
 data class IosAppInfo(
     @Expose
     @SerializedName("minimum_client_version")
-    val requiredVersion: String,
+    val requiredVersion: Int,
 
     @Expose
     @SerializedName("app_update_url")
@@ -47,5 +47,13 @@ data class IosAppInfo(
 data class ServerInfo(
     @Expose
     @SerializedName("version")
-    val version: String
+    val version: String,
+
+    @Expose
+    @SerializedName("bitmark_account_number")
+    val bmAccountNumber: String,
+
+    @Expose
+    @SerializedName("enc_pub_key")
+    val encPubKey: String
 )
