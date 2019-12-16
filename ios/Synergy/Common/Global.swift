@@ -120,4 +120,9 @@ extension UserDefaults {
         get { return string(forKey: "version_preference") }
         set { set(newValue, forKey: "version_preference") }
     }
+
+    var accountNumber: String? {
+        get { return string(forKey: "accountNumber_preference") }
+        set { set(newValue, forKey: "accountNumber_preference") }
+    }
 }

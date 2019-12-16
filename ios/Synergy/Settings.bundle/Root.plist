@@ -22,6 +22,16 @@
 			<key>DefaultValue</key>
 			<string>0.1</string>
 		</dict>
+        <dict>
+            <key>Type</key>
+            <string>PSTitleValueSpecifier</string>
+            <key>Title</key>
+            <string>Account Number</string>
+            <key>Key</key>
+            <string>accountNumber_preference</string>
+            <key>DefaultValue</key>
+            <string></string>
+        </dict>
 	</array>
 </dict>
 </plist>

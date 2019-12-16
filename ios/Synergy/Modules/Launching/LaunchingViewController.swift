@@ -53,6 +53,7 @@ class LaunchingViewController: ViewController {
                 .observeOn(MainScheduler.instance)
                 .do(onSuccess: { (account) in
                     AccountService.registerIntercom(for: account?.getAccountNumber())
+                    SettingsBundle.setAccountNumber(accountNumber: account?.getAccountNumber())
                 })
                 .flatMapCompletable { [weak self] in
                     guard let self = self else { return Completable.never() }
