@@ -80,10 +80,8 @@ POST /api/archives
 | Name | Type | Description |
 | -------- | -------- |-------- |
 | headers *(optional)*     | string | Simulate all existing headers from current session     |
-| cookies *(optional)*     | array of objects | Simulate all existing cookies from current session     |
 | raw_cookie *(optional)*     | string | Simulate all existing cookies from current session     |
 | file_url *(required)*     | string | File url to download     |
-
 
 Example:
 ```json
@@ -112,6 +110,31 @@ In case of success: HTTP Status Accepted with payload:
 ```json
 {
     "result": "OK"
+}
+```
+
+#### List all submitted FB archive
+This will submit a download session for fb archive. Download will be executed immediately or in a short period depends on server status. Result will be notified via OneSignal notification.
+##### Endpoint
+*(JWT Authorized)*
+```url
+GET /api/archives
+```
+
+##### Response
+In case of success: HTTP Status Accepted with payload:
+```json
+{
+    "result": [
+        {
+            "id": 16,
+            "starting_time": "1970-01-01T08:00:00+08:00",
+            "ending_time": "1970-01-01T08:00:00+08:00",
+            "status": "stored",
+            "created_at": "2019-12-13T16:49:16.437108+07:00",
+            "updated_at": "2019-12-13T16:51:31.078849+07:00"
+        }
+    ]
 }
 ```
 
