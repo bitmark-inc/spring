@@ -35,15 +35,11 @@ func (s *Server) accountRegister(c *gin.Context) {
 		return
 	}
 
-	var encPubKey []byte
-	if params.EncPubKey != "" {
-		e, err := hex.DecodeString(params.EncPubKey)
-		if err != nil {
-			log.Debug(err)
-			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
-			return
-		}
-		encPubKey = e
+	encPubKey, err := hex.DecodeString(params.EncPubKey)
+	if err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
 	}
 
 	account, err = s.store.InsertAccount(c, accountNumber, encPubKey)

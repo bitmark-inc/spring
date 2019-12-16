@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"crypto/rsa"
+	"encoding/hex"
 	"net/http"
 	"time"
 
@@ -155,7 +156,9 @@ func (s *Server) information(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"information": map[string]map[string]interface{}{
 			"server": map[string]interface{}{
-				"version": viper.GetString("server.version"),
+				"version":                viper.GetString("server.version"),
+				"enc_pub_key":            hex.EncodeToString(s.bitmarkAccount.EncrKey.PublicKeyBytes()),
+				"bitmark_account_number": s.bitmarkAccount.AccountNumber(),
 			},
 			"android": viper.GetStringMap("clients.android"),
 			"ios":     viper.GetStringMap("clients.ios"),

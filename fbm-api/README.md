@@ -35,7 +35,7 @@ POST /api/accounts
 ##### Params
 | Name | Type | Description |
 | -------- | -------- |-------- |
-| enc_pub_key *(optional)*     | string | Bitmark account's encryption public key in hex format.     |
+| enc_pub_key *(required)*     | string | Bitmark account's encryption public key in hex format.     |
 
 Example:
 ```json
