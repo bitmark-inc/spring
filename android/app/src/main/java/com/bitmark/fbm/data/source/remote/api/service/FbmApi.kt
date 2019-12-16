@@ -23,7 +23,7 @@ import retrofit2.http.POST
 interface FbmApi {
 
     @POST("api/accounts")
-    fun registerAccount(): Single<RegisterAccountResponse>
+    fun registerAccount(@Body body: Map<String, String>): Single<RegisterAccountResponse>
 
     @POST("api/auth")
     fun registerJwt(@Body request: RegisterJwtRequest): Single<JwtData>

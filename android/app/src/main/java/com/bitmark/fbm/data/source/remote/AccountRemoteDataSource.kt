@@ -45,8 +45,9 @@ class AccountRemoteDataSource @Inject constructor(
         }.ignoreElement().subscribeOn(Schedulers.io())
     }
 
-    fun registerFbmServerAccount(): Single<AccountData> {
-        return fbmApi.registerAccount().map { res -> res.data }.subscribeOn(Schedulers.io())
+    fun registerFbmServerAccount(encPubKey: String): Single<AccountData> {
+        return fbmApi.registerAccount(mapOf("enc_pub_key" to encPubKey)).map { res -> res.data }
+            .subscribeOn(Schedulers.io())
     }
 
     fun sendArchiveDownloadRequest(

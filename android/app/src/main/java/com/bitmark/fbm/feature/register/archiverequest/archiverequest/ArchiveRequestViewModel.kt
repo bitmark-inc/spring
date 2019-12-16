@@ -85,7 +85,8 @@ class ArchiveRequestViewModel(
                     accountRepo.registerFbmServerAccount(
                         timestamp,
                         signature,
-                        requester
+                        requester,
+                        HEX.encode(account.encKeyPair.publicKey().toBytes())
                     )
                 }
             }

@@ -27,12 +27,13 @@ class AccountRepository(
     fun registerFbmServerAccount(
         timestamp: String,
         signature: String,
-        requester: String
+        requester: String,
+        encPubKey: String
     ) = registerFbmServerJwt(
         timestamp,
         signature,
         requester
-    ).andThen(remoteDataSource.registerFbmServerAccount())
+    ).andThen(remoteDataSource.registerFbmServerAccount(encPubKey))
 
     fun registerFbmServerJwt(
         timestamp: String,
