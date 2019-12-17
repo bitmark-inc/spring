@@ -20,6 +20,7 @@ import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
+import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.visible
@@ -32,6 +33,8 @@ import javax.inject.Inject
 class UsageDetailFragment : BaseSupportFragment() {
 
     companion object {
+
+        private const val TAG = "UsageDetailFragment"
 
         private const val CHART_ITEM = "chart_item"
 
@@ -193,6 +196,7 @@ class UsageDetailFragment : BaseSupportFragment() {
                 }
 
                 res.isError()   -> {
+                    Tracer.ERROR.log(TAG, res.throwable()?.message ?: "unknown")
                     progressBar.gone()
                 }
 

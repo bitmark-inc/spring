@@ -109,7 +109,7 @@ class SplashActivity : BaseAppCompatActivity() {
                 res.isError()   -> {
                     logger.logError(
                         Event.SPLASH_VERSION_CHECK_ERROR,
-                        res.throwable() ?: IllegalAccessException("unknown")
+                        res.throwable() ?: UnknownException()
                     )
                     viewModel.getAccountInfo()
                 }
@@ -157,14 +157,8 @@ class SplashActivity : BaseAppCompatActivity() {
                 }
 
                 res.isError()   -> {
-                    logger.logError(
-                        Event.SHARE_PREF_ERROR,
-                        "$TAG: get account info error: ${res.throwable()?.message ?: "unknown"}"
-                    )
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    ) { navigator.exitApp() }
+                    logger.logSharedPrefError(res.throwable(), "get account info error")
+                    dialogController.unexpectedAlert { navigator.exitApp() }
                 }
             }
         })
@@ -188,11 +182,9 @@ class SplashActivity : BaseAppCompatActivity() {
                         "$TAG: prepare data error: ${error?.message ?: "unknown"}"
                     )
                     if (error is UnknownException) {
-                        dialogController.alert(R.string.error, R.string.unexpected_error) {
-                            navigator.exitApp()
-                        }
+                        dialogController.unexpectedAlert { navigator.exitApp() }
                     } else {
-                        dialogController.alert(getString(R.string.error), error?.message!!)
+                        dialogController.alert(error)
                     }
                 }
             }
@@ -220,14 +212,8 @@ class SplashActivity : BaseAppCompatActivity() {
                 }
 
                 res.isError()   -> {
-                    logger.logError(
-                        Event.SHARE_PREF_ERROR,
-                        "$TAG: check data ready error: ${res.throwable()?.message ?: "unknown"}"
-                    )
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    ) { navigator.exitApp() }
+                    logger.logSharedPrefError(res.throwable(), "check data ready error")
+                    dialogController.unexpectedAlert { navigator.exitApp() }
                 }
             }
         })
@@ -258,10 +244,7 @@ class SplashActivity : BaseAppCompatActivity() {
             setupRequiredAction = { navigator.gotoSecuritySetting() },
             invalidErrorAction = { e ->
                 logger.logError(Event.ACCOUNT_LOAD_KEY_STORE_ERROR, e)
-                dialogController.alert(
-                    R.string.error,
-                    R.string.unexpected_error
-                ) { navigator.exitApp() }
+                dialogController.alert(e) { navigator.exitApp() }
             })
     }
 }

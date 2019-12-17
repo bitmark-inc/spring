@@ -21,6 +21,7 @@ import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.util.ext.createSnackbar
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.showKeyBoard
+import com.bitmark.fbm.util.ext.unexpectedAlert
 import com.bitmark.sdk.features.Account
 import kotlinx.android.synthetic.main.fragment_unlink.*
 import javax.inject.Inject
@@ -92,10 +93,7 @@ class UnlinkFragment : BaseSupportFragment() {
 
                 res.isError()   -> {
                     logger.logError(Event.ACCOUNT_UNLINK_ERROR, res.throwable())
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    ) { navigator.exitApp() }
+                    dialogController.unexpectedAlert { navigator.exitApp() }
                     blocked = false
                 }
 

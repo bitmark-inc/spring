@@ -450,10 +450,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             setupRequiredAction = { navigator.gotoSecuritySetting() },
             invalidErrorAction = { e ->
                 logger.logError(Event.ACCOUNT_LOAD_KEY_STORE_ERROR, e)
-                dialogController.alert(
-                    R.string.error,
-                    R.string.unexpected_error
-                ) { navigator.exitApp() }
+                dialogController.unexpectedAlert { navigator.exitApp() }
             })
     }
 
@@ -508,7 +505,10 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                         Event.ARCHIVE_REQUEST_REGISTER_ACCOUNT_ERROR,
                         res.throwable() ?: UnknownException("unknown")
                     )
-                    dialogController.alert(R.string.error, R.string.could_not_register_account)
+                    dialogController.alert(
+                        R.string.error,
+                        R.string.could_not_register_account
+                    ) { navigator.finishActivity() }
                     blocked = false
                 }
 
@@ -539,12 +539,11 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                 override fun onError(throwable: Throwable?) {
                                     logger.logError(
                                         Event.ACCOUNT_LOAD_FB_CREDENTIAL_ERROR,
-                                        throwable ?: UnknownException("unknown")
+                                        throwable ?: UnknownException()
                                     )
-                                    dialogController.alert(
-                                        R.string.error,
-                                        R.string.unexpected_error
-                                    )
+                                    dialogController.unexpectedAlert {
+                                        navigator.anim(RIGHT_LEFT).finishActivity()
+                                    }
                                 }
 
                             })
@@ -557,10 +556,13 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     progressBar.gone()
                     val error = res.throwable()
                     logger.logError(Event.ARCHIVE_REQUEST_PREPARE_DATA_ERROR, error)
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    )
+                    if (error is UnknownException) {
+                        dialogController.unexpectedAlert {
+                            navigator.anim(RIGHT_LEFT).finishActivity()
+                        }
+                    } else {
+                        dialogController.alert(error) { navigator.finishActivity() }
+                    }
                 }
 
                 res.isLoading() -> {
@@ -576,14 +578,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                 }
 
                 res.isError()   -> {
-                    logger.logError(
-                        Event.SHARE_PREF_ERROR,
-                        "$TAG: save archive requested at error: ${res.throwable() ?: "unknown"}"
-                    )
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    ) { navigator.exitApp() }
+                    logger.logSharedPrefError(res.throwable(), "save archive requested at error")
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
             }
         })
@@ -612,6 +608,11 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     navigator.anim(RIGHT_LEFT)
                         .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                 }
+
+                res.isError()   -> {
+                    logger.logSharedPrefError(res.throwable(), "check notification enabled error")
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
+                }
             }
         })
 
@@ -623,14 +624,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                 }
 
                 res.isError()   -> {
-                    logger.logError(
-                        Event.SHARE_PREF_ERROR,
-                        "$TAG: get existing account error: ${res.throwable() ?: "unknown"}"
-                    )
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    ) { navigator.exitApp() }
+                    logger.logSharedPrefError(res.throwable(), "get existing account error")
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
             }
         })

@@ -8,6 +8,7 @@ package com.bitmark.fbm.feature.register.notification
 
 import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.di.ActivityScope
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
@@ -19,6 +20,10 @@ class NotificationModule {
     @ActivityScope
     @Provides
     fun provideNavigator(activity: NotificationActivity) = Navigator(activity)
+
+    @ActivityScope
+    @Provides
+    fun provideDialogController(activity: NotificationActivity) = DialogController(activity)
 
     @ActivityScope
     @Provides

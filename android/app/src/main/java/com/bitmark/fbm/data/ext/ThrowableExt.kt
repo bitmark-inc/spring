@@ -21,11 +21,18 @@ fun Throwable.isHttpError() =
 
 fun Throwable.toRemoteError() = when {
     isNetworkError() -> NetworkException(this)
-    isHttpError() -> {
-        val code =
-            (this as? com.bitmark.apiservice.utils.error.HttpException)?.statusCode
-                ?: (this as? retrofit2.HttpException)?.code() ?: -1
-        HttpException(code)
+    isHttpError()    -> {
+        val code = when (this) {
+            is com.bitmark.apiservice.utils.error.HttpException -> statusCode
+            is retrofit2.HttpException                          -> code()
+            else                                                -> -1
+        }
+        val message = when (this) {
+            is com.bitmark.apiservice.utils.error.HttpException -> "error: $errorMessage, reason: $reason"
+            is retrofit2.HttpException                          -> message()
+            else                                                -> message ?: ""
+        }
+        HttpException(code, message)
     }
-    else -> UnknownException(this)
+    else             -> UnknownException(this)
 }

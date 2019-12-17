@@ -18,9 +18,7 @@ import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.recovery.access.RecoveryAccessFragment
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
-import com.bitmark.fbm.util.ext.gotoSecuritySetting
-import com.bitmark.fbm.util.ext.loadAccount
-import com.bitmark.fbm.util.ext.setSafetyOnclickListener
+import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec
 import com.bitmark.sdk.features.Account
 import kotlinx.android.synthetic.main.fragment_recovery_notice.*
@@ -80,14 +78,8 @@ class RecoveryNoticeFragment : BaseSupportFragment() {
                 }
 
                 res.isError()   -> {
-                    logger.logError(
-                        Event.SHARE_PREF_ERROR,
-                        "could not get account data: ${res.throwable() ?: "unknown"}"
-                    )
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    ) { navigator.anim(RIGHT_LEFT).finishActivity() }
+                    logger.logSharedPrefError(res.throwable(), "could not get account data")
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
             }
         })
@@ -112,10 +104,7 @@ class RecoveryNoticeFragment : BaseSupportFragment() {
             setupRequiredAction = { navigator.gotoSecuritySetting() },
             invalidErrorAction = { e ->
                 logger.logError(Event.ACCOUNT_LOAD_KEY_STORE_ERROR, e)
-                dialogController.alert(
-                    R.string.error,
-                    R.string.unexpected_error
-                ) { navigator.exitApp() }
+                dialogController.unexpectedAlert { navigator.exitApp() }
             })
     }
 

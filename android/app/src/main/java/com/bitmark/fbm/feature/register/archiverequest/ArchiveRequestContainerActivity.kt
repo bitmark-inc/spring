@@ -10,13 +10,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import com.bitmark.fbm.R
-import com.bitmark.fbm.feature.BaseAppCompatActivity
-import com.bitmark.fbm.feature.BaseViewModel
-import com.bitmark.fbm.feature.BehaviorComponent
-import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.feature.*
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.register.archiverequest.archiverequest.ArchiveRequestFragment
 import com.bitmark.fbm.feature.register.archiverequest.credential.ArchiveRequestCredentialFragment
+import com.bitmark.fbm.logging.EventLogger
+import com.bitmark.fbm.util.ext.logSharedPrefError
+import com.bitmark.fbm.util.ext.unexpectedAlert
 import javax.inject.Inject
 
 class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
@@ -25,7 +25,13 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
     internal lateinit var navigator: Navigator
 
     @Inject
-    lateinit var viewModel: ArchiveRequestContainerViewModel
+    internal lateinit var viewModel: ArchiveRequestContainerViewModel
+
+    @Inject
+    internal lateinit var logger: EventLogger
+
+    @Inject
+    internal lateinit var dialogController: DialogController
 
     override fun layoutRes(): Int = R.layout.activity_archive_request_container
 
@@ -64,6 +70,11 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
                             },
                             false
                         )
+                }
+
+                res.isError()   -> {
+                    logger.logSharedPrefError(res.throwable(), "could not get archive requested at")
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
             }
         })

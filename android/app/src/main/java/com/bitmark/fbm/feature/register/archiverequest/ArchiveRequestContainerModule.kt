@@ -8,6 +8,7 @@ package com.bitmark.fbm.feature.register.archiverequest
 
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.di.ActivityScope
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
@@ -19,6 +20,11 @@ class ArchiveRequestContainerModule {
     @Provides
     @ActivityScope
     fun provideNavigator(activity: ArchiveRequestContainerActivity) = Navigator(activity)
+
+    @Provides
+    @ActivityScope
+    fun provideDialogController(activity: ArchiveRequestContainerActivity) =
+        DialogController(activity)
 
     @Provides
     @ActivityScope

@@ -25,6 +25,7 @@ import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.usagedetail.UsageDetailFragment
+import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.gone
@@ -39,6 +40,8 @@ import javax.inject.Inject
 class StatisticFragment : BaseSupportFragment() {
 
     companion object {
+
+        private const val TAG = "StatisticFragment"
 
         private const val TYPE = "type"
 
@@ -93,7 +96,7 @@ class StatisticFragment : BaseSupportFragment() {
 
     override fun onResume() {
         super.onResume()
-        if(adapter.itemCount > 0) return
+        if (adapter.itemCount > 0) return
         handler.postDelayed({
             viewModel.getStatistic(type, period, periodStartedTime)
         }, Constants.MASTER_DELAY_TIME)
@@ -168,9 +171,8 @@ class StatisticFragment : BaseSupportFragment() {
                 }
 
                 res.isError()   -> {
-                    // TODO change error later
                     progressBar.gone()
-                    dialogController.alert(R.string.error, R.string.unexpected_error)
+                    Tracer.ERROR.log(TAG, res.throwable()?.message ?: "unknown")
                     blocked = false
                 }
 

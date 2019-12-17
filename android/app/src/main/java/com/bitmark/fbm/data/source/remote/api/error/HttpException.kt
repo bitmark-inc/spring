@@ -6,7 +6,7 @@
  */
 package com.bitmark.fbm.data.source.remote.api.error
 
-class HttpException(val code: Int) : Exception() {
+class HttpException(val code: Int, val msg: String) : Exception() {
     override val message: String?
-        get() = "HTTP error $code"
+        get() = "HTTP error: Status code: $code, detail message: \"$msg\""
 }

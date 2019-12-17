@@ -24,6 +24,7 @@ import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.showKeyBoard
+import com.bitmark.fbm.util.ext.unexpectedAlert
 import kotlinx.android.synthetic.main.fragment_archive_request_credential.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -95,7 +96,7 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
                         Event.ACCOUNT_SAVE_FB_CREDENTIAL_ERROR,
                         IllegalAccessException(errMsg)
                     )
-                    dialogController.alert(R.string.error, R.string.unexpected_error)
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
 
             })

@@ -19,9 +19,7 @@ import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
-import com.bitmark.fbm.util.ext.generateKeyAlias
-import com.bitmark.fbm.util.ext.gotoSecuritySetting
-import com.bitmark.fbm.util.ext.loadAccount
+import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec
 import com.bitmark.sdk.features.Account
 import kotlinx.android.synthetic.main.activity_authentication.*
@@ -73,30 +71,17 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
                 }
 
                 res.isError()   -> {
-                    logger.logError(
-                        Event.SHARE_PREF_ERROR,
-                        "get account data error: ${res.throwable()?.message ?: "unknown"}"
-                    )
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    ) { navigator.finishActivity() }
+                    logger.logSharedPrefError(res.throwable(), "get account data error")
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
             }
         })
 
         viewModel.saveAccountKeyDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
-
                 res.isError() -> {
-                    logger.logError(
-                        Event.SHARE_PREF_ERROR,
-                        "save account key alias error: ${res.throwable()?.message ?: "unknown"}"
-                    )
-                    dialogController.alert(
-                        getString(R.string.error),
-                        res?.throwable()?.message ?: getString(R.string.unexpected_error)
-                    )
+                    logger.logSharedPrefError(res.throwable(), "save account key alias error")
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
             }
         })
@@ -174,10 +159,7 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
             invalidErrorAction = { e ->
                 errorAction()
                 logger.logError(Event.ACCOUNT_LOAD_KEY_STORE_ERROR, e)
-                dialogController.alert(
-                    R.string.error,
-                    R.string.unexpected_error
-                )
+                dialogController.alert(e) { navigator.finishActivity() }
             })
     }
 
@@ -198,10 +180,7 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
                 override fun onError(throwable: Throwable?) {
                     errorAction()
                     logger.logError(Event.ACCOUNT_SAVE_TO_KEY_STORE_ERROR, throwable)
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.unexpected_error
-                    )
+                    dialogController.alert(throwable) { navigator.finishActivity() }
                 }
 
             })

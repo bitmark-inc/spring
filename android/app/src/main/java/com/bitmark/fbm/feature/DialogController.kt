@@ -11,6 +11,7 @@ import android.content.DialogInterface
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialog
+import com.bitmark.fbm.R
 import java.util.*
 
 class DialogController(private val activity: Activity) {
@@ -47,6 +48,22 @@ class DialogController(private val activity: Activity) {
     }
 
     fun alert(
+        throwable: Throwable?,
+        cancelable: Boolean = false,
+        clickEvent: () -> Unit = {},
+        dismissCallback: () -> Unit = {}
+    ) {
+        alert(
+            activity.getString(R.string.error),
+            throwable?.message ?: "Unknown error",
+            activity.getString(android.R.string.ok),
+            cancelable,
+            clickEvent,
+            dismissCallback
+        )
+    }
+
+    fun alert(
         title: String,
         message: String,
         text: String = activity.getString(android.R.string.ok),
@@ -58,7 +75,7 @@ class DialogController(private val activity: Activity) {
             AlertDialog.Builder(activity).setTitle(title).setMessage(message)
                 .setPositiveButton(text) { d, _ ->
                     d.dismiss()
-                    clickEvent.invoke()
+                    clickEvent()
                     showNext()
                 }
                 .setCancelable(cancelable).create()
@@ -72,26 +89,21 @@ class DialogController(private val activity: Activity) {
     }
 
     fun alert(
-        @StringRes title: Int, @StringRes message: Int, @StringRes text: Int = android.R.string.ok,
+        @StringRes title: Int,
+        @StringRes message: Int,
+        @StringRes text: Int = android.R.string.ok,
         cancelable: Boolean = false,
         clickEvent: () -> Unit = {},
         dismissCallback: () -> Unit = {}
     ) {
-        val dialog =
-            AlertDialog.Builder(activity).setTitle(title).setMessage(message)
-                .setPositiveButton(text) { d, _ ->
-                    d.dismiss()
-                    clickEvent.invoke()
-                    showNext()
-                }
-                .setCancelable(cancelable).create()
-        dialog.setOnDismissListener(dismissListener(dismissCallback))
-        if (isShowing()) {
-            queue.add(dialog)
-        } else {
-            dialog.show()
-            showingDialog = dialog
-        }
+        alert(
+            activity.getString(title),
+            activity.getString(message),
+            activity.getString(text),
+            cancelable,
+            clickEvent,
+            dismissCallback
+        )
     }
 
     fun confirm(
@@ -108,11 +120,11 @@ class DialogController(private val activity: Activity) {
             AlertDialog.Builder(activity).setTitle(title).setMessage(message)
                 .setPositiveButton(positive) { d, _ ->
                     d.dismiss()
-                    positiveEvent.invoke()
+                    positiveEvent()
                     showNext()
                 }.setNegativeButton(negative) { d, _ ->
                     d.dismiss()
-                    negativeEvent.invoke()
+                    negativeEvent()
                     if (isQueueing()) {
                         val dialog = queue.first
                         dialog.show()
@@ -138,25 +150,16 @@ class DialogController(private val activity: Activity) {
         negativeEvent: () -> Unit = {},
         dismissCallback: () -> Unit = {}
     ) {
-        val dialog =
-            AlertDialog.Builder(activity).setTitle(title).setMessage(message)
-                .setPositiveButton(positive) { d, _ ->
-                    d.dismiss()
-                    positiveEvent.invoke()
-                    showNext()
-                }.setNegativeButton(negative) { d, _ ->
-                    d.dismiss()
-                    negativeEvent.invoke()
-                    showNext()
-                }
-                .setCancelable(cancelable).create()
-        dialog.setOnDismissListener(dismissListener(dismissCallback))
-        if (isShowing()) {
-            queue.add(dialog)
-        } else {
-            dialog.show()
-            showingDialog = dialog
-        }
+        confirm(
+            activity.getString(title),
+            activity.getString(message),
+            cancelable,
+            activity.getString(positive),
+            positiveEvent,
+            activity.getString(negative),
+            negativeEvent,
+            dismissCallback
+        )
     }
 
     fun dismissShowing() {

@@ -8,5 +8,5 @@ package com.bitmark.fbm.data.source.remote.api.error
 
 class NetworkException(cause: Throwable) : Exception(cause) {
     override val message: String?
-        get() = "Network error"
+        get() = "Network error: \"${cause?.message}\""
 }
