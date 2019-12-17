@@ -6,8 +6,11 @@
  */
 package com.bitmark.fbm.feature.unlink.unlink
 
+import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.di.FragmentScope
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
 import dagger.Provides
 
@@ -20,5 +23,13 @@ class UnlinkModule {
 
     @Provides
     @FragmentScope
-    fun provideViewModel(fragment: UnlinkFragment) = UnlinkViewModel(fragment.lifecycle)
+    fun provideViewModel(
+        fragment: UnlinkFragment,
+        appRepo: AppRepository,
+        rxLiveDataTransformer: RxLiveDataTransformer
+    ) = UnlinkViewModel(fragment.lifecycle, appRepo, rxLiveDataTransformer)
+
+    @Provides
+    @FragmentScope
+    fun provideDialogController(fragment: UnlinkFragment) = DialogController(fragment.activity!!)
 }

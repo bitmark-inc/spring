@@ -7,8 +7,21 @@
 package com.bitmark.fbm.feature.unlink.unlink
 
 import androidx.lifecycle.Lifecycle
+import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.feature.BaseViewModel
+import com.bitmark.fbm.util.livedata.CompositeLiveData
+import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 
 
-class UnlinkViewModel(lifecycle: Lifecycle) : BaseViewModel(lifecycle) {
+class UnlinkViewModel(
+    lifecycle: Lifecycle,
+    private val appRepo: AppRepository,
+    private val rxLiveDataTransformer: RxLiveDataTransformer
+) : BaseViewModel(lifecycle) {
+
+    internal val deleteDataLiveData = CompositeLiveData<Any>()
+
+    fun deleteData() {
+        deleteDataLiveData.add(rxLiveDataTransformer.completable(appRepo.deleteAppData()))
+    }
 }

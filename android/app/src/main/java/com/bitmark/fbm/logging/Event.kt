@@ -16,6 +16,8 @@ enum class Event(val value: String) {
 
     ACCOUNT_LOAD_FB_CREDENTIAL_ERROR("account_load_fb_credential_error"),
 
+    ACCOUNT_UNLINK_ERROR("account_unlink_error"),
+
     ARCHIVE_REQUEST_AUTOMATE_PAGE_DETECTION_ERROR("archive_automate_page_detection_error"),
 
     ARCHIVE_REQUEST_PREPARE_DATA_ERROR("archive_request_prepare_data_error"),

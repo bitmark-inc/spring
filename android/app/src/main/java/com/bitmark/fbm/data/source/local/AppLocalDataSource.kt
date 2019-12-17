@@ -6,6 +6,11 @@
  */
 package com.bitmark.fbm.data.source.local
 
+import com.bitmark.fbm.data.ext.fromJson
+import com.bitmark.fbm.data.ext.newGsonInstance
+import com.bitmark.fbm.data.model.AccountData
+import com.bitmark.fbm.data.model.isValid
+import com.bitmark.fbm.data.model.keyFileName
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
 import com.bitmark.fbm.data.source.local.api.SharedPrefApi
@@ -50,6 +55,21 @@ class AppLocalDataSource @Inject constructor(
                 sharedPrefGateway.put(SharedPrefApi.ACCOUNT_DATA, accountData)
             } else {
                 sharedPrefGateway.clear()
+            }
+        }
+
+    fun deleteFileStorage(keepAccountData: Boolean = false) =
+        sharedPrefApi.rxSingle { sharedPrefGateway ->
+            val rawAccountData = sharedPrefGateway.get(SharedPrefApi.ACCOUNT_DATA, String::class)
+            newGsonInstance().fromJson<AccountData>(rawAccountData)
+                ?: AccountData.newEmptyInstance()
+        }.flatMapCompletable { accountData ->
+            fileStorageApi.rxCompletable { fileStorageGateway ->
+                if (keepAccountData && accountData.isValid()) {
+                    fileStorageGateway.deleteFileDir(accountData.keyFileName)
+                } else {
+                    fileStorageGateway.deleteFileDir()
+                }
             }
         }
 }

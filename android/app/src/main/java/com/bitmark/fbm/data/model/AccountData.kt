@@ -42,3 +42,6 @@ data class AccountData(
 
 fun AccountData.isValid() =
     id != "" && createdAt != "" && updatedAt != "" && keyAlias != ""
+
+val AccountData.keyFileName: String
+    get() = "${id}.key"

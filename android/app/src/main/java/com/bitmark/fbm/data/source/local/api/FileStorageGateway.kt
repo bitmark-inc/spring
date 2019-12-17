@@ -52,4 +52,13 @@ class FileStorageGateway internal constructor(private val context: Context) {
         if (!file.exists()) return true
         return if (file.isDirectory) file.deleteRecursively() else file.delete()
     }
+
+    fun deleteFileDir(keepFileName: String? = null) {
+        if (keepFileName == null) {
+            delete(filesDir().absolutePath)
+        } else {
+            listFiles(filesDir().absolutePath).filterNot { f -> f.name == keepFileName }
+                .forEach { f -> f.delete() }
+        }
+    }
 }

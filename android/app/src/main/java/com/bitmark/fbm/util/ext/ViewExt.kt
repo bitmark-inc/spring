@@ -9,13 +9,18 @@ package com.bitmark.fbm.util.ext
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.os.Handler
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import com.bitmark.fbm.R
 import com.bitmark.fbm.logging.Tracer
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.layout_snack_bar.view.*
 
 fun View.gone(withAnim: Boolean = false) {
     if (withAnim) {
@@ -120,4 +125,30 @@ fun WebView.evaluateVerificationJs(
             }
         }
     }
+}
+
+fun ViewGroup.createSnackbar(
+    @StringRes title: Int, @StringRes
+    message: Int, dismissCallback: () -> Unit = {}
+): Snackbar {
+    val snackbar = Snackbar.make(this, "", Snackbar.LENGTH_LONG)
+    val layout = snackbar.view as Snackbar.SnackbarLayout
+    val tvSnackbarDefault =
+        layout.findViewById<TextView>(com.google.android.material.R.id.snackbar_text)
+    tvSnackbarDefault.invisible()
+
+    val snackbarView = LayoutInflater.from(context).inflate(R.layout.layout_snack_bar, null)
+    with(snackbarView) {
+        tvTitle.text = context.getString(title)
+        tvMsg.text = context.getString(message)
+    }
+    layout.setPadding(0, 0, 0, 0)
+    layout.addView(snackbarView)
+    snackbar.addCallback(object : Snackbar.Callback() {
+        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+            super.onDismissed(transientBottomBar, event)
+            dismissCallback()
+        }
+    })
+    return snackbar
 }

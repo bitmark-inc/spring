@@ -130,6 +130,8 @@
     <string name="passcode_pin_required">Device PIN setup is required</string>
     <string name="fingerprint_required">Biometric authentication setup is required</string>
     <string name="your_authorization_is_required">Your authorization is required.</string>
+    <string name="account_unlinked">Account unlinked</string>
+    <string name="your_account_has_been_unlinked">Your account has been completely unlinked from this device.</string>
 
     <string-array name="day_of_week">
         <item>S</item>

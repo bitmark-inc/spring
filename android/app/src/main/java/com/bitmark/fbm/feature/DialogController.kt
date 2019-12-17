@@ -7,6 +7,7 @@
 package com.bitmark.fbm.feature
 
 import android.app.Activity
+import android.content.DialogInterface
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialog
@@ -19,9 +20,16 @@ class DialogController(private val activity: Activity) {
     var showingDialog: AppCompatDialog? = null
         private set
 
+    private fun dismissListener(forwarder: () -> Unit = {}) =
+        DialogInterface.OnDismissListener { dialog ->
+            showingDialog = null
+            forwarder()
+        }
+
     fun isShowing() = showingDialog != null
 
-    fun show(dialog: AppCompatDialog) {
+    fun show(dialog: AppCompatDialog, dismissCallback: () -> Unit = {}) {
+        dialog.setOnDismissListener(dismissListener(dismissCallback))
         if (isShowing() && dialog != showingDialog) {
             queue.add(dialog)
         } else {
@@ -30,11 +38,11 @@ class DialogController(private val activity: Activity) {
         }
     }
 
-    fun dismiss(dialog: AppCompatDialog, dismissListener: () -> Unit = {}) {
-        dialog.setOnDismissListener {
-            dismissListener.invoke()
+    fun dismiss(dialog: AppCompatDialog, dismissCallback: () -> Unit = {}) {
+        dialog.setOnDismissListener(dismissListener {
+            dismissCallback()
             showNext()
-        }
+        })
         dialog.dismiss()
     }
 
@@ -43,7 +51,8 @@ class DialogController(private val activity: Activity) {
         message: String,
         text: String = activity.getString(android.R.string.ok),
         cancelable: Boolean = false,
-        clickEvent: () -> Unit = {}
+        clickEvent: () -> Unit = {},
+        dismissCallback: () -> Unit = {}
     ) {
         val dialog =
             AlertDialog.Builder(activity).setTitle(title).setMessage(message)
@@ -53,6 +62,7 @@ class DialogController(private val activity: Activity) {
                     showNext()
                 }
                 .setCancelable(cancelable).create()
+        dialog.setOnDismissListener(dismissListener(dismissCallback))
         if (isShowing()) {
             queue.add(dialog)
         } else {
@@ -64,7 +74,8 @@ class DialogController(private val activity: Activity) {
     fun alert(
         @StringRes title: Int, @StringRes message: Int, @StringRes text: Int = android.R.string.ok,
         cancelable: Boolean = false,
-        clickEvent: () -> Unit = {}
+        clickEvent: () -> Unit = {},
+        dismissCallback: () -> Unit = {}
     ) {
         val dialog =
             AlertDialog.Builder(activity).setTitle(title).setMessage(message)
@@ -74,6 +85,7 @@ class DialogController(private val activity: Activity) {
                     showNext()
                 }
                 .setCancelable(cancelable).create()
+        dialog.setOnDismissListener(dismissListener(dismissCallback))
         if (isShowing()) {
             queue.add(dialog)
         } else {
@@ -89,7 +101,8 @@ class DialogController(private val activity: Activity) {
         positive: String = activity.getString(android.R.string.ok),
         positiveEvent: () -> Unit = {},
         negative: String = activity.getString(android.R.string.cancel),
-        negativeEvent: () -> Unit = {}
+        negativeEvent: () -> Unit = {},
+        dismissCallback: () -> Unit = {}
     ) {
         val dialog =
             AlertDialog.Builder(activity).setTitle(title).setMessage(message)
@@ -106,6 +119,7 @@ class DialogController(private val activity: Activity) {
                     }
                 }
                 .setCancelable(cancelable).create()
+        dialog.setOnDismissListener(dismissListener(dismissCallback))
         if (isShowing()) {
             queue.add(dialog)
         } else {
@@ -121,7 +135,8 @@ class DialogController(private val activity: Activity) {
         @StringRes positive: Int = android.R.string.ok,
         positiveEvent: () -> Unit = {},
         @StringRes negative: Int = android.R.string.cancel,
-        negativeEvent: () -> Unit = {}
+        negativeEvent: () -> Unit = {},
+        dismissCallback: () -> Unit = {}
     ) {
         val dialog =
             AlertDialog.Builder(activity).setTitle(title).setMessage(message)
@@ -135,6 +150,7 @@ class DialogController(private val activity: Activity) {
                     showNext()
                 }
                 .setCancelable(cancelable).create()
+        dialog.setOnDismissListener(dismissListener(dismissCallback))
         if (isShowing()) {
             queue.add(dialog)
         } else {
@@ -158,9 +174,8 @@ class DialogController(private val activity: Activity) {
 
     private fun showNext() {
         if (isQueueing()) {
-            val dialog = queue.first
+            val dialog = queue.pollFirst()
             dialog.show()
-            showingDialog = dialog
         }
     }
 }

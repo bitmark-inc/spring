@@ -40,6 +40,7 @@ class AppRepository(
 
     fun deleteAppData(keepAccountData: Boolean = false) = Completable.mergeArray(
         localDataSource.deleteDb(),
-        localDataSource.deleteSharePref(keepAccountData)
+        localDataSource.deleteSharePref(keepAccountData),
+        localDataSource.deleteFileStorage(keepAccountData)
     )
 }
