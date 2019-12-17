@@ -16,6 +16,8 @@ import RxSwiftExt
 class RequestDataViewController: ViewController {
 
     // MARK: - Properties
+    lazy var guideView = makeGuideView()
+    lazy var guideTextLabel = makeGuideTextLabel()
     lazy var webView = makeWebView()
 
     static let fbURL = "https://m.facebook.com"
@@ -53,7 +55,7 @@ class RequestDataViewController: ViewController {
         viewModel.fbScriptsRelay
             .filterEmpty()
             .subscribe(onNext: { [weak self] (fbScripts) in
-                loadingState.onNext(.hide)
+                loadingState.onNext(.loading)
 
                 guard let self = self, let urlRequest = URLRequest(urlString: Self.fbURL) else { return }
                 self.fbScripts = fbScripts
@@ -102,9 +104,11 @@ class RequestDataViewController: ViewController {
     override func setupViews() {
         super.setupViews()
 
-        view.addSubview(webView)
-        webView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+        contentView.flex
+            .direction(.column)
+            .define { (flex) in
+                flex.addItem(guideView)
+                flex.addItem(webView).grow(1)
         }
     }
 }
@@ -155,20 +159,24 @@ extension RequestDataViewController: WKNavigationDelegate {
         let pageScript = fbScripts[index]
 
         webView.evaluateJavaScript(pageScript.detection) { (result, error) in
-            Global.log.info("[start] evaluateJS for \(pageScript.name)")
-            Global.log.info("Result: \(result ?? "")")
+            Global.log.info("[start] evaluateJS for \(pageScript.name): \(result ?? "")")
             if let error = error { Global.log.info("Error: \(error)") }
 
             guard error == nil, let result = result as? Bool, result else {
                 let nextIndex = index + 1
                 if nextIndex < numberOfScript {
                     self.evaluateJS(index: nextIndex)
+                } else {
+                    // is not the page in all detection pages, show required help
+                    self.updateGuideText(isAutomating: false)
                 }
 
                 return
             }
 
             guard let facePage = FBPage(rawValue: pageScript.name) else { return }
+            self.updateGuideText(isAutomating: true)
+
             switch facePage {
             case .login:
                 self.runJS(loginScript: pageScript)
@@ -213,9 +221,11 @@ extension RequestDataViewController {
     fileprivate func doMissionInArchivePage() {
         checkIsArchivePage()
             .retry(.delayed(maxCount: 1000, time: 0.5))
-            .subscribe(onError: { (error) in
+            .subscribe(onError: { [weak self] (error) in
                 Global.log.error(error)
-            }, onCompleted: {
+                self?.updateGuideText(isAutomating: false)
+            }, onCompleted: { [weak self] in
+                guard let self = self else { return }
                 Global.log.info("[start] evaluateJS for archive")
                 switch self.thisViewModel.mission {
                 case .requestData:
@@ -326,8 +336,9 @@ extension RequestDataViewController {
                     .replacingOccurrences(of: "%username%", with: credential.username)
                     .replacingOccurrences(of: "%password%", with: credential.password)
                 )
-            }, onError: { (error) in
+            }, onError: { [weak self] (error) in
                 Global.log.error(error)
+                self?.updateGuideText(isAutomating: false)
             })
             .disposed(by: self.disposeBag)
     }
@@ -396,8 +407,9 @@ extension RequestDataViewController {
                 self?.webView.evaluateJavaScript(reauthAction
                     .replacingOccurrences(of: "%password%", with: credential.password)
                 )
-                }, onError: {(error) in
+                }, onError: { [weak self] (error) in
                     Global.log.error(error)
+                    self?.updateGuideText(isAutomating: false)
                 })
             .disposed(by: self.disposeBag)
     }
@@ -430,5 +442,34 @@ extension RequestDataViewController {
 extension RequestDataViewController {
     fileprivate func makeWebView() -> WKWebView {
         return WKWebView()
+    }
+
+    fileprivate func makeGuideView() -> UIView {
+        let view = UIView()
+        view.flex.height(69)
+        view.flex.justifyContent(.center).define { (flex) in
+            flex.addItem(guideTextLabel).alignSelf(.center)
+        }
+        view.backgroundColor = ColorTheme.cognac.color
+        return view
+    }
+
+    fileprivate func makeGuideTextLabel() -> Label {
+        let label = Label()
+        label.applyLight(
+            text: R.string.phrase.guideAutomating().localizedUppercase,
+            font: R.font.atlasGroteskRegular(size: 18),
+            lineHeight: 1.2)
+        return label
+    }
+
+    fileprivate func updateGuideText(isAutomating: Bool) {
+        if isAutomating {
+            guideView.backgroundColor = ColorTheme.cognac.color
+            guideTextLabel.setText(R.string.phrase.guideAutomating().localizedUppercase)
+        } else {
+            guideView.backgroundColor = ColorTheme.internationalKleinBlue.color
+            guideTextLabel.setText(R.string.phrase.guideRequiredHelp().localizedUppercase)
+        }
     }
 }

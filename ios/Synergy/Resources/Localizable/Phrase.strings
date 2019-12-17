@@ -26,9 +26,12 @@
 "getYourData.screenTitle" = "Get Your Data";
 "getYourData.login.placeholder" = "Facebook login";
 "getYourData.password.placeholder" = "Facebook password";
-"getYourData.giveAutomateTrust" = "We’ll only use your Facebook login information to automate your back up.";
+"getYourData.giveAutomateTrust" = "We’ll only use your Facebook login information to automate your back up.\n\nYour login is stored locally, never in the Cloud.";
 "getYourData.authorize.automate" = "Authorize »";
 "getYourData.authorize.manual" = "Prefer not to automate this?";
+
+"guide.automating" = "Automating... Please wait.";
+"guide.requiredHelp" = "Your Help is Required.";
 
 "dataRequested.screenTitle" = "Data Requested";
 "dataRequested.description" = "You requested your Facebook data archive on %@.\n\nWe’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have.";
