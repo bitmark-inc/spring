@@ -150,16 +150,16 @@ class LaunchingViewController: ViewController {
 extension LaunchingViewController {
     func gotoSignInWallScreen() {
         let viewModel = SignInWallViewModel()
-        navigator.show(segue: .signInWall(viewModel: viewModel), sender: self)
+        navigator.show(segue: .signInWall(viewModel: viewModel), sender: self, transition: .replace(type: .none))
     }
 
     func gotoHowItWorksScreen() {
-        navigator.show(segue: .howItWorks, sender: self)
+        navigator.show(segue: .howItWorks, sender: self, transition: .replace(type: .none))
     }
 
     func gotoDownloadFBArchiveScreen() {
         let viewModel = RequestDataViewModel(.downloadData)
-        navigator.show(segue: .requestData(viewModel: viewModel), sender: self)
+        navigator.show(segue: .requestData(viewModel: viewModel), sender: self, transition: .replace(type: .none))
     }
 
     func gotoSignInScreen() {
@@ -167,17 +167,17 @@ extension LaunchingViewController {
     }
 
     func gotoMainScreen() {
-        navigator.show(segue: .hometabs, sender: self, transition: .replace(type: .auto))
+        navigator.show(segue: .hometabs, sender: self, transition: .replace(type: .none))
     }
     
     func gotoDataRequestedWithCheckButtonScreen() {
         let viewModel = DataRequestedViewModel(.checkRequestedData)
-        navigator.show(segue: .dataRequested(viewModel: viewModel), sender: self)
+        navigator.show(segue: .dataRequested(viewModel: viewModel), sender: self, transition: .replace(type: .none))
     }
 
     func gotoDataAnalyzingScreen() {
         let viewModel = DataAnalyzingViewModel()
-        navigator.show(segue: .dataAnalyzing(viewModel: viewModel), sender: self)
+        navigator.show(segue: .dataAnalyzing(viewModel: viewModel), sender: self, transition: .replace(type: .none))
     }
 }
 

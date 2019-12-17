@@ -118,9 +118,7 @@ class Navigator {
     private func show(target: UIViewController, sender: UIViewController?, transition: Transition) {
         switch transition {
         case .root(in: let window):
-            UIView.transition(with: window, duration: 0.5, options: .transitionFlipFromLeft, animations: {
-                window.rootViewController = target
-            }, completion: nil)
+            window.rootViewController = target
             return
         case .custom: return
         default: break
@@ -155,7 +153,13 @@ class Navigator {
 
             // replace controllers in navigation stack
             rootViewController.hero.navigationAnimationType = .autoReverse(presenting: type)
-            rootViewController.setViewControllers([target], animated: true)
+            switch type {
+            case .none:
+                rootViewController.setViewControllers([target], animated: false)
+            default:
+                rootViewController.setViewControllers([target], animated: true)
+            }
+
         case .modal:
             // present modally
             DispatchQueue.main.async {
