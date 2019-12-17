@@ -17,6 +17,7 @@ import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.feature.Navigator.Companion.FADE_IN
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
@@ -145,7 +146,7 @@ class SplashActivity : BaseAppCompatActivity() {
                                         )
                                     ), true
                                 )
-                            navigator.anim(RIGHT_LEFT)
+                            navigator.anim(FADE_IN)
                                 .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                         }, 250)
 
@@ -196,7 +197,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     val dataReady = res.data() ?: false
                     handler.postDelayed({
                         if (dataReady) {
-                            navigator.anim(RIGHT_LEFT)
+                            navigator.anim(FADE_IN)
                                 .startActivityAsRoot(MainActivity::class.java)
                         } else {
 //                            val bundle =
@@ -204,9 +205,9 @@ class SplashActivity : BaseAppCompatActivity() {
 //                                    getString(R.string.analyzing_data),
 //                                    getString(R.string.your_fb_data_archive_has_been_successfully)
 //                                )
-//                            navigator.anim(RIGHT_LEFT)
+//                            navigator.anim(FADE_IN)
 //                                .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
-                            navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
+                            navigator.anim(FADE_IN).startActivityAsRoot(MainActivity::class.java)
                         }
                     }, 250)
                 }
