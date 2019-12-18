@@ -93,6 +93,7 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
                 R.string.do_you_want_to_allow_to_use_biometric_auth,
                 R.string.app_will_use_biometric,
                 false,
+                null,
                 R.string.enable,
                 {
                     loadAccount(

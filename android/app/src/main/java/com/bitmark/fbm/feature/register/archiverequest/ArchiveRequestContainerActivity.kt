@@ -82,8 +82,10 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
 
     override fun onBackPressed() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.layoutRoot)
-        if (currentFragment != null && currentFragment is BehaviorComponent && !currentFragment.onBackPressed()) {
-            navigator.anim(RIGHT_LEFT).finishActivity()
+        if (currentFragment != null && currentFragment is BehaviorComponent) {
+            if (!currentFragment.onBackPressed()) {
+                navigator.anim(RIGHT_LEFT).finishActivity()
+            }
         } else {
             super.onBackPressed()
         }

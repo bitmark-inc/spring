@@ -19,7 +19,7 @@
     <string name="get_your_data">Get your data</string>
     <string name="fb_login">Facebook login</string>
     <string name="fb_password">Facebook password</string>
-    <string name="we_will_only_use_your_fb_login">We’ll only use your Facebook login information to automate your back up.</string>
+    <string name="we_will_only_use_your_fb_login">We’ll only use your Facebook login information to automate your back up.\n\nYour login is stored locally, never in the Cloud.</string>
     <string name="prefer_to_do_this_manually">Prefer to do this manually?</string>
     <string name="data_requested">Data requested</string>
     <string name="fb_is_preparing_your_data">Facebook is preparing your data archive. This may take up to a few days, depending on how much data you have. \n\nWould you like us to notify you when your backup is ready? If not, you will need to return back here regularly to check if the backup is ready.</string>
@@ -132,6 +132,8 @@
     <string name="your_authorization_is_required">Your authorization is required.</string>
     <string name="account_unlinked">Account unlinked</string>
     <string name="your_account_has_been_unlinked">Your account has been completely unlinked from this device.</string>
+    <string name="automating_please_wait">Automating… please wait.</string>
+    <string name="your_help_is_required">Your help is required.</string>
 
     <string-array name="day_of_week">
         <item>S</item>

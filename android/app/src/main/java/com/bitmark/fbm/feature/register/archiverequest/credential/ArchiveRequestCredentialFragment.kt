@@ -7,8 +7,6 @@
 package com.bitmark.fbm.feature.register.archiverequest.credential
 
 import android.os.Handler
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
 import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.CredentialData
@@ -62,15 +60,15 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
 
         executor = Executors.newSingleThreadExecutor()
 
-        val spannableContent = getString(R.string.prefer_to_do_this_manually)
-        val spannableString = SpannableString(spannableContent)
-        spannableString.setSpan(
-            UnderlineSpan(),
-            0,
-            spannableContent.length,
-            SpannableString.SPAN_INCLUSIVE_EXCLUSIVE
-        )
-        tvManual.text = spannableString
+//        val spannableContent = getString(R.string.prefer_to_do_this_manually)
+//        val spannableString = SpannableString(spannableContent)
+//        spannableString.setSpan(
+//            UnderlineSpan(),
+//            0,
+//            spannableContent.length,
+//            SpannableString.SPAN_INCLUSIVE_EXCLUSIVE
+//        )
+//        tvManual.text = spannableString
 
         ivBack.setOnClickListener {
             navigator.anim(RIGHT_LEFT).finishActivity()
@@ -102,12 +100,12 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
             })
         }
 
-        tvManual.setSafetyOnclickListener {
-            navigator.anim(RIGHT_LEFT).replaceFragment(
-                R.id.layoutRoot,
-                ArchiveRequestFragment.newInstance()
-            )
-        }
+//        tvManual.setSafetyOnclickListener {
+//            navigator.anim(RIGHT_LEFT).replaceFragment(
+//                R.id.layoutRoot,
+//                ArchiveRequestFragment.newInstance()
+//            )
+//        }
 
         etId.requestFocus()
         handler.postDelayed({

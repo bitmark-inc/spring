@@ -9,27 +9,27 @@ package com.bitmark.fbm.feature
 import android.app.Activity
 import android.content.DialogInterface
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialog
 import com.bitmark.fbm.R
+import com.bitmark.fbm.util.view.TaggedAlertDialog
 import java.util.*
 
 class DialogController(private val activity: Activity) {
 
-    private val queue = ArrayDeque<AppCompatDialog>()
+    private val queue = ArrayDeque<TaggedAlertDialog>()
 
     var showingDialog: AppCompatDialog? = null
         private set
 
     private fun dismissListener(forwarder: () -> Unit = {}) =
-        DialogInterface.OnDismissListener { dialog ->
+        DialogInterface.OnDismissListener {
             showingDialog = null
             forwarder()
         }
 
     fun isShowing() = showingDialog != null
 
-    fun show(dialog: AppCompatDialog, dismissCallback: () -> Unit = {}) {
+    fun show(dialog: TaggedAlertDialog, dismissCallback: () -> Unit = {}) {
         dialog.setOnDismissListener(dismissListener(dismissCallback))
         if (isShowing() && dialog != showingDialog) {
             queue.add(dialog)
@@ -39,7 +39,7 @@ class DialogController(private val activity: Activity) {
         }
     }
 
-    fun dismiss(dialog: AppCompatDialog, dismissCallback: () -> Unit = {}) {
+    fun dismiss(dialog: TaggedAlertDialog, dismissCallback: () -> Unit = {}) {
         dialog.setOnDismissListener(dismissListener {
             dismissCallback()
             showNext()
@@ -50,6 +50,7 @@ class DialogController(private val activity: Activity) {
     fun alert(
         throwable: Throwable?,
         cancelable: Boolean = false,
+        tag: String? = null,
         clickEvent: () -> Unit = {},
         dismissCallback: () -> Unit = {}
     ) {
@@ -58,6 +59,7 @@ class DialogController(private val activity: Activity) {
             throwable?.message ?: "Unknown error",
             activity.getString(android.R.string.ok),
             cancelable,
+            tag,
             clickEvent,
             dismissCallback
         )
@@ -68,23 +70,27 @@ class DialogController(private val activity: Activity) {
         message: String,
         text: String = activity.getString(android.R.string.ok),
         cancelable: Boolean = false,
+        tag: String? = null,
         clickEvent: () -> Unit = {},
         dismissCallback: () -> Unit = {}
     ) {
-        val dialog =
-            AlertDialog.Builder(activity).setTitle(title).setMessage(message)
-                .setPositiveButton(text) { d, _ ->
-                    d.dismiss()
-                    clickEvent()
-                    showNext()
-                }
-                .setCancelable(cancelable).create()
+        val dialog = TaggedAlertDialog(activity, tag)
+        dialog.setTitle(title)
+        dialog.setMessage(message)
+        dialog.setButton(
+            DialogInterface.BUTTON_POSITIVE, text
+        ) { d, _ ->
+            d.dismiss()
+            clickEvent()
+            showNext()
+        }
+        dialog.setCancelable(cancelable)
         dialog.setOnDismissListener(dismissListener(dismissCallback))
-        if (isShowing()) {
-            queue.add(dialog)
-        } else {
+        if (!isShowing()) {
             dialog.show()
             showingDialog = dialog
+        } else if (!queue.has(dialog)) {
+            queue.add(dialog)
         }
     }
 
@@ -93,6 +99,7 @@ class DialogController(private val activity: Activity) {
         @StringRes message: Int,
         @StringRes text: Int = android.R.string.ok,
         cancelable: Boolean = false,
+        tag: String? = null,
         clickEvent: () -> Unit = {},
         dismissCallback: () -> Unit = {}
     ) {
@@ -101,6 +108,7 @@ class DialogController(private val activity: Activity) {
             activity.getString(message),
             activity.getString(text),
             cancelable,
+            tag,
             clickEvent,
             dismissCallback
         )
@@ -110,33 +118,36 @@ class DialogController(private val activity: Activity) {
         title: String,
         message: String,
         cancelable: Boolean = false,
+        tag: String? = null,
         positive: String = activity.getString(android.R.string.ok),
         positiveEvent: () -> Unit = {},
         negative: String = activity.getString(android.R.string.cancel),
         negativeEvent: () -> Unit = {},
         dismissCallback: () -> Unit = {}
     ) {
-        val dialog =
-            AlertDialog.Builder(activity).setTitle(title).setMessage(message)
-                .setPositiveButton(positive) { d, _ ->
-                    d.dismiss()
-                    positiveEvent()
-                    showNext()
-                }.setNegativeButton(negative) { d, _ ->
-                    d.dismiss()
-                    negativeEvent()
-                    if (isQueueing()) {
-                        val dialog = queue.first
-                        dialog.show()
-                    }
-                }
-                .setCancelable(cancelable).create()
+        val dialog = TaggedAlertDialog(activity, tag)
+        dialog.setTitle(title)
+        dialog.setMessage(message)
+        dialog.setButton(
+            DialogInterface.BUTTON_POSITIVE, positive
+        ) { d, _ ->
+            d.dismiss()
+            positiveEvent()
+            showNext()
+        }
+        dialog.setButton(
+            DialogInterface.BUTTON_NEGATIVE, negative
+        ) { d, _ ->
+            d.dismiss()
+            negativeEvent()
+        }
+        dialog.setCancelable(cancelable)
         dialog.setOnDismissListener(dismissListener(dismissCallback))
-        if (isShowing()) {
-            queue.add(dialog)
-        } else {
+        if (!isShowing()) {
             dialog.show()
             showingDialog = dialog
+        } else if (!queue.has(dialog)) {
+            queue.add(dialog)
         }
     }
 
@@ -144,6 +155,7 @@ class DialogController(private val activity: Activity) {
         @StringRes title: Int,
         @StringRes message: Int,
         cancelable: Boolean = false,
+        tag: String? = null,
         @StringRes positive: Int = android.R.string.ok,
         positiveEvent: () -> Unit = {},
         @StringRes negative: Int = android.R.string.cancel,
@@ -154,6 +166,7 @@ class DialogController(private val activity: Activity) {
             activity.getString(title),
             activity.getString(message),
             cancelable,
+            tag,
             activity.getString(positive),
             positiveEvent,
             activity.getString(negative),
@@ -182,3 +195,6 @@ class DialogController(private val activity: Activity) {
         }
     }
 }
+
+fun ArrayDeque<TaggedAlertDialog>.has(dialog: TaggedAlertDialog) =
+    this.indexOfFirst { d -> d.tag != null && d.tag == dialog.tag } != -1

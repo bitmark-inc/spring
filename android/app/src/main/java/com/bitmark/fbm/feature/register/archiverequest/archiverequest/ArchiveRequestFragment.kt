@@ -10,6 +10,7 @@ import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.webkit.*
 import androidx.lifecycle.Observer
@@ -33,6 +34,7 @@ import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.callback.Action0
+import com.bitmark.fbm.util.callback.Action1
 import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec
 import com.bitmark.sdk.features.Account
@@ -56,6 +58,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         private const val ARCHIVE_REQUESTED_AT = "archive_requested_at"
 
         private const val NOTIFICATION_ID = 0xA1
+
+        private const val MAX_RELOAD_COUNT = 5
 
         private val EXPECTED_PAGES = mapOf(
             Page.Name.LOGIN to listOf(
@@ -105,6 +109,10 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     private var lastUrl = ""
 
+    private var reloadCount = 0
+
+    private var checkLoginFailedLooperStopped = false
+
     private lateinit var downloadArchiveCredential: DownloadArchiveCredential
 
     override fun layoutRes(): Int = R.layout.fragment_archive_request
@@ -144,10 +152,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
                 if (newProgress >= 100) {
-                    progressBar.gone()
                     handlePageLoaded(view!!, script)
-                } else {
-                    progressBar.visible()
                 }
             }
         }
@@ -181,75 +186,64 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         }
 
         wv.loadUrl(url)
+
+        if (needAutomate()) {
+            showAutomatingState()
+        }
     }
 
     private fun handlePageLoaded(wv: WebView, script: AutomationScriptData) {
-        // workaround to prevent multi method call between the same urls
+        // workaround to avoid callback called multi times with the same url
         if (lastUrl == wv.url) return
-        val reload = fun(wv: WebView) {
-            lastUrl = "" // reset to pass through after reloading
-            wv.loadUrl(wv.url)
-        }
+
         lastUrl = wv.url
         detectPage(wv, script) { name ->
-            val pageName = Page.Name.fromString(name)
-            val unexpectedOccurred = expectedPage != null && !expectedPage!!.contains(pageName)
-            if (unexpectedOccurred) {
-                // only automate if has fb credential or archive is already requested
-                if (!hasCredential() && !isArchiveRequested()) return@detectPage
-                if (pageName == Page.Name.LOGIN) {
-                    checkLoginFailed(wv, script) { failed ->
-                        if (failed) {
-                            // TODO change text later
-                            dialogController.alert(
-                                "Error",
-                                "Incorrect authentication credentials."
-                            ) { navigator.anim(RIGHT_LEFT).popFragment() }
-                        } else {
-                            reload(wv)
-                        }
-                    }
-                } else {
-                    reload(wv)
-                }
+            val unexpectedPageDetected = expectedPage != null && !expectedPage!!.contains(name)
+            if (unexpectedPageDetected) {
+                handleUnexpectedPageDetected(wv)
             } else {
-                expectedPage = EXPECTED_PAGES[pageName]
+                if (needAutomate()) {
+                    showAutomatingState()
+                }
+                reloadCount = 0 // reset after detect expected page
+                expectedPage = EXPECTED_PAGES[name]
                 when (name) {
-                    Page.Name.LOGIN.value -> {
-                        if (hasCredential()) {
+                    Page.Name.LOGIN -> {
+                        startCheckLoginFailedLooper(wv, script)
+                        if (needAutomate()) {
                             wv.evaluateJs(
                                 script.getLoginScript(fbCredential!!.id, fbCredential!!.password)
                                     ?: return@detectPage
                             )
                         }
                     }
-                    Page.Name.ACCOUNT_PICKING.value -> {
+                    Page.Name.ACCOUNT_PICKING -> {
                         // do nothing now
                     }
-                    Page.Name.SAVE_DEVICE.value -> {
-                        if (hasCredential()) {
+                    Page.Name.SAVE_DEVICE -> {
+                        if (needAutomate()) {
                             wv.evaluateJs(script.getSaveDeviceOkScript())
                         } else {
                             // TODO show instruction
                         }
                     }
-                    Page.Name.NEW_FEED.value -> {
+                    Page.Name.NEW_FEED -> {
                         // permanently save cookies for next session
                         CookieManager.getInstance().flush()
-                        if (hasCredential() || isArchiveRequested()) {
+                        if (needAutomate()) {
                             wv.evaluateJs(script.getNewFeedGoToSettingPageScript())
                         } else {
                             // TODO show instruction
                         }
                     }
-                    Page.Name.SETTINGS.value -> {
-                        if (hasCredential() || isArchiveRequested()) {
+                    Page.Name.SETTINGS -> {
+                        if (needAutomate()) {
                             wv.evaluateJs(script.getSettingGoToArchivePageScript())
                         } else {
                             // TODO show instruction
                         }
                     }
-                    Page.Name.ARCHIVE.value -> {
+                    Page.Name.ARCHIVE -> {
                         when {
                             isArchiveRequested() -> {
                                 wv.evaluateVerificationJs(
@@ -291,23 +285,101 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                             }
                         }
                     }
-                    Page.Name.RE_AUTH.value -> {
-                        if (hasCredential()) {
+                    Page.Name.RE_AUTH -> {
+                        if (needAutomate()) {
                             wv.evaluateJs(script.getReAuthScript(fbCredential!!.password))
                         } else {
                             // TODO show instruction
                         }
                     }
+                    Page.Name.UNKNOWN -> {
+                        // could not detect the current page
+                        if (needAutomate()) {
+                            showHelpRequiredState()
+                        }
+                    }
                 }
+            }
+
+            // stop checking login failed looper after leaving LOGIN page
+            if (name != Page.Name.LOGIN) {
+                checkLoginFailedLooperStopped = true
             }
         }
 
     }
 
+    private fun startCheckLoginFailedLooper(wv: WebView, script: AutomationScriptData) {
+        val checkLoginFailed =
+            fun(wv: WebView, script: AutomationScriptData, callback: Action1<Boolean>) {
+                wv.evaluateVerificationJs(script.getCheckLoginFailedScript()!!) { failed ->
+                    callback.invoke(failed)
+                }
+            }
+
+        checkLoginFailed(wv, script, object : Action1<Boolean> {
+            override fun invoke(failed: Boolean) {
+                if (failed) {
+                    showLoginFailedPopup()
+                } else if (!checkLoginFailedLooperStopped) {
+                    checkLoginFailed(wv, script, this)
+                }
+            }
+        })
+    }
+
+    private fun handleUnexpectedPageDetected(wv: WebView) {
+        // only automate if has fb credential or archive is already requested
+        if (!needAutomate()) return
+
+        // reload webview if detect the same page as previous one or unexpected page
+        // it helps to refresh the JS context to corresponding latest page, avoid using the old one
+        val reload = fun(wv: WebView) {
+            if (reloadCount >= MAX_RELOAD_COUNT) {
+                // got stuck here and could not continue automating
+                if (needAutomate()) {
+                    showHelpRequiredState()
+                }
+            } else {
+                Log.d(TAG, "Reload: ${wv.url}")
+                lastUrl = "" // reset to pass through after reloading
+                wv.loadUrl(wv.url)
+                reloadCount++
+            }
+        }
+
+        reload(wv)
+    }
+
+    private fun showLoginFailedPopup() {
+        // TODO change text later
+        dialogController.alert(
+            "Error",
+            "Incorrect authentication credentials.",
+            tag = "login failed"
+        ) { navigator.anim(RIGHT_LEFT).popFragment() }
+    }
+
+    private fun showAutomatingState() {
+        val bgColor = context?.getDrawable(R.color.cognac)
+        layoutState.background = bgColor
+        layoutRoot.background = bgColor
+        tvMsg.setText(R.string.automating_please_wait)
+        layoutState.visible()
+    }
+
+    private fun showHelpRequiredState() {
+        val bgColor = context?.getDrawable(R.color.international_klein_blue)
+        layoutState.background = bgColor
+        layoutRoot.background = bgColor
+        tvMsg.setText(R.string.your_help_is_required)
+        layoutState.visible()
+    }
+
     private fun detectPage(
         wv: WebView,
         script: AutomationScriptData,
-        callback: (String) -> Unit
+        callback: (Page.Name) -> Unit
     ) {
         var detectedPage = ""
         val evaluated = AtomicInteger(0)
@@ -352,9 +424,10 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                             Event.ARCHIVE_REQUEST_AUTOMATE_PAGE_DETECTION_ERROR,
                             "could not detect the current page"
                         )
+                        callback(Page.Name.UNKNOWN)
                     }
                     Tracer.DEBUG.log(TAG, "detected the current page: $detectedPage")
-                    callback(detectedPage)
+                    callback(Page.Name.fromString(detectedPage))
                 }
             }
         })
@@ -393,17 +466,11 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         })
     }
 
-    private fun checkLoginFailed(
-        wv: WebView,
-        script: AutomationScriptData,
-        callback: (Boolean) -> Unit
-    ) {
-        wv.evaluateVerificationJs(script.getCheckLoginFailedScript()!!, callback = callback)
-    }
-
     private fun hasCredential() = fbCredential?.isValid() == true
 
     private fun isArchiveRequested() = archiveRequestedAt != -1L
+
+    private fun needAutomate() = hasCredential() || isArchiveRequested()
 
     private fun registerAccount(
         downloadArchiveCredential: DownloadArchiveCredential,

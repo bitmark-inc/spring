@@ -108,7 +108,11 @@ data class Page(
 
         @Expose
         @SerializedName("reauth")
-        RE_AUTH;
+        RE_AUTH,
+
+        @Expose
+        @SerializedName("unknown")
+        UNKNOWN;
 
         companion object
 
@@ -124,6 +128,7 @@ val Page.Name.value: String
         Page.Name.SETTINGS        -> "settings"
         Page.Name.ARCHIVE         -> "archive"
         Page.Name.RE_AUTH         -> "reauth"
+        Page.Name.UNKNOWN         -> "unknown"
     }
 
 fun Page.Name.Companion.fromString(name: String) = when (name) {
@@ -134,6 +139,6 @@ fun Page.Name.Companion.fromString(name: String) = when (name) {
     "settings"        -> Page.Name.SETTINGS
     "archive"         -> Page.Name.ARCHIVE
     "reauth"          -> Page.Name.RE_AUTH
-    else              -> error("invalid name: $name")
+    else              -> Page.Name.UNKNOWN
 }
 
