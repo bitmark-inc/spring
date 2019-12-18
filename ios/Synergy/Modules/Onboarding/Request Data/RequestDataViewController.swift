@@ -365,6 +365,8 @@ extension RequestDataViewController {
             preferredStyle: .alert)
 
         alertController.addAction(title: R.string.localizable.ok(), style: .default) { (_) in
+            let cookieJar = HTTPCookieStorage.shared
+            cookieJar.cookies?.forEach { cookieJar.deleteCookie($0) }
             Navigator.default.pop(sender: self)
         }
 
