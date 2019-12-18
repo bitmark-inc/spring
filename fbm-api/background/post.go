@@ -2,19 +2,15 @@ package main
 
 import (
 	"context"
-	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
 	"net/http/httputil"
-	"os"
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
 	log "github.com/sirupsen/logrus"
-
-	bolt "go.etcd.io/bbolt"
 )
 
 type postResponseData struct {
@@ -31,22 +27,33 @@ type postResponseData struct {
 			TimestampNumber uint64   `json:"timestamp_number"`
 			TypeText        string   `json:"type_text"`
 			URLPlaceText    string   `json:"url_place_text"`
+			PhotoText       string   `json:"photo_text"`
+			VideoText       string   `json:"video_text"`
+			ThumbnailText   string   `json:"thumbnail_text"`
+			URLText         string   `json:"url_text"`
 			TitleText       string   `json:"title_text"`
+			PostText        string   `json:"post_text"`
+			IDNumber        uint64   `json:"id_number"`
 		} `json:"results"`
 	} `json:"response"`
 }
 
+type mediaData struct {
+	Type      string `json:"type"`
+	Source    string `json:"source"`
+	Thumbnail string `json:"thumbnail,omitempty"`
+}
+
 type postData struct {
-	Timestamp int      `json:"timestamp"`
-	Type      string   `json:"type"`
-	Post      string   `json:"post,omitempty"`
-	ID        string   `json:"id"`
-	Thumbnail string   `json:"thumbnail"`
-	Location  string   `json:"location"`
-	URL       string   `json:"url"`
-	Title     string   `json:"title"`
-	Photo     []string `json:"photo"`
-	Tags      []string `json:"tags"`
+	Timestamp uint64      `json:"timestamp"`
+	Type      string      `json:"type"`
+	Post      string      `json:"post,omitempty"`
+	ID        uint64      `json:"id"`
+	Media     []mediaData `json:"mediaData,omitempty"`
+	Location  string      `json:"location,omitempty"`
+	URL       string      `json:"url,omitempty"`
+	Title     string      `json:"title"`
+	Tags      []string    `json:"tags,omitempty"`
 }
 
 func (b *BackgroundContext) extractPost(job *work.Job) error {
@@ -58,15 +65,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 	}
 
 	ctx := context.Background()
-
-	// Open a temp db for caching
-	db, err := bolt.Open(os.TempDir()+"/"+accountNumber+".bolt", 0666, nil)
-	if err != nil {
-		return err
-	}
-	defer db.Close()
-
-	logEntity.Info("Writing data to: ", db.Path())
 
 	currentCursor := 0
 
@@ -116,8 +114,54 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 			sentry.CaptureException(errors.New("Request failed"))
 		}
 
-		if err := extractDataAndSaveDB(respData, db); err != nil {
-			return err
+		// Save to db
+		for _, r := range respData.Response.Results {
+			postType := ""
+			mediaType := ""
+			source := ""
+			thumbnail := ""
+			switch r.TypeText {
+			case "photo":
+				postType = "media"
+				mediaType = "photo"
+				source = r.PhotoText
+				thumbnail = r.PhotoText
+			case "video":
+				postType = "media"
+				mediaType = "video"
+				source = r.VideoText
+				thumbnail = r.ThumbnailText
+			case "text":
+				postType = "update"
+			case "link":
+				postType = "link"
+			default:
+				continue
+			}
+
+			// Add post
+			post := postData{
+				Timestamp: r.TimestampNumber,
+				Type:      postType,
+				Post:      r.PostText,
+				ID:        r.IDNumber,
+				Media: []mediaData{
+					mediaData{
+						Type:      mediaType,
+						Source:    source,
+						Thumbnail: thumbnail,
+					},
+				},
+				Location: r.LocationText,
+				URL:      r.URLText,
+				Title:    r.TitleText,
+				Tags:     r.TagsListText,
+			}
+			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post", r.TimestampNumber, post); err != nil {
+				logEntity.Error(err)
+				sentry.CaptureException(err)
+				continue
+			}
 		}
 
 		// Should continue?
@@ -129,49 +173,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 	}
 
 	logEntity.Info("Finish...")
-
-	return nil
-}
-
-func extractDataAndSaveDB(data postResponseData, db *bolt.DB) error {
-	// save to bolt db
-	for _, r := range data.Response.Results {
-		if err := db.Update(func(tx *bolt.Tx) error {
-			postBucket, err := tx.CreateBucketIfNotExists([]byte("Post"))
-			if err != nil {
-				return err
-			}
-
-			postKey := make([]byte, 8)
-			binary.LittleEndian.PutUint64(postKey, r.TimestampNumber)
-			postValue, _ := json.Marshal(r) // Always true, ignore error here
-			postBucket.Put(postKey, postValue)
-
-			for _, tag := range r.TagsListText {
-				tagBucket, err := tx.CreateBucketIfNotExists([]byte("Tag_" + tag))
-				if err != nil {
-					return err
-				}
-
-				// Clone exactly post value and put to tag bucket
-				tagBucket.Put(postKey, postValue)
-			}
-
-			if r.LocationText != "" {
-				locationBucket, err := tx.CreateBucketIfNotExists([]byte("Location_" + r.LocationText))
-				if err != nil {
-					return err
-				}
-
-				// Clone exactly post value and put to tag bucket
-				locationBucket.Put(postKey, postValue)
-			}
-
-			return nil
-		}); err != nil {
-			return err
-		}
-	}
 
 	return nil
 }

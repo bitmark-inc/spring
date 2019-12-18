@@ -20,7 +20,6 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/viper v1.5.0
-	github.com/ugorji/go v1.1.7 // indirect
+	github.com/ugorji/go/codec v1.1.7 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
-	go.etcd.io/bbolt v1.3.3
 )

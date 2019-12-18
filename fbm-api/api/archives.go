@@ -65,7 +65,7 @@ func (s *Server) getAllArchives(c *gin.Context) {
 }
 
 func (s *Server) parseArchive(c *gin.Context) {
-	job, err := s.backgroundEnqueuer.EnqueueUnique("extract_posts", work.Q{
+	job, err := s.backgroundEnqueuer.EnqueueUnique("analyze_posts", work.Q{
 		"url":            "https://bitmark.numbersprotocol.io/version-test/api/1.1/obj/fb_post",
 		"account_number": "test",
 	})

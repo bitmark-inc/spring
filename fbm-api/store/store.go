@@ -42,12 +42,6 @@ type Store interface {
 
 	// GetFBArchives to fetch all fb archives
 	GetFBArchives(ctx context.Context, params *FBArchiveQueryParam) ([]FBArchive, error)
-
-	// AddFBStat to add a FB stat
-	AddFBStat(ctx context.Context, key string, value interface{}) error
-
-	// GetFBStat to get a FB stat
-	GetFBStat(ctx context.Context, key string) (interface{}, error)
 }
 
 // AccountQueryParam params for querying an account
@@ -81,3 +75,12 @@ var (
 	// or there are errors while processing
 	FBArchiveStatusInvalid = "invalid"
 )
+
+// FBDataStore an interface for storing fb archive data
+type FBDataStore interface {
+	// AddFBStat to add a FB stat
+	AddFBStat(ctx context.Context, key string, timestamp uint64, value interface{}) error
+
+	// GetFBStat to get a FB stat
+	GetFBStat(ctx context.Context, key string, from, to uint64) ([]interface{}, error)
+}

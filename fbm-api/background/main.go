@@ -28,13 +28,13 @@ var (
 const (
 	jobDownloadArchive = "download_archive"
 	jobExtract         = "extract_zip"
-
-	jobAnalyzePosts = "analyze_posts"
+	jobAnalyzePosts    = "analyze_posts"
 )
 
 type BackgroundContext struct {
 	// Stores
-	store store.Store
+	store       store.Store
+	fbDataStore store.FBDataStore
 
 	// AWS Config
 	awsConf *aws.Config
@@ -110,6 +110,11 @@ func main() {
 		HTTPClient: httpClient,
 	}
 
+	dynamodbStore, err := store.NewDynamoDBStore(awsConf, viper.GetString("aws.dynamodb.table"))
+	if err != nil {
+		log.Panic(err)
+	}
+
 	oneSignalClient := onesignal.NewClient(httpClient)
 
 	// Init db
@@ -119,6 +124,7 @@ func main() {
 	}
 
 	b := &BackgroundContext{
+		fbDataStore:     dynamodbStore,
 		store:           pgstore,
 		awsConf:         awsConf,
 		httpClient:      httpClient,
