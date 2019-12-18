@@ -117,20 +117,26 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 		// Save to db
 		for _, r := range respData.Response.Results {
 			postType := ""
-			mediaType := ""
-			source := ""
-			thumbnail := ""
+			var media []mediaData
 			switch r.TypeText {
 			case "photo":
 				postType = "media"
-				mediaType = "photo"
-				source = r.PhotoText
-				thumbnail = r.PhotoText
+				media = []mediaData{
+					mediaData{
+						Type:      "photo",
+						Source:    r.PhotoText,
+						Thumbnail: r.PhotoText,
+					},
+				}
 			case "video":
 				postType = "media"
-				mediaType = "video"
-				source = r.VideoText
-				thumbnail = r.ThumbnailText
+				media = []mediaData{
+					mediaData{
+						Type:      "video",
+						Source:    r.VideoText,
+						Thumbnail: r.ThumbnailText,
+					},
+				}
 			case "text":
 				postType = "update"
 			case "link":
@@ -145,17 +151,11 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 				Type:      postType,
 				Post:      r.PostText,
 				ID:        r.IDNumber,
-				Media: []mediaData{
-					mediaData{
-						Type:      mediaType,
-						Source:    source,
-						Thumbnail: thumbnail,
-					},
-				},
-				Location: r.LocationText,
-				URL:      r.URLText,
-				Title:    r.TitleText,
-				Tags:     r.TagsListText,
+				Media:     media,
+				Location:  r.LocationText,
+				URL:       r.URLText,
+				Title:     r.TitleText,
+				Tags:      r.TagsListText,
 			}
 			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post", r.TimestampNumber, post); err != nil {
 				logEntity.Error(err)
