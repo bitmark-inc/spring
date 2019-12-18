@@ -37,7 +37,10 @@ extension Reactive where Base: FbmAccountDataEngine {
                         .flatMapCompletable { Storage.store($0) }
                         .observeOn(MainScheduler.instance)
                         .subscribe(onCompleted: {
-                            guard let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) else { return }
+                            guard let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) else {
+                                Global.log.error(AppError.incorrectEmptyRealmObject)
+                                return
+                            }
                             event(.success(fbmAccount))
                         }, onError: { (error) in
                             event(.error(error))

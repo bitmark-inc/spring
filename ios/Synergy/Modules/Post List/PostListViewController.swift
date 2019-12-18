@@ -43,7 +43,7 @@ class PostListViewController: ViewController, BackNavigator {
                         guard let self = self, let changes = changes else { return }
 
                         self.refreshView()
-                        self.tableView.applyChangeset(changes)
+                        self.tableView.applyChangeset(changes, section: 1)
                     }, onError: { (error) in
                         Global.log.error(error)
                     })

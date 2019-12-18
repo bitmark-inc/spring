@@ -17,9 +17,9 @@ class Storage {
     static private var notificationToken: NotificationToken?
 
     // MARK: - Handlers
-    static func store(_ objects: [Object]) -> Completable {
+    static func store(_ objects: [Object], inGlobalRealm: Bool = false) -> Completable {
         return Completable.create { (event) -> Disposable in
-            self.performWrite(writeBlock: { (backgroundRealm) in
+            self.performWrite(inGlobalRealm: inGlobalRealm, writeBlock: { (backgroundRealm) in
                 objects.forEach { (object) in
                     backgroundRealm.add(object, update: .modified)
                 }
@@ -31,11 +31,11 @@ class Storage {
         }
     }
 
-    static func store(_ object: Object) -> Completable {
+    static func store(_ object: Object, inGlobalRealm: Bool = false) -> Completable {
         Global.log.info("[start] store object")
 
         return Completable.create { (event) -> Disposable in
-            self.performWrite(writeBlock: { (backgroundRealm) in
+            self.performWrite(inGlobalRealm: inGlobalRealm, writeBlock: { (backgroundRealm) in
                 backgroundRealm.add(object, update: .modified)
             }, completionBlock: { (error) in
                 Global.log.info("[done] store object")
@@ -46,30 +46,13 @@ class Storage {
         }
     }
 
-    static func mainThreadUpdate(with block: @escaping (Realm) throws -> Void) -> Completable {
-        Global.log.info("[start] mainThreadUpdate")
-
-        return Completable.create { (event) -> Disposable in
-            do {
-                let mainRealm = try RealmConfig.globalRealm()
-                try mainRealm.write {
-                    try block(mainRealm)
-                }
-                event(.completed)
-            } catch {
-                event(.error(error))
-            }
-            return Disposables.create()
-        }
-    }
-
-    static private func performWrite(writeBlock: @escaping (Realm) throws -> Void,
+    static private func performWrite(inGlobalRealm: Bool = false, writeBlock: @escaping (Realm) throws -> Void,
                                               completionBlock: ((Error?) -> Void)? = nil) {
         DispatchQueue.main.async {
           var storageError: Error?
 
           do {
-            let backgroundRealm = try RealmConfig.currentRealm()
+            let backgroundRealm = try inGlobalRealm ? RealmConfig.globalRealm() : RealmConfig.currentRealm()
             self.notificationToken = backgroundRealm.observe { (notification, realm) in
               completionBlock?(storageError)
               self.notificationToken?.invalidate()

@@ -14,7 +14,7 @@ import SwiftDate
 class PostDataEngine {
     static func syncPosts() {
         _ = PostService.getAll()
-            .flatMapCompletable { Storage.store($0) }
+            .flatMapCompletable { Storage.store($0, inGlobalRealm: true) }
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onError: { (error) in
                 guard !AppError.errorByNetworkConnection(error) else { return }
