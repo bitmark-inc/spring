@@ -33,9 +33,11 @@ class GeneralPostTableViewCell: TableViewCell, PostDataTableViewCell {
                 flex.addItem(postInfoLabel)
                 flex.addItem(captionLabel).marginTop(12).basis(1)
             }
-            flex.addItem(photoImageView).marginTop(20)
+            flex.addItem(photoImageView).marginTop(20).maxWidth(100%)
             flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
         }
+
+        contentView.flex.layout(mode: .adjustHeight)
     }
 
     override func prepareForReuse() {
@@ -65,7 +67,11 @@ class GeneralPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
         if post.type != Constant.PostType.video, let photo = post.photo, let photoURL = URL(string: photo) {
             photoImageView.loadURL(photoURL)
-                .subscribe()
+                .subscribe(onCompleted: { [weak self] in
+                    guard let self = self else { return }
+                    self.photoImageView.flex.markDirty()
+                    self.contentView.flex.layout(mode: .adjustHeight)
+                })
                 .disposed(by: disposeBag)
         }
 

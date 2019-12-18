@@ -37,7 +37,6 @@ class ImageView: UIImageView {
 
     func loadURL(_ url: URL) -> Completable {
         return Completable.create { (event) -> Disposable in
-            self.flex.height(470)
             let imagePath = url.path.replacingOccurrences(of: "photos_and_videos/", with: "")
             let photoImageURL = Constant.fbImageServerURL?.appendingPathComponent(imagePath)
 
