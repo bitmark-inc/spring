@@ -18,9 +18,9 @@ type DynamoDBStore struct {
 }
 
 type fbData struct {
-	Key       string      `dynamodbav:"key"`
-	Timestamp uint64      `dynamodbav:"timestamp"`
-	Data      interface{} `dynamodbav:"data"`
+	Key       string `dynamodbav:"key"`
+	Timestamp uint64 `dynamodbav:"timestamp"`
+	Data      []byte `dynamodbav:"data"`
 }
 
 func NewDynamoDBStore(config *aws.Config, tablename string) (*DynamoDBStore, error) {
@@ -66,6 +66,14 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to uint
 	input := &dynamodb.QueryInput{
 		TableName: d.table,
 		KeyConditions: map[string]*dynamodb.Condition{
+			"key": {
+				ComparisonOperator: aws.String("EQ"),
+				AttributeValueList: []*dynamodb.AttributeValue{
+					{
+						S: aws.String(key),
+					},
+				},
+			},
 			"timestamp": {
 				ComparisonOperator: aws.String("BETWEEN"),
 				AttributeValueList: []*dynamodb.AttributeValue{
@@ -84,11 +92,20 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to uint
 		return nil, err
 	}
 
-	var items []interface{}
+	var items []fbData
 
 	if err := dynamodbattribute.UnmarshalListOfMaps(result.Items, &items); err != nil {
 		return nil, err
 	}
 
-	return items, nil
+	var data []interface{}
+	for _, i := range items {
+		var d interface{}
+		if err := json.Unmarshal(i.Data, &d); err != nil {
+			return nil, err
+		}
+		data = append(data, d)
+	}
+
+	return data, nil
 }
