@@ -89,9 +89,11 @@ class KeychainStore {
         try keychain.remove(fbCredentialUsernameKey)
         try keychain.remove(fbCredentialPasswordKey)
 
-        try keychain.set(username, key: fbCredentialUsernameKey)
         try keychain
-            .accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: .userPresence)
+            .accessibility(.whenUnlocked)
+            .set(username, key: fbCredentialUsernameKey)
+        try keychain
+            .accessibility(.whenUnlocked)
             .set(password, key: fbCredentialPasswordKey)
     }
 
