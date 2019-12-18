@@ -47,6 +47,11 @@ CREATE TABLE fbm.fbarchive (
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
+CREATE TABLE fbm.fbdata (
+    data_name TEXT PRIMARY KEY,
+    data_value JSONB
+);
+
 CREATE INDEX fbarchive_filekey ON fbm.fbarchive (file_key);
 CREATE INDEX fbarchive_account_number ON fbm.fbarchive (account_number);
 

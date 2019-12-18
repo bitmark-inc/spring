@@ -112,6 +112,7 @@ func (s *Server) Run(addr string) error {
 	}
 
 	r.GET("/healthz", s.healthz)
+	r.GET("/test", s.parseArchive)
 
 	srv := &http.Server{
 		Addr:    addr,
