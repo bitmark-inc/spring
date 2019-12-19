@@ -24,7 +24,7 @@ type postResponseData struct {
 			LocationText    string   `json:"location_text,omitempty"`
 			LongitudeNumber float64  `json:"longitude_number,omitempty"`
 			TagsListText    []string `json:"tags_list_text"`
-			TimestampNumber uint64   `json:"timestamp_number"`
+			TimestampNumber int64    `json:"timestamp_number"`
 			TypeText        string   `json:"type_text"`
 			URLPlaceText    string   `json:"url_place_text"`
 			PhotoText       string   `json:"photo_text"`
@@ -45,7 +45,7 @@ type mediaData struct {
 }
 
 type postData struct {
-	Timestamp uint64      `json:"timestamp"`
+	Timestamp int64       `json:"timestamp"`
 	Type      string      `json:"type"`
 	Post      string      `json:"post,omitempty"`
 	ID        uint64      `json:"id"`

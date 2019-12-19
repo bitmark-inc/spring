@@ -19,7 +19,7 @@ type DynamoDBStore struct {
 
 type fbData struct {
 	Key       string `dynamodbav:"key"`
-	Timestamp uint64 `dynamodbav:"timestamp"`
+	Timestamp int64  `dynamodbav:"timestamp"`
 	Data      []byte `dynamodbav:"data"`
 }
 
@@ -38,7 +38,7 @@ func NewDynamoDBStore(config *aws.Config, tablename string) (*DynamoDBStore, err
 	}, nil
 }
 
-func (d *DynamoDBStore) AddFBStat(ctx context.Context, key string, timestamp uint64, value interface{}) error {
+func (d *DynamoDBStore) AddFBStat(ctx context.Context, key string, timestamp int64, value interface{}) error {
 	data, err := json.Marshal(value)
 	if err != nil {
 		return err
@@ -62,7 +62,7 @@ func (d *DynamoDBStore) AddFBStat(ctx context.Context, key string, timestamp uin
 	return err
 }
 
-func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to uint64) ([]interface{}, error) {
+func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int64) ([]interface{}, error) {
 	input := &dynamodb.QueryInput{
 		TableName: d.table,
 		KeyConditions: map[string]*dynamodb.Condition{
@@ -78,10 +78,10 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to uint
 				ComparisonOperator: aws.String("BETWEEN"),
 				AttributeValueList: []*dynamodb.AttributeValue{
 					{
-						N: aws.String(strconv.FormatUint(from, 10)),
+						N: aws.String(strconv.FormatInt(from, 10)),
 					},
 					{
-						N: aws.String(strconv.FormatUint(to, 10)),
+						N: aws.String(strconv.FormatInt(to, 10)),
 					},
 				},
 			},

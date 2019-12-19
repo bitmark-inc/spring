@@ -24,7 +24,8 @@ type Server struct {
 	server *http.Server
 
 	// Stores
-	store store.Store
+	store       store.Store
+	fbDataStore store.FBDataStore
 
 	// JWT private key
 	jwtPrivateKey *rsa.PrivateKey
@@ -47,6 +48,7 @@ type Server struct {
 
 // NewServer new instance of server
 func NewServer(store store.Store,
+	fbDataStore store.FBDataStore,
 	jwtKey *rsa.PrivateKey,
 	awsConf *aws.Config,
 	bitmarkAccount *account.AccountV2,
@@ -56,6 +58,7 @@ func NewServer(store store.Store,
 	}
 	return &Server{
 		store:              store,
+		fbDataStore:        fbDataStore,
 		jwtPrivateKey:      jwtKey,
 		awsConf:            awsConf,
 		httpClient:         httpClient,
@@ -103,6 +106,11 @@ func (s *Server) Run(addr string) error {
 	{
 		archivesRoute.POST("", s.downloadFBArchive)
 		archivesRoute.GET("", s.getAllArchives)
+	}
+
+	postRoute := apiRoute.Group("/posts")
+	{
+		postRoute.GET("", s.getAllPosts)
 	}
 
 	assetRoute := r.Group("/assets")

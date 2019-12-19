@@ -190,8 +190,14 @@ func main() {
 
 	var enqueuer = work.NewEnqueuer("fbm", redisPool)
 
+	dynamodbStore, err := store.NewDynamoDBStore(awsConf, viper.GetString("aws.dynamodb.table"))
+	if err != nil {
+		log.Panic(err)
+	}
+
 	// Init http server
 	server = api.NewServer(s,
+		dynamodbStore,
 		jwtPrivateKey,
 		awsConf,
 		globalAccount,
