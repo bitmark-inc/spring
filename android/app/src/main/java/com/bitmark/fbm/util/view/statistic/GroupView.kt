@@ -219,7 +219,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     }
 
     private fun getBarData(group: GroupModelView, barXValues: List<String>): BarData {
-        val font = ResourcesCompat.getFont(context, R.font.grotesk)
+        val font = ResourcesCompat.getFont(context, R.font.grotesk_light_font_family)
         val vertical = group.name == GroupName.DAY
         val gEntries = group.entries
         val barEntries = mutableListOf<BarEntry>()
@@ -269,7 +269,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         dataSet.colors = colors.toList()
         val barData = BarData(dataSet)
         barData.barWidth = if (vertical) 0.4f else 0.15f
-        barData.setValueTextSize(12f)
+        barData.setValueTextSize(15f)
         barData.setValueTypeface(font)
         barData.setValueFormatter(StackedBarValueFormatter(!vertical))
         return barData
@@ -336,7 +336,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     ) && group.name == GroupName.TYPE
 
     private fun buildBarChart(group: GroupModelView, barXValues: List<String>): BarChart {
-        val font = ResourcesCompat.getFont(context, R.font.grotesk)
+        val font = ResourcesCompat.getFont(context, R.font.grotesk_light_font_family)
         val vertical = group.name == GroupName.DAY
         val chartView = if (vertical) BarChart(context) else HorizontalBarChart(context)
         chartView.description.isEnabled = false
@@ -352,7 +352,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         axisRight.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(vertical)
-        xAxis.textSize = 12f
+        xAxis.textSize = 15f
         xAxis.typeface = font
         xAxis.position =
             if (vertical) XAxis.XAxisPosition.BOTTOM else XAxis.XAxisPosition.BOTTOM_INSIDE
@@ -388,6 +388,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                 }
             }
         })
+        if (vertical) chartView.setExtraOffsets(0f, 0f, 0f, 15f)
         return chartView
     }
 

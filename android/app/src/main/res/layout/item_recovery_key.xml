@@ -14,7 +14,7 @@
         android:id="@+id/tvWord"
         android:layout_width="@dimen/dp_200"
         android:layout_height="@dimen/dp_52"
-        android:fontFamily="@font/grotesk"
+        android:fontFamily="@font/grotesk_light_font_family"
         android:gravity="center"
         android:includeFontPadding="false"
         android:textColor="@color/tundora"

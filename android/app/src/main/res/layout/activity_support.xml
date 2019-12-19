@@ -63,7 +63,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dp_40"
         android:layout_marginBottom="@dimen/dp_40"
-        android:fontFamily="@font/grotesk"
+        android:fontFamily="@font/grotesk_light_font_family"
         android:includeFontPadding="false"
         android:scrollbars="vertical"
         android:textColor="@color/black"

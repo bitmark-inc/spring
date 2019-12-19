@@ -108,7 +108,7 @@ class CustomXAxisRender(
             if (mViewPortHandler.isInBoundsY(y)) {
 
                 val label = mXAxis.valueFormatter.getAxisLabel(mXAxis.mEntries[i / 2], mXAxis)
-                drawLabel(c, label, pos - 10f, y - 50f, anchor, labelRotationAngleDegrees)
+                drawLabel(c, label, pos - 10f, y - 40f, anchor, labelRotationAngleDegrees)
             }
             i += 2
         }

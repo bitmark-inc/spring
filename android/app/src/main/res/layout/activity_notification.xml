@@ -67,7 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_48"
-        android:fontFamily="@font/grotesk"
+        android:fontFamily="@font/grotesk_light_font_family"
         android:text="@string/fb_may_take_a_few_days"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_18"
@@ -85,12 +85,11 @@
         android:layout_marginEnd="@dimen/dp_18"
         android:layout_marginBottom="@dimen/dp_4"
         android:background="@drawable/bg_cognac_stateful"
-        android:fontFamily="@font/grotesk"
+        android:fontFamily="@font/grotesk_regular_font_family"
         android:text="@string/notify_me_arrow"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_17"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/btnSkip"
         />
 
@@ -103,12 +102,11 @@
         android:layout_marginEnd="@dimen/dp_18"
         android:layout_marginBottom="@dimen/dp_24"
         android:background="@null"
-        android:fontFamily="@font/grotesk"
+        android:fontFamily="@font/grotesk_regular_font_family"
         android:text="@string/no_thanks"
         android:textAllCaps="false"
         android:textColor="@drawable/color_cognac_stateful"
         android:textSize="@dimen/sp_17"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

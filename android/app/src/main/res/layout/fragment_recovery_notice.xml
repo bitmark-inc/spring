@@ -63,7 +63,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/dp_40"
         android:layout_marginBottom="@dimen/dp_40"
-        android:fontFamily="@font/grotesk"
+        android:fontFamily="@font/grotesk_light_font_family"
         android:includeFontPadding="false"
         android:scrollbars="vertical"
         android:text="@string/your_recovery_key_allow_you"
@@ -84,11 +84,10 @@
         android:layout_marginEnd="@dimen/dp_18"
         android:layout_marginBottom="@dimen/dp_32"
         android:background="@drawable/bg_mercury_stateful"
-        android:fontFamily="@font/grotesk"
+        android:fontFamily="@font/grotesk_regular_font_family"
         android:text="@string/write_down_recovery_key"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_17"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 

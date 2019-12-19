@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_4"
-        android:fontFamily="@font/grotesk"
+        android:fontFamily="@font/grotesk_light_font_family"
         android:includeFontPadding="false"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_10"

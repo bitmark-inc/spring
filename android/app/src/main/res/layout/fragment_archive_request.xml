@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:fontFamily="@font/grotesk"
+            android:fontFamily="@font/grotesk_regular_font_family"
             android:gravity="center"
             android:includeFontPadding="false"
             android:text="@string/automating_please_wait"
