@@ -57,7 +57,10 @@ func (s *Server) getAllArchives(c *gin.Context) {
 	archives, err := s.store.GetFBArchives(c, &store.FBArchiveQueryParam{
 		AccountNumber: &account.AccountNumber,
 	})
-	shouldInterupt(err, c)
+
+	if shouldInterupt(err, c) {
+		return
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": archives,
