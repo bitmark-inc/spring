@@ -8,9 +8,7 @@ package com.bitmark.fbm.data.source.remote
 
 import android.content.Context
 import com.bitmark.fbm.data.ext.newGsonInstance
-import com.bitmark.fbm.data.model.entity.PostR
-import com.bitmark.fbm.data.model.entity.PostType
-import com.bitmark.fbm.data.model.entity.applyRequiredValues
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
@@ -26,20 +24,36 @@ class UsageRemoteDataSource @Inject constructor(
     rxErrorHandlingComposer: RxErrorHandlingComposer
 ) : RemoteDataSource(fbmApi, converter, rxErrorHandlingComposer) {
 
-    fun listPostByType(type: PostType, fromSec: Long, toSec: Long) =
-        listPosts().map { posts -> posts.filter { p -> p.timestampSec in fromSec..toSec && p.type == type } }
-
-    fun listPostByTag(tag: String, fromSec: Long, toSec: Long) = listPosts().map { posts ->
-        posts.filter { p ->
-            p.timestampSec in fromSec..toSec && p.tags?.contains(tag) == true
+    fun listPost(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+        listPosts().map { posts ->
+            posts.filter { p -> p.timestampSec in startedAtSec..endedAtSec }
+                .take(limit)
         }
-    }
 
-    fun listPostByLocation(location: String, fromSec: Long, toSec: Long) = listPosts().map { posts ->
-        posts.filter { p ->
-            p.timestampSec in fromSec..toSec && p.location?.name == location
+    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+        listPosts().map { posts ->
+            posts.filter { p -> p.timestampSec in startedAtSec..endedAtSec && p.type == type }
+                .take(limit)
         }
-    }
+
+    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+        listPosts().map { posts ->
+            posts.filter { p ->
+                p.timestampSec in startedAtSec..endedAtSec && p.tags?.contains(tag) == true
+            }.take(limit)
+        }
+
+    fun listPostByLocation(
+        location: String,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int = 20
+    ) =
+        listPosts().map { posts ->
+            posts.filter { p ->
+                p.timestampSec in startedAtSec..endedAtSec && p.location?.name == location
+            }.take(limit)
+        }
 
     private fun listPosts() = Single.fromCallable {
         val json = context.assets.open("posts.json").bufferedReader()
@@ -50,5 +64,30 @@ class UsageRemoteDataSource @Inject constructor(
         }.filter { p -> p.type != PostType.UNSPECIFIED }
         posts.applyRequiredValues()
         posts
+    }.subscribeOn(Schedulers.io())
+
+    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+        listReaction().map { reactions ->
+            reactions.filter { r -> r.timestampSec in startedAtSec..endedAtSec }.take(limit)
+        }
+
+    fun listReactionByType(
+        reaction: Reaction,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int = 20
+    ) =
+        listReaction().map { reactions ->
+            reactions.filter { r -> r.timestampSec in startedAtSec..endedAtSec && r.reaction == reaction }
+                .take(limit)
+        }
+
+    private fun listReaction() = Single.fromCallable {
+        val json = context.assets.open("reactions.json").bufferedReader()
+            .use { r -> r.readText() }
+        val gson = newGsonInstance()
+        gson.fromJson(json, List::class.java).map { p ->
+            gson.fromJson(gson.toJson(p), ReactionR::class.java)
+        }
     }.subscribeOn(Schedulers.io())
 }

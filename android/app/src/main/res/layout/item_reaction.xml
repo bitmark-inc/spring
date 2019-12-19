@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/athens_gray"
+    android:padding="@dimen/dp_18"
+    >
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/grotesk"
+        android:includeFontPadding="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Nov 3 at 1:17 PM"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:fontFamily="@font/grotesk"
+        android:includeFontPadding="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTime"
+        tools:text="You reacted to Matthew Gallant’s photo."
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivType"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
+        android:layout_marginTop="@dimen/dp_24"
+        app:layout_constraintStart_toStartOf="@id/tvContent"
+        app:layout_constraintTop_toBottomOf="@id/tvContent"
+        tools:src="@drawable/ic_love"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,7 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.usagedetail
+package com.bitmark.fbm.feature.postdetail
 
 import com.bitmark.fbm.data.source.UsageRepository
 import com.bitmark.fbm.di.FragmentScope
@@ -14,17 +14,17 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class UsageDetailModule {
+class PostDetailModule {
 
     @Provides
     @FragmentScope
-    fun provideNav(fragment: UsageDetailFragment) = Navigator(fragment.parentFragment!!)
+    fun provideNav(fragment: PostDetailFragment) = Navigator(fragment.parentFragment!!)
 
     @Provides
     @FragmentScope
     fun provideVM(
-        fragment: UsageDetailFragment,
+        fragment: PostDetailFragment,
         usageRepo: UsageRepository,
         rxLiveDataTransformer: RxLiveDataTransformer
-    ) = UsageDetailViewModel(fragment.lifecycle, usageRepo, rxLiveDataTransformer)
+    ) = PostDetailViewModel(fragment.lifecycle, usageRepo, rxLiveDataTransformer)
 }

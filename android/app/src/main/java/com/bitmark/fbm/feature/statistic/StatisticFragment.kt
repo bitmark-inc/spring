@@ -16,15 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.bitmark.fbm.R
-import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.model.entity.fromString
-import com.bitmark.fbm.data.model.entity.value
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
-import com.bitmark.fbm.feature.usagedetail.UsageDetailFragment
+import com.bitmark.fbm.feature.postdetail.PostDetailFragment
+import com.bitmark.fbm.feature.reactiondetail.ReactionDetailFragment
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
@@ -32,6 +31,7 @@ import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.visible
 import com.bitmark.fbm.util.formatPeriod
+import com.bitmark.fbm.util.formatSubPeriod
 import com.bitmark.fbm.util.view.statistic.GroupView
 import kotlinx.android.synthetic.main.fragment_statistic.*
 import javax.inject.Inject
@@ -128,10 +128,7 @@ class StatisticFragment : BaseSupportFragment() {
 
         adapter.setChartClickListener(object : GroupView.ChartClickListener {
             override fun onClick(chartItem: GroupView.ChartItem) {
-                navigator.anim(RIGHT_LEFT).replaceChildFragment(
-                    R.id.layoutContainer,
-                    UsageDetailFragment.newInstance(period, periodStartedTime, chartItem)
-                )
+                handleChartClicked(chartItem)
             }
         })
 
@@ -182,6 +179,90 @@ class StatisticFragment : BaseSupportFragment() {
                 }
             }
         })
+    }
+
+    private fun handleChartClicked(chartItem: GroupView.ChartItem) {
+        val endedAtSec = when (period) {
+            Period.WEEK   -> DateTimeUtil.getEndOfWeek(periodStartedTime)
+            Period.YEAR   -> DateTimeUtil.getEndOfYear(periodStartedTime)
+            Period.DECADE -> DateTimeUtil.getEndOfDecade(periodStartedTime)
+        } / 1000
+        val startedAtSec = periodStartedTime / 1000
+
+        val title = getString(
+            when (chartItem.sectionName) {
+                SectionName.POST        -> R.string.posts
+                SectionName.REACTION    -> R.string.reactions
+                SectionName.MESSAGE     -> R.string.messages
+                SectionName.AD_INTEREST -> R.string.ad_interests
+                SectionName.ADVERTISER  -> R.string.advertisers
+                SectionName.LOCATION    -> R.string.locations
+            }
+        )
+
+        val titleSuffix = when (chartItem.sectionName) {
+            SectionName.POST     -> {
+                when (chartItem.groupName) {
+                    GroupName.FRIEND -> getString(R.string.tagged_with_lower_format).format(
+                        chartItem.entryVal
+                    )
+                    GroupName.PLACE  -> getString(R.string.tagged_at_lower_format).format(chartItem.entryVal)
+                    else             -> ""
+                }
+            }
+
+            SectionName.REACTION -> {
+                when (chartItem.groupName) {
+                    GroupName.FRIEND -> getString(R.string.reacted_to_lower_format).format(chartItem.entryVal)
+                    else             -> ""
+                }
+            }
+
+            else                 -> ""
+        }
+
+        val periodDetail = if (chartItem.groupName == GroupName.DAY) {
+            DateTimeUtil.formatSubPeriod(period, chartItem.periodRange!!.first)
+        } else {
+            DateTimeUtil.formatPeriod(period, periodStartedTime)
+        }
+
+        when (chartItem.sectionName) {
+            SectionName.POST     -> {
+                navigator.anim(RIGHT_LEFT).replaceChildFragment(
+                    R.id.layoutContainer,
+                    PostDetailFragment.newInstance(
+                        title,
+                        periodDetail,
+                        period,
+                        titleSuffix,
+                        startedAtSec,
+                        endedAtSec,
+                        chartItem
+                    )
+                )
+            }
+
+            SectionName.REACTION -> {
+                navigator.anim(RIGHT_LEFT).replaceChildFragment(
+                    R.id.layoutContainer,
+                    ReactionDetailFragment.newInstance(
+                        title,
+                        periodDetail,
+                        period,
+                        titleSuffix,
+                        startedAtSec,
+                        endedAtSec,
+                        chartItem
+                    )
+                )
+            }
+
+            SectionName.MESSAGE  -> {
+                // TODO implement later
+            }
+
+        }
     }
 
     private fun getStartOfPeriod(period: Period) = when (period) {

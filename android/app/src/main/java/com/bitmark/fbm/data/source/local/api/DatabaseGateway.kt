@@ -10,18 +10,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.bitmark.fbm.BuildConfig
-import com.bitmark.fbm.data.model.entity.CommentR
-import com.bitmark.fbm.data.model.entity.LocationR
-import com.bitmark.fbm.data.model.entity.PostR
-import com.bitmark.fbm.data.model.entity.SectionR
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.data.source.local.api.converter.*
-import com.bitmark.fbm.data.source.local.api.dao.CommentDao
-import com.bitmark.fbm.data.source.local.api.dao.LocationDao
-import com.bitmark.fbm.data.source.local.api.dao.PostDao
-import com.bitmark.fbm.data.source.local.api.dao.SectionDao
+import com.bitmark.fbm.data.source.local.api.dao.*
 
 @Database(
-    entities = [SectionR::class, PostR::class, CommentR::class, LocationR::class],
+    entities = [SectionR::class, PostR::class, CommentR::class, LocationR::class, ReactionR::class],
     version = 1
 )
 @TypeConverters(
@@ -31,7 +25,8 @@ import com.bitmark.fbm.data.source.local.api.dao.SectionDao
     SectionNameConverter::class,
     CollectionStringConverter::class,
     PostTypeConverter::class,
-    CoordinateConverter::class
+    CoordinateConverter::class,
+    ReactionConverter::class
 )
 abstract class DatabaseGateway : RoomDatabase() {
 
@@ -45,6 +40,8 @@ abstract class DatabaseGateway : RoomDatabase() {
 
     abstract fun commentDao(): CommentDao
 
-    abstract fun locationDao() : LocationDao
+    abstract fun locationDao(): LocationDao
+
+    abstract fun reactionDao(): ReactionDao
 
 }

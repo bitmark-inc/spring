@@ -12,9 +12,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.core.content.res.ResourcesCompat
 import com.bitmark.fbm.R
-import com.bitmark.fbm.data.model.entity.GroupName
-import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.model.entity.SectionName
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.bitmark.fbm.util.modelview.GroupModelView
@@ -30,6 +28,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 import kotlinx.android.synthetic.main.layout_group_header.view.*
 
 
@@ -233,7 +232,18 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                 } else {
                     null
                 }
-            val data = ChartItem(group.sectionName, group.name, xVal, resId)
+            val periodRange = if (vertical) {
+                val periodStartedAt =
+                    DateTimeUtil.stringToDate(
+                        group.entries[index].xValue,
+                        DateTimeUtil.DATE_FORMAT_7,
+                        "UTC"
+                    )!!
+                group.period.toSubPeriodRange(periodStartedAt.time)
+            } else {
+                null
+            }
+            val data = ChartItem(group.sectionName, group.name, xVal, resId, periodRange)
             barEntries.add(
                 BarEntry(
                     index.toFloat(),
@@ -280,21 +290,22 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
             vertical                         -> {
                 gEntries.map { entry ->
                     val xVal = entry.xValue
-                    val date = DateTimeUtil.stringToDate(xVal, DateTimeUtil.DATE_FORMAT_7, "UTC")!!
+                    val periodStartedAt =
+                        DateTimeUtil.stringToDate(xVal, DateTimeUtil.DATE_FORMAT_7, "UTC")!!
                     when (group.period) {
                         Period.WEEK   -> {
                             val dow = context.resources.getStringArray(R.array.day_of_week).toList()
-                            val index = DateTimeUtil.getDoW(date) - 1
+                            val index = DateTimeUtil.getDoW(periodStartedAt) - 1
                             dow[index]
                         }
                         Period.YEAR   -> {
                             val moy =
                                 context.resources.getStringArray(R.array.month_of_year).toList()
-                            val index = DateTimeUtil.getMoY(date)
+                            val index = DateTimeUtil.getMoY(periodStartedAt)
                             moy[index]
                         }
                         Period.DECADE -> {
-                            DateTimeUtil.getYear(date).toString().takeLast(2)
+                            DateTimeUtil.getYear(periodStartedAt).toString().takeLast(2)
                         }
                     }
                 }
@@ -352,7 +363,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         chartView.setPinchZoom(false)
         chartView.isDragEnabled = false
         chartView.legend.isEnabled = false
-        chartView.setTouchEnabled(!vertical)
+        chartView.setTouchEnabled(true)
         chartView.isHighlightPerTapEnabled = true
         chartView.isHighlightPerDragEnabled = false
         chartView.animateY(500)
@@ -394,6 +405,29 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
         val entryVal: String,
 
-        val stringRes: Int? = null
+        val stringRes: Int? = null,
+
+        val periodRange: @RawValue LongRange? = null
     ) : Parcelable
 }
+
+fun GroupView.ChartItem.getPostType() =
+    if (sectionName != SectionName.POST) null else when (entryVal) {
+        "updates" -> PostType.UPDATE
+        "photos"  -> PostType.PHOTO
+        "videos"  -> PostType.VIDEO
+        "stories" -> PostType.STORY
+        "links"   -> PostType.LINK
+        else      -> PostType.UNSPECIFIED
+    }
+
+fun GroupView.ChartItem.getReaction() =
+    if (sectionName != SectionName.REACTION) null else when (entryVal) {
+        "like"  -> Reaction.LIKE
+        "love"  -> Reaction.LOVE
+        "haha"  -> Reaction.HAHA
+        "wow"   -> Reaction.WOW
+        "sad"   -> Reaction.SAD
+        "angry" -> Reaction.ANGRY
+        else    -> error("invalid type: $entryVal")
+    }

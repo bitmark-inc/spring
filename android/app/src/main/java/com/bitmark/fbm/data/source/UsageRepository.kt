@@ -7,6 +7,7 @@
 package com.bitmark.fbm.data.source
 
 import com.bitmark.fbm.data.model.entity.PostType
+import com.bitmark.fbm.data.model.entity.Reaction
 import com.bitmark.fbm.data.source.local.UsageLocalDataSource
 import com.bitmark.fbm.data.source.remote.UsageRemoteDataSource
 import io.reactivex.Single
@@ -17,14 +18,13 @@ class UsageRepository(
     private val localDataSource: UsageLocalDataSource
 ) : Repository {
 
-    fun listPostByType(type: PostType, fromSec: Long, toSec: Long) =
-        localDataSource.listPostByType(type, fromSec, toSec).flatMap { posts ->
+    fun listPost(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+        localDataSource.listPost(startedAtSec, endedAtSec).flatMap { posts ->
             if (posts.isEmpty()) {
-                listRemotePostByType(type, fromSec, toSec).andThen(
-                    localDataSource.listPostByType(
-                        type,
-                        fromSec,
-                        toSec
+                listRemotePost(startedAtSec, endedAtSec, limit).andThen(
+                    localDataSource.listPost(
+                        startedAtSec,
+                        endedAtSec
                     )
                 )
             } else {
@@ -32,18 +32,43 @@ class UsageRepository(
             }
         }
 
-    private fun listRemotePostByType(type: PostType, fromSec: Long, toSec: Long) =
-        remoteDataSource.listPostByType(type, fromSec, toSec)
+    private fun listRemotePost(startedAtSec: Long, endedAtSec: Long, limit: Int) =
+        remoteDataSource.listPost(startedAtSec, endedAtSec, limit).flatMapCompletable { posts ->
+            localDataSource.savePosts(posts)
+        }
+
+    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+        localDataSource.listPostByType(type, startedAtSec, endedAtSec).flatMap { posts ->
+            if (posts.isEmpty()) {
+                listRemotePostByType(type, startedAtSec, endedAtSec, limit).andThen(
+                    localDataSource.listPostByType(
+                        type,
+                        startedAtSec,
+                        endedAtSec
+                    )
+                )
+            } else {
+                Single.just(posts)
+            }
+        }
+
+    private fun listRemotePostByType(
+        type: PostType,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int
+    ) =
+        remoteDataSource.listPostByType(type, startedAtSec, endedAtSec, limit)
             .flatMapCompletable { p -> localDataSource.savePosts(p) }
 
-    fun listPostByTag(tag: String, fromSec: Long, toSec: Long) =
-        localDataSource.listPostByTag(tag, fromSec, toSec).flatMap { posts ->
+    fun listPostByTag(tag: String, fromSec: Long, endedAtSec: Long, limit: Int = 20) =
+        localDataSource.listPostByTag(tag, fromSec, endedAtSec).flatMap { posts ->
             if (posts.isEmpty()) {
-                listRemotePostByTag(tag, fromSec, toSec).andThen(
+                listRemotePostByTag(tag, fromSec, endedAtSec, limit).andThen(
                     localDataSource.listPostByTag(
                         tag,
                         fromSec,
-                        toSec
+                        endedAtSec
                     )
                 )
             } else {
@@ -51,25 +76,81 @@ class UsageRepository(
             }
         }
 
-    private fun listRemotePostByTag(tag: String, fromSec: Long, toSec: Long) =
-        remoteDataSource.listPostByTag(tag, fromSec, toSec)
+    private fun listRemotePostByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int) =
+        remoteDataSource.listPostByTag(tag, startedAtSec, endedAtSec, limit)
             .flatMapCompletable { p -> localDataSource.savePosts(p) }
 
-    fun listPostByLocation(location: String, fromSec: Long, toSec: Long) =
+    fun listPostByLocation(location: String, fromSec: Long, toSec: Long, limit: Int = 20) =
         localDataSource.listPostByLocation(location, fromSec, toSec).flatMap { posts ->
             if (posts.isEmpty()) {
                 listRemotePostByLocation(
                     location,
                     fromSec,
-                    toSec
+                    toSec,
+                    limit
                 ).andThen(localDataSource.listPostByLocation(location, fromSec, toSec))
             } else {
                 Single.just(posts)
             }
         }
 
-    private fun listRemotePostByLocation(location: String, fromSec: Long, toSec: Long) =
-        remoteDataSource.listPostByLocation(location, fromSec, toSec)
+    private fun listRemotePostByLocation(
+        location: String,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int
+    ) =
+        remoteDataSource.listPostByLocation(location, startedAtSec, endedAtSec, limit)
             .flatMapCompletable { p -> localDataSource.savePosts(p) }
+
+    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+        localDataSource.listReaction(startedAtSec, endedAtSec, limit).flatMap { reactions ->
+            if (reactions.isEmpty()) {
+                remoteDataSource.listReaction(startedAtSec, endedAtSec, limit).flatMap { rs ->
+                    if (rs.isEmpty()) {
+                        Single.just(rs)
+                    } else {
+                        localDataSource.saveReactions(rs)
+                            .andThen(localDataSource.listReaction(startedAtSec, endedAtSec, limit))
+                    }
+                }
+            } else {
+                Single.just(reactions)
+            }
+        }
+
+    fun listReactionByType(
+        reaction: Reaction,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int = 20
+    ) =
+        localDataSource.listReactionByType(
+            reaction,
+            startedAtSec,
+            endedAtSec,
+            limit
+        ).flatMap { reactions ->
+            if (reactions.isEmpty()) {
+                remoteDataSource.listReactionByType(reaction, startedAtSec, endedAtSec, limit)
+                    .flatMap { rs ->
+                        if (rs.isEmpty()) {
+                            Single.just(rs)
+                        } else {
+                            localDataSource.saveReactions(rs)
+                                .andThen(
+                                    localDataSource.listReactionByType(
+                                        reaction,
+                                        startedAtSec,
+                                        endedAtSec,
+                                        limit
+                                    )
+                                )
+                        }
+                    }
+            } else {
+                Single.just(reactions)
+            }
+        }
 
 }

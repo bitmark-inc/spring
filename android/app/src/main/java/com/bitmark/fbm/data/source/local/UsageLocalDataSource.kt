@@ -21,19 +21,30 @@ class UsageLocalDataSource @Inject constructor(
     fileStorageApi: FileStorageApi
 ) : LocalDataSource(databaseApi, sharedPrefApi, fileStorageApi) {
 
-    fun listPostByType(type: PostType, fromSec: Long, toSec: Long) =
+    fun listPost(startedAt: Long, endedAt: Long, limit: Int = 20) =
         databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.postDao().listOrderedPostByType(type, fromSec, toSec)
+            databaseGateway.postDao().listOrderedPost(startedAt, endedAt, limit)
         }
 
-    fun listPostByTag(tag: String, fromSec: Long, toSec: Long) =
+    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
         databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.postDao().listOrderedPostByTag(tag, fromSec, toSec)
+            databaseGateway.postDao().listOrderedPostByType(type, startedAtSec, endedAtSec, limit)
         }
 
-    fun listPostByLocation(location: String, fromSec: Long, toSec: Long) =
+    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
         databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.postDao().listOrderedPostByLocation(location, fromSec, toSec)
+            databaseGateway.postDao().listOrderedPostByTag(tag, startedAtSec, endedAtSec, limit)
+        }
+
+    fun listPostByLocation(
+        location: String,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int = 20
+    ) =
+        databaseApi.rxSingle { databaseGateway ->
+            databaseGateway.postDao()
+                .listOrderedPostByLocation(location, startedAtSec, endedAtSec, limit)
         }
 
     fun savePosts(posts: List<PostR>) = databaseApi.rxSingle { databaseGateway ->
@@ -66,5 +77,23 @@ class UsageLocalDataSource @Inject constructor(
 
     private fun saveComments(comments: List<CommentR>) =
         databaseApi.rxSingle { databaseGateway -> databaseGateway.commentDao().save(comments) }
+
+    fun saveReactions(reactions: List<ReactionR>) = databaseApi.rxCompletable { databaseGateway ->
+        databaseGateway.reactionDao().save(reactions)
+    }
+
+    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+        databaseApi.rxSingle { databaseGateway ->
+            databaseGateway.reactionDao().listOrdered(startedAtSec, endedAtSec, limit)
+        }
+
+    fun listReactionByType(
+        reaction: Reaction,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int = 20
+    ) = databaseApi.rxSingle { databaseGateway ->
+        databaseGateway.reactionDao().listOrderedByType(reaction, startedAtSec, endedAtSec, limit)
+    }
 
 }

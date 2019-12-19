@@ -26,18 +26,37 @@ abstract class PostDao {
     abstract fun delete(): Completable
 
     @Transaction
-    @Query("SELECT * FROM Post WHERE type = :type AND timestamp BETWEEN :from AND :to ORDER BY timestamp DESC")
-    abstract fun listOrderedPostByType(type: PostType, from: Long, to: Long): Single<List<PostData>>
+    @Query("SELECT * FROM Post WHERE timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
+    abstract fun listOrderedPost(
+        startedAt: Long,
+        endedAt: Long,
+        limit: Int
+    ): Single<List<PostData>>
 
     @Transaction
-    @Query("SELECT * FROM Post WHERE instr(tags, :tag) AND timestamp BETWEEN :from AND :to ORDER BY timestamp DESC")
-    abstract fun listOrderedPostByTag(tag: String, from: Long, to: Long): Single<List<PostData>>
+    @Query("SELECT * FROM Post WHERE type = :type AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
+    abstract fun listOrderedPostByType(
+        type: PostType,
+        startedAt: Long,
+        endedAt: Long,
+        limit: Int
+    ): Single<List<PostData>>
 
     @Transaction
-    @Query("SELECT * FROM Post WHERE location_name = :location AND timestamp BETWEEN :from AND :to ORDER BY timestamp DESC")
+    @Query("SELECT * FROM Post WHERE instr(tags, :tag) AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
+    abstract fun listOrderedPostByTag(
+        tag: String,
+        startedAt: Long,
+        endedAt: Long,
+        limit: Int
+    ): Single<List<PostData>>
+
+    @Transaction
+    @Query("SELECT * FROM Post WHERE location_name = :location AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
     abstract fun listOrderedPostByLocation(
         location: String,
-        from: Long,
-        to: Long
+        startedAt: Long,
+        endedAt: Long,
+        limit: Int
     ): Single<List<PostData>>
 }

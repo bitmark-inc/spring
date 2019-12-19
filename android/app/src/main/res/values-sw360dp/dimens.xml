@@ -40,6 +40,7 @@
 	<dimen name="dp_72">69.12dp</dimen>
 	<dimen name="dp_77">73.92dp</dimen>
 	<dimen name="dp_8">7.68dp</dimen>
+	<dimen name="dp_80">76.80dp</dimen>
 	<dimen name="dp_90">86.40dp</dimen>
 	<dimen name="dp_neg_12">-11.52dp</dimen>
 	<dimen name="dp_neg_3">-2.88dp</dimen>

@@ -4,7 +4,7 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.usagedetail
+package com.bitmark.fbm.feature.postdetail
 
 import android.text.Spanned
 import android.view.LayoutInflater
@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.item_update.view.*
 import kotlinx.android.synthetic.main.item_video.view.*
 
 
-class UsageDetailRecyclerViewAdapter(private val period: Period) :
+class PostDetailRecyclerViewAdapter(private val period: Period) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -38,10 +38,10 @@ class UsageDetailRecyclerViewAdapter(private val period: Period) :
 
     private val items = mutableListOf<PostModelView>()
 
-    fun set(items: List<PostModelView>) {
-        this.items.clear()
+    fun add(items: List<PostModelView>) {
+        val pos = this.items.size
         this.items.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(pos, items.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {

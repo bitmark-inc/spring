@@ -34,6 +34,10 @@ class DateTimeUtil {
 
         val DATE_FORMAT_8 = "yyyy"
 
+        val DATE_FORMAT_9 = "yyyy MMM"
+
+        val DATE_FORMAT_10 = "EEE"
+
         val DATE_TIME_FORMAT_1 = "MMM dd hh:mm a"
 
         val TIME_FORMAT_1 = "hh:mm a"
@@ -229,6 +233,12 @@ class DateTimeUtil {
             return calendar
         }
 
+        fun getEndOfDate(millis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = millis
+            return getEndOfDate(calendar).timeInMillis
+        }
+
         fun getEndOfDate(calendar: Calendar): Calendar {
             calendar.set(Calendar.HOUR_OF_DAY, 23)
             calendar.set(Calendar.MINUTE, 59)
@@ -274,6 +284,15 @@ class DateTimeUtil {
             return calendar.get(Calendar.YEAR)
         }
 
+        fun getEndOfMonth(millis: Long): Long {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = millis
+            calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1)
+            calendar.set(Calendar.DAY_OF_MONTH, 1)
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 1)
+            return getEndOfDate(calendar).timeInMillis
+        }
+
     }
 }
 
@@ -299,5 +318,15 @@ fun DateTimeUtil.Companion.formatPeriod(period: Period, startedTimeMillis: Long)
                 dateToString(range.second, DATE_FORMAT_8)
             )
         }
+    }
+}
+
+fun DateTimeUtil.Companion.formatSubPeriod(period: Period, startedTimeMillis: Long): String {
+    val calendar = Calendar.getInstance()
+    calendar.timeInMillis = startedTimeMillis
+    return when (period) {
+        Period.WEEK   -> millisToString(startedTimeMillis, DATE_FORMAT_10)
+        Period.YEAR   -> millisToString(startedTimeMillis, DATE_FORMAT_9)
+        Period.DECADE -> millisToString(startedTimeMillis, DATE_FORMAT_8)
     }
 }

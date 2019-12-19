@@ -10,6 +10,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.bitmark.fbm.util.DateTimeUtil
 import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -190,3 +191,11 @@ val Period.value: String
         Period.YEAR   -> "year"
         Period.DECADE -> "decade"
     }
+
+fun Period.toSubPeriodRange(startedAtMillis: Long) = LongRange(
+    startedAtMillis, when (this) {
+        Period.WEEK   -> DateTimeUtil.getEndOfDate(startedAtMillis)
+        Period.YEAR   -> DateTimeUtil.getEndOfMonth(startedAtMillis)
+        Period.DECADE -> DateTimeUtil.getEndOfYear(startedAtMillis)
+    }
+)

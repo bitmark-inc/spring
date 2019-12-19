@@ -10,8 +10,10 @@ import com.bitmark.fbm.feature.insights.InsightsContainerFragment
 import com.bitmark.fbm.feature.insights.InsightsContainerModule
 import com.bitmark.fbm.feature.insights.InsightsFragment
 import com.bitmark.fbm.feature.insights.InsightsModule
-import com.bitmark.fbm.feature.stream.StreamContainerFragment
-import com.bitmark.fbm.feature.stream.StreamContainerModule
+import com.bitmark.fbm.feature.postdetail.PostDetailFragment
+import com.bitmark.fbm.feature.postdetail.PostDetailModule
+import com.bitmark.fbm.feature.reactiondetail.ReactionDetailFragment
+import com.bitmark.fbm.feature.reactiondetail.ReactionDetailModule
 import com.bitmark.fbm.feature.recovery.access.RecoveryAccessFragment
 import com.bitmark.fbm.feature.recovery.access.RecoveryAccessModule
 import com.bitmark.fbm.feature.recovery.notice.RecoveryNoticeFragment
@@ -22,6 +24,8 @@ import com.bitmark.fbm.feature.register.archiverequest.credential.ArchiveRequest
 import com.bitmark.fbm.feature.register.archiverequest.credential.ArchiveRequestCredentialModule
 import com.bitmark.fbm.feature.statistic.StatisticFragment
 import com.bitmark.fbm.feature.statistic.StatisticModule
+import com.bitmark.fbm.feature.stream.StreamContainerFragment
+import com.bitmark.fbm.feature.stream.StreamContainerModule
 import com.bitmark.fbm.feature.unlink.notice.UnlinkNoticeFragment
 import com.bitmark.fbm.feature.unlink.notice.UnlinkNoticeModule
 import com.bitmark.fbm.feature.unlink.unlink.UnlinkFragment
@@ -30,8 +34,6 @@ import com.bitmark.fbm.feature.usage.UsageContainerFragment
 import com.bitmark.fbm.feature.usage.UsageContainerModule
 import com.bitmark.fbm.feature.usage.UsageFragment
 import com.bitmark.fbm.feature.usage.UsageModule
-import com.bitmark.fbm.feature.usagedetail.UsageDetailFragment
-import com.bitmark.fbm.feature.usagedetail.UsageDetailModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -86,7 +88,11 @@ abstract class FragmentBuilderModule {
     @FragmentScope
     internal abstract fun bindStatisticFragment(): StatisticFragment
 
-    @ContributesAndroidInjector(modules = [UsageDetailModule::class])
+    @ContributesAndroidInjector(modules = [PostDetailModule::class])
     @FragmentScope
-    internal abstract fun bindUsageDetailFragment(): UsageDetailFragment
+    internal abstract fun bindPostDetailFragment(): PostDetailFragment
+
+    @ContributesAndroidInjector(modules = [ReactionDetailModule::class])
+    @FragmentScope
+    internal abstract fun bindReactionDetailFragment(): ReactionDetailFragment
 }
