@@ -47,6 +47,8 @@ func (s *Server) getPostStats(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"result": stat,
+		"result": []interface{}{
+			stat,
+		},
 	})
 }

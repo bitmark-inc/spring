@@ -50,7 +50,7 @@ func absDecade(timestamp int64) int64 {
 	t := time.Unix(timestamp, 0)
 	year := t.Year()
 	absYear := year % 10
-	absDay := time.Date(absYear, 1, 1, 0, 0, 0, 0, time.UTC)
+	absDay := time.Date(year-absYear, 1, 1, 0, 0, 0, 0, time.UTC)
 	return absDay.Unix()
 }
 

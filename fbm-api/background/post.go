@@ -59,7 +59,7 @@ type postData struct {
 }
 
 type periodData struct {
-	Name string         `json:"name"`
+	Name string         `json:"name,omitempty"`
 	Data map[string]int `json:"data"`
 }
 
@@ -70,10 +70,10 @@ type statisticData struct {
 	PeriodStartedAt  int64   `json:"period_started_at"`
 	Quantity         int     `json:"quantity"`
 	Groups           struct {
-		Type      map[string]int `json:"type"`
-		SubPeriod []periodData   `json:"sub_period"`
-		Friend    []periodData   `json:"friend"`
-		Place     []periodData   `json:"place"`
+		Type      periodData   `json:"type"`
+		SubPeriod []periodData `json:"sub_period"`
+		Friend    []periodData `json:"friend"`
+		Place     []periodData `json:"place"`
 	} `json:"groups,omitempty"`
 }
 
@@ -356,6 +356,7 @@ func (sc *postStatisticCounter) flushWeekData() {
 	if sc.lastTotalPostOfWeek > 0 {
 		difference = float64((currentTotal - sc.lastTotalPostOfWeek)) / float64(sc.lastTotalPostOfWeek)
 	}
+	sc.lastTotalPostOfWeek = currentTotal
 
 	weekStatisticData := statisticData{
 		SectionName:      "post",
@@ -363,12 +364,14 @@ func (sc *postStatisticCounter) flushWeekData() {
 		PeriodStartedAt:  sc.currentWeek,
 		DiffFromPrevious: difference,
 		Groups: struct {
-			Type      map[string]int `json:"type"`
-			SubPeriod []periodData   `json:"sub_period"`
-			Friend    []periodData   `json:"friend"`
-			Place     []periodData   `json:"place"`
+			Type      periodData   `json:"type"`
+			SubPeriod []periodData `json:"sub_period"`
+			Friend    []periodData `json:"friend"`
+			Place     []periodData `json:"place"`
 		}{
-			Type:      sc.currentWeekTypeMap,
+			Type: periodData{
+				Data: sc.currentWeekTypeMap,
+			},
 			SubPeriod: subPeriods,
 			Friend:    friends,
 			Place:     places,
@@ -452,6 +455,7 @@ func (sc *postStatisticCounter) flushYearData() {
 	if sc.lastTotalPostOfYear > 0 {
 		difference = float64((currentTotal - sc.lastTotalPostOfYear)) / float64(sc.lastTotalPostOfYear)
 	}
+	sc.lastTotalPostOfYear = currentTotal
 
 	yearStatisticData := statisticData{
 		SectionName:      "post",
@@ -459,12 +463,14 @@ func (sc *postStatisticCounter) flushYearData() {
 		PeriodStartedAt:  sc.currentYear,
 		DiffFromPrevious: difference,
 		Groups: struct {
-			Type      map[string]int `json:"type"`
-			SubPeriod []periodData   `json:"sub_period"`
-			Friend    []periodData   `json:"friend"`
-			Place     []periodData   `json:"place"`
+			Type      periodData   `json:"type"`
+			SubPeriod []periodData `json:"sub_period"`
+			Friend    []periodData `json:"friend"`
+			Place     []periodData `json:"place"`
 		}{
-			Type:      sc.currentYearTypeMap,
+			Type: periodData{
+				Data: sc.currentYearTypeMap,
+			},
 			SubPeriod: subPeriods,
 			Friend:    friends,
 			Place:     places,
@@ -495,18 +501,18 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 	}
 
 	// parse sub periods of days, friends, places in a year
-	plusOneValue(&sc.currentWeekTypeMap, r.Type)
-	yearTypeMap := getMap(sc.WeekTypePeriodsMap, timestampToDateString(absMonth(r.Timestamp)))
+	plusOneValue(&sc.currentYearTypeMap, r.Type)
+	yearTypeMap := getMap(sc.YearTypePeriodsMap, timestampToDateString(absMonth(r.Timestamp)))
 	plusOneValue(yearTypeMap, r.Type)
-	sc.lastTotalPostOfWeek++
+	sc.lastTotalPostOfYear++
 
 	if r.Location != "" {
-		yearPlaceMap := getMap(sc.WeekPlacePeriodsMap, r.Location)
+		yearPlaceMap := getMap(sc.YearPlacePeriodsMap, r.Location)
 		plusOneValue(yearPlaceMap, r.Type)
 	}
 
 	for _, f := range r.Tags {
-		yearFriendMap := getMap(sc.WeekFriendPeriodsMap, f)
+		yearFriendMap := getMap(sc.YearFriendPeriodsMap, f)
 		plusOneValue(yearFriendMap, r.Type)
 	}
 }
@@ -548,6 +554,7 @@ func (sc *postStatisticCounter) flushDecadeData() {
 	if sc.lastTotalPostOfDecade > 0 {
 		difference = float64((currentTotal - sc.lastTotalPostOfDecade)) / float64(sc.lastTotalPostOfDecade)
 	}
+	sc.lastTotalPostOfDecade = currentTotal
 
 	decadeStatisticData := statisticData{
 		SectionName:      "post",
@@ -555,12 +562,14 @@ func (sc *postStatisticCounter) flushDecadeData() {
 		PeriodStartedAt:  sc.currentDecade,
 		DiffFromPrevious: difference,
 		Groups: struct {
-			Type      map[string]int `json:"type"`
-			SubPeriod []periodData   `json:"sub_period"`
-			Friend    []periodData   `json:"friend"`
-			Place     []periodData   `json:"place"`
+			Type      periodData   `json:"type"`
+			SubPeriod []periodData `json:"sub_period"`
+			Friend    []periodData `json:"friend"`
+			Place     []periodData `json:"place"`
 		}{
-			Type:      sc.currentDecadeTypeMap,
+			Type: periodData{
+				Data: sc.currentDecadeTypeMap,
+			},
 			SubPeriod: subPeriods,
 			Friend:    friends,
 			Place:     places,
