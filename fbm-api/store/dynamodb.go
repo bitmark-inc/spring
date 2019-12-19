@@ -111,25 +111,44 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int6
 }
 
 func (d *DynamoDBStore) GetExactFBStat(ctx context.Context, key string, in int64) (interface{}, error) {
-	input := &dynamodb.GetItemInput{
+	input := &dynamodb.QueryInput{
 		TableName: d.table,
-		Key: map[string]*dynamodb.AttributeValue{
-			"key":       {S: aws.String(key)},
-			"timestamp": {N: aws.String(strconv.FormatInt(in, 10))},
+		KeyConditions: map[string]*dynamodb.Condition{
+			"key": {
+				ComparisonOperator: aws.String("EQ"),
+				AttributeValueList: []*dynamodb.AttributeValue{
+					{
+						S: aws.String(key),
+					},
+				},
+			},
+			"timestamp": {
+				ComparisonOperator: aws.String("EQ"),
+				AttributeValueList: []*dynamodb.AttributeValue{
+					{
+						N: aws.String(strconv.FormatInt(in, 10)),
+					},
+				},
+			},
 		},
 	}
-	result, err := d.svc.GetItem(input)
+	result, err := d.svc.Query(input)
 	if err != nil {
 		return nil, err
 	}
 
-	var item fbData
-	if err := dynamodbattribute.UnmarshalMap(result.Item, &item); err != nil {
+	var items []fbData
+
+	if err := dynamodbattribute.UnmarshalListOfMaps(result.Items, &items); err != nil {
 		return nil, err
 	}
 
+	if len(items) != 1 {
+		return nil, nil
+	}
+
 	var data interface{}
-	if err := json.Unmarshal(item.Data, &data); err != nil {
+	if err := json.Unmarshal(items[0].Data, &data); err != nil {
 		return nil, err
 	}
 

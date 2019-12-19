@@ -41,7 +41,7 @@ func (s *Server) getPostStats(c *gin.Context) {
 		return
 	}
 
-	stat, err := s.fbDataStore.GetExactFBStat(c, "test"+"/"+period, startedAt)
+	stat, err := s.fbDataStore.GetExactFBStat(c, "test"+"/"+period+"-stat", startedAt)
 	if shouldInterupt(err, c) {
 		return
 	}

@@ -168,7 +168,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 				continue
 			}
 
-			log.Info("Processing post with timestamp: ", r.TimestampNumber)
+			logEntity.Info("Processing post with timestamp: ", r.TimestampNumber)
 
 			// Add post
 			post := postData{
@@ -192,34 +192,43 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 			counter.countDecade(&post)
 		}
 
-		// Save stats
-		for _, weekStat := range counter.Weeks {
-			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/week-stat", weekStat.PeriodStartedAt, weekStat); err != nil {
-				logEntity.Error(err)
-				sentry.CaptureException(err)
-				continue
-			}
-		}
-		for _, yearStat := range counter.Years {
-			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/year-stat", yearStat.PeriodStartedAt, yearStat); err != nil {
-				logEntity.Error(err)
-				sentry.CaptureException(err)
-				continue
-			}
-		}
-		for _, decadeStat := range counter.Decades {
-			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/decade-stat", decadeStat.PeriodStartedAt, decadeStat); err != nil {
-				logEntity.Error(err)
-				sentry.CaptureException(err)
-				continue
-			}
-		}
-
 		// Should continue?
 		if respData.Response.Remaining == 0 {
 			break
 		} else {
 			currentCursor += respData.Response.Count
+		}
+	}
+
+	logEntity.Info("Flushing...")
+	// Force to flush current data
+	counter.flushWeekData()
+	counter.flushYearData()
+	counter.flushDecadeData()
+
+	// Save stats
+	for _, weekStat := range counter.Weeks {
+		logEntity.Info("Save week stat: ", weekStat.PeriodStartedAt)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/week-stat", weekStat.PeriodStartedAt, weekStat); err != nil {
+			logEntity.Error(err)
+			sentry.CaptureException(err)
+			continue
+		}
+	}
+	for _, yearStat := range counter.Years {
+		logEntity.Info("Save year stat: ", yearStat.PeriodStartedAt)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/year-stat", yearStat.PeriodStartedAt, yearStat); err != nil {
+			logEntity.Error(err)
+			sentry.CaptureException(err)
+			continue
+		}
+	}
+	for _, decadeStat := range counter.Decades {
+		logEntity.Info("Save decade stat: ", decadeStat.PeriodStartedAt)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/decade-stat", decadeStat.PeriodStartedAt, decadeStat); err != nil {
+			logEntity.Error(err)
+			sentry.CaptureException(err)
+			continue
 		}
 	}
 
@@ -310,73 +319,80 @@ func newPostStatisticCounter() *postStatisticCounter {
 	}
 }
 
+func (sc *postStatisticCounter) flushWeekData() {
+	// Sub periods
+	subPeriods := make([]periodData, 0)
+	for name, dayData := range sc.WeekTypePeriodsMap {
+		subPeriods = append(subPeriods, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Friends
+	friends := make([]periodData, 0)
+	for name, dayData := range sc.WeekFriendPeriodsMap {
+		friends = append(friends, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Places
+	places := make([]periodData, 0)
+	for name, dayData := range sc.WeekPlacePeriodsMap {
+		places = append(places, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Count the difference with last period
+	currentTotal := 0
+	for _, count := range sc.currentWeekTypeMap {
+		currentTotal += count
+	}
+	difference := 1.0
+	if sc.lastTotalPostOfWeek > 0 {
+		difference = float64((currentTotal - sc.lastTotalPostOfWeek)) / float64(sc.lastTotalPostOfWeek)
+	}
+
+	weekStatisticData := statisticData{
+		SectionName:      "post",
+		Period:           "week",
+		PeriodStartedAt:  sc.currentWeek,
+		DiffFromPrevious: difference,
+		Groups: struct {
+			Type      map[string]int `json:"type"`
+			SubPeriod []periodData   `json:"sub_period"`
+			Friend    []periodData   `json:"friend"`
+			Place     []periodData   `json:"place"`
+		}{
+			Type:      sc.currentWeekTypeMap,
+			SubPeriod: subPeriods,
+			Friend:    friends,
+			Place:     places,
+		},
+	}
+
+	sc.Weeks = append(sc.Weeks, weekStatisticData)
+
+	// Clean obsolete data
+	sc.WeekTypePeriodsMap = make(map[string]map[string]int)
+	sc.WeekFriendPeriodsMap = make(map[string]map[string]int)
+	sc.WeekPlacePeriodsMap = make(map[string]map[string]int)
+	sc.currentWeekTypeMap = make(map[string]int)
+}
+
 func (sc *postStatisticCounter) countWeek(r *postData) {
 	week := absWeekday(r.Timestamp)
+	if sc.currentWeek == 0 {
+		sc.currentWeek = week
+	}
+
 	if week > sc.currentWeek {
 		// Flush data
-
-		// Sub periods
-		subPeriods := make([]periodData, 0)
-		for name, dayData := range sc.WeekTypePeriodsMap {
-			subPeriods = append(subPeriods, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Friends
-		friends := make([]periodData, 0)
-		for name, dayData := range sc.WeekTypePeriodsMap {
-			friends = append(friends, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Places
-		places := make([]periodData, 0)
-		for name, dayData := range sc.WeekTypePeriodsMap {
-			places = append(places, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Count the difference with last period
-		currentTotal := 0
-		for _, count := range sc.currentWeekTypeMap {
-			currentTotal += count
-		}
-		difference := 1.0
-		if sc.lastTotalPostOfWeek > 0 {
-			difference = float64((currentTotal - sc.lastTotalPostOfWeek)) / float64(sc.lastTotalPostOfWeek)
-		}
-
-		weekStatisticData := statisticData{
-			SectionName:      "post",
-			Period:           "week",
-			PeriodStartedAt:  sc.currentWeek,
-			DiffFromPrevious: difference,
-			Groups: struct {
-				Type      map[string]int `json:"type"`
-				SubPeriod []periodData   `json:"sub_period"`
-				Friend    []periodData   `json:"friend"`
-				Place     []periodData   `json:"place"`
-			}{
-				Type:      sc.currentWeekTypeMap,
-				SubPeriod: subPeriods,
-				Friend:    friends,
-				Place:     places,
-			},
-		}
-
-		sc.Weeks = append(sc.Weeks, weekStatisticData)
-
-		// Clean obsolete data
-		sc.WeekTypePeriodsMap = make(map[string]map[string]int)
-		sc.WeekFriendPeriodsMap = make(map[string]map[string]int)
-		sc.WeekPlacePeriodsMap = make(map[string]map[string]int)
-		sc.currentWeekTypeMap = make(map[string]int)
+		sc.flushWeekData()
 
 		// Set current week
 		sc.currentWeek = week
@@ -399,73 +415,80 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 	}
 }
 
+func (sc *postStatisticCounter) flushYearData() {
+	// Sub periods
+	subPeriods := make([]periodData, 0)
+	for name, dayData := range sc.YearTypePeriodsMap {
+		subPeriods = append(subPeriods, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Friends
+	friends := make([]periodData, 0)
+	for name, dayData := range sc.YearFriendPeriodsMap {
+		friends = append(friends, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Places
+	places := make([]periodData, 0)
+	for name, dayData := range sc.YearPlacePeriodsMap {
+		places = append(places, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Count the difference with last period
+	currentTotal := 0
+	for _, count := range sc.currentYearTypeMap {
+		currentTotal += count
+	}
+	difference := 1.0
+	if sc.lastTotalPostOfYear > 0 {
+		difference = float64((currentTotal - sc.lastTotalPostOfYear)) / float64(sc.lastTotalPostOfYear)
+	}
+
+	yearStatisticData := statisticData{
+		SectionName:      "post",
+		Period:           "year",
+		PeriodStartedAt:  sc.currentYear,
+		DiffFromPrevious: difference,
+		Groups: struct {
+			Type      map[string]int `json:"type"`
+			SubPeriod []periodData   `json:"sub_period"`
+			Friend    []periodData   `json:"friend"`
+			Place     []periodData   `json:"place"`
+		}{
+			Type:      sc.currentYearTypeMap,
+			SubPeriod: subPeriods,
+			Friend:    friends,
+			Place:     places,
+		},
+	}
+
+	sc.Years = append(sc.Years, yearStatisticData)
+
+	// Clean obsolete data
+	sc.YearTypePeriodsMap = make(map[string]map[string]int)
+	sc.YearFriendPeriodsMap = make(map[string]map[string]int)
+	sc.YearPlacePeriodsMap = make(map[string]map[string]int)
+	sc.currentYearTypeMap = make(map[string]int)
+}
+
 func (sc *postStatisticCounter) countYear(r *postData) {
 	year := absYear(r.Timestamp)
+	if sc.currentYear == 0 {
+		sc.currentYear = year
+	}
+
 	if year > sc.currentYear {
 		// Flush data
-
-		// Sub periods
-		subPeriods := make([]periodData, 0)
-		for name, dayData := range sc.YearTypePeriodsMap {
-			subPeriods = append(subPeriods, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Friends
-		friends := make([]periodData, 0)
-		for name, dayData := range sc.YearTypePeriodsMap {
-			friends = append(friends, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Places
-		places := make([]periodData, 0)
-		for name, dayData := range sc.YearTypePeriodsMap {
-			places = append(places, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Count the difference with last period
-		currentTotal := 0
-		for _, count := range sc.currentYearTypeMap {
-			currentTotal += count
-		}
-		difference := 1.0
-		if sc.lastTotalPostOfYear > 0 {
-			difference = float64((currentTotal - sc.lastTotalPostOfYear)) / float64(sc.lastTotalPostOfYear)
-		}
-
-		yearStatisticData := statisticData{
-			SectionName:      "post",
-			Period:           "year",
-			PeriodStartedAt:  sc.currentYear,
-			DiffFromPrevious: difference,
-			Groups: struct {
-				Type      map[string]int `json:"type"`
-				SubPeriod []periodData   `json:"sub_period"`
-				Friend    []periodData   `json:"friend"`
-				Place     []periodData   `json:"place"`
-			}{
-				Type:      sc.currentYearTypeMap,
-				SubPeriod: subPeriods,
-				Friend:    friends,
-				Place:     places,
-			},
-		}
-
-		sc.Years = append(sc.Years, yearStatisticData)
-
-		// Clean obsolete data
-		sc.YearTypePeriodsMap = make(map[string]map[string]int)
-		sc.YearFriendPeriodsMap = make(map[string]map[string]int)
-		sc.YearPlacePeriodsMap = make(map[string]map[string]int)
-		sc.currentYearTypeMap = make(map[string]int)
+		sc.flushYearData()
 
 		// Set current year
 		sc.currentYear = year
@@ -488,73 +511,80 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 	}
 }
 
+func (sc *postStatisticCounter) flushDecadeData() {
+	// Sub periods
+	subPeriods := make([]periodData, 0)
+	for name, dayData := range sc.DecadeTypePeriodsMap {
+		subPeriods = append(subPeriods, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Friends
+	friends := make([]periodData, 0)
+	for name, dayData := range sc.DecadeFriendPeriodsMap {
+		friends = append(friends, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Places
+	places := make([]periodData, 0)
+	for name, dayData := range sc.DecadePlacePeriodsMap {
+		places = append(places, periodData{
+			Name: name,
+			Data: dayData,
+		})
+	}
+
+	// Count the difference with last period
+	currentTotal := 0
+	for _, count := range sc.currentDecadeTypeMap {
+		currentTotal += count
+	}
+	difference := 1.0
+	if sc.lastTotalPostOfDecade > 0 {
+		difference = float64((currentTotal - sc.lastTotalPostOfDecade)) / float64(sc.lastTotalPostOfDecade)
+	}
+
+	decadeStatisticData := statisticData{
+		SectionName:      "post",
+		Period:           "decade",
+		PeriodStartedAt:  sc.currentDecade,
+		DiffFromPrevious: difference,
+		Groups: struct {
+			Type      map[string]int `json:"type"`
+			SubPeriod []periodData   `json:"sub_period"`
+			Friend    []periodData   `json:"friend"`
+			Place     []periodData   `json:"place"`
+		}{
+			Type:      sc.currentDecadeTypeMap,
+			SubPeriod: subPeriods,
+			Friend:    friends,
+			Place:     places,
+		},
+	}
+
+	sc.Decades = append(sc.Decades, decadeStatisticData)
+
+	// Clean obsolete data
+	sc.DecadeTypePeriodsMap = make(map[string]map[string]int)
+	sc.DecadeFriendPeriodsMap = make(map[string]map[string]int)
+	sc.DecadePlacePeriodsMap = make(map[string]map[string]int)
+	sc.currentDecadeTypeMap = make(map[string]int)
+}
+
 func (sc *postStatisticCounter) countDecade(r *postData) {
 	decade := absDecade(r.Timestamp)
+	if sc.currentDecade == 0 {
+		sc.currentDecade = decade
+	}
+
 	if decade > sc.currentDecade {
 		// Flush data
-
-		// Sub periods
-		subPeriods := make([]periodData, 0)
-		for name, dayData := range sc.DecadeTypePeriodsMap {
-			subPeriods = append(subPeriods, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Friends
-		friends := make([]periodData, 0)
-		for name, dayData := range sc.DecadeTypePeriodsMap {
-			friends = append(friends, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Places
-		places := make([]periodData, 0)
-		for name, dayData := range sc.DecadeTypePeriodsMap {
-			places = append(places, periodData{
-				Name: name,
-				Data: dayData,
-			})
-		}
-
-		// Count the difference with last period
-		currentTotal := 0
-		for _, count := range sc.currentDecadeTypeMap {
-			currentTotal += count
-		}
-		difference := 1.0
-		if sc.lastTotalPostOfDecade > 0 {
-			difference = float64((currentTotal - sc.lastTotalPostOfDecade)) / float64(sc.lastTotalPostOfDecade)
-		}
-
-		decadeStatisticData := statisticData{
-			SectionName:      "post",
-			Period:           "decade",
-			PeriodStartedAt:  sc.currentDecade,
-			DiffFromPrevious: difference,
-			Groups: struct {
-				Type      map[string]int `json:"type"`
-				SubPeriod []periodData   `json:"sub_period"`
-				Friend    []periodData   `json:"friend"`
-				Place     []periodData   `json:"place"`
-			}{
-				Type:      sc.currentDecadeTypeMap,
-				SubPeriod: subPeriods,
-				Friend:    friends,
-				Place:     places,
-			},
-		}
-
-		sc.Decades = append(sc.Decades, decadeStatisticData)
-
-		// Clean obsolete data
-		sc.DecadeTypePeriodsMap = make(map[string]map[string]int)
-		sc.DecadeFriendPeriodsMap = make(map[string]map[string]int)
-		sc.DecadePlacePeriodsMap = make(map[string]map[string]int)
-		sc.currentDecadeTypeMap = make(map[string]int)
+		sc.flushDecadeData()
 
 		// Set current decade
 		sc.currentDecade = decade
