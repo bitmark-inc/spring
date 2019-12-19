@@ -26,9 +26,10 @@ var (
 )
 
 const (
-	jobDownloadArchive = "download_archive"
-	jobExtract         = "extract_zip"
-	jobAnalyzePosts    = "analyze_posts"
+	jobDownloadArchive  = "download_archive"
+	jobExtract          = "extract_zip"
+	jobAnalyzePosts     = "analyze_posts"
+	jobAnalyzeReactions = "analyze_reactions"
 )
 
 type BackgroundContext struct {
@@ -149,6 +150,7 @@ func main() {
 	pool.JobWithOptions(jobDownloadArchive, work.JobOptions{Priority: 10, MaxFails: 1}, b.downloadArchive)
 	pool.JobWithOptions(jobExtract, work.JobOptions{Priority: 5, MaxFails: 1}, b.extractMedia)
 	pool.JobWithOptions(jobAnalyzePosts, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractPost)
+	pool.JobWithOptions(jobAnalyzeReactions, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractReaction)
 
 	log.Info("Start listening")
 

@@ -80,3 +80,17 @@ func (s *Server) parseArchive(c *gin.Context) {
 	log.Info("Enqueued job with id:", job.ID)
 	c.JSON(http.StatusAccepted, gin.H{"result": "ok"})
 }
+
+func (s *Server) prepareReactionsData(c *gin.Context) {
+	job, err := s.backgroundEnqueuer.EnqueueUnique("analyze_reactions", work.Q{
+		"url":            "https://bitmark.numbersprotocol.io/version-test/api/1.1/obj/fb_reactions",
+		"account_number": "test",
+	})
+	if err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+	log.Info("Enqueued job with id:", job.ID)
+	c.JSON(http.StatusAccepted, gin.H{"result": "ok"})
+}
