@@ -15,7 +15,7 @@
         android:includeFontPadding="false"
         android:textAllCaps="true"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_24"
+        android:textSize="@dimen/sp_22"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="24 POSTS"

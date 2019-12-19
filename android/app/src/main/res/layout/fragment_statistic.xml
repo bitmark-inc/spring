@@ -54,7 +54,6 @@
         android:layout_marginTop="@dimen/dp_4"
         android:fontFamily="@font/grotesk"
         android:includeFontPadding="false"
-        android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_10"
         app:layout_constraintEnd_toEndOf="@id/tvType"

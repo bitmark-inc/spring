@@ -26,6 +26,9 @@
     <color name="chenin">#E3C878</color>
     <color name="tea_green">#BBEAA6</color>
     <color name="perfume">#E29AF4</color>
+    <color name="silver">#C1C1C1</color>
+    <color name="screamin_green">#69EC48</color>
+    <color name="quill_gray">#DFDFDE</color>
 
     <array name="color_palette_1">
         <item>@color/mabilu</item>

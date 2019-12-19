@@ -36,8 +36,9 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         inflate(context, R.layout.layout_section, this)
 
         orientation = VERTICAL
-        val padding = context.getDimensionPixelSize(R.dimen.dp_18)
-        setPadding(padding, padding, padding, padding)
+        val paddingHorizontal = context.getDimensionPixelSize(R.dimen.dp_18)
+        val paddingVertical = context.getDimensionPixelSize(R.dimen.dp_30)
+        setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical)
         val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         layoutParams = params
     }
@@ -93,7 +94,7 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         for (index in groups.indices) {
             val groupView = GroupView(context)
             val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-            params.setMargins(0, context.getDimensionPixelSize(R.dimen.dp_16), 0, 0)
+            params.setMargins(0, context.getDimensionPixelSize(R.dimen.dp_25), 0, 0)
             groupView.layoutParams = params
             if (chartClickListener != null) {
                 groupView.setChartClickListener(chartClickListener!!)

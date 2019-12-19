@@ -119,7 +119,7 @@ class StatisticFragment : BaseSupportFragment() {
         rvStatistic.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)
         val dividerDrawable =
-            ContextCompat.getDrawable(context!!, R.drawable.double_divider_athens_gray)
+            ContextCompat.getDrawable(context!!, R.drawable.double_divider_white_black_stroke)
         if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
         rvStatistic.addItemDecoration(itemDecoration)
         (rvStatistic.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false

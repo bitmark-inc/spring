@@ -21,4 +21,8 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="Switch" parent="AppTheme">
+        <item name="colorControlActivated">@color/screamin_green</item>
+    </style>
+
 </resources>

@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.feature.postdetail
 
+import android.text.SpannableString
 import android.text.Spanned
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.PostType
+import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.DateTimeUtil
+import com.bitmark.fbm.util.ext.openBrowser
 import com.bitmark.fbm.util.ext.toHtmlSpan
 import com.bitmark.fbm.util.modelview.PostModelView
+import com.bitmark.fbm.util.view.NoUnderlineSpan
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_link.view.*
 import kotlinx.android.synthetic.main.item_photo.view.*
@@ -168,11 +172,31 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
 
     class LinkVH(view: View, period: Period) : VH(view, period) {
 
+        init {
+            with(itemView) {
+                tvLink.setOnClickListener {
+                    val link = tvLink.text.toString()
+                    if (link.isNotEmpty()) {
+                        Navigator.openBrowser(context, link)
+                    }
+                }
+            }
+        }
+
         fun bind(item: PostModelView) {
             with(itemView) {
                 tvLinkInfo.text = getInfo(item)
                 tvTitle.text = item.title
-                tvLink.text = item.url
+                if (item.url != null) {
+                    val spannableString = SpannableString(item.url)
+                    spannableString.setSpan(
+                        NoUnderlineSpan(),
+                        0,
+                        item.url.length,
+                        Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+                    )
+                    tvLink.text = spannableString
+                }
             }
         }
     }

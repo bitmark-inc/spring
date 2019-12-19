@@ -31,6 +31,14 @@ fun Navigator.openBrowser(url: String) {
     }
 }
 
+fun Navigator.Companion.openBrowser(context: Context, url: String) {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        context.startActivity(intent)
+    } catch (ignore: Throwable) {
+    }
+}
+
 fun Navigator.openAppSetting(context: Context) {
     try {
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
