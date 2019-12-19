@@ -79,7 +79,7 @@ class GetYourDataViewController: ViewController, BackNavigator {
         giveAutomateTrust.applyLight(
             text: R.string.phrase.getYourDataGiveAutomateTrust(),
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            lineHeight: 1.2)
+            lineHeight: 1.32)
 
         contentView.flex
             .padding(OurTheme.paddingInset)

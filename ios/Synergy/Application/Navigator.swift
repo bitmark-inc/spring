@@ -149,7 +149,10 @@ class Navigator {
                 sender.present(nav, animated: true, completion: nil)
             }
         case .replace(let type):
-            guard let rootViewController = Self.getRootViewController() else { return }
+            guard let rootViewController = Self.getRootViewController() else {
+                Global.log.error("rootViewController is empty")
+                return
+            }
 
             // replace controllers in navigation stack
             rootViewController.hero.navigationAnimationType = .autoReverse(presenting: type)
@@ -180,12 +183,19 @@ class Navigator {
     }
 
     static func refreshOnboardingStateIfNeeded() {
-        guard let rootViewController = getRootViewController() else { return }
+        guard let window = getWindow() else {
+            Global.log.error("window is empty")
+            return
+        }
+
+        guard let rootViewController = getRootViewController() else {
+            Global.log.error("rootViewController is empty")
+            return
+        }
 
         // check if scene is on onboarding flow's refresh state
         guard let currentVC = rootViewController.viewControllers.last,
-            [DataRequestedViewController.self, DataAnalyzingViewController.self].contains(where: { $0 == type(of: currentVC) }),
-            let window = getWindow()
+            [DataRequestedViewController.self, DataAnalyzingViewController.self].contains(where: { $0 == type(of: currentVC) })
             else {
                 return
         }
@@ -199,6 +209,7 @@ class Navigator {
 
     static func getWindow() -> UIWindow? {
         return UIApplication.shared.windows
-            .filter({ $0.isKeyWindow }).first
+            .filter { ($0.rootViewController as? NavigationController) != nil }
+            .first
     }
 }
