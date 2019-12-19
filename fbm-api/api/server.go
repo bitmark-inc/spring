@@ -113,6 +113,11 @@ func (s *Server) Run(addr string) error {
 		postRoute.GET("", s.getAllPosts)
 	}
 
+	usageRoute := apiRoute.Group("/usage")
+	{
+		usageRoute.GET("/:period", s.getPostStats)
+	}
+
 	assetRoute := r.Group("/assets")
 	assetRoute.Use(logmodule.Ginrus("Asset"))
 	{

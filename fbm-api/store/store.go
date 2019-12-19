@@ -83,4 +83,7 @@ type FBDataStore interface {
 
 	// GetFBStat to get a FB stat
 	GetFBStat(ctx context.Context, key string, from, to int64) ([]interface{}, error)
+
+	// GetExactFBStat to get a FB stat exactly in timestamp
+	GetExactFBStat(ctx context.Context, key string, in int64) (interface{}, error)
 }

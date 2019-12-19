@@ -109,3 +109,29 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int6
 
 	return data, nil
 }
+
+func (d *DynamoDBStore) GetExactFBStat(ctx context.Context, key string, in int64) (interface{}, error) {
+	input := &dynamodb.GetItemInput{
+		TableName: d.table,
+		Key: map[string]*dynamodb.AttributeValue{
+			"key":       {S: aws.String(key)},
+			"timestamp": {N: aws.String(strconv.FormatInt(in, 10))},
+		},
+	}
+	result, err := d.svc.GetItem(input)
+	if err != nil {
+		return nil, err
+	}
+
+	var item fbData
+	if err := dynamodbattribute.UnmarshalMap(result.Item, &item); err != nil {
+		return nil, err
+	}
+
+	var data interface{}
+	if err := json.Unmarshal(item.Data, &data); err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
