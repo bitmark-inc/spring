@@ -113,6 +113,11 @@ func (s *Server) Run(addr string) error {
 		postRoute.GET("", s.getAllPosts)
 	}
 
+	reactionRoute := apiRoute.Group("/reactions")
+	{
+		reactionRoute.GET("", s.getAllReactions)
+	}
+
 	usageRoute := apiRoute.Group("/usage")
 	{
 		usageRoute.GET("/:period", s.getPostStats)

@@ -47,16 +47,27 @@ type mediaData struct {
 	Thumbnail string `json:"thumbnail,omitempty"`
 }
 
+type locationData struct {
+	Address    string `json:"address"`
+	Coordinate struct {
+		Latitude  float64 `json:"latitude"`
+		Longitude float64 `json:"longitude"`
+	} `json:"coordinate"`
+	URL       string `json:"url"`
+	Name      string `json:"name"`
+	CreatedAt int64  `json:"created_at"`
+}
+
 type postData struct {
-	Timestamp int64       `json:"timestamp"`
-	Type      string      `json:"type"`
-	Post      string      `json:"post,omitempty"`
-	ID        uint64      `json:"id"`
-	Media     []mediaData `json:"mediaData,omitempty"`
-	Location  string      `json:"location,omitempty"`
-	URL       string      `json:"url,omitempty"`
-	Title     string      `json:"title"`
-	Tags      []string    `json:"tags,omitempty"`
+	Timestamp int64         `json:"timestamp"`
+	Type      string        `json:"type"`
+	Post      string        `json:"post,omitempty"`
+	ID        uint64        `json:"id"`
+	Media     []mediaData   `json:"mediaData,omitempty"`
+	Location  *locationData `json:"location,omitempty"`
+	URL       string        `json:"url,omitempty"`
+	Title     string        `json:"title"`
+	Tags      []string      `json:"tags,omitempty"`
 }
 
 type periodData struct {
@@ -171,6 +182,22 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 
 			logEntity.Info("Processing post with timestamp: ", r.TimestampNumber)
 
+			var l *locationData
+			if r.AddressText != "" {
+				l = &locationData{
+					Address: r.AddressText,
+					Coordinate: struct {
+						Latitude  float64 `json:"latitude"`
+						Longitude float64 `json:"longitude"`
+					}{
+						Latitude:  r.LatitudeNumber,
+						Longitude: r.LongitudeNumber,
+					},
+					Name:      r.LocationText,
+					CreatedAt: r.TimestampNumber,
+				}
+			}
+
 			// Add post
 			post := postData{
 				Timestamp: r.TimestampNumber,
@@ -178,7 +205,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 				Post:      r.PostText,
 				ID:        r.IDNumber,
 				Media:     media,
-				Location:  r.LocationText,
+				Location:  l,
 				URL:       r.URLText,
 				Title:     r.TitleText,
 				Tags:      r.TagsListText,
@@ -210,7 +237,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 	// Save stats
 	for _, weekStat := range counter.Weeks {
 		logEntity.Info("Save week stat: ", weekStat.PeriodStartedAt)
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/week-stat", weekStat.PeriodStartedAt, weekStat); err != nil {
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-week-stat", weekStat.PeriodStartedAt, weekStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
 			continue
@@ -218,7 +245,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 	}
 	for _, yearStat := range counter.Years {
 		logEntity.Info("Save year stat: ", yearStat.PeriodStartedAt)
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/year-stat", yearStat.PeriodStartedAt, yearStat); err != nil {
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-year-stat", yearStat.PeriodStartedAt, yearStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
 			continue
@@ -226,7 +253,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 	}
 	for _, decadeStat := range counter.Decades {
 		logEntity.Info("Save decade stat: ", decadeStat.PeriodStartedAt)
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/decade-stat", decadeStat.PeriodStartedAt, decadeStat); err != nil {
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-decade-stat", decadeStat.PeriodStartedAt, decadeStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
 			continue
@@ -409,8 +436,8 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 	plusOneValue(weekTypeMap, r.Type)
 	sc.lastTotalPostOfWeek++
 
-	if r.Location != "" {
-		weekPlaceMap := getMap(sc.WeekPlacePeriodsMap, r.Location)
+	if r.Location != nil {
+		weekPlaceMap := getMap(sc.WeekPlacePeriodsMap, r.Location.Name)
 		plusOneValue(weekPlaceMap, r.Type)
 	}
 
@@ -509,8 +536,8 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 	plusOneValue(yearTypeMap, r.Type)
 	sc.lastTotalPostOfYear++
 
-	if r.Location != "" {
-		yearPlaceMap := getMap(sc.YearPlacePeriodsMap, r.Location)
+	if r.Location != nil {
+		yearPlaceMap := getMap(sc.YearPlacePeriodsMap, r.Location.Name)
 		plusOneValue(yearPlaceMap, r.Type)
 	}
 
@@ -609,8 +636,8 @@ func (sc *postStatisticCounter) countDecade(r *postData) {
 	plusOneValue(decadeTypeMap, r.Type)
 	sc.lastTotalPostOfDecade++
 
-	if r.Location != "" {
-		decadePlaceMap := getMap(sc.DecadePlacePeriodsMap, r.Location)
+	if r.Location != nil {
+		decadePlaceMap := getMap(sc.DecadePlacePeriodsMap, r.Location.Name)
 		plusOneValue(decadePlaceMap, r.Type)
 	}
 

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -31,6 +32,29 @@ func (s *Server) getAllPosts(c *gin.Context) {
 	})
 }
 
+func (s *Server) getAllReactions(c *gin.Context) {
+	// account := c.MustGet("account").(*store.Account)
+	var params struct {
+		StartedAt int64 `form:"started_at"`
+		EndedAt   int64 `form:"ended_at"`
+	}
+
+	if err := c.BindQuery(&params); err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+
+	posts, err := s.fbDataStore.GetFBStat(c, "test"+"/reaction", params.StartedAt, params.EndedAt)
+	if shouldInterupt(err, c) {
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"result": posts,
+	})
+}
+
 func (s *Server) getPostStats(c *gin.Context) {
 	period := c.Param("period")
 	startedAt, err := strconv.ParseInt(c.Query("started_at"), 10, 64)
@@ -41,14 +65,20 @@ func (s *Server) getPostStats(c *gin.Context) {
 		return
 	}
 
-	stat, err := s.fbDataStore.GetExactFBStat(c, "test"+"/"+period+"-stat", startedAt)
+	postStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/post-%s-stat", "test", period), startedAt)
+	if shouldInterupt(err, c) {
+		return
+	}
+
+	reactionStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/reaction-%s-stat", "test", period), startedAt)
 	if shouldInterupt(err, c) {
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": []interface{}{
-			stat,
+			postStat,
+			reactionStat,
 		},
 	})
 }
