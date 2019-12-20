@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httputil"
+	"strconv"
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
@@ -361,6 +362,7 @@ func (sc *postStatisticCounter) flushWeekData() {
 	weekStatisticData := statisticData{
 		SectionName:      "post",
 		Period:           "week",
+		Quantity:         currentTotal,
 		PeriodStartedAt:  sc.currentWeek,
 		DiffFromPrevious: difference,
 		Groups: struct {
@@ -403,7 +405,7 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 
 	// parse sub periods of days, friends, places in a week
 	plusOneValue(&sc.currentWeekTypeMap, r.Type)
-	weekTypeMap := getMap(sc.WeekTypePeriodsMap, timestampToDateString(absDay(r.Timestamp)))
+	weekTypeMap := getMap(sc.WeekTypePeriodsMap, strconv.FormatInt(absDay(r.Timestamp), 10))
 	plusOneValue(weekTypeMap, r.Type)
 	sc.lastTotalPostOfWeek++
 
@@ -460,6 +462,7 @@ func (sc *postStatisticCounter) flushYearData() {
 	yearStatisticData := statisticData{
 		SectionName:      "post",
 		Period:           "year",
+		Quantity:         currentTotal,
 		PeriodStartedAt:  sc.currentYear,
 		DiffFromPrevious: difference,
 		Groups: struct {
@@ -502,7 +505,7 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 
 	// parse sub periods of days, friends, places in a year
 	plusOneValue(&sc.currentYearTypeMap, r.Type)
-	yearTypeMap := getMap(sc.YearTypePeriodsMap, timestampToDateString(absMonth(r.Timestamp)))
+	yearTypeMap := getMap(sc.YearTypePeriodsMap, strconv.FormatInt(absMonth(r.Timestamp), 10))
 	plusOneValue(yearTypeMap, r.Type)
 	sc.lastTotalPostOfYear++
 
@@ -559,6 +562,7 @@ func (sc *postStatisticCounter) flushDecadeData() {
 	decadeStatisticData := statisticData{
 		SectionName:      "post",
 		Period:           "decade",
+		Quantity:         currentTotal,
 		PeriodStartedAt:  sc.currentDecade,
 		DiffFromPrevious: difference,
 		Groups: struct {
@@ -601,7 +605,7 @@ func (sc *postStatisticCounter) countDecade(r *postData) {
 
 	// parse sub periods of days, friends, places in a decade
 	plusOneValue(&sc.currentDecadeTypeMap, r.Type)
-	decadeTypeMap := getMap(sc.DecadeTypePeriodsMap, timestampToDateString(absYear(r.Timestamp)))
+	decadeTypeMap := getMap(sc.DecadeTypePeriodsMap, strconv.FormatInt(absYear(r.Timestamp), 10))
 	plusOneValue(decadeTypeMap, r.Type)
 	sc.lastTotalPostOfDecade++
 
