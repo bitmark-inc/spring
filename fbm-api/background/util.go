@@ -1,6 +1,10 @@
 package main
 
-import "time"
+import (
+	"time"
+
+	log "github.com/sirupsen/logrus"
+)
 
 // absDay to find start time of the week of a given time
 // timestamp is unix time in second
@@ -12,10 +16,10 @@ func absDay(timestamp int64) int64 {
 	return absDay.Unix()
 }
 
-// absWeekday to find start time of the week of a given time
+// absWeek to find start time of the week of a given time
 // timestamp is unix time in second
 // weekdays start from Sunday
-func absWeekday(timestamp int64) int64 {
+func absWeek(timestamp int64) int64 {
 	t := time.Unix(timestamp, 0)
 	weekday := time.Duration(t.Weekday())
 	year, month, day := t.Date()
@@ -57,4 +61,18 @@ func absDecade(timestamp int64) int64 {
 func timestampToDateString(timestamp int64) string {
 	t := time.Unix(timestamp, 0)
 	return t.Format("2006-01-02")
+}
+
+func getDiff(current, last uint64) float64 {
+	log.WithField("current", current).WithField("last", last).Info()
+	var difference float64
+	if last != 0 {
+		difference = (float64(current) - float64(last)) / float64(last)
+	} else if current == 0 {
+		difference = 0
+	} else {
+		difference = 1
+	}
+	log.WithField("difference", difference).Info()
+	return difference
 }

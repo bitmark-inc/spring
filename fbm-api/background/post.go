@@ -390,7 +390,7 @@ func (sc *postStatisticCounter) flushWeekData() {
 }
 
 func (sc *postStatisticCounter) countWeek(r *postData) {
-	week := absWeekday(r.Timestamp)
+	week := absWeek(r.Timestamp)
 	if sc.currentWeek == 0 {
 		sc.currentWeek = week
 	}
