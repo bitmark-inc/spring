@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7ba884cccf9a169efbe142b32b50835d",
+    "identityHash": "25eb3561840a94251c30f692404f9956",
     "entities": [
       {
         "tableName": "Section",
@@ -251,8 +251,14 @@
       },
       {
         "tableName": "Location",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `coordinate` TEXT, `address` TEXT, `url` TEXT, PRIMARY KEY(`name`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `coordinate` TEXT, `address` TEXT, `url` TEXT, `created_at` INTEGER)",
         "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
           {
             "fieldPath": "name",
             "columnName": "name",
@@ -276,13 +282,19 @@
             "columnName": "url",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "createdAtSec",
+            "columnName": "created_at",
+            "affinity": "INTEGER",
+            "notNull": false
           }
         ],
         "primaryKey": {
           "columnNames": [
-            "name"
+            "id"
           ],
-          "autoGenerate": false
+          "autoGenerate": true
         },
         "indices": [
           {
@@ -294,12 +306,28 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_Location_address` ON `${TABLE_NAME}` (`address`)"
           },
           {
-            "name": "index_Location_name",
+            "name": "index_Location_id",
             "unique": true,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Location_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_Location_name",
+            "unique": false,
             "columnNames": [
               "name"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Location_name` ON `${TABLE_NAME}` (`name`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Location_name` ON `${TABLE_NAME}` (`name`)"
+          },
+          {
+            "name": "index_Location_coordinate",
+            "unique": false,
+            "columnNames": [
+              "coordinate"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Location_coordinate` ON `${TABLE_NAME}` (`coordinate`)"
           }
         ],
         "foreignKeys": []
@@ -377,7 +405,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ba884cccf9a169efbe142b32b50835d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '25eb3561840a94251c30f692404f9956')"
     ]
   }
 }

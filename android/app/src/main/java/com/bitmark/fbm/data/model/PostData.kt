@@ -52,7 +52,6 @@ class PostData(
     val timestampSec: Long
         get() = post.timestampSec
 
-
     val title: String?
         get() = post.title
 
