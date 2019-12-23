@@ -42,6 +42,8 @@ CREATE TABLE fbm.fbarchive (
     file_key TEXT NOT NULL,
     starting_time TIMESTAMP WITH TIME ZONE NOT NULL,
     ending_time TIMESTAMP WITH TIME ZONE DEFAULT now(),
+    analyzed_task_id TEXT DEFAULT '',
+    content_hash TEXT DEFAULT '',
     processing_status archive_status DEFAULT 'submitted',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()

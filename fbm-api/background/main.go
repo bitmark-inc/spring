@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"flag"
 	"fmt"
 	"net/http"
@@ -11,6 +12,8 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
+	bitmarksdk "github.com/bitmark-inc/bitmark-sdk-go"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/external/fbarchive"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/external/onesignal"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/getsentry/sentry-go"
@@ -28,6 +31,7 @@ var (
 const (
 	jobDownloadArchive  = "download_archive"
 	jobExtract          = "extract_zip"
+	jobUploadArchive    = "upload_archive"
 	jobAnalyzePosts     = "analyze_posts"
 	jobAnalyzeReactions = "analyze_reactions"
 )
@@ -45,6 +49,7 @@ type BackgroundContext struct {
 
 	// External services
 	oneSignalClient *onesignal.OneSignalClient
+	bitSocialClient *fbarchive.Client
 }
 
 func initLog() {
@@ -95,7 +100,10 @@ func main() {
 
 	initLog()
 
-	httpClient := http.DefaultClient
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+	httpClient := &http.Client{Transport: tr}
 
 	// Sentry
 	if err := sentry.Init(sentry.ClientOptions{
@@ -117,6 +125,21 @@ func main() {
 	}
 
 	oneSignalClient := onesignal.NewClient(httpClient)
+	bitSocialClient := fbarchive.NewClient(httpClient)
+
+	// Init Bitmark SDK
+	bitmarksdk.Init(&bitmarksdk.Config{
+		Network:    bitmarksdk.Network(viper.GetString("bitmarksdk.network")),
+		APIToken:   viper.GetString("bitmarksdk.token"),
+		HTTPClient: httpClient,
+	})
+
+	// Login to bitsocial server
+	ctx := context.Background()
+	if err := bitSocialClient.Login(ctx, viper.GetString("fbarchive.username"), viper.GetString("fbarchive.password")); err != nil {
+		log.Fatal(err)
+	}
+	log.Info("Success logged in to bitsocial server")
 
 	// Init db
 	pgstore, err := store.NewPGStore(context.Background())
@@ -130,6 +153,7 @@ func main() {
 		awsConf:         awsConf,
 		httpClient:      httpClient,
 		oneSignalClient: oneSignalClient,
+		bitSocialClient: bitSocialClient,
 	}
 
 	redisPool := &redis.Pool{
@@ -140,6 +164,7 @@ func main() {
 			return redis.Dial("tcp", viper.GetString("redis.conn"), redis.DialPassword(viper.GetString("redis.password")))
 		},
 	}
+
 	pool := work.NewWorkerPool(*b, 2, "fbm", redisPool)
 	enqueuer = work.NewEnqueuer("fbm", redisPool)
 
@@ -148,6 +173,7 @@ func main() {
 
 	// Map the name of jobs to handler functions
 	pool.JobWithOptions(jobDownloadArchive, work.JobOptions{Priority: 10, MaxFails: 1}, b.downloadArchive)
+	pool.JobWithOptions(jobUploadArchive, work.JobOptions{Priority: 5, MaxFails: 1}, b.submitArchive)
 	pool.JobWithOptions(jobExtract, work.JobOptions{Priority: 5, MaxFails: 1}, b.extractMedia)
 	pool.JobWithOptions(jobAnalyzePosts, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractPost)
 	pool.JobWithOptions(jobAnalyzeReactions, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractReaction)

@@ -65,9 +65,15 @@ func (s *Server) getPostStats(c *gin.Context) {
 		return
 	}
 
+	results := make([]interface{}, 0)
+
 	postStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/post-%s-stat", "test", period), startedAt)
 	if shouldInterupt(err, c) {
 		return
+	}
+
+	if postStat != nil {
+		results = append(results, postStat)
 	}
 
 	reactionStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/reaction-%s-stat", "test", period), startedAt)
@@ -75,10 +81,11 @@ func (s *Server) getPostStats(c *gin.Context) {
 		return
 	}
 
+	if reactionStat != nil {
+		results = append(results, reactionStat)
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"result": []interface{}{
-			postStat,
-			reactionStat,
-		},
+		"result": results,
 	})
 }

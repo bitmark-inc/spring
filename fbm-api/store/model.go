@@ -30,6 +30,8 @@ type FBArchive struct {
 	StartingTime     time.Time `json:"started_at"`
 	EndingTime       time.Time `json:"ended_at"`
 	ProcessingStatus string    `json:"status"`
+	AnalyzedTaskID   string    `json:"analyzed_task_id,omitempty"`
+	ContentHash      string    `json:"content_hash,omitempty"`
 	CreatedAt        time.Time `json:"created_at"`
 	UpdatedAt        time.Time `json:"updated_at"`
 }

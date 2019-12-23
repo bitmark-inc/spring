@@ -16,7 +16,7 @@ func (p *PGStore) AddFBArchive(ctx context.Context, accountNumber string, starti
 		Insert("fbm.fbarchive").
 		Columns("account_number", "file_key", "starting_time", "ending_time").
 		Values(accountNumber, "", starting, ending).
-		Suffix("RETURNING *")
+		Suffix("RETURNING id, account_number, file_key, starting_time, ending_time, analyzed_task_id, content_hash, processing_status, created_at, updated_at")
 
 	st, val, _ := q.ToSql()
 
@@ -27,6 +27,8 @@ func (p *PGStore) AddFBArchive(ctx context.Context, accountNumber string, starti
 			&fbArchive.S3Key,
 			&fbArchive.StartingTime,
 			&fbArchive.EndingTime,
+			&fbArchive.AnalyzedTaskID,
+			&fbArchive.ContentHash,
 			&fbArchive.ProcessingStatus,
 			&fbArchive.CreatedAt,
 			&fbArchive.UpdatedAt); err != nil {
@@ -44,7 +46,7 @@ func (p *PGStore) AddFBArchive(ctx context.Context, accountNumber string, starti
 func (p *PGStore) UpdateFBArchiveStatus(ctx context.Context, params *FBArchiveQueryParam, values *FBArchiveQueryParam) ([]FBArchive, error) {
 	q := psql.Update("fbm.fbarchive").
 		Set("updated_at", time.Now()).
-		Suffix("RETURNING *")
+		Suffix("RETURNING id, account_number, file_key, starting_time, ending_time, analyzed_task_id, content_hash, processing_status, created_at, updated_at")
 
 	if params.ID != nil {
 		q = q.Where(sq.Eq{"id": *params.ID})
@@ -60,6 +62,14 @@ func (p *PGStore) UpdateFBArchiveStatus(ctx context.Context, params *FBArchiveQu
 
 	if values.Status != nil {
 		q = q.Set("processing_status", *values.Status)
+	}
+
+	if values.AnalyzedID != nil {
+		q = q.Set("analyzed_task_id", *values.Status)
+	}
+
+	if values.ContentHash != nil {
+		q = q.Set("content_hash", *values.Status)
 	}
 
 	st, val, _ := q.ToSql()
@@ -79,6 +89,8 @@ func (p *PGStore) UpdateFBArchiveStatus(ctx context.Context, params *FBArchiveQu
 			&fbArchive.S3Key,
 			&fbArchive.StartingTime,
 			&fbArchive.EndingTime,
+			&fbArchive.AnalyzedTaskID,
+			&fbArchive.ContentHash,
 			&fbArchive.ProcessingStatus,
 			&fbArchive.CreatedAt,
 			&fbArchive.UpdatedAt); err != nil {
@@ -92,7 +104,7 @@ func (p *PGStore) UpdateFBArchiveStatus(ctx context.Context, params *FBArchiveQu
 }
 
 func (p *PGStore) GetFBArchives(ctx context.Context, params *FBArchiveQueryParam) ([]FBArchive, error) {
-	q := psql.Select("*").
+	q := psql.Select("id, account_number, file_key, starting_time, ending_time, analyzed_task_id, content_hash, processing_status, created_at, updated_at").
 		From("fbm.fbarchive")
 
 	if params.ID != nil {
@@ -124,6 +136,8 @@ func (p *PGStore) GetFBArchives(ctx context.Context, params *FBArchiveQueryParam
 			&fbArchive.S3Key,
 			&fbArchive.StartingTime,
 			&fbArchive.EndingTime,
+			&fbArchive.AnalyzedTaskID,
+			&fbArchive.ContentHash,
 			&fbArchive.ProcessingStatus,
 			&fbArchive.CreatedAt,
 			&fbArchive.UpdatedAt); err != nil {

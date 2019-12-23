@@ -22,4 +22,5 @@ require (
 	github.com/spf13/viper v1.5.0
 	github.com/ugorji/go v1.1.7 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
+	golang.org/x/crypto v0.0.0-20191219195013-becbf705a915
 )

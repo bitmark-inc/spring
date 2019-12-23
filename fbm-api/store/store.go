@@ -55,6 +55,8 @@ type FBArchiveQueryParam struct {
 	AccountNumber *string
 	S3Key         *string
 	Status        *string
+	AnalyzedID    *string
+	ContentHash   *string
 }
 
 var (

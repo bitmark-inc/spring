@@ -3,8 +3,8 @@ package fbarchive
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"fmt"
+	"mime/multipart"
 	"net/http"
 
 	"github.com/spf13/viper"
@@ -35,10 +35,16 @@ func NewClient(httpClient *http.Client) *Client {
 	}
 }
 
-func (c *Client) createRequest(ctx context.Context, method, path string, body interface{}) (*http.Request, error) {
+func (c *Client) createRequest(ctx context.Context, method, path string, body map[string]string) (*http.Request, error) {
 	buf := &bytes.Buffer{}
-	enc := json.NewEncoder(buf)
-	if err := enc.Encode(body); err != nil {
+	writer := multipart.NewWriter(buf)
+
+	for k, v := range body {
+		if err := writer.WriteField(k, v); err != nil {
+			return nil, err
+		}
+	}
+	if err := writer.Close(); err != nil {
 		return nil, err
 	}
 
@@ -49,8 +55,8 @@ func (c *Client) createRequest(ctx context.Context, method, path string, body in
 		return nil, err
 	}
 
-	req.Header.Add("Content-Type", "application/json; charset=utf-8")
-	req.Header.Add("Client-Token", c.token)
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", "Token "+c.token)
 
 	return req, nil
 }

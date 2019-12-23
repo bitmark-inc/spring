@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"encoding/hex"
 	"errors"
+	"io"
 	"mime"
 	"net/http"
 	"net/http/httputil"
@@ -12,10 +14,12 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	"golang.org/x/crypto/sha3"
 )
 
 func (b *BackgroundContext) downloadArchive(job *work.Job) error {
@@ -85,6 +89,9 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 	}
 	filename := p["filename"]
 
+	h := sha3.New512()
+	teeReader := io.TeeReader(resp.Body, h)
+
 	defer resp.Body.Close()
 
 	logEntity.Info("Start uploading to S3")
@@ -94,7 +101,7 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 	_, err = svc.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(viper.GetString("aws.s3.bucket")),
 		Key:    aws.String(s3key),
-		Body:   resp.Body,
+		Body:   teeReader,
 		Metadata: map[string]*string{
 			"url":        aws.String(fileURL),
 			"archive_id": aws.String(strconv.FormatInt(archiveid, 10)),
@@ -106,7 +113,26 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 		return err
 	}
 
-	enqueuer.EnqueueUniqueIn(jobExtract, 3, map[string]interface{}{
+	// Get fingerprint
+	fingerprintBytes := h.Sum(nil)
+	fingerprint := hex.EncodeToString(fingerprintBytes)
+	fingerprint = "01" + fingerprint // Add version to fingerprint
+	assetid := sha3.Sum512([]byte(fingerprint))
+	assetIDString := hex.EncodeToString(assetid[:])
+
+	_, err = b.store.UpdateFBArchiveStatus(ctx, &store.FBArchiveQueryParam{
+		ID: &archiveid,
+	}, &store.FBArchiveQueryParam{
+		S3Key:       &s3key,
+		Status:      &store.FBArchiveStatusStored,
+		ContentHash: &assetIDString,
+	})
+	if err != nil {
+		logEntity.Error(err)
+		return err
+	}
+
+	enqueuer.EnqueueUniqueIn(jobUploadArchive, 3, map[string]interface{}{
 		"s3_key":         s3key,
 		"account_number": accountNumber,
 		"archive_id":     archiveid,

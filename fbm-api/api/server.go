@@ -4,11 +4,13 @@ import (
 	"context"
 	"crypto/rsa"
 	"encoding/hex"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"time"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/bitmark-inc/bitmark-sdk-go/account"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/external/fbarchive"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/external/onesignal"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/logmodule"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
@@ -35,6 +37,7 @@ type Server struct {
 
 	// External services
 	oneSignalClient *onesignal.OneSignalClient
+	bitSocialClient *fbarchive.Client
 
 	// account
 	bitmarkAccount *account.AccountV2
@@ -64,12 +67,20 @@ func NewServer(store store.Store,
 		httpClient:         httpClient,
 		bitmarkAccount:     bitmarkAccount,
 		oneSignalClient:    onesignal.NewClient(httpClient),
+		bitSocialClient:    fbarchive.NewClient(httpClient),
 		backgroundEnqueuer: backgroundEnqueuer,
 	}
 }
 
 // Run to run the server
 func (s *Server) Run(addr string) error {
+	// Login to bitsocial server
+	ctx := context.Background()
+	if err := s.bitSocialClient.Login(ctx, viper.GetString("fbarchive.username"), viper.GetString("fbarchive.password")); err != nil {
+		return err
+	}
+	log.Info("Success logged in to bitsocial server")
+
 	r := gin.New()
 	r.Use(gin.Recovery())
 	r.Use(sentrygin.New(sentrygin.Options{
@@ -167,7 +178,16 @@ func (s *Server) healthz(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": "OK",
+	// Check status of bitSocial client
+	if !s.bitSocialClient.IsReady() {
+		c.JSON(http.StatusOK, gin.H{
+			"status": "booting up",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "OK",
 		"version": viper.GetString("server.version"),
 	})
 }
