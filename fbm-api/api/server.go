@@ -3,10 +3,12 @@ package api
 import (
 	"context"
 	"crypto/rsa"
+	"crypto/tls"
 	"encoding/hex"
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/bitmark-inc/bitmark-sdk-go/account"
@@ -56,8 +58,13 @@ func NewServer(store store.Store,
 	awsConf *aws.Config,
 	bitmarkAccount *account.AccountV2,
 	backgroundEnqueuer *work.Enqueuer) *Server {
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	}
+
 	httpClient := &http.Client{
-		Timeout: 5 * time.Minute,
+		Timeout:   5 * time.Minute,
+		Transport: tr,
 	}
 	return &Server{
 		store:              store,

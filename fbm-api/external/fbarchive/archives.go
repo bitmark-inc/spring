@@ -29,14 +29,6 @@ func (c *Client) Login(ctx context.Context, username, password string) error {
 		return err
 	}
 
-	// Print out the response in console log
-	dumpBytes, err := httputil.DumpResponse(resp, true)
-	if err != nil {
-		log.Error(err)
-	}
-
-	log.WithContext(ctx).WithField("prefix", "fbarchive").WithField("resp", string(dumpBytes)).Debug("response from data analysis server")
-
 	var respBody struct {
 		AuthToken string `json:"auth_token"`
 	}
