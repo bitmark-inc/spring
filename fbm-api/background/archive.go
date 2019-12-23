@@ -59,6 +59,8 @@ func (b *BackgroundContext) submitArchive(job *work.Job) error {
 		return err
 	}
 
+	logEntity.Info("Upload success, update db information")
+
 	if _, err := b.store.UpdateFBArchiveStatus(ctx, &store.FBArchiveQueryParam{
 		ID: &archiveid,
 	}, &store.FBArchiveQueryParam{

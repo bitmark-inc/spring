@@ -117,15 +117,13 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 	fingerprintBytes := h.Sum(nil)
 	fingerprint := hex.EncodeToString(fingerprintBytes)
 	fingerprint = "01" + fingerprint // Add version to fingerprint
-	assetid := sha3.Sum512([]byte(fingerprint))
-	assetIDString := hex.EncodeToString(assetid[:])
 
 	_, err = b.store.UpdateFBArchiveStatus(ctx, &store.FBArchiveQueryParam{
 		ID: &archiveid,
 	}, &store.FBArchiveQueryParam{
 		S3Key:       &s3key,
 		Status:      &store.FBArchiveStatusStored,
-		ContentHash: &assetIDString,
+		ContentHash: &fingerprint,
 	})
 	if err != nil {
 		logEntity.Error(err)

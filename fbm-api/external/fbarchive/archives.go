@@ -5,11 +5,13 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	log "github.com/sirupsen/logrus"
 	"io"
 	"mime/multipart"
 	"net/http"
 	"net/http/httputil"
+	"os"
+
+	log "github.com/sirupsen/logrus"
 )
 
 func (c *Client) Login(ctx context.Context, username, password string) error {
@@ -59,36 +61,53 @@ func (c *Client) NewDataOwner(ctx context.Context, publicKey string) error {
 	return errors.New("error when creating data owner")
 }
 
-func (c *Client) UploadArchives(ctx context.Context, data io.ReadCloser, dataOwner string) (string, error) {
-	defer data.Close()
+func (c *Client) UploadArchives(ctx context.Context, file *os.File, dataOwner string) (string, error) {
+	defer file.Close()
 
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
-	writer.WriteField("data_owner", dataOwner)
 	part, err := writer.CreateFormFile("file", "data.zip")
 	if err != nil {
 		return "", err
 	}
 
-	io.Copy(part, data)
+	if _, err := io.Copy(part, file); err != nil {
+		return "", err
+	}
+	if err := writer.WriteField("data_owner", dataOwner); err != nil {
+		return "", err
+	}
+	err = writer.Close()
+	if err != nil {
+		return "", err
+	}
 
 	r, _ := http.NewRequestWithContext(ctx, "POST", c.endpoint+"/archives/", body)
 	r.Header.Add("Content-Type", "multipart/form-data")
 	r.Header.Add("Authorization", "Token "+c.token)
+	r.Header.Set("Content-Type", writer.FormDataContentType())
+
+	reqDumpByte, err := httputil.DumpRequest(r, false)
+	if err != nil {
+		log.Error(err)
+	}
+
+	log.WithContext(ctx).WithField("prefix", "fbarchive").WithField("req", string(reqDumpByte)).Debug("request to data analysis server")
+
 	resp, err := c.httpClient.Do(r)
 	if err != nil {
 		return "", err
 	}
 
-	go func(resp *http.Response) {
-		// Print out the response in console log
-		dumpBytes, err := httputil.DumpResponse(resp, true)
-		if err != nil {
-			log.Error(err)
-		}
+	defer resp.Body.Close()
 
-		log.WithContext(ctx).WithField("prefix", "fbarchive").WithField("resp", string(dumpBytes)).Debug("response from data analysis server")
-	}(resp)
+	// Print out the response in console log
+	dumpBytes, err := httputil.DumpResponse(resp, true)
+	if err != nil {
+		log.Error(err)
+	}
+
+	log.WithContext(ctx).WithField("prefix", "fbarchive").WithField("resp", string(dumpBytes)).Debug("response from data analysis server")
 
 	decoder := json.NewDecoder(resp.Body)
 	var respBody struct {
@@ -121,6 +140,7 @@ func (c *Client) GetArchiveTaskStatus(ctx context.Context, taskID string) (strin
 	if err := decoder.Decode(&respBody); err != nil {
 		return "", err
 	}
+	defer resp.Body.Close()
 
 	return respBody.Status, nil
 }

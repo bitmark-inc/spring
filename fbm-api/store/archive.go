@@ -65,11 +65,11 @@ func (p *PGStore) UpdateFBArchiveStatus(ctx context.Context, params *FBArchiveQu
 	}
 
 	if values.AnalyzedID != nil {
-		q = q.Set("analyzed_task_id", *values.Status)
+		q = q.Set("analyzed_task_id", *values.AnalyzedID)
 	}
 
 	if values.ContentHash != nil {
-		q = q.Set("content_hash", *values.Status)
+		q = q.Set("content_hash", *values.ContentHash)
 	}
 
 	st, val, _ := q.ToSql()
