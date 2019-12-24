@@ -39,7 +39,7 @@ func (b *BackgroundContext) submitArchive(job *work.Job) error {
 	// Remember to clean up the file afterwards
 	defer os.Remove(tmpFile.Name())
 
-	_, err = downloader.Download(tmpFile,
+	size, err := downloader.Download(tmpFile,
 		&s3.GetObjectInput{
 			Bucket: aws.String(viper.GetString("aws.s3.bucket")),
 			Key:    aws.String(s3key),
@@ -71,6 +71,9 @@ func (b *BackgroundContext) submitArchive(job *work.Job) error {
 	}
 
 	logEntity.Info("Finish...")
+	enqueuer.EnqueueIn(jobPeriodicArchiveCheck, size/200+10, map[string]interface{}{
+		"archive_id": archiveid,
+	})
 
 	return nil
 }
@@ -102,6 +105,7 @@ func (b *BackgroundContext) checkArchive(job *work.Job) error {
 		logEntity.Error(err)
 		return err
 	}
+	log.Info("Receive status: ", status)
 
 	switch status {
 	case "FAILURE":
@@ -122,7 +126,20 @@ func (b *BackgroundContext) checkArchive(job *work.Job) error {
 			logEntity.Error(err)
 			return err
 		}
+		if _, err := enqueuer.EnqueueIn(jobAnalyzePosts, 3, work.Q{
+			"account_number": "example_public_key",
+		}); err != nil {
+			logEntity.Error(err)
+			return err
+		}
 	default:
+		// Retry after 10 minutes
+		log.Info("Retry after 10 minutes")
+		if _, err := enqueuer.EnqueueIn(jobPeriodicArchiveCheck, 10*60, map[string]interface{}{
+			"archive_id": archiveid,
+		}); err != nil {
+			return err
+		}
 	}
 
 	logEntity.Info("Finish...")

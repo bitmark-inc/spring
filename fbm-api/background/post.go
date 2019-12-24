@@ -2,11 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"errors"
-	"fmt"
-	"net/http"
-	"net/http/httputil"
 	"strconv"
 
 	"github.com/getsentry/sentry-go"
@@ -32,15 +27,6 @@ type postResult struct {
 	IDNumber        uint64   `json:"id_number"`
 }
 
-type postResponseData struct {
-	Response struct {
-		Count     int          `json:"count"`
-		Cursor    int          `json:"cursor"`
-		Remaining int          `json:"remaining"`
-		Results   []postResult `json:"results"`
-	} `json:"response"`
-}
-
 type mediaData struct {
 	Type      string `json:"type"`
 	Source    string `json:"source"`
@@ -58,6 +44,11 @@ type locationData struct {
 	CreatedAt int64  `json:"created_at"`
 }
 
+type friendData struct {
+	ID   uint64 `json:"id"`
+	Name string `json:"name"`
+}
+
 type postData struct {
 	Timestamp int64         `json:"timestamp"`
 	Type      string        `json:"type"`
@@ -67,7 +58,7 @@ type postData struct {
 	Location  *locationData `json:"location,omitempty"`
 	URL       string        `json:"url,omitempty"`
 	Title     string        `json:"title"`
-	Tags      []string      `json:"tags,omitempty"`
+	Tags      []friendData  `json:"tags,omitempty"`
 }
 
 type periodData struct {
@@ -91,7 +82,6 @@ type statisticData struct {
 
 func (b *BackgroundContext) extractPost(job *work.Job) error {
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
-	url := job.ArgString("url")
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {
 		return err
@@ -99,118 +89,81 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 
 	ctx := context.Background()
 
-	currentCursor := 0
-
 	counter := newPostStatisticCounter()
+	currentOffset := 0
 
 	for {
-		// Checking job
-		job.Checkin(fmt.Sprintf("Fetching batch: %d", currentCursor))
-
-		// Build url
-		pagingURL := fmt.Sprintf("%s?cursor=%d", url, currentCursor)
-		req, err := http.NewRequestWithContext(ctx, "GET", pagingURL, nil)
+		postRespData, err := b.bitSocialClient.GetPosts(ctx, accountNumber, currentOffset)
 		if err != nil {
-			logEntity.Error(err)
 			return err
-		}
-
-		reqDump, err := httputil.DumpRequest(req, true)
-		if err != nil {
-			logEntity.Error(err)
-		}
-		logEntity.WithField("dump", string(reqDump)).Info("Request dump")
-
-		resp, err := b.httpClient.Do(req)
-		if err != nil {
-			logEntity.Error(err)
-			return err
-		}
-
-		// Print out the response in console log
-		dumpBytes, err := httputil.DumpResponse(resp, false)
-		if err != nil {
-			logEntity.Error(err)
-		}
-		dump := string(dumpBytes)
-		logEntity.Info("response: ", dump)
-
-		if resp.StatusCode > 300 {
-			logEntity.Error("Request failed")
-			sentry.CaptureException(errors.New("Request failed"))
-			return nil
-		}
-
-		job.Checkin("Parse data")
-		decoder := json.NewDecoder(resp.Body)
-		var respData postResponseData
-		if err := decoder.Decode(&respData); err != nil {
-			logEntity.Error("Request failed")
-			sentry.CaptureException(errors.New("Request failed"))
 		}
 
 		// Save to db
-		for _, r := range respData.Response.Results {
+		for _, r := range postRespData.Results {
 			postType := ""
-			var media []mediaData
-			switch r.TypeText {
-			case "photo":
+			media := make([]mediaData, 0)
+
+			if r.MediaAttached {
 				postType = "media"
-				media = []mediaData{
-					mediaData{
-						Type:      "photo",
-						Source:    r.PhotoText,
-						Thumbnail: r.PhotoText,
-					},
+				for _, m := range r.Media {
+					mediaType := "photo"
+					if m.FilenameExtension == ".mp4" {
+						mediaType = "video"
+					}
+					media = append(media, mediaData{
+						Type:      mediaType,
+						Source:    m.MediaURI,
+						Thumbnail: m.ThumbnailURI,
+					})
 				}
-			case "video":
-				postType = "media"
-				media = []mediaData{
-					mediaData{
-						Type:      "video",
-						Source:    r.VideoText,
-						Thumbnail: r.ThumbnailText,
-					},
-				}
-			case "text":
-				postType = "update"
-			case "link":
+			} else if r.ExternalContextURL != "" {
 				postType = "link"
-			default:
-				continue
+			} else {
+				postType = "update"
 			}
 
-			logEntity.Info("Processing post with timestamp: ", r.TimestampNumber)
+			logEntity.Info("Processing post with timestamp: ", r.Timestamp)
 
 			var l *locationData
-			if r.AddressText != "" {
+			if len(r.Place) > 0 {
+				firstPlace := r.Place[0]
+				lat, _ := strconv.ParseFloat(firstPlace.Latitude, 64)
+				long, _ := strconv.ParseFloat(firstPlace.Longitude, 64)
 				l = &locationData{
-					Address: r.AddressText,
+					Address: firstPlace.Place,
 					Coordinate: struct {
 						Latitude  float64 `json:"latitude"`
 						Longitude float64 `json:"longitude"`
 					}{
-						Latitude:  r.LatitudeNumber,
-						Longitude: r.LongitudeNumber,
+						Latitude:  lat,
+						Longitude: long,
 					},
-					Name:      r.LocationText,
-					CreatedAt: r.TimestampNumber,
+					Name:      firstPlace.Place,
+					CreatedAt: r.Timestamp,
 				}
+			}
+
+			friends := make([]friendData, 0)
+			for _, f := range r.Tags {
+				friends = append(friends, friendData{
+					ID:   f.FriendID,
+					Name: f.FriendName,
+				})
 			}
 
 			// Add post
 			post := postData{
-				Timestamp: r.TimestampNumber,
+				Timestamp: r.Timestamp,
 				Type:      postType,
-				Post:      r.PostText,
-				ID:        r.IDNumber,
+				Post:      r.Post,
+				ID:        r.PostID,
 				Media:     media,
 				Location:  l,
-				URL:       r.URLText,
-				Title:     r.TitleText,
-				Tags:      r.TagsListText,
+				URL:       r.ExternalContextURL,
+				Title:     r.Title,
+				Tags:      friends,
 			}
-			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post", r.TimestampNumber, post); err != nil {
+			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post", r.Timestamp, post); err != nil {
 				logEntity.Error(err)
 				sentry.CaptureException(err)
 				continue
@@ -220,11 +173,12 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 			counter.countDecade(&post)
 		}
 
-		// Should continue?
-		if respData.Response.Remaining == 0 {
+		// Should go to next page?
+		total := len(postRespData.Results)
+		if total == 0 {
 			break
 		} else {
-			currentCursor += respData.Response.Count
+			currentOffset += total
 		}
 	}
 
@@ -442,7 +396,7 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 	}
 
 	for _, f := range r.Tags {
-		weekFriendMap := getMap(sc.WeekFriendPeriodsMap, f)
+		weekFriendMap := getMap(sc.WeekFriendPeriodsMap, f.Name)
 		plusOneValue(weekFriendMap, r.Type)
 	}
 }
@@ -542,7 +496,7 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 	}
 
 	for _, f := range r.Tags {
-		yearFriendMap := getMap(sc.YearFriendPeriodsMap, f)
+		yearFriendMap := getMap(sc.YearFriendPeriodsMap, f.Name)
 		plusOneValue(yearFriendMap, r.Type)
 	}
 }
@@ -642,7 +596,7 @@ func (sc *postStatisticCounter) countDecade(r *postData) {
 	}
 
 	for _, f := range r.Tags {
-		decadeFriendMap := getMap(sc.DecadeFriendPeriodsMap, f)
+		decadeFriendMap := getMap(sc.DecadeFriendPeriodsMap, f.Name)
 		plusOneValue(decadeFriendMap, r.Type)
 	}
 }
