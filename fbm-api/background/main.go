@@ -14,6 +14,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	bitmarksdk "github.com/bitmark-inc/bitmark-sdk-go"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/external/fbarchive"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/external/geoservice"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/external/onesignal"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/getsentry/sentry-go"
@@ -49,8 +50,9 @@ type BackgroundContext struct {
 	httpClient *http.Client
 
 	// External services
-	oneSignalClient *onesignal.OneSignalClient
-	bitSocialClient *fbarchive.Client
+	oneSignalClient  *onesignal.OneSignalClient
+	bitSocialClient  *fbarchive.Client
+	geoServiceClient *geoservice.Client
 }
 
 func initLog() {
@@ -127,6 +129,7 @@ func main() {
 
 	oneSignalClient := onesignal.NewClient(httpClient)
 	bitSocialClient := fbarchive.NewClient(httpClient)
+	geoServiceClient := geoservice.NewClient(httpClient)
 
 	// Init Bitmark SDK
 	bitmarksdk.Init(&bitmarksdk.Config{
@@ -149,12 +152,13 @@ func main() {
 	}
 
 	b := &BackgroundContext{
-		fbDataStore:     dynamodbStore,
-		store:           pgstore,
-		awsConf:         awsConf,
-		httpClient:      httpClient,
-		oneSignalClient: oneSignalClient,
-		bitSocialClient: bitSocialClient,
+		fbDataStore:      dynamodbStore,
+		store:            pgstore,
+		awsConf:          awsConf,
+		httpClient:       httpClient,
+		oneSignalClient:  oneSignalClient,
+		bitSocialClient:  bitSocialClient,
+		geoServiceClient: geoServiceClient,
 	}
 
 	redisPool := &redis.Pool{

@@ -22,9 +22,13 @@ func (s *Server) getAllPosts(c *gin.Context) {
 		return
 	}
 
-	posts, err := s.fbDataStore.GetFBStat(c, "test"+"/post", params.StartedAt, params.EndedAt)
+	posts, err := s.fbDataStore.GetFBStat(c, "michael"+"/post", params.StartedAt, params.EndedAt)
 	if shouldInterupt(err, c) {
 		return
+	}
+
+	if posts == nil {
+		posts = []interface{}{}
 	}
 
 	c.JSON(http.StatusOK, gin.H{

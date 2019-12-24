@@ -3,7 +3,9 @@ package main
 import (
 	"context"
 	"strconv"
+	"time"
 
+	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
 	log "github.com/sirupsen/logrus"
@@ -141,6 +143,8 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 					Name:      firstPlace.Place,
 					CreatedAt: r.Timestamp,
 				}
+
+				counter.lastLocation = l
 			}
 
 			friends := make([]friendData, 0)
@@ -171,6 +175,10 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 			counter.countWeek(&post)
 			counter.countYear(&post)
 			counter.countDecade(&post)
+
+			if counter.earliestPostTimestamp > post.Timestamp {
+				counter.earliestPostTimestamp = post.Timestamp
+			}
 		}
 
 		// Should go to next page?
@@ -214,6 +222,26 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 		}
 	}
 
+	logEntity.Info("Parsing location")
+	// Calculate original location
+	geoCodingData, err := b.geoServiceClient.ReverseGeocode(ctx,
+		counter.lastLocation.Coordinate.Latitude,
+		counter.lastLocation.Coordinate.Longitude)
+	if err != nil {
+		return err
+	}
+
+	logEntity.Info("Update to db with account number: ", accountNumber)
+	// Get user and update
+	if _, err := b.store.UpdateAccountMetadata(ctx, &store.AccountQueryParam{
+		AccountNumber: &accountNumber,
+	}, map[string]interface{}{
+		"original_location":  geoCodingData.Address.CountryCode,
+		"original_timestamp": counter.earliestPostTimestamp,
+	}); err != nil {
+		return err
+	}
+
 	logEntity.Info("Finish...")
 
 	return nil
@@ -249,6 +277,9 @@ type postStatisticCounter struct {
 	lastTotalPostOfWeek   int
 	lastTotalPostOfYear   int
 	lastTotalPostOfDecade int
+
+	lastLocation          *locationData
+	earliestPostTimestamp int64
 }
 
 func plusOneValue(m *map[string]int, key string) {
@@ -298,6 +329,9 @@ func newPostStatisticCounter() *postStatisticCounter {
 		Weeks:   make([]statisticData, 0),
 		Years:   make([]statisticData, 0),
 		Decades: make([]statisticData, 0),
+
+		lastLocation:          nil,
+		earliestPostTimestamp: time.Now().Unix(),
 	}
 }
 

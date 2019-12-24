@@ -133,21 +133,27 @@ func (s *Server) Run(addr string) error {
 	}
 
 	postRoute := apiRoute.Group("/posts")
+	postRoute.Use(s.authMiddleware())
 	{
 		postRoute.GET("", s.getAllPosts)
+		postRoute.POST("/reanalyze", s.parseArchive)
 	}
 
 	reactionRoute := apiRoute.Group("/reactions")
+	reactionRoute.Use(s.authMiddleware())
 	{
 		reactionRoute.GET("", s.getAllReactions)
 	}
 
 	usageRoute := apiRoute.Group("/usage")
+	usageRoute.Use(s.authMiddleware())
 	{
 		usageRoute.GET("/:period", s.getPostStats)
 	}
 
 	dataValueRoute := apiRoute.Group("/data-value")
+	dataValueRoute.Use(s.authMiddleware())
+	dataValueRoute.Use(s.recognizeAccountMiddleware())
 	{
 		dataValueRoute.GET("/:period", s.getDataValue)
 	}
@@ -159,8 +165,6 @@ func (s *Server) Run(addr string) error {
 	}
 
 	r.GET("/healthz", s.healthz)
-	r.GET("/test", s.parseArchive)
-	r.GET("/prepare-reactions", s.prepareReactionsData)
 
 	srv := &http.Server{
 		Addr:    addr,

@@ -65,16 +65,50 @@ func (p *PGStore) QueryAccount(ctx context.Context, params *AccountQueryParam) (
 	return &account, nil
 }
 
-func (p *PGStore) UpdateAccount(ctx context.Context, a *Account) (bool, error) {
-	q := psql.Update("fbm.account").
-		Where(sq.Eq{"account_number": a.AccountNumber}).
-		Set("metadata", a.Metadata).
-		Set("updated_at", time.Now())
+func (p *PGStore) UpdateAccountMetadata(ctx context.Context, params *AccountQueryParam, metadata map[string]interface{}) (*Account, error) {
+	q1 := psql.Select("*").From("fbm.account")
 
-	st, val, _ := q.ToSql()
+	if params.AccountNumber != nil {
+		q1 = q1.Where(sq.Eq{"account_number": *params.AccountNumber})
+	}
 
-	result, err := p.pool.Exec(ctx, st, val...)
-	return result.RowsAffected() == 1, err
+	st, val, _ := q1.ToSql()
+	var account Account
+
+	if err := p.pool.
+		QueryRow(ctx, st, val...).
+		Scan(&account.AccountNumber,
+			&account.EncryptionPublicKey,
+			&account.Metadata,
+			&account.CreatedAt,
+			&account.UpdatedAt); err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, nil
+		}
+
+		return nil, err
+	}
+
+	for k, v := range metadata {
+		account.Metadata[k] = v
+	}
+
+	q2 := psql.Update("fbm.account").Set("metadata", account.Metadata)
+	if params.AccountNumber != nil {
+		q2 = q2.Where(sq.Eq{"account_number": *params.AccountNumber})
+	}
+
+	st, val, _ = q2.ToSql()
+	t, err := p.pool.Exec(ctx, st, val...)
+	if err != nil {
+		return nil, err
+	}
+
+	if t.RowsAffected() == 1 {
+		return &account, nil
+	}
+
+	return nil, nil
 }
 
 func (p *PGStore) AddToken(ctx context.Context, accountNumber string, info map[string]interface{}, expire time.Duration) (*Token, error) {

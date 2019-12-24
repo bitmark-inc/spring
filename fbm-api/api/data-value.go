@@ -43,15 +43,16 @@ func getTotalValueForDataPeriod(period string, from int64, lookupRange []fbIncom
 }
 
 func (s *Server) getDataValue(c *gin.Context) {
-	account := c.MustGet("account").(store.Account)
-	period := c.GetString("period")
+	account := c.MustGet("account").(*store.Account)
+	period := c.Param("period")
+	log.Info("period ", period)
 	if period != "week" && period != "year" && period != "decade" {
 		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
 	var query struct {
-		Timestamp int64 `form:"timestamp" binding:"optional"`
+		Timestamp int64 `form:"timestamp" binding:"required"`
 	}
 	if err := c.ShouldBindQuery(&query); err != nil {
 		log.Debug(err)
@@ -72,7 +73,7 @@ func (s *Server) getDataValue(c *gin.Context) {
 
 	if countryCode == "" {
 		lookupRange = s.areaFBIncomeMap.WorldWide
-	} else if countryCode == "US" || countryCode == "CA" {
+	} else if countryCode == "us" || countryCode == "ca" {
 		lookupRange = s.areaFBIncomeMap.USCanada
 	} else {
 		if continent, ok := s.countryContinentMap[countryCode]; ok {

@@ -25,8 +25,8 @@ type Store interface {
 	// leaves one of the condition empty to ignore.
 	QueryAccount(ctx context.Context, params *AccountQueryParam) (*Account, error)
 
-	// UpdateAccount to update account information
-	UpdateAccount(ctx context.Context, a *Account) (bool, error)
+	// UpdateAccountMetadata to update account with metadata
+	UpdateAccountMetadata(ctx context.Context, params *AccountQueryParam, metadata map[string]interface{}) (*Account, error)
 
 	// AddToken to add a random token represent to an account for validating something
 	AddToken(ctx context.Context, accountNumber string, info map[string]interface{}, expire time.Duration) (*Token, error)
