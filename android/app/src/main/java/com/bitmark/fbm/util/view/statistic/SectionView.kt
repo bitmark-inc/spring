@@ -33,8 +33,6 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     private var chartClickListener: GroupView.ChartClickListener? = null
 
-    private var groupAdded = false
-
     init {
         inflate(context, R.layout.layout_section, this)
 
@@ -89,17 +87,10 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         val isNoData = section.isNoData()
 
         tvEmpty.visibility = if (isNoData) View.VISIBLE else View.GONE
-        if (isNoData) {
-            removeGroups()
-            groupAdded = false
-            return
-        }
+        removeGroups()
+        if (isNoData) return
 
-        if (!groupAdded) {
-            addGroups(groups)
-            groupAdded = true
-        }
-
+        addGroups(groups)
         bindGroupsData(groups)
     }
 

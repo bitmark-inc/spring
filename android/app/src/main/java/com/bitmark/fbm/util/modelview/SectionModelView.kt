@@ -32,7 +32,8 @@ data class SectionModelView(
             val diffFromPrev = sectionR.diffFromPrev
             val groupModelViews = mutableListOf<GroupModelView>()
             val typesCount: Int // total count of stack
-            var hasAggregatedType = false
+            var aggregateVals: Array<String>? = null
+            var aggregateIndex = -1
 
             if (sectionName != SectionName.LOCATION) {
                 val types = sectionR.getGroup<GroupEntity>(GroupName.TYPE)
@@ -65,9 +66,9 @@ data class SectionModelView(
             } else {
                 val types = sectionR.getGroup<GroupEntity>(GroupName.AREA)
                 val entityData = types.data.entries.sortedByDescending { e -> e.value }
-                hasAggregatedType = entityData.size > THRESHOLD_VALS_COUNT
+                val needAggregateData = entityData.size > THRESHOLD_VALS_COUNT
                 val topEntityData =
-                    if (hasAggregatedType) entityData.take(THRESHOLD_VALS_COUNT) else entityData
+                    if (needAggregateData) entityData.take(THRESHOLD_VALS_COUNT) else entityData
                 val entries = topEntityData.map { e ->
                     Entry(
                         arrayOf(e.key),
@@ -75,19 +76,20 @@ data class SectionModelView(
                     )
                 }.toMutableList()
 
-                if (hasAggregatedType) {
+                if (needAggregateData) {
                     val topEntityKey = topEntityData.map { e -> e.key }
                     val aggregateData = entityData.filterNot { d -> d.key in topEntityKey }
+                    aggregateVals = aggregateData.map { d -> d.key }.toTypedArray()
                     val aggregateEntry = Entry(
-                        aggregateData.map { d -> d.key }.toTypedArray(),
+                        aggregateVals,
                         floatArrayOf(aggregateData.sumBy { d -> d.value }.toFloat())
                     )
+                    aggregateIndex = entries.size
                     entries.add(aggregateEntry)
                 }
                 typesCount = entries.size
 
                 groupModelViews.add(
-                    0,
                     GroupModelView(
                         period,
                         sectionName,
@@ -108,7 +110,7 @@ data class SectionModelView(
                 } else {
                     val dateRange = period.toPeriodRange(sectionR.periodStartedAt)
                     if (groupEntities.size < dateRange.size) {
-                        // fill missing records
+                        // fill missing sub-period records
                         val newGroupEntities = dateRange.map { dateMillis ->
                             val name = (dateMillis / 1000).toString()
                             GroupEntity(
@@ -125,8 +127,8 @@ data class SectionModelView(
                 val topGroupEntities =
                     if (needAggregate) groupEntities.take(THRESHOLD_VALS_COUNT) else groupEntities
                 val entries = topGroupEntities.map { g ->
-                    val xVal = g.name.replace("'", "")
-                    val yValues = FloatArray(typesCount) { 0f }
+                    val xVals = g.name.replace("'", "")
+                    val yVals = FloatArray(typesCount) { 0f }
                     val data = g.data.entries
                     data.forEachIndexed { i, e ->
                         val key = e.key
@@ -134,11 +136,7 @@ data class SectionModelView(
                             SectionName.POST     -> PostType.indexOf(key)
                             SectionName.REACTION -> Reaction.indexOf(key)
                             SectionName.LOCATION -> {
-                                if (hasAggregatedType) {
-                                    val aggregateMV =
-                                        groupModelViews.find { g -> g.hasAggregatedData() }!!
-                                    val aggregateIndex = aggregateMV.aggregatedIndex()
-                                    val aggregateVals = aggregateMV.entries[aggregateIndex].xValue
+                                if (aggregateVals != null) {
                                     if (key in aggregateVals) {
                                         aggregateIndex
                                     } else {
@@ -152,19 +150,41 @@ data class SectionModelView(
                             }
                             else                 -> error("unsupported section")
                         }
-                        yValues[index] += e.value.toFloat()
+                        yVals[index] += e.value.toFloat()
                     }
-                    Entry(arrayOf(xVal), yValues)
+                    Entry(arrayOf(xVals), yVals)
                 }.toMutableList()
 
                 if (needAggregate) {
                     val topGroupName = topGroupEntities.map { g -> g.name }
                     val aggregateData = groupEntities.filterNot { g -> g.name in topGroupName }
-                    val aggregateEntry = Entry(
-                        aggregateData.map { d -> d.name }.toTypedArray(),
-                        floatArrayOf(aggregateData.sumBy { d -> d.sum() }.toFloat())
-                    )
-                    entries.add(aggregateEntry)
+                    val xVals = aggregateData.map { d -> d.name.replace("'", "") }.toTypedArray()
+                    val yVals = FloatArray(typesCount) { 0f }
+                    aggregateData.forEach { g ->
+                        g.data.entries.forEachIndexed { i, e ->
+                            val key = e.key
+                            val index = when (sectionName) {
+                                SectionName.POST     -> PostType.indexOf(key)
+                                SectionName.REACTION -> Reaction.indexOf(key)
+                                SectionName.LOCATION -> {
+                                    if (aggregateVals != null) {
+                                        if (key in aggregateVals) {
+                                            aggregateIndex
+                                        } else {
+                                            val mv =
+                                                groupModelViews.find { g -> g.name == GroupName.AREA }!!
+                                            mv.entries.indexOfFirst { e -> e.xValue.contains(key) }
+                                        }
+                                    } else {
+                                        i
+                                    }
+                                }
+                                else                 -> error("unsupported section")
+                            }
+                            yVals[index] += e.value.toFloat()
+                        }
+                    }
+                    entries.add(Entry(xVals, yVals))
                 }
 
                 groupModelViews.add(

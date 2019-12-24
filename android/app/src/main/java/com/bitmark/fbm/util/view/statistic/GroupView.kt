@@ -258,7 +258,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         dataSet.colors = colors.toList()
         val barData = BarData(dataSet)
         barData.barWidth = if (vertical) 0.4f else 0.15f
-        barData.setValueTextSize(15f)
+        barData.setValueTextSize(12f)
         barData.setValueTypeface(font)
         barData.setValueFormatter(StackedBarValueFormatter(!vertical))
         return barData
@@ -349,12 +349,13 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         axisRight.setDrawAxisLine(false)
         xAxis.setDrawGridLines(false)
         xAxis.setDrawAxisLine(vertical)
-        xAxis.textSize = 15f
+        xAxis.textSize = 12f
         xAxis.typeface = font
         xAxis.position =
             if (vertical) XAxis.XAxisPosition.BOTTOM else XAxis.XAxisPosition.BOTTOM_INSIDE
         xAxis.valueFormatter = IndexAxisValueFormatter(barXValues)
         xAxis.labelCount = barXValues.size
+        xAxis.isGranularityEnabled = true
         chartView.setScaleEnabled(false)
         chartView.isDoubleTapToZoomEnabled = false
         chartView.setPinchZoom(false)
