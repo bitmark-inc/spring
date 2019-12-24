@@ -60,13 +60,12 @@ extension Reactive where Base: PostDataEngine {
     }
 
     static func makeFilterQueryByDate(_ filterScope: FilterScope) -> NSPredicate? {
-        let (_, timeUnit, date) = filterScope.usageScope
+        let timeUnit = filterScope.timeUnit; let date = filterScope.date
 
-        guard let periodUnit = TimeUnit(rawValue: timeUnit) else { return nil }
         let startDate: NSDate!
         let endDate: NSDate!
 
-        switch periodUnit {
+        switch timeUnit {
         case .week:
             startDate = date.dateAtStartOf(.weekOfMonth) as NSDate
             endDate = date.dateAtEndOf(.weekOfMonth) as NSDate
@@ -82,35 +81,36 @@ extension Reactive where Base: PostDataEngine {
     }
 
     static func makeFilterQuery(_ filterScope: FilterScope) -> NSCompoundPredicate? {
-        let (_, timeUnit, date) = filterScope.usageScope
+        let timeUnit = filterScope.timeUnit
 
-        guard let periodUnit = TimeUnit(rawValue: timeUnit) else { return nil }
-        let startDate: NSDate!
-        let endDate: NSDate!
+        let datePeriod: (startDate: Date, endDate: Date)!
+        if filterScope.filterBy == .day {
+            guard let filterDay = filterScope.filterValue as? Date
+                else {
+                    Global.log.error("formatInDay is incorrect")
+                    return nil
+            }
 
-        switch periodUnit {
-        case .week:
-            startDate = date.dateAtStartOf(.weekOfMonth) as NSDate
-            endDate = date.dateAtEndOf(.weekOfMonth) as NSDate
-        case .year:
-            startDate = date.dateAtStartOf(.year) as NSDate
-            endDate = date.dateAtEndOf(.year) as NSDate
-        case .decade:
-            startDate = (date - 10.years).dateAtStartOf(.year) as NSDate
-            endDate = date.dateAtEndOf(.year) as NSDate
+            datePeriod = filterDay.extractSubPeriod(timeUnit: timeUnit)
+        } else {
+            datePeriod = filterScope.date.extractDatePeriod(timeUnit: timeUnit)
         }
 
-        let datePredicate = NSPredicate(format: "timestamp >= %@ AND timestamp <= %@", startDate, endDate)
+        let datePredicate = NSPredicate(format: "timestamp >= %@ AND timestamp <= %@",
+                                        datePeriod.startDate as NSDate, datePeriod.endDate as NSDate)
         var filterPredicate: NSPredicate?
 
         switch filterScope.filterBy {
         case .type:
-            filterPredicate = NSPredicate(format: "type == %@", filterScope.filterValue)
+            guard let type = filterScope.filterValue as? PostType else { break }
+            filterPredicate = NSPredicate(format: "type == %@", type.rawValue)
         case .friend:
-            let friendValue = filterScope.filterValue + Constant.separator
+            guard let friends = filterScope.filterValue as? [String] else { break }
+            let friendValue = friends.first! + Constant.separator
             filterPredicate = NSPredicate(format: "friendTags CONTAINS %@", friendValue)
         case .place:
-            filterPredicate = NSPredicate(format: "location.name == %@", filterScope.filterValue)
+            guard let places = filterScope.filterValue as? [String] else { break }
+            filterPredicate = NSPredicate(format: "location.name == %@", places.first!)
         default:
             break
         }

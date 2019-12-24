@@ -14,13 +14,13 @@ import SwiftDate
 class UsageViewModel: ViewModel {
 
     // MARK: - Inputs
-    let dateRelay = BehaviorRelay(value: Date().dateAtStartOf(.weekday))
-    let timeUnitRelay = BehaviorSubject<TimeUnit>(value: .week)
+    let dateRelay = BehaviorRelay(value: Date().in(Locales.english).dateAtStartOf(.weekOfMonth).date)
+    let timeUnitRelay = BehaviorRelay<TimeUnit>(value: .week)
 
     // MARK: - Outputs
     let realmAverageObservable = PublishSubject<Results<Average>>()
-    let realmPostUsageObservable = PublishSubject<Usage>()
-    let realmReactionUsageObservable = PublishSubject<Usage>()
+    let realmPostUsageRelay = BehaviorRelay<Usage?>(value: nil)
+    let realmReactionUsageRelay = BehaviorRelay<Usage?>(value: nil)
 
     override init() {
         super.init()
@@ -34,37 +34,22 @@ class UsageViewModel: ViewModel {
     }
 
     func fetchUsage() {
-        BehaviorRelay.combineLatest(dateRelay, timeUnitRelay)
-            .subscribe(onNext: { [weak self] (date, timeUnit) in
+        dateRelay // ignore timeUnit change, cause when timeUnit change, it trigger date change also
+            .subscribe(onNext: { [weak self] (date) in
                 guard let self = self else { return }
+                let timeUnit = self.timeUnitRelay.value
 
-                var usageScope: UsageScope = (
-                    sectionName: "",
-                    date: date, timeUnit: timeUnit.rawValue)
-
-                // Usage - POSTs
-                usageScope.sectionName = Section.posts.rawValue
-                let postUsageScope = usageScope
-
-                _ = UsageDataEngine.rx.fetchAndSyncUsage(postUsageScope)
-                    .catchError({ (error) -> Single<Usage> in
+                _ = UsageDataEngine.rx.fetchAndSyncUsage(timeUnit: timeUnit, startDate: date)
+                    .catchError({ (error) -> Single<[Section: Usage?]> in
                         Global.log.error(error)
-                        return Single.just(Usage())
+                        return Single.just([:])
                     })
                     .asObservable()
-                    .bind(to: self.realmPostUsageObservable)
-
-                // Usage - Reactions
-                usageScope.sectionName = Section.reactions.rawValue
-                let reactionUsageScope = usageScope
-
-                _ = UsageDataEngine.rx.fetchAndSyncUsage(reactionUsageScope)
-                    .catchError({ (error) -> Single<Usage> in
-                        Global.log.error(error)
-                        return Single.just(Usage())
+                    .subscribe(onNext: { [weak self] (usages) in
+                        guard let self = self else { return }
+                        self.realmPostUsageRelay.accept(usages[.posts] ?? nil)
+                        self.realmReactionUsageRelay.accept(usages[.reactions] ?? nil)
                     })
-                    .asObservable()
-                    .bind(to: self.realmReactionUsageObservable)
             })
             .disposed(by: disposeBag)
     }

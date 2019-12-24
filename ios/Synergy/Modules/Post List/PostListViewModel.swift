@@ -13,7 +13,7 @@ import RealmSwift
 import Realm
 import SwiftDate
 
-typealias FilterScope = (usageScope: UsageScope, filterBy: GroupKey, filterValue: String)
+typealias FilterScope1 = (usageScope: UsageScope, filterBy: GroupKey, filterValue: String)
 
 class PostListViewModel: ViewModel {
 
@@ -53,38 +53,35 @@ class PostListViewModel: ViewModel {
         switch filterScope.filterBy {
         case .type:
             sectionTitle = "plural.\(filterScope.filterValue)".localized().localizedUppercase
-            timelineText = buidlTimestamp()
+            timelineText = buildTimestamp()
         case .friend, .place:
             sectionTitle = R.string.localizable.pluralPost().localizedUppercase
-            taggedText = R.string.phrase.postSectionTitleTag(filterScope.filterValue)
-            timelineText = buidlTimestamp()
+            if let tags = filterScope.filterValue as? [String] {
+                let titleTag = tags.count == 1 ? tags.first! : R.string.localizable.graphKeyOther()
+                taggedText = R.string.phrase.postSectionTitleTag(titleTag)
+            }
+            timelineText = buildTimestamp()
         case .day:
             sectionTitle = R.string.localizable.pluralPost().localizedUppercase
-            timelineText = Date().toFormat(Constant.TimeFormat.full) // TODO not filter by day now
+            if let selectedDate = filterScope.filterValue as? Date {
+                let (startDate, endDate) = selectedDate.extractSubPeriod(timeUnit: filterScope.timeUnit)
+                timelineText = buildTimestamp(startDate: startDate, endDate: endDate)
+            } else {
+                timelineText = ""
+            }
         }
 
         return (sectionTitle: sectionTitle, taggedText: taggedText, timelineText: timelineText)
     }
 
-    func buidlTimestamp() -> String {
-        let date = filterScope.usageScope.date
-        guard let periodUnit = TimeUnit(rawValue: filterScope.usageScope.timeUnit) else { return "" }
+    func buildTimestamp() -> String {
+        let date = filterScope.date; let timeUnit = filterScope.timeUnit
+        let (startDate, endDate) = date.extractDatePeriod(timeUnit: timeUnit)
 
-        let startDate: Date!
-        let endDate: Date!
+        return buildTimestamp(startDate: startDate, endDate: endDate)
+    }
 
-        switch periodUnit {
-        case .week:
-            startDate = date.dateAtStartOf(.weekOfMonth)
-            endDate = date.dateAtEndOf(.weekOfMonth)
-        case .year:
-            startDate = date.dateAtStartOf(.year)
-            endDate = date.dateAtEndOf(.year) - 12.hours // TODO:
-        case .decade:
-            startDate = (date - 10.years).dateAtStartOf(.year)
-            endDate = Date() // TODO:
-        }
-
+    func buildTimestamp(startDate: Date, endDate: Date) -> String {
         return startDate.year == endDate.year ?
             startDate.toFormat(Constant.TimeFormat.full) + "-" + endDate.toFormat(Constant.TimeFormat.short) :
             startDate.toFormat(Constant.TimeFormat.full) + " - " + endDate.toFormat(Constant.TimeFormat.full)

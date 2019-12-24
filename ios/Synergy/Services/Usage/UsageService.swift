@@ -12,33 +12,21 @@ import Moya
 
 class UsageService {
 
-    static func get(_ usageScope: UsageScope) -> Single<Usage> {
+    static var provider = MoyaProvider<UsageAPI>(plugins: Global.default.networkLoggerPlugin)
+
+    static func get(in timeUnit: TimeUnit, startDate: Date) -> Single<[Usage]> {
         Global.log.info("[start] UsageService.get")
 
-        let mockFileName: String!
-        guard let section = Section(rawValue: usageScope.sectionName) else { return Single.never() }
-
-        switch section {
-        case .posts:
-            mockFileName = "post_insights"
-        case .reactions:
-            mockFileName = "reaction_insights"
-        default:
-            mockFileName = ""
+        let usageAPI: UsageAPI!
+        switch timeUnit {
+        case .week: usageAPI = .getInWeek(startDate: startDate)
+        case .year: usageAPI = .getInYear(startDate: startDate)
+        case .decade: usageAPI = .getInDecade(startDate: startDate)
         }
 
-        guard let url = Bundle.main.url(forResource: mockFileName, withExtension: "json") else {
-            return Single.never()
-        }
-
-        do {
-            let data = try Data(contentsOf: url)
-            let decoder = JSONDecoder()
-            let jsonData = try decoder.decode(Usage.self, from: data)
-            return Single.just(jsonData)
-        } catch {
-            return Single.error(error)
-        }
+        return provider.rx.requestWithRefreshJwt(usageAPI)
+            .filterSuccess()
+            .map([Usage].self, atKeyPath: "result")
     }
 
     static func getAverage(timeUnit: TimeUnit) -> Single<[Average]> {

@@ -15,7 +15,7 @@ import Charts
 class InsightTableView: TableView {
 
     // MARK: - Properties
-    var postListNavigateHandler: ((FilterScope) -> Void)?
+    var postListNavigateHandler: ((FilterScope1) -> Void)?
     var accountNavigationHandler: (() -> Void)?
     var timeUnit: TimeUnit = .week {
         didSet {
@@ -246,7 +246,7 @@ class InsightHeadingTableViewCell: TableViewCell {
 class InsightFilterTypeTableViewCell: TableViewCell {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     private let chartView = HorizontalBarChartView()
-    var postListNavigateHandler: ((FilterScope) -> Void)?
+    var postListNavigateHandler: ((FilterScope1) -> Void)?
     private var entries = [BarChartDataEntry]()
     var section: Section = .posts
     var timeUnit: TimeUnit = .week

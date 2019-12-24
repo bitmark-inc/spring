@@ -162,15 +162,14 @@ extension PostListViewController: ClickableTextDelegate {
 // MARK: - Navigator
 extension PostListViewController {
     func gotoPostListScreen(filterBy: GroupKey, filterValue: String) {
-        guard let viewModel = viewModel as? PostListViewModel else { return }
+        guard let currentFilterScope = thisViewModel.filterScope else { return }
         loadingState.onNext(.loading)
-        let filterScope: FilterScope = (
-            usageScope: viewModel.filterScope.usageScope,
-            filterBy: filterBy,
-            filterValue: filterValue
-        )
+        let newFilterScope = FilterScope(
+            date: currentFilterScope.date, timeUnit: currentFilterScope.timeUnit,
+            section: .posts,
+            filterBy: filterBy, filterValue: filterValue)
 
-        let postListviewModel = PostListViewModel(filterScope: filterScope)
+        let postListviewModel = PostListViewModel(filterScope: newFilterScope)
         navigator.show(segue: .postList(viewModel: postListviewModel), sender: self)
     }
 }

@@ -18,12 +18,9 @@
 "YourAuthorizationIsRequired" = "Your authorization is required.";
 "notify_me" = "Notify me »";
 "Enable" = "Enable";
-"WEEK" = "WEEK";
-"YEAR" = "YEAR";
-"DECADE" = "DECADE";
-"POSTS" = "POSTS";
-"REACTIONS" = "REACTIONS";
-"MESSAGES" = "MESSAGES";
+"Week" = "Week";
+"Year" = "Year";
+"Decade" = "Decade";
 "and" = "and";
 "HOW YOU USE FACEBOOK" = "HOW YOU USE FACEBOOK";
 "HOW FACEBOOK USES YOU" = "HOW FACEBOOK USES YOU";
@@ -40,6 +37,33 @@
 "plural.update" = "updates";
 "plural.video" = "videos";
 "plural.photo" = "photos";
+"plural.media" = "media";
+"plural.reaction" = "reactions";
+"plural.message" = "messages";
 
 "ComingSoon!" = "Coming Soon!";
 "ComingSoon.description" = "Remember RSS? Coming soon you will be able to publish and subscribe to data streams. Understand people through their data, and make money off of your data, too.";
+
+"numberOfPosts" = "%@ POSTS";
+"numberOfReactions" = "%@ REACTIONS";
+"you_made" = "you made";
+"you_gave" = "you gave";
+"ByType" = "BY TYPE";
+"ByDay" = "BY DAY";
+"ByFriendTagged" = "BY FRIENDS TAGGED";
+"ByPlaceTagged" = "BY PLACES TAGGED";
+
+"graph.key.update" = "Updates";
+"graph.key.media" = "Photos & Videos";
+"graph.key.story" = "Stories";
+"graph.key.link" = "Links";
+
+"graph.key.like" = "Like";
+"graph.key.love" = "Love";
+"graph.key.haha" = "Haha";
+"graph.key.wow" = "Wow";
+"graph.key.sorry" = "Sad";
+"graph.key.anger" = "Angry";
+"graph.key.other" = "Others";
+
+"graph.noActivity" = "No activity for this period.";

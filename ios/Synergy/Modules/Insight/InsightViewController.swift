@@ -20,7 +20,7 @@ class InsightViewController: ViewController {
         let v = InsightTableView()
         v.postListNavigateHandler = { [weak self] filterScope in
             loadingState.onNext(.loading)
-            self?.goToPostListScreen(filterScope: filterScope)
+//            self?.goToPostListScreen(filterScope: filterScope)
         }
         v.accountNavigationHandler = { [weak self] in
             self?.gotoAccountScreen()

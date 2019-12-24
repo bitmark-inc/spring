@@ -16,22 +16,30 @@ extension UsageDataEngine: ReactiveCompatible {}
 
 extension Reactive where Base: UsageDataEngine {
 
-    static func fetchAndSyncUsage(_ usageScope: UsageScope) -> Single<Usage> {
+    static func fetchAndSyncUsage(timeUnit: TimeUnit, startDate: Date) -> Single<[Section: Usage?]> {
+
         Global.log.info("[start] UsageDataEngine.rx.fetchAndSyncUsage")
 
-        return Single<Usage>.create { (event) -> Disposable in
+        return Single<[Section: Usage?]>.create { (event) -> Disposable in
             do {
                 guard Thread.current.isMainThread else {
                     throw AppError.incorrectThread
                 }
 
                 let realm = try RealmConfig.currentRealm()
-                let usageID = Usage.makeID(usageScope)
 
-                if let usage = realm.object(ofType: Usage.self, forPrimaryKey: usageID) {
-                    event(.success(usage))
+                let postUsageID = Usage.makeID(usageScope: UsageScope(date: startDate, timeUnit: timeUnit, section: .posts))
+                let reactionUsageID = Usage.makeID(usageScope: UsageScope(date: startDate, timeUnit: timeUnit, section: .reactions))
 
-                    _ = UsageService.get(usageScope)
+                if let postUsage = realm.object(ofType: Usage.self, forPrimaryKey: postUsageID),
+                   let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID) {
+
+                    event(.success([
+                        .posts: postUsage,
+                        .reactions: reactionUsage
+                    ]))
+
+                    _ = UsageService.get(in: timeUnit, startDate: startDate)
                         .flatMapCompletable { Storage.store($0) }
                         .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
                         .subscribe(onError: { (error) in
@@ -40,14 +48,17 @@ extension Reactive where Base: UsageDataEngine {
                         })
 
                 } else {
-                    _ = UsageService.get(usageScope)
+                    _ = UsageService.get(in: timeUnit, startDate: startDate)
                         .flatMapCompletable { Storage.store($0) }
                         .observeOn(MainScheduler.instance)
                         .subscribe(onCompleted: {
+                            let postUsage = realm.object(ofType: Usage.self, forPrimaryKey: postUsageID)
+                            let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID)
 
-                            guard let usage = realm.object(ofType: Usage.self, forPrimaryKey: usageID) else { return }
-
-                            event(.success(usage))
+                            event(.success([
+                                .posts: postUsage,
+                                .reactions: reactionUsage
+                            ]))
                         }, onError: { (error) in
                             event(.error(error))
                         })

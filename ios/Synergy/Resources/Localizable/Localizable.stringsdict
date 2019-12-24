@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>meaningWord.week</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@distance@</string>
+		<key>distance</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>u</string>
+			<key>zero</key>
+			<string>This Week</string>
+			<key>one</key>
+			<string>Last Week</string>
+			<key>other</key>
+			<string>%u Weeks ago</string>
+		</dict>
+	</dict>
+    <key>meaningWord.year</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@distance@</string>
+        <key>distance</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>u</string>
+            <key>zero</key>
+            <string>This Year</string>
+            <key>one</key>
+            <string>Last Year</string>
+            <key>other</key>
+            <string>%u Years ago</string>
+        </dict>
+    </dict>
+    <key>meaningWord.decade</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@distance@</string>
+        <key>distance</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>u</string>
+            <key>zero</key>
+            <string>This Decade</string>
+            <key>one</key>
+            <string>Last Decade</string>
+            <key>other</key>
+            <string>%u Decades ago</string>
+        </dict>
+    </dict>
+</dict>
+</plist>

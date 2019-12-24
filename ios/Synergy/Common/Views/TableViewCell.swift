@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 
 class TableViewCell: UITableViewCell {
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
