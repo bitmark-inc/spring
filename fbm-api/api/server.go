@@ -139,6 +139,12 @@ func (s *Server) Run(addr string) error {
 		postRoute.POST("/reanalyze", s.parseArchive)
 	}
 
+	mediaRoute := apiRoute.Group("/media")
+	mediaRoute.Use(s.authMiddleware())
+	{
+		mediaRoute.GET("", s.getPostMediaURI)
+	}
+
 	reactionRoute := apiRoute.Group("/reactions")
 	reactionRoute.Use(s.authMiddleware())
 	{
