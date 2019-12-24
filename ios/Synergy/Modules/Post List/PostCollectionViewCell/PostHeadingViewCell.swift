@@ -42,7 +42,7 @@ class PostHeadingViewCell: TableViewCell {
 
     func fillInfo(
         backButton: Button,
-        sectionInfo: (sectionTitle: String, taggedText: String, timelineText: String)) {
+        sectionInfo: (sectionTitle: String, taggedText: String?, timelineText: String?)) {
 
         backButtonView.flex.addItem(backButton)
         sectionTitleLabel.setText(sectionInfo.sectionTitle)

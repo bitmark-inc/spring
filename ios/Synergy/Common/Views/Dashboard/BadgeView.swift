@@ -48,10 +48,10 @@ class BadgeView: UIView {
 
         flex.direction(.row)
             .paddingLeft(18).paddingRight(18).marginBottom(30)
-            .justifyContent(.spaceBetween)
+            .justifyContent(.spaceAround)
             .define { (flex) in
-                flex.addItem(postDataBadgeView).grow(1)
-                flex.addItem(reactionsDataBadgeView).grow(1)
+                flex.addItem(postDataBadgeView)
+                flex.addItem(reactionsDataBadgeView)
             }
     }
 
@@ -104,14 +104,17 @@ class BadgeView: UIView {
         case .posts:
             postDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             postDataBadgeView.percentageLabel.text = precentageText(with: badge)
+            updateLayout(for: postDataBadgeView, with: badge)
 
         case .reactions:
             reactionsDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             reactionsDataBadgeView.percentageLabel.text = precentageText(with: badge)
+            updateLayout(for: reactionsDataBadgeView, with: badge)
 
         case .message:
             messagesDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             messagesDataBadgeView.percentageLabel.text = precentageText(with: badge)
+            updateLayout(for: messagesDataBadgeView, with: badge)
 
         default:
             break
@@ -133,7 +136,20 @@ class BadgeView: UIView {
         guard let badge = badge else { return emptyPercentage }
         let number = NSNumber(value: abs(Int(badge * 100)))
         guard let formattedNumber = numberFormatter.string(from: number) else { return "" }
-        return "\(formattedNumber)%"
+        return "  \(formattedNumber)%"
+    }
+
+    fileprivate func updateLayout(for badgeView: DataBadgeView, with badge: Double?) {
+        if badge != nil {
+            badgeView.percentageLabel.textAlignment = .left
+            badgeView.updownImageView.flex.width(16)
+        } else {
+            badgeView.percentageLabel.textAlignment = .center
+            badgeView.updownImageView.flex.width(0)
+        }
+
+        badgeView.percentageLabel.flex.markDirty()
+        badgeView.updownImageView.flex.markDirty()
     }
 }
 
@@ -151,8 +167,8 @@ final class DataBadgeView: UIView {
         let toplineView = UIView()
         toplineView.flex.direction(.row).define { (flex) in
             flex.alignItems(.center)
-            flex.addItem(updownImageView).width(16).height(16)
-            flex.addItem(percentageLabel).margin(4).grow(1)
+            flex.addItem(updownImageView).height(16)
+            flex.addItem(percentageLabel).grow(1)
         }
 
         self.flex.direction(.column).define { (flex) in
@@ -162,7 +178,7 @@ final class DataBadgeView: UIView {
         }
 
         percentageLabel.text = "--"
-        percentageLabel.textAlignment = .left
+        percentageLabel.textAlignment = .center
 
         themeService.rx
             .bind({ $0.blackTextColor }, to: updownImageView.rx.tintColor)

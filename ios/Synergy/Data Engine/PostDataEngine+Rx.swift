@@ -15,13 +15,22 @@ class PostDataEngine {
     static func syncPosts(datePeriod: DatePeriod?) {
         guard let datePeriod = datePeriod else { return }
 
-        _ = PostService.getAll(startDate: datePeriod.startDate, endDate: datePeriod.endDate)
-            .flatMapCompletable { Storage.store($0, inGlobalRealm: true) }
-            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onError: { (error) in
-                guard !AppError.errorByNetworkConnection(error) else { return }
-                Global.log.error(error)
-            })
+        var startDate = datePeriod.endDate
+        var endDate = min(datePeriod.endDate, Date())
+
+        repeat {
+            endDate = startDate
+            startDate = max(startDate - 30.days, datePeriod.startDate)
+
+            _ = PostService.getAll(startDate: startDate, endDate: endDate)
+                .flatMapCompletable { Storage.store($0, inGlobalRealm: true) }
+                .observeOn(SerialDispatchQueueScheduler(qos: .background))
+                .subscribe(onError: { (error) in
+                    guard !AppError.errorByNetworkConnection(error) else { return }
+                    Global.log.error(error)
+                })
+
+        } while startDate > datePeriod.startDate
     }
 }
 
@@ -48,7 +57,6 @@ extension Reactive where Base: PostDataEngine {
 
                 let datePeriod = extractQueryDatePeriod(filterScope)
                 PostDataEngine.syncPosts(datePeriod: datePeriod)
-
             } catch {
                 event(.error(error))
             }
@@ -68,11 +76,17 @@ extension Reactive where Base: PostDataEngine {
             guard let type = filterScope.filterValue as? PostType else { break }
             filterPredicate = NSPredicate(format: "type == %@", type.rawValue)
         case .friend:
-            guard let friends = filterScope.filterValue as? [String] else { break }
-            filterPredicate = NSPredicate(format: "ANY tags.name IN %@", friends)
+            if let friends = filterScope.filterValue as? [String] {
+                filterPredicate = NSPredicate(format: "ANY tags.name IN %@", friends)
+            } else if let friend = filterScope.filterValue as? String {
+                filterPredicate = NSPredicate(format: "ANY tags.name == %@", friend)
+            }
         case .place:
-            guard let places = filterScope.filterValue as? [String] else { break }
-            filterPredicate = NSPredicate(format: "location.name IN %@", places)
+            if let places = filterScope.filterValue as? [String] {
+                filterPredicate = NSPredicate(format: "location.name IN %@", places)
+            } else if let place = filterScope.filterValue as? String {
+                filterPredicate = NSPredicate(format: "location.name == %@", place)
+            }
         default:
             break
         }

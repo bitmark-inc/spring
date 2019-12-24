@@ -51,7 +51,7 @@ class VideoPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Data
     func bindData(post: Post) {
-        makePostInfo(timestamp: post.timestamp, friends: post.tags, locationName: post.location?.name)
+        makePostInfo(timestamp: post.timestamp, friends: post.tags.toArray(), locationName: post.location?.name)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] in
                 self?.postInfoLabel.attributedText = $0
@@ -63,7 +63,7 @@ class VideoPostTableViewCell: TableViewCell, PostDataTableViewCell {
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
 
-        if let thumbnail = post.thumbnail, let thumbnailURL = URL(string: thumbnail) {
+        if let media = post.mediaData.first, let thumbnailURL = URL(string: media.thumbnail) {
             photoImageView.loadURL(thumbnailURL)
                 .subscribe()
                 .disposed(by: disposeBag)

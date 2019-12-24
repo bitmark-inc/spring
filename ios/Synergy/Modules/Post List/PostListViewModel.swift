@@ -47,10 +47,12 @@ class PostListViewModel: ViewModel {
     func makeTaggedText() -> String? {
         switch filterScope.filterBy {
         case .friend, .place:
-            guard let tags = filterScope.filterValue as? [String]
-                else { return nil }
-
-            let titleTag = tags.count == 1 ? tags.first! : R.string.localizable.graphKeyOther()
+            var titleTag = ""
+            if let tags = filterScope.filterValue as? [String] {
+                titleTag = tags.count == 1 ? tags.first! : R.string.localizable.graphKeyOther()
+            } else if let tag = filterScope.filterValue as? String {
+                titleTag = tag
+            }
             return R.string.phrase.postSectionTitleTag(titleTag)
         default:
             return nil

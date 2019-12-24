@@ -48,7 +48,7 @@ class LinkPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Data
     func bindData(post: Post) {
-        makePostInfo(timestamp: post.timestamp, friends: post.tags, locationName: post.location?.name)
+        makePostInfo(timestamp: post.timestamp, friends: post.tags.toArray(), locationName: post.location?.name)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] in
                 self?.postInfoLabel.attributedText = $0

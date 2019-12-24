@@ -18,19 +18,20 @@ protocol PostDataTableViewCell where Self: UITableViewCell {
     var clickableTextDelegate: ClickableTextDelegate? { get set }
 
     func bindData(post: Post)
-    func makePostInfo(timestamp: Date, friends: [String], locationName: String?) -> Single<NSMutableAttributedString>
+    func makePostInfo(timestamp: Date, friends: [Friend], locationName: String?) -> Single<NSMutableAttributedString>
 }
 
 extension PostDataTableViewCell {
-    func makePostInfo(timestamp: Date, friends: [String], locationName: String?) -> Single<NSMutableAttributedString> {
+    func makePostInfo(timestamp: Date, friends: [Friend], locationName: String?) -> Single<NSMutableAttributedString> {
         return Single.create { (event) -> Disposable in
             var links: [(text: String, url: String)] = []
             let timestampText = timestamp.toFormat(Constant.TimeFormat.post)
 
-            let friendTags = friends.toSentence()
+            let friendNames = friends.map { $0.name }
+            let friendTags = friendNames.toSentence()
             let friendTagsText = friendTags.isEmpty ? "" : R.string.phrase.postPostInfoFriendTags(friendTags)
 
-            links = friends.compactMap({ (text: $0, url: "\(Constant.appName)://\(GroupKey.friend.rawValue)/\($0.urlEncoded)") })
+            links = friendNames.compactMap({ (text: $0, url: "\(Constant.appName)://\(GroupKey.friend.rawValue)/\($0.urlEncoded)") })
 
             var locationTagText = ""
             if let locationName = locationName {

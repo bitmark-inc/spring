@@ -119,17 +119,23 @@ extension PostListViewController: UITableViewDataSource {
 
         case 1:
             let post = posts![indexPath.row]
+            guard let postType = PostType(rawValue: post.type) else {
+                return UITableViewCell()
+            }
+
             let cell: PostDataTableViewCell!
-            switch post.type {
-            case Constant.PostType.update:
+            switch postType {
+            case .update:
                 cell = tableView.dequeueReusableCell(withClass: UpdatePostTableViewCell.self, for: indexPath)
 
-            case Constant.PostType.link:
+            case .link:
                 let linkTableCell = (post.post?.isEmpty ?? true) ? LinkPostTableViewCell.self : LinkCaptionPostTableViewCell.self
                 cell = tableView.dequeueReusableCell(withClass: linkTableCell, for: indexPath) as? PostDataTableViewCell
 
-            case Constant.PostType.video:
-                cell = tableView.dequeueReusableCell(withClass: VideoPostTableViewCell.self, for: indexPath)
+            case .media:
+                cell = post.mediaData.first?.type == "video" ?
+                    tableView.dequeueReusableCell(withClass: VideoPostTableViewCell.self, for: indexPath) :
+                    tableView.dequeueReusableCell(withClass: GeneralPostTableViewCell.self, for: indexPath)
 
             default:
                 cell = tableView.dequeueReusableCell(withClass: GeneralPostTableViewCell.self, for: indexPath)
