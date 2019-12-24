@@ -23,5 +23,7 @@ ENV FBM_LOG_LEVEL=INFO
 ENV FBM_SERVER_VERSION=$dist
 ENV FBM_STRIPE_SERVICE=fbm
 ENV FBM_SERVER_ASSETDIR=/assets
+ENV FBM_SERVER_COUNTRYCONTINENTMAP=/assets/country-continent-map.json
+ENV FBM_SERVER_AREAFBINCOMEMAP=/assets/area-fbincome-map.json
 
 CMD ["/fbm-api"]

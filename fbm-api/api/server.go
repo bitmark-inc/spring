@@ -5,6 +5,8 @@ import (
 	"crypto/rsa"
 	"crypto/tls"
 	"encoding/hex"
+	"encoding/json"
+	"io/ioutil"
 	"net/http"
 	"time"
 
@@ -49,6 +51,10 @@ type Server struct {
 
 	// job pool enqueuer
 	backgroundEnqueuer *work.Enqueuer
+
+	// country continent list
+	countryContinentMap map[string]string
+	areaFBIncomeMap     *areaFBIncomeMap
 }
 
 // NewServer new instance of server
@@ -141,6 +147,11 @@ func (s *Server) Run(addr string) error {
 		usageRoute.GET("/:period", s.getPostStats)
 	}
 
+	dataValueRoute := apiRoute.Group("/data-value")
+	{
+		dataValueRoute.GET("/:period", s.getDataValue)
+	}
+
 	assetRoute := r.Group("/assets")
 	assetRoute.Use(logmodule.Ginrus("Asset"))
 	{
@@ -158,7 +169,47 @@ func (s *Server) Run(addr string) error {
 
 	s.server = srv
 
+	c, err := loadCountryContinentMap()
+	if err != nil {
+		return err
+	}
+	s.countryContinentMap = c
+
+	incomeMap, err := loadFBIncomeMap()
+	if err != nil {
+		return err
+	}
+	s.areaFBIncomeMap = incomeMap
+
 	return srv.ListenAndServe()
+}
+
+func loadCountryContinentMap() (map[string]string, error) {
+	var countryContinentMap map[string]string
+	data, _ := ioutil.ReadFile(viper.GetString("server.countryContinentMap"))
+	err := json.Unmarshal(data, &countryContinentMap)
+	return countryContinentMap, err
+}
+
+type fbIncomePeriod struct {
+	StartedAt     int64
+	EndedAt       int64
+	QuarterAmount float64
+}
+
+type areaFBIncomeMap struct {
+	WorldWide   []fbIncomePeriod `json:"world-wide"`
+	USCanada    []fbIncomePeriod `json:"us_canada"`
+	Europe      []fbIncomePeriod `json:"europe"`
+	AsiaPacific []fbIncomePeriod `json:"asia_pacific"`
+	Rest        []fbIncomePeriod `json:"rest"`
+}
+
+func loadFBIncomeMap() (*areaFBIncomeMap, error) {
+	var fbIncomeMap areaFBIncomeMap
+	data, _ := ioutil.ReadFile(viper.GetString("server.areaFBIncomeMap"))
+	err := json.Unmarshal(data, &fbIncomeMap)
+	return &fbIncomeMap, err
 }
 
 // Shutdown to shutdown the server

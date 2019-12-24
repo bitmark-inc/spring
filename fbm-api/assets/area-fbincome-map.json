@@ -1,0 +1,245 @@
+{
+  "world_wide": [
+    {"started_at": 1388534400, "ended_at": 1396310399, "amount": 2.00},
+    {"started_at": 1396310400, "ended_at": 1404172799, "amount": 2.24},
+    {"started_at": 1404172800, "ended_at": 1412121599, "amount": 2.40},
+    {"started_at": 1412121600, "ended_at": 1420070399, "amount": 2.81},
+    {"started_at": 1420070400, "ended_at": 1427846399, "amount": 2.50},
+    {"started_at": 1427846400, "ended_at": 1435708799, "amount": 2.76},
+    {"started_at": 1435708800, "ended_at": 1443657599, "amount": 2.97},
+    {"started_at": 1443657600, "ended_at": 1451606399, "amount": 3.73},
+    {"started_at": 1451606400, "ended_at": 1459468799, "amount": 3.32},
+    {"started_at": 1459468800, "ended_at": 1467331199, "amount": 3.82},
+    {"started_at": 1467331200, "ended_at": 1475279999, "amount": 4.01},
+    {"started_at": 1475280000, "ended_at": 1483228799, "amount": 4.83},
+    {"started_at": 1483228800, "ended_at": 1491004799, "amount": 4.23},
+    {"started_at": 1491004800, "ended_at": 1498867199, "amount": 4.73},
+    {"started_at": 1498867200, "ended_at": 1506815999, "amount": 5.07},
+    {"started_at": 1506816000, "ended_at": 1514764799, "amount": 6.18},
+    {"started_at": 1514764800, "ended_at": 1522540799, "amount": 5.53},
+    {"started_at": 1522540800, "ended_at": 1530403199, "amount": 5.97},
+    {"started_at": 1530403200, "ended_at": 1538351999, "amount": 6.09},
+    {"started_at": 1538352000, "ended_at": 1546300799, "amount": 7.37},
+    {"started_at": 1546300800, "ended_at": 1554076799, "amount": 6.42},
+    {"started_at": 1554076800, "ended_at": 1561939199, "amount": 7.05},
+    {"started_at": 1561939200, "ended_at": 1569887999, "amount": 7.26},
+    {"started_at": 1569888000, "ended_at": 1577836799, "amount": 0}
+  ],
+  "us_canada": [
+    {"started_at": 1388534400, "ended_at": 1396310399, "amount": 5.85},
+    {"started_at": 1396310400, "ended_at": 1404172799, "amount": 6.44},
+    {"started_at": 1404172800, "ended_at": 1412121599, "amount": 7.39},
+    {"started_at": 1412121600, "ended_at": 1420070399, "amount": 9.00},
+    {"started_at": 1420070400, "ended_at": 1427846399, "amount": 8.32},
+    {"started_at": 1427846400, "ended_at": 1435708799, "amount": 9.30},
+    {"started_at": 1435708800, "ended_at": 1443657599, "amount": 10.49},
+    {"started_at": 1443657600, "ended_at": 1451606399, "amount": 13.70},
+    {"started_at": 1451606400, "ended_at": 1459468799, "amount": 12.43},
+    {"started_at": 1459468800, "ended_at": 1467331199, "amount": 14.34},
+    {"started_at": 1467331200, "ended_at": 1475279999, "amount": 15.65},
+    {"started_at": 1475280000, "ended_at": 1483228799, "amount": 19.81},
+    {"started_at": 1483228800, "ended_at": 1491004799, "amount": 17.07},
+    {"started_at": 1491004800, "ended_at": 1498867199, "amount": 19.38},
+    {"started_at": 1498867200, "ended_at": 1506815999, "amount": 21.20},
+    {"started_at": 1506816000, "ended_at": 1514764799, "amount": 26.76},
+    {"started_at": 1514764800, "ended_at": 1522540799, "amount": 23.59},
+    {"started_at": 1522540800, "ended_at": 1530403199, "amount": 25.91},
+    {"started_at": 1530403200, "ended_at": 1538351999, "amount": 27.61},
+    {"started_at": 1538352000, "ended_at": 1546300799, "amount": 34.86},
+    {"started_at": 1546300800, "ended_at": 1554076799, "amount": 30.12},
+    {"started_at": 1554076800, "ended_at": 1561939199, "amount": 33.27},
+    {"started_at": 1561939200, "ended_at": 1569887999, "amount": 34.55},
+    {"started_at": 1569888000, "ended_at": 1577836799, "amount": 0}
+  ],
+  "europe": [
+    {"started_at": 1388534400, "ended_at": 1396310399, "amount": 2.44},
+    {"started_at": 1396310400, "ended_at": 1404172799, "amount": 2.84},
+    {"started_at": 1404172800, "ended_at": 1412121599, "amount": 2.87},
+    {"started_at": 1412121600, "ended_at": 1420070399, "amount": 3.45},
+    {"started_at": 1420070400, "ended_at": 1427846399, "amount": 2.99},
+    {"started_at": 1427846400, "ended_at": 1435708799, "amount": 3.36},
+    {"started_at": 1435708800, "ended_at": 1443657599, "amount": 3.47},
+    {"started_at": 1443657600, "ended_at": 1451606399, "amount": 4.56},
+    {"started_at": 1451606400, "ended_at": 1459468799, "amount": 3.98},
+    {"started_at": 1459468800, "ended_at": 1467331199, "amount": 4.72},
+    {"started_at": 1467331200, "ended_at": 1475279999, "amount": 4.72},
+    {"started_at": 1475280000, "ended_at": 1483228799, "amount": 5.98},
+    {"started_at": 1483228800, "ended_at": 1491004799, "amount": 5.42},
+    {"started_at": 1491004800, "ended_at": 1498867199, "amount": 6.28},
+    {"started_at": 1498867200, "ended_at": 1506815999, "amount": 6.85},
+    {"started_at": 1506816000, "ended_at": 1514764799, "amount": 8.86},
+    {"started_at": 1514764800, "ended_at": 1522540799, "amount": 8.12},
+    {"started_at": 1522540800, "ended_at": 1530403199, "amount": 8.76},
+    {"started_at": 1530403200, "ended_at": 1538351999, "amount": 8.82},
+    {"started_at": 1538352000, "ended_at": 1546300799, "amount": 10.98},
+    {"started_at": 1546300800, "ended_at": 1554076799, "amount": 9.55},
+    {"started_at": 1554076800, "ended_at": 1561939199, "amount": 10.70},
+    {"started_at": 1561939200, "ended_at": 1569887999, "amount": 10.68},
+    {"started_at": 1569888000, "ended_at": 1577836799, "amount": 0}
+  ],
+  "asia_pacific": [
+    {"started_at": 1388534400, "ended_at": 1396310399, "amount": 0.93},
+    {"started_at": 1396310400, "ended_at": 1404172799, "amount": 1.08},
+    {"started_at": 1404172800, "ended_at": 1412121599, "amount": 1.18},
+    {"started_at": 1412121600, "ended_at": 1420070399, "amount": 1.27},
+    {"started_at": 1420070400, "ended_at": 1427846399, "amount": 1.18},
+    {"started_at": 1427846400, "ended_at": 1435708799, "amount": 1.29},
+    {"started_at": 1435708800, "ended_at": 1443657599, "amount": 1.39},
+    {"started_at": 1443657600, "ended_at": 1451606399, "amount": 1.60},
+    {"started_at": 1451606400, "ended_at": 1459468799, "amount": 1.56},
+    {"started_at": 1459468800, "ended_at": 1467331199, "amount": 1.77},
+    {"started_at": 1467331200, "ended_at": 1475279999, "amount": 1.89},
+    {"started_at": 1475280000, "ended_at": 1483228799, "amount": 2.07},
+    {"started_at": 1483228800, "ended_at": 1491004799, "amount": 1.98},
+    {"started_at": 1491004800, "ended_at": 1498867199, "amount": 2.13},
+    {"started_at": 1498867200, "ended_at": 1506815999, "amount": 2.27},
+    {"started_at": 1506816000, "ended_at": 1514764799, "amount": 2.54},
+    {"started_at": 1514764800, "ended_at": 1522540799, "amount": 2.46},
+    {"started_at": 1522540800, "ended_at": 1530403199, "amount": 2.62},
+    {"started_at": 1530403200, "ended_at": 1538351999, "amount": 2.67},
+    {"started_at": 1538352000, "ended_at": 1546300799, "amount": 2.96},
+    {"started_at": 1546300800, "ended_at": 1554076799, "amount": 2.78},
+    {"started_at": 1554076800, "ended_at": 1561939199, "amount": 3.04},
+    {"started_at": 1561939200, "ended_at": 1569887999, "amount": 3.24},
+    {"started_at": 1569888000, "ended_at": 1577836799, "amount": 0}
+  ],
+  "rest": [
+    {"started_at": 1388534400, "ended_at": 1396310399, "amount": 0.70},
+    {"started_at": 1396310400, "ended_at": 1404172799, "amount": 0.86},
+    {"started_at": 1404172800, "ended_at": 1412121599, "amount": 0.85},
+    {"started_at": 1412121600, "ended_at": 1420070399, "amount": 0.94},
+    {"started_at": 1420070400, "ended_at": 1427846399, "amount": 0.80},
+    {"started_at": 1427846400, "ended_at": 1435708799, "amount": 0.90},
+    {"started_at": 1435708800, "ended_at": 1443657599, "amount": 0.94},
+    {"started_at": 1443657600, "ended_at": 1451606399, "amount": 1.10},
+    {"started_at": 1451606400, "ended_at": 1459468799, "amount": 0.91},
+    {"started_at": 1459468800, "ended_at": 1467331199, "amount": 1.13},
+    {"started_at": 1467331200, "ended_at": 1475279999, "amount": 1.21},
+    {"started_at": 1475280000, "ended_at": 1483228799, "amount": 1.41},
+    {"started_at": 1483228800, "ended_at": 1491004799, "amount": 1.27},
+    {"started_at": 1491004800, "ended_at": 1498867199, "amount": 1.48},
+    {"started_at": 1498867200, "ended_at": 1506815999, "amount": 1.59},
+    {"started_at": 1506816000, "ended_at": 1514764799, "amount": 1.86},
+    {"started_at": 1514764800, "ended_at": 1522540799, "amount": 1.68},
+    {"started_at": 1522540800, "ended_at": 1530403199, "amount": 1.91},
+    {"started_at": 1530403200, "ended_at": 1538351999, "amount": 1.82},
+    {"started_at": 1538352000, "ended_at": 1546300799, "amount": 2.11},
+    {"started_at": 1546300800, "ended_at": 1554076799, "amount": 1.89},
+    {"started_at": 1554076800, "ended_at": 1561939199, "amount": 2.13},
+    {"started_at": 1561939200, "ended_at": 1569887999, "amount": 2.24},
+    {"started_at": 1569888000, "ended_at": 1577836799, "amount": 0}
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
