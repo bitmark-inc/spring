@@ -52,8 +52,7 @@ class BadgeView: UIView {
             .define { (flex) in
                 flex.addItem(postDataBadgeView).grow(1)
                 flex.addItem(reactionsDataBadgeView).grow(1)
-                flex.addItem(messagesDataBadgeView).grow(1)
-        }
+            }
     }
 
     required init?(coder: NSCoder) {
@@ -132,7 +131,7 @@ class BadgeView: UIView {
 
     fileprivate func precentageText(with badge: Double?) -> String {
         guard let badge = badge else { return emptyPercentage }
-        let number = NSNumber(value: abs(badge * 100))
+        let number = NSNumber(value: abs(Int(badge * 100)))
         guard let formattedNumber = numberFormatter.string(from: number) else { return "" }
         return "\(formattedNumber)%"
     }

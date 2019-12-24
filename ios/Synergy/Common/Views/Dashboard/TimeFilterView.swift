@@ -41,9 +41,9 @@ class TimeFilterView: UIView {
                 flex.marginTop(18).marginLeft(18).marginRight(18).height(19)
                 flex.justifyContent(.center)
                 flex.alignItems(.stretch)
-                flex.addItem(nextPeriodButton)
-                flex.addItem(periodNameLabel).grow(1)
                 flex.addItem(previousPeriodButton)
+                flex.addItem(periodNameLabel).grow(1)
+                flex.addItem(nextPeriodButton)
             }
             flex.addItem(periodDescriptionLabel).marginTop(9).height(10).alignSelf(.stretch)
         }

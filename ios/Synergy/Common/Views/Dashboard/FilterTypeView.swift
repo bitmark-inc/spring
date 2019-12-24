@@ -18,7 +18,7 @@ class FilterTypeView: UIView {
     private let headingLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
     private let chartView = HorizontalBarChartView()
     private let fixedBarHeight: CGFloat = 4
-    private let noActivityView = makeNoActivityView()
+    private lazy var noActivityView = makeNoActivityView()
 
     var section: Section = .posts
     weak var navigatorDelegate: NavigatorDelegate?
@@ -191,5 +191,17 @@ extension FilterTypeView: ChartViewDelegate {
         default:
             return
         }
+    }
+}
+
+extension FilterTypeView {
+    fileprivate func makeNoActivityView() -> Label {
+        let label = Label()
+        label.apply(text: R.string.localizable.graphNoActivity(),
+                    font: R.font.atlasGroteskLight(size: Size.ds(14)),
+                    colorTheme: .black,
+                    lineHeight: 1.056)
+        label.isHidden = true
+        return label
     }
 }

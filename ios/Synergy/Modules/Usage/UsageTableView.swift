@@ -511,15 +511,15 @@ extension FilterTypeTableViewCell: ChartViewDelegate {
             }
         }
 
-        let filterScope: FilterScope = (
-            usageScope: (
-                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
-            ),
-            filterBy: .type,
-            filterValue: filterValue
-        )
+//        let filterScope: FilterScope = (
+//            usageScope: (
+//                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
+//            ),
+//            filterBy: .type,
+//            filterValue: filterValue
+//        )
 
-        self.postListNavigateHandler?(filterScope)
+//        self.postListNavigateHandler?(filterScope)
 
         chartView.highlightValues(nil)
     }
@@ -612,15 +612,15 @@ extension FilterDayTableViewCell: ChartViewDelegate {
         let section: Section = .posts
         let timeUnit: TimeUnit = .week
         let startTime: Date = Date()
-        let filterScope: FilterScope = (
-            usageScope: (
-                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
-            ),
-            filterBy: .type,
-            filterValue: filterValue
-        )
+//        let filterScope: FilterScope = (
+//            usageScope: (
+//                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
+//            ),
+//            filterBy: .type,
+//            filterValue: filterValue
+//        )
 
-        self.postListNavigateHandler?(filterScope)
+//        self.postListNavigateHandler?(filterScope)
 
         chartView.highlightValues(nil)
     }
@@ -727,15 +727,15 @@ extension FilterFriendsTableViewCell: ChartViewDelegate {
         let section: Section = .posts
 
         let startTime: Date = Date()
-        let filterScope: FilterScope = (
-            usageScope: (
-                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
-            ),
-            filterBy: .friend,
-            filterValue: friend
-        )
+//        let filterScope: FilterScope = (
+//            usageScope: (
+//                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
+//            ),
+//            filterBy: .friend,
+//            filterValue: friend
+//        )
 
-        self.postListNavigateHandler?(filterScope)
+//        self.postListNavigateHandler?(filterScope)
 
         chartView.highlightValues(nil)
     }
@@ -841,15 +841,15 @@ extension FilterPlacesTableViewCell: ChartViewDelegate {
         let place = places[Int(entry.x)]
         let section: Section = .posts
         let startTime: Date = Date()
-        let filterScope: FilterScope = (
-            usageScope: (
-                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
-            ),
-            filterBy: .place,
-            filterValue: place
-        )
+//        let filterScope: FilterScope = (
+//            usageScope: (
+//                sectionName: section.rawValue, timeUnit: timeUnit.rawValue, date: startTime
+//            ),
+//            filterBy: .place,
+//            filterValue: place
+//        )
 
-        self.postListNavigateHandler?(filterScope)
+//        self.postListNavigateHandler?(filterScope)
 
         chartView.highlightValues(nil)
     }
