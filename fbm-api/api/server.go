@@ -158,6 +158,13 @@ func (s *Server) Run(addr string) error {
 		dataValueRoute.GET("/:period", s.getDataValue)
 	}
 
+	sentimentRoute := apiRoute.Group("/sentiment")
+	sentimentRoute.Use(s.authMiddleware())
+	sentimentRoute.Use(s.recognizeAccountMiddleware())
+	{
+		sentimentRoute.GET("/:period", s.getSentiment)
+	}
+
 	assetRoute := r.Group("/assets")
 	assetRoute.Use(logmodule.Ginrus("Asset"))
 	{
