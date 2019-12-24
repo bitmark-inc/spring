@@ -8,10 +8,9 @@ package com.bitmark.fbm.data.source.remote
 
 import android.content.Context
 import com.bitmark.fbm.data.ext.newGsonInstance
-import com.bitmark.fbm.data.model.entity.Period
+import com.bitmark.fbm.data.model.entity.LocationR
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
-import com.bitmark.fbm.data.source.remote.api.response.GetStatisticResponse
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
@@ -25,15 +24,29 @@ class InsightsRemoteDataSource @Inject constructor(
     rxErrorHandlingComposer: RxErrorHandlingComposer
 ) : RemoteDataSource(fbmApi, converter, rxErrorHandlingComposer) {
 
-    fun getStatistic(period: Period) = Single.fromCallable {
-        val json = context.assets?.open(
-            when (period) {
-                Period.WEEK   -> "insight_week.json"
-                Period.YEAR   -> "insight_year.json"
-                Period.DECADE -> "insight_decade.json"
-            }
-        )?.bufferedReader().use { r -> r?.readText() }
-        newGsonInstance().fromJson(json, GetStatisticResponse::class.java).sectionRs
+    fun listLocation(startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
+        listLocation().map { locations ->
+            locations.filter { l -> l.createdAtSec in startedAtSec..endedAtSec }.take(limit)
+        }
+
+    fun listLocationByNames(
+        names: List<String>,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int = 20
+    ) =
+        listLocation().map { locations ->
+            locations.filter { l -> l.name in names && l.createdAtSec in startedAtSec..endedAtSec }
+                .take(limit)
+        }
+
+    private fun listLocation() = Single.fromCallable {
+        val json = context.assets.open("locations.json").bufferedReader()
+            .use { r -> r.readText() }
+        val gson = newGsonInstance()
+        gson.fromJson(json, List::class.java).map { p ->
+            gson.fromJson(gson.toJson(p), LocationR::class.java)
+        }
     }.subscribeOn(Schedulers.io())
 
 }

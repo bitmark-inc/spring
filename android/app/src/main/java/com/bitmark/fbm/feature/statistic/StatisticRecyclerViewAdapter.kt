@@ -10,9 +10,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.SectionName
+import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.bitmark.fbm.util.modelview.SectionModelView
 import com.bitmark.fbm.util.view.statistic.GroupView
 import com.bitmark.fbm.util.view.statistic.SectionView
@@ -28,7 +30,6 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
 
         private const val BODY = 0x02
 
-        private const val HEADER_ITEM_SIZE = 3
     }
 
     private val items = mutableListOf<Item>()
@@ -49,13 +50,21 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == HEADER) {
-            HeaderVH(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_trends,
-                    parent,
-                    false
-                )
+            val view = LinearLayout(context)
+            view.orientation = LinearLayout.HORIZONTAL
+            val paddingHorizontally = context.getDimensionPixelSize(R.dimen.dp_18)
+            val paddingVertically = context.getDimensionPixelSize(R.dimen.dp_32)
+            view.setPadding(
+                paddingHorizontally,
+                paddingVertically,
+                paddingHorizontally,
+                paddingVertically
             )
+            view.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            HeaderVH(view)
         } else {
             val sectionView = SectionView(parent.context)
             if (chartClickListener != null) {
@@ -116,29 +125,29 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
 
         fun bind(item: Item) {
             val headerItems = item.headerItems!!
-            if (headerItems.size != HEADER_ITEM_SIZE) return
-            with(itemView) {
-                val item1 = headerItems[0]
-                val item2 = headerItems[1]
-                val item3 = headerItems[2]
-                tvSecName1.text = item1.sectionName
-                tvSecName2.text = item2.sectionName
-                tvSecName3.text = item3.sectionName
-                tvSecTrend1.text = "%d%%".format(abs(item1.diffFromPrev))
-                tvSecTrend2.text = "%d%%".format(abs(item2.diffFromPrev))
-                tvSecTrend3.text = "%d%%".format(abs(item3.diffFromPrev))
-                ivSecTrend1.setImageResource(getImageRes(item1))
-                ivSecTrend2.setImageResource(getImageRes(item2))
-                ivSecTrend3.setImageResource(getImageRes(item3))
+            val root = itemView as LinearLayout
+            root.removeAllViews()
+            if (headerItems.isEmpty()) return
+            val weight = 1.0f / headerItems.size
+            headerItems.forEach { i ->
+                val view = LayoutInflater.from(root.context).inflate(R.layout.item_trends, null)
+                val params = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT)
+                params.weight = weight
+                view.layoutParams = params
+                root.addView(view)
+
+                with(view) {
+                    tvSecName.text = i.sectionName
+                    tvSecTrend.text = "%d%%".format(abs(i.diffFromPrev))
+                    ivSecTrend.setImageResource(getImageRes(i))
+                }
             }
         }
 
-        private fun getImageRes(headerItem: HeaderItem): Int {
-            return if (headerItem.diffFromPrev >= 0) {
-                R.drawable.ic_circle_arrow_up
-            } else {
-                R.drawable.ic_circle_arrow_down
-            }
+        private fun getImageRes(headerItem: HeaderItem) = when {
+            headerItem.diffFromPrev > 0 -> R.drawable.ic_circle_arrow_up
+            headerItem.diffFromPrev < 0 -> R.drawable.ic_circle_arrow_down
+            else                        -> R.drawable.ic_trending_neutral
         }
     }
 

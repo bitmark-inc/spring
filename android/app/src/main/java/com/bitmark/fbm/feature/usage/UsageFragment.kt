@@ -46,6 +46,7 @@ class UsageFragment : BaseSupportFragment() {
         }
 
         override fun onTabSelected(p0: TabLayout.Tab?) {
+            vpSection.requestLayout()
         }
 
     }

@@ -22,14 +22,13 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
+import com.bitmark.fbm.feature.locationdetail.LocationDetailFragment
 import com.bitmark.fbm.feature.postdetail.PostDetailFragment
 import com.bitmark.fbm.feature.reactiondetail.ReactionDetailFragment
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
-import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import com.bitmark.fbm.util.ext.visible
 import com.bitmark.fbm.util.formatPeriod
 import com.bitmark.fbm.util.formatSubPeriod
 import com.bitmark.fbm.util.view.statistic.GroupView
@@ -71,7 +70,9 @@ class StatisticFragment : BaseSupportFragment() {
 
     private lateinit var period: Period
 
-    private var periodStartedTime = -1L
+    private var periodStartedAt = -1L
+
+    private var periodGap = -1
 
     private var blocked = false
 
@@ -91,28 +92,31 @@ class StatisticFragment : BaseSupportFragment() {
             arguments?.getString(PERIOD) ?: throw IllegalArgumentException("missing period")
         )
 
-        periodStartedTime = getStartOfPeriod(period)
+        periodGap = getDefaultPeriodGap(period)
+        periodStartedAt = getStartOfPeriod(period)
     }
 
     override fun onResume() {
         super.onResume()
         if (adapter.itemCount > 0) return
         handler.postDelayed({
-            viewModel.getStatistic(type, period, periodStartedTime)
+            viewModel.getStatistic(type, period, periodStartedAt / 1000)
         }, Constants.MASTER_DELAY_TIME)
     }
 
     override fun initComponents() {
         super.initComponents()
 
-        ivNextPeriod.isEnabled = periodStartedTime != getStartOfPeriod(period)
-        tvType.text = when (period) {
-            Period.WEEK   -> getString(R.string.last_week)
-            Period.YEAR   -> getString(R.string.this_year)
-            Period.DECADE -> getString(R.string.this_decade)
-        }
+        ivNextPeriod.isEnabled = periodStartedAt != getStartOfPeriod(period)
+        tvType.text = getString(
+            when (period) {
+                Period.WEEK   -> R.string.last_week
+                Period.YEAR   -> R.string.this_year
+                Period.DECADE -> R.string.this_decade
+            }
+        )
 
-        tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedTime)
+        tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedAt)
 
         adapter = StatisticRecyclerViewAdapter(context!!)
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -134,20 +138,50 @@ class StatisticFragment : BaseSupportFragment() {
 
         ivNextPeriod.setSafetyOnclickListener {
             if (blocked) return@setSafetyOnclickListener
-            periodStartedTime = getStartOfPeriodMillis(period, periodStartedTime, true)
-            ivNextPeriod.isEnabled = periodStartedTime != getStartOfPeriod(period)
-            tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedTime)
-            viewModel.getStatistic(type, period, periodStartedTime)
+            periodGap--
+            periodStartedAt = getStartOfPeriodMillis(period, periodStartedAt, true)
+            showPeriod(period, periodStartedAt, periodGap)
+            viewModel.getStatistic(type, period, periodStartedAt / 1000)
         }
 
         ivPrevPeriod.setSafetyOnclickListener {
             if (blocked) return@setSafetyOnclickListener
-            periodStartedTime = getStartOfPeriodMillis(period, periodStartedTime, false)
-            ivNextPeriod.isEnabled = periodStartedTime != getStartOfPeriod(period)
-            tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedTime)
-            viewModel.getStatistic(type, period, periodStartedTime)
+            periodGap++
+            periodStartedAt = getStartOfPeriodMillis(period, periodStartedAt, false)
+            showPeriod(period, periodStartedAt, periodGap)
+            viewModel.getStatistic(type, period, periodStartedAt / 1000)
         }
 
+    }
+
+    private fun showPeriod(period: Period, periodStartedAt: Long, periodGap: Int) {
+        ivNextPeriod.isEnabled = periodStartedAt != getStartOfPeriod(period)
+        tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedAt)
+        val defaultPeriodGap = getDefaultPeriodGap(period)
+        if (defaultPeriodGap == periodGap) {
+            tvType.text = getString(
+                when (period) {
+                    Period.WEEK   -> R.string.last_week
+                    Period.YEAR   -> R.string.this_year
+                    Period.DECADE -> R.string.this_decade
+                }
+            )
+        } else {
+            val plural = periodGap > 1
+            tvType.text = getString(
+                when (period) {
+                    Period.WEEK   -> if (plural) R.string.last_week_format_plural else R.string.last_week_format
+                    Period.YEAR   -> if (plural) R.string.last_year_format_plural else R.string.last_year_format
+                    Period.DECADE -> if (plural) R.string.last_decade_format_plural else R.string.last_decade_format
+                }
+            ).format(periodGap)
+        }
+
+    }
+
+    private fun getDefaultPeriodGap(period: Period) = when (period) {
+        Period.WEEK -> 1 // last week by default
+        else        -> 0
     }
 
     override fun deinitComponents() {
@@ -161,21 +195,18 @@ class StatisticFragment : BaseSupportFragment() {
         viewModel.getStatisticLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    progressBar.gone()
                     val data = res.data() ?: return@Observer
                     adapter.set(data)
                     blocked = false
                 }
 
                 res.isError()   -> {
-                    progressBar.gone()
                     Tracer.ERROR.log(TAG, res.throwable()?.message ?: "unknown")
                     blocked = false
                 }
 
                 res.isLoading() -> {
                     blocked = true
-                    progressBar.visible()
                 }
             }
         })
@@ -183,11 +214,11 @@ class StatisticFragment : BaseSupportFragment() {
 
     private fun handleChartClicked(chartItem: GroupView.ChartItem) {
         val endedAtSec = when (period) {
-            Period.WEEK   -> DateTimeUtil.getEndOfWeek(periodStartedTime)
-            Period.YEAR   -> DateTimeUtil.getEndOfYear(periodStartedTime)
-            Period.DECADE -> DateTimeUtil.getEndOfDecade(periodStartedTime)
+            Period.WEEK   -> DateTimeUtil.getEndOfWeek(periodStartedAt)
+            Period.YEAR   -> DateTimeUtil.getEndOfYearMillis(periodStartedAt)
+            Period.DECADE -> DateTimeUtil.getEndOfDecade(periodStartedAt)
         } / 1000
-        val startedAtSec = periodStartedTime / 1000
+        val startedAtSec = periodStartedAt / 1000
 
         val title = getString(
             when (chartItem.sectionName) {
@@ -221,10 +252,14 @@ class StatisticFragment : BaseSupportFragment() {
             else                 -> ""
         }
 
-        val periodDetail = if (chartItem.groupName == GroupName.DAY) {
-            DateTimeUtil.formatSubPeriod(period, chartItem.periodRange!!.first)
+        val periodDetail = if (chartItem.groupName == GroupName.SUB_PERIOD) {
+            DateTimeUtil.formatSubPeriod(
+                period,
+                chartItem.periodRange!!.first,
+                DateTimeUtil.defaultTimeZone()
+            )
         } else {
-            DateTimeUtil.formatPeriod(period, periodStartedTime)
+            DateTimeUtil.formatPeriod(period, periodStartedAt, DateTimeUtil.defaultTimeZone())
         }
 
         when (chartItem.sectionName) {
@@ -260,6 +295,21 @@ class StatisticFragment : BaseSupportFragment() {
 
             SectionName.MESSAGE  -> {
                 // TODO implement later
+            }
+
+            SectionName.LOCATION -> {
+                navigator.anim(RIGHT_LEFT).replaceChildFragment(
+                    R.id.layoutContainer,
+                    LocationDetailFragment.newInstance(
+                        title,
+                        periodDetail,
+                        period,
+                        titleSuffix,
+                        startedAtSec,
+                        endedAtSec,
+                        chartItem
+                    )
+                )
             }
 
         }

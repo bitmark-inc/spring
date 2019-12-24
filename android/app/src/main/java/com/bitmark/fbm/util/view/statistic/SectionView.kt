@@ -8,12 +8,15 @@ package com.bitmark.fbm.util.view.statistic
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.LinearLayout
+import androidx.core.view.children
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.bitmark.fbm.util.modelview.GroupModelView
 import com.bitmark.fbm.util.modelview.SectionModelView
+import kotlinx.android.synthetic.main.layout_section.view.*
 import kotlinx.android.synthetic.main.layout_section_header.view.*
 
 
@@ -28,9 +31,9 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
 
-    private var groupsAdded = false
-
     private var chartClickListener: GroupView.ChartClickListener? = null
+
+    private var groupAdded = false
 
     init {
         inflate(context, R.layout.layout_section, this)
@@ -83,11 +86,27 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         }
 
         val groups = section.groups
-        if (!groupsAdded) {
-            addGroups(groups)
-            groupsAdded = true
+        val isNoData = section.isNoData()
+
+        tvEmpty.visibility = if (isNoData) View.VISIBLE else View.GONE
+        if (isNoData) {
+            removeGroups()
+            groupAdded = false
+            return
         }
+
+        if (!groupAdded) {
+            addGroups(groups)
+            groupAdded = true
+        }
+
         bindGroupsData(groups)
+    }
+
+    private fun removeGroups() {
+        val count = children.filter { v -> v is GroupView }.count()
+        if (count == 0) return
+        removeViews(DEFAULT_CHILD_COUNT, count)
     }
 
     private fun addGroups(groups: List<GroupModelView>) {

@@ -72,48 +72,52 @@ class PostDetailViewModel(
             endedAtSec
         ).observeOn(Schedulers.computation()).map(mapPosts())
 
-    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long) {
+    fun listPostByTags(tags: List<String>, startedAtSec: Long, endedAtSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByTagStream(tag, startedAtSec, endedAtSec)
+                listPostByTagsStream(tags, startedAtSec, endedAtSec)
             )
         )
     }
 
-    fun listNextPostByTag(tag: String, startedAtSec: Long) {
+    fun listNextPostByTags(tags: List<String>, startedAtSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByTagStream(tag, startedAtSec, lastEndedAtSec - 1)
+                listPostByTagsStream(tags, startedAtSec, lastEndedAtSec - 1)
             )
         )
     }
 
-    private fun listPostByTagStream(tag: String, startedAtSec: Long, endedAtSec: Long) =
-        usageRepo.listPostByTag(
-            tag,
+    private fun listPostByTagsStream(tags: List<String>, startedAtSec: Long, endedAtSec: Long) =
+        usageRepo.listPostByTags(
+            tags,
             startedAtSec,
             endedAtSec
         ).observeOn(Schedulers.computation()).map(mapPosts())
 
-    fun listPostByLocation(location: String, startedAtSec: Long, endedAtSec: Long) {
+    fun listPostByLocations(locations: List<String>, startedAtSec: Long, endedAtSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByLocationStream(location, startedAtSec, endedAtSec)
+                listPostByLocationsStream(locations, startedAtSec, endedAtSec)
             )
         )
     }
 
-    fun listNextPostByLocation(location: String, startedAtSec: Long) {
+    fun listNextPostByLocations(locations: List<String>, startedAtSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByLocationStream(location, startedAtSec, lastEndedAtSec - 1)
+                listPostByLocationsStream(locations, startedAtSec, lastEndedAtSec - 1)
             )
         )
     }
 
-    fun listPostByLocationStream(location: String, startedAtSec: Long, endedAtSec: Long) =
-        usageRepo.listPostByLocation(
-            location,
+    private fun listPostByLocationsStream(
+        locations: List<String>,
+        startedAtSec: Long,
+        endedAtSec: Long
+    ) =
+        usageRepo.listPostByLocations(
+            locations,
             startedAtSec,
             endedAtSec
         ).observeOn(Schedulers.computation()).map(mapPosts())

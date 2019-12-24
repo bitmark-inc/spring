@@ -1,369 +1,186 @@
 {
   "data": [
     {
-      "section_name": "ad_interests",
-      "diff_from_previous": 5,
-      "period": "decade",
-      "period_started_at": 1262278800000,
-      "quantity": 103,
-      "groups": {
-        "type": {
-          "data": {
-            "entertainment": 12,
-            "fitness_wellness": 35,
-            "food_drink": 16,
-            "hobbies_activities": 22,
-            "shopping_fashion": 18
-          }
-        },
-        "day": [
-          {
-            "name": "2019-11-24",
-            "data": {
-              "entertainment": 0,
-              "fitness_wellness": 9,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 0
-            }
-          },
-          {
-            "name": "2019-11-25",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 9,
-              "food_drink": 1,
-              "hobbies_activities": 7,
-              "shopping_fashion": 3
-            }
-          },
-          {
-            "name": "2019-11-26",
-            "data": {
-              "entertainment": 1,
-              "fitness_wellness": 9,
-              "food_drink": 2,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          },
-          {
-            "name": "2019-11-27",
-            "data": {
-              "entertainment": 3,
-              "fitness_wellness": 1,
-              "food_drink": 3,
-              "hobbies_activities": 5,
-              "shopping_fashion": 6
-            }
-          },
-          {
-            "name": "2019-11-28",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 3,
-              "food_drink": 1,
-              "hobbies_activities": 2,
-              "shopping_fashion": 0
-            }
-          },
-          {
-            "name": "2019-11-29",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 4,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          },
-          {
-            "name": "2019-11-30",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          },
-          {
-            "name": "2019-11-30",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          },
-          {
-            "name": "2019-11-30",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          },
-          {
-            "name": "2019-11-30",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          }
-        ]
-      }
-    },
-    {
-      "section_name": "advertisers",
-      "diff_from_previous": 3,
-      "period": "decade",
-      "period_started_at": 1262278800000,
-      "quantity": 103,
-      "groups": {
-        "type": {
-          "data": {
-            "entertainment": 12,
-            "fitness_wellness": 35,
-            "food_drink": 16,
-            "hobbies_activities": 14,
-            "shopping_fashion": 22
-          }
-        },
-        "day": [
-          {
-            "name": "2019-11-24",
-            "data": {
-              "entertainment": 0,
-              "fitness_wellness": 9,
-              "food_drink": 3,
-              "hobbies_activities": 3,
-              "shopping_fashion": 2
-            }
-          },
-          {
-            "name": "2019-11-25",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 9,
-              "food_drink": 1,
-              "hobbies_activities": 5,
-              "shopping_fashion": 7
-            }
-          },
-          {
-            "name": "2019-11-26",
-            "data": {
-              "entertainment": 1,
-              "fitness_wellness": 9,
-              "hobbies_activities": 0,
-              "food_drink": 2,
-              "shopping_fashion": 2
-            }
-          },
-          {
-            "name": "2019-11-27",
-            "data": {
-              "entertainment": 3,
-              "fitness_wellness": 1,
-              "food_drink": 3,
-              "hobbies_activities": 3,
-              "shopping_fashion": 5
-            }
-          },
-          {
-            "name": "2019-11-28",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 3,
-              "food_drink": 1,
-              "hobbies_activities": 15,
-              "shopping_fashion": 2
-            }
-          },
-          {
-            "name": "2019-11-29",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 12,
-              "shopping_fashion": 2
-            }
-          },
-          {
-            "name": "2019-11-30",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 1,
-              "shopping_fashion": 2
-            }
-          },
-          {
-            "name": "2019-11-30",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          },
-          {
-            "name": "2019-11-30",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          },
-          {
-            "name": "2019-11-30",
-            "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 3
-            }
-          }
-        ]
-      }
-    },
-    {
       "section_name": "locations",
       "diff_from_previous": 22,
       "period": "decade",
       "period_started_at": 1262278800000,
       "quantity": 105,
       "groups": {
-        "type": {
-          "data": {
-            "shopping_center": 1,
-            "restaurant": 5,
-            "gym": 4,
-            "park": 1,
-            "airport": 2
-          }
-        },
         "area": {
           "data": {
-            "Taoyuan, Taiwan": 1,
-            "Taipei City, Taiwan": 5,
-            "New Taipei City, Taiwan": 4,
-            "Narita, Japan": 1,
-            "San Francisco, California, USA": 2
+            "Hongtai CrossFit": 134,
+            "皇池": 234,
+            "西門町": 50,
+            "Songshan Sports Center": 13,
+            "United States Miltary Academy": 24,
+            "川湯溫泉養生餐廳": 31,
+            "Shipai Station": 19,
+            "一風堂拉麵 - 敦南店": 230,
+            "Defense Language Institute Foreign Language Center": 12,
+            "Great Wall of China": 25,
+            "大湖公園游泳池&健身房": 121
           }
         },
         "day": [
           {
             "name": "2019-11-24",
             "data": {
-              "shopping_center": 2,
-              "restaurant": 1,
-              "gym": 3,
-              "park": 2,
-              "airport": 0
+              "Hongtai CrossFit": 321,
+              "皇池": 5,
+              "西門町": 4,
+              "Songshan Sports Center": 1,
+              "United States Miltary Academy": 22,
+              "川湯溫泉養生餐廳": 3,
+              "Shipai Station": 1,
+              "一風堂拉麵 - 敦南店": 1,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 2,
+              "大湖公園游泳池&健身房": 14
             }
           },
           {
-            "name": "2019-11-25",
+            "name": "2018-11-25",
             "data": {
-              "shopping_center": 2,
-              "restaurant": 6,
-              "gym": 1,
-              "park": 7,
-              "airport": 3
+              "Hongtai CrossFit": 241,
+              "皇池": 52,
+              "西門町": 4,
+              "Songshan Sports Center": 1,
+              "United States Miltary Academy": 1,
+              "川湯溫泉養生餐廳": 3,
+              "Shipai Station": 1,
+              "一風堂拉麵 - 敦南店": 0,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 2,
+              "大湖公園游泳池&健身房": 1
             }
           },
           {
-            "name": "2019-11-26",
+            "name": "2017-11-26",
             "data": {
-              "shopping_center": 1,
-              "restaurant": 4,
-              "gym": 2,
-              "park": 2,
-              "airport": 3
+              "Hongtai CrossFit": 1,
+              "皇池": 0,
+              "西門町": 0,
+              "Songshan Sports Center": 1,
+              "United States Miltary Academy": 2,
+              "川湯溫泉養生餐廳": 1,
+              "Shipai Station": 1,
+              "一風堂拉麵 - 敦南店": 1,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 2,
+              "大湖公園游泳池&健身房": 1
             }
           },
           {
-            "name": "2019-11-27",
+            "name": "2016-11-27",
             "data": {
-              "shopping_center": 3,
-              "restaurant": 1,
-              "gym": 3,
-              "park": 5,
-              "airport": 6
+              "Hongtai CrossFit": 1,
+              "皇池": 55,
+              "西門町": 4,
+              "Songshan Sports Center": 1,
+              "United States Miltary Academy": 2,
+              "川湯溫泉養生餐廳": 0,
+              "Shipai Station": 1,
+              "一風堂拉麵 - 敦南店": 1,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 22,
+              "大湖公園游泳池&健身房": 14
             }
           },
           {
-            "name": "2019-11-28",
+            "name": "2015-11-28",
             "data": {
-              "shopping_center": 2,
-              "restaurant": 3,
-              "gym": 1,
-              "park": 2,
-              "airport": 0
+              "Hongtai CrossFit": 1,
+              "皇池": 0,
+              "西門町": 4,
+              "Songshan Sports Center": 0,
+              "United States Miltary Academy": 2,
+              "川湯溫泉養生餐廳": 32,
+              "Shipai Station": 1,
+              "一風堂拉麵 - 敦南店": 15,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 24,
+              "大湖公園游泳池&健身房": 1
             }
           },
           {
-            "name": "2019-11-29",
+            "name": "2014-11-29",
             "data": {
-              "shopping_center": 2,
-              "restaurant": 4,
-              "gym": 3,
-              "park": 2,
-              "airport": 3
+              "Hongtai CrossFit": 123,
+              "皇池": 5,
+              "西門町": 44,
+              "Songshan Sports Center": 1,
+              "United States Miltary Academy": 2,
+              "川湯溫泉養生餐廳": 31,
+              "Shipai Station": 1,
+              "一風堂拉麵 - 敦南店": 1,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 0,
+              "大湖公園游泳池&健身房": 0
             }
           },
           {
-            "name": "2019-11-30",
+            "name": "2013-11-30",
             "data": {
-              "shopping_center": 2,
-              "restaurant": 0,
-              "gym": 3,
-              "park": 1,
-              "airport": 3
+              "Hongtai CrossFit": 0,
+              "皇池": 5,
+              "西門町": 4,
+              "Songshan Sports Center": 1,
+              "United States Miltary Academy": 0,
+              "川湯溫泉養生餐廳": 0,
+              "Shipai Station": 1,
+              "一風堂拉麵 - 敦南店": 1,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 0,
+              "大湖公園游泳池&健身房": 1
             }
           },
           {
-            "name": "2019-11-30",
+            "name": "2012-11-30",
             "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 2,
-              "shopping_fashion": 7
+              "Hongtai CrossFit": 1,
+              "皇池": 5,
+              "西門町": 42,
+              "Songshan Sports Center": 1,
+              "United States Miltary Academy": 0,
+              "川湯溫泉養生餐廳": 0,
+              "Shipai Station": 0,
+              "一風堂拉麵 - 敦南店": 0,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 2,
+              "大湖公園游泳池&健身房": 1
             }
           },
           {
-            "name": "2019-11-30",
+            "name": "2011-11-30",
             "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 0,
-              "shopping_fashion": 3
+              "Hongtai CrossFit": 11,
+              "皇池": 12,
+              "西門町": 34,
+              "Songshan Sports Center": 1,
+              "United States Miltary Academy": 2,
+              "川湯溫泉養生餐廳": 3,
+              "Shipai Station": 54,
+              "一風堂拉麵 - 敦南店": 123,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 2,
+              "大湖公園游泳池&健身房": 1
             }
           },
           {
-            "name": "2019-11-30",
+            "name": "2010-11-30",
             "data": {
-              "entertainment": 2,
-              "fitness_wellness": 0,
-              "food_drink": 3,
-              "hobbies_activities": 0,
-              "shopping_fashion": 5
+              "Hongtai CrossFit": 12,
+              "皇池": 5,
+              "西門町": 43,
+              "Songshan Sports Center": 13,
+              "United States Miltary Academy": 22,
+              "川湯溫泉養生餐廳": 3,
+              "Shipai Station": 1,
+              "一風堂拉麵 - 敦南店": 12,
+              "Defense Language Institute Foreign Language Center": 1,
+              "Great Wall of China": 2,
+              "大湖公園游泳池&健身房": 1
             }
           }
         ]

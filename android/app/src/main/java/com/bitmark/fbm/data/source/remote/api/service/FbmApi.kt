@@ -10,14 +10,14 @@ import com.bitmark.fbm.data.model.AppInfoData
 import com.bitmark.fbm.data.model.ArchiveData
 import com.bitmark.fbm.data.model.AutomationScriptData
 import com.bitmark.fbm.data.model.JwtData
+import com.bitmark.fbm.data.model.entity.PostR
+import com.bitmark.fbm.data.model.entity.SectionR
 import com.bitmark.fbm.data.source.remote.api.request.ArchiveRequestPayload
 import com.bitmark.fbm.data.source.remote.api.request.RegisterJwtRequest
 import com.bitmark.fbm.data.source.remote.api.response.RegisterAccountResponse
 import io.reactivex.Completable
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 
 interface FbmApi {
@@ -39,4 +39,16 @@ interface FbmApi {
 
     @GET("api/archives")
     fun getArchives(): Single<Map<String, List<ArchiveData>>>
+
+    @GET("api/usage/{period}")
+    fun listUsage(
+        @Path("period") period: String, @Query("started_at")
+        startedAt: Long
+    ): Single<Map<String, List<SectionR>>>
+
+    @GET("api/posts")
+    fun listPost(
+        @Query("started_at") startedAt: Long, @Query("ended_at")
+        endedAt: Long
+    ): Single<Map<String, List<PostR>>>
 }

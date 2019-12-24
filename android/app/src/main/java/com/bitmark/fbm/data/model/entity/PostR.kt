@@ -25,16 +25,6 @@ data class PostR(
     val content: String?,
 
     @Expose
-    @SerializedName("url")
-    @ColumnInfo(name = "url")
-    val url: String?,
-
-    @Expose
-    @SerializedName("photo")
-    @ColumnInfo(name = "photo")
-    val mediaDir: String?,
-
-    @Expose
     @SerializedName("tags")
     @ColumnInfo(name = "tags")
     val tags: List<String>?,
@@ -51,11 +41,6 @@ data class PostR(
     val title: String?,
 
     @Expose
-    @SerializedName("thumbnail")
-    @ColumnInfo(name = "thumbnail")
-    val thumbnail: String?,
-
-    @Expose
     @SerializedName("type")
     @ColumnInfo(name = "raw_type")
     val rawType: String?,
@@ -68,7 +53,17 @@ data class PostR(
     @Expose
     @SerializedName("location_name")
     @ColumnInfo(name = "location_name")
-    var locationName: String?
+    var locationName: String?,
+
+    @Expose
+    @SerializedName("mediaData")
+    @ColumnInfo(name = "media_data")
+    val mediaData: List<MediaData>?,
+
+    @Expose
+    @SerializedName("url")
+    @ColumnInfo(name = "url")
+    val url: String?
 ) : Record {
 
     @Expose
@@ -82,6 +77,20 @@ data class PostR(
     var comments: List<CommentR>? = null
 }
 
+data class MediaData(
+    @Expose
+    @SerializedName("source")
+    val source: String,
+
+    @Expose
+    @SerializedName("thumbnail")
+    val thumbnail: String?,
+
+    @Expose
+    @SerializedName("type")
+    val type: String
+)
+
 fun List<PostR>.applyRequiredValues() {
     for (post in this) {
         post.applyPostType()
@@ -89,14 +98,19 @@ fun List<PostR>.applyRequiredValues() {
     }
 }
 
+fun List<PostR>.canonical() {
+    for (post in this) {
+        post.tags?.forEach { t -> t.replace("'", "") }
+    }
+}
+
 internal fun PostR.applyPostType() {
-    type = when {
-        rawType == null && content != null -> PostType.UPDATE
-        rawType == "photo"                 -> PostType.PHOTO
-        rawType == "video"                 -> PostType.VIDEO
-        rawType == "story"                 -> PostType.STORY
-        rawType == "external"              -> PostType.LINK
-        else                               -> PostType.UNSPECIFIED
+    type = when (rawType) {
+        "update" -> PostType.UPDATE
+        "media"  -> PostType.MEDIA
+        "story"  -> PostType.STORY
+        "link"   -> PostType.LINK
+        else     -> PostType.UNSPECIFIED
     }
 }
 
@@ -107,13 +121,9 @@ internal fun PostR.applyLocation() {
 val PostR.timestamp: Long
     get() = timestampSec * 1000
 
-val PostR.mediaName: String?
-    get() = mediaDir?.replace("photos_and_videos/", "")
-
 enum class PostType {
     UPDATE,
-    PHOTO,
-    VIDEO,
+    MEDIA,
     STORY,
     LINK,
     UNSPECIFIED;
@@ -121,10 +131,13 @@ enum class PostType {
     companion object
 }
 
+fun PostType.Companion.indexOf(type: String) = PostType.fromString(type).ordinal
+
+fun PostType.Companion.fromIndex(index: Int) = PostType.values()[index]
+
 fun PostType.Companion.fromString(type: String) = when (type) {
     "update"      -> PostType.UPDATE
-    "photo"       -> PostType.PHOTO
-    "video"       -> PostType.VIDEO
+    "media"       -> PostType.MEDIA
     "story"       -> PostType.STORY
     "link"        -> PostType.LINK
     "unspecified" -> PostType.UNSPECIFIED
@@ -134,8 +147,7 @@ fun PostType.Companion.fromString(type: String) = when (type) {
 val PostType.value: String
     get() = when (this) {
         PostType.UPDATE      -> "update"
-        PostType.PHOTO       -> "photo"
-        PostType.VIDEO       -> "video"
+        PostType.MEDIA       -> "media"
         PostType.STORY       -> "story"
         PostType.LINK        -> "link"
         PostType.UNSPECIFIED -> "unspecified"

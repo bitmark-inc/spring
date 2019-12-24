@@ -18,7 +18,7 @@ data class ReactionModelView(
     val reaction: Reaction,
 
     val title: String
-) {
+) : ModelView {
 
     companion object {
         fun newInstance(reactionR: ReactionR) =

@@ -6,51 +6,34 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/athens_gray"
-    android:paddingTop="@dimen/dp_18"
+    android:padding="@dimen/dp_18"
     >
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvInfoMedia"
-        android:layout_width="0dp"
+        android:id="@+id/tvInfo"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_18"
-        android:layout_marginEnd="@dimen/dp_18"
         android:fontFamily="@font/grotesk_regular_font_family"
         android:includeFontPadding="false"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_14"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Nov 4 at 8:17 PM with Phil Lin at Saffron 46"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCaptionMedia"
-        android:layout_width="0dp"
+        android:id="@+id/tvContent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_12"
         android:fontFamily="@font/grotesk_light_font_family"
         android:includeFontPadding="false"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_14"
-        app:layout_constraintEnd_toEndOf="@id/tvInfoMedia"
-        app:layout_constraintStart_toStartOf="@id/tvInfoMedia"
-        app:layout_constraintTop_toBottomOf="@id/tvInfoMedia"
-        tools:text="Happy 40th, dear Phil! 🎂🎈"
-        />
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivPhoto"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_375"
-        android:layout_marginTop="@dimen/sp_24"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvCaptionMedia"
-        tools:src="@drawable/bg_4"
+        app:layout_constraintTop_toBottomOf="@id/tvInfo"
+        tools:text="Mountain View (37.42771, -122.09895)"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

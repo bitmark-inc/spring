@@ -27,32 +27,35 @@ class StatisticViewModel(
 
     internal val getStatisticLiveData = CompositeLiveData<List<SectionModelView>>()
 
-    fun getStatistic(@Statistic.Type type: String, period: Period, periodStartedTime: Long) {
+    fun getStatistic(@Statistic.Type type: String, period: Period, periodStartedAtSec: Long) {
+        val stream = if (type == Statistic.USAGE) {
+            statisticRepo.listUsage(period, periodStartedAtSec)
+        } else {
+            statisticRepo.listInsights(period, periodStartedAtSec)
+        }.observeOn(Schedulers.computation()).map { sections ->
+            if (sections.isEmpty()) {
+                if (type == Statistic.USAGE) {
+                    listOf(
+                        SectionModelView.newDefaultInstance(SectionName.POST, period),
+                        SectionModelView.newDefaultInstance(SectionName.REACTION, period)
+                    )
+                } else {
+                    listOf(SectionModelView.newDefaultInstance(SectionName.LOCATION, period))
+                }
+            } else {
+                sections.map { s ->
+                    SectionModelView.newInstance(
+                        s,
+                        Random().nextInt(100)
+                    )
+                }
+            }
+
+        }
         getStatisticLiveData.add(
             rxLiveDataTransformer.single(
-                statisticRepo.listStatistic(
-                    if (type == Statistic.USAGE) {
-                        arrayOf(
-                            SectionName.POST,
-                            SectionName.REACTION,
-                            SectionName.MESSAGE
-                        )
-                    } else {
-                        arrayOf(
-                            SectionName.AD_INTEREST,
-                            SectionName.ADVERTISER,
-                            SectionName.LOCATION
-                        )
-                    }
-                    , period, periodStartedTime
-                ).observeOn(Schedulers.computation()).map { sections ->
-                    sections.map { s ->
-                        SectionModelView.newInstance(
-                            s,
-                            Random().nextInt(100)
-                        )
-                    }
-                })
+                stream
+            )
         )
     }
 

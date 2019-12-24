@@ -38,14 +38,13 @@ data class PostModelView(
             val content = post.content ?: ""
             val title = post.title ?: ""
             val url = when (post.type) {
-                PostType.PHOTO, PostType.STORY, PostType.VIDEO -> BuildConfig.FBM_ASSET_ENDPOINT + "/${post.mediaName
-                    ?: ""}"
-                PostType.LINK                                  -> post.url
-                else                                           -> null
+                PostType.MEDIA, PostType.STORY -> {
+                    val source = if (post.mediaType == "photo") post.source else post.thumbnail
+                    BuildConfig.FBM_ASSET_ENDPOINT + "/${source ?: ""}"
+                }
+                PostType.LINK                  -> post.url
+                else                           -> null
             }
-            val thumbnail = if (post.type == PostType.VIDEO) {
-                BuildConfig.FBM_ASSET_ENDPOINT + "/${post.mediaName ?: ""}"
-            } else ""
             return PostModelView(
                 post.type,
                 content,
@@ -54,7 +53,7 @@ data class PostModelView(
                 location,
                 post.timestamp,
                 title,
-                thumbnail
+                post.thumbnail
             )
         }
     }

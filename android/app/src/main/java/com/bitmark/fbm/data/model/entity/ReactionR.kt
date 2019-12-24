@@ -54,48 +54,52 @@ val ReactionR.timestamp: Long
 
 enum class Reaction {
     @Expose
-    @SerializedName("LIKE")
+    @SerializedName("like")
     LIKE,
 
     @Expose
-    @SerializedName("LOVE")
+    @SerializedName("love")
     LOVE,
 
     @Expose
-    @SerializedName("HAHA")
+    @SerializedName("haha")
     HAHA,
 
     @Expose
-    @SerializedName("WOW")
+    @SerializedName("wow")
     WOW,
 
     @Expose
-    @SerializedName("SAD")
+    @SerializedName("sorry")
     SAD,
 
     @Expose
-    @SerializedName("ANGRY")
+    @SerializedName("anger")
     ANGRY;
 
     companion object
 }
 
+fun Reaction.Companion.indexOf(reaction: String) = Reaction.fromString(reaction).ordinal
+
+fun Reaction.Companion.fromIndex(index: Int) = Reaction.values()[index]
+
 val Reaction.value: String
     get() = when (this) {
-        Reaction.LIKE  -> "LIKE"
-        Reaction.LOVE  -> "LOVE"
-        Reaction.HAHA  -> "HAHA"
-        Reaction.WOW   -> "WOW"
-        Reaction.SAD   -> "SAD"
-        Reaction.ANGRY -> "ANGRY"
+        Reaction.LIKE  -> "like"
+        Reaction.LOVE  -> "love"
+        Reaction.HAHA  -> "haha"
+        Reaction.WOW   -> "wow"
+        Reaction.SAD   -> "sorry"
+        Reaction.ANGRY -> "anger"
     }
 
 fun Reaction.Companion.fromString(reaction: String) = when (reaction) {
-    "LIKE"  -> Reaction.LIKE
-    "LOVE"  -> Reaction.LOVE
-    "HAHA"  -> Reaction.HAHA
-    "WOW"   -> Reaction.WOW
-    "SAD"   -> Reaction.SAD
-    "ANGRY" -> Reaction.ANGRY
+    "like"  -> Reaction.LIKE
+    "love"  -> Reaction.LOVE
+    "haha"  -> Reaction.HAHA
+    "wow"   -> Reaction.WOW
+    "sorry"   -> Reaction.SAD
+    "anger" -> Reaction.ANGRY
     else    -> error("invalid reaction string: $reaction")
 }

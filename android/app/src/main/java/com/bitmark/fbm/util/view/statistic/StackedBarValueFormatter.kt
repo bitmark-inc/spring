@@ -31,8 +31,10 @@ class StackedBarValueFormatter(private val isHorizontal: Boolean) : ValueFormatt
         val yVals = stackedEntry!!.yVals
         val topNonZeroIndex = yVals.indexOfLast { v -> v != 0f }
         val nonZeroCount = yVals.count { v -> v != 0f }
-        val thresholdIndex = if (isHorizontal) yVals.size - 1 else nonZeroCount - 1
-        val yValLabelIndex = if (isHorizontal) topNonZeroIndex else nonZeroCount - 1
+        val thresholdIndex =
+            if (nonZeroCount == 0) yVals.size - 1 else if (isHorizontal) yVals.size - 1 else nonZeroCount - 1
+        val yValLabelIndex =
+            if (nonZeroCount == 0) yVals.size - 1 else if (isHorizontal) topNonZeroIndex else nonZeroCount - 1
 
         val v = when (yValLabelIndex) {
             iteratedStackIndex -> {

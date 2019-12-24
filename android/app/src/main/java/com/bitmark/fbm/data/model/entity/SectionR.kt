@@ -40,12 +40,12 @@ data class SectionR(
     @Expose
     @SerializedName("period_started_at")
     @ColumnInfo(name = "period_started_at")
-    val periodStartedAt: Long,
+    val periodStartedAtSec: Long,
 
     @Expose
     @SerializedName("diff_from_previous")
     @ColumnInfo(name = "diff_from_previous")
-    val diffFromPrev: Int,
+    val diffFromPrev: Float,
 
     @Expose
     @SerializedName("quantity")
@@ -57,6 +57,9 @@ data class SectionR(
     @ColumnInfo(name = "groups")
     val groups: Map<String, Any>
 ) : Record
+
+val SectionR.periodStartedAt: Long
+    get() = periodStartedAtSec * 1000
 
 inline fun <reified T> SectionR.getGroup(g: GroupName): T {
     val gson = Gson().newBuilder().create()
@@ -78,7 +81,7 @@ inline fun <reified T> SectionR.getArrayGroup(g: GroupName): List<T> {
 
 enum class SectionName {
     @Expose
-    @SerializedName("posts")
+    @SerializedName("post")
     POST,
 
     @Expose
@@ -105,7 +108,7 @@ enum class SectionName {
 }
 
 fun SectionName.Companion.fromString(name: String) = when (name) {
-    "posts"        -> SectionName.POST
+    "post"         -> SectionName.POST
     "reactions"    -> SectionName.REACTION
     "messages"     -> SectionName.MESSAGE
     "ad_interests" -> SectionName.AD_INTEREST
@@ -116,7 +119,7 @@ fun SectionName.Companion.fromString(name: String) = when (name) {
 
 val SectionName.value: String
     get() = when (this) {
-        SectionName.POST        -> "posts"
+        SectionName.POST        -> "post"
         SectionName.REACTION    -> "reactions"
         SectionName.MESSAGE     -> "messages"
         SectionName.AD_INTEREST -> "ad_interests"
@@ -134,9 +137,11 @@ data class GroupEntity(
     val data: Map<String, Int>
 ) : Record
 
+fun GroupEntity.sum() = data.entries.sumBy { e -> e.value }
+
 enum class GroupName {
     TYPE,
-    DAY,
+    SUB_PERIOD,
     FRIEND,
     PLACE,
     AREA;
@@ -146,20 +151,20 @@ enum class GroupName {
 
 val GroupName.value: String
     get() = when (this) {
-        GroupName.TYPE   -> "type"
-        GroupName.DAY    -> "day"
-        GroupName.FRIEND -> "friend"
-        GroupName.PLACE  -> "place"
-        GroupName.AREA   -> "area"
+        GroupName.TYPE       -> "type"
+        GroupName.SUB_PERIOD -> "sub_period"
+        GroupName.FRIEND     -> "friend"
+        GroupName.PLACE      -> "place"
+        GroupName.AREA       -> "area"
     }
 
 fun GroupName.Companion.fromString(name: String) = when (name) {
-    "type"   -> GroupName.TYPE
-    "day"    -> GroupName.DAY
-    "friend" -> GroupName.FRIEND
-    "place"  -> GroupName.PLACE
-    "area"   -> GroupName.AREA
-    else     -> error("invalid group name")
+    "type"       -> GroupName.TYPE
+    "sub_period" -> GroupName.SUB_PERIOD
+    "friend"     -> GroupName.FRIEND
+    "place"      -> GroupName.PLACE
+    "area"       -> GroupName.AREA
+    else         -> error("invalid group name")
 }
 
 enum class Period {
@@ -194,8 +199,14 @@ val Period.value: String
 
 fun Period.toSubPeriodRange(startedAtMillis: Long) = LongRange(
     startedAtMillis, when (this) {
-        Period.WEEK   -> DateTimeUtil.getEndOfDate(startedAtMillis)
-        Period.YEAR   -> DateTimeUtil.getEndOfMonth(startedAtMillis)
-        Period.DECADE -> DateTimeUtil.getEndOfYear(startedAtMillis)
+        Period.WEEK   -> DateTimeUtil.getEndOfDateMillis(startedAtMillis)
+        Period.YEAR   -> DateTimeUtil.getEndOfMonthMillis(startedAtMillis)
+        Period.DECADE -> DateTimeUtil.getEndOfYearMillis(startedAtMillis)
     }
 )
+
+fun Period.toPeriodRange(startedAtMillis: Long) = when (this) {
+    Period.WEEK   -> DateTimeUtil.getStartOfDatesMillisInWeek(startedAtMillis)
+    Period.YEAR   -> DateTimeUtil.getStartOfDatesMillisInYear(startedAtMillis)
+    Period.DECADE -> DateTimeUtil.getStartOfDatesMillisInDecade(startedAtMillis)
+}

@@ -85,9 +85,8 @@
     <string name="tracked_by_fb">Tracked by Facebook</string>
     <string name="collected_data_about_you">Collected data about you</string>
     <string name="updates">Updates</string>
-    <string name="photos">Photos</string>
+    <string name="photos_videos">Photos &amp; Videos</string>
     <string name="stories">Stories</string>
-    <string name="videos">Videos</string>
     <string name="links">Links</string>
     <string name="like">Like</string>
     <string name="love">Love</string>
@@ -134,6 +133,8 @@
     <string name="your_account_has_been_unlinked">Your account has been completely unlinked from this device.</string>
     <string name="automating_please_wait">Automating… please wait.</string>
     <string name="your_help_is_required">Your help is required.</string>
+    <string name="others">Others</string>
+    <string name="no_activity_for_this_period">No activity for this period.</string>
 
     <string-array name="day_of_week">
         <item>S</item>
@@ -180,5 +181,11 @@
     <string name="tagged_with_lower_format">tagged with %1$s</string>
     <string name="tagged_at_lower_format">tagged at %1$s</string>
     <string name="reacted_to_lower_format">reacted to %1$s</string>
+    <string name="last_week_format">Last %d Week</string>
+    <string name="last_year_format">Last %d Year</string>
+    <string name="last_decade_format">Last %d Decade</string>
+    <string name="last_week_format_plural">Last %d Weeks</string>
+    <string name="last_year_format_plural">Last %d Years</string>
+    <string name="last_decade_format_plural">Last %d Decades</string>
 
 </resources>

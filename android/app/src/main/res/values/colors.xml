@@ -47,14 +47,6 @@
         <item>@color/mabilu</item>
     </array>
 
-    <array name="color_palette_4">
-        <item>@color/tea_green</item>
-        <item>@color/apricot</item>
-        <item>@color/chenin</item>
-        <item>@color/carissma</item>
-        <item>@color/mabilu</item>
-    </array>
-
     <array name="color_palette_3">
         <item>@color/mabilu</item>
         <item>@color/carissma</item>
@@ -62,6 +54,13 @@
         <item>@color/chenin</item>
         <item>@color/tea_green</item>
         <item>@color/perfume</item>
+    </array>
+
+    <array name="color_palette_4">
+        <item>@color/carissma</item>
+        <item>@color/apricot</item>
+        <item>@color/chenin</item>
+        <item>@color/tea_green</item>
     </array>
 
 </resources>

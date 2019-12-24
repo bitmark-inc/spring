@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "25eb3561840a94251c30f692404f9956",
+    "identityHash": "5a7974de2ff3d80ecb462fda307ad20e",
     "entities": [
       {
         "tableName": "Section",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `section_name` TEXT NOT NULL, `period` TEXT NOT NULL, `period_started_at` INTEGER NOT NULL, `diff_from_previous` INTEGER NOT NULL, `quantity` INTEGER NOT NULL, `groups` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `section_name` TEXT NOT NULL, `period` TEXT NOT NULL, `period_started_at` INTEGER NOT NULL, `diff_from_previous` REAL NOT NULL, `quantity` INTEGER NOT NULL, `groups` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -27,7 +27,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "periodStartedAt",
+            "fieldPath": "periodStartedAtSec",
             "columnName": "period_started_at",
             "affinity": "INTEGER",
             "notNull": true
@@ -35,7 +35,7 @@
           {
             "fieldPath": "diffFromPrev",
             "columnName": "diff_from_previous",
-            "affinity": "INTEGER",
+            "affinity": "REAL",
             "notNull": true
           },
           {
@@ -79,23 +79,11 @@
       },
       {
         "tableName": "Post",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`content` TEXT, `url` TEXT, `photo` TEXT, `tags` TEXT, `timestamp` INTEGER NOT NULL, `title` TEXT, `thumbnail` TEXT, `raw_type` TEXT, `type` TEXT NOT NULL, `location_name` TEXT, PRIMARY KEY(`timestamp`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`content` TEXT, `tags` TEXT, `timestamp` INTEGER NOT NULL, `title` TEXT, `raw_type` TEXT, `type` TEXT NOT NULL, `location_name` TEXT, `media_data` TEXT, `url` TEXT, PRIMARY KEY(`timestamp`))",
         "fields": [
           {
             "fieldPath": "content",
             "columnName": "content",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "url",
-            "columnName": "url",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "mediaDir",
-            "columnName": "photo",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -118,12 +106,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "thumbnail",
-            "columnName": "thumbnail",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "rawType",
             "columnName": "raw_type",
             "affinity": "TEXT",
@@ -138,6 +120,18 @@
           {
             "fieldPath": "locationName",
             "columnName": "location_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "mediaData",
+            "columnName": "media_data",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -251,7 +245,7 @@
       },
       {
         "tableName": "Location",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `coordinate` TEXT, `address` TEXT, `url` TEXT, `created_at` INTEGER)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `coordinate` TEXT, `address` TEXT, `url` TEXT, `created_at` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -287,7 +281,7 @@
             "fieldPath": "createdAtSec",
             "columnName": "created_at",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -405,7 +399,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '25eb3561840a94251c30f692404f9956')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5a7974de2ff3d80ecb462fda307ad20e')"
     ]
   }
 }

@@ -31,24 +31,25 @@ class UsageLocalDataSource @Inject constructor(
             databaseGateway.postDao().listOrderedPostByType(type, startedAtSec, endedAtSec, limit)
         }
 
-    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listPostByTags(tags: List<String>, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
         databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.postDao().listOrderedPostByTag(tag, startedAtSec, endedAtSec, limit)
+            databaseGateway.postDao().listOrderedPostByTags(tags, startedAtSec, endedAtSec, limit)
         }
 
-    fun listPostByLocation(
-        location: String,
+    fun listPostByLocations(
+        locations: List<String>,
         startedAtSec: Long,
         endedAtSec: Long,
         limit: Int = 20
     ) =
         databaseApi.rxSingle { databaseGateway ->
             databaseGateway.postDao()
-                .listOrderedPostByLocation(location, startedAtSec, endedAtSec, limit)
+                .listOrderedPostByLocations(locations, startedAtSec, endedAtSec, limit)
         }
 
     fun savePosts(posts: List<PostR>) = databaseApi.rxSingle { databaseGateway ->
         val saveLocationStream = posts.filter { p -> p.location != null }.map { p ->
+            p.location!!.applyCreatedAt(p.timestampSec)
             databaseGateway.locationDao().save(p.location!!)
         }
         if (saveLocationStream.isEmpty()) {
@@ -58,6 +59,7 @@ class UsageLocalDataSource @Inject constructor(
         }
     }.flatMap { ps ->
         databaseApi.rxSingle { databaseGateway ->
+            ps.canonical()
             ps.applyRequiredValues()
             databaseGateway.postDao().save(ps).andThen(Single.just(ps))
         }

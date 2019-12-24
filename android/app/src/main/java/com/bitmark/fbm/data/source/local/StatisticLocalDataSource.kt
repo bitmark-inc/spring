@@ -21,9 +21,22 @@ class StatisticLocalDataSource @Inject constructor(
     fileStorageApi: FileStorageApi
 ) : LocalDataSource(databaseApi, sharedPrefApi, fileStorageApi) {
 
-    fun listStatistic(sectionNames: Array<SectionName>, period: Period, periodStartedAt: Long) =
+    fun listUsage(period: Period, periodStartedAt: Long) =
         databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.sectionDao().listBy(sectionNames, period, periodStartedAt)
+            databaseGateway.sectionDao().listBy(
+                arrayOf(SectionName.REACTION, SectionName.POST, SectionName.MESSAGE),
+                period,
+                periodStartedAt
+            )
+        }
+
+    fun listInsights(period: Period, periodStartedAt: Long) =
+        databaseApi.rxSingle { databaseGateway ->
+            databaseGateway.sectionDao().listBy(
+                arrayOf(SectionName.ADVERTISER, SectionName.AD_INTEREST, SectionName.LOCATION),
+                period,
+                periodStartedAt
+            )
         }
 
     fun saveStatistics(sections: List<SectionR>) = databaseApi.rxSingle { databaseGateway ->

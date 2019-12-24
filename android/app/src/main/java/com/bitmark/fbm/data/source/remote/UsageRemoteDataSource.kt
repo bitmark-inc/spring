@@ -24,47 +24,33 @@ class UsageRemoteDataSource @Inject constructor(
     rxErrorHandlingComposer: RxErrorHandlingComposer
 ) : RemoteDataSource(fbmApi, converter, rxErrorHandlingComposer) {
 
-    fun listPost(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
-        listPosts().map { posts ->
-            posts.filter { p -> p.timestampSec in startedAtSec..endedAtSec }
-                .take(limit)
-        }
+    fun listPost(startedAtSec: Long, endedAtSec: Long) = listRemotePost(startedAtSec, endedAtSec)
 
-    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
-        listPosts().map { posts ->
-            posts.filter { p -> p.timestampSec in startedAtSec..endedAtSec && p.type == type }
-                .take(limit)
-        }
-
-    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
-        listPosts().map { posts ->
-            posts.filter { p ->
-                p.timestampSec in startedAtSec..endedAtSec && p.tags?.contains(tag) == true
-            }.take(limit)
-        }
-
-    fun listPostByLocation(
-        location: String,
-        startedAtSec: Long,
-        endedAtSec: Long,
-        limit: Int = 20
-    ) =
-        listPosts().map { posts ->
-            posts.filter { p ->
-                p.timestampSec in startedAtSec..endedAtSec && p.location?.name == location
-            }.take(limit)
-        }
-
-    private fun listPosts() = Single.fromCallable {
-        val json = context.assets.open("posts.json").bufferedReader()
-            .use { r -> r.readText() }
-        val gson = newGsonInstance()
-        val posts = gson.fromJson(json, List::class.java).map { p ->
-            gson.fromJson(gson.toJson(p), PostR::class.java)
-        }.filter { p -> p.type != PostType.UNSPECIFIED }
+    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long) = listRemotePost(
+        startedAtSec,
+        endedAtSec
+    ).map { posts ->
+        posts.canonical()
         posts.applyRequiredValues()
-        posts
-    }.subscribeOn(Schedulers.io())
+        posts.filter { p -> p.type == type }
+    }
+
+    fun listPostByTags(tags: List<String>, startedAtSec: Long, endedAtSec: Long) = listRemotePost(
+        startedAtSec,
+        endedAtSec
+    ).map { posts -> posts.filter { p -> p.tags?.any(tags::contains) == true } }
+
+    fun listPostByLocations(
+        locations: List<String>,
+        startedAtSec: Long,
+        endedAtSec: Long
+    ) = listRemotePost(
+        startedAtSec,
+        endedAtSec
+    ).map { posts -> posts.filter { p -> p.location != null && locations.contains(p.location!!.name) } }
+
+    private fun listRemotePost(startedAtSec: Long, endedAtSec: Long) =
+        fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }
 
     fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
         listReaction().map { reactions ->

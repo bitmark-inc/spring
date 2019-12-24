@@ -70,7 +70,8 @@ class SplashActivity : BaseAppCompatActivity() {
         }
 
         tvLogin.setSafetyOnclickListener {
-
+            // FIXME for testing
+            navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
         }
     }
 

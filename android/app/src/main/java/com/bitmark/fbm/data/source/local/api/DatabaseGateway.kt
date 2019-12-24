@@ -26,7 +26,8 @@ import com.bitmark.fbm.data.source.local.api.dao.*
     CollectionStringConverter::class,
     PostTypeConverter::class,
     CoordinateConverter::class,
-    ReactionConverter::class
+    ReactionConverter::class,
+    MediaDataConverter::class
 )
 abstract class DatabaseGateway : RoomDatabase() {
 

@@ -32,22 +32,14 @@ class PostData(
     val type: PostType
         get() = post.type
 
-
     val content: String?
         get() = post.content
-
 
     val url: String?
         get() = post.url
 
-
-    val mediaDir: String?
-        get() = post.mediaDir
-
-
     val tags: List<String>?
         get() = post.tags
-
 
     val timestampSec: Long
         get() = post.timestampSec
@@ -56,7 +48,10 @@ class PostData(
         get() = post.title
 
     val thumbnail: String?
-        get() = post.thumbnail
+        get() = post.mediaData?.first()?.thumbnail?.replace("photos_and_videos/", "")
+
+    val source: String?
+        get() = post.mediaData?.first()?.source?.replace("photos_and_videos/", "")
 
     val location: LocationR?
         get() = if (locations.isEmpty()) null else locations[0]
@@ -67,7 +62,7 @@ class PostData(
     val timestamp: Long
         get() = post.timestamp
 
-    val mediaName: String?
-        get() = post.mediaName
+    val mediaType: String?
+        get() = post.mediaData?.first()?.type
 
 }

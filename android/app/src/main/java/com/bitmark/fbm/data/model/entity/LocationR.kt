@@ -50,11 +50,15 @@ data class LocationR(
     @Expose
     @SerializedName("created_at")
     @ColumnInfo(name = "created_at")
-    val createdAtSec: Long?
+    var createdAtSec: Long
 )
 
-val LocationR.createdAt: Long?
-    get() = createdAtSec?.times(1000)
+val LocationR.createdAt: Long
+    get() = createdAtSec * 1000
+
+fun LocationR.applyCreatedAt(createdAtSec: Long) {
+    this.createdAtSec = createdAtSec
+}
 
 data class Coordinate(
     @Expose

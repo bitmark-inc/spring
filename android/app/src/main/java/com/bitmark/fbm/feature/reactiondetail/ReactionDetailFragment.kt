@@ -155,7 +155,7 @@ class ReactionDetailFragment : BaseSupportFragment() {
         endedAtSec: Long? = null
     ) {
         when (chartItem.groupName) {
-            GroupName.TYPE   -> {
+            GroupName.TYPE       -> {
                 val reaction = chartItem.getReaction()!!
                 if (endedAtSec != null) {
                     viewModel.listReactionByType(reaction, startedAtSec, endedAtSec)
@@ -164,7 +164,7 @@ class ReactionDetailFragment : BaseSupportFragment() {
                 }
             }
 
-            GroupName.DAY    -> {
+            GroupName.SUB_PERIOD -> {
                 if (endedAtSec != null) {
                     viewModel.listReaction(startedAtSec, endedAtSec)
                 } else {
@@ -172,10 +172,10 @@ class ReactionDetailFragment : BaseSupportFragment() {
                 }
             }
 
-            GroupName.FRIEND -> {
+            GroupName.FRIEND     -> {
                 // TODO implement later
             }
-            else             -> error("unsupported group name ${chartItem.groupName.value}")
+            else                 -> error("unsupported group name ${chartItem.groupName.value}")
         }
     }
 

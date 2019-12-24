@@ -7,7 +7,6 @@
 package com.bitmark.fbm.data.source
 
 import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.data.source.local.StatisticLocalDataSource
 import com.bitmark.fbm.data.source.remote.StatisticRemoteDataSource
 import io.reactivex.Single
@@ -18,28 +17,45 @@ class StatisticRepository(
     private val localDataSource: StatisticLocalDataSource
 ) : Repository {
 
-    fun listStatistic(sectionNames: Array<SectionName>, period: Period, periodStartedAt: Long) =
-        localDataSource.listStatistic(sectionNames, period, periodStartedAt).flatMap { sections ->
+    fun listUsage(period: Period, periodStartedAtSec: Long) =
+        localDataSource.listUsage(period, periodStartedAtSec).flatMap { sections ->
             if (sections.isEmpty()) {
-                listRemoteStatistic(
-                    sectionNames,
+                listRemoteUsage(
                     period,
-                    periodStartedAt
-                ).flatMap { localDataSource.listStatistic(sectionNames, period, periodStartedAt) }
+                    periodStartedAtSec
+                ).flatMap { localDataSource.listUsage(period, periodStartedAtSec) }
             } else {
                 Single.just(sections)
             }
         }
 
-    private fun listRemoteStatistic(
-        sectionNames: Array<SectionName>,
+    fun listInsights(period: Period, periodStartedAtSec: Long) =
+        localDataSource.listInsights(period, periodStartedAtSec).flatMap { sections ->
+            if (sections.isEmpty()) {
+                listRemoteInsights(
+                    period,
+                    periodStartedAtSec
+                ).flatMap { localDataSource.listInsights(period, periodStartedAtSec) }
+            } else {
+                Single.just(sections)
+            }
+        }
+
+    private fun listRemoteUsage(
         period: Period,
-        periodStartedAt: Long
-    ) = remoteDataSource.listStatistic(
-        sectionNames,
+        periodStartedAtSec: Long
+    ) = remoteDataSource.listUsage(
         period,
-        periodStartedAt
+        periodStartedAtSec
     ).flatMap { statistics ->
         localDataSource.saveStatistics(statistics)
     }
+
+    private fun listRemoteInsights(period: Period, periodStartedAtSec: Long) =
+        remoteDataSource.listInsights(
+            period,
+            periodStartedAtSec
+        ).flatMap { statistics ->
+            localDataSource.saveStatistics(statistics)
+        }
 }

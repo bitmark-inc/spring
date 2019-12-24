@@ -26,7 +26,6 @@ import kotlinx.android.synthetic.main.item_link.view.*
 import kotlinx.android.synthetic.main.item_photo.view.*
 import kotlinx.android.synthetic.main.item_story.view.*
 import kotlinx.android.synthetic.main.item_update.view.*
-import kotlinx.android.synthetic.main.item_video.view.*
 
 
 class PostDetailRecyclerViewAdapter(private val period: Period) :
@@ -34,10 +33,9 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
 
     companion object {
         private const val UPDATE = 0x01
-        private const val PHOTO = 0x02
-        private const val VIDEO = 0x03
-        private const val STORY = 0x04
-        private const val LINK = 0x05
+        private const val MEDIA = 0x02
+        private const val STORY = 0x03
+        private const val LINK = 0x04
     }
 
     private val items = mutableListOf<PostModelView>()
@@ -52,8 +50,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         val view = LayoutInflater.from(parent.context).inflate(
             when (viewType) {
                 UPDATE -> R.layout.item_update
-                PHOTO  -> R.layout.item_photo
-                VIDEO  -> R.layout.item_video
+                MEDIA  -> R.layout.item_photo
                 STORY  -> R.layout.item_story
                 LINK   -> R.layout.item_link
                 else   -> error("invalid view type")
@@ -61,8 +58,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         )
         return when (viewType) {
             UPDATE -> UpdateVH(view, period)
-            PHOTO  -> PhotoVH(view, period)
-            VIDEO  -> VideoVH(view, period)
+            MEDIA  -> MediaVH(view, period)
             STORY  -> StoryVH(view, period)
             LINK   -> LinkVH(view, period)
             else   -> error("invalid view type")
@@ -75,8 +71,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         val item = items[position]
         when (getItemViewType(position)) {
             UPDATE -> (holder as UpdateVH).bind(item)
-            PHOTO  -> (holder as PhotoVH).bind(item)
-            VIDEO  -> (holder as VideoVH).bind(item)
+            MEDIA  -> (holder as MediaVH).bind(item)
             STORY  -> (holder as StoryVH).bind(item)
             LINK   -> (holder as LinkVH).bind(item)
         }
@@ -85,8 +80,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
     override fun getItemViewType(position: Int): Int {
         return when (items[position].type) {
             PostType.UPDATE -> UPDATE
-            PostType.PHOTO  -> PHOTO
-            PostType.VIDEO  -> VIDEO
+            PostType.MEDIA  -> MEDIA
             PostType.STORY  -> STORY
             PostType.LINK   -> LINK
             else            -> error("unsupported type")
@@ -101,9 +95,13 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
                     DateTimeUtil.DATE_FORMAT_2
                 } else {
                     DateTimeUtil.DATE_FORMAT_3
-                }
+                }, DateTimeUtil.defaultTimeZone()
             )
-            val time = DateTimeUtil.millisToString(item.timestamp, DateTimeUtil.TIME_FORMAT_1)
+            val time = DateTimeUtil.millisToString(
+                item.timestamp,
+                DateTimeUtil.TIME_FORMAT_1,
+                DateTimeUtil.defaultTimeZone()
+            )
             val info = StringBuilder(context.getString(R.string.date_format_1).format(date, time))
             val tags = item.tags
             val firstTag = if (tags.isNotEmpty()) tags[0] else null
@@ -137,24 +135,13 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         }
     }
 
-    class PhotoVH(view: View, period: Period) : VH(view, period) {
+    class MediaVH(view: View, period: Period) : VH(view, period) {
 
         fun bind(item: PostModelView) {
             with(itemView) {
-                tvInfoPhoto.text = getInfo(item)
-                tvCaptionPhoto.text = item.content
-                Glide.with(context).load(item.url).into(ivPhoto)
-            }
-        }
-    }
-
-    class VideoVH(view: View, period: Period) : VH(view, period) {
-
-        fun bind(item: PostModelView) {
-            with(itemView) {
-                tvInfoVideo.text = getInfo(item)
-                tvCaptionVideo.text = item.content
-                Glide.with(context).load(item.thumbnail).into(ivVideoPreview)
+                tvInfoMedia.text = getInfo(item)
+                tvCaptionMedia.text = item.content
+                Glide.with(context).load(item.url ?: item.thumbnail).into(ivPhoto)
             }
         }
     }
@@ -186,7 +173,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         fun bind(item: PostModelView) {
             with(itemView) {
                 tvLinkInfo.text = getInfo(item)
-                tvTitle.text = item.title
+                tvTitle.text = item.content
                 if (item.url != null) {
                     val spannableString = SpannableString(item.url)
                     spannableString.setSpan(

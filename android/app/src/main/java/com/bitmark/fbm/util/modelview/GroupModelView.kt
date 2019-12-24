@@ -10,7 +10,6 @@ import com.bitmark.fbm.data.model.entity.GroupName
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.SectionName
 
-
 data class GroupModelView(
     val period: Period,
     val sectionName: SectionName,
@@ -23,9 +22,11 @@ fun GroupModelView.reverse() {
     entries = entries.reversed()
 }
 
-fun GroupModelView.sort() {
-    entries = entries.sortedBy { e -> e.yValues.sum() }
-}
+fun GroupModelView.hasAggregatedData() = aggregatedIndex() != -1
 
-data class Entry(val xValue: String, val yValues: FloatArray)
+fun GroupModelView.aggregatedIndex() = entries.indexOfFirst { e -> e.isAggregated() }
+
+data class Entry(val xValue: Array<String>, val yValues: FloatArray)
+
+fun Entry.isAggregated() = xValue.size > 1
 

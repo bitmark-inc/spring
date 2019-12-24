@@ -1,5 +1,5 @@
 {
-  "data" : [
+  "data": [
     {
       "section_name": "posts",
       "diff_from_previous": 30,
@@ -9,132 +9,132 @@
       "groups": {
         "type": {
           "data": {
-            "updates": 122,
-            "photos": 354,
-            "stories": 162,
-            "videos": 225,
-            "links": 181
+            "update": 122,
+            "photo": 354,
+            "story": 162,
+            "video": 225,
+            "link": 181
           }
         },
         "day": [
           {
             "name": "2019-01-01",
             "data": {
-              "updates": 0,
-              "photos": 9,
-              "stories": 3,
-              "videos": 2,
-              "links": 0
+              "update": 0,
+              "photo": 9,
+              "story": 3,
+              "video": 2,
+              "link": 0
             }
           },
           {
             "name": "2019-02-01",
             "data": {
-              "updates": 2,
-              "photos": 92,
-              "stories": 1,
-              "videos": 74,
-              "links": 3
+              "update": 2,
+              "photo": 92,
+              "story": 1,
+              "video": 74,
+              "link": 3
             }
           },
           {
             "name": "2019-03-01",
             "data": {
-              "updates": 1,
-              "photos": 9,
-              "stories": 24,
-              "videos": 2,
-              "links": 3
+              "update": 1,
+              "photo": 9,
+              "story": 24,
+              "video": 2,
+              "link": 3
             }
           },
           {
             "name": "2019-04-01",
             "data": {
-              "updates": 3,
-              "photos": 1,
-              "stories": 3,
-              "videos": 51,
-              "links": 6
+              "update": 3,
+              "photo": 1,
+              "story": 3,
+              "video": 51,
+              "link": 6
             }
           },
           {
             "name": "2019-05-01",
             "data": {
-              "updates": 39,
-              "photos": 3,
-              "stories": 1,
-              "videos": 21,
-              "links": 0
+              "update": 39,
+              "photo": 3,
+              "story": 1,
+              "video": 21,
+              "link": 0
             }
           },
           {
             "name": "2019-06-01",
             "data": {
-              "updates": 2,
-              "photos": 4,
-              "stories": 3,
-              "videos": 2,
-              "links": 3
+              "update": 2,
+              "photo": 4,
+              "story": 3,
+              "video": 2,
+              "link": 3
             }
           },
           {
             "name": "2019-07-01",
             "data": {
-              "updates": 2,
-              "photos": 34,
-              "stories": 32,
-              "videos": 21,
-              "links": 30
+              "update": 2,
+              "photo": 34,
+              "story": 32,
+              "video": 21,
+              "link": 30
             }
           },
           {
             "name": "2019-08-01",
             "data": {
-              "updates": 24,
-              "photos": 0,
-              "stories": 3,
-              "videos": 25,
-              "links": 34
+              "update": 24,
+              "photo": 0,
+              "story": 3,
+              "video": 25,
+              "link": 34
             }
           },
           {
             "name": "2019-09-01",
             "data": {
-              "updates": 24,
-              "photos": 0,
-              "stories": 3,
-              "videos": 22,
-              "links": 33
+              "update": 24,
+              "photo": 0,
+              "story": 3,
+              "video": 22,
+              "link": 33
             }
           },
           {
             "name": "2019-10-01",
             "data": {
-              "updates": 2,
-              "photos": 0,
-              "stories": 3,
-              "videos": 2,
-              "links": 3
+              "update": 2,
+              "photo": 0,
+              "story": 3,
+              "video": 2,
+              "link": 3
             }
           },
           {
             "name": "2019-11-01",
             "data": {
-              "updates": 2,
-              "photos": 5,
-              "stories": 33,
-              "videos": 27,
-              "links": 3
+              "update": 2,
+              "photo": 5,
+              "story": 33,
+              "video": 27,
+              "link": 3
             }
           },
           {
             "name": "2019-12-01",
             "data": {
-              "updates": 55,
-              "photos": 22,
-              "stories": 3,
-              "videos": 25,
-              "links": 38
+              "update": 55,
+              "photo": 22,
+              "story": 3,
+              "video": 25,
+              "link": 38
             }
           }
         ],
@@ -142,21 +142,21 @@
           {
             "name": "Phil Lin",
             "data": {
-              "updates": 2,
-              "photos": 92,
-              "stories": 34,
-              "videos": 2,
-              "links": 34
+              "update": 2,
+              "photo": 92,
+              "story": 34,
+              "video": 2,
+              "link": 34
             }
           },
           {
             "name": "Leslie RH",
             "data": {
-              "updates": 21,
-              "photos": 94,
-              "stories": 32,
-              "videos": 2,
-              "links": 3
+              "update": 21,
+              "photo": 94,
+              "story": 32,
+              "video": 2,
+              "link": 3
             }
           }
         ],
@@ -164,21 +164,21 @@
           {
             "name": "Bitmark",
             "data": {
-              "updates": 2,
-              "photos": 95,
-              "stories": 32,
-              "videos": 2,
-              "links": 34
+              "update": 2,
+              "photo": 95,
+              "story": 32,
+              "video": 2,
+              "link": 34
             }
           },
           {
             "name": "Hongtai CrossFit",
             "data": {
-              "updates": 2,
-              "photos": 19,
-              "stories": 32,
-              "videos": 2,
-              "links": 35
+              "update": 2,
+              "photo": 19,
+              "story": 32,
+              "video": 2,
+              "link": 35
             }
           }
         ]
@@ -196,9 +196,9 @@
             "like": 12,
             "love": 35,
             "haha": 16,
-            "wow" : 13,
+            "wow": 13,
             "sad": 22,
-            "angry": 18
+            "anger": 18
           }
         },
         "day": [
@@ -208,9 +208,8 @@
               "like": 0,
               "love": 9,
               "haha": 3,
-              "wow" : 2,
-              "sad": 2,
-              "angry": 0
+              "wow": 2,
+              "sad": 2
             }
           },
           {
@@ -219,9 +218,9 @@
               "like": 2,
               "love": 9,
               "haha": 1,
-              "wow" : 4,
+              "wow": 4,
               "sad": 7,
-              "angry": 3
+              "anger": 3
             }
           },
           {
@@ -230,9 +229,9 @@
               "like": 1,
               "love": 9,
               "haha": 2,
-              "wow" : 15,
+              "wow": 15,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
@@ -241,9 +240,9 @@
               "like": 3,
               "love": 1,
               "haha": 3,
-              "wow" : 5,
+              "wow": 5,
               "sad": 5,
-              "angry": 6
+              "anger": 6
             }
           },
           {
@@ -252,9 +251,8 @@
               "like": 2,
               "love": 3,
               "haha": 1,
-              "wow" : 8,
-              "sad": 2,
-              "angry": 0
+              "wow": 8,
+              "sad": 2
             }
           },
           {
@@ -263,75 +261,67 @@
               "like": 2,
               "love": 4,
               "haha": 3,
-              "wow" : 4,
+              "wow": 4,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
             "name": "2019-07-01",
             "data": {
               "like": 2,
-              "love": 0,
               "haha": 3,
-              "wow" : 1,
+              "wow": 1,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
             "name": "2019-08-01",
             "data": {
               "like": 2,
-              "love": 0,
               "haha": 3,
-              "wow" : 1,
+              "wow": 1,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
             "name": "2019-09-01",
             "data": {
               "like": 2,
-              "love": 0,
               "haha": 3,
-              "wow" : 1,
+              "wow": 1,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
             "name": "2019-10-01",
             "data": {
               "like": 2,
-              "love": 0,
               "haha": 3,
-              "wow" : 13,
+              "wow": 13,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
             "name": "2019-11-01",
             "data": {
               "like": 2,
-              "love": 0,
               "haha": 3,
-              "wow" : 0,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
             "name": "2019-12-01",
             "data": {
               "like": 2,
-              "love": 0,
               "haha": 3,
-              "wow" : 0,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           }
         ],
@@ -342,9 +332,9 @@
               "like": 2,
               "love": 9,
               "haha": 3,
-              "wow" : 9,
+              "wow": 9,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
@@ -353,9 +343,9 @@
               "like": 2,
               "love": 9,
               "haha": 3,
-              "wow" : 12,
+              "wow": 12,
               "sad": 2,
-              "angry": 3
+              "anger": 3
             }
           },
           {
@@ -364,149 +354,8 @@
               "like": 8,
               "love": 0,
               "haha": 33,
-              "wow" : 1,
-              "sad": 2,
-              "angry": 0
-            }
-          }
-        ]
-      }
-    },
-    {
-      "section_name": "messages",
-      "diff_from_previous": 24,
-      "period": "year",
-      "period_started_at": 1546275600000,
-      "quantity": 105,
-      "groups": {
-        "type": {
-          "data": {
-            "TPE Pride 2019": 14,
-            "Beven Lan": 35,
-            "Danny & Phil": 16,
-            "Kevin Y": 22,
-            "Jeffy Davenport": 18
-          }
-        },
-        "day": [
-          {
-            "name": "2019-01-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 9,
-              "Danny & Phil": 3,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 0
-            }
-          },
-          {
-            "name": "2019-02-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 9,
-              "Danny & Phil": 1,
-              "Kevin Y": 7,
-              "Jeffy Davenport": 3
-            }
-          },
-          {
-            "name": "2019-03-01",
-            "data": {
-              "TPE Pride 2019": 1,
-              "Beven Lan": 9,
-              "Danny & Phil": 2,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 3
-            }
-          },
-          {
-            "name": "2019-04-01",
-            "data": {
-              "TPE Pride 2019": 3,
-              "Beven Lan": 1,
-              "Danny & Phil": 3,
-              "Kevin Y": 5,
-              "Jeffy Davenport": 6
-            }
-          },
-          {
-            "name": "2019-05-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 3,
-              "Danny & Phil": 1,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 0
-            }
-          },
-          {
-            "name": "2019-06-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 4,
-              "Danny & Phil": 3,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 3
-            }
-          },
-          {
-            "name": "2019-07-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 0,
-              "Danny & Phil": 3,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 3
-            }
-          },
-          {
-            "name": "2019-08-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 0,
-              "Danny & Phil": 3,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 3
-            }
-          },
-          {
-            "name": "2019-09-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 0,
-              "Danny & Phil": 3,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 3
-            }
-          },
-          {
-            "name": "2019-10-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 0,
-              "Danny & Phil": 3,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 3
-            }
-          },
-          {
-            "name": "2019-11-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 0,
-              "Danny & Phil": 3,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 3
-            }
-          },
-          {
-            "name": "2019-12-01",
-            "data": {
-              "TPE Pride 2019": 2,
-              "Beven Lan": 0,
-              "Danny & Phil": 3,
-              "Kevin Y": 2,
-              "Jeffy Davenport": 3
+              "wow": 1,
+              "sad": 2
             }
           }
         ]

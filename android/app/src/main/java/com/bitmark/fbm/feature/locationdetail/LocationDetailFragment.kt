@@ -4,7 +4,7 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.postdetail
+package com.bitmark.fbm.feature.locationdetail
 
 import android.os.Bundle
 import android.view.View
@@ -27,16 +27,15 @@ import com.bitmark.fbm.util.EndlessScrollListener
 import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.visible
 import com.bitmark.fbm.util.view.statistic.GroupView
-import com.bitmark.fbm.util.view.statistic.getPostType
 import kotlinx.android.synthetic.main.fragment_usage_detail.*
 import javax.inject.Inject
 
 
-class PostDetailFragment : BaseSupportFragment() {
+class LocationDetailFragment : BaseSupportFragment() {
 
     companion object {
 
-        private const val TAG = "PostDetailFragment"
+        private const val TAG = "LocationDetailFragment"
 
         private const val CHART_ITEM = "chart_item"
 
@@ -60,8 +59,8 @@ class PostDetailFragment : BaseSupportFragment() {
             startedAtSec: Long,
             endedAtSec: Long,
             chartItem: GroupView.ChartItem
-        ): PostDetailFragment {
-            val fragment = PostDetailFragment()
+        ): LocationDetailFragment {
+            val fragment = LocationDetailFragment()
             val bundle = Bundle()
             bundle.putString(TITLE, title)
             bundle.putString(PERIOD_DETAIL, periodDetail)
@@ -76,7 +75,7 @@ class PostDetailFragment : BaseSupportFragment() {
     }
 
     @Inject
-    internal lateinit var viewModel: PostDetailViewModel
+    internal lateinit var viewModel: LocationDetailViewModel
 
     @Inject
     internal lateinit var navigator: Navigator
@@ -89,7 +88,7 @@ class PostDetailFragment : BaseSupportFragment() {
 
     private lateinit var chartItem: GroupView.ChartItem
 
-    private lateinit var adapter: PostDetailRecyclerViewAdapter
+    private lateinit var adapter: LocationRecyclerViewAdapter
 
     override fun layoutRes(): Int = R.layout.fragment_usage_detail
 
@@ -100,9 +99,9 @@ class PostDetailFragment : BaseSupportFragment() {
 
         val periodRange = chartItem.periodRange
         if (periodRange != null) {
-            listPost(chartItem, periodRange.first / 1000, periodRange.last / 1000)
+            listLocation(chartItem, periodRange.first / 1000, periodRange.last / 1000)
         } else {
-            listPost(chartItem, startedAtSec, endedAtSec)
+            listLocation(chartItem, startedAtSec, endedAtSec)
         }
     }
 
@@ -127,9 +126,9 @@ class PostDetailFragment : BaseSupportFragment() {
         endlessScrollListener = object : EndlessScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 if (chartItem.periodRange != null) {
-                    listPost(chartItem, chartItem.periodRange!!.first / 1000)
+                    listLocation(chartItem, chartItem.periodRange!!.first / 1000)
                 } else {
-                    listPost(chartItem, startedAtSec)
+                    listLocation(chartItem, startedAtSec)
                 }
             }
         }
@@ -139,7 +138,7 @@ class PostDetailFragment : BaseSupportFragment() {
             ContextCompat.getDrawable(context!!, R.drawable.double_divider_white)
         if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
         rv.addItemDecoration(itemDecoration)
-        adapter = PostDetailRecyclerViewAdapter(Period.fromString(period))
+        adapter = LocationRecyclerViewAdapter(Period.fromString(period))
         rv.adapter = adapter
 
         ivBack.setOnClickListener {
@@ -155,7 +154,7 @@ class PostDetailFragment : BaseSupportFragment() {
     override fun observe() {
         super.observe()
 
-        viewModel.listPostLiveData.asLiveData().observe(this, Observer { res ->
+        viewModel.listLocationLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
                     progressBar.gone()
@@ -175,47 +174,30 @@ class PostDetailFragment : BaseSupportFragment() {
         })
     }
 
-    private fun listPost(
+    private fun listLocation(
         chartItem: GroupView.ChartItem,
         startedAtSec: Long,
         endedAtSec: Long? = null
     ) {
         when (chartItem.groupName) {
-            GroupName.TYPE       -> {
-                val postType = chartItem.getPostType()!!
+            GroupName.AREA       -> {
+                val name = chartItem.aggregateVals ?: listOf(chartItem.entryVal)
                 if (endedAtSec != null) {
-                    viewModel.listPostByType(postType, startedAtSec, endedAtSec)
+                    viewModel.listLocationByNames(name, startedAtSec, endedAtSec)
                 } else {
-                    viewModel.listNextPostByType(postType, startedAtSec)
+                    viewModel.listNextLocationByNames(name, startedAtSec)
                 }
 
             }
 
             GroupName.SUB_PERIOD -> {
                 if (endedAtSec != null) {
-                    viewModel.listPost(startedAtSec, endedAtSec)
+                    viewModel.listLocation(startedAtSec, endedAtSec)
                 } else {
-                    viewModel.listNextPost(startedAtSec)
+                    viewModel.listNextLocation(startedAtSec)
                 }
             }
 
-            GroupName.FRIEND     -> {
-                val tags = chartItem.aggregateVals ?: listOf(chartItem.entryVal)
-                if (endedAtSec != null) {
-                    viewModel.listPostByTags(tags, startedAtSec, endedAtSec)
-                } else {
-                    viewModel.listNextPostByTags(tags, startedAtSec)
-                }
-            }
-
-            GroupName.PLACE      -> {
-                val places = chartItem.aggregateVals ?: listOf(chartItem.entryVal)
-                if (endedAtSec != null) {
-                    viewModel.listPostByLocations(places, startedAtSec, endedAtSec)
-                } else {
-                    viewModel.listNextPostByLocations(places, startedAtSec)
-                }
-            }
             else                 -> error("unsupported group name ${chartItem.groupName.value}")
         }
     }
