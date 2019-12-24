@@ -18,10 +18,6 @@ import Realm
 class InsightViewController: ViewController {    
     private lazy var tableView: InsightTableView = {
         let v = InsightTableView()
-        v.postListNavigateHandler = { [weak self] filterScope in
-            loadingState.onNext(.loading)
-//            self?.goToPostListScreen(filterScope: filterScope)
-        }
         v.accountNavigationHandler = { [weak self] in
             self?.gotoAccountScreen()
         }

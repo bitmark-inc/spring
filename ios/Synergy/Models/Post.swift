@@ -29,6 +29,10 @@ class Post: Object, Decodable {
         return "id"
     }
 
+    override class func indexedProperties() -> [String] {
+        return ["type"]
+    }
+
     enum CodingKeys: String, CodingKey {
         case id, type, post, url, location, timestamp, tags, title, mediaData
     }

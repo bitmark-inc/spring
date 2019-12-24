@@ -93,6 +93,14 @@ enum TimeUnit: String {
     case year
     case decade
 
+    var subDateComponent: Calendar.Component {
+        switch self {
+        case .week:     return .day
+        case .year:     return .month
+        case .decade:   return .year
+        }
+    }
+
     func barDateComponents(distance: Int) -> DateComponents {
         switch self {
         case .week: return DateComponents(day: distance)

@@ -108,9 +108,12 @@ extension PostListViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withClass: PostHeadingViewCell.self, for: indexPath)
-
-            let sectionInfo = thisViewModel.generateSectionInfoText()
-            cell.fillInfo(backButton: backItem, sectionInfo: sectionInfo)
+            cell.fillInfo(
+                backButton: backItem,
+                sectionInfo: (
+                    sectionTitle: thisViewModel.makeSectionTitle(),
+                    taggedText: thisViewModel.makeTaggedText(),
+                    timelineText: thisViewModel.makeTimelineText()))
 
             return cell
 

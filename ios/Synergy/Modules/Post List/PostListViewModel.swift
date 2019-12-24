@@ -13,8 +13,6 @@ import RealmSwift
 import Realm
 import SwiftDate
 
-typealias FilterScope1 = (usageScope: UsageScope, filterBy: GroupKey, filterValue: String)
-
 class PostListViewModel: ViewModel {
 
     // MARK: - Inputs
@@ -29,15 +27,6 @@ class PostListViewModel: ViewModel {
         super.init()
     }
 
-    var screenTitleFromFilter: String {
-        switch filterScope.filterBy {
-        case .type:
-            return "plural.\(filterScope.filterValue)".localized().localizedUppercase
-        default:
-            return R.string.localizable.pluralPost().localizedUppercase
-        }
-    }
-
     func getPosts() {
         PostDataEngine.rx.fetch(with: filterScope)
             .map { $0.sorted(byKeyPath: "timestamp", ascending: false)}
@@ -46,44 +35,40 @@ class PostListViewModel: ViewModel {
             .disposed(by: disposeBag)
     }
 
-    func generateSectionInfoText() -> (sectionTitle: String, taggedText: String, timelineText: String) {
-        let sectionTitle: String!
-        var taggedText: String = ""
-        let timelineText: String!
+    func makeSectionTitle() -> String {
         switch filterScope.filterBy {
         case .type:
-            sectionTitle = "plural.\(filterScope.filterValue)".localized().localizedUppercase
-            timelineText = buildTimestamp()
-        case .friend, .place:
-            sectionTitle = R.string.localizable.pluralPost().localizedUppercase
-            if let tags = filterScope.filterValue as? [String] {
-                let titleTag = tags.count == 1 ? tags.first! : R.string.localizable.graphKeyOther()
-                taggedText = R.string.phrase.postSectionTitleTag(titleTag)
-            }
-            timelineText = buildTimestamp()
-        case .day:
-            sectionTitle = R.string.localizable.pluralPost().localizedUppercase
-            if let selectedDate = filterScope.filterValue as? Date {
-                let (startDate, endDate) = selectedDate.extractSubPeriod(timeUnit: filterScope.timeUnit)
-                timelineText = buildTimestamp(startDate: startDate, endDate: endDate)
-            } else {
-                timelineText = ""
-            }
+            return "plural.\(filterScope.filterValue)".localized().localizedUppercase
+        default:
+            return R.string.localizable.pluralPost().localizedUppercase
         }
-
-        return (sectionTitle: sectionTitle, taggedText: taggedText, timelineText: timelineText)
     }
 
-    func buildTimestamp() -> String {
-        let date = filterScope.date; let timeUnit = filterScope.timeUnit
-        let (startDate, endDate) = date.extractDatePeriod(timeUnit: timeUnit)
+    func makeTaggedText() -> String? {
+        switch filterScope.filterBy {
+        case .friend, .place:
+            guard let tags = filterScope.filterValue as? [String]
+                else { return nil }
 
-        return buildTimestamp(startDate: startDate, endDate: endDate)
+            let titleTag = tags.count == 1 ? tags.first! : R.string.localizable.graphKeyOther()
+            return R.string.phrase.postSectionTitleTag(titleTag)
+        default:
+            return nil
+        }
     }
 
-    func buildTimestamp(startDate: Date, endDate: Date) -> String {
-        return startDate.year == endDate.year ?
-            startDate.toFormat(Constant.TimeFormat.full) + "-" + endDate.toFormat(Constant.TimeFormat.short) :
-            startDate.toFormat(Constant.TimeFormat.full) + " - " + endDate.toFormat(Constant.TimeFormat.full)
+    func makeTimelineText() -> String? {
+        let timeUnit = filterScope.timeUnit
+
+        switch filterScope.filterBy {
+        case .day:
+            guard let selectedDate = filterScope.filterValue as? Date else { return nil }
+
+            let datePeriod = selectedDate.extractSubPeriod(timeUnit: filterScope.timeUnit)
+            return datePeriod.makeTimelinePeriodText(in: timeUnit.subDateComponent)
+        default:
+            let datePeriod = filterScope.date.extractDatePeriod(timeUnit: timeUnit)
+            return datePeriod.makeTimelinePeriodText(in: timeUnit)
+        }
     }
 }

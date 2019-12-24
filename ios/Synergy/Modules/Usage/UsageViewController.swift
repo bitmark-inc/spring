@@ -99,11 +99,12 @@ class UsageViewController: ViewController {
                 guard let self = self else { return }
 
                 let timeUnit = self.thisViewModel.timeUnitRelay.value
+                let datePeriod = startDate.extractDatePeriod(timeUnit: timeUnit)
 
                 let distance = self.segmentDistances[timeUnit]!
                 self.timelineView.bindData(
                     periodName: String.localizedStringWithFormat("meaningWord.\(timeUnit.rawValue)".localized(), abs(Int32(distance))),
-                    periodDescription: startDate.extractTimelinePeriod(timeUnit: timeUnit),
+                    periodDescription: datePeriod.makeTimelinePeriodText(in: timeUnit),
                     distance: distance)
             })
             .disposed(by: disposeBag)

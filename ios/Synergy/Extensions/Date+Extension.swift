@@ -51,20 +51,6 @@ extension Date {
         }
     }
 
-    func extractTimelinePeriod(timeUnit: TimeUnit, locale: Locales = .english) -> String {
-        let datePeriod = extractDatePeriod(timeUnit: timeUnit, locale: locale)
-        let (startDate, endDate) = (datePeriod.startDate, datePeriod.endDate)
-
-        switch timeUnit {
-        case .week:
-            return startDate.toFormat(Constant.TimeFormat.full) + "-" + endDate.toFormat(Constant.TimeFormat.short)
-        case .year:
-            return "\(startDate.toFormat("yyyy"))"
-        case .decade:
-            return "\(startDate.toFormat("yyyy"))-\(endDate.toFormat("yyyy"))"
-        }
-    }
-
     var appTimeFormat: Int {
         return Int(self.timeIntervalSince1970)
     }

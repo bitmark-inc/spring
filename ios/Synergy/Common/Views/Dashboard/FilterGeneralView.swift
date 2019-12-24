@@ -99,7 +99,7 @@ class FilterGeneralView: UIView {
                     if usage != nil {
                         self.dataObserver?.dispose()
                         self.dataObserver = container.groupsPostUsageObservable
-                            .map { $0.friend }
+                            .map { groupKey == .friend ? $0.friend : $0.place }
                             .map { (graphDatas) -> [(names: [String], sumData: Double, data: [Double])]? in
                                 guard let graphDatas = graphDatas
                                     else {
@@ -127,7 +127,7 @@ class FilterGeneralView: UIView {
                     if usage != nil {
                         self.dataObserver?.dispose()
                         self.dataObserver = container.groupsReactionUsageObservable
-                            .map { $0.friend }
+                            .map { groupKey == .friend ? $0.friend : $0.place }
                             .map { (graphDatas) -> [(names: [String], sumData: Double, data: [Double])]? in
                                 guard let graphDatas = graphDatas
                                     else {
@@ -200,10 +200,11 @@ extension FilterGeneralView: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         chartView.highlightValues(nil)
 
-        guard let friendName = entry.data as? [String] else { return }
+        guard let selectedValue = entry.data else { return }
+
         switch section {
         case .posts:
-            navigatorDelegate?.goToPostListScreen(filterBy: groupKey, filterValue: friendName.first!)
+            navigatorDelegate?.goToPostListScreen(filterBy: groupKey, filterValue: selectedValue)
         default:
             return
         }

@@ -42,7 +42,7 @@ class Label: UILabel {
 }
 
 extension Label {
-    func setText(_ text: String) {
+    func setText(_ text: String?) {
         self.text = text
 
         if let lineHeight = lineHeight {

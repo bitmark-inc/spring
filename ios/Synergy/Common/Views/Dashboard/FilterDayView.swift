@@ -191,7 +191,7 @@ extension FilterDayView: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         chartView.highlightValues(nil)
 
-        guard let selectedDate = entry.data as? Date else { return }
+        guard let selectedDate = entry.data else { return }
 
         switch section {
         case .posts:

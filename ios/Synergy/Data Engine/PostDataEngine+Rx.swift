@@ -69,11 +69,10 @@ extension Reactive where Base: PostDataEngine {
             filterPredicate = NSPredicate(format: "type == %@", type.rawValue)
         case .friend:
             guard let friends = filterScope.filterValue as? [String] else { break }
-            let friendValue = friends.first! + Constant.separator
-            filterPredicate = NSPredicate(format: "friendTags CONTAINS %@", friendValue)
+            filterPredicate = NSPredicate(format: "ANY tags.name IN %@", friends)
         case .place:
             guard let places = filterScope.filterValue as? [String] else { break }
-            filterPredicate = NSPredicate(format: "location.name == %@", places.first!)
+            filterPredicate = NSPredicate(format: "location.name IN %@", places)
         default:
             break
         }
