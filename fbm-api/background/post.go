@@ -100,6 +100,8 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 			return err
 		}
 
+		logEntity.Info("Getting page offset: ", currentOffset)
+
 		// Save to db
 		for _, r := range postRespData.Results {
 			postType := ""
@@ -120,8 +122,10 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 				}
 			} else if r.ExternalContextURL != "" {
 				postType = "link"
-			} else {
+			} else if r.Post != "" {
 				postType = "update"
+			} else {
+				continue
 			}
 
 			logEntity.Info("Processing post with timestamp: ", r.Timestamp)
@@ -410,7 +414,7 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 		sc.currentWeek = week
 	}
 
-	if week > sc.currentWeek {
+	if week != sc.currentWeek {
 		// Flush data
 		sc.flushWeekData()
 
@@ -510,7 +514,7 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 		sc.currentYear = year
 	}
 
-	if year > sc.currentYear {
+	if year != sc.currentYear {
 		// Flush data
 		sc.flushYearData()
 
@@ -610,7 +614,7 @@ func (sc *postStatisticCounter) countDecade(r *postData) {
 		sc.currentDecade = decade
 	}
 
-	if decade > sc.currentDecade {
+	if decade != sc.currentDecade {
 		// Flush data
 		sc.flushDecadeData()
 

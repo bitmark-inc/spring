@@ -50,6 +50,11 @@ func (s *Server) getAllReactions(c *gin.Context) {
 		return
 	}
 
+	if params.StartedAt >= params.EndedAt {
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+
 	posts, err := s.fbDataStore.GetFBStat(c, accountNumber+"/reaction", params.StartedAt, params.EndedAt)
 	if shouldInterupt(err, c) {
 		return
