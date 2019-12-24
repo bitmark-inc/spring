@@ -62,6 +62,30 @@ func (d *DynamoDBStore) AddFBStat(ctx context.Context, key string, timestamp int
 	return err
 }
 
+func (d *DynamoDBStore) queryFBStatResult(input *dynamodb.QueryInput) ([]interface{}, error) {
+	result, err := d.svc.Query(input)
+	if err != nil {
+		return nil, err
+	}
+
+	var items []fbData
+
+	if err := dynamodbattribute.UnmarshalListOfMaps(result.Items, &items); err != nil {
+		return nil, err
+	}
+
+	var data []interface{}
+	for _, i := range items {
+		var d interface{}
+		if err := json.Unmarshal(i.Data, &d); err != nil {
+			return nil, err
+		}
+		data = append(data, d)
+	}
+
+	return data, nil
+}
+
 func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int64) ([]interface{}, error) {
 	input := &dynamodb.QueryInput{
 		TableName: d.table,
@@ -87,27 +111,28 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int6
 			},
 		},
 	}
-	result, err := d.svc.Query(input)
-	if err != nil {
-		return nil, err
+
+	return d.queryFBStatResult(input)
+}
+
+func (d *DynamoDBStore) GetFBFirstItem(ctx context.Context, key string) (interface{}, error) {
+	input := &dynamodb.QueryInput{
+		TableName: d.table,
+		KeyConditions: map[string]*dynamodb.Condition{
+			"key": {
+				ComparisonOperator: aws.String("EQ"),
+				AttributeValueList: []*dynamodb.AttributeValue{
+					{
+						S: aws.String(key),
+					},
+				},
+			},
+		},
+		Limit:            aws.Int64(1),
+		ScanIndexForward: aws.Bool(true),
 	}
 
-	var items []fbData
-
-	if err := dynamodbattribute.UnmarshalListOfMaps(result.Items, &items); err != nil {
-		return nil, err
-	}
-
-	var data []interface{}
-	for _, i := range items {
-		var d interface{}
-		if err := json.Unmarshal(i.Data, &d); err != nil {
-			return nil, err
-		}
-		data = append(data, d)
-	}
-
-	return data, nil
+	return d.queryFBStatResult(input)
 }
 
 func (d *DynamoDBStore) GetExactFBStat(ctx context.Context, key string, in int64) (interface{}, error) {
