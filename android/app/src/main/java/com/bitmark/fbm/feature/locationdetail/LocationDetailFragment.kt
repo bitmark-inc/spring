@@ -7,6 +7,7 @@
 package com.bitmark.fbm.feature.locationdetail
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -90,6 +91,8 @@ class LocationDetailFragment : BaseSupportFragment() {
 
     private lateinit var adapter: LocationRecyclerViewAdapter
 
+    private val handler = Handler()
+
     override fun layoutRes(): Int = R.layout.fragment_usage_detail
 
     override fun viewModel(): BaseViewModel? = viewModel
@@ -97,12 +100,14 @@ class LocationDetailFragment : BaseSupportFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val periodRange = chartItem.periodRange
-        if (periodRange != null) {
-            listLocation(chartItem, periodRange.first / 1000, periodRange.last / 1000)
-        } else {
-            listLocation(chartItem, startedAtSec, endedAtSec)
-        }
+        handler.postDelayed({
+            val periodRange = chartItem.periodRange
+            if (periodRange != null) {
+                listLocation(chartItem, periodRange.first / 1000, periodRange.last / 1000)
+            } else {
+                listLocation(chartItem, startedAtSec, endedAtSec)
+            }
+        }, 250)
     }
 
     override fun initComponents() {
@@ -147,6 +152,7 @@ class LocationDetailFragment : BaseSupportFragment() {
     }
 
     override fun deinitComponents() {
+        handler.removeCallbacksAndMessages(null)
         rv.removeOnScrollListener(endlessScrollListener)
         super.deinitComponents()
     }

@@ -7,6 +7,7 @@
 package com.bitmark.fbm.feature.postdetail
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -91,6 +92,8 @@ class PostDetailFragment : BaseSupportFragment() {
 
     private lateinit var adapter: PostDetailRecyclerViewAdapter
 
+    private val handler = Handler()
+
     override fun layoutRes(): Int = R.layout.fragment_usage_detail
 
     override fun viewModel(): BaseViewModel? = viewModel
@@ -98,12 +101,14 @@ class PostDetailFragment : BaseSupportFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val periodRange = chartItem.periodRange
-        if (periodRange != null) {
-            listPost(chartItem, periodRange.first / 1000, periodRange.last / 1000)
-        } else {
-            listPost(chartItem, startedAtSec, endedAtSec)
-        }
+        handler.postDelayed({
+            val periodRange = chartItem.periodRange
+            if (periodRange != null) {
+                listPost(chartItem, periodRange.first / 1000, periodRange.last / 1000)
+            } else {
+                listPost(chartItem, startedAtSec, endedAtSec)
+            }
+        }, 250)
     }
 
     override fun initComponents() {
@@ -148,6 +153,7 @@ class PostDetailFragment : BaseSupportFragment() {
     }
 
     override fun deinitComponents() {
+        handler.removeCallbacksAndMessages(null)
         rv.removeOnScrollListener(endlessScrollListener)
         super.deinitComponents()
     }
