@@ -89,6 +89,9 @@ func (s *Server) getDataValue(c *gin.Context) {
 		}
 	}
 
+	log.Info("country code ", countryCode)
+	log.Info("look up range ", lookupRange)
+
 	amount := getTotalValueForDataPeriod(period, query.Timestamp, lookupRange)
 
 	c.JSON(http.StatusOK, gin.H{

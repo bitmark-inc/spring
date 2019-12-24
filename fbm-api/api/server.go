@@ -196,13 +196,13 @@ func loadCountryContinentMap() (map[string]string, error) {
 }
 
 type fbIncomePeriod struct {
-	StartedAt     int64
-	EndedAt       int64
-	QuarterAmount float64
+	StartedAt     int64   `json:"started_at"`
+	EndedAt       int64   `json:"ended_at"`
+	QuarterAmount float64 `json:"amount"`
 }
 
 type areaFBIncomeMap struct {
-	WorldWide   []fbIncomePeriod `json:"world-wide"`
+	WorldWide   []fbIncomePeriod `json:"world_wide"`
 	USCanada    []fbIncomePeriod `json:"us_canada"`
 	Europe      []fbIncomePeriod `json:"europe"`
 	AsiaPacific []fbIncomePeriod `json:"asia_pacific"`
