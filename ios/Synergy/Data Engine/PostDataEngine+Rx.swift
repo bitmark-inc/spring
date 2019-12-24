@@ -12,8 +12,10 @@ import RxSwift
 import SwiftDate
 
 class PostDataEngine {
-    static func syncPosts() {
-        _ = PostService.getAll()
+    static func syncPosts(datePeriod: DatePeriod?) {
+        guard let datePeriod = datePeriod else { return }
+
+        _ = PostService.getAll(startDate: datePeriod.startDate, endDate: datePeriod.endDate)
             .flatMapCompletable { Storage.store($0, inGlobalRealm: true) }
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onError: { (error) in
@@ -22,8 +24,6 @@ class PostDataEngine {
             })
     }
 }
-
-var didLoad = false
 
 extension PostDataEngine: ReactiveCompatible {}
 
@@ -46,10 +46,8 @@ extension Reactive where Base: PostDataEngine {
                 let posts = realm.objects(Post.self).filter(filterQuery)
                 event(.success(posts))
 
-                if !didLoad && realm.objects(Post.self).isEmpty {
-                    didLoad = true
-                    PostDataEngine.syncPosts()
-                }
+                let datePeriod = extractQueryDatePeriod(filterScope)
+                PostDataEngine.syncPosts(datePeriod: datePeriod)
 
             } catch {
                 event(.error(error))
@@ -59,43 +57,8 @@ extension Reactive where Base: PostDataEngine {
         }
     }
 
-    static func makeFilterQueryByDate(_ filterScope: FilterScope) -> NSPredicate? {
-        let timeUnit = filterScope.timeUnit; let date = filterScope.date
-
-        let startDate: NSDate!
-        let endDate: NSDate!
-
-        switch timeUnit {
-        case .week:
-            startDate = date.dateAtStartOf(.weekOfMonth) as NSDate
-            endDate = date.dateAtEndOf(.weekOfMonth) as NSDate
-        case .year:
-            startDate = date.dateAtStartOf(.year) as NSDate
-            endDate = date.dateAtEndOf(.year) as NSDate
-        case .decade:
-            startDate = (date - 10.years).dateAtStartOf(.year) as NSDate
-            endDate = date.dateAtEndOf(.year) as NSDate
-        }
-
-        return NSPredicate(format: "timestamp >= %@ AND timestamp <= %@", startDate, endDate)
-    }
-
     static func makeFilterQuery(_ filterScope: FilterScope) -> NSCompoundPredicate? {
-        let timeUnit = filterScope.timeUnit
-
-        let datePeriod: (startDate: Date, endDate: Date)!
-        if filterScope.filterBy == .day {
-            guard let filterDay = filterScope.filterValue as? Date
-                else {
-                    Global.log.error("formatInDay is incorrect")
-                    return nil
-            }
-
-            datePeriod = filterDay.extractSubPeriod(timeUnit: timeUnit)
-        } else {
-            datePeriod = filterScope.date.extractDatePeriod(timeUnit: timeUnit)
-        }
-
+        guard let datePeriod = extractQueryDatePeriod(filterScope) else { return nil }
         let datePredicate = NSPredicate(format: "timestamp >= %@ AND timestamp <= %@",
                                         datePeriod.startDate as NSDate, datePeriod.endDate as NSDate)
         var filterPredicate: NSPredicate?
@@ -121,5 +84,22 @@ extension Reactive where Base: PostDataEngine {
         }
 
         return NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+    }
+
+    static func extractQueryDatePeriod(_ filterScope: FilterScope) -> DatePeriod? {
+        let timeUnit = filterScope.timeUnit
+
+        switch filterScope.filterBy {
+        case .day:
+            guard let filterDay = filterScope.filterValue as? Date
+                else {
+                    Global.log.error("formatInDay is incorrect.")
+                    return nil
+            }
+
+            return filterDay.extractSubPeriod(timeUnit: timeUnit)
+        default:
+            return filterScope.date.extractDatePeriod(timeUnit: timeUnit)
+        }
     }
 }

@@ -10,11 +10,12 @@ import Foundation
 import Moya
 
 enum PostAPI {
+    case get(startDate: Date, endDate: Date)
 }
 
 extension PostAPI: AuthorizedTargetType {
     var baseURL: URL {
-        return URL(string: Constant.default.fBMServerURL)!
+        return URL(string: Constant.default.fBMServerURL + "/api/posts")!
     }
 
     var path: String {
@@ -30,12 +31,20 @@ extension PostAPI: AuthorizedTargetType {
     }
 
     var parameters: [String: Any]? {
-        return nil
+        var params: [String: Any] = [:]
+
+        switch self {
+        case .get(let startDate, let endDate):
+            params["started_at"] = startDate.appTimeFormat
+            params["ended_at"] = endDate.appTimeFormat
+        }
+
+        return params
     }
 
     var task: Task {
         if let parameters = parameters {
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         }
         return .requestPlain
     }

@@ -11,65 +11,49 @@ import Realm
 import RealmSwift
 import SwiftDate
 
-var i = 0
-
 class Post: Object, Decodable {
 
     // MARK: - Properties
-    @objc dynamic var id: String = ""
-    @objc dynamic var type: String?
+    @objc dynamic var id: Int = 0
+    @objc dynamic var type: String = ""
     @objc dynamic var post: String?
     @objc dynamic var title: String?
     @objc dynamic var url: String?
-    @objc dynamic var photo: String?
     @objc dynamic var location: Location?
     @objc dynamic var timestamp: Date = Date()
-    @objc dynamic var friendTags: String = ""
-    @objc dynamic var thumbnail: String?
+
+    let mediaData = List<MediaData>()
+    let tags = List<Friend>()
 
     override class func primaryKey() -> String? {
         return "id"
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, type, post, url, photo, tags, location, timestamp, friendTags, thumbnail, title
+        case id, type, post, url, location, timestamp, tags, title, mediaData
     }
 
     required public init(from decoder: Decoder) throws {
         super.init()
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        id = try values.decode(String.self, forKey: .id)
-        id = "\(id)\(i)"
-        i = i + 1
-        type = try values.decodeIfPresent(String.self, forKey: .type)
-        title = try values.decodeIfPresent(String.self, forKey: .title)
-        post = try values.decodeIfPresent(String.self, forKey: .post)?.fbDecode()
-
-        if type == nil, let post = post, post.isNotEmpty {
-            type = Constant.PostType.update
-        }
-
-        if type == "external" {
-            type = Constant.PostType.link
-        }
-
+        id = try values.decode(Int.self, forKey: .id)
+        type = try values.decode(String.self, forKey: .type)
+        title = try values.decode(String?.self, forKey: .title)
+        post = try values.decodeIfPresent(String.self, forKey: .post)
         url = try values.decodeIfPresent(String.self, forKey: .url)
-        photo = try values.decodeIfPresent(String.self, forKey: .photo)
         location = try values.decodeIfPresent(Location.self, forKey: .location)
+        location?.id = "postLocation_\(id)"
+
         let timestampInterval = try values.decode(Double.self, forKey: .timestamp)
         timestamp = min(Date(timeIntervalSince1970: timestampInterval), Date())
-        thumbnail = try values.decodeIfPresent(String.self, forKey: .thumbnail)
 
-        let tags = try values.decodeIfPresent(List<String>.self, forKey: .tags)?.compactMap { $0.fbDecode() }
-        if let tags = tags {
-            friendTags = tags.joined(separator: Constant.separator) + Constant.separator
-        } else {
-            friendTags = ""
+        if let friends = try values.decodeIfPresent([String].self, forKey: .tags) {
+            tags.append(objectsIn: friends.map({ Friend(name: $0) }))
         }
-    }
 
-    var tags: [String] {
-        friendTags.split(separator: String.Element(Constant.separator)).map(String.init)
+        if let mediaDataArray = try values.decodeIfPresent([MediaData].self, forKey: .mediaData) {
+            mediaData.append(objectsIn: mediaDataArray)
+        }
     }
 
     // MARK: - Realm Required Init
@@ -90,43 +74,17 @@ class Post: Object, Decodable {
     }
 }
 
-class Location: Object, Decodable {
-
-    // MARK: - Properties
+class Friend: Object, Decodable {
+    @objc dynamic var id: String = ""
     @objc dynamic var name: String = ""
-    @objc dynamic var url: String?
-    @objc dynamic var address: String?
 
     override class func primaryKey() -> String? {
-        return "url"
+        return "id"
     }
 
-    enum CodingKeys: String, CodingKey {
-        case name, url, address
-    }
-
-    required public init(from decoder: Decoder) throws {
-        super.init()
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        name = try values.decode(String.self, forKey: .name).fbDecode()
-        url = try values.decodeIfPresent(String.self, forKey: .url)
-        address = try values.decodeIfPresent(String.self, forKey: .address)
-    }
-
-    required init() {
-        super.init()
-    }
-
-    override init(value: Any) {
-        super.init(value: value)
-    }
-
-    required init(value: Any, schema: RLMSchema) {
-        super.init(value: value, schema: schema)
-    }
-
-    required init(realm: RLMRealm, schema: RLMObjectSchema) {
-        super.init(realm: realm, schema: schema)
+    convenience init(name: String) {
+        self.init()
+        self.id = name
+        self.name = name
     }
 }
-

@@ -14,18 +14,12 @@ class PostService {
 
     static var provider = MoyaProvider<PostAPI>(plugins: Global.default.networkLoggerPlugin)
 
-    static func getAll() -> Single<[Post]> {
-        guard let url = Bundle.main.url(forResource: "posts_with_stories", withExtension: "json") else {
-            return Single.never()
-        }
+    static func getAll(startDate: Date, endDate: Date) -> Single<[Post]> {
+        Global.log.info("[start] PostService.get(startDate, endDate)")
 
-        do {
-            let data = try Data(contentsOf: url)
-            let decoder = JSONDecoder()
-            let jsonData = try decoder.decode([Post].self, from: data)
-            return Single.just(jsonData)
-        } catch {
-            return Single.error(error)
-        }
+
+        return provider.rx.requestWithRefreshJwt(.get(startDate: startDate, endDate: endDate))
+            .filterSuccess()
+            .map([Post].self, atKeyPath: "result")
     }
 }

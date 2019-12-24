@@ -21,3 +21,8 @@ struct UsageScope {
     let timeUnit: TimeUnit
     let section: Section
 }
+
+struct DatePeriod {
+    let startDate: Date
+    let endDate: Date
+}

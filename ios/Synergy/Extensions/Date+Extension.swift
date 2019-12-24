@@ -17,37 +17,43 @@ extension Date {
         return date.in(region: newRegion)
     }
 
-    func extractDatePeriod(timeUnit: TimeUnit, locale: Locales = .english) -> (startDate: Date, endDate: Date) {
+    func extractDatePeriod(timeUnit: TimeUnit, locale: Locales = .english) -> DatePeriod {
         let dateRegion = self.in(locale)
         switch timeUnit {
         case .week:
-            return (startDate: dateRegion.dateAtStartOf(.weekOfMonth).date,
-                    endDate: dateRegion.dateAtEndOf(.weekOfMonth).date)
+            return DatePeriod(
+                startDate: dateRegion.dateAtStartOf(.weekOfMonth).date,
+                endDate: dateRegion.dateAtEndOf(.weekOfMonth).date)
         case .year:
-            return (startDate: dateRegion.dateAtStartOf(.year).date,
-                    endDate: dateRegion.dateAtEndOf(.year).date)
+            return DatePeriod(
+                startDate: dateRegion.dateAtStartOf(.year).date,
+                endDate: dateRegion.dateAtEndOf(.year).date)
         case .decade:
-            return (startDate: dateRegion.dateAtStartOfDecade().date,
-                    endDate: dateRegion.dateAtEndOfDecade().date)
+            return DatePeriod(
+                startDate: dateRegion.dateAtStartOfDecade().date,
+                endDate: dateRegion.dateAtEndOfDecade().date)
         }
     }
 
-    func extractSubPeriod(timeUnit: TimeUnit, locale: Locales = .english) -> (startDate: Date, endDate: Date) {
+    func extractSubPeriod(timeUnit: TimeUnit, locale: Locales = .english) -> DatePeriod {
         let dateRegion = self.in(locale)
         switch timeUnit {
         case .week:
-            return (startDate: dateRegion.dateAtStartOf(.day).date,
-                    endDate: dateRegion.dateAtEndOf(.day).date)
+            return DatePeriod(
+                startDate: dateRegion.dateAtStartOf(.day).date,
+                endDate: dateRegion.dateAtEndOf(.day).date)
         case .year:
-            return (startDate: dateRegion.dateAtStartOf(.month).date,
-                    endDate: dateRegion.dateAtEndOf(.month).date)
+            return DatePeriod(
+                startDate: dateRegion.dateAtStartOf(.month).date,
+                endDate: dateRegion.dateAtEndOf(.month).date)
         case .decade:
             return extractDatePeriod(timeUnit: .year)
         }
     }
 
     func extractTimelinePeriod(timeUnit: TimeUnit, locale: Locales = .english) -> String {
-        let (startDate, endDate) = extractDatePeriod(timeUnit: timeUnit, locale: locale)
+        let datePeriod = extractDatePeriod(timeUnit: timeUnit, locale: locale)
+        let (startDate, endDate) = (datePeriod.startDate, datePeriod.endDate)
 
         switch timeUnit {
         case .week:
