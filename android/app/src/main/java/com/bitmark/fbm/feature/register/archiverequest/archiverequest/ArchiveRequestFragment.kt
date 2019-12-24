@@ -14,7 +14,6 @@ import android.util.Log
 import android.view.View
 import android.webkit.*
 import androidx.lifecycle.Observer
-import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.apiservice.utils.callback.Callback1
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.*
@@ -257,11 +256,13 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                                     getString(R.string.you_requested_your_fb_data_format_2).format(
                                                         DateTimeUtil.millisToString(
                                                             archiveRequestedAt,
-                                                            DateTimeUtil.DATE_FORMAT_3
+                                                            DateTimeUtil.DATE_FORMAT_3,
+                                                            DateTimeUtil.defaultTimeZone()
                                                         ),
                                                         DateTimeUtil.millisToString(
                                                             archiveRequestedAt,
-                                                            DateTimeUtil.TIME_FORMAT_1
+                                                            DateTimeUtil.TIME_FORMAT_1,
+                                                            DateTimeUtil.defaultTimeZone()
                                                         )
                                                     )
                                                 )
@@ -526,26 +527,22 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         successAction: (String) -> Unit
     ) {
         val keyAlias = account.generateKeyAlias()
-        val accountAuthBuilder = KeyAuthenticationSpec.Builder(context)
+        val spec = KeyAuthenticationSpec.Builder(context)
             .setKeyAlias(keyAlias)
-            .setAuthenticationRequired(false)
+            .setAuthenticationRequired(false).build()
 
-        account.saveToKeyStore(
-            activity,
-            accountAuthBuilder.build(),
-            object : Callback0 {
-                override fun onSuccess() {
-                    successAction(keyAlias)
-                }
-
-                override fun onError(throwable: Throwable?) {
-                    logger.logError(Event.ACCOUNT_SAVE_TO_KEY_STORE_ERROR, throwable)
-                    dialogController.alert(
-                        getString(R.string.error),
-                        throwable?.message ?: getString(R.string.unexpected_error)
-                    ) { navigator.exitApp() }
-                }
-
+        activity?.saveAccount(
+            account,
+            spec,
+            dialogController,
+            successAction = { successAction(keyAlias) },
+            setupRequiredAction = { navigator.gotoSecuritySetting() },
+            invalidErrorAction = { e ->
+                logger.logError(Event.ACCOUNT_SAVE_TO_KEY_STORE_ERROR, e)
+                dialogController.alert(
+                    getString(R.string.error),
+                    e?.message ?: getString(R.string.unexpected_error)
+                ) { navigator.exitApp() }
             })
     }
 
@@ -664,11 +661,13 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                             getString(R.string.you_requested_your_fb_data_format).format(
                                 DateTimeUtil.millisToString(
                                     archiveRequestedAt,
-                                    DateTimeUtil.DATE_FORMAT_3
+                                    DateTimeUtil.DATE_FORMAT_3,
+                                    DateTimeUtil.defaultTimeZone()
                                 ),
                                 DateTimeUtil.millisToString(
                                     archiveRequestedAt,
-                                    DateTimeUtil.TIME_FORMAT_1
+                                    DateTimeUtil.TIME_FORMAT_1,
+                                    DateTimeUtil.defaultTimeZone()
                                 )
                             )
                         )

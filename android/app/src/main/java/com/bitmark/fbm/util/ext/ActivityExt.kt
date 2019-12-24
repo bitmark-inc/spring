@@ -39,6 +39,70 @@ fun Activity.showKeyBoard() {
 
 }
 
+fun Activity.saveAccount(
+    account: Account,
+    spec: KeyAuthenticationSpec,
+    dialogController: DialogController,
+    successAction: () -> Unit,
+    canceledAction: () -> Unit = {},
+    setupRequiredAction: () -> Unit = {},
+    invalidErrorAction: (Throwable?) -> Unit = {}
+) {
+    account.saveToKeyStore(
+        this,
+        spec,
+        object : Callback0 {
+            override fun onSuccess() {
+                successAction()
+            }
+
+            override fun onError(throwable: Throwable?) {
+                when (throwable) {
+
+                    // authentication error
+                    is AuthenticationException         -> {
+                        when (throwable.type) {
+                            // action cancel authentication
+                            AuthenticationException.Type.CANCELLED -> {
+                                canceledAction.invoke()
+                            }
+
+                            else                                   -> {
+                                // do nothing
+                            }
+                        }
+                    }
+
+                    // missing security requirement
+                    is AuthenticationRequiredException -> {
+                        when (throwable.provider) {
+
+                            // did not set up fingerprint/biometric
+                            Provider.FINGERPRINT, Provider.BIOMETRIC -> {
+                                dialogController.alert(
+                                    R.string.error,
+                                    R.string.fingerprint_required
+                                ) { setupRequiredAction() }
+                            }
+
+                            // did not set up pass code
+                            else                                     -> {
+                                dialogController.alert(
+                                    R.string.error,
+                                    R.string.passcode_pin_required
+                                ) { setupRequiredAction() }
+                            }
+                        }
+                    }
+                    else                               -> {
+                        invalidErrorAction.invoke(throwable)
+                    }
+                }
+            }
+
+        })
+}
+
 fun Activity.loadAccount(
     accountNumber: String,
     spec: KeyAuthenticationSpec,
@@ -83,7 +147,7 @@ fun Activity.loadAccount(
                                 dialogController.alert(
                                     R.string.error,
                                     R.string.fingerprint_required
-                                ) { setupRequiredAction.invoke() }
+                                ) { setupRequiredAction() }
                             }
 
                             // did not set up pass code
@@ -91,7 +155,7 @@ fun Activity.loadAccount(
                                 dialogController.alert(
                                     R.string.error,
                                     R.string.passcode_pin_required
-                                ) { setupRequiredAction.invoke() }
+                                ) { setupRequiredAction() }
                             }
                         }
                     }
@@ -126,7 +190,7 @@ fun Activity.removeAccount(
                     when (throwable.type) {
                         // action cancel authentication
                         AuthenticationException.Type.CANCELLED -> {
-                            canceledAction.invoke()
+                            canceledAction()
                         }
 
                         else                                   -> {
@@ -144,7 +208,7 @@ fun Activity.removeAccount(
                             dialogController.alert(
                                 R.string.error,
                                 R.string.fingerprint_required
-                            ) { setupRequiredAction.invoke() }
+                            ) { setupRequiredAction() }
                         }
 
                         // did not set up pass code
@@ -152,7 +216,7 @@ fun Activity.removeAccount(
                             dialogController.alert(
                                 R.string.error,
                                 R.string.passcode_pin_required
-                            ) { setupRequiredAction.invoke() }
+                            ) { setupRequiredAction() }
                         }
                     }
                 }

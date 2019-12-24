@@ -9,7 +9,6 @@ package com.bitmark.fbm.feature.auth
 import android.os.Bundle
 import android.widget.CompoundButton
 import androidx.lifecycle.Observer
-import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.feature.BaseAppCompatActivity
@@ -41,6 +40,8 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
     internal lateinit var logger: EventLogger
 
     private lateinit var accountData: AccountData
+
+    private var blockChanging = false
 
     override fun layoutRes(): Int = R.layout.activity_authentication
 
@@ -79,7 +80,11 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
 
         viewModel.saveAccountKeyDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
-                res.isError() -> {
+                res.isSuccess() -> {
+                    viewModel.getAccountData()
+                }
+
+                res.isError()   -> {
                     logger.logSharedPrefError(res.throwable(), "save account key alias error")
                     dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
@@ -89,6 +94,7 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         if (isChecked) {
+            blockChanging = false
             dialogController.confirm(
                 R.string.do_you_want_to_allow_to_use_biometric_auth,
                 R.string.app_will_use_biometric,
@@ -99,25 +105,38 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
                     loadAccount(
                         accountData,
                         { account ->
-                            resaveAccount(account, true) {
-                                swBiometricAuth.isChecked = false
-                            }
+                            resaveAccount(
+                                account,
+                                true,
+                                { swBiometricAuth.isChecked = false },
+                                { swBiometricAuth.isChecked = false })
                         },
-                        { swBiometricAuth.isChecked = false })
+                        {
+                            blockChanging = true
+                            swBiometricAuth.isChecked = false
+                        },
+                        {
+                            blockChanging = true
+                            swBiometricAuth.isChecked = false
+                        })
                 },
                 R.string.no_thanks,
                 {
+                    blockChanging = true
                     swBiometricAuth.isChecked = false
                 }
             )
-        } else {
+        } else if (!blockChanging) {
             loadAccount(
                 accountData,
                 { account ->
-                    resaveAccount(account, false) {
-                        swBiometricAuth.isChecked = true
-                    }
+                    resaveAccount(
+                        account,
+                        false,
+                        { swBiometricAuth.isChecked = true },
+                        { swBiometricAuth.isChecked = true })
                 },
+                { swBiometricAuth.isChecked = true },
                 { swBiometricAuth.isChecked = true })
         }
     }
@@ -127,25 +146,39 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
         navigator.anim(RIGHT_LEFT).finishActivity()
     }
 
-    private fun resaveAccount(account: Account, authRequired: Boolean, errorAction: () -> Unit) {
+    private fun resaveAccount(
+        account: Account,
+        authRequired: Boolean,
+        errorAction: () -> Unit,
+        setupRequiredAction: () -> Unit
+    ) {
         val keyAlias = account.generateKeyAlias()
         val spec =
             KeyAuthenticationSpec.Builder(this)
                 .setKeyAlias(keyAlias)
                 .setAuthenticationDescription(getString(R.string.your_authorization_is_required))
                 .setAuthenticationRequired(authRequired).build()
-        saveAccount(
+        this.saveAccount(
             account,
             spec,
-            { viewModel.saveAccountKeyData(keyAlias, authRequired) },
-            errorAction
-        )
+            dialogController,
+            successAction = { viewModel.saveAccountKeyData(keyAlias, authRequired) },
+            setupRequiredAction = {
+                setupRequiredAction()
+                navigator.gotoSecuritySetting()
+            },
+            invalidErrorAction = { e ->
+                errorAction()
+                logger.logError(Event.ACCOUNT_SAVE_TO_KEY_STORE_ERROR, e)
+                dialogController.alert(e) { navigator.anim(RIGHT_LEFT).finishActivity() }
+            })
     }
 
     private fun loadAccount(
         accountData: AccountData,
         successAction: (Account) -> Unit,
-        errorAction: () -> Unit
+        errorAction: () -> Unit,
+        setupRequiredAction: () -> Unit
     ) {
         val spec =
             KeyAuthenticationSpec.Builder(this).setKeyAlias(accountData.keyAlias)
@@ -156,34 +189,14 @@ class BiometricAuthActivity : BaseAppCompatActivity(), CompoundButton.OnCheckedC
             spec,
             dialogController,
             successAction = successAction,
-            setupRequiredAction = { navigator.gotoSecuritySetting() },
+            setupRequiredAction = {
+                setupRequiredAction()
+                navigator.gotoSecuritySetting()
+            },
             invalidErrorAction = { e ->
                 errorAction()
                 logger.logError(Event.ACCOUNT_LOAD_KEY_STORE_ERROR, e)
-                dialogController.alert(e) { navigator.finishActivity() }
-            })
-    }
-
-    private fun saveAccount(
-        account: Account,
-        keySpec: KeyAuthenticationSpec,
-        successAction: () -> Unit,
-        errorAction: () -> Unit
-    ) {
-        account.saveToKeyStore(
-            this,
-            keySpec,
-            object : Callback0 {
-                override fun onSuccess() {
-                    successAction()
-                }
-
-                override fun onError(throwable: Throwable?) {
-                    errorAction()
-                    logger.logError(Event.ACCOUNT_SAVE_TO_KEY_STORE_ERROR, throwable)
-                    dialogController.alert(throwable) { navigator.finishActivity() }
-                }
-
+                dialogController.alert(e) { navigator.anim(RIGHT_LEFT).finishActivity() }
             })
     }
 }

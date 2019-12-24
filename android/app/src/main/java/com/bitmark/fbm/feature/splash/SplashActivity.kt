@@ -139,11 +139,13 @@ class SplashActivity : BaseAppCompatActivity() {
                                     getString(R.string.you_requested_your_fb_data_format).format(
                                         DateTimeUtil.millisToString(
                                             archiveRequestedAt,
-                                            DateTimeUtil.DATE_FORMAT_3
+                                            DateTimeUtil.DATE_FORMAT_3,
+                                            DateTimeUtil.defaultTimeZone()
                                         ),
                                         DateTimeUtil.millisToString(
                                             archiveRequestedAt,
-                                            DateTimeUtil.TIME_FORMAT_1
+                                            DateTimeUtil.TIME_FORMAT_1,
+                                            DateTimeUtil.defaultTimeZone()
                                         )
                                     ), true
                                 )
