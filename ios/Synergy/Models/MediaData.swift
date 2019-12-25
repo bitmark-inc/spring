@@ -14,7 +14,7 @@ import SwiftDate
 
 class MediaData: Object, Decodable {
     @objc dynamic var source: String = ""
-    @objc dynamic var thumbnail: String = ""
+    @objc dynamic var thumbnail: String?
     @objc dynamic var type: String = ""
 
     override class func primaryKey() -> String? {

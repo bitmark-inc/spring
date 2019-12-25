@@ -37,8 +37,8 @@ class ImageView: UIImageView {
 
     func loadURL(_ url: URL) -> Completable {
         return Completable.create { (event) -> Disposable in
-            let imagePath = url.path.replacingOccurrences(of: "photos_and_videos/", with: "")
-            let photoImageURL = Constant.fbImageServerURL?.appendingPathComponent(imagePath)
+            var photoImageURL = URL(string: Constant.fbImageServerURL)
+            photoImageURL?.appendQueryParameters(["key": url.path.urlEncoded])
 
             self.kf.setImage(with: photoImageURL) { [weak self] (_) in
                 guard let self = self, let imageSize = self.image?.size else { return }

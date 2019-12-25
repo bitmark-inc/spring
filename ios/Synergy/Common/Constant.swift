@@ -42,5 +42,5 @@ public struct Constant {
     }
 
     static let separator = ","
-    static let fbImageServerURL = URL(string: "https://bitmark-mobile-files.s3-ap-northeast-1.amazonaws.com/fb_data")
+    static let fbImageServerURL = Credential.valueForKey(keyName: "API_FBM_SERVER_URL") + "/api/media"
 }
