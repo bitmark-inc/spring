@@ -162,9 +162,9 @@ class StatisticFragment : BaseSupportFragment() {
             val plural = periodGap > 1
             tvType.text = getString(
                 when (period) {
-                    Period.WEEK   -> if (plural) R.string.last_week_format_plural else R.string.last_week_format
-                    Period.YEAR   -> if (plural) R.string.last_year_format_plural else R.string.last_year_format
-                    Period.DECADE -> if (plural) R.string.last_decade_format_plural else R.string.last_decade_format
+                    Period.WEEK   -> if (plural) R.string.last_week_format_plural else R.string.last_week
+                    Period.YEAR   -> if (plural) R.string.last_year_format_plural else R.string.last_year
+                    Period.DECADE -> if (plural) R.string.last_decade_format_plural else R.string.last_decade
                 }
             ).format(periodGap)
         }
