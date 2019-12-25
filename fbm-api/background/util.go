@@ -12,7 +12,7 @@ import (
 func absDay(timestamp int64) int64 {
 	t := time.Unix(timestamp, 0)
 	year, month, day := t.Date()
-	absDay := time.Date(year, month, day, 0, 0, 0, 0, time.UTC)
+	absDay := time.Date(year, month, day, 0, 0, 0, 0, t.Location())
 	return absDay.Unix()
 }
 
@@ -23,7 +23,7 @@ func absWeek(timestamp int64) int64 {
 	t := time.Unix(timestamp, 0)
 	weekday := time.Duration(t.Weekday())
 	year, month, day := t.Date()
-	absDay := time.Date(year, month, day, 0, 0, 0, 0, time.UTC)
+	absDay := time.Date(year, month, day, 0, 0, 0, 0, t.Location())
 	startWeekDay := absDay.Add(0 - weekday*time.Hour*24)
 	return startWeekDay.Unix()
 }
@@ -34,7 +34,7 @@ func absWeek(timestamp int64) int64 {
 func absMonth(timestamp int64) int64 {
 	t := time.Unix(timestamp, 0)
 	year, month, _ := t.Date()
-	absDay := time.Date(year, month, 1, 0, 0, 0, 0, time.UTC)
+	absDay := time.Date(year, month, 1, 0, 0, 0, 0, t.Location())
 	return absDay.Unix()
 }
 
@@ -44,7 +44,7 @@ func absMonth(timestamp int64) int64 {
 func absYear(timestamp int64) int64 {
 	t := time.Unix(timestamp, 0)
 	year := t.Year()
-	absDay := time.Date(year, 1, 1, 0, 0, 0, 0, time.UTC)
+	absDay := time.Date(year, 1, 1, 0, 0, 0, 0, t.Location())
 	return absDay.Unix()
 }
 
@@ -54,7 +54,7 @@ func absDecade(timestamp int64) int64 {
 	t := time.Unix(timestamp, 0)
 	year := t.Year()
 	absYear := year % 10
-	absDay := time.Date(year-absYear, 1, 1, 0, 0, 0, 0, time.UTC)
+	absDay := time.Date(year-absYear, 1, 1, 0, 0, 0, 0, t.Location())
 	return absDay.Unix()
 }
 
