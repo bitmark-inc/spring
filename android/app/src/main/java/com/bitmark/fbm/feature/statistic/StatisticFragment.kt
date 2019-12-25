@@ -220,6 +220,7 @@ class StatisticFragment : BaseSupportFragment() {
                 SectionName.AD_INTEREST -> R.string.ad_interests
                 SectionName.ADVERTISER  -> R.string.advertisers
                 SectionName.LOCATION    -> R.string.locations
+                else                    -> R.string.empty
             }
         )
 

@@ -55,7 +55,12 @@ data class SectionR(
     @Expose
     @SerializedName("groups")
     @ColumnInfo(name = "groups")
-    val groups: Map<String, Any>
+    val groups: Map<String, Any>?,
+
+    @Expose
+    @SerializedName("value")
+    @ColumnInfo(name = "value")
+    val value: Float?
 ) : Record
 
 val SectionR.periodStartedAt: Long
@@ -63,14 +68,14 @@ val SectionR.periodStartedAt: Long
 
 inline fun <reified T> SectionR.getGroup(g: GroupName): T {
     val gson = Gson().newBuilder().create()
-    val group = groups[g.value] ?: error("${g.value} is not existing")
+    val group = groups?.get(g.value) ?: error("${g.value} is not existing")
     val json = gson.toJson(group)
     return gson.fromJson(json, T::class.java)
 }
 
 inline fun <reified T> SectionR.getArrayGroup(g: GroupName): List<T> {
     val gson = Gson().newBuilder().create()
-    val group = groups[g.value] ?: error("${g.value} is not existing")
+    val group = groups?.get(g.value) ?: error("${g.value} is not existing")
     if (group !is List<*>) error("not a list")
     val result = mutableListOf<T>()
     group.forEach { g ->
@@ -102,7 +107,15 @@ enum class SectionName {
 
     @Expose
     @SerializedName("locations")
-    LOCATION;
+    LOCATION,
+
+    @Expose
+    @SerializedName("fb-income")
+    FB_INCOME,
+
+    @Expose
+    @SerializedName("sentiment")
+    SENTIMENT;
 
     companion object
 }
@@ -114,6 +127,8 @@ fun SectionName.Companion.fromString(name: String) = when (name) {
     "ad_interests" -> SectionName.AD_INTEREST
     "advertisers"  -> SectionName.ADVERTISER
     "locations"    -> SectionName.LOCATION
+    "fb-income"    -> SectionName.FB_INCOME
+    "sentiment"    -> SectionName.SENTIMENT
     else           -> error("invalid name")
 }
 
@@ -125,6 +140,8 @@ val SectionName.value: String
         SectionName.AD_INTEREST -> "ad_interests"
         SectionName.ADVERTISER  -> "advertisers"
         SectionName.LOCATION    -> "locations"
+        SectionName.SENTIMENT   -> "sentiment"
+        SectionName.FB_INCOME   -> "fb-income"
     }
 
 data class GroupEntity(

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/dp_18"
+    android:paddingTop="@dimen/dp_30"
+    android:paddingEnd="@dimen/dp_18"
+    android:paddingBottom="@dimen/dp_30"
+    >
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ivIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/grotesk_regular"
+        android:includeFontPadding="false"
+        android:textColor="@color/cognac"
+        android:textSize="@dimen/sp_42"
+        tools:text="$3.24"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_20"
+        android:fontFamily="@font/grotesk_light"
+        android:includeFontPadding="false"
+        android:text="@string/income_fb_made_from_you"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_12"
+        />
+
+</LinearLayout>

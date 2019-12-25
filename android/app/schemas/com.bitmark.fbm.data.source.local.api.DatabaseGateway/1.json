@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b274f4c9b74b67f3a63762486c400dfb",
+    "identityHash": "d8876d54418d953fae3d519851760ecb",
     "entities": [
       {
         "tableName": "Section",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `section_name` TEXT NOT NULL, `period` TEXT NOT NULL, `period_started_at` INTEGER NOT NULL, `diff_from_previous` REAL NOT NULL, `quantity` INTEGER NOT NULL, `groups` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `section_name` TEXT NOT NULL, `period` TEXT NOT NULL, `period_started_at` INTEGER NOT NULL, `diff_from_previous` REAL NOT NULL, `quantity` INTEGER NOT NULL, `groups` TEXT, `value` REAL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -48,7 +48,13 @@
             "fieldPath": "groups",
             "columnName": "groups",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
+            "affinity": "REAL",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -393,7 +399,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b274f4c9b74b67f3a63762486c400dfb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd8876d54418d953fae3d519851760ecb')"
     ]
   }
 }

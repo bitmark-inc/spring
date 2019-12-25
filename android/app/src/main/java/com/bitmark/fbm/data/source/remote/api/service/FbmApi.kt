@@ -46,6 +46,12 @@ interface FbmApi {
         startedAt: Long
     ): Single<Map<String, List<SectionR>>>
 
+    @GET("api/insight/{period}")
+    fun listInsight(
+        @Path("period") period: String, @Query("started_at")
+        startedAt: Long
+    ): Single<Map<String, List<SectionR>>>
+
     @GET("api/posts")
     fun listPost(
         @Query("started_at") startedAt: Long, @Query("ended_at")

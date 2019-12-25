@@ -36,7 +36,7 @@ class StatisticViewModel(
         }.observeOn(Schedulers.computation()).map { sections ->
             val defaultVMs = newDefaultSectionMVs(type, period).toMutableList()
             when {
-                sections.isEmpty()               -> defaultVMs
+                sections.isEmpty() -> defaultVMs
                 sections.size == defaultVMs.size -> {
                     sections.map { s ->
                         SectionModelView.newInstance(
@@ -45,7 +45,7 @@ class StatisticViewModel(
                         )
                     }
                 }
-                else                             -> {
+                else -> {
                     val vms =
                         sections.map { s -> SectionModelView.newInstance(s, Random().nextInt(100)) }
                     for (i in 0 until defaultVMs.size) {
@@ -70,7 +70,10 @@ class StatisticViewModel(
                 SectionModelView.newDefaultInstance(SectionName.REACTION, period)
             )
         } else {
-            listOf(SectionModelView.newDefaultInstance(SectionName.LOCATION, period))
+            listOf(
+                SectionModelView.newDefaultInstance(SectionName.FB_INCOME, period),
+                SectionModelView.newDefaultInstance(SectionName.SENTIMENT, period)
+            )
         }
 
 }

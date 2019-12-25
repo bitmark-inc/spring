@@ -121,6 +121,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                         else                 -> R.string.empty
                     }
                 }
+                else                    -> R.string.empty
             }
         ).toUpperCase()
         tvNameSuffix.text = context.getString(

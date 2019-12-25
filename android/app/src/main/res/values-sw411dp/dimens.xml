@@ -2,6 +2,7 @@
 <resources>
 	<dimen name="dp_1">1.10dp</dimen>
 	<dimen name="dp_10">10.96dp</dimen>
+	<dimen name="dp_112">122.75dp</dimen>
 	<dimen name="dp_12">13.15dp</dimen>
 	<dimen name="dp_124">135.90dp</dimen>
 	<dimen name="dp_14">15.34dp</dimen>
@@ -61,6 +62,7 @@
 	<dimen name="sp_24">26.30sp</dimen>
 	<dimen name="sp_36">39.46sp</dimen>
 	<dimen name="sp_4">4.38sp</dimen>
+	<dimen name="sp_42">46.03sp</dimen>
 	<dimen name="sp_44">48.22sp</dimen>
 	<dimen name="sp_48">52.61sp</dimen>
 	<dimen name="sp_60">65.76sp</dimen>
