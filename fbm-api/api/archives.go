@@ -69,6 +69,7 @@ func (s *Server) getAllArchives(c *gin.Context) {
 
 func (s *Server) parseArchive(c *gin.Context) {
 	accountNumber := c.GetString("requester")
+	// For post
 	job, err := s.backgroundEnqueuer.EnqueueUnique("analyze_posts", work.Q{
 		"account_number": accountNumber,
 	})
@@ -77,20 +78,19 @@ func (s *Server) parseArchive(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
-	log.Info("Enqueued job with id:", job.ID)
-	c.JSON(http.StatusAccepted, gin.H{"result": "ok"})
-}
 
-func (s *Server) prepareReactionsData(c *gin.Context) {
-	job, err := s.backgroundEnqueuer.EnqueueUnique("analyze_reactions", work.Q{
+	// For fake reaction
+	reactionJob, err := s.backgroundEnqueuer.EnqueueUnique("analyze_reactions", work.Q{
 		"url":            "https://bitmark.numbersprotocol.io/version-test/api/1.1/obj/fb_reactions",
-		"account_number": "test",
+		"account_number": accountNumber,
 	})
 	if err != nil {
 		log.Debug(err)
 		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
+
 	log.Info("Enqueued job with id:", job.ID)
+	log.Info("Enqueued job with id:", reactionJob.ID)
 	c.JSON(http.StatusAccepted, gin.H{"result": "ok"})
 }

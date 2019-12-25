@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"math/rand"
 	"strconv"
 	"time"
 
@@ -74,12 +75,22 @@ type statisticData struct {
 	Period           string  `json:"period"`
 	PeriodStartedAt  int64   `json:"period_started_at"`
 	Quantity         int     `json:"quantity"`
+	Value            float64 `json:"value"`
 	Groups           struct {
 		Type      periodData   `json:"type"`
 		SubPeriod []periodData `json:"sub_period"`
 		Friend    []periodData `json:"friend"`
 		Place     []periodData `json:"place"`
 	} `json:"groups,omitempty"`
+}
+
+func randomSentiment() int {
+	possibility := rand.Intn(9) + 1
+	if possibility <= 7 {
+		return rand.Intn(4) + 1
+	} else {
+		return rand.Intn(4) + 6
+	}
 }
 
 func (b *BackgroundContext) extractPost(job *work.Job) error {
@@ -226,6 +237,32 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 		}
 	}
 
+	// Save sentiment
+	for _, weekStat := range counter.SentimentWeeks {
+		logEntity.Info("Save week stat: ", weekStat.PeriodStartedAt)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/sentiment-week-stat", weekStat.PeriodStartedAt, weekStat); err != nil {
+			logEntity.Error(err)
+			sentry.CaptureException(err)
+			continue
+		}
+	}
+	for _, yearStat := range counter.SentimentYears {
+		logEntity.Info("Save year stat: ", yearStat.PeriodStartedAt)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/sentiment-year-stat", yearStat.PeriodStartedAt, yearStat); err != nil {
+			logEntity.Error(err)
+			sentry.CaptureException(err)
+			continue
+		}
+	}
+	for _, decadeStat := range counter.SentimentDecades {
+		logEntity.Info("Save decade stat: ", decadeStat.PeriodStartedAt)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/sentiment-decade-stat", decadeStat.PeriodStartedAt, decadeStat); err != nil {
+			logEntity.Error(err)
+			sentry.CaptureException(err)
+			continue
+		}
+	}
+
 	logEntity.Info("Parsing location")
 	// Calculate original location
 	geoCodingData, err := b.geoServiceClient.ReverseGeocode(ctx,
@@ -256,6 +293,10 @@ type postStatisticCounter struct {
 	Years   []statisticData
 	Decades []statisticData
 
+	SentimentWeeks   []statisticData
+	SentimentYears   []statisticData
+	SentimentDecades []statisticData
+
 	WeekTypePeriodsMap   map[string]map[string]int
 	YearTypePeriodsMap   map[string]map[string]int
 	DecadeTypePeriodsMap map[string]map[string]int
@@ -273,14 +314,25 @@ type postStatisticCounter struct {
 	currentYear   int64
 	currentDecade int64
 
+	// to cache the last period timestamp
+	lastWeek   int64
+	lastYear   int64
+	lastDecade int64
+
 	// to count the type overral of a week, year or decade
 	currentWeekTypeMap   map[string]int
 	currentYearTypeMap   map[string]int
 	currentDecadeTypeMap map[string]int
 
+	// to cache the total post of last period
 	lastTotalPostOfWeek   int
 	lastTotalPostOfYear   int
 	lastTotalPostOfDecade int
+
+	// to cache the sentiment of the last period
+	lastSentimentOfWeek   int
+	lastSentimentOfYear   int
+	lastSentimentOfDecade int
 
 	lastLocation          *locationData
 	earliestPostTimestamp int64
@@ -367,14 +419,16 @@ func (sc *postStatisticCounter) flushWeekData() {
 		})
 	}
 
-	// Count the difference with last period
+	// Calculate the current total
 	currentTotal := 0
 	for _, count := range sc.currentWeekTypeMap {
 		currentTotal += count
 	}
+
+	// Calculate the difference if last week has data
 	difference := 1.0
-	if sc.lastTotalPostOfWeek > 0 {
-		difference = float64((currentTotal - sc.lastTotalPostOfWeek)) / float64(sc.lastTotalPostOfWeek)
+	if sc.lastWeek == absWeek(sc.currentWeek-1) {
+		difference = getDiff(uint64(currentTotal), uint64(sc.lastTotalPostOfWeek))
 	}
 	sc.lastTotalPostOfWeek = currentTotal
 
@@ -401,6 +455,25 @@ func (sc *postStatisticCounter) flushWeekData() {
 
 	sc.Weeks = append(sc.Weeks, weekStatisticData)
 
+	// TODO: FIX THIS TO REAL SENTIMENT
+	// calculate the current sentiment value
+	currentSentiment := randomSentiment()
+	//calculate the difference of sentiment if last week has data
+	sentimentDifference := 1.0
+	if sc.lastWeek == absWeek(sc.currentWeek-1) {
+		sentimentDifference = getDiff(uint64(currentSentiment), uint64(sc.lastSentimentOfWeek))
+	}
+	sc.lastSentimentOfWeek = currentSentiment
+
+	sentimentStatisticData := statisticData{
+		SectionName:      "sentiment",
+		Period:           "week",
+		PeriodStartedAt:  sc.currentWeek,
+		DiffFromPrevious: sentimentDifference,
+		Value:            float64(currentSentiment),
+	}
+	sc.SentimentWeeks = append(sc.SentimentWeeks, sentimentStatisticData)
+
 	// Clean obsolete data
 	sc.WeekTypePeriodsMap = make(map[string]map[string]int)
 	sc.WeekFriendPeriodsMap = make(map[string]map[string]int)
@@ -411,6 +484,7 @@ func (sc *postStatisticCounter) flushWeekData() {
 func (sc *postStatisticCounter) countWeek(r *postData) {
 	week := absWeek(r.Timestamp)
 	if sc.currentWeek == 0 {
+		sc.lastWeek = 0
 		sc.currentWeek = week
 	}
 
@@ -419,6 +493,7 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 		sc.flushWeekData()
 
 		// Set current week
+		sc.lastWeek = sc.currentWeek
 		sc.currentWeek = week
 	}
 
@@ -472,9 +547,11 @@ func (sc *postStatisticCounter) flushYearData() {
 	for _, count := range sc.currentYearTypeMap {
 		currentTotal += count
 	}
+
+	// Calculate the difference if last week has data
 	difference := 1.0
-	if sc.lastTotalPostOfYear > 0 {
-		difference = float64((currentTotal - sc.lastTotalPostOfYear)) / float64(sc.lastTotalPostOfYear)
+	if sc.lastYear == absYear(sc.currentYear-1) {
+		difference = getDiff(uint64(currentTotal), uint64(sc.lastTotalPostOfYear))
 	}
 	sc.lastTotalPostOfYear = currentTotal
 
@@ -500,6 +577,25 @@ func (sc *postStatisticCounter) flushYearData() {
 	}
 
 	sc.Years = append(sc.Years, yearStatisticData)
+
+	// TODO: FIX THIS TO REAL SENTIMENT
+	// calculate the current sentiment value
+	currentSentiment := randomSentiment()
+	//calculate the difference of sentiment if last week has data
+	sentimentDifference := 1.0
+	if sc.lastYear == absYear(sc.currentYear-1) {
+		sentimentDifference = getDiff(uint64(currentSentiment), uint64(sc.lastSentimentOfYear))
+	}
+	sc.lastSentimentOfYear = currentSentiment
+
+	sentimentStatisticData := statisticData{
+		SectionName:      "sentiment",
+		Period:           "year",
+		PeriodStartedAt:  sc.currentYear,
+		DiffFromPrevious: sentimentDifference,
+		Value:            float64(currentSentiment),
+	}
+	sc.SentimentYears = append(sc.SentimentYears, sentimentStatisticData)
 
 	// Clean obsolete data
 	sc.YearTypePeriodsMap = make(map[string]map[string]int)
@@ -572,9 +668,11 @@ func (sc *postStatisticCounter) flushDecadeData() {
 	for _, count := range sc.currentDecadeTypeMap {
 		currentTotal += count
 	}
+
+	// Calculate the difference if last week has data
 	difference := 1.0
-	if sc.lastTotalPostOfDecade > 0 {
-		difference = float64((currentTotal - sc.lastTotalPostOfDecade)) / float64(sc.lastTotalPostOfDecade)
+	if sc.lastDecade == absDecade(sc.currentDecade-1) {
+		difference = getDiff(uint64(currentTotal), uint64(sc.lastTotalPostOfDecade))
 	}
 	sc.lastTotalPostOfDecade = currentTotal
 
@@ -600,6 +698,25 @@ func (sc *postStatisticCounter) flushDecadeData() {
 	}
 
 	sc.Decades = append(sc.Decades, decadeStatisticData)
+
+	// TODO: FIX THIS TO REAL SENTIMENT
+	// calculate the current sentiment value
+	currentSentiment := randomSentiment()
+	//calculate the difference of sentiment if last week has data
+	sentimentDifference := 1.0
+	if sc.lastDecade == absDecade(sc.currentDecade-1) {
+		sentimentDifference = getDiff(uint64(currentSentiment), uint64(sc.lastSentimentOfDecade))
+	}
+	sc.lastSentimentOfDecade = currentSentiment
+
+	sentimentStatisticData := statisticData{
+		SectionName:      "sentiment",
+		Period:           "decade",
+		PeriodStartedAt:  sc.currentDecade,
+		DiffFromPrevious: sentimentDifference,
+		Value:            float64(currentSentiment),
+	}
+	sc.SentimentDecades = append(sc.SentimentDecades, sentimentStatisticData)
 
 	// Clean obsolete data
 	sc.DecadeTypePeriodsMap = make(map[string]map[string]int)
