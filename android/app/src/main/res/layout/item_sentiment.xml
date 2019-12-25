@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_4"
         android:ellipsize="end"
-        android:fontFamily="@font/domaine_sans"
+        android:fontFamily="@font/grotesk_light_font_family"
         android:maxLines="1"
         android:text="@string/sentiment_analysis_of_your_post"
         android:textColor="@color/black"
