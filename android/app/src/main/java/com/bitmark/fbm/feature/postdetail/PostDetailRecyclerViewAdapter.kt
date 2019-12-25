@@ -17,11 +17,12 @@ import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.DateTimeUtil
+import com.bitmark.fbm.util.ext.load
 import com.bitmark.fbm.util.ext.openBrowser
+import com.bitmark.fbm.util.ext.removeQuote
 import com.bitmark.fbm.util.ext.toHtmlSpan
 import com.bitmark.fbm.util.modelview.PostModelView
 import com.bitmark.fbm.util.view.NoUnderlineSpan
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_link.view.*
 import kotlinx.android.synthetic.main.item_photo.view.*
 import kotlinx.android.synthetic.main.item_story.view.*
@@ -104,7 +105,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             )
             val info = StringBuilder(context.getString(R.string.date_format_1).format(date, time))
             val tags = item.tags
-            val firstTag = if (tags.isNotEmpty()) tags[0] else null
+            val firstTag = if (tags.isNotEmpty()) tags[0].removeQuote() else null
             if (firstTag != null) {
                 info.append(" ")
                 if (item.hasSingleTag()) {
@@ -141,7 +142,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             with(itemView) {
                 tvInfoMedia.text = getInfo(item)
                 tvCaptionMedia.text = item.content
-                Glide.with(context).load(item.url ?: item.thumbnail).into(ivPhoto)
+                ivPhoto.load(item.url ?: item.thumbnail ?: "", item.uri)
             }
         }
     }
@@ -152,7 +153,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             with(itemView) {
                 tvInfoStory.text = getInfo(item)
                 tvCaptionStory.text = item.title
-                Glide.with(context).load(item.url).into(ivStory)
+                ivStory.load(item.url ?: "", item.uri)
             }
         }
     }

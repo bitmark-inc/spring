@@ -6,11 +6,13 @@
  */
 package com.bitmark.fbm.data.source
 
+import com.bitmark.fbm.data.model.PostData
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.data.model.entity.Reaction
 import com.bitmark.fbm.data.source.local.UsageLocalDataSource
 import com.bitmark.fbm.data.source.remote.UsageRemoteDataSource
 import io.reactivex.Single
+import io.reactivex.functions.BiConsumer
 
 
 class UsageRepository(
@@ -64,24 +66,43 @@ class UsageRepository(
         endedAtSec
     ).flatMapCompletable { p -> localDataSource.savePosts(p) }
 
-    fun listPostByTags(tags: List<String>, fromSec: Long, endedAtSec: Long, limit: Int = 20) =
-        localDataSource.listPostByTags(tags, fromSec, endedAtSec, limit).flatMap { posts ->
-            if (posts.isEmpty()) {
-                listRemotePostByTags(tags, fromSec, endedAtSec).andThen(
-                    localDataSource.listPostByTags(
-                        tags,
-                        fromSec,
-                        endedAtSec,
-                        limit
+    fun listPostByTags(
+        tags: List<String>,
+        fromSec: Long,
+        endedAtSec: Long,
+        limit: Int = 20
+    ): Single<List<PostData>> {
+        val streams = tags.map { tag ->
+            localDataSource.listPostByTag(tag, fromSec, endedAtSec, limit).flatMap { posts ->
+                if (posts.isEmpty()) {
+                    listRemotePostByTag(tag, fromSec, endedAtSec).andThen(
+                        localDataSource.listPostByTag(
+                            tag,
+                            fromSec,
+                            endedAtSec,
+                            limit
+                        )
                     )
-                )
-            } else {
-                Single.just(posts)
+                } else {
+                    Single.just(posts)
+                }
             }
         }
+        return Single.merge(streams).collectInto(
+            mutableListOf(),
+            BiConsumer<MutableList<List<PostData>>, List<PostData>> { collection, data ->
+                collection.add(data)
+            }).map { collections ->
+            val collection = mutableListOf<PostData>()
+            for (c in collections) {
+                collection.addAll(c)
+            }
+            collection.distinct()
+        }
+    }
 
-    private fun listRemotePostByTags(tags: List<String>, startedAtSec: Long, endedAtSec: Long) =
-        remoteDataSource.listPostByTags(tags, startedAtSec, endedAtSec)
+    private fun listRemotePostByTag(tag: String, startedAtSec: Long, endedAtSec: Long) =
+        remoteDataSource.listPostByTag(tag, startedAtSec, endedAtSec)
             .flatMapCompletable { p -> localDataSource.savePosts(p) }
 
     fun listPostByLocations(locations: List<String>, fromSec: Long, toSec: Long, limit: Int = 20) =

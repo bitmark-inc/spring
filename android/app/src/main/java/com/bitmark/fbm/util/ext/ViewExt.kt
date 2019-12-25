@@ -13,12 +13,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.bitmark.fbm.R
 import com.bitmark.fbm.logging.Tracer
+import com.bitmark.fbm.util.view.GlideUrlNoToken
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.layout_snack_bar.view.*
 
@@ -152,3 +155,6 @@ fun ViewGroup.createSnackbar(
     })
     return snackbar
 }
+
+fun ImageView.load(url: String, cache: String? = null) =
+    Glide.with(context).load(GlideUrlNoToken(url, cache)).into(this)

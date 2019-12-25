@@ -31,9 +31,9 @@ class UsageLocalDataSource @Inject constructor(
             databaseGateway.postDao().listOrderedPostByType(type, startedAtSec, endedAtSec, limit)
         }
 
-    fun listPostByTags(tags: List<String>, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
         databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.postDao().listOrderedPostByTags(tags, startedAtSec, endedAtSec, limit)
+            databaseGateway.postDao().listOrderedPostByTag(tag, startedAtSec, endedAtSec, limit)
         }
 
     fun listPostByLocations(

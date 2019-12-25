@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/grotesk_regular_font_family"
         android:includeFontPadding="false"
+        android:lineSpacingExtra="@dimen/sp_4"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_14"
         app:layout_constraintStart_toStartOf="parent"

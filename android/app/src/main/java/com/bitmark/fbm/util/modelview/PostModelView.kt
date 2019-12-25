@@ -9,6 +9,7 @@ package com.bitmark.fbm.util.modelview
 import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.model.PostData
 import com.bitmark.fbm.data.model.entity.PostType
+import java.net.URLEncoder
 
 
 data class PostModelView(
@@ -17,6 +18,8 @@ data class PostModelView(
     val content: String,
 
     val url: String?,
+
+    val uri: String?,
 
     val tags: List<String>,
 
@@ -37,10 +40,15 @@ data class PostModelView(
             val location = post.location?.name
             val content = post.content ?: ""
             val title = post.title ?: ""
+            val uri = when (post.type) {
+                PostType.MEDIA, PostType.STORY -> {
+                    if (post.mediaType == "photo") post.source else post.thumbnail
+                }
+                else                           -> null
+            }
             val url = when (post.type) {
                 PostType.MEDIA, PostType.STORY -> {
-                    val source = if (post.mediaType == "photo") post.source else post.thumbnail
-                    BuildConfig.FBM_ASSET_ENDPOINT + "/${source ?: ""}"
+                    BuildConfig.FBM_ASSET_ENDPOINT + "?key=${URLEncoder.encode(uri, "UTF-8") ?: ""}"
                 }
                 PostType.LINK                  -> post.url
                 else                           -> null
@@ -49,6 +57,7 @@ data class PostModelView(
                 post.type,
                 content,
                 url,
+                uri,
                 tags,
                 location,
                 post.timestamp,

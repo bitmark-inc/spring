@@ -7,6 +7,8 @@
 package com.bitmark.fbm.data.model.entity
 
 import androidx.room.*
+import com.bitmark.fbm.data.model.FriendData
+import com.bitmark.fbm.util.ext.removeQuote
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
@@ -25,11 +27,6 @@ data class PostR(
     val content: String?,
 
     @Expose
-    @SerializedName("tags")
-    @ColumnInfo(name = "tags")
-    val tags: List<String>?,
-
-    @Expose
     @SerializedName("timestamp")
     @ColumnInfo(name = "timestamp")
     @PrimaryKey
@@ -42,11 +39,6 @@ data class PostR(
 
     @Expose
     @SerializedName("type")
-    @ColumnInfo(name = "raw_type")
-    val rawType: String?,
-
-    @Expose
-    @SerializedName("post_type")
     @ColumnInfo(name = "type")
     var type: PostType,
 
@@ -54,6 +46,11 @@ data class PostR(
     @SerializedName("location_name")
     @ColumnInfo(name = "location_name")
     var locationName: String?,
+
+    @Expose
+    @SerializedName("tags")
+    @ColumnInfo(name = "tags")
+    val tags: List<FriendData>?,
 
     @Expose
     @SerializedName("mediaData")
@@ -93,24 +90,13 @@ data class MediaData(
 
 fun List<PostR>.applyRequiredValues() {
     for (post in this) {
-        post.applyPostType()
         post.applyLocation()
     }
 }
 
 fun List<PostR>.canonical() {
     for (post in this) {
-        post.tags?.forEach { t -> t.replace("'", "") }
-    }
-}
-
-internal fun PostR.applyPostType() {
-    type = when (rawType) {
-        "update" -> PostType.UPDATE
-        "media"  -> PostType.MEDIA
-        "story"  -> PostType.STORY
-        "link"   -> PostType.LINK
-        else     -> PostType.UNSPECIFIED
+        post.tags?.forEach { t -> t.name.removeQuote() }
     }
 }
 
@@ -122,10 +108,24 @@ val PostR.timestamp: Long
     get() = timestampSec * 1000
 
 enum class PostType {
+    @Expose
+    @SerializedName("update")
     UPDATE,
+
+    @Expose
+    @SerializedName("media")
     MEDIA,
+
+    @Expose
+    @SerializedName("story")
     STORY,
+
+    @Expose
+    @SerializedName("link")
     LINK,
+
+    @Expose
+    @SerializedName("unspecified")
     UNSPECIFIED;
 
     companion object

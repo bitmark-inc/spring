@@ -26,9 +26,6 @@ class PostData(
     val locations: List<LocationR> = listOf()
 ) : Data {
 
-    val rawType: String?
-        get() = post.rawType
-
     val type: PostType
         get() = post.type
 
@@ -39,7 +36,7 @@ class PostData(
         get() = post.url
 
     val tags: List<String>?
-        get() = post.tags
+        get() = post.tags?.map { t -> t.name }
 
     val timestampSec: Long
         get() = post.timestampSec
@@ -48,10 +45,10 @@ class PostData(
         get() = post.title
 
     val thumbnail: String?
-        get() = post.mediaData?.first()?.thumbnail?.replace("photos_and_videos/", "")
+        get() = post.mediaData?.first()?.thumbnail
 
     val source: String?
-        get() = post.mediaData?.first()?.source?.replace("photos_and_videos/", "")
+        get() = post.mediaData?.first()?.source
 
     val location: LocationR?
         get() = if (locations.isEmpty()) null else locations[0]

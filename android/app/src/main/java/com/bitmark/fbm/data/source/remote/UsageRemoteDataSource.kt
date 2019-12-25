@@ -35,10 +35,10 @@ class UsageRemoteDataSource @Inject constructor(
         posts.filter { p -> p.type == type }
     }
 
-    fun listPostByTags(tags: List<String>, startedAtSec: Long, endedAtSec: Long) = listRemotePost(
+    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long) = listRemotePost(
         startedAtSec,
         endedAtSec
-    ).map { posts -> posts.filter { p -> p.tags?.any(tags::contains) == true } }
+    ).map { posts -> posts.filter { p -> p.tags?.map { t -> t.name }?.contains(tag) == true } }
 
     fun listPostByLocations(
         locations: List<String>,

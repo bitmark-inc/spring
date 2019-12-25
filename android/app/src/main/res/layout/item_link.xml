@@ -15,11 +15,12 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/grotesk_regular_font_family"
         android:includeFontPadding="false"
+        android:lineSpacingExtra="@dimen/sp_4"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_14"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Nov 4 at 8:17 PM with Phil Lin at Saffron 46"
+        tools:text="Nov 4 at 8:17 PM with Phil Lin at Saffron 46 Nov 4 at 8:17 PM with Phil Lin at Saffron 46"
         />
 
     <androidx.appcompat.widget.AppCompatTextView

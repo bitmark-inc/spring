@@ -108,15 +108,7 @@ class StatisticFragment : BaseSupportFragment() {
         super.initComponents()
 
         ivNextPeriod.isEnabled = periodStartedAt != getStartOfPeriod(period)
-        tvType.text = getString(
-            when (period) {
-                Period.WEEK   -> R.string.last_week
-                Period.YEAR   -> R.string.this_year
-                Period.DECADE -> R.string.this_decade
-            }
-        )
-
-        tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedAt)
+        showPeriod(period, periodStartedAt, periodGap)
 
         adapter = StatisticRecyclerViewAdapter(context!!)
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)

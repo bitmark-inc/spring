@@ -22,3 +22,8 @@ fun <T> Queue<T>.poll(count: Int): List<T> {
     }
     return result
 }
+
+fun <T> MutableList<T>.replace(value: T, index: Int) {
+    removeAt(index)
+    add(index, value)
+}

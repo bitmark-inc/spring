@@ -7,6 +7,7 @@
 package com.bitmark.fbm.util.modelview
 
 import com.bitmark.fbm.data.model.entity.*
+import com.bitmark.fbm.util.ext.removeQuote
 import kotlin.math.roundToInt
 
 
@@ -14,7 +15,7 @@ data class SectionModelView(
     val name: SectionName,
     val period: Period,
     val quantity: Int,
-    val diffFromPrev: Int,
+    val diffFromPrev: Int?,
     val average: Int,
     val groups: List<GroupModelView>
 ) : ModelView {
@@ -23,7 +24,7 @@ data class SectionModelView(
         private const val THRESHOLD_VALS_COUNT = 4
 
         fun newDefaultInstance(name: SectionName, period: Period) =
-            SectionModelView(name, period, 0, 0, 0, listOf())
+            SectionModelView(name, period, 0, null, 0, listOf())
 
         fun newInstance(sectionR: SectionR, avg: Int): SectionModelView {
             val sectionName = sectionR.name
@@ -127,7 +128,7 @@ data class SectionModelView(
                 val topGroupEntities =
                     if (needAggregate) groupEntities.take(THRESHOLD_VALS_COUNT) else groupEntities
                 val entries = topGroupEntities.map { g ->
-                    val xVals = g.name.replace("'", "")
+                    val xVals = g.name.removeQuote()
                     val yVals = FloatArray(typesCount) { 0f }
                     val data = g.data.entries
                     data.forEachIndexed { i, e ->
@@ -158,7 +159,7 @@ data class SectionModelView(
                 if (needAggregate) {
                     val topGroupName = topGroupEntities.map { g -> g.name }
                     val aggregateData = groupEntities.filterNot { g -> g.name in topGroupName }
-                    val xVals = aggregateData.map { d -> d.name.replace("'", "") }.toTypedArray()
+                    val xVals = aggregateData.map { d -> d.name.removeQuote() }.toTypedArray()
                     val yVals = FloatArray(typesCount) { 0f }
                     aggregateData.forEach { g ->
                         g.data.entries.forEachIndexed { i, e ->

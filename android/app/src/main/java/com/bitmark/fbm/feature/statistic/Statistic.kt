@@ -16,6 +16,7 @@ object Statistic {
     @Retention(AnnotationRetention.SOURCE)
     @StringDef(USAGE, INSIGHTS)
     annotation class Type
+
 }
 
 

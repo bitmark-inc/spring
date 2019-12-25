@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5a7974de2ff3d80ecb462fda307ad20e",
+    "identityHash": "b274f4c9b74b67f3a63762486c400dfb",
     "entities": [
       {
         "tableName": "Section",
@@ -79,17 +79,11 @@
       },
       {
         "tableName": "Post",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`content` TEXT, `tags` TEXT, `timestamp` INTEGER NOT NULL, `title` TEXT, `raw_type` TEXT, `type` TEXT NOT NULL, `location_name` TEXT, `media_data` TEXT, `url` TEXT, PRIMARY KEY(`timestamp`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`content` TEXT, `timestamp` INTEGER NOT NULL, `title` TEXT, `type` TEXT NOT NULL, `location_name` TEXT, `tags` TEXT, `media_data` TEXT, `url` TEXT, PRIMARY KEY(`timestamp`))",
         "fields": [
           {
             "fieldPath": "content",
             "columnName": "content",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "tags",
-            "columnName": "tags",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -106,12 +100,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "rawType",
-            "columnName": "raw_type",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
             "fieldPath": "type",
             "columnName": "type",
             "affinity": "TEXT",
@@ -120,6 +108,12 @@
           {
             "fieldPath": "locationName",
             "columnName": "location_name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "tags",
+            "columnName": "tags",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -399,7 +393,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5a7974de2ff3d80ecb462fda307ad20e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b274f4c9b74b67f3a63762486c400dfb')"
     ]
   }
 }

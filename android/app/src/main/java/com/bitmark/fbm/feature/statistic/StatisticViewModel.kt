@@ -11,6 +11,7 @@ import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.data.source.StatisticRepository
 import com.bitmark.fbm.feature.BaseViewModel
+import com.bitmark.fbm.util.ext.replace
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import com.bitmark.fbm.util.modelview.SectionModelView
@@ -33,24 +34,27 @@ class StatisticViewModel(
         } else {
             statisticRepo.listInsights(period, periodStartedAtSec)
         }.observeOn(Schedulers.computation()).map { sections ->
-            if (sections.isEmpty()) {
-                if (type == Statistic.USAGE) {
-                    listOf(
-                        SectionModelView.newDefaultInstance(SectionName.POST, period),
-                        SectionModelView.newDefaultInstance(SectionName.REACTION, period)
-                    )
-                } else {
-                    listOf(SectionModelView.newDefaultInstance(SectionName.LOCATION, period))
+            val defaultVMs = newDefaultSectionMVs(type, period).toMutableList()
+            when {
+                sections.isEmpty()               -> defaultVMs
+                sections.size == defaultVMs.size -> {
+                    sections.map { s ->
+                        SectionModelView.newInstance(
+                            s,
+                            Random().nextInt(100)
+                        )
+                    }
                 }
-            } else {
-                sections.map { s ->
-                    SectionModelView.newInstance(
-                        s,
-                        Random().nextInt(100)
-                    )
+                else                             -> {
+                    val vms =
+                        sections.map { s -> SectionModelView.newInstance(s, Random().nextInt(100)) }
+                    for (i in 0 until defaultVMs.size) {
+                        val vm = vms.firstOrNull { v -> v.name == defaultVMs[i].name } ?: continue
+                        defaultVMs.replace(vm, i)
+                    }
+                    defaultVMs
                 }
             }
-
         }
         getStatisticLiveData.add(
             rxLiveDataTransformer.single(
@@ -58,5 +62,15 @@ class StatisticViewModel(
             )
         )
     }
+
+    private fun newDefaultSectionMVs(@Statistic.Type type: String, period: Period) =
+        if (type == Statistic.USAGE) {
+            listOf(
+                SectionModelView.newDefaultInstance(SectionName.POST, period),
+                SectionModelView.newDefaultInstance(SectionName.REACTION, period)
+            )
+        } else {
+            listOf(SectionModelView.newDefaultInstance(SectionName.LOCATION, period))
+        }
 
 }

@@ -43,9 +43,9 @@ abstract class PostDao {
     ): Single<List<PostData>>
 
     @Transaction
-    @Query("SELECT * FROM Post WHERE instr(tags, :tags) AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
-    abstract fun listOrderedPostByTags(
-        tags: List<String>,
+    @Query("SELECT * FROM Post WHERE instr(tags, :tag) AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
+    abstract fun listOrderedPostByTag(
+        tag: String,
         startedAt: Long,
         endedAt: Long,
         limit: Int

@@ -17,3 +17,5 @@ fun String.toHtmlSpan(): Spanned = if (Build.VERSION.SDK_INT >= Build.VERSION_CO
 }
 
 fun String.isBoolean() = equals("true", true) || equals("false", true)
+
+fun String.removeQuote() = this.replace("'", "")

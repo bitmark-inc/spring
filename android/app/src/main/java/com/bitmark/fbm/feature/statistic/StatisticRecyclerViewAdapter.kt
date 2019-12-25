@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.util.ext.getDimensionPixelSize
+import com.bitmark.fbm.util.ext.gone
+import com.bitmark.fbm.util.ext.visible
 import com.bitmark.fbm.util.modelview.SectionModelView
 import com.bitmark.fbm.util.view.statistic.GroupView
 import com.bitmark.fbm.util.view.statistic.SectionView
@@ -137,17 +139,24 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
                 root.addView(view)
 
                 with(view) {
+                    if (i.diffFromPrev != null) {
+                        tvSecTrend.text = "%d%%".format(abs(i.diffFromPrev))
+                        ivSecTrend.setImageResource(getImageRes(i.diffFromPrev))
+                        tvNoValue.gone()
+                        layoutVal.visible()
+                    } else {
+                        layoutVal.gone()
+                        tvNoValue.visible()
+                    }
                     tvSecName.text = i.sectionName
-                    tvSecTrend.text = "%d%%".format(abs(i.diffFromPrev))
-                    ivSecTrend.setImageResource(getImageRes(i))
                 }
             }
         }
 
-        private fun getImageRes(headerItem: HeaderItem) = when {
-            headerItem.diffFromPrev > 0 -> R.drawable.ic_circle_arrow_up
-            headerItem.diffFromPrev < 0 -> R.drawable.ic_circle_arrow_down
-            else                        -> R.drawable.ic_trending_neutral
+        private fun getImageRes(diff: Int) = when {
+            diff > 0 -> R.drawable.ic_circle_arrow_up
+            diff < 0 -> R.drawable.ic_circle_arrow_down
+            else     -> R.drawable.ic_trending_neutral
         }
     }
 
@@ -157,5 +166,5 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
         val section: SectionModelView?
     )
 
-    data class HeaderItem(val sectionName: String, val diffFromPrev: Int)
+    data class HeaderItem(val sectionName: String, val diffFromPrev: Int?)
 }

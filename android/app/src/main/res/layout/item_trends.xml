@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layoutSec"
+    <RelativeLayout
+        android:id="@+id/layoutVal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/tvSecName"
+        app:layout_constraintStart_toStartOf="@id/tvSecName"
+        tools:visibility="visible"
         >
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivSecTrend"
             android:layout_width="@dimen/dp_16"
             android:layout_height="@dimen/dp_16"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_circle_arrow_up"
             />
 
@@ -29,31 +30,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_4"
+            android:layout_toEndOf="@id/ivSecTrend"
             android:fontFamily="@font/grotesk_light_font_family"
             android:includeFontPadding="false"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_15"
-            app:layout_constraintBottom_toBottomOf="@id/ivSecTrend"
-            app:layout_constraintStart_toEndOf="@id/ivSecTrend"
-            app:layout_constraintTop_toTopOf="@id/ivSecTrend"
             tools:text="5%"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSecName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_4"
-            android:fontFamily="@font/grotesk_light_font_family"
-            android:includeFontPadding="false"
-            android:textAllCaps="true"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintStart_toStartOf="@id/ivSecTrend"
-            app:layout_constraintTop_toBottomOf="@id/ivSecTrend"
-            tools:text="posts"
-            />
+    </RelativeLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNoValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/grotesk_light_font_family"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="--"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_15"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tvSecName"
+        app:layout_constraintEnd_toEndOf="@id/tvSecName"
+        app:layout_constraintStart_toStartOf="@id/tvSecName"
+        tools:visibility="gone"
+        />
 
-</LinearLayout>
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSecName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        android:fontFamily="@font/grotesk_light_font_family"
+        android:includeFontPadding="false"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="posts"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

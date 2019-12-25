@@ -134,8 +134,8 @@ android {
             applicationIdSuffix ".inhouse"
             resValue "string", "app_name", "Spring"
             manifestPlaceholders = [
-                    appIcon     : "@mipmap/ic_launcher_dev",
-                    appIconRound: "@mipmap/ic_launcher_dev_round",
+                    appIcon                        : "@mipmap/ic_launcher_dev",
+                    appIconRound                   : "@mipmap/ic_launcher_dev_round",
                     onesignal_app_id               : '60935eed-b209-4af5-8ba6-82e28183a788',
                     // Project number pulled from dashboard, local value is ignored.
                     onesignal_google_project_number: 'REMOTE'
@@ -148,7 +148,7 @@ android {
             buildConfigField "String", "FBM_API_ENDPOINT",
                     "\"https://fbm.test.bitmark.com\""
             buildConfigField "String", "FBM_ASSET_ENDPOINT",
-                    "\"https://bitmark-mobile-files.s3-ap-northeast-1.amazonaws.com/fb_data\""
+                    "\"https://fbm.test.bitmark.com/api/media\""
 
         }
 
@@ -156,8 +156,8 @@ android {
             dimension "version"
             resValue "string", "app_name", "Spring"
             manifestPlaceholders = [
-                    appIcon     : "@mipmap/ic_launcher",
-                    appIconRound: "@mipmap/ic_launcher_round",
+                    appIcon                        : "@mipmap/ic_launcher",
+                    appIconRound                   : "@mipmap/ic_launcher_round",
                     onesignal_app_id               : '082142f1-39a9-4588-928c-b3d5890b36b0',
                     // Project number pulled from dashboard, local value is ignored.
                     onesignal_google_project_number: 'REMOTE'
