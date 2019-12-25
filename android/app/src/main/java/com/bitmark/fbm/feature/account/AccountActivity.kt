@@ -16,6 +16,7 @@ import com.bitmark.fbm.feature.auth.BiometricAuthActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
 import com.bitmark.fbm.feature.support.SupportActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
+import com.bitmark.fbm.util.ext.openBrowser
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import io.intercom.android.sdk.Intercom
 import kotlinx.android.synthetic.main.activity_account.*
@@ -25,6 +26,10 @@ import javax.inject.Inject
 class AccountActivity : BaseAppCompatActivity() {
 
     companion object {
+
+        private const val SURVEY_URL =
+            "https://docs.google.com/forms/d/e/1FAIpQLScL41kNU6SBzo7ndcraUf7O-YJ_JrPqg_rlI588UjLK-_sGtQ/viewform?usp=sf_link"
+
         fun newInstance() = AccountActivity()
     }
 
@@ -73,6 +78,10 @@ class AccountActivity : BaseAppCompatActivity() {
 
         tvContact.setSafetyOnclickListener {
             Intercom.client().displayMessenger()
+        }
+
+        tvTellUs.setSafetyOnclickListener {
+            navigator.openBrowser(SURVEY_URL)
         }
     }
 

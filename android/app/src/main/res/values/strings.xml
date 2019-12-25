@@ -146,6 +146,7 @@
     <string name="sorry_no_data">Sorry, no data available!</string>
     <string name="income">Income</string>
     <string name="mood">Mood</string>
+    <string name="tell_us_your_thoughts_arrow">Tell us your thoughts »</string>
 
 
     <string-array name="day_of_week">
