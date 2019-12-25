@@ -126,7 +126,7 @@ func (b *BackgroundContext) checkArchive(job *work.Job) error {
 			return err
 		}
 		if _, err := enqueuer.EnqueueIn(jobAnalyzePosts, 3, work.Q{
-			"account_number": "example_public_key",
+			"account_number": archives[0].AccountNumber,
 		}); err != nil {
 			logEntity.Error(err)
 			return err
