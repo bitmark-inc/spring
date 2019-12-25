@@ -15,8 +15,8 @@ class PostDataEngine {
     static func syncPosts(datePeriod: DatePeriod?) {
         guard let datePeriod = datePeriod else { return }
 
-        var startDate = datePeriod.endDate
-        var endDate = min(datePeriod.endDate, Date())
+        var startDate = min(datePeriod.endDate, Date())
+        var endDate = startDate
 
         repeat {
             endDate = startDate

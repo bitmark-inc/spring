@@ -63,7 +63,7 @@ class VideoPostTableViewCell: TableViewCell, PostDataTableViewCell {
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
 
-        if let media = post.mediaData.first, let thumbnailURL = URL(string: media.thumbnail) {
+        if let media = post.mediaData.first, let thumbnail = media.thumbnail, let thumbnailURL = URL(string: thumbnail) {
             photoImageView.loadURL(thumbnailURL)
                 .subscribe()
                 .disposed(by: disposeBag)

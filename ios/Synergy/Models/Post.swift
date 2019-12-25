@@ -51,8 +51,8 @@ class Post: Object, Decodable {
         let timestampInterval = try values.decode(Double.self, forKey: .timestamp)
         timestamp = min(Date(timeIntervalSince1970: timestampInterval), Date())
 
-        if let friends = try values.decodeIfPresent([String].self, forKey: .tags) {
-            tags.append(objectsIn: friends.map({ Friend(name: $0) }))
+        if let tagsArray = try values.decodeIfPresent([Friend].self, forKey: .tags) {
+            tags.append(objectsIn: tagsArray)
         }
 
         if let mediaDataArray = try values.decodeIfPresent([MediaData].self, forKey: .mediaData) {
@@ -79,16 +79,10 @@ class Post: Object, Decodable {
 }
 
 class Friend: Object, Decodable {
-    @objc dynamic var id: String = ""
+    @objc dynamic var id: Int = 0
     @objc dynamic var name: String = ""
 
     override class func primaryKey() -> String? {
         return "id"
-    }
-
-    convenience init(name: String) {
-        self.init()
-        self.id = name
-        self.name = name
     }
 }
