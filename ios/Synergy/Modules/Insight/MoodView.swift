@@ -18,7 +18,7 @@ class MoodView: UIView {
     fileprivate lazy var titleBarLabel = makeTitleBarLabel()
     fileprivate lazy var moodBarImage = makeMoodBarImage()
     fileprivate lazy var noActivityView = makeNoActivityView()
-    fileprivate let sectionHeight: CGFloat = 270
+    fileprivate let sectionHeight: CGFloat = 300
 
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
     var dataObserver: Disposable? // stop observing old-data

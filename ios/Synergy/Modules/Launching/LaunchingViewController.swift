@@ -14,6 +14,10 @@ import FlexLayout
 
 class LaunchingViewController: ViewController {
 
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -118,7 +122,7 @@ class LaunchingViewController: ViewController {
     }
 
     override func setupViews() {
-        setupBackground(image: R.image.onboardingSplash())
+        setupBackground(backgroundView: ImageView(image: R.image.onboardingSplash()))
         super.setupViews()
 
         contentView.backgroundColor = .clear

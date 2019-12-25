@@ -21,6 +21,14 @@ class DataRequestedViewController: ViewController {
     lazy var checkNowButton = makeCheckNowButton()
     let notificationCenter = UNUserNotificationCenter.current()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     // MARK: - bind ViewModel
     override func bindViewModel() {
         super.bindViewModel()

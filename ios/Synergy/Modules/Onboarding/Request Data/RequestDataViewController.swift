@@ -18,6 +18,7 @@ class RequestDataViewController: ViewController {
     // MARK: - Properties
     lazy var guideView = makeGuideView()
     lazy var guideTextLabel = makeGuideTextLabel()
+    lazy var automatingCoverView = makeCoverView()
     lazy var webView = makeWebView()
 
     static let fbURL = "https://m.facebook.com"
@@ -27,11 +28,17 @@ class RequestDataViewController: ViewController {
         fbScripts?.first(where: { $0.name == FBPage.archive.rawValue })
     }()
 
+    let automatingStatusRelay = BehaviorRelay<Bool>(value: true)
+
     var checkLoginFailedDisposable: Disposable?
 
     lazy var thisViewModel = {
         return self.viewModel as! RequestDataViewModel
     }()
+
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
     override func bindViewModel() {
         super.bindViewModel()
@@ -55,7 +62,7 @@ class RequestDataViewController: ViewController {
         viewModel.fbScriptsRelay
             .filterEmpty()
             .subscribe(onNext: { [weak self] (fbScripts) in
-                loadingState.onNext(.loading)
+                self?.observeAutomatingStatus()
 
                 guard let self = self, let urlRequest = URLRequest(urlString: Self.fbURL) else { return }
                 self.fbScripts = fbScripts
@@ -100,16 +107,45 @@ class RequestDataViewController: ViewController {
         showErrorAlertWithSupport(message: R.string.error.system())
     }
 
+    lazy var backgroundView = UIView()
+
     // MARK: Setup Views
     override func setupViews() {
+        setupBackground(backgroundView: backgroundView)
         super.setupViews()
 
         contentView.flex
             .direction(.column)
             .define { (flex) in
                 flex.addItem(guideView)
-                flex.addItem(webView).grow(1)
+                flex.addItem().grow(1).define { (flex) in
+                    flex.addItem(webView).width(100%).height(100%)
+                    flex.addItem(automatingCoverView)
+                        .position(.absolute).top(0).left(0)
+                        .width(100%).height(100%)
+                }
         }
+    }
+
+    fileprivate func observeAutomatingStatus() {
+        automatingStatusRelay
+            .subscribe(onNext: { [weak self] (isAutomating) in
+                guard let self = self else { return }
+                if isAutomating {
+                    self.guideView.backgroundColor = ColorTheme.cognac.color
+                    self.guideTextLabel.setText(nil)
+                    self.automatingCoverView.isHidden = false
+                    self.backgroundView.backgroundColor = ColorTheme.cognac.color
+                } else {
+                    self.guideView.backgroundColor = ColorTheme.internationalKleinBlue.color
+                    self.guideTextLabel.setText(R.string.phrase.guideRequiredHelp().localizedUppercase)
+                    self.automatingCoverView.isHidden = true
+                    self.guideTextLabel.flex.markDirty()
+                    self.guideView.flex.layout()
+                    self.backgroundView.backgroundColor = ColorTheme.internationalKleinBlue.color
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
@@ -168,14 +204,14 @@ extension RequestDataViewController: WKNavigationDelegate {
                     self.evaluateJS(index: nextIndex)
                 } else {
                     // is not the page in all detection pages, show required help
-                    self.updateGuideText(isAutomating: false)
+                    self.automatingStatusRelay.accept(false)
                 }
 
                 return
             }
 
             guard let facePage = FBPage(rawValue: pageScript.name) else { return }
-            self.updateGuideText(isAutomating: true)
+            self.automatingStatusRelay.accept(true)
 
             switch facePage {
             case .login:
@@ -223,7 +259,7 @@ extension RequestDataViewController {
             .retry(.delayed(maxCount: 1000, time: 0.5))
             .subscribe(onError: { [weak self] (error) in
                 Global.log.error(error)
-                self?.updateGuideText(isAutomating: false)
+                self?.automatingStatusRelay.accept(false)
             }, onCompleted: { [weak self] in
                 guard let self = self else { return }
                 Global.log.info("[start] evaluateJS for archive")
@@ -338,7 +374,7 @@ extension RequestDataViewController {
                 )
             }, onError: { [weak self] (error) in
                 Global.log.error(error)
-                self?.updateGuideText(isAutomating: false)
+                self?.automatingStatusRelay.accept(false)
             })
             .disposed(by: self.disposeBag)
     }
@@ -411,7 +447,7 @@ extension RequestDataViewController {
                 )
                 }, onError: { [weak self] (error) in
                     Global.log.error(error)
-                    self?.updateGuideText(isAutomating: false)
+                    self?.automatingStatusRelay.accept(false)
                 })
             .disposed(by: self.disposeBag)
     }
@@ -448,8 +484,7 @@ extension RequestDataViewController {
 
     fileprivate func makeGuideView() -> UIView {
         let view = UIView()
-        view.flex.height(69)
-        view.flex.justifyContent(.center).define { (flex) in
+        view.flex.height(50).justifyContent(.center).define { (flex) in
             flex.addItem(guideTextLabel).alignSelf(.center)
         }
         view.backgroundColor = ColorTheme.cognac.color
@@ -459,19 +494,30 @@ extension RequestDataViewController {
     fileprivate func makeGuideTextLabel() -> Label {
         let label = Label()
         label.applyLight(
-            text: R.string.phrase.guideAutomating().localizedUppercase,
+            text: "",
             font: R.font.atlasGroteskRegular(size: 18),
             lineHeight: 1.2)
         return label
     }
 
-    fileprivate func updateGuideText(isAutomating: Bool) {
-        if isAutomating {
-            guideView.backgroundColor = ColorTheme.cognac.color
-            guideTextLabel.setText(R.string.phrase.guideAutomating().localizedUppercase)
-        } else {
-            guideView.backgroundColor = ColorTheme.internationalKleinBlue.color
-            guideTextLabel.setText(R.string.phrase.guideRequiredHelp().localizedUppercase)
+    fileprivate func makeCoverView() -> UIView {
+        let view = UIView()
+
+        let label = Label()
+        label.apply(
+            text: R.string.phrase.guideAutomating().localizedUppercase,
+            font: R.font.domaineSansTextLight(size: Size.ds(40)),
+            colorTheme: .black)
+        label.numberOfLines = 0
+
+        view.flex
+            .backgroundColor(themeService.attrs.blurCoverColor)
+            .justifyContent(.center)
+            .define { (flex) in
+                flex.addItem(label).marginLeft(22)
+                flex.addItem().height(20)
         }
+        view.isHidden = true
+        return view
     }
 }

@@ -38,13 +38,14 @@ class ThemedViewController: UIViewController {
             .disposed(by: disposeBag)
     }
 
-    func setupBackground(image: UIImage?) {
-        let backgroundImage = ImageView(image: image)
-        backgroundImage.contentMode = .scaleToFill
+    func setupBackground(backgroundView: UIView) {
+        if ((backgroundView as? ImageView) != nil) {
+            backgroundView.contentMode = .scaleToFill
+        }
 
         // *** Setup UI in view ***
-        view.addSubview(backgroundImage)
-        backgroundImage.snp.makeConstraints { (make) in
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
         }
     }

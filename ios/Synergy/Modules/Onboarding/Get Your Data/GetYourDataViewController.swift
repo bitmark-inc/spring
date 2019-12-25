@@ -19,6 +19,10 @@ class GetYourDataViewController: ViewController, BackNavigator {
     lazy var manualAuthorizeButton = makeManualAuthorizeButton()
     lazy var automateAuthorizeButton = makeAutomateAuthorizeButton()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     override func bindViewModel() {
         super.bindViewModel()
 
@@ -64,9 +68,15 @@ class GetYourDataViewController: ViewController, BackNavigator {
         passwordTextField.text = nil
     }
 
+    lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorTheme.cognac.color
+        return view
+    }()
+
     // MARK: - Setup Views
     override func setupViews() {
-        setupBackground(image: R.image.cognacBackground())
+        setupBackground(backgroundView: backgroundView)
         super.setupViews()
 
         let screenTitle = Label()

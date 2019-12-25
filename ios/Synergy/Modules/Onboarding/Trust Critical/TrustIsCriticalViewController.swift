@@ -16,6 +16,14 @@ class TrustIsCriticalViewController: ViewController, BackNavigator {
     // MARK: - Properties
     lazy var continueButton = makeContinueButton()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     override func bindViewModel() {
         super.bindViewModel()
 

@@ -15,6 +15,14 @@ import OneSignal
 
 class DataAnalyzingViewController: ViewController {
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     // MARK: - setup Views
     override func setupViews() {
         super.setupViews()

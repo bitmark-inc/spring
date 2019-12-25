@@ -19,6 +19,10 @@ class SignInWallViewController: ViewController {
     lazy var getStartedButton = makeGetStartedButton()
     lazy var signInButton = makeSignInButton()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     // MARK: Handlers
     override func bindViewModel() {
         super.bindViewModel()
@@ -34,7 +38,7 @@ class SignInWallViewController: ViewController {
 
     // MARK: Setup views
     override func setupViews() {
-        setupBackground(image: R.image.onboardingSplash())
+        setupBackground(backgroundView: ImageView(image: R.image.onboardingSplash()))
         super.setupViews()
 
         contentView.backgroundColor = .clear
