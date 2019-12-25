@@ -43,4 +43,5 @@ public struct Constant {
 
     static let separator = ","
     static let fbImageServerURL = Credential.valueForKey(keyName: "API_FBM_SERVER_URL") + "/api/media"
+    static let surveyURL = URL(string: "https://docs.google.com/forms/d/e/1FAIpQLScL41kNU6SBzo7ndcraUf7O-YJ_JrPqg_rlI588UjLK-_sGtQ/viewform?usp=sf_link")!
 }

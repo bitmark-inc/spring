@@ -57,6 +57,7 @@
 "account.settings.support.about" = "About »";
 "account.settings.support.faq" = "FAQ »";
 "account.settings.support.contact" = "Contact »";
+"account.settings.support.getYourThoughts" = "Tell us your thoughts »";
 
 "account.signOut.warning.title" = "Unlink Account";
 "account.signOut.warning.description" = "If you unlink your account, you will be completely logged out on this device and will need to enter your 12-word recovery key to regain access and relink your account to this device.\n\nTo make ensure that you will not completely lose access to your account, you will next be asked to enter your 12-word recovery key before unlinking your account. If you haven’t already written down your recovery key, %@.";

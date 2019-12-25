@@ -24,6 +24,7 @@ class AccountViewController: ViewController, BackNavigator {
     lazy var aboutOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportAbout())
     lazy var faqOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportFaq())
     lazy var contactOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportContact())
+    lazy var surveyOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportGetYourThoughts())
 
     override func bindViewModel() {
         super.bindViewModel()
@@ -51,6 +52,10 @@ class AccountViewController: ViewController, BackNavigator {
         contactOptionButton.rx.tap.bind { [weak self] in
             self?.showIntercomContact()
         }.disposed(by: disposeBag)
+
+        surveyOptionButton.rx.tap.bind { [weak self] in
+            self?.showSurveyLink()
+        }.disposed(by: disposeBag)
     }
 
     override func setupViews() {
@@ -74,7 +79,7 @@ class AccountViewController: ViewController, BackNavigator {
                 flex.addItem(
                     makeOptionsSection(
                         name: R.string.phrase.accountSettingsSupport(),
-                        options: [aboutOptionButton, faqOptionButton, contactOptionButton]))
+                        options: [aboutOptionButton, faqOptionButton, contactOptionButton, surveyOptionButton]))
                     .marginTop(12)
             }
 
@@ -105,6 +110,10 @@ extension AccountViewController {
 
     fileprivate func showIntercomContact() {
         Intercom.presentMessenger()
+    }
+
+    fileprivate func showSurveyLink() {
+        navigator.show(segue: .safari(Constant.surveyURL), sender: self)
     }
 }
 
