@@ -71,10 +71,9 @@ func (b *BackgroundContext) submitArchive(job *work.Job) error {
 	}
 
 	logEntity.Info("Finish...")
-	enqueuer.EnqueueIn(jobPeriodicArchiveCheck, size/200+10, map[string]interface{}{
+	enqueuer.EnqueueIn(jobPeriodicArchiveCheck, 60*10, map[string]interface{}{
 		"archive_id": archiveid,
 	})
-
 	return nil
 }
 
