@@ -365,8 +365,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         val bgColor = context?.getDrawable(R.color.cognac)
         layoutState.background = bgColor
         layoutRoot.background = bgColor
-        tvMsg.setText(R.string.automating_please_wait)
-        layoutState.visible()
+        tvMsg.text = ""
+        viewCover.visible()
+        tvAutomating.visible()
     }
 
     private fun showHelpRequiredState() {
@@ -374,7 +375,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         layoutState.background = bgColor
         layoutRoot.background = bgColor
         tvMsg.setText(R.string.your_help_is_required)
-        layoutState.visible()
+        viewCover.gone()
+        tvAutomating.gone()
     }
 
     private fun detectPage(

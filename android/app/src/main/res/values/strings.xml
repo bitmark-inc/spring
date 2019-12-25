@@ -131,7 +131,7 @@
     <string name="your_authorization_is_required">Your authorization is required.</string>
     <string name="account_unlinked">Account unlinked</string>
     <string name="your_account_has_been_unlinked">Your account has been completely unlinked from this device.</string>
-    <string name="automating_please_wait">Automating… please wait.</string>
+    <string name="automating_please_wait">Automating…\n please wait.</string>
     <string name="your_help_is_required">Your help is required.</string>
     <string name="others">Others</string>
     <string name="no_activity_for_this_period">No activity for this period.</string>

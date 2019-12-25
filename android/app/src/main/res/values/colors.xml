@@ -29,6 +29,7 @@
     <color name="silver">#C1C1C1</color>
     <color name="screamin_green">#69EC48</color>
     <color name="quill_gray">#DFDFDE</color>
+    <color name="white_b3">#B3FFFFFF</color>
 
     <array name="color_palette_1">
         <item>@color/mabilu</item>

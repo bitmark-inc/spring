@@ -17,8 +17,6 @@
         android:layout_height="@dimen/dp_44"
         android:background="@color/cognac"
         android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible"
         >
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -29,7 +27,7 @@
             android:fontFamily="@font/grotesk_regular_font_family"
             android:gravity="center"
             android:includeFontPadding="false"
-            android:text="@string/automating_please_wait"
+            android:text="@string/your_help_is_required"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_18"
@@ -49,6 +47,28 @@
             app:layout_constraintBottom_toBottomOf="parent"
             />
 
+        <View
+            android:id="@+id/viewCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white_b3"
+            android:clickable="true"
+            android:focusable="true"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvAutomating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/dp_18"
+            android:fontFamily="@font/domaine_sans"
+            android:text="@string/automating_please_wait"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_40"
+            />
+
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -60,6 +80,5 @@
             />
 
     </RelativeLayout>
-
 
 </LinearLayout>
