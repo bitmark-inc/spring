@@ -85,14 +85,8 @@
 		5832FCC5237AB8AB00FA3196 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCBF237AB8AB00FA3196 /* LaunchScreen.storyboard */; };
 		5832FCC6237AB8AB00FA3196 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5832FCC1237AB8AB00FA3196 /* Main.storyboard */; };
 		5832FCC7237AB8AB00FA3196 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCC3237AB8AB00FA3196 /* R.generated.swift */; };
-		585D51DC2394FAA00088D56F /* UsageBadgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585D51DB2394FAA00088D56F /* UsageBadgeTableViewCell.swift */; };
-		585D51DD2394FAA00088D56F /* UsageBadgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585D51DB2394FAA00088D56F /* UsageBadgeTableViewCell.swift */; };
 		58682EDB238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
 		58682EDC238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
-		58C009CB239796B800302F49 /* InsightTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009C9239795DB00302F49 /* InsightTableView.swift */; };
-		58C009CC239796B800302F49 /* InsightTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009C9239795DB00302F49 /* InsightTableView.swift */; };
-		58C009CD239796BB00302F49 /* InsightBadgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009CA239795DB00302F49 /* InsightBadgeTableViewCell.swift */; };
-		58C009CE239796BB00302F49 /* InsightBadgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009CA239795DB00302F49 /* InsightBadgeTableViewCell.swift */; };
 		58C009D12398A43100302F49 /* CustomxAxisRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D02398A43100302F49 /* CustomxAxisRender.swift */; };
 		58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D02398A43100302F49 /* CustomxAxisRender.swift */; };
 		58C009D82398C60D00302F49 /* LinkCaptionPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */; };
@@ -109,9 +103,9 @@
 		58C009E92398C6CF00302F49 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
 		5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
 		5B289E0123A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
-		5B4A237723B1132E00447366 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* BadgeView.swift */; };
-		5B4A237823B1132E00447366 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* BadgeView.swift */; };
-		5B4A237923B1132E00447366 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* BadgeView.swift */; };
+		5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
+		5B4A237823B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
+		5B4A237923B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
 		5B4A237B23B1136E00447366 /* HeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237A23B1136E00447366 /* HeadingView.swift */; };
 		5B4A237C23B1136E00447366 /* HeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237A23B1136E00447366 /* HeadingView.swift */; };
 		5B4A237D23B1136E00447366 /* HeadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237A23B1136E00447366 /* HeadingView.swift */; };
@@ -136,6 +130,21 @@
 		5B4A239923B1D1C300447366 /* MediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239823B1D1C300447366 /* MediaData.swift */; };
 		5B4A239A23B1D1C300447366 /* MediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239823B1D1C300447366 /* MediaData.swift */; };
 		5B4A239B23B1D1C300447366 /* MediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239823B1D1C300447366 /* MediaData.swift */; };
+		5B4A239D23B2120B00447366 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239C23B2120B00447366 /* Insight.swift */; };
+		5B4A239E23B2120B00447366 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239C23B2120B00447366 /* Insight.swift */; };
+		5B4A239F23B2120B00447366 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239C23B2120B00447366 /* Insight.swift */; };
+		5B4A23A123B212E800447366 /* TimeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A023B212E800447366 /* TimeUnit.swift */; };
+		5B4A23A223B212E800447366 /* TimeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A023B212E800447366 /* TimeUnit.swift */; };
+		5B4A23A323B212E800447366 /* TimeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A023B212E800447366 /* TimeUnit.swift */; };
+		5B4A23A523B21CD400447366 /* SectionSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A423B21CD400447366 /* SectionSeparator.swift */; };
+		5B4A23A623B21CD400447366 /* SectionSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A423B21CD400447366 /* SectionSeparator.swift */; };
+		5B4A23A723B21CD400447366 /* SectionSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A423B21CD400447366 /* SectionSeparator.swift */; };
+		5B590A6E23B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
+		5B590A6F23B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
+		5B590A7023B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
+		5B590A7223B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */; };
+		5B590A7323B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */; };
+		5B590A7423B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */; };
 		5B5D000023A1F0F4003D1A1C /* IconButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC33237A863300FA3196 /* IconButtonView.swift */; };
 		5B5D000123A1F0F4003D1A1C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222909123950B2500412CBC /* Post.swift */; };
 		5B5D000223A1F0F4003D1A1C /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB2237A9F6200FA3196 /* Application.swift */; };
@@ -160,8 +169,6 @@
 		5B5D001623A1F0F4003D1A1C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC30237A863300FA3196 /* TableView.swift */; };
 		5B5D001723A1F0F4003D1A1C /* CustomxAxisRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D02398A43100302F49 /* CustomxAxisRender.swift */; };
 		5B5D001823A1F0F4003D1A1C /* AverageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */; };
-		5B5D001923A1F0F4003D1A1C /* UsageBadgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 585D51DB2394FAA00088D56F /* UsageBadgeTableViewCell.swift */; };
-		5B5D001A23A1F0F4003D1A1C /* UsageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C0DBB6239A384200BC7810 /* UsageTableView.swift */; };
 		5B5D001B23A1F0F4003D1A1C /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
 		5B5D001C23A1F0F4003D1A1C /* DataRequestedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55EF238CE66400F1BCF2 /* DataRequestedViewController.swift */; };
 		5B5D001D23A1F0F4003D1A1C /* UIFont+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA0237A8A9200FA3196 /* UIFont+Theme.swift */; };
@@ -183,7 +190,6 @@
 		5B5D002E23A1F0F4003D1A1C /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC23237A863300FA3196 /* UnderlinedTextField.swift */; };
 		5B5D002F23A1F0F4003D1A1C /* PostHeadingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC2EA239E3FF000018BC4 /* PostHeadingViewCell.swift */; };
 		5B5D003023A1F0F4003D1A1C /* UsageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832D6E3238BBE390074AEDC /* UsageViewModel.swift */; };
-		5B5D003123A1F0F4003D1A1C /* InsightTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009C9239795DB00302F49 /* InsightTableView.swift */; };
 		5B5D003223A1F0F4003D1A1C /* MoyaAuthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55FA238D0A6800F1BCF2 /* MoyaAuthPlugin.swift */; };
 		5B5D003323A1F0F4003D1A1C /* FBArchiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55F6238D03D100F1BCF2 /* FBArchiveService.swift */; };
 		5B5D003423A1F0F4003D1A1C /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5600238D0B4200F1BCF2 /* AuthAPI.swift */; };
@@ -256,7 +262,6 @@
 		5B5DFFD823A1F0F4003D1A1C /* Credential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC91237A889A00FA3196 /* Credential.swift */; };
 		5B5DFFD923A1F0F4003D1A1C /* HowItWorksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */; };
 		5B5DFFDA23A1F0F4003D1A1C /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832D6F8238BC23D0074AEDC /* AccountViewModel.swift */; };
-		5B5DFFDB23A1F0F4003D1A1C /* InsightBadgeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009CA239795DB00302F49 /* InsightBadgeTableViewCell.swift */; };
 		5B5DFFDC23A1F0F4003D1A1C /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC17237A863300FA3196 /* Global.swift */; };
 		5B5DFFDD23A1F0F4003D1A1C /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		5B5DFFDE23A1F0F4003D1A1C /* AskNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB319B323A09882005F7C58 /* AskNotificationsViewController.swift */; };
@@ -287,7 +292,6 @@
 		5B5DFFF823A1F0F4003D1A1C /* GetYourDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */; };
 		5B5DFFF923A1F0F4003D1A1C /* EditingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2D237A863300FA3196 /* EditingTextView.swift */; };
 		5B5DFFFA23A1F0F4003D1A1C /* LaunchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB8237AA18C00FA3196 /* LaunchingViewModel.swift */; };
-		5B5DFFFB23A1F0F4003D1A1C /* Constant+FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420362398E1FA00520FE9 /* Constant+FakeData.swift */; };
 		5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2A237A863300FA3196 /* MakeUnderline.swift */; };
 		5B5DFFFD23A1F0F4003D1A1C /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
 		5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8E237A889A00FA3196 /* Storage.swift */; };
@@ -325,6 +329,21 @@
 		5B98950523AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
 		5B98950623AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
 		5B98950723AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
+		5BA9FF5E23B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
+		5BA9FF5F23B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
+		5BA9FF6023B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
+		5BA9FF6323B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
+		5BA9FF6423B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
+		5BA9FF6523B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
+		5BA9FF6723B2294900E57A20 /* InsightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6623B2294900E57A20 /* InsightService.swift */; };
+		5BA9FF6823B2294900E57A20 /* InsightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6623B2294900E57A20 /* InsightService.swift */; };
+		5BA9FF6923B2294900E57A20 /* InsightService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6623B2294900E57A20 /* InsightService.swift */; };
+		5BA9FF6B23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6A23B22A9400E57A20 /* InsightDataEngine+Rx.swift */; };
+		5BA9FF6C23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6A23B22A9400E57A20 /* InsightDataEngine+Rx.swift */; };
+		5BA9FF6D23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6A23B22A9400E57A20 /* InsightDataEngine+Rx.swift */; };
+		5BA9FF6F23B23CAA00E57A20 /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */; };
+		5BA9FF7023B23CAA00E57A20 /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */; };
+		5BA9FF7123B23CAA00E57A20 /* IncomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */; };
 		5BB2852A23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
 		5BB2852B23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
 		5BB2852C23A33796000C04CA /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5BB2852923A33796000C04CA /* Settings.bundle */; };
@@ -405,8 +424,6 @@
 		E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807CB23962F380079A3C4 /* PostAPI.swift */; };
 		E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
 		E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
-		E24420372398E1FA00520FE9 /* Constant+FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420362398E1FA00520FE9 /* Constant+FakeData.swift */; };
-		E24420382398E1FA00520FE9 /* Constant+FakeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420362398E1FA00520FE9 /* Constant+FakeData.swift */; };
 		E244203A2399067600520FE9 /* VideoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* VideoPostTableViewCell.swift */; };
 		E244203B2399067600520FE9 /* VideoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* VideoPostTableViewCell.swift */; };
 		E2442040239910E100520FE9 /* UpdatePostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */; };
@@ -503,8 +520,6 @@
 		E29F5A702383E70000C1D9D8 /* DomaineSansText-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */; };
 		E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */; };
 		E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */; };
-		E2C0DBB7239A384200BC7810 /* UsageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C0DBB6239A384200BC7810 /* UsageTableView.swift */; };
-		E2C0DBB8239A384200BC7810 /* UsageTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C0DBB6239A384200BC7810 /* UsageTableView.swift */; };
 		E2DB667F237D3B69005367C2 /* RealmConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8F237A889A00FA3196 /* RealmConfig.swift */; };
 		E2DB6680237D3B69005367C2 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC37237A863300FA3196 /* Button.swift */; };
 		E2DB6681237D3B69005367C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC0F237A85B000FA3196 /* AppDelegate.swift */; };
@@ -671,10 +686,7 @@
 		5832FCC0237AB8AB00FA3196 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5832FCC2237AB8AB00FA3196 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5832FCC3237AB8AB00FA3196 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
-		585D51DB2394FAA00088D56F /* UsageBadgeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeTableViewCell.swift; sourceTree = "<group>"; };
 		58682EDA238F7079009BDDDF /* FilterSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSegment.swift; sourceTree = "<group>"; };
-		58C009C9239795DB00302F49 /* InsightTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightTableView.swift; sourceTree = "<group>"; };
-		58C009CA239795DB00302F49 /* InsightBadgeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightBadgeTableViewCell.swift; sourceTree = "<group>"; };
 		58C009D02398A43100302F49 /* CustomxAxisRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomxAxisRender.swift; sourceTree = "<group>"; };
 		58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkCaptionPostTableViewCell.swift; sourceTree = "<group>"; };
 		58C009D72398C60D00302F49 /* LinkPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPostTableViewCell.swift; sourceTree = "<group>"; };
@@ -683,7 +695,7 @@
 		58C009E42398C6CF00302F49 /* StreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
 		58C009E52398C6CF00302F49 /* StreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewModel.swift; sourceTree = "<group>"; };
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
-		5B4A237623B1132E00447366 /* BadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeView.swift; sourceTree = "<group>"; };
+		5B4A237623B1132E00447366 /* UsageBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeView.swift; sourceTree = "<group>"; };
 		5B4A237A23B1136E00447366 /* HeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingView.swift; sourceTree = "<group>"; };
 		5B4A237E23B1145100447366 /* TimeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterView.swift; sourceTree = "<group>"; };
 		5B4A238223B1156F00447366 /* FilterTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypeView.swift; sourceTree = "<group>"; };
@@ -692,6 +704,11 @@
 		5B4A238E23B118E500447366 /* SectionHeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeadingView.swift; sourceTree = "<group>"; };
 		5B4A239423B1C4D000447366 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		5B4A239823B1D1C300447366 /* MediaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaData.swift; sourceTree = "<group>"; };
+		5B4A239C23B2120B00447366 /* Insight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Insight.swift; sourceTree = "<group>"; };
+		5B4A23A023B212E800447366 /* TimeUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUnit.swift; sourceTree = "<group>"; };
+		5B4A23A423B21CD400447366 /* SectionSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSeparator.swift; sourceTree = "<group>"; };
+		5B590A6D23B302D6006C194D /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
+		5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedBarValueFormatter.swift; sourceTree = "<group>"; };
 		5B5D007423A1F0F4003D1A1C /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Inhouse-Info.plist"; path = "/Users/thuyentruong/code/3-bitmark/fbm-apps/ios/Inhouse-Info.plist"; sourceTree = "<absolute>"; };
 		5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewController.swift; sourceTree = "<group>"; };
@@ -705,6 +722,11 @@
 		5B93232323A39BFC00C3C408 /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		5B98950023AA0EC000B72700 /* FilterScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScope.swift; sourceTree = "<group>"; };
 		5B98950423AA338300B72700 /* GraphDataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDataConverter.swift; sourceTree = "<group>"; };
+		5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightBadgeView.swift; sourceTree = "<group>"; };
+		5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightAPI.swift; sourceTree = "<group>"; };
+		5BA9FF6623B2294900E57A20 /* InsightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightService.swift; sourceTree = "<group>"; };
+		5BA9FF6A23B22A9400E57A20 /* InsightDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InsightDataEngine+Rx.swift"; sourceTree = "<group>"; };
+		5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeView.swift; sourceTree = "<group>"; };
 		5BB2852923A33796000C04CA /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		5BB2852E23A34235000C04CA /* SettingsBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBundle.swift; sourceTree = "<group>"; };
 		5BB319B023A09876005F7C58 /* AskNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskNotificationsViewModel.swift; sourceTree = "<group>"; };
@@ -751,7 +773,6 @@
 		E23807C8239618000079A3C4 /* PostDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDataTableViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		E23807D123963E3E0079A3C4 /* Array+Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Sentence.swift"; sourceTree = "<group>"; };
-		E24420362398E1FA00520FE9 /* Constant+FakeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Constant+FakeData.swift"; sourceTree = "<group>"; };
 		E24420392399067600520FE9 /* VideoPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPostTableViewCell.swift; sourceTree = "<group>"; };
 		E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostTableViewCell.swift; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
@@ -801,7 +822,6 @@
 		E29F5A5B2383E70000C1D9D8 /* DomaineSansText-LightItalic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-LightItalic.otf"; sourceTree = "<group>"; };
 		E29F5A5C2383E70000C1D9D8 /* DomaineSansText-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DomaineSansText-Light.otf"; sourceTree = "<group>"; };
 		E29F5A7C2383F8FD00C1D9D8 /* HowItWorksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HowItWorksViewController.swift; sourceTree = "<group>"; };
-		E2C0DBB6239A384200BC7810 /* UsageTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageTableView.swift; sourceTree = "<group>"; };
 		E2DB66C2237D3B69005367C2 /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2DB66C4237D3D20005367C2 /* Dev-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dev-Info.plist"; sourceTree = "<group>"; };
 		E2DB66CB237D40A8005367C2 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -878,8 +898,7 @@
 			children = (
 				5832D6E3238BBE390074AEDC /* UsageViewModel.swift */,
 				5832D6E6238BBE4A0074AEDC /* UsageViewController.swift */,
-				585D51DB2394FAA00088D56F /* UsageBadgeTableViewCell.swift */,
-				E2C0DBB6239A384200BC7810 /* UsageTableView.swift */,
+				5B4A237623B1132E00447366 /* UsageBadgeView.swift */,
 			);
 			path = Usage;
 			sourceTree = "<group>";
@@ -901,8 +920,9 @@
 			children = (
 				5832D6FB238BC23D0074AEDC /* InsightViewController.swift */,
 				5832D6FC238BC23D0074AEDC /* InsightViewModel.swift */,
-				58C009C9239795DB00302F49 /* InsightTableView.swift */,
-				58C009CA239795DB00302F49 /* InsightBadgeTableViewCell.swift */,
+				5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */,
+				5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */,
+				5B590A6D23B302D6006C194D /* MoodView.swift */,
 			);
 			path = Insight;
 			sourceTree = "<group>";
@@ -988,7 +1008,6 @@
 				5832FC1E237A863300FA3196 /* Controllers */,
 				5832FC22237A863300FA3196 /* Views */,
 				E27959D623863067000E9CB9 /* Bitmark */,
-				E24420362398E1FA00520FE9 /* Constant+FakeData.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1056,6 +1075,7 @@
 				E28B5609238D15FF00F1BCF2 /* FbmAccount */,
 				E28B55F2238D03A400F1BCF2 /* FB Archive */,
 				E21EF9F5239111CE004D4513 /* Usage */,
+				5BA9FF6123B2292100E57A20 /* Insights */,
 				E22290972395107700412CBC /* Post */,
 			);
 			path = Services;
@@ -1152,6 +1172,7 @@
 			isa = PBXGroup;
 			children = (
 				58C009D02398A43100302F49 /* CustomxAxisRender.swift */,
+				5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -1187,11 +1208,11 @@
 			children = (
 				5B4A237A23B1136E00447366 /* HeadingView.swift */,
 				5B4A237E23B1145100447366 /* TimeFilterView.swift */,
-				5B4A237623B1132E00447366 /* BadgeView.swift */,
 				5B4A238E23B118E500447366 /* SectionHeadingView.swift */,
 				5B4A238223B1156F00447366 /* FilterTypeView.swift */,
 				5B4A238623B115D100447366 /* FilterDayView.swift */,
 				5B4A238A23B1166300447366 /* FilterGeneralView.swift */,
+				5B4A23A423B21CD400447366 /* SectionSeparator.swift */,
 			);
 			path = Dashboard;
 			sourceTree = "<group>";
@@ -1272,6 +1293,15 @@
 				5B93231F23A363E200C3C408 /* FAQViewController.swift */,
 			);
 			path = FAQ;
+			sourceTree = "<group>";
+		};
+		5BA9FF6123B2292100E57A20 /* Insights */ = {
+			isa = PBXGroup;
+			children = (
+				5BA9FF6623B2294900E57A20 /* InsightService.swift */,
+				5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */,
+			);
+			path = Insights;
 			sourceTree = "<group>";
 		};
 		5BB2852D23A341F4000C04CA /* App Settings */ = {
@@ -1359,6 +1389,7 @@
 			isa = PBXGroup;
 			children = (
 				E2259CDA2387E56F00746280 /* ServerAPIError.swift */,
+				5B4A23A023B212E800447366 /* TimeUnit.swift */,
 				5B98950023AA0EC000B72700 /* FilterScope.swift */,
 				5B98950423AA338300B72700 /* GraphDataConverter.swift */,
 			);
@@ -1387,6 +1418,7 @@
 				5B93232323A39BFC00C3C408 /* Archive.swift */,
 				5B4A239423B1C4D000447366 /* Location.swift */,
 				5B4A239823B1D1C300447366 /* MediaData.swift */,
+				5B4A239C23B2120B00447366 /* Insight.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1398,6 +1430,7 @@
 				E22290732394B2A300412CBC /* UsageDataEngine+Rx.swift */,
 				E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */,
 				E222909E2395116900412CBC /* PostDataEngine+Rx.swift */,
+				5BA9FF6A23B22A9400E57A20 /* InsightDataEngine+Rx.swift */,
 			);
 			path = "Data Engine";
 			sourceTree = "<group>";
@@ -2113,6 +2146,7 @@
 				5832FC95237A889A00FA3196 /* RealmConfig.swift in Sources */,
 				E28B55F4238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */,
 				5832FC5D237A863300FA3196 /* Button.swift in Sources */,
+				5B4A23A523B21CD400447366 /* SectionSeparator.swift in Sources */,
 				5832FC11237A85B000FA3196 /* AppDelegate.swift in Sources */,
 				5B93232023A363E200C3C408 /* FAQViewController.swift in Sources */,
 				5832FC4C237A863300FA3196 /* SubmitButton.swift in Sources */,
@@ -2125,17 +2159,19 @@
 				5B4A238323B1156F00447366 /* FilterTypeView.swift in Sources */,
 				5B93232423A39BFC00C3C408 /* Archive.swift in Sources */,
 				E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
+				5B4A23A123B212E800447366 /* TimeUnit.swift in Sources */,
 				E222907C2394F19D00412CBC /* Groups.swift in Sources */,
 				5832FC52237A863300FA3196 /* ActivityIndicator.swift in Sources */,
+				5B590A6E23B302D6006C194D /* MoodView.swift in Sources */,
 				E28B5611238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */,
 				5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */,
 				5832FC97237A889A00FA3196 /* Credential.swift in Sources */,
 				E23807C9239618000079A3C4 /* PostDataTableViewCell.swift in Sources */,
+				5BA9FF6323B2293F00E57A20 /* InsightAPI.swift in Sources */,
 				E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5B93231023A363AE00C3C408 /* ViewRecoveryKeyViewController.swift in Sources */,
 				5832D6FD238BC23D0074AEDC /* AccountViewModel.swift in Sources */,
 				5832FC40237A863300FA3196 /* Global.swift in Sources */,
-				58C009CD239796BB00302F49 /* InsightBadgeTableViewCell.swift in Sources */,
 				E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5832FC93237A889A00FA3196 /* BitmarkSDKService.swift in Sources */,
 				5BB319B423A09882005F7C58 /* AskNotificationsViewController.swift in Sources */,
@@ -2150,6 +2186,7 @@
 				E28B55F0238CE66400F1BCF2 /* DataRequestedViewController.swift in Sources */,
 				5B9322FC23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
 				E23807C32395FEEA0079A3C4 /* GeneralPostTableViewCell.swift in Sources */,
+				5BA9FF6F23B23CAA00E57A20 /* IncomeView.swift in Sources */,
 				5832FCB0237A8A9300FA3196 /* String+Helper.swift in Sources */,
 				E22290A223953B0600412CBC /* PostTableView.swift in Sources */,
 				5832FC4D237A863300FA3196 /* NoInternetBanner.swift in Sources */,
@@ -2167,7 +2204,6 @@
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
-				E24420372398E1FA00520FE9 /* Constant+FakeData.swift in Sources */,
 				5BB2852F23A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
 				5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */,
@@ -2182,6 +2218,7 @@
 				5832D701238BC23D0074AEDC /* InsightViewController.swift in Sources */,
 				5832FCAE237A8A9300FA3196 /* MoyaProviderType+Request.swift in Sources */,
 				5832FC4E237A863300FA3196 /* ReadingTextView.swift in Sources */,
+				5BA9FF5E23B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5B93231823A363C800C3C408 /* AboutViewController.swift in Sources */,
 				E27959DF238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
@@ -2201,13 +2238,13 @@
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
 				58C009D12398A43100302F49 /* CustomxAxisRender.swift in Sources */,
 				E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
-				585D51DC2394FAA00088D56F /* UsageBadgeTableViewCell.swift in Sources */,
-				E2C0DBB7239A384200BC7810 /* UsageTableView.swift in Sources */,
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5B4A239923B1D1C300447366 /* MediaData.swift in Sources */,
 				5832D6FF238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				5BEF584423AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				5832FC56237A863300FA3196 /* TableView.swift in Sources */,
+				5BA9FF6B23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */,
+				5B590A7223B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */,
 				5832FCAC237A8A9200FA3196 /* UIFont+Theme.swift in Sources */,
 				5832FC4F237A863300FA3196 /* TableViewCell.swift in Sources */,
 				5B98950523AA338300B72700 /* GraphDataConverter.swift in Sources */,
@@ -2227,12 +2264,11 @@
 				5B4A238F23B118E500447366 /* SectionHeadingView.swift in Sources */,
 				5832FC96237A889A00FA3196 /* KeychainStore.swift in Sources */,
 				5832FC45237A863300FA3196 /* ConfirmRecoveryKeyViewController.swift in Sources */,
-				5B4A237723B1132E00447366 /* BadgeView.swift in Sources */,
+				5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */,
 				5832FCC7237AB8AB00FA3196 /* R.generated.swift in Sources */,
 				E22BC2EB239E3FF000018BC4 /* PostHeadingViewCell.swift in Sources */,
 				5B4A237F23B1145100447366 /* TimeFilterView.swift in Sources */,
 				5832FC43237A863300FA3196 /* ThemeManager.swift in Sources */,
-				58C009CB239796B800302F49 /* InsightTableView.swift in Sources */,
 				5832FC49237A863300FA3196 /* UnderlinedTextField.swift in Sources */,
 				5832D6E4238BBE390074AEDC /* UsageViewModel.swift in Sources */,
 				5B93230023A3635E00C3C408 /* SignOutViewController.swift in Sources */,
@@ -2256,10 +2292,12 @@
 				E2259CD72387E36600746280 /* ServerAssetsService.swift in Sources */,
 				5832FCBB237AA1B600FA3196 /* LaunchingViewController.swift in Sources */,
 				5832FCAB237A8A9200FA3196 /* String+SupportBitmark.swift in Sources */,
+				5BA9FF6723B2294900E57A20 /* InsightService.swift in Sources */,
 				E23807CC23962F380079A3C4 /* PostAPI.swift in Sources */,
 				5B4A238B23B1166300447366 /* FilterGeneralView.swift in Sources */,
 				E21EF9E7239100A6004D4513 /* Usage.swift in Sources */,
 				5832FC47237A863300FA3196 /* ThemedViewController.swift in Sources */,
+				5B4A239D23B2120B00447366 /* Insight.swift in Sources */,
 				5832FCAF237A8A9300FA3196 /* FileManager+Directory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2279,6 +2317,7 @@
 				5B5DFFC823A1F0F4003D1A1C /* RealmConfig.swift in Sources */,
 				5B5DFFC923A1F0F4003D1A1C /* Button.swift in Sources */,
 				5B5DFFCA23A1F0F4003D1A1C /* AppDelegate.swift in Sources */,
+				5B4A23A723B21CD400447366 /* SectionSeparator.swift in Sources */,
 				5B5DFFCB23A1F0F4003D1A1C /* SubmitButton.swift in Sources */,
 				5B93232223A363E200C3C408 /* FAQViewController.swift in Sources */,
 				5B5DFFCC23A1F0F4003D1A1C /* TextField.swift in Sources */,
@@ -2291,16 +2330,18 @@
 				5B4A238523B1156F00447366 /* FilterTypeView.swift in Sources */,
 				5B93232623A39BFC00C3C408 /* Archive.swift in Sources */,
 				5B5DFFD223A1F0F4003D1A1C /* Groups.swift in Sources */,
+				5B4A23A323B212E800447366 /* TimeUnit.swift in Sources */,
 				5B5DFFD323A1F0F4003D1A1C /* FbmAccountService.swift in Sources */,
 				5B5DFFD423A1F0F4003D1A1C /* GetYourDataViewModel.swift in Sources */,
+				5B590A7023B302D6006C194D /* MoodView.swift in Sources */,
 				5B5DFFD523A1F0F4003D1A1C /* ActivityIndicator.swift in Sources */,
 				5B5DFFD623A1F0F4003D1A1C /* UITableView+ApplyChanges.swift in Sources */,
 				5B5DFFD723A1F0F4003D1A1C /* PostDataTableViewCell.swift in Sources */,
 				5B5DFFD823A1F0F4003D1A1C /* Credential.swift in Sources */,
+				5BA9FF6523B2293F00E57A20 /* InsightAPI.swift in Sources */,
 				5B5DFFD923A1F0F4003D1A1C /* HowItWorksViewController.swift in Sources */,
 				5B5DFFDA23A1F0F4003D1A1C /* AccountViewModel.swift in Sources */,
 				5B93231223A363AE00C3C408 /* ViewRecoveryKeyViewController.swift in Sources */,
-				5B5DFFDB23A1F0F4003D1A1C /* InsightBadgeTableViewCell.swift in Sources */,
 				5B5DFFDC23A1F0F4003D1A1C /* Global.swift in Sources */,
 				5B5DFFDD23A1F0F4003D1A1C /* R.generated+Font.swift in Sources */,
 				5B5DFFDE23A1F0F4003D1A1C /* AskNotificationsViewController.swift in Sources */,
@@ -2316,6 +2357,7 @@
 				5BBB663A23A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */,
 				5B5DFFE823A1F0F4003D1A1C /* SeparateLine.swift in Sources */,
 				5B9322FE23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
+				5BA9FF7123B23CAA00E57A20 /* IncomeView.swift in Sources */,
 				5B5DFFE923A1F0F4003D1A1C /* PostTableView.swift in Sources */,
 				5B5DFFEA23A1F0F4003D1A1C /* String+Helper.swift in Sources */,
 				5B5DFFEB23A1F0F4003D1A1C /* NoInternetBanner.swift in Sources */,
@@ -2334,7 +2376,6 @@
 				5B5DFFF823A1F0F4003D1A1C /* GetYourDataViewController.swift in Sources */,
 				5B5DFFF923A1F0F4003D1A1C /* EditingTextView.swift in Sources */,
 				5B5DFFFA23A1F0F4003D1A1C /* LaunchingViewModel.swift in Sources */,
-				5B5DFFFB23A1F0F4003D1A1C /* Constant+FakeData.swift in Sources */,
 				5BB2853123A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */,
 				5B9322FA23A362B800C3C408 /* SignOutWarningViewController.swift in Sources */,
@@ -2348,6 +2389,7 @@
 				5B5D000423A1F0F4003D1A1C /* InsightViewController.swift in Sources */,
 				5B5D000523A1F0F4003D1A1C /* MoyaProviderType+Request.swift in Sources */,
 				5B5D000623A1F0F4003D1A1C /* ReadingTextView.swift in Sources */,
+				5BA9FF6023B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				5B5D000723A1F0F4003D1A1C /* SignInWallViewController.swift in Sources */,
 				5B93231A23A363C800C3C408 /* AboutViewController.swift in Sources */,
 				5B5D000923A1F0F4003D1A1C /* RequestDataViewController.swift in Sources */,
@@ -2368,12 +2410,12 @@
 				5B5D001623A1F0F4003D1A1C /* TableView.swift in Sources */,
 				5B5D001723A1F0F4003D1A1C /* CustomxAxisRender.swift in Sources */,
 				5B5D001823A1F0F4003D1A1C /* AverageDataEngine+Rx.swift in Sources */,
-				5B5D001923A1F0F4003D1A1C /* UsageBadgeTableViewCell.swift in Sources */,
-				5B5D001A23A1F0F4003D1A1C /* UsageTableView.swift in Sources */,
 				5B4A239B23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B5D001B23A1F0F4003D1A1C /* NavigationView.swift in Sources */,
 				5BEF584623AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				5B5D001C23A1F0F4003D1A1C /* DataRequestedViewController.swift in Sources */,
+				5BA9FF6D23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */,
+				5B590A7423B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */,
 				5B5D001D23A1F0F4003D1A1C /* UIFont+Theme.swift in Sources */,
 				5B5D001E23A1F0F4003D1A1C /* TableViewCell.swift in Sources */,
 				5B98950723AA338300B72700 /* GraphDataConverter.swift in Sources */,
@@ -2393,12 +2435,11 @@
 				5B4A239123B118E500447366 /* SectionHeadingView.swift in Sources */,
 				5B5D002C23A1F0F4003D1A1C /* String+Facebook.swift in Sources */,
 				5B5D002D23A1F0F4003D1A1C /* ThemeManager.swift in Sources */,
-				5B4A237923B1132E00447366 /* BadgeView.swift in Sources */,
+				5B4A237923B1132E00447366 /* UsageBadgeView.swift in Sources */,
 				5B5D002E23A1F0F4003D1A1C /* UnderlinedTextField.swift in Sources */,
 				5B5D002F23A1F0F4003D1A1C /* PostHeadingViewCell.swift in Sources */,
 				5B4A238123B1145100447366 /* TimeFilterView.swift in Sources */,
 				5B5D003023A1F0F4003D1A1C /* UsageViewModel.swift in Sources */,
-				5B5D003123A1F0F4003D1A1C /* InsightTableView.swift in Sources */,
 				5B5D003223A1F0F4003D1A1C /* MoyaAuthPlugin.swift in Sources */,
 				5B5D003323A1F0F4003D1A1C /* FBArchiveService.swift in Sources */,
 				5B93230223A3635E00C3C408 /* SignOutViewController.swift in Sources */,
@@ -2422,10 +2463,12 @@
 				5B5D004323A1F0F4003D1A1C /* LaunchingViewController.swift in Sources */,
 				5B5D004423A1F0F4003D1A1C /* FbmAccountAPI.swift in Sources */,
 				5B5D004523A1F0F4003D1A1C /* String+SupportBitmark.swift in Sources */,
+				5BA9FF6923B2294900E57A20 /* InsightService.swift in Sources */,
 				5B5D004623A1F0F4003D1A1C /* PostAPI.swift in Sources */,
 				5B4A238D23B1166300447366 /* FilterGeneralView.swift in Sources */,
 				5B5D004723A1F0F4003D1A1C /* Usage.swift in Sources */,
 				5B5D004823A1F0F4003D1A1C /* ThemedViewController.swift in Sources */,
+				5B4A239F23B2120B00447366 /* Insight.swift in Sources */,
 				5B5D004923A1F0F4003D1A1C /* FileManager+Directory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2437,6 +2480,7 @@
 				E2DB667F237D3B69005367C2 /* RealmConfig.swift in Sources */,
 				E2DB6680237D3B69005367C2 /* Button.swift in Sources */,
 				E2DB6681237D3B69005367C2 /* AppDelegate.swift in Sources */,
+				5B4A23A623B21CD400447366 /* SectionSeparator.swift in Sources */,
 				E2DB6682237D3B69005367C2 /* SubmitButton.swift in Sources */,
 				5B93232123A363E200C3C408 /* FAQViewController.swift in Sources */,
 				E2DB6683237D3B69005367C2 /* TextField.swift in Sources */,
@@ -2449,16 +2493,18 @@
 				5B4A238423B1156F00447366 /* FilterTypeView.swift in Sources */,
 				5B93232523A39BFC00C3C408 /* Archive.swift in Sources */,
 				E222907D2394F19D00412CBC /* Groups.swift in Sources */,
+				5B4A23A223B212E800447366 /* TimeUnit.swift in Sources */,
 				E28B560C238D162400F1BCF2 /* FbmAccountService.swift in Sources */,
 				E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
+				5B590A6F23B302D6006C194D /* MoodView.swift in Sources */,
 				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
 				E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */,
 				E23807CA239618000079A3C4 /* PostDataTableViewCell.swift in Sources */,
 				E2DB6687237D3B69005367C2 /* Credential.swift in Sources */,
+				5BA9FF6423B2293F00E57A20 /* InsightAPI.swift in Sources */,
 				E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832D6FE238BC23D0074AEDC /* AccountViewModel.swift in Sources */,
 				5B93231123A363AE00C3C408 /* ViewRecoveryKeyViewController.swift in Sources */,
-				58C009CE239796BB00302F49 /* InsightBadgeTableViewCell.swift in Sources */,
 				E2DB6688237D3B69005367C2 /* Global.swift in Sources */,
 				E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5BB319B523A09882005F7C58 /* AskNotificationsViewController.swift in Sources */,
@@ -2474,6 +2520,7 @@
 				5BBB663923A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */,
 				E2DB668D237D3B69005367C2 /* SeparateLine.swift in Sources */,
 				5B9322FD23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
+				5BA9FF7023B23CAA00E57A20 /* IncomeView.swift in Sources */,
 				E22290A323953B0600412CBC /* PostTableView.swift in Sources */,
 				E2DB668E237D3B69005367C2 /* String+Helper.swift in Sources */,
 				E2DB668F237D3B69005367C2 /* NoInternetBanner.swift in Sources */,
@@ -2492,7 +2539,6 @@
 				E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
-				E24420382398E1FA00520FE9 /* Constant+FakeData.swift in Sources */,
 				5BB2853023A34235000C04CA /* SettingsBundle.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
 				5B9322F923A362B800C3C408 /* SignOutWarningViewController.swift in Sources */,
@@ -2506,6 +2552,7 @@
 				5832D702238BC23D0074AEDC /* InsightViewController.swift in Sources */,
 				E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */,
 				E2DB669C237D3B69005367C2 /* ReadingTextView.swift in Sources */,
+				5BA9FF5F23B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				E29F5A272383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5B93231923A363C800C3C408 /* AboutViewController.swift in Sources */,
 				E27959E0238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
@@ -2526,12 +2573,12 @@
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
 				58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */,
 				E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
-				585D51DD2394FAA00088D56F /* UsageBadgeTableViewCell.swift in Sources */,
-				E2C0DBB8239A384200BC7810 /* UsageTableView.swift in Sources */,
 				5B4A239A23B1D1C300447366 /* MediaData.swift in Sources */,
 				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5BEF584523AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				E28B55F1238CE66500F1BCF2 /* DataRequestedViewController.swift in Sources */,
+				5BA9FF6C23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */,
+				5B590A7323B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */,
 				E2DB66A3237D3B69005367C2 /* UIFont+Theme.swift in Sources */,
 				E2DB66A4237D3B69005367C2 /* TableViewCell.swift in Sources */,
 				5B98950623AA338300B72700 /* GraphDataConverter.swift in Sources */,
@@ -2551,12 +2598,11 @@
 				5B4A239023B118E500447366 /* SectionHeadingView.swift in Sources */,
 				E292EE0E23976F1A00DC466E /* String+Facebook.swift in Sources */,
 				E2DB66AB237D3B69005367C2 /* ThemeManager.swift in Sources */,
-				5B4A237823B1132E00447366 /* BadgeView.swift in Sources */,
+				5B4A237823B1132E00447366 /* UsageBadgeView.swift in Sources */,
 				E2DB66AC237D3B69005367C2 /* UnderlinedTextField.swift in Sources */,
 				E22BC2EC239E3FF000018BC4 /* PostHeadingViewCell.swift in Sources */,
 				5B4A238023B1145100447366 /* TimeFilterView.swift in Sources */,
 				5832D6E5238BBE390074AEDC /* UsageViewModel.swift in Sources */,
-				58C009CC239796B800302F49 /* InsightTableView.swift in Sources */,
 				E28B55FC238D0A6800F1BCF2 /* MoyaAuthPlugin.swift in Sources */,
 				E28B55F8238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
 				5B93230123A3635E00C3C408 /* SignOutViewController.swift in Sources */,
@@ -2580,10 +2626,12 @@
 				E2DB66B3237D3B69005367C2 /* LaunchingViewController.swift in Sources */,
 				E28B5612238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */,
 				E2DB66B4237D3B69005367C2 /* String+SupportBitmark.swift in Sources */,
+				5BA9FF6823B2294900E57A20 /* InsightService.swift in Sources */,
 				E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */,
 				5B4A238C23B1166300447366 /* FilterGeneralView.swift in Sources */,
 				E21EF9E8239100A6004D4513 /* Usage.swift in Sources */,
 				E2DB66B5237D3B69005367C2 /* ThemedViewController.swift in Sources */,
+				5B4A239E23B2120B00447366 /* Insight.swift in Sources */,
 				E2DB66B6237D3B69005367C2 /* FileManager+Directory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

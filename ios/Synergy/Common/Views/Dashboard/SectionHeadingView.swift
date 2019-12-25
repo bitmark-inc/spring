@@ -26,18 +26,7 @@ class SectionHeadingView: UIView {
         super.init(frame: frame)
 
         flex.direction(.column).define { (flex) in
-            flex.addItem()
-                .backgroundColor(UIColor(hexString: "#828180")!)
-                .marginTop(3)
-                .marginLeft(0)
-                .marginRight(0)
-                .height(1)
-            flex.addItem()
-                .backgroundColor(UIColor(hexString: "#828180")!)
-                .marginTop(3)
-                .marginLeft(0)
-                .marginRight(0)
-                .height(1)
+            flex.addItem(SectionSeparator())
             flex.addItem().direction(.row).define { (flex) in
                 flex.alignItems(.start)
                 flex.padding(38, 18, 28, 18)
@@ -98,6 +87,23 @@ class SectionHeadingView: UIView {
                     }
                 })
                 .disposed(by: disposeBag)
+
+        case .mood:
+            fillData(countText: R.string.localizable.yourMood().localizedUppercase,
+                     actionDescriptionText: R.string.localizable.sentimentAnalysisOfYourPosts())
+
+        default:
+            break
+        }
+    }
+
+    func setProperties(section: Section) {
+        self.section = section
+
+        switch section {
+        case .mood:
+            fillData(countText: R.string.localizable.yourMood().localizedUppercase,
+                     actionDescriptionText: R.string.localizable.sentimentAnalysisOfYourPosts())
 
         default:
             break

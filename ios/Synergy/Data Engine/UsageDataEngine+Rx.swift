@@ -28,8 +28,8 @@ extension Reactive where Base: UsageDataEngine {
 
                 let realm = try RealmConfig.currentRealm()
 
-                let postUsageID = Usage.makeID(usageScope: UsageScope(date: startDate, timeUnit: timeUnit, section: .posts))
-                let reactionUsageID = Usage.makeID(usageScope: UsageScope(date: startDate, timeUnit: timeUnit, section: .reactions))
+                let postUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .posts).makeID()
+                let reactionUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .reactions).makeID()
 
                 if let postUsage = realm.object(ofType: Usage.self, forPrimaryKey: postUsageID),
                    let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID) {

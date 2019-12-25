@@ -14,13 +14,12 @@ import SwiftDate
 class InsightViewModel: ViewModel {
 
     // MARK: - Inputs
-    let dateRelay = BehaviorRelay(value: Date().dateAtStartOf(.weekday))
-    let timeUnitRelay = BehaviorSubject<TimeUnit>(value: .week)
+    let dateRelay = BehaviorRelay(value: Date().in(Locales.english).dateAtStartOf(.weekOfMonth).date)
+    let timeUnitRelay = BehaviorRelay<TimeUnit>(value: .week)
 
     // MARK: - Outputs
-//    let realmAverageObservable = PublishSubject<Results<Average>>()
-//    let realmPostInsightObservable = PublishSubject<Insight>()
-//    let realmReactionInsightObservable = PublishSubject<Insight>()
+    let realmIncomeInsightRelay = BehaviorRelay<Insight?>(value: nil)
+    let realmMoodInsightRelay = BehaviorRelay<Insight?>(value: nil)
 //
 //    override init() {
 //        super.init()
@@ -34,39 +33,25 @@ class InsightViewModel: ViewModel {
 //            .disposed(by: disposeBag)
 //    }
 //
-//    func fetchInsight() {
-//        BehaviorRelay.combineLatest(dateRelay, timeUnitRelay)
-//            .subscribe(onNext: { [weak self] (date, timeUnit) in
-//                guard let self = self else { return }
-//
-//                var insightScope: InsightScope = (
-//                    sectionName: "",
-//                    date: date, timeUnit: timeUnit.rawValue)
-//
-//                // Insight - POSTs
-//                insightScope.sectionName = Section.posts.rawValue
-//                let postInsightScope = insightScope
-//
-//                _ = InsightDataEngine.rx.fetchAndSyncInsight(postInsightScope)
-//                    .catchError({ (error) -> Single<Insight> in
-//                        Global.log.error(error)
-//                        return Single.just(Insight())
-//                    })
-//                    .asObservable()
-//                    .bind(to: self.realmPostInsightObservable)
-//
-//                // Insight - Reactions
-//                insightScope.sectionName = Section.reactions.rawValue
-//                let reactionInsightScope = insightScope
-//
-//                _ = InsightDataEngine.rx.fetchAndSyncInsight(reactionInsightScope)
-//                    .catchError({ (error) -> Single<Insight> in
-//                        Global.log.error(error)
-//                        return Single.just(Insight())
-//                    })
-//                    .asObservable()
-//                    .bind(to: self.realmReactionInsightObservable)
-//            })
-//            .disposed(by: disposeBag)
-//    }
+    func fetchInsight() {
+        dateRelay // ignore timeUnit change, cause when timeUnit change, it trigger date change also
+        .subscribe(onNext: { [weak self] (date) in
+            guard let self = self else { return }
+            let timeUnit = self.timeUnitRelay.value
+
+            _ = InsightDataEngine.rx.fetchAndSyncInsight(timeUnit: timeUnit, startDate: date)
+                .catchError({ (error) -> Single<[Section: Insight?]> in
+                    Global.log.error(error)
+                    return Single.just([:])
+                })
+                .asObservable()
+                .subscribe(onNext: { [weak self] (insights) in
+                    guard let self = self else { return }
+                    self.realmIncomeInsightRelay.accept(insights[.fbIncome] ?? nil)
+                    self.realmMoodInsightRelay.accept(insights[.mood] ?? nil)
+                })
+        })
+        .disposed(by: disposeBag)
+
+    }
 }

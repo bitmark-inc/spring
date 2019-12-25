@@ -67,3 +67,14 @@
 "graph.key.other" = "Others";
 
 "graph.noActivity" = "No activity for this period.";
+
+"income" = "income";
+"mood" = "mood";
+
+"income.description" = "Income Facebook made from you %@";
+"yourMood" = "Your Mood";
+"sentimentAnalysisOfYourPosts" = "sentiment analysis of your posts";
+"weeklyAverage" = "Weekly Average";
+
+"Unhappy" = "Unhappy";
+"Happy" = "Happy";

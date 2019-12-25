@@ -36,6 +36,7 @@ class UsageViewController: ViewController {
 
     // MARK: - Properties
     lazy var scroll = UIScrollView()
+    lazy var usageView = UIView()
     lazy var headingView = makeHeadingView()
     lazy var timelineView = makeTimelineView()
     lazy var badgeView = makeBadgeView()
@@ -103,14 +104,13 @@ class UsageViewController: ViewController {
 
                 let distance = self.segmentDistances[timeUnit]!
                 self.timelineView.bindData(
-                    periodName: String.localizedStringWithFormat("meaningWord.\(timeUnit.rawValue)".localized(), abs(Int32(distance))),
+                    periodName: timeUnit.meaningTimeText(with: distance),
                     periodDescription: datePeriod.makeTimelinePeriodText(in: timeUnit),
                     distance: distance)
             })
             .disposed(by: disposeBag)
     }
 
-    let usageView = UIView()
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -161,8 +161,8 @@ extension UsageViewController {
         return timeFilterView
     }
 
-    fileprivate func makeBadgeView() -> BadgeView {
-        let badgeView = BadgeView()
+    fileprivate func makeBadgeView() -> UsageBadgeView {
+        let badgeView = UsageBadgeView()
         badgeView.setProperties(container: self)
         return badgeView
     }

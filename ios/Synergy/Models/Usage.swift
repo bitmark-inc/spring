@@ -43,10 +43,9 @@ class Usage: Object, Decodable {
         quantity = try values.decode(Int.self, forKey: .quantity)
         diffFromPrevious = try values.decode(Double.self, forKey: .diffFromPrevious)
 
-        id = Usage.makeID(usageScope: UsageScope(
-            date: startedAt,
-            timeUnit: TimeUnit(rawValue: timeUnit) ?? .week,
-            section: Section(rawValue: sectionName) ?? .posts))
+        id = SectionScope(date: startedAt,
+                          timeUnit: TimeUnit(rawValue: timeUnit) ?? .week,
+                          section: Section(rawValue: sectionName) ?? .posts).makeID()
 
         let groupsValue = try values.decode(Groups.self, forKey: .groups)
         groups = try GroupsConverter(from: groupsValue).valueAsString
@@ -70,50 +69,13 @@ class Usage: Object, Decodable {
     }
 }
 
-extension Usage {
-    static func makeID(usageScope: UsageScope) -> String {
-        let sectionName = usageScope.section.rawValue
-        let timeUnit = usageScope.timeUnit.rawValue
-        let dateTimestamp = usageScope.date.appTimeFormat
-        return "\(sectionName)_\(timeUnit)_\(dateTimestamp)"
-    }
-}
-
 enum Section: String {
     case posts
     case reactions
-    case message
+    case messages
+    case fbIncome = "fb-income"
+    case mood = "sentiment"
     case adInterest
     case adveriser
     case location
-}
-
-enum TimeUnit: String {
-    case week
-    case year
-    case decade
-
-    var subDateComponent: Calendar.Component {
-        switch self {
-        case .week:     return .day
-        case .year:     return .month
-        case .decade:   return .year
-        }
-    }
-
-    func barDateComponents(distance: Int) -> DateComponents {
-        switch self {
-        case .week: return DateComponents(day: distance)
-        case .year: return DateComponents(month: distance)
-        case .decade: return DateComponents(year: distance)
-        }
-    }
-
-    func shortenDayName(for date: Date) -> String {
-        switch self {
-        case .week: return date.dayName(ofStyle: .oneLetter)
-        case .year: return date.monthName(ofStyle: .oneLetter)
-        case .decade: return date.toFormat("yy")
-        }
-    }
 }

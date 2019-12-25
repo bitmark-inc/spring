@@ -15,19 +15,16 @@ enum UsageAPI {
     case getInDecade(startDate: Date)
 }
 
-extension UsageAPI: TargetType {
+extension UsageAPI: AuthorizedTargetType {
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL + "/api/usage")!
     }
 
     var path: String {
         switch self {
-        case .getInWeek:
-            return "week"
-        case .getInYear:
-            return "year"
-        case .getInDecade:
-            return "decade"
+        case .getInWeek:    return "week"
+        case .getInYear:    return "year"
+        case .getInDecade:  return "decade"
         }
     }
 

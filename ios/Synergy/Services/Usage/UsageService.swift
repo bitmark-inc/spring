@@ -19,9 +19,9 @@ class UsageService {
 
         let usageAPI: UsageAPI!
         switch timeUnit {
-        case .week: usageAPI = .getInWeek(startDate: startDate)
-        case .year: usageAPI = .getInYear(startDate: startDate)
-        case .decade: usageAPI = .getInDecade(startDate: startDate)
+        case .week:     usageAPI = .getInWeek(startDate: startDate)
+        case .year:     usageAPI = .getInYear(startDate: startDate)
+        case .decade:   usageAPI = .getInDecade(startDate: startDate)
         }
 
         return provider.rx.requestWithRefreshJwt(usageAPI)

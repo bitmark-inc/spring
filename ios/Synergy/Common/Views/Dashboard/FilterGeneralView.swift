@@ -154,7 +154,7 @@ class FilterGeneralView: UIView {
     }
 
     fileprivate func fillData(with data: [(names: [String], sumData: Double, data: [Double])]?) {
-        if let data = data {
+        if let data = data, data.count > 0 {
             var friends = [String]()
             var entries = [BarChartDataEntry]()
             for (index, (names, _, data)) in data.reversed().enumerated() {
@@ -182,16 +182,22 @@ class FilterGeneralView: UIView {
             chartView.xAxis.labelCount = data.count
             chartView.legend.enabled = false
 
-            let chartViewHeight: CGFloat = (fixedBarHeight / 0.15 + 12) * CGFloat(data.count)
+            let chartViewHeight: CGFloat!
+
+            if data.count == 1 {
+                chartViewHeight = (fixedBarHeight / 0.15 + 30)
+            } else {
+                chartViewHeight = (fixedBarHeight / 0.15 + 14) * CGFloat(data.count)
+            }
             chartView.flex.height(chartViewHeight)
             flex.height(chartViewHeight + 30)
         } else {
             chartView.clear()
             chartView.flex.height(0)
             flex.height(0)
-            flex.markDirty()
         }
 
+        flex.markDirty()
         containerLayoutDelegate?.layout()
     }
 }

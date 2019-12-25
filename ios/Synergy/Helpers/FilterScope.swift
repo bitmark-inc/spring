@@ -16,10 +16,16 @@ struct FilterScope {
     let filterValue: Any
 }
 
-struct UsageScope {
+struct SectionScope {
     let date: Date
     let timeUnit: TimeUnit
     let section: Section
+
+    func makeID() -> String {
+        let sectionName = section.rawValue
+        let dateTimestamp = date.appTimeFormat
+        return "\(sectionName)_\(timeUnit.rawValue)_\(dateTimestamp)"
+    }
 }
 
 struct DatePeriod {

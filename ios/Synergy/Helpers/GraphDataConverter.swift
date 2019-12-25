@@ -148,3 +148,38 @@ enum ReactionType: String {
         }
     }
 }
+
+struct MoodType {
+    let value: Int
+
+    var moodImage: UIImage? {
+        switch value {
+        case 0:     return R.image.mood0()
+        case 1,2:   return R.image.mood1()
+        case 3,4:   return R.image.mood2()
+        case 5,6:   return R.image.mood3()
+        case 7,8:   return R.image.mood4()
+        case 9,10:  return R.image.mood5()
+        default:
+            return nil
+        }
+    }
+
+    var moodBarImage: UIImage? {
+        switch value {
+        case 0:     return R.image.moodBar0()
+        case 1:     return R.image.moodBar1()
+        case 2:     return R.image.moodBar2()
+        case 3:     return R.image.moodBar3()
+        case 4:     return R.image.moodBar4()
+        case 5:     return R.image.moodBar5()
+        case 6:     return R.image.moodBar6()
+        case 7:     return R.image.moodBar7()
+        case 8:     return R.image.moodBar8()
+        case 9:     return R.image.moodBar9()
+        case 10:    return R.image.moodBar10()
+        default:
+            return nil
+        }
+    }
+}

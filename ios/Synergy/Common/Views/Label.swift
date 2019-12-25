@@ -112,9 +112,19 @@ extension Label {
         self.font = font
 
         switch colorTheme {
+        case .black:
+            themeService.rx
+                .bind({ $0.blackTextColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
         case .tundora:
             themeService.rx
                 .bind({ $0.tundoraTextColor }, to: rx.textColor)
+                .disposed(by: disposeBag)
+
+        case .cognac:
+            themeService.rx
+                .bind({ $0.themeColor }, to: rx.textColor)
                 .disposed(by: disposeBag)
 
         default:
