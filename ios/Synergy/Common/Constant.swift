@@ -41,14 +41,6 @@ public struct Constant {
         public static let key = "account_id"
     }
 
-    public struct PostType {
-        public static let update = "update"
-        public static let photo = "photo"
-        public static let story = "story"
-        public static let video = "video"
-        public static let link = "link"
-    }
-
     static let separator = ","
     static let fbImageServerURL = URL(string: "https://bitmark-mobile-files.s3-ap-northeast-1.amazonaws.com/fb_data")
 }
