@@ -79,7 +79,7 @@ class AccountViewController: ViewController, BackNavigator {
                 flex.addItem(
                     makeOptionsSection(
                         name: R.string.phrase.accountSettingsSupport(),
-                        options: [aboutOptionButton, faqOptionButton, contactOptionButton, surveyOptionButton]))
+                        options: [contactOptionButton, surveyOptionButton]))
                     .marginTop(12)
             }
 

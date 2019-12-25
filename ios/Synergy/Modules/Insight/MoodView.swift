@@ -18,7 +18,6 @@ class MoodView: UIView {
     fileprivate lazy var titleBarLabel = makeTitleBarLabel()
     fileprivate lazy var moodBarImage = makeMoodBarImage()
     fileprivate lazy var noActivityView = makeNoActivityView()
-    fileprivate let sectionHeight: CGFloat = 300
 
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
     var dataObserver: Disposable? // stop observing old-data
@@ -30,7 +29,6 @@ class MoodView: UIView {
 
         flex.direction(.column)
             .padding(0, 18, 0, 18)
-            .height(sectionHeight)
             .define { (flex) in
                 flex.addItem(moodImage).marginTop(21)
                 flex.addItem(titleBarLabel).marginTop(24)
@@ -44,6 +42,7 @@ class MoodView: UIView {
                         flex.addItem(makeMoodTextView(moodText: R.string.localizable.happy(), moodValue: 10, valueAlignSelf: .end))
                     }
                 flex.addItem(noActivityView).alignSelf(.center)
+                flex.addItem().height(Size.dh(30))
             }
     }
 
@@ -87,6 +86,9 @@ class MoodView: UIView {
             let moodType = MoodType(value: Int(moodValue))
             moodImage.image = moodType.moodImage
             moodBarImage.image = moodType.moodBarImage
+
+            moodBarImage.flex.markDirty()
+            flex.layout()
         } else {
             noActivityView.isHidden = false
             moodImage.image = R.image.mood0()
@@ -105,8 +107,8 @@ extension MoodView {
     fileprivate func makeTitleBarLabel() -> Label {
         let label = Label()
         label.apply(
-            text: "WEEKLY AVERAGE",
-            font: R.font.atlasGroteskThin(size: Size.ds(14)),
+            text: R.string.localizable.average().localizedUppercase,
+            font: R.font.atlasGroteskLight(size: Size.ds(14)),
             colorTheme: ColorTheme.black)
         return label
     }
@@ -136,7 +138,7 @@ extension MoodView {
 
     fileprivate func makeNoActivityView() -> Label {
         let label = Label()
-        label.apply(text: R.string.localizable.graphNoActivity(),
+        label.apply(text: R.string.localizable.graphMoodNoActivity(),
                     font: R.font.atlasGroteskLight(size: Size.ds(14)),
                     colorTheme: .black,
                     lineHeight: 1.056)
