@@ -39,7 +39,7 @@ func (b *BackgroundContext) submitArchive(job *work.Job) error {
 	// Remember to clean up the file afterwards
 	defer os.Remove(tmpFile.Name())
 
-	size, err := downloader.Download(tmpFile,
+	_, err = downloader.Download(tmpFile,
 		&s3.GetObjectInput{
 			Bucket: aws.String(viper.GetString("aws.s3.bucket")),
 			Key:    aws.String(s3key),
