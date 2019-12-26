@@ -73,6 +73,14 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     fun bind(g: GroupModelView) {
         val group = g.copy()
+        if (group.name == GroupName.SUB_PERIOD) {
+            // sort the sub-period by ascending
+            val sortedEntries = group.entries.toMutableList()
+            sortedEntries.sortWith(Comparator { o1, o2 ->
+                o1.xValue[0].toLong().compareTo(o2.xValue[0].toLong())
+            })
+            group.entries = sortedEntries
+        }
         tvName.text = context.getString(
             when (group.sectionName) {
                 SectionName.POST        -> {
