@@ -122,7 +122,7 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat); err != nil {
 			return err
 		}
-		if (weekTimestamp - 7*24*60*60) == currentWeekReactionStat.PeriodStartedAt {
+		if absWeek(weekTimestamp-1) == currentWeekReactionStat.PeriodStartedAt {
 			lastWeekQuantity = currentWeekReactionStat.Quantity
 		} else {
 			lastWeekQuantity = 0
@@ -187,7 +187,7 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat); err != nil {
 			return err
 		}
-		if (yearTimestamp - 7*24*60*60) == currentYearReactionStat.PeriodStartedAt {
+		if absYear(yearTimestamp-1) == currentYearReactionStat.PeriodStartedAt {
 			lastYearQuantity = currentYearReactionStat.Quantity
 		} else {
 			lastYearQuantity = 0
@@ -252,7 +252,7 @@ func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry 
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat); err != nil {
 			return err
 		}
-		if (decadeTimestamp - 7*24*60*60) == currentDecadeReactionStat.PeriodStartedAt {
+		if absDecade(decadeTimestamp-1) == currentDecadeReactionStat.PeriodStartedAt {
 			lastDecadeQuantity = currentDecadeReactionStat.Quantity
 		} else {
 			lastDecadeQuantity = 0
