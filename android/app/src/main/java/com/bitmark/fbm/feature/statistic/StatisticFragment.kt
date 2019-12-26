@@ -153,6 +153,7 @@ class StatisticFragment : BaseSupportFragment() {
 
     private fun showPeriod(period: Period, periodStartedAt: Long, periodGap: Int) {
         ivNextPeriod.isEnabled = periodStartedAt != getStartOfPeriod(period)
+        ivPrevPeriod.isEnabled = getStartOfPeriodMillis(period, periodStartedAt, false) >= 0L
         tvTime.text = DateTimeUtil.formatPeriod(period, periodStartedAt)
         val defaultPeriodGap = getDefaultPeriodGap(period)
         if (defaultPeriodGap == periodGap) {
