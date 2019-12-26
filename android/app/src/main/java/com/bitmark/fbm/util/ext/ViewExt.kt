@@ -8,6 +8,7 @@ package com.bitmark.fbm.util.ext
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,10 @@ import com.bitmark.fbm.R
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.view.GlideUrlNoToken
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.layout_snack_bar.view.*
 
@@ -156,5 +161,33 @@ fun ViewGroup.createSnackbar(
     return snackbar
 }
 
-fun ImageView.load(url: String, cache: String? = null) =
-    Glide.with(context).load(GlideUrlNoToken(url, cache)).into(this)
+fun ImageView.load(
+    url: String,
+    cache: String? = null,
+    success: () -> Unit = {},
+    error: (GlideException?) -> Unit = {}
+) =
+    Glide.with(context).load(GlideUrlNoToken(url, cache)).listener(object :
+        RequestListener<Drawable> {
+        override fun onLoadFailed(
+            e: GlideException?,
+            model: Any?,
+            target: Target<Drawable>?,
+            isFirstResource: Boolean
+        ): Boolean {
+            error(e)
+            return false
+        }
+
+        override fun onResourceReady(
+            resource: Drawable?,
+            model: Any?,
+            target: Target<Drawable>?,
+            dataSource: DataSource?,
+            isFirstResource: Boolean
+        ): Boolean {
+            success()
+            return false
+        }
+
+    }).into(this)

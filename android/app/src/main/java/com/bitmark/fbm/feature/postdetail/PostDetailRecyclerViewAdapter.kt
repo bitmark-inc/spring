@@ -13,14 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.model.entity.MediaType
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.DateTimeUtil
-import com.bitmark.fbm.util.ext.load
-import com.bitmark.fbm.util.ext.openBrowser
-import com.bitmark.fbm.util.ext.removeQuote
-import com.bitmark.fbm.util.ext.toHtmlSpan
+import com.bitmark.fbm.util.ext.*
 import com.bitmark.fbm.util.modelview.PostModelView
 import com.bitmark.fbm.util.view.NoUnderlineSpan
 import kotlinx.android.synthetic.main.item_link.view.*
@@ -142,7 +140,27 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             with(itemView) {
                 tvInfoMedia.text = getInfo(item)
                 tvCaptionMedia.text = item.content
-                ivPhoto.load(item.url ?: item.thumbnail ?: "", item.uri)
+                when (item.mediaType) {
+                    MediaType.PHOTO -> {
+                        ivPhoto.load(item.url!!, item.uri)
+                        ivDefaultThumbnail.gone()
+                        ivPlayVideo.gone()
+                    }
+                    MediaType.VIDEO -> {
+                        ivPlayVideo.visible()
+                        if (item.thumbnail == null) {
+                            ivPhoto.setBackgroundColor(context.getColor(R.color.athens_gray))
+                            ivDefaultThumbnail.visible()
+                        } else {
+                            ivPhoto.load(item.thumbnail, item.uri, error = {
+                                ivPhoto.setBackgroundColor(context.getColor(R.color.athens_gray))
+                                ivDefaultThumbnail.visible()
+                            })
+                            ivDefaultThumbnail.gone()
+                        }
+                    }
+                }
+
             }
         }
     }

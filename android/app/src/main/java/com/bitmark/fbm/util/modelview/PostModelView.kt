@@ -8,6 +8,7 @@ package com.bitmark.fbm.util.modelview
 
 import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.model.PostData
+import com.bitmark.fbm.data.model.entity.MediaType
 import com.bitmark.fbm.data.model.entity.PostType
 import java.net.URLEncoder
 
@@ -29,7 +30,9 @@ data class PostModelView(
 
     val title: String,
 
-    val thumbnail: String?
+    val thumbnail: String?,
+
+    val mediaType: MediaType?
 
 ) : ModelView {
 
@@ -42,7 +45,7 @@ data class PostModelView(
             val title = post.title ?: ""
             val uri = when (post.type) {
                 PostType.MEDIA, PostType.STORY -> {
-                    if (post.mediaType == "photo") post.source else post.thumbnail
+                    if (post.mediaType == MediaType.PHOTO) post.source else post.thumbnail
                 }
                 else                           -> null
             }
@@ -62,7 +65,8 @@ data class PostModelView(
                 location,
                 post.timestamp,
                 title,
-                post.thumbnail
+                post.thumbnail,
+                post.mediaType
             )
         }
     }

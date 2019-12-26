@@ -74,6 +74,9 @@ data class PostR(
     var comments: List<CommentR>? = null
 }
 
+val PostR.mediaType: MediaType?
+    get() = if (mediaData?.get(0) == null) null else MediaType.fromString(mediaData[0].type)
+
 data class MediaData(
     @Expose
     @SerializedName("source")
@@ -87,6 +90,24 @@ data class MediaData(
     @SerializedName("type")
     val type: String
 )
+
+enum class MediaType {
+    PHOTO,
+    VIDEO;
+
+    companion object
+}
+
+fun MediaType.string() = when (this) {
+    MediaType.PHOTO -> "photo"
+    MediaType.VIDEO -> "video"
+}
+
+fun MediaType.Companion.fromString(type: String) = when (type) {
+    "photo" -> MediaType.PHOTO
+    "video" -> MediaType.VIDEO
+    else    -> error("unsupported media type $type")
+}
 
 fun List<PostR>.applyRequiredValues() {
     for (post in this) {

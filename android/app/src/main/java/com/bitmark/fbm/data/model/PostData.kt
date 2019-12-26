@@ -59,7 +59,7 @@ class PostData(
     val timestamp: Long
         get() = post.timestamp
 
-    val mediaType: String?
-        get() = post.mediaData?.first()?.type
+    val mediaType: MediaType?
+        get() = post.mediaType
 
 }
