@@ -6,7 +6,6 @@
  */
 package com.bitmark.fbm.feature.account
 
-import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
@@ -14,7 +13,6 @@ import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.auth.BiometricAuthActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
-import com.bitmark.fbm.feature.support.SupportActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.util.ext.openBrowser
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
@@ -59,22 +57,22 @@ class AccountActivity : BaseAppCompatActivity() {
             navigator.anim(RIGHT_LEFT).startActivity(RecoveryContainerActivity::class.java)
         }
 
-        tvAbout.setSafetyOnclickListener {
-            val bundle = SupportActivity.getBundle(
-                getString(R.string.about),
-                "Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
-            )
-            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
-        }
+//        tvAbout.setSafetyOnclickListener {
+//            val bundle = SupportActivity.getBundle(
+//                getString(R.string.about),
+//                "Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
+//            )
+//            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
+//        }
 
-        tvFaq.setSafetyOnclickListener {
-            // TODO change real text later
-            val bundle = SupportActivity.getBundle(
-                getString(R.string.faq),
-                "Dummy FAQ"
-            )
-            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
-        }
+//        tvFaq.setSafetyOnclickListener {
+//            // TODO change real text later
+//            val bundle = SupportActivity.getBundle(
+//                getString(R.string.faq),
+//                "Dummy FAQ"
+//            )
+//            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
+//        }
 
         tvContact.setSafetyOnclickListener {
             Intercom.client().displayMessenger()

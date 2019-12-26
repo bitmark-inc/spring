@@ -20,9 +20,9 @@ import javax.inject.Inject
 class SupportActivity : BaseAppCompatActivity() {
 
     companion object {
-        private val TITLE = "title"
+        private const val TITLE = "title"
 
-        private val MESSAGE = "msg"
+        private const val MESSAGE = "msg"
 
         fun getBundle(title: String, message: String): Bundle {
             val bundle = Bundle()

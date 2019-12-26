@@ -102,6 +102,8 @@
     <string name="empty" />
     <string name="by_type">By type</string>
     <string name="by_day">By day</string>
+    <string name="by_month">By month</string>
+    <string name="by_year">By year</string>
     <string name="by_friends_tagged">By friends tagged</string>
     <string name="by_place_tagged">By place tagged</string>
     <string name="by_friend">By friend</string>

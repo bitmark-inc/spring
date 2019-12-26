@@ -130,29 +130,29 @@
             android:textSize="@dimen/sp_24"
             />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvAbout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_14"
-            android:fontFamily="@font/grotesk_light_font_family"
-            android:includeFontPadding="false"
-            android:text="@string/about_arrow"
-            android:textColor="@drawable/color_black_stateful"
-            android:textSize="@dimen/sp_18"
-            />
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/tvAbout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dp_14"-->
+<!--            android:fontFamily="@font/grotesk_light_font_family"-->
+<!--            android:includeFontPadding="false"-->
+<!--            android:text="@string/about_arrow"-->
+<!--            android:textColor="@drawable/color_black_stateful"-->
+<!--            android:textSize="@dimen/sp_18"-->
+<!--            />-->
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvFaq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_14"
-            android:fontFamily="@font/grotesk_light_font_family"
-            android:includeFontPadding="false"
-            android:text="@string/faq_arrow"
-            android:textColor="@drawable/color_black_stateful"
-            android:textSize="@dimen/sp_18"
-            />
+<!--        <androidx.appcompat.widget.AppCompatTextView-->
+<!--            android:id="@+id/tvFaq"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="@dimen/dp_14"-->
+<!--            android:fontFamily="@font/grotesk_light_font_family"-->
+<!--            android:includeFontPadding="false"-->
+<!--            android:text="@string/faq_arrow"-->
+<!--            android:textColor="@drawable/color_black_stateful"-->
+<!--            android:textSize="@dimen/sp_18"-->
+<!--            />-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvContact"

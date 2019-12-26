@@ -83,94 +83,44 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         }
         tvName.text = context.getString(
             when (group.sectionName) {
-                SectionName.POST        -> {
+                SectionName.POST     -> {
                     when (group.name) {
                         GroupName.TYPE       -> R.string.by_type
-                        GroupName.SUB_PERIOD -> R.string.by_day
+                        GroupName.SUB_PERIOD -> when (group.period) {
+                            Period.WEEK   -> R.string.by_day
+                            Period.YEAR   -> R.string.by_month
+                            Period.DECADE -> R.string.by_year
+                        }
                         GroupName.FRIEND     -> R.string.by_friends_tagged
                         GroupName.PLACE      -> R.string.by_place_tagged
                         else                 -> R.string.empty
                     }
                 }
-                SectionName.REACTION    -> {
+                SectionName.REACTION -> {
                     when (group.name) {
                         GroupName.TYPE       -> R.string.by_type
-                        GroupName.SUB_PERIOD -> R.string.by_day
+                        GroupName.SUB_PERIOD -> when (group.period) {
+                            Period.WEEK   -> R.string.by_day
+                            Period.YEAR   -> R.string.by_month
+                            Period.DECADE -> R.string.by_year
+                        }
                         GroupName.FRIEND     -> R.string.by_friend
                         else                 -> R.string.empty
                     }
                 }
-                SectionName.MESSAGE     -> {
-                    when (group.name) {
-                        GroupName.TYPE       -> R.string.by_chat
-                        GroupName.SUB_PERIOD -> R.string.by_day
-                        else                 -> R.string.empty
-                    }
-                }
-                SectionName.AD_INTEREST -> {
-                    when (group.name) {
-                        GroupName.TYPE       -> R.string.by_type
-                        GroupName.SUB_PERIOD -> R.string.by_day
-                        else                 -> R.string.empty
-                    }
-                }
-                SectionName.ADVERTISER  -> {
-                    when (group.name) {
-                        GroupName.TYPE       -> R.string.by_type
-                        GroupName.SUB_PERIOD -> R.string.by_day
-                        else                 -> R.string.empty
-                    }
-                }
-                SectionName.LOCATION    -> {
-                    when (group.name) {
-                        GroupName.TYPE       -> R.string.by_type
-                        GroupName.SUB_PERIOD -> R.string.by_day
-                        GroupName.AREA       -> R.string.by_area
-                        else                 -> R.string.empty
-                    }
-                }
-                else                    -> R.string.empty
+                else                 -> R.string.empty
             }
         ).toUpperCase()
         tvNameSuffix.text = context.getString(
             when (group.sectionName) {
-                SectionName.REACTION    -> {
+                SectionName.REACTION -> {
                     when (group.name) {
                         GroupName.SUB_PERIOD -> R.string.you_reacted
                         GroupName.FRIEND     -> R.string.you_reacted_to
                         else                 -> R.string.empty
                     }
                 }
-                SectionName.MESSAGE     -> {
-                    when (group.name) {
-                        GroupName.TYPE       -> R.string.with_person_or_group
-                        GroupName.SUB_PERIOD -> R.string.sent_or_received
-                        else                 -> R.string.empty
-                    }
-                }
-                SectionName.AD_INTEREST -> {
-                    when (group.name) {
-                        GroupName.TYPE       -> R.string.of_topic
-                        GroupName.SUB_PERIOD -> R.string.fb_tracked_them
-                        else                 -> R.string.empty
-                    }
-                }
-                SectionName.ADVERTISER  -> {
-                    when (group.name) {
-                        GroupName.TYPE       -> R.string.of_industry
-                        GroupName.SUB_PERIOD -> R.string.that_your_data_was_collected
-                        else                 -> R.string.empty
-                    }
-                }
-                SectionName.LOCATION    -> {
-                    when (group.name) {
-                        GroupName.TYPE       -> R.string.of_location
-                        GroupName.AREA       -> R.string.of_location
-                        GroupName.SUB_PERIOD -> R.string.fb_tracked_them
-                        else                 -> R.string.empty
-                    }
-                }
-                else                    -> R.string.empty
+                else                 -> R.string.empty
             }
         ).toLowerCase()
 
