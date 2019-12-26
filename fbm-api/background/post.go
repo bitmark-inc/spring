@@ -588,6 +588,7 @@ func (sc *postStatisticCounter) flushYearData() {
 func (sc *postStatisticCounter) countYear(r *postData) {
 	year := absYear(r.Timestamp)
 	if sc.currentYear == 0 {
+		sc.lastYear = 0
 		sc.currentYear = year
 	}
 
@@ -596,6 +597,7 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 		sc.flushYearData()
 
 		// Set current year
+		sc.lastYear = sc.currentYear
 		sc.currentYear = year
 	}
 
@@ -709,6 +711,7 @@ func (sc *postStatisticCounter) flushDecadeData() {
 func (sc *postStatisticCounter) countDecade(r *postData) {
 	decade := absDecade(r.Timestamp)
 	if sc.currentDecade == 0 {
+		sc.lastDecade = 0
 		sc.currentDecade = decade
 	}
 
@@ -717,6 +720,7 @@ func (sc *postStatisticCounter) countDecade(r *postData) {
 		sc.flushDecadeData()
 
 		// Set current decade
+		sc.lastDecade = sc.currentDecade
 		sc.currentDecade = decade
 	}
 
