@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d8876d54418d953fae3d519851760ecb",
+    "identityHash": "7ffcbb8a1f7dec9176aa00764e6dd0cd",
     "entities": [
       {
         "tableName": "Section",
@@ -328,7 +328,7 @@
       },
       {
         "tableName": "Reaction",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `actor` TEXT NOT NULL, `reaction` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `title` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `actor` TEXT NOT NULL, `reaction` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -365,7 +365,7 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [
           {
@@ -399,7 +399,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd8876d54418d953fae3d519851760ecb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ffcbb8a1f7dec9176aa00764e6dd0cd')"
     ]
   }
 }

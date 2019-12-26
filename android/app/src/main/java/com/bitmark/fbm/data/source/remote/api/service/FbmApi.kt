@@ -11,6 +11,7 @@ import com.bitmark.fbm.data.model.ArchiveData
 import com.bitmark.fbm.data.model.AutomationScriptData
 import com.bitmark.fbm.data.model.JwtData
 import com.bitmark.fbm.data.model.entity.PostR
+import com.bitmark.fbm.data.model.entity.ReactionR
 import com.bitmark.fbm.data.model.entity.SectionR
 import com.bitmark.fbm.data.source.remote.api.request.ArchiveRequestPayload
 import com.bitmark.fbm.data.source.remote.api.request.RegisterJwtRequest
@@ -57,4 +58,10 @@ interface FbmApi {
         @Query("started_at") startedAt: Long, @Query("ended_at")
         endedAt: Long
     ): Single<Map<String, List<PostR>>>
+
+    @GET("api/reactions")
+    fun listReaction(
+        @Query("started_at") startedAt: Long, @Query("ended_at")
+        endedAt: Long
+    ): Single<Map<String, List<ReactionR>>>
 }

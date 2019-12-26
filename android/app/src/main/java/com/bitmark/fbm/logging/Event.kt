@@ -30,4 +30,6 @@ enum class Event(val value: String) {
 
     SHARE_PREF_ERROR("share_pref_error"),
 
+    LOAD_STATISTIC_ERROR("statistic_error")
+
 }

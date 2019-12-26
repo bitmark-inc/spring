@@ -131,7 +131,7 @@ class UsageRepository(
     fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
         localDataSource.listReaction(startedAtSec, endedAtSec, limit).flatMap { reactions ->
             if (reactions.isEmpty()) {
-                remoteDataSource.listReaction(startedAtSec, endedAtSec, limit).flatMap { rs ->
+                remoteDataSource.listReaction(startedAtSec, endedAtSec).flatMap { rs ->
                     if (rs.isEmpty()) {
                         Single.just(rs)
                     } else {
@@ -157,7 +157,7 @@ class UsageRepository(
             limit
         ).flatMap { reactions ->
             if (reactions.isEmpty()) {
-                remoteDataSource.listReactionByType(reaction, startedAtSec, endedAtSec, limit)
+                remoteDataSource.listReactionByType(reaction, startedAtSec, endedAtSec)
                     .flatMap { rs ->
                         if (rs.isEmpty()) {
                             Single.just(rs)

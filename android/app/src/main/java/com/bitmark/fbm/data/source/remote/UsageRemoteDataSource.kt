@@ -7,13 +7,13 @@
 package com.bitmark.fbm.data.source.remote
 
 import android.content.Context
-import com.bitmark.fbm.data.ext.newGsonInstance
-import com.bitmark.fbm.data.model.entity.*
+import com.bitmark.fbm.data.model.entity.PostType
+import com.bitmark.fbm.data.model.entity.Reaction
+import com.bitmark.fbm.data.model.entity.applyRequiredValues
+import com.bitmark.fbm.data.model.entity.canonical
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -52,28 +52,15 @@ class UsageRemoteDataSource @Inject constructor(
     private fun listRemotePost(startedAtSec: Long, endedAtSec: Long) =
         fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }
 
-    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
-        listReaction().map { reactions ->
-            reactions.filter { r -> r.timestampSec in startedAtSec..endedAtSec }.take(limit)
-        }
-
     fun listReactionByType(
         reaction: Reaction,
         startedAtSec: Long,
-        endedAtSec: Long,
-        limit: Int = 20
-    ) =
-        listReaction().map { reactions ->
-            reactions.filter { r -> r.timestampSec in startedAtSec..endedAtSec && r.reaction == reaction }
-                .take(limit)
-        }
+        endedAtSec: Long
+    ) = listReaction(
+        startedAtSec,
+        endedAtSec
+    ).map { reactions -> reactions.filter { r -> r.reaction == reaction } }
 
-    private fun listReaction() = Single.fromCallable {
-        val json = context.assets.open("reactions.json").bufferedReader()
-            .use { r -> r.readText() }
-        val gson = newGsonInstance()
-        gson.fromJson(json, List::class.java).map { p ->
-            gson.fromJson(gson.toJson(p), ReactionR::class.java)
-        }
-    }.subscribeOn(Schedulers.io())
+    fun listReaction(startedAtSec: Long, endedAtSec: Long) =
+        fbmApi.listReaction(startedAtSec, endedAtSec).map { res -> res["result"] }
 }

@@ -22,9 +22,9 @@ import com.google.gson.annotations.SerializedName
         Index(value = ["reaction"])]
 )
 data class ReactionR(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @Expose
-    @SerializedName("id")
+    @SerializedName("reaction_id")
     @ColumnInfo(name = "id")
     val id: Long,
 
@@ -54,27 +54,27 @@ val ReactionR.timestamp: Long
 
 enum class Reaction {
     @Expose
-    @SerializedName("like")
+    @SerializedName("LIKE")
     LIKE,
 
     @Expose
-    @SerializedName("love")
+    @SerializedName("LOVE")
     LOVE,
 
     @Expose
-    @SerializedName("haha")
+    @SerializedName("HAHA")
     HAHA,
 
     @Expose
-    @SerializedName("wow")
+    @SerializedName("WOW")
     WOW,
 
     @Expose
-    @SerializedName("sorry")
+    @SerializedName("SORRY")
     SAD,
 
     @Expose
-    @SerializedName("anger")
+    @SerializedName("ANGER")
     ANGRY;
 
     companion object
@@ -86,20 +86,20 @@ fun Reaction.Companion.fromIndex(index: Int) = Reaction.values()[index]
 
 val Reaction.value: String
     get() = when (this) {
-        Reaction.LIKE  -> "like"
-        Reaction.LOVE  -> "love"
-        Reaction.HAHA  -> "haha"
-        Reaction.WOW   -> "wow"
-        Reaction.SAD   -> "sorry"
-        Reaction.ANGRY -> "anger"
+        Reaction.LIKE  -> "LIKE"
+        Reaction.LOVE  -> "LOVE"
+        Reaction.HAHA  -> "HAHA"
+        Reaction.WOW   -> "WOW"
+        Reaction.SAD   -> "SORRY"
+        Reaction.ANGRY -> "ANGER"
     }
 
 fun Reaction.Companion.fromString(reaction: String) = when (reaction) {
-    "like"  -> Reaction.LIKE
-    "love"  -> Reaction.LOVE
-    "haha"  -> Reaction.HAHA
-    "wow"   -> Reaction.WOW
-    "sorry"   -> Reaction.SAD
-    "anger" -> Reaction.ANGRY
+    "LIKE"  -> Reaction.LIKE
+    "LOVE"  -> Reaction.LOVE
+    "HAHA"  -> Reaction.HAHA
+    "WOW"   -> Reaction.WOW
+    "SORRY" -> Reaction.SAD
+    "ANGER" -> Reaction.ANGRY
     else    -> error("invalid reaction string: $reaction")
 }

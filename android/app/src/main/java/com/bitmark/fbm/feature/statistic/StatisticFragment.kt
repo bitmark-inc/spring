@@ -25,6 +25,8 @@ import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.locationdetail.LocationDetailFragment
 import com.bitmark.fbm.feature.postdetail.PostDetailFragment
 import com.bitmark.fbm.feature.reactiondetail.ReactionDetailFragment
+import com.bitmark.fbm.logging.Event
+import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
@@ -64,6 +66,9 @@ class StatisticFragment : BaseSupportFragment() {
 
     @Inject
     internal lateinit var dialogController: DialogController
+
+    @Inject
+    internal lateinit var logger: EventLogger
 
     @Statistic.Type
     private lateinit var type: String
@@ -194,6 +199,10 @@ class StatisticFragment : BaseSupportFragment() {
 
                 res.isError()   -> {
                     Tracer.ERROR.log(TAG, res.throwable()?.message ?: "unknown")
+                    logger.logError(
+                        Event.LOAD_STATISTIC_ERROR,
+                        res.throwable()?.message ?: "unknown"
+                    )
                     blocked = false
                 }
 
@@ -284,10 +293,6 @@ class StatisticFragment : BaseSupportFragment() {
                         chartItem
                     )
                 )
-            }
-
-            SectionName.MESSAGE  -> {
-                // TODO implement later
             }
 
             SectionName.LOCATION -> {
