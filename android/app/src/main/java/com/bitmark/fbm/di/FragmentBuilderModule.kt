@@ -10,6 +10,8 @@ import com.bitmark.fbm.feature.insights.InsightsContainerFragment
 import com.bitmark.fbm.feature.insights.InsightsContainerModule
 import com.bitmark.fbm.feature.insights.InsightsFragment
 import com.bitmark.fbm.feature.insights.InsightsModule
+import com.bitmark.fbm.feature.lens.LensContainerFragment
+import com.bitmark.fbm.feature.lens.LensContainerModule
 import com.bitmark.fbm.feature.locationdetail.LocationDetailFragment
 import com.bitmark.fbm.feature.locationdetail.LocationDetailModule
 import com.bitmark.fbm.feature.postdetail.PostDetailFragment
@@ -26,8 +28,6 @@ import com.bitmark.fbm.feature.register.archiverequest.credential.ArchiveRequest
 import com.bitmark.fbm.feature.register.archiverequest.credential.ArchiveRequestCredentialModule
 import com.bitmark.fbm.feature.statistic.StatisticFragment
 import com.bitmark.fbm.feature.statistic.StatisticModule
-import com.bitmark.fbm.feature.stream.StreamContainerFragment
-import com.bitmark.fbm.feature.stream.StreamContainerModule
 import com.bitmark.fbm.feature.unlink.notice.UnlinkNoticeFragment
 import com.bitmark.fbm.feature.unlink.notice.UnlinkNoticeModule
 import com.bitmark.fbm.feature.unlink.unlink.UnlinkFragment
@@ -58,9 +58,9 @@ abstract class FragmentBuilderModule {
     @FragmentScope
     internal abstract fun bindInsightsFragment(): InsightsFragment
 
-    @ContributesAndroidInjector(modules = [StreamContainerModule::class])
+    @ContributesAndroidInjector(modules = [LensContainerModule::class])
     @FragmentScope
-    internal abstract fun bindOfferContainerFragment(): StreamContainerFragment
+    internal abstract fun bindLensContainerFragment(): LensContainerFragment
 
     @ContributesAndroidInjector(modules = [UnlinkNoticeModule::class])
     @FragmentScope

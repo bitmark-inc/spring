@@ -13,5 +13,5 @@
     <item
         android:id="@+id/navAccount"
         android:icon="@drawable/ic_streams"
-        android:title="@string/streams"/>
+        android:title="@string/lens"/>
 </menu>

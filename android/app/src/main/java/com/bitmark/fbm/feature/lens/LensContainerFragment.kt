@@ -4,7 +4,7 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.stream
+package com.bitmark.fbm.feature.lens
 
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseSupportFragment
@@ -13,20 +13,20 @@ import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.account.AccountActivity
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import kotlinx.android.synthetic.main.fragment_streams_container.*
+import kotlinx.android.synthetic.main.fragment_lens_container.*
 import javax.inject.Inject
 
 
-class StreamContainerFragment : BaseSupportFragment() {
+class LensContainerFragment : BaseSupportFragment() {
 
     companion object {
-        fun newInstance() = StreamContainerFragment()
+        fun newInstance() = LensContainerFragment()
     }
 
     @Inject
     internal lateinit var navigator: Navigator
 
-    override fun layoutRes(): Int = R.layout.fragment_streams_container
+    override fun layoutRes(): Int = R.layout.fragment_lens_container
 
     override fun viewModel(): BaseViewModel? = null
 

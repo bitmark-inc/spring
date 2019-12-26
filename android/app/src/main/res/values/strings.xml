@@ -149,6 +149,9 @@
     <string name="tell_us_your_thoughts_arrow">Tell us your thoughts »</string>
     <string name="last_year">Last Year</string>
     <string name="last_decade">Last Decade</string>
+    <string name="lens">LENS</string>
+    <string name="coming_soon">Coming soon!</string>
+    <string name="we_are_making_a_simple_lens">We are making a simple lens builder and store. Like cooking recipes, people will be able to experiment, share, and sell lenses to get more utility from your data.</string>
 
     <string-array name="day_of_week">
         <item>S</item>
