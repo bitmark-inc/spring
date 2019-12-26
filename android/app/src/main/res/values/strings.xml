@@ -123,7 +123,7 @@
     <string name="park">Park</string>
     <string name="airport">Airport</string>
     <string name="trust_is_critical">Trust is critical</string>
-    <string name="spring_is_from_bitmark">Spring is from Bitmark, makers of the universal system for digital property rights. Our mission is to restore trust in data. We believe an internet where individuals control their own data will lead to a better future. Building this platform to unlock the value of your data is our business.</string>
+    <string name="spring_is_from_bitmark">Spring is from Bitmark, makers of the universal system for digital property rights. Our mission is to restore trust in data. We believe an internet where individuals control their own data will lead to a better future. Building this protocol to unlock the value of your data is our business.</string>
     <string name="sincerely_colon">Sincerely,</string>
     <string name="sean_name_and_title">Sean Moss-Pultz \nCo-founder and CEO</string>
     <string name="passcode_pin_required">Device PIN setup is required</string>
@@ -149,7 +149,6 @@
     <string name="tell_us_your_thoughts_arrow">Tell us your thoughts »</string>
     <string name="last_year">Last Year</string>
     <string name="last_decade">Last Decade</string>
-
 
     <string-array name="day_of_week">
         <item>S</item>
