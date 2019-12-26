@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"strings"
 
 	"github.com/bitmark-inc/fbm-apps/fbm-api/external/fbarchive"
 	"github.com/getsentry/sentry-go"
@@ -154,7 +153,7 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 	}
 
 	currentWeekReactionStat.Quantity++
-	plusOneValue(&currentWeekReactionStat.Groups.Type.Data, strings.ToLower(reaction.Reaction))
+	plusOneValue(&currentWeekReactionStat.Groups.Type.Data, reaction.Reaction)
 
 	subPeriod := currentWeekReactionStat.Groups.SubPeriod
 	dayTimestamp := absDay(reaction.Timestamp)
@@ -166,7 +165,7 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 			Data: make(map[string]int),
 		})
 	}
-	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Reaction))
+	plusOneValue(&subPeriod[len(subPeriod)-1].Data, reaction.Reaction)
 	currentWeekReactionStat.Groups.SubPeriod = subPeriod
 
 	return nil
@@ -219,7 +218,7 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 	}
 
 	currentYearReactionStat.Quantity++
-	plusOneValue(&currentYearReactionStat.Groups.Type.Data, strings.ToLower(reaction.Reaction))
+	plusOneValue(&currentYearReactionStat.Groups.Type.Data, reaction.Reaction)
 
 	subPeriod := currentYearReactionStat.Groups.SubPeriod
 	monthTimestamp := absMonth(reaction.Timestamp)
@@ -231,7 +230,7 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 			Data: make(map[string]int),
 		})
 	}
-	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Reaction))
+	plusOneValue(&subPeriod[len(subPeriod)-1].Data, reaction.Reaction)
 	currentYearReactionStat.Groups.SubPeriod = subPeriod
 
 	return nil
@@ -284,19 +283,19 @@ func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry 
 	}
 
 	currentDecadeReactionStat.Quantity++
-	plusOneValue(&currentDecadeReactionStat.Groups.Type.Data, strings.ToLower(reaction.Reaction))
+	plusOneValue(&currentDecadeReactionStat.Groups.Type.Data, reaction.Reaction)
 
 	subPeriod := currentDecadeReactionStat.Groups.SubPeriod
-	yearTimestamp := absMonth(reaction.Timestamp)
-	needNewMonth := len(subPeriod) == 0 || subPeriod[len(subPeriod)-1].Name != strconv.FormatInt(yearTimestamp, 10)
+	yearTimestamp := absYear(reaction.Timestamp)
+	needNewYear := len(subPeriod) == 0 || subPeriod[len(subPeriod)-1].Name != strconv.FormatInt(yearTimestamp, 10)
 
-	if needNewMonth {
+	if needNewYear {
 		subPeriod = append(subPeriod, reactionSubPeriodStat{
 			Name: strconv.FormatInt(yearTimestamp, 10),
 			Data: make(map[string]int),
 		})
 	}
-	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Reaction))
+	plusOneValue(&subPeriod[len(subPeriod)-1].Data, reaction.Reaction)
 	currentDecadeReactionStat.Groups.SubPeriod = subPeriod
 
 	return nil
