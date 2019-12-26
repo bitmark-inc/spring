@@ -164,7 +164,7 @@ class FilterDayView: UIView {
             let data = BarChartData(dataSet: barChartDataSet)
             data.setValueFont(R.font.atlasGroteskLight(size: 12)!)
             data.barWidth = 0.45
-            data.setValueFormatter(StackedBarValueFormatter())
+            data.setValueFormatter(StackedBarValueFormatter(isHorizontal: false))
 
             chartView.data = data
             chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: days)
@@ -174,8 +174,8 @@ class FilterDayView: UIView {
             let chartViewWidth: CGFloat = fixedBarWidth / 0.45 * CGFloat(days.count)
 
             chartView.flex.width(chartViewWidth)
-            chartView.flex.height(200)
-            flex.height(230)
+            chartView.flex.height(220)
+            flex.height(250)
 
         } else {
             chartView.clear()

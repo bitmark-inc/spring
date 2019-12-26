@@ -11,44 +11,52 @@ import Charts
 final class StackedBarValueFormatter: IValueFormatter {
     private var lastEntry: ChartDataEntry? = nil
     private var iteratedStackIndex = 1
+    private let isHorizontal: Bool
+    private var entryMap = [BarChartDataEntry: Int]()
+    
+    init(isHorizontal: Bool) {
+        self.isHorizontal = isHorizontal
+    }
 
     func stringForValue(_ value: Double, entry: ChartDataEntry, dataSetIndex: Int, viewPortHandler: ViewPortHandler?) -> String {
         guard let e = entry as? BarChartDataEntry,
-            var values = e.yValues else {
+            let values = e.yValues else {
             assert(false, "entry is not a BarChartDataEntry or empty yValues")
             return ""
         }
-        // The library calls to this func twice,
-        // one doesn't care type of data set
-        // one after that, if the data set is stacked, then call this function again to recalculate.
-        if value == entry.y && !values.contains(value) {
-            // Find out if it's first place.
-            return ""
+        
+        if var value = entryMap[e] {
+            value += 1
+            entryMap[e] = value
+        } else {
+            entryMap[e] = 1
+        }
+        
+        let currentIndex = entryMap[e]!
+        
+        if !isHorizontal {
+            print("\(currentIndex) - \(values) - \(String(Int(values.reduce(0, +))))")
         }
 
-        // Trim all 0 values on right hand side of the array as
-        // bar chart label doesn't display them.
-        while true {
-            if values.last == 0 {
-                values.removeLast()
-            } else {
-                break
+        if isHorizontal {
+            var rightZeroCount = 0
+            for v in values.reversed() {
+                if v == 0 {
+                    rightZeroCount += 1
+                } else {
+                    break
+                }
+            }
+            
+            if currentIndex == values.count * 3 - rightZeroCount {
+                return String(Int(values.reduce(0, +)))
+            }
+        } else {
+            if currentIndex == values.count * 3 - 1 {
+                return String(Int(values.reduce(0, +)))
             }
         }
 
-        if lastEntry != entry {
-            lastEntry = entry
-            iteratedStackIndex = 1
-        }
-
-        defer {
-            iteratedStackIndex += 1
-        }
-
-        if iteratedStackIndex < values.count {
-            return ""
-        }
-
-        return String(Int(values.reduce(0, +)))
+        return ""
     }
 }

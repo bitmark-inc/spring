@@ -175,7 +175,7 @@ class FilterGeneralView: UIView {
             let barData = BarChartData(dataSet: barChartDataSet)
             barData.setValueFont(R.font.atlasGroteskLight(size: 12)!)
             barData.barWidth = 0.15
-            barData.setValueFormatter(StackedBarValueFormatter())
+            barData.setValueFormatter(StackedBarValueFormatter(isHorizontal: true))
 
             chartView.data = barData
             chartView.xAxis.valueFormatter = IndexAxisValueFormatter(values: friends)
