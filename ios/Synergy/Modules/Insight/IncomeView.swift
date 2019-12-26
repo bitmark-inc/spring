@@ -75,13 +75,7 @@ class IncomeView: UIView {
 
     func fillData(amount: Double?, descriptionText: String?) {
         if let amount = amount {
-            let formatter = NumberFormatter()
-            formatter.locale = .current
-            formatter.usesGroupingSeparator = true
-            formatter.currencySymbol = "$"
-            formatter.numberStyle = .currency
-
-            amountLabel.text = formatter.string(from: amount as NSNumber)
+            amountLabel.text = String(format: "$%.02f", amount)
             descriptionLabel.text = descriptionText
             amountLabel.flex.markDirty()
             descriptionLabel.flex.markDirty()

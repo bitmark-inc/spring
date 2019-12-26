@@ -93,6 +93,11 @@ class RequestDataViewModel: ViewModel {
                     let accountNumber = Global.current.account?.getAccountNumber() else {
                         return Completable.never()
                 }
+
+                guard UserDefaults.standard.enablePushNotification else {
+                    return Completable.empty()
+                }
+
                 return self.registerOneSignal(accountNumber: accountNumber)
             })
             .andThen(

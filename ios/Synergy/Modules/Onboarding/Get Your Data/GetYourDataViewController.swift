@@ -62,9 +62,7 @@ class GetYourDataViewController: ViewController, BackNavigator {
 
         // clear credential inputs
         guard let viewModel = viewModel as? GetYourDataViewModel else { return }
-        viewModel.loginRelay.accept("")
         viewModel.passwordRelay.accept("")
-        loginTextField.text = nil
         passwordTextField.text = nil
     }
 

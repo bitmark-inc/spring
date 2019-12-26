@@ -58,12 +58,12 @@ extension Date {
 
 extension DateInRegion {
     func dateAtStartOfDecade(distance: Int = 0) -> DateInRegion {
-        let currentYear = self.dateAtStartOf(.day).year - 10 * distance
+        let currentYear = self.dateAtStartOf(.day).year + 10 * distance
         return DateInRegion(year: currentYear - (currentYear % 10), month: 1, day: 1)
     }
 
     func dateAtEndOfDecade(distance: Int = 0) -> DateInRegion {
-        let currentYear = self.dateAtStartOf(.day).year - 10 * distance
+        let currentYear = self.dateAtStartOf(.day).year + 10 * distance
         return DateInRegion(year: currentYear + (9 - currentYear % 10), month: 12, day: 1).dateAtEndOf(.month)
     }
 }
