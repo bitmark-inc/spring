@@ -33,26 +33,30 @@ final class StackedBarValueFormatter: IValueFormatter {
         }
         
         let currentIndex = entryMap[e]!
-        
-        if !isHorizontal {
-            print("\(currentIndex) - \(values) - \(String(Int(values.reduce(0, +))))")
-        }
 
-        if isHorizontal {
-            var rightZeroCount = 0
-            for v in values.reversed() {
-                if v == 0 {
-                    rightZeroCount += 1
-                } else {
-                    break
-                }
+        var rightZeroCount = 0
+        for v in values.reversed() {
+            if v == 0 {
+                rightZeroCount += 1
+            } else {
+                break
             }
-            
+        }
+        
+        if isHorizontal {
             if currentIndex == values.count * 3 - rightZeroCount {
                 return String(Int(values.reduce(0, +)))
             }
         } else {
-            if currentIndex == values.count * 3 - 1 {
+            var rightDeduct = 0
+            if rightZeroCount == values.count {
+                rightDeduct = 0
+            } else if rightZeroCount == 0 {
+                rightDeduct = 1
+            } else {
+                rightDeduct = rightZeroCount
+            }
+            if currentIndex == values.count * 3 - rightDeduct {
                 return String(Int(values.reduce(0, +)))
             }
         }
