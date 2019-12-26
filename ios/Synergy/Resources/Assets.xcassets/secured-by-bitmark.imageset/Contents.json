@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "cognac-background.png",
+      "filename" : "secured-by-bitmark@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "secured-by-bitmark@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "secured-by-bitmark@3x.png",
       "scale" : "3x"
     }
   ],

@@ -25,13 +25,20 @@ class KeychainStore {
 
     // MARK: - Handlers
     // *** seed Core ***
-    static func saveToKeychain(_ seedCore: Data) throws {
+    static func saveToKeychain(_ seedCore: Data, isSecured: Bool) throws {
         Global.log.info("[start] saveToKeychain")
         defer { Global.log.info("[done] saveToKeychain") }
 
         try removeSeedCoreFromKeychain()
-        try keychain.set(seedCore, key: accountCoreKey)
-        Global.log.info()
+
+        if isSecured {
+            try keychain
+                .accessibility(.whenPasscodeSetThisDeviceOnly, authenticationPolicy: .userPresence)
+                .set(seedCore, key: accountCoreKey)
+        } else {
+            try keychain.set(seedCore, key: accountCoreKey)
+        }
+        UserDefaults.standard.isAccountSecured = isSecured
     }
 
     static func removeSeedCoreFromKeychain() throws {

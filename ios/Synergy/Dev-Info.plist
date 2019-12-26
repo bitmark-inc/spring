@@ -36,7 +36,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSFaceIDUsageDescription</key>
-	<string>Please enable FaceID to increase the security of your app.</string>
+	<string>Spring will use Face ID to secure your account and data.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) will use photos from your library.</string>
 	<key>UIAppFonts</key>

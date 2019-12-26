@@ -19,3 +19,6 @@
 
 "account.signOut.invalidRecoveryKey" = "Your recovery key is invalid. Please recheck and try again.";
 "account.signOut.error" = "There was an error while unlinking your account from this device.";
+
+"biometric.notConfigured" = "Face ID/Touch ID may not be configured.";
+"biometric.error" = "There was a problem verifying your identity.";

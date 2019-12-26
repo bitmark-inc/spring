@@ -18,7 +18,7 @@ class AccountViewController: ViewController, BackNavigator {
     lazy var screenTitle = makeScreenTitle()
 
     lazy var signOutOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSecuritySignOut())
-    lazy var faceIDOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSecurityFaceID())
+    lazy var biometricAuthOptionButton = makeBiometricAuthOptionButton()
     lazy var recoveryKeyOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSecurityRecoveryKey())
 
     lazy var aboutOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportAbout())
@@ -33,8 +33,8 @@ class AccountViewController: ViewController, BackNavigator {
             self?.gotoSignOutFlow()
         }.disposed(by: disposeBag)
 
-        faceIDOptionButton.rx.tap.bind { [weak self] in
-            self?.gotoFaceIDFlow()
+        biometricAuthOptionButton?.rx.tap.bind { [weak self] in
+            self?.gotoBiometricAuthFlow()
         }.disposed(by: disposeBag)
 
         recoveryKeyOptionButton.rx.tap.bind { [weak self] in
@@ -70,10 +70,17 @@ class AccountViewController: ViewController, BackNavigator {
                     flex.addItem(screenTitle).padding(OurTheme.paddingInset)
                 }
 
+                let securityButtonGroup: [Button]!
+
+                if let biometricAuthOptionButton = biometricAuthOptionButton {
+                    securityButtonGroup = [signOutOptionButton, biometricAuthOptionButton, recoveryKeyOptionButton]
+                } else {
+                    securityButtonGroup = [signOutOptionButton, recoveryKeyOptionButton]
+                }
                 flex.addItem(
                     makeOptionsSection(
                         name: R.string.phrase.accountSettingsSecurity(),
-                        options: [signOutOptionButton, faceIDOptionButton, recoveryKeyOptionButton]))
+                        options: securityButtonGroup))
                     .marginTop(12)
 
                 flex.addItem(
@@ -81,6 +88,10 @@ class AccountViewController: ViewController, BackNavigator {
                         name: R.string.phrase.accountSettingsSupport(),
                         options: [contactOptionButton, surveyOptionButton]))
                     .marginTop(12)
+
+                flex.addItem(ImageView(image: R.image.securedByBitmark()))
+                    .marginLeft(OurTheme.paddingInset.left).marginTop(25)
+                    .alignSelf(.start)
             }
 
     }
@@ -92,8 +103,8 @@ extension AccountViewController {
         navigator.show(segue: .signOutWarning, sender: self)
     }
 
-    fileprivate func gotoFaceIDFlow() {
-
+    fileprivate func gotoBiometricAuthFlow() {
+        navigator.show(segue: .biometricAuth, sender: self)
     }
 
     fileprivate func gotoViewRecoveryKeyFlow() {
@@ -151,5 +162,13 @@ extension AccountViewController {
         button.contentHorizontalAlignment = .leading
         button.contentEdgeInsets = UIEdgeInsets(top: 2, left: 0, bottom: 2, right: 0)
         return button
+    }
+
+    fileprivate func makeBiometricAuthOptionButton() -> Button? {
+        let currentDeviceEvaluatePolicyType = BiometricAuth.currentDeviceEvaluatePolicyType()
+
+        guard currentDeviceEvaluatePolicyType != .none else { return nil }
+        let title = R.string.phrase.accountSettingsSecurityBiometricAuth(currentDeviceEvaluatePolicyType.text)
+        return makeOptionButton(title: title)
     }
 }

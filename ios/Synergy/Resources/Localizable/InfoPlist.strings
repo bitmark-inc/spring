@@ -7,4 +7,4 @@
 */
 
 NSPhotoLibraryUsageDescription = "Spring will use photos from your library.";
-NSFaceIDUsageDescription = "Please enable FaceID to increase the security of your app. ";
+NSFaceIDUsageDescription = "Spring will use Face ID to secure your account and data.";

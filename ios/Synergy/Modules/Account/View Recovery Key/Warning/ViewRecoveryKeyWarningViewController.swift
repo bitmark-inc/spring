@@ -21,7 +21,16 @@ class ViewRecoveryKeyWarningViewController: ViewController, BackNavigator {
         super.bindViewModel()
 
         writeDownRecoveryKeyButton.rx.tap.bind { [weak self] in
-            self?.gotoViewRecoveryKeyScreen()
+            guard let self = self else { return }
+            if UserDefaults.standard.isAccountSecured {
+                _ = BiometricAuth.authorizeAccess()
+                    .observeOn(MainScheduler.instance)
+                    .subscribe(onCompleted: { [weak self] in
+                        self?.gotoViewRecoveryKeyScreen()
+                    })
+            } else {
+                self.gotoViewRecoveryKeyScreen()
+            }
         }.disposed(by: disposeBag)
     }
 

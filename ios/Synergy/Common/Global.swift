@@ -47,7 +47,7 @@ class Global {
 
             do {
                 try RealmConfig.setupDBForCurrentAccount()
-                try KeychainStore.saveToKeychain(currentAccount.seed.core)
+                try KeychainStore.saveToKeychain(currentAccount.seed.core, isSecured: false)
                 event(.completed)
             } catch {
                 event(.error(error))
@@ -84,6 +84,8 @@ enum AppError: Error {
     case fbArchivePageIsNotReady
     case loginFailedIsNotDetected
     case incorrectEmptyRealmObject
+    case biometricNotConfigured
+    case biometricError
 
     static func errorByNetworkConnection(_ error: Error) -> Bool {
         guard let error = error as? Self else { return false }
@@ -125,5 +127,10 @@ extension UserDefaults {
     var accountNumber: String? {
         get { return string(forKey: "accountNumber_preference") }
         set { set(newValue, forKey: "accountNumber_preference") }
+    }
+
+    var isAccountSecured: Bool {
+        get { return bool(forKey: #function) }
+        set { set(newValue, forKey: #function) }
     }
 }

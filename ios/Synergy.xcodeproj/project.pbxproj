@@ -145,6 +145,12 @@
 		5B590A7223B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */; };
 		5B590A7323B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */; };
 		5B590A7423B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */; };
+		5B590A7623B37CD0006C194D /* BiometricAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7523B37CD0006C194D /* BiometricAuth.swift */; };
+		5B590A7723B37CD0006C194D /* BiometricAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7523B37CD0006C194D /* BiometricAuth.swift */; };
+		5B590A7823B37CD0006C194D /* BiometricAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7523B37CD0006C194D /* BiometricAuth.swift */; };
+		5B590A7B23B380A5006C194D /* BiometricAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */; };
+		5B590A7C23B380A5006C194D /* BiometricAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */; };
+		5B590A7D23B380A5006C194D /* BiometricAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */; };
 		5B5D000023A1F0F4003D1A1C /* IconButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC33237A863300FA3196 /* IconButtonView.swift */; };
 		5B5D000123A1F0F4003D1A1C /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222909123950B2500412CBC /* Post.swift */; };
 		5B5D000223A1F0F4003D1A1C /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB2237A9F6200FA3196 /* Application.swift */; };
@@ -709,6 +715,8 @@
 		5B4A23A423B21CD400447366 /* SectionSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSeparator.swift; sourceTree = "<group>"; };
 		5B590A6D23B302D6006C194D /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
 		5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedBarValueFormatter.swift; sourceTree = "<group>"; };
+		5B590A7523B37CD0006C194D /* BiometricAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuth.swift; sourceTree = "<group>"; };
+		5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthViewController.swift; sourceTree = "<group>"; };
 		5B5D007423A1F0F4003D1A1C /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Inhouse-Info.plist"; path = "/Users/thuyentruong/code/3-bitmark/fbm-apps/ios/Inhouse-Info.plist"; sourceTree = "<absolute>"; };
 		5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewController.swift; sourceTree = "<group>"; };
@@ -908,6 +916,7 @@
 			children = (
 				5B9322E923A361E200C3C408 /* Account */,
 				5B9322EA23A361EF00C3C408 /* Sign Out */,
+				5B590A7923B38088006C194D /* Biometric Auth */,
 				5B9322ED23A3622000C3C408 /* View Recovery Key */,
 				5B9322F023A3625300C3C408 /* About */,
 				5B9322F123A3626800C3C408 /* FAQ */,
@@ -1217,6 +1226,14 @@
 			path = Dashboard;
 			sourceTree = "<group>";
 		};
+		5B590A7923B38088006C194D /* Biometric Auth */ = {
+			isa = PBXGroup;
+			children = (
+				5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */,
+			);
+			path = "Biometric Auth";
+			sourceTree = "<group>";
+		};
 		5B9322E923A361E200C3C408 /* Account */ = {
 			isa = PBXGroup;
 			children = (
@@ -1392,6 +1409,7 @@
 				5B4A23A023B212E800447366 /* TimeUnit.swift */,
 				5B98950023AA0EC000B72700 /* FilterScope.swift */,
 				5B98950423AA338300B72700 /* GraphDataConverter.swift */,
+				5B590A7523B37CD0006C194D /* BiometricAuth.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2240,6 +2258,7 @@
 				E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5B4A239923B1D1C300447366 /* MediaData.swift in Sources */,
+				5B590A7B23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
 				5832D6FF238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				5BEF584423AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				5832FC56237A863300FA3196 /* TableView.swift in Sources */,
@@ -2255,6 +2274,7 @@
 				E28B55ED238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
 				58C009E12398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */,
 				E28B55F7238D03D100F1BCF2 /* FBArchiveService.swift in Sources */,
+				5B590A7623B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				5832FCAA237A8A9200FA3196 /* UIViewController+Error.swift in Sources */,
 				5832D703238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
 				5B93230C23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
@@ -2411,6 +2431,7 @@
 				5B5D001723A1F0F4003D1A1C /* CustomxAxisRender.swift in Sources */,
 				5B5D001823A1F0F4003D1A1C /* AverageDataEngine+Rx.swift in Sources */,
 				5B4A239B23B1D1C300447366 /* MediaData.swift in Sources */,
+				5B590A7D23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
 				5B5D001B23A1F0F4003D1A1C /* NavigationView.swift in Sources */,
 				5BEF584623AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				5B5D001C23A1F0F4003D1A1C /* DataRequestedViewController.swift in Sources */,
@@ -2426,6 +2447,7 @@
 				5B5D002423A1F0F4003D1A1C /* UpdatePostTableViewCell.swift in Sources */,
 				5B5D002523A1F0F4003D1A1C /* InsightViewModel.swift in Sources */,
 				5B5D002623A1F0F4003D1A1C /* DataAnalyzingViewModel.swift in Sources */,
+				5B590A7823B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				5B5D002723A1F0F4003D1A1C /* FBScript.swift in Sources */,
 				5B5D002823A1F0F4003D1A1C /* ViewController.swift in Sources */,
 				5B93230E23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
@@ -2574,6 +2596,7 @@
 				58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */,
 				E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				5B4A239A23B1D1C300447366 /* MediaData.swift in Sources */,
+				5B590A7C23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
 				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5BEF584523AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				E28B55F1238CE66500F1BCF2 /* DataRequestedViewController.swift in Sources */,
@@ -2589,6 +2612,7 @@
 				E2442041239910E100520FE9 /* UpdatePostTableViewCell.swift in Sources */,
 				5832D704238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
 				58C009E22398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */,
+				5B590A7723B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				E2259CD1238783AE00746280 /* FBScript.swift in Sources */,
 				E2DB66A7237D3B69005367C2 /* ViewController.swift in Sources */,
 				5B93230D23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,

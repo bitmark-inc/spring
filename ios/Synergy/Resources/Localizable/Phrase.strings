@@ -16,7 +16,7 @@
 "howitworks.content.3" = "We’ll give you ways to take action and solve planetary problems.";
 
 "trustIsCritical.title" = "Trust is Critical";
-"trustIsCritical.description" = "Spring is from Bitmark, makers of the universal system for digital property rights. Our mission is to restore trust in data. We believe an internet where individuals control their own data will lead to a better future. Building this platform to unlock the value of your data is our business.";
+"trustIsCritical.description" = "Spring is from Bitmark, makers of the universal system for digital property rights. Our mission is to restore trust in data. We believe an internet where individuals control their own data will lead to a better future. Building this protocol to unlock the value of your data is our business.";
 "trustIsCritical.sincerely" = "Sincerely,";
 "trustIsCritical.titleSignature" = "Sean Moss-Pultz\nCo-founder and CEO ";
 
@@ -51,7 +51,7 @@
 "account.settings.title" = "Account";
 "account.settings.security" = "Security";
 "account.settings.security.signOut" = "Unlink from device »";
-"account.settings.security.faceID" = "Face ID »";
+"account.settings.security.biometricAuth" = "%@ »";
 "account.settings.security.recoveryKey" = "Recovery key »";
 "account.settings.support" = "Support";
 "account.settings.support.about" = "About »";
@@ -67,9 +67,9 @@
 "account.signOut.title" = "Unlink Account";
 "account.recoveryKey.input.guide" = "Enter your 12-word recovery key above.";
 
-"account.faceID.title" = "";
-"account.faceID.description" = "Enable iOS Face ID to secure your Spring data and account:";
-"account.faceID.enableButton" = "Enable Face ID";
+"account.biometricAuth.title" = "%@";
+"account.biometricAuth.description" = "Enable iOS %@ to secure your Spring data and account:";
+"account.biometricAuth.enableButton" = "Enable %@";
 
 "account.recoveryKey.warning.title" = "Recovery Key";
 "account.recoveryKey.warning.description" = "Your recovery key allows you to fully recover your Spring account even if your device is lost or damaged. It is the only way to recover your account (Spring does not have access to your recovery key or store it anywhere for you).\n\nPlease make sure you are in a safe location then write down your recovery key on a piece of paper and keep it safe.";

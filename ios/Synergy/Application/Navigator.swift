@@ -39,6 +39,7 @@ class Navigator {
         case account(viewModel: AccountViewModel)
         case signOutWarning
         case signOut(viewModel: SignOutViewModel)
+        case biometricAuth
         case viewRecoveryKeyWarning
         case viewRecoverykey(viewModel: ViewRecoveryKeyViewModel)
         case about
@@ -89,6 +90,7 @@ class Navigator {
 
         case .signOutWarning: return SignOutWarningViewController()
         case .signOut(let viewModel): return SignOutViewController(viewModel: viewModel)
+        case .biometricAuth: return BiometricAuthViewController()
         case .viewRecoveryKeyWarning: return ViewRecoveryKeyWarningViewController()
         case .viewRecoverykey(let viewModel): return ViewRecoveryKeyViewController(viewModel: viewModel)
         case .about: return AboutViewController()

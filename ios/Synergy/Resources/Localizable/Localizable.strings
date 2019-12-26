@@ -78,3 +78,9 @@
 "Average" = "Average";
 "Unhappy" = "Unhappy";
 "Happy" = "Happy";
+
+"biometric.touchID" = "Touch ID";
+"biometric.faceID" = "Face ID";
+"biometric.passcode" = "Passcode";
+"biometric.requireToSecure" = "Spring will use %@ to secure your account and data.";
+"biometric.requireToRemoveSecure" = "Spring will remove %@ from securing your account and data.";
