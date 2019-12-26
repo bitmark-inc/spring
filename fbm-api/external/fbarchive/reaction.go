@@ -9,9 +9,9 @@ import (
 
 // ReactionData represents the data response for GET /sentiment API
 type ReactionData struct {
-	ID        int64  `json:"id"`
+	ID        int64  `json:"reaction_id"`
 	Timestamp int64  `json:"timestamp"`
-	Title     string `json:"string"`
+	Title     string `json:"title"`
 	Actor     string `json:"actor"`
 	Reaction  string `json:"reaction"`
 }
