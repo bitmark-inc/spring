@@ -120,8 +120,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 				continue
 			}
 
-			logEntity.Info("Processing post with timestamp: ", r.Timestamp)
-
 			var l *locationData
 			if len(r.Place) > 0 {
 				firstPlace := r.Place[0]
@@ -194,7 +192,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 
 	// Save stats
 	for _, weekStat := range counter.Weeks {
-		logEntity.Info("Save week stat: ", weekStat.PeriodStartedAt)
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-week-stat", weekStat.PeriodStartedAt, weekStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
@@ -202,7 +199,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 		}
 	}
 	for _, yearStat := range counter.Years {
-		logEntity.Info("Save year stat: ", yearStat.PeriodStartedAt)
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-year-stat", yearStat.PeriodStartedAt, yearStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
@@ -210,7 +206,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 		}
 	}
 	for _, decadeStat := range counter.Decades {
-		logEntity.Info("Save decade stat: ", decadeStat.PeriodStartedAt)
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-decade-stat", decadeStat.PeriodStartedAt, decadeStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
@@ -220,7 +215,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 
 	// Save sentiment
 	for _, weekStat := range counter.SentimentWeeks {
-		logEntity.Info("Save week stat: ", weekStat.PeriodStartedAt)
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/sentiment-week-stat", weekStat.PeriodStartedAt, weekStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
@@ -228,7 +222,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 		}
 	}
 	for _, yearStat := range counter.SentimentYears {
-		logEntity.Info("Save year stat: ", yearStat.PeriodStartedAt)
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/sentiment-year-stat", yearStat.PeriodStartedAt, yearStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
@@ -236,7 +229,6 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 		}
 	}
 	for _, decadeStat := range counter.SentimentDecades {
-		logEntity.Info("Save decade stat: ", decadeStat.PeriodStartedAt)
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/sentiment-decade-stat", decadeStat.PeriodStartedAt, decadeStat); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
@@ -482,7 +474,6 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 	plusOneValue(&sc.currentWeekTypeMap, r.Type)
 	weekTypeMap := getMap(sc.WeekTypePeriodsMap, strconv.FormatInt(absDay(r.Timestamp), 10))
 	plusOneValue(weekTypeMap, r.Type)
-	sc.lastTotalPostOfWeek++
 
 	if r.Location != nil {
 		weekPlaceMap := getMap(sc.WeekPlacePeriodsMap, r.Location.Name)
@@ -605,7 +596,6 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 	plusOneValue(&sc.currentYearTypeMap, r.Type)
 	yearTypeMap := getMap(sc.YearTypePeriodsMap, strconv.FormatInt(absMonth(r.Timestamp), 10))
 	plusOneValue(yearTypeMap, r.Type)
-	sc.lastTotalPostOfYear++
 
 	if r.Location != nil {
 		yearPlaceMap := getMap(sc.YearPlacePeriodsMap, r.Location.Name)
@@ -728,7 +718,6 @@ func (sc *postStatisticCounter) countDecade(r *postData) {
 	plusOneValue(&sc.currentDecadeTypeMap, r.Type)
 	decadeTypeMap := getMap(sc.DecadeTypePeriodsMap, strconv.FormatInt(absYear(r.Timestamp), 10))
 	plusOneValue(decadeTypeMap, r.Type)
-	sc.lastTotalPostOfDecade++
 
 	if r.Location != nil {
 		decadePlaceMap := getMap(sc.DecadePlacePeriodsMap, r.Location.Name)

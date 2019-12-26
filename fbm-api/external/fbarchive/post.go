@@ -54,13 +54,11 @@ type PostData struct {
 }
 
 func (c *Client) GetPosts(ctx context.Context, accountNumber string, offset int) (*PostData, error) {
-	r, _ := c.createRequest(ctx, "GET", fmt.Sprintf("/posts?data_owner=%s&offset=%d&order_by=asc", accountNumber, offset), nil)
-	reqDumpByte, err := httputil.DumpRequest(r, false)
+	r, _ := c.createRequest(ctx, "GET", fmt.Sprintf("/posts?data_owner=%s&offset=%d&order_by=asc&limit=1000", accountNumber, offset), nil)
+	_, err := httputil.DumpRequest(r, false)
 	if err != nil {
 		log.Error(err)
 	}
-
-	log.WithContext(ctx).WithField("prefix", "fbarchive").WithField("req", string(reqDumpByte)).Debug("request to data analysis server")
 
 	resp, err := c.httpClient.Do(r)
 	if err != nil {
@@ -68,12 +66,10 @@ func (c *Client) GetPosts(ctx context.Context, accountNumber string, offset int)
 	}
 
 	// Print out the response in console log
-	dumpBytes, err := httputil.DumpResponse(resp, true)
+	_, err = httputil.DumpResponse(resp, true)
 	if err != nil {
 		log.Error(err)
 	}
-
-	log.WithContext(ctx).WithField("prefix", "fbarchive").WithField("resp", string(dumpBytes)).Debug("response from data analysis server")
 
 	decoder := json.NewDecoder(resp.Body)
 	var respBody PostData
