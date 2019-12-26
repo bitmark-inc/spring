@@ -22,6 +22,13 @@ fun GroupModelView.reverse() {
     entries = entries.reversed()
 }
 
+fun GroupModelView.order() = when (name) {
+    GroupName.TYPE, GroupName.AREA -> 0
+    GroupName.SUB_PERIOD           -> -1
+    GroupName.FRIEND               -> -2
+    GroupName.PLACE                -> -3
+}
+
 fun GroupModelView.hasAggregatedData() = aggregatedIndex() != -1
 
 fun GroupModelView.aggregatedIndex() = entries.indexOfFirst { e -> e.isAggregated() }

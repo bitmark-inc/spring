@@ -108,7 +108,7 @@ data class SectionModelView(
                     val groupName = GroupName.fromString(gEntry.key)
                     if (groupName == GroupName.TYPE || groupName == GroupName.AREA) continue
                     var groupEntities = sectionR.getArrayGroup<GroupEntity>(groupName)
-                    if(groupEntities.isEmpty()) continue
+                    if (groupEntities.isEmpty()) continue
                     if (groupName != GroupName.SUB_PERIOD) {
                         groupEntities =
                             groupEntities.sortedByDescending { g -> g.data.entries.sumBy { e -> e.value } }
@@ -205,6 +205,7 @@ data class SectionModelView(
 
             }
 
+            groupModelViews.sortWith(Comparator { o1, o2 -> o2.order().compareTo(o1.order()) })
 
             return SectionModelView(
                 sectionName,
