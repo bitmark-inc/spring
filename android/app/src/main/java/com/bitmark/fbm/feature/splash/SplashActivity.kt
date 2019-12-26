@@ -203,14 +203,13 @@ class SplashActivity : BaseAppCompatActivity() {
                             navigator.anim(FADE_IN)
                                 .startActivityAsRoot(MainActivity::class.java)
                         } else {
-//                            val bundle =
-//                                DataProcessingActivity.getBundle(
-//                                    getString(R.string.analyzing_data),
-//                                    getString(R.string.your_fb_data_archive_has_been_successfully)
-//                                )
-//                            navigator.anim(FADE_IN)
-//                                .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
-                            navigator.anim(FADE_IN).startActivityAsRoot(MainActivity::class.java)
+                            val bundle =
+                                DataProcessingActivity.getBundle(
+                                    getString(R.string.analyzing_data),
+                                    getString(R.string.your_fb_data_archive_has_been_successfully)
+                                )
+                            navigator.anim(FADE_IN)
+                                .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                         }
                     }, 250)
                 }

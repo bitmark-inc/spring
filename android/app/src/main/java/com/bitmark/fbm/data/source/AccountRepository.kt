@@ -7,6 +7,7 @@
 package com.bitmark.fbm.data.source
 
 import com.bitmark.fbm.data.model.AccountData
+import com.bitmark.fbm.data.model.isProcessed
 import com.bitmark.fbm.data.model.isValid
 import com.bitmark.fbm.data.source.local.AccountLocalDataSource
 import com.bitmark.fbm.data.source.remote.AccountRemoteDataSource
@@ -66,6 +67,9 @@ class AccountRepository(
     fun checkInvalidArchives() = remoteDataSource.getArchives().map { archives ->
         archives.none { a -> a.isValid() }
     }
+
+    fun checkArchiveProcessed() =
+        remoteDataSource.getArchives().map { archives -> archives.indexOfFirst { a -> a.isProcessed() } != -1 }
 
     fun saveAccountKeyData(alias: String, authRequired: Boolean) =
         localDataSource.saveAccountKeyAlias(alias, authRequired)

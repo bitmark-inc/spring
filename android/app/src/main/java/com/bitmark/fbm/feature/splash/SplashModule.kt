@@ -29,7 +29,12 @@ class SplashModule {
         accountRepo: AccountRepository,
         appRepo: AppRepository,
         rxLiveDataTransformer: RxLiveDataTransformer
-    ) = SplashViewModel(activity.lifecycle, accountRepo, appRepo, rxLiveDataTransformer)
+    ) = SplashViewModel(
+        activity.lifecycle,
+        accountRepo,
+        appRepo,
+        rxLiveDataTransformer
+    )
 
     @Provides
     @ActivityScope

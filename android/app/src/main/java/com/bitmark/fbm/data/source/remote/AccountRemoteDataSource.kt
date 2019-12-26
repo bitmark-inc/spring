@@ -62,5 +62,6 @@ class AccountRemoteDataSource @Inject constructor(
         Intercom.client().registerIdentifiedUser(registration)
     }.subscribeOn(Schedulers.io())
 
-    fun getArchives() = fbmApi.getArchives().map { res -> res["result"] }
+    fun getArchives() =
+        fbmApi.getArchives().map { res -> res["result"] ?: error("invalid response") }
 }

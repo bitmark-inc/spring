@@ -100,7 +100,19 @@ class SplashViewModel(
         }
 
     fun checkDataReady() {
-        checkDataReadyLiveData.add(rxLiveDataTransformer.single(appRepo.checkDataReady()))
+        checkDataReadyLiveData.add(rxLiveDataTransformer.single(appRepo.checkDataReady().flatMap { ready ->
+            if (ready) {
+                Single.just(ready)
+            } else {
+                accountRepo.checkArchiveProcessed().flatMap { processed ->
+                    if (processed) {
+                        appRepo.setDataReady().andThen(Single.just(true))
+                    } else {
+                        Single.just(false)
+                    }
+                }
+            }
+        }))
     }
 
 }
