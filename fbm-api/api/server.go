@@ -134,6 +134,7 @@ func (s *Server) Run(addr string) error {
 
 	postRoute := apiRoute.Group("/posts")
 	postRoute.Use(s.authMiddleware())
+	postRoute.Use(s.fakeCredential())
 	{
 		postRoute.GET("", s.getAllPosts)
 		postRoute.POST("/reanalyze", s.parseArchive)
@@ -141,24 +142,28 @@ func (s *Server) Run(addr string) error {
 
 	mediaRoute := apiRoute.Group("/media")
 	mediaRoute.Use(s.authMiddleware())
+	mediaRoute.Use(s.fakeCredential())
 	{
 		mediaRoute.GET("", s.getPostMediaURI)
 	}
 
 	reactionRoute := apiRoute.Group("/reactions")
 	reactionRoute.Use(s.authMiddleware())
+	reactionRoute.Use(s.fakeCredential())
 	{
 		reactionRoute.GET("", s.getAllReactions)
 	}
 
 	usageRoute := apiRoute.Group("/usage")
 	usageRoute.Use(s.authMiddleware())
+	usageRoute.Use(s.fakeCredential())
 	{
 		usageRoute.GET("/:period", s.getPostStats)
 	}
 
 	insightRoute := apiRoute.Group("/insight")
 	insightRoute.Use(s.authMiddleware())
+	insightRoute.Use(s.fakeCredential())
 	insightRoute.Use(s.recognizeAccountMiddleware())
 	{
 		insightRoute.GET("/:period", s.getInsight)

@@ -9,6 +9,7 @@ import (
 	"math"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/bitmark-inc/bitmark-sdk-go/account"
@@ -120,6 +121,18 @@ func (s *Server) authMiddleware() gin.HandlerFunc {
 		}
 
 		c.Set("requester", claims.Subject)
+		c.Next()
+	}
+}
+
+// fakeCredential is a middleware to fake an authorize user
+func (s *Server) fakeCredential() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		requester := c.GetString("requester")
+		fakeMap := viper.GetStringMapString("fakecredentials")
+		if fakeCredential, ok := fakeMap[strings.ToLower(requester)]; ok {
+			c.Set("requester", fakeCredential)
+		}
 		c.Next()
 	}
 }
