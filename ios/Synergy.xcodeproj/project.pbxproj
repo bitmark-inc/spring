@@ -99,6 +99,9 @@
 		58C009E22398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */; };
 		58C009E62398C6CF00302F49 /* LensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* LensViewController.swift */; };
 		58C009E72398C6CF00302F49 /* LensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* LensViewController.swift */; };
+		58FF431023B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */; };
+		58FF431123B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */; };
+		58FF431223B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */; };
 		5B2097A123B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
 		5B2097A223B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
 		5B2097A323B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
@@ -723,6 +726,7 @@
 		58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewController.swift; sourceTree = "<group>"; };
 		58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewModel.swift; sourceTree = "<group>"; };
 		58C009E42398C6CF00302F49 /* LensViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LensViewController.swift; sourceTree = "<group>"; };
+		58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbbreviatedValueFormatter.swift; sourceTree = "<group>"; };
 		5B2097A023B464360079B421 /* ReactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionService.swift; sourceTree = "<group>"; };
 		5B2097A423B464410079B421 /* ReactionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionAPI.swift; sourceTree = "<group>"; };
 		5B2097A823B464A40079B421 /* ReactionDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReactionDataEngine+Rx.swift"; sourceTree = "<group>"; };
@@ -1218,6 +1222,7 @@
 			children = (
 				58C009D02398A43100302F49 /* CustomxAxisRender.swift */,
 				5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */,
+				58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -2330,6 +2335,7 @@
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
 				58C009D12398A43100302F49 /* CustomxAxisRender.swift in Sources */,
 				E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
+				58FF431023B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5B4A239923B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7B23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
@@ -2511,6 +2517,7 @@
 				5B5D001523A1F0F4003D1A1C /* AccountViewController.swift in Sources */,
 				5B5D001623A1F0F4003D1A1C /* TableView.swift in Sources */,
 				5B5D001723A1F0F4003D1A1C /* CustomxAxisRender.swift in Sources */,
+				58FF431223B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
 				5B5D001823A1F0F4003D1A1C /* AverageDataEngine+Rx.swift in Sources */,
 				5B4A239B23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7D23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
@@ -2684,6 +2691,7 @@
 				5832D700238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
 				58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */,
+				58FF431123B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
 				E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				5B4A239A23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7C23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
