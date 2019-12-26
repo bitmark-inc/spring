@@ -25,7 +25,9 @@ class PostDataEngine {
             _ = PostService.getAll(startDate: startDate, endDate: endDate)
                 .flatMapCompletable { Storage.store($0, inGlobalRealm: true) }
                 .observeOn(SerialDispatchQueueScheduler(qos: .background))
-                .subscribe(onError: { (error) in
+                .subscribe(onCompleted: {
+                    loadingState.onNext(.hide)
+                }, onError: { (error) in
                     guard !AppError.errorByNetworkConnection(error) else { return }
                     Global.log.error(error)
                 })
@@ -54,6 +56,8 @@ extension Reactive where Base: PostDataEngine {
                 }
                 let posts = realm.objects(Post.self).filter(filterQuery)
                 event(.success(posts))
+
+                if posts.count == 0 { loadingState.onNext(.loading) }
 
                 let datePeriod = extractQueryDatePeriod(filterScope)
                 PostDataEngine.sync(datePeriod: datePeriod)

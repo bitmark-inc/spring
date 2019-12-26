@@ -25,7 +25,9 @@ class ReactionDataEngine {
             _ = ReactionService.getAll(startDate: startDate, endDate: endDate)
                 .flatMapCompletable { Storage.store($0, inGlobalRealm: true) }
                 .observeOn(SerialDispatchQueueScheduler(qos: .background))
-                .subscribe(onError: { (error) in
+                .subscribe(onCompleted: {
+                    loadingState.onNext(.hide)
+                }, onError: { (error) in
                     guard !AppError.errorByNetworkConnection(error) else { return }
                     Global.log.error(error)
                 })
@@ -54,6 +56,8 @@ extension Reactive where Base: ReactionDataEngine {
                 }
                 let reactions = realm.objects(Reaction.self).filter(filterQuery)
                 event(.success(reactions))
+
+                if reactions.count == 0 { loadingState.onNext(.loading) }
 
                 let datePeriod = extractQueryDatePeriod(filterScope)
                 ReactionDataEngine.sync(datePeriod: datePeriod)
