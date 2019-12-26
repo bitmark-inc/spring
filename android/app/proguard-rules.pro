@@ -89,6 +89,7 @@
   **[] $VALUES;
   public *;
 }
+-keep class com.bumptech.glide.integration.okhttp.OkHttpGlideModule
 
 -dontwarn jp.co.cyberagent.android.gpuimage.**
 
