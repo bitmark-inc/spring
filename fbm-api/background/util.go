@@ -10,7 +10,7 @@ import (
 // timestamp is unix time in second
 // days start from 12:00 AM
 func absDay(timestamp int64) int64 {
-	t := time.Unix(timestamp, 0)
+	t := time.Unix(timestamp, 0).UTC()
 	year, month, day := t.Date()
 	absDay := time.Date(year, month, day, 0, 0, 0, 0, t.Location())
 	return absDay.Unix()
@@ -20,7 +20,7 @@ func absDay(timestamp int64) int64 {
 // timestamp is unix time in second
 // weekdays start from Sunday
 func absWeek(timestamp int64) int64 {
-	t := time.Unix(timestamp, 0)
+	t := time.Unix(timestamp, 0).UTC()
 	weekday := time.Duration(t.Weekday())
 	year, month, day := t.Date()
 	absDay := time.Date(year, month, day, 0, 0, 0, 0, t.Location())
@@ -32,7 +32,7 @@ func absWeek(timestamp int64) int64 {
 // timestamp is unix time in second
 // days start from 12:00 AM
 func absMonth(timestamp int64) int64 {
-	t := time.Unix(timestamp, 0)
+	t := time.Unix(timestamp, 0).UTC()
 	year, month, _ := t.Date()
 	absDay := time.Date(year, month, 1, 0, 0, 0, 0, t.Location())
 	return absDay.Unix()
@@ -42,7 +42,7 @@ func absMonth(timestamp int64) int64 {
 // timestamp is unix time in second
 // years start from Jan 1st
 func absYear(timestamp int64) int64 {
-	t := time.Unix(timestamp, 0)
+	t := time.Unix(timestamp, 0).UTC()
 	year := t.Year()
 	absDay := time.Date(year, 1, 1, 0, 0, 0, 0, t.Location())
 	return absDay.Unix()
@@ -51,7 +51,7 @@ func absYear(timestamp int64) int64 {
 // absDecade to find start time of the decade of a given time
 // timestamp is unix time in second
 func absDecade(timestamp int64) int64 {
-	t := time.Unix(timestamp, 0)
+	t := time.Unix(timestamp, 0).UTC()
 	year := t.Year()
 	absYear := year % 10
 	absDay := time.Date(year-absYear, 1, 1, 0, 0, 0, 0, t.Location())
@@ -59,7 +59,7 @@ func absDecade(timestamp int64) int64 {
 }
 
 func timestampToDateString(timestamp int64) string {
-	t := time.Unix(timestamp, 0)
+	t := time.Unix(timestamp, 0).UTC()
 	return t.Format("2006-01-02")
 }
 
