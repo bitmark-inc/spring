@@ -2,136 +2,60 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
-	"net/http"
-	"net/http/httputil"
-	"sort"
 	"strconv"
 	"strings"
 
+	"github.com/bitmark-inc/fbm-apps/fbm-api/external/fbarchive"
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
 	log "github.com/sirupsen/logrus"
 )
 
-type reactionResponseData struct {
-	Response struct {
-		Count     int `json:"count"`
-		Cursor    int `json:"cursor"`
-		Remaining int `json:"remaining"`
-		Results   []struct {
-			ActorText       string `json:"actor_text"`
-			IDNumber        uint64 `json:"id_number"`
-			ReactionText    string `json:"reaction_text"`
-			TimestampNumber int64  `json:"timestamp_number"`
-			TitleText       string `json:"title_text"`
-		} `json:"results"`
-	} `json:"response"`
-}
-
-type reactionData struct {
-	ID        uint64 `json:"id"`
-	Type      string `json:"stype"`
-	Timestamp int64  `json:"timestamp"`
-	Title     string `json:"title"`
-}
-
 func (b *BackgroundContext) extractReaction(job *work.Job) error {
 	logEntry := log.WithField("prefix", job.Name+"/"+job.ID)
-	url := job.ArgString("url")
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {
 		return err
 	}
 
 	ctx := context.Background()
-
-	currentCursor := 0
-
-	reactions := make([]reactionData, 0)
+	var currentOffset int64
+	var total int64
 
 	for {
 		// Checking job
-		job.Checkin(fmt.Sprintf("Fetching reaction batch: %d", currentCursor))
-
-		// Build url
-		pagingURL := fmt.Sprintf("%s?cursor=%d", url, currentCursor)
-		req, err := http.NewRequestWithContext(ctx, "GET", pagingURL, nil)
+		job.Checkin(fmt.Sprintf("Fetching reaction batch at offset: %d", currentOffset))
+		reactions, t, err := b.bitSocialClient.GetReactions(ctx, accountNumber, "asc", currentOffset)
 		if err != nil {
 			logEntry.Error(err)
-			return err
+			sentry.CaptureException(errors.New("Request reactions failed for onwer " + accountNumber))
+			// return err
+			continue
 		}
+		currentOffset += int64(len(reactions))
+		total = t
 
-		reqDump, err := httputil.DumpRequest(req, true)
-		if err != nil {
-			logEntry.Error(err)
-		}
-		logEntry.WithField("dump", string(reqDump)).Info("Request dump")
+		logEntry.WithField("Total", total).WithField("Offset: ", currentOffset).Info("Querying reactions")
 
-		resp, err := b.httpClient.Do(req)
-		if err != nil {
-			logEntry.Error(err)
-			return err
-		}
-
-		// Print out the response in console log
-		dumpBytes, err := httputil.DumpResponse(resp, false)
-		if err != nil {
-			logEntry.Error(err)
-		}
-		dump := string(dumpBytes)
-		logEntry.Info("response: ", dump)
-
-		if resp.StatusCode > 300 {
-			logEntry.Error("Request failed")
-			sentry.CaptureException(errors.New("Request failed"))
-			return nil
-		}
-
-		job.Checkin("Parse reaction")
-		decoder := json.NewDecoder(resp.Body)
-		var respData reactionResponseData
-		if err := decoder.Decode(&respData); err != nil {
-			logEntry.Error("Request failed")
-			sentry.CaptureException(errors.New("Request failed"))
-		}
-
-		// Save to db
-		for _, r := range respData.Response.Results {
-			reaction := reactionData{
-				ID:        r.IDNumber,
-				Type:      r.ReactionText,
-				Timestamp: r.TimestampNumber,
-				Title:     r.TitleText,
-			}
-
-			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction", r.TimestampNumber, reaction); err != nil {
+		// Save to db & count
+		for _, reaction := range reactions {
+			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction", reaction.Timestamp, reaction); err != nil {
 				logEntry.Error(err)
 				sentry.CaptureException(err)
 				return err
 			}
-			reactions = append(reactions, reaction)
+
+			if err := b.countReaction(ctx, logEntry, accountNumber, &reaction); err != nil {
+				logEntry.Error(err)
+				sentry.CaptureException(err)
+				return err
+			}
 		}
 
-		// Should continue?
-		if respData.Response.Remaining == 0 {
+		if currentOffset >= total {
 			break
-		} else {
-			currentCursor += respData.Response.Count
-		}
-	}
-
-	sort.Slice(reactions, func(i, j int) bool {
-		return reactions[i].Timestamp < reactions[j].Timestamp
-	})
-
-	for _, reaction := range reactions {
-		if err := b.countReaction(ctx, logEntry, accountNumber, &reaction); err != nil {
-			logEntry.Error(err)
-			sentry.CaptureException(err)
-			return err
 		}
 	}
 
@@ -141,7 +65,7 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 		return err
 	}
 
-	logEntry.Info("Finish...")
+	logEntry.Info("Finish parsing reactions")
 
 	return nil
 }
@@ -170,7 +94,7 @@ type reactionStat struct {
 var currentWeekReactionStat, currentYearReactionStat, currentDecadeReactionStat *reactionStat
 var lastWeekQuantity, lastYearQuantity, lastDecadeQuantity uint64
 
-func (b *BackgroundContext) countReaction(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *reactionData) error {
+func (b *BackgroundContext) countReaction(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *fbarchive.ReactionData) error {
 	err := b.countReactionToWeek(ctx, logEntry, accountNumber, reaction)
 	if err != nil {
 		return err
@@ -183,12 +107,11 @@ func (b *BackgroundContext) countReaction(ctx context.Context, logEntry *log.Ent
 	return err
 }
 
-func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *reactionData) error {
+func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last week
 	if reaction == nil && currentWeekReactionStat != nil {
 		currentWeekReactionStat.DiffFromPrevious = getDiff(currentWeekReactionStat.Quantity, lastWeekQuantity)
 		err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat)
-		logEntry.WithField("week stat:", currentWeekReactionStat).Info()
 		return err
 	}
 
@@ -200,7 +123,6 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat); err != nil {
 			return err
 		}
-		logEntry.WithField("week stat:", currentWeekReactionStat).Info()
 		if (weekTimestamp - 7*24*60*60) == currentWeekReactionStat.PeriodStartedAt {
 			lastWeekQuantity = currentWeekReactionStat.Quantity
 		} else {
@@ -232,7 +154,7 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 	}
 
 	currentWeekReactionStat.Quantity++
-	plusOneValue(&currentWeekReactionStat.Groups.Type.Data, strings.ToLower(reaction.Type))
+	plusOneValue(&currentWeekReactionStat.Groups.Type.Data, strings.ToLower(reaction.Reaction))
 
 	subPeriod := currentWeekReactionStat.Groups.SubPeriod
 	dayTimestamp := absDay(reaction.Timestamp)
@@ -244,18 +166,17 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 			Data: make(map[string]int),
 		})
 	}
-	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Type))
+	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Reaction))
 	currentWeekReactionStat.Groups.SubPeriod = subPeriod
 
 	return nil
 }
 
-func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *reactionData) error {
+func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last year
 	if reaction == nil && currentYearReactionStat != nil {
 		currentYearReactionStat.DiffFromPrevious = getDiff(currentYearReactionStat.Quantity, lastYearQuantity)
 		err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat)
-		logEntry.WithField("year stat:", currentYearReactionStat).Info()
 		return err
 	}
 
@@ -267,7 +188,6 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat); err != nil {
 			return err
 		}
-		logEntry.WithField("year stat:", currentYearReactionStat).Info()
 		if (yearTimestamp - 7*24*60*60) == currentYearReactionStat.PeriodStartedAt {
 			lastYearQuantity = currentYearReactionStat.Quantity
 		} else {
@@ -299,7 +219,7 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 	}
 
 	currentYearReactionStat.Quantity++
-	plusOneValue(&currentYearReactionStat.Groups.Type.Data, strings.ToLower(reaction.Type))
+	plusOneValue(&currentYearReactionStat.Groups.Type.Data, strings.ToLower(reaction.Reaction))
 
 	subPeriod := currentYearReactionStat.Groups.SubPeriod
 	monthTimestamp := absMonth(reaction.Timestamp)
@@ -311,18 +231,17 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 			Data: make(map[string]int),
 		})
 	}
-	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Type))
+	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Reaction))
 	currentYearReactionStat.Groups.SubPeriod = subPeriod
 
 	return nil
 }
 
-func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *reactionData) error {
+func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last decade
 	if reaction == nil && currentDecadeReactionStat != nil {
 		currentDecadeReactionStat.DiffFromPrevious = getDiff(currentDecadeReactionStat.Quantity, lastDecadeQuantity)
 		err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat)
-		logEntry.WithField("decade stat:", currentDecadeReactionStat).Info()
 		return err
 	}
 
@@ -334,7 +253,6 @@ func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry 
 		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat); err != nil {
 			return err
 		}
-		logEntry.WithField("decade stat:", currentDecadeReactionStat).Info()
 		if (decadeTimestamp - 7*24*60*60) == currentDecadeReactionStat.PeriodStartedAt {
 			lastDecadeQuantity = currentDecadeReactionStat.Quantity
 		} else {
@@ -366,7 +284,7 @@ func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry 
 	}
 
 	currentDecadeReactionStat.Quantity++
-	plusOneValue(&currentDecadeReactionStat.Groups.Type.Data, strings.ToLower(reaction.Type))
+	plusOneValue(&currentDecadeReactionStat.Groups.Type.Data, strings.ToLower(reaction.Reaction))
 
 	subPeriod := currentDecadeReactionStat.Groups.SubPeriod
 	yearTimestamp := absMonth(reaction.Timestamp)
@@ -378,7 +296,7 @@ func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry 
 			Data: make(map[string]int),
 		})
 	}
-	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Type))
+	plusOneValue(&subPeriod[len(subPeriod)-1].Data, strings.ToLower(reaction.Reaction))
 	currentDecadeReactionStat.Groups.SubPeriod = subPeriod
 
 	return nil

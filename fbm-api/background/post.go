@@ -70,9 +70,8 @@ func randomSentiment() int {
 	possibility := rand.Intn(9) + 1
 	if possibility <= 7 {
 		return rand.Intn(4) + 1
-	} else {
-		return rand.Intn(4) + 6
 	}
+	return rand.Intn(4) + 6
 }
 
 func (b *BackgroundContext) extractPost(job *work.Job) error {
