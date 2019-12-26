@@ -1,6 +1,7 @@
 package api
 
 import (
+	"fmt"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -104,6 +105,7 @@ type InsightSection struct {
 }
 
 func (s *Server) getInsight(c *gin.Context) {
+	accountNumber := c.GetString("requester")
 	account := c.MustGet("account").(*store.Account)
 
 	period := c.Param("period")
@@ -119,7 +121,7 @@ func (s *Server) getInsight(c *gin.Context) {
 		return
 	}
 
-	results := make([]InsightSection, 0)
+	results := make([]interface{}, 0)
 
 	// fb income for data
 	currentPeriodFBIncome := s.getFBIncomeFromData(account, period, startedAt)
@@ -140,13 +142,14 @@ func (s *Server) getInsight(c *gin.Context) {
 		DiffFromPrevious: diff,
 	})
 
-	results = append(results, InsightSection{
-		SectionName:      "sentiment",
-		Value:            float64(s.getSentiment(account.AccountNumber, period, startedAt)),
-		PeriodStartedAt:  startedAt,
-		Period:           period,
-		DiffFromPrevious: 0.0,
-	})
+	sentimentStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/sentiment-%s-stat", accountNumber, period), startedAt)
+	if shouldInterupt(err, c) {
+		return
+	}
+
+	if sentimentStat != nil {
+		results = append(results, sentimentStat)
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"result": results,
