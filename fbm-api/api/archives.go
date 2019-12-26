@@ -69,6 +69,7 @@ func (s *Server) getAllArchives(c *gin.Context) {
 
 func (s *Server) parseArchive(c *gin.Context) {
 	accountNumber := c.GetString("requester")
+
 	// For post
 	job, err := s.backgroundEnqueuer.EnqueueUnique("analyze_posts", work.Q{
 		"account_number": accountNumber,
