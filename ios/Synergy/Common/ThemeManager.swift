@@ -47,6 +47,7 @@ protocol Theme {
     var themeMercuryColor: UIColor { get }
     var controlBackgroundColor: UIColor { get }
     var postCellBackgroundColor: UIColor { get }
+    var reactionCellBackgroundColor: UIColor { get }
     var sectionBackgroundColor: UIColor { get }
     var blurCoverColor: UIColor { get }
 
@@ -76,6 +77,7 @@ struct LightTheme: Theme {
     let themeMercuryColor = UIColor(hexString: "#E7E7E7")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
+    let reactionCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let sectionBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let blurCoverColor = UIColor(hexString: "#FFF", transparency: 0.7)!
 
@@ -106,6 +108,7 @@ struct DarkTheme: Theme {
     let themeMercuryColor = UIColor(hexString: "#E7E7E7")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
+    let reactionCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let sectionBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let blurCoverColor = UIColor(hexString: "#FFF", transparency: 0.7)!
 

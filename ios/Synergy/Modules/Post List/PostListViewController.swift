@@ -107,7 +107,7 @@ extension PostListViewController: UITableViewDataSource {
 
         switch indexPath.section {
         case 0:
-            let cell = tableView.dequeueReusableCell(withClass: PostHeadingViewCell.self, for: indexPath)
+            let cell = tableView.dequeueReusableCell(withClass: ListHeadingViewCell.self, for: indexPath)
             cell.fillInfo(
                 backButton: backItem,
                 sectionInfo: (
@@ -145,7 +145,7 @@ extension PostListViewController: UITableViewDataSource {
             return cell
 
         default:
-            return tableView.dequeueReusableCell(withClass: PostHeadingViewCell.self, for: indexPath)
+            return tableView.dequeueReusableCell(withClass: ListHeadingViewCell.self, for: indexPath)
         }
     }
 }
@@ -180,34 +180,5 @@ extension PostListViewController {
 
         let postListviewModel = PostListViewModel(filterScope: newFilterScope)
         navigator.show(segue: .postList(viewModel: postListviewModel), sender: self)
-    }
-}
-
-extension PostListViewController {
-    func makeTimelineLabel() -> Label {
-        let label = Label()
-        label.applyBlack(
-            text: "",
-            font: R.font.atlasGroteskLight(size: Size.ds(14)),
-            lineHeight: 1.06)
-        return label
-    }
-
-    func makeSectionTitleLabel() -> Label {
-        let label = Label()
-        label.applyBlack(
-            text: "",
-            font: R.font.domaineSansTextRegular(size: Size.ds(36)),
-            lineHeight: 1.06, level: 3)
-        return label
-    }
-
-    func makeSectionTagLabel() -> Label {
-        let label = Label()
-        label.applyBlack(
-            text: "",
-            font: R.font.atlasGroteskLight(size: Size.ds(10)),
-            lineHeight: 1.06)
-        return label
     }
 }

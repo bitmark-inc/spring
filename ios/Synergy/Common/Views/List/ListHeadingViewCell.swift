@@ -9,7 +9,7 @@
 import UIKit
 import FlexLayout
 
-class PostHeadingViewCell: TableViewCell {
+class ListHeadingViewCell: TableViewCell {
 
     // MARK: - Properties
     lazy var backButtonView = UIView()
@@ -51,7 +51,7 @@ class PostHeadingViewCell: TableViewCell {
     }
 }
 
-extension PostHeadingViewCell {
+extension ListHeadingViewCell {
     func makeSectionTitleLabel() -> Label {
         let label = Label()
         label.applyTitleTheme(text: "", colorTheme: .cognac)

@@ -1,8 +1,8 @@
 //
-//  PostDataEngine+Rx.swift
+//  ReactionDataEngion+Rx.swift
 //  Synergy
 //
-//  Created by thuyentruong on 12/2/19.
+//  Created by Thuyen Truong on 12/26/19.
 //  Copyright © 2019 Bitmark Inc. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import RealmSwift
 import RxSwift
 import SwiftDate
 
-class PostDataEngine {
+class ReactionDataEngine {
     static func sync(datePeriod: DatePeriod?) {
         guard let datePeriod = datePeriod else { return }
 
@@ -22,7 +22,7 @@ class PostDataEngine {
             endDate = startDate
             startDate = max(startDate - 30.days, datePeriod.startDate)
 
-            _ = PostService.getAll(startDate: startDate, endDate: endDate)
+            _ = ReactionService.getAll(startDate: startDate, endDate: endDate)
                 .flatMapCompletable { Storage.store($0, inGlobalRealm: true) }
                 .observeOn(SerialDispatchQueueScheduler(qos: .background))
                 .subscribe(onError: { (error) in
@@ -34,14 +34,14 @@ class PostDataEngine {
     }
 }
 
-extension PostDataEngine: ReactiveCompatible {}
+extension ReactionDataEngine: ReactiveCompatible {}
 
-extension Reactive where Base: PostDataEngine {
+extension Reactive where Base: ReactionDataEngine {
 
-    static func fetch(with filterScope: FilterScope) -> Single<Results<Post>> {
-        Global.log.info("[start] PostDataEngine.rx.fetch")
+    static func fetch(with filterScope: FilterScope) -> Single<Results<Reaction>> {
+        Global.log.info("[start] ReactionDataEngion.rx.fetch")
 
-        return Single<Results<Post>>.create { (event) -> Disposable in
+        return Single<Results<Reaction>>.create { (event) -> Disposable in
             do {
                 guard Thread.current.isMainThread else {
                     throw AppError.incorrectThread
@@ -50,13 +50,13 @@ extension Reactive where Base: PostDataEngine {
                 let realm = try RealmConfig.globalRealm()
 
                 guard let filterQuery = makeFilterQuery(filterScope) else {
-                    throw AppError.incorrectPostFilter
+                    throw AppError.incorrectReactionFilter
                 }
-                let posts = realm.objects(Post.self).filter(filterQuery)
-                event(.success(posts))
+                let reactions = realm.objects(Reaction.self).filter(filterQuery)
+                event(.success(reactions))
 
                 let datePeriod = extractQueryDatePeriod(filterScope)
-                PostDataEngine.sync(datePeriod: datePeriod)
+                ReactionDataEngine.sync(datePeriod: datePeriod)
             } catch {
                 event(.error(error))
             }
@@ -73,20 +73,8 @@ extension Reactive where Base: PostDataEngine {
 
         switch filterScope.filterBy {
         case .type:
-            guard let type = filterScope.filterValue as? PostType else { break }
-            filterPredicate = NSPredicate(format: "type == %@", type.rawValue)
-        case .friend:
-            if let friends = filterScope.filterValue as? [String] {
-                filterPredicate = NSPredicate(format: "ANY tags.name IN %@", friends)
-            } else if let friend = filterScope.filterValue as? String {
-                filterPredicate = NSPredicate(format: "ANY tags.name == %@", friend)
-            }
-        case .place:
-            if let places = filterScope.filterValue as? [String] {
-                filterPredicate = NSPredicate(format: "location.name IN %@", places)
-            } else if let place = filterScope.filterValue as? String {
-                filterPredicate = NSPredicate(format: "location.name == %@", place)
-            }
+            guard let type = filterScope.filterValue as? ReactionType else { break }
+            filterPredicate = NSPredicate(format: "reaction == %@", type.rawValue)
         default:
             break
         }

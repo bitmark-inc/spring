@@ -80,6 +80,7 @@ enum AppError: Error {
     case missingFileNameFromServer
     case noInternetConnection
     case incorrectPostFilter
+    case incorrectReactionFilter
     case requireAppUpdate(updateURL: URL)
     case fbArchivePageIsNotReady
     case loginFailedIsNotDetected

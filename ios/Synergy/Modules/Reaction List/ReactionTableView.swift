@@ -1,8 +1,8 @@
 //
-//  PostTableView.swift
+//  ReactionTableView.swift
 //  Synergy
 //
-//  Created by thuyentruong on 12/2/19.
+//  Created by Thuyen Truong on 12/26/19.
 //  Copyright © 2019 Bitmark Inc. All rights reserved.
 //
 
@@ -11,15 +11,11 @@ import RxSwift
 import RealmSwift
 import Realm
 
-class PostTableView: TableView {
+class ReactionTableView: TableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         self.register(cellWithClass: ListHeadingViewCell.self)
-        self.register(cellWithClass: GeneralPostTableViewCell.self)
-        self.register(cellWithClass: UpdatePostTableViewCell.self)
-        self.register(cellWithClass: LinkPostTableViewCell.self)
-        self.register(cellWithClass: LinkCaptionPostTableViewCell.self)
-        self.register(cellWithClass: VideoPostTableViewCell.self)
+        self.register(cellWithClass: ReactionTableViewCell.self)
 
         themeService.rx
             .bind({ $0.background }, to: rx.backgroundColor)

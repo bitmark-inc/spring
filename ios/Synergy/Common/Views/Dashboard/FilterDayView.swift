@@ -196,6 +196,8 @@ extension FilterDayView: ChartViewDelegate {
         switch section {
         case .posts:
             navigatorDelegate?.goToPostListScreen(filterBy: .day, filterValue: selectedDate)
+        case .reactions:
+            navigatorDelegate?.goToReactionListScreen(filterBy: .day, filterValue: selectedDate)
         default:
             return
         }

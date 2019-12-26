@@ -28,6 +28,7 @@ protocol TimelineDelegate: class {
 
 protocol NavigatorDelegate: class {
     func goToPostListScreen(filterBy: GroupKey, filterValue: Any)
+    func goToReactionListScreen(filterBy: GroupKey, filterValue: Any)
 }
 
 class UsageViewController: ViewController {
@@ -275,6 +276,17 @@ extension UsageViewController: NavigatorDelegate {
 
         let viewModel = PostListViewModel(filterScope: filterScope)
         navigator.show(segue: .postList(viewModel: viewModel), sender: self)
+    }
+
+    func goToReactionListScreen(filterBy: GroupKey, filterValue: Any) {
+        let filterScope = FilterScope(
+            date: thisViewModel.dateRelay.value,
+            timeUnit: thisViewModel.timeUnitRelay.value,
+            section: .reactions,
+            filterBy: filterBy, filterValue: filterValue)
+
+        let viewModel = ReactionListViewModel(filterScope: filterScope)
+        navigator.show(segue: .reactionList(viewModel: viewModel), sender: self)
     }
 }
 

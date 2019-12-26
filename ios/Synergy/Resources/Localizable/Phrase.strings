@@ -48,6 +48,8 @@
 "post.postInfo.locationTag" = " at %@";
 "post.sectionTitle.tag" = "tagged with %@";
 
+"reactions.empty" = "You have no reactions!";
+
 "account.settings.title" = "Account";
 "account.settings.security" = "Security";
 "account.settings.security.signOut" = "Unlink from device »";

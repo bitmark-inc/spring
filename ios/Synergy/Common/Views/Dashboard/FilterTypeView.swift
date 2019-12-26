@@ -188,6 +188,9 @@ extension FilterTypeView: ChartViewDelegate {
         case .posts:
             guard let type = PostType(rawValue: typeKey) else { return }
             navigatorDelegate?.goToPostListScreen(filterBy: .type, filterValue: type)
+        case .reactions:
+            guard let type = ReactionType(rawValue: typeKey) else { return }
+            navigatorDelegate?.goToReactionListScreen(filterBy: .type, filterValue: type)
         default:
             return
         }

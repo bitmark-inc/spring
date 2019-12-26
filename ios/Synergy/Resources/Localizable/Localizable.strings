@@ -58,12 +58,12 @@
 "graph.key.story" = "Stories";
 "graph.key.link" = "Links";
 
-"graph.key.like" = "Like";
-"graph.key.love" = "Love";
-"graph.key.haha" = "Haha";
-"graph.key.wow" = "Wow";
-"graph.key.sorry" = "Sad";
-"graph.key.anger" = "Angry";
+"graph.key.LIKE" = "Like";
+"graph.key.LOVE" = "Love";
+"graph.key.HAHA" = "Haha";
+"graph.key.WOW" = "Wow";
+"graph.key.SORRY" = "Sad";
+"graph.key.ANGER" = "Angry";
 "graph.key.other" = "Others";
 
 "graph.noActivity" = "No activity for this period.";

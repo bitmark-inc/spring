@@ -122,7 +122,12 @@ enum PostType: String {
 }
 
 enum ReactionType: String {
-    case like, love, haha, wow, sad, angry
+    case like = "LIKE"
+    case love = "LOVE"
+    case haha = "HAHA"
+    case wow = "WOW"
+    case sad = "SORRY"
+    case angry = "ANGER"
 
     static var orderedList: [ReactionType] {
         return [.like, .love, .haha, .wow, .sad, .angry]
@@ -141,10 +146,17 @@ enum ReactionType: String {
     }
 
     var keyInGroups: String {
+        return self.rawValue
+    }
+
+    var reactionImage: UIImage? {
         switch self {
-        case .sad:      return "sorry"
-        case .angry:    return "anger"
-        default:        return self.rawValue
+        case .like: return R.image.like()
+        case .love: return R.image.love()
+        case .haha: return R.image.haha()
+        case .wow:  return R.image.wow()
+        case .sad:  return R.image.sad()
+        case .angry: return R.image.angry()
         }
     }
 }
