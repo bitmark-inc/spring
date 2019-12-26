@@ -1,5 +1,5 @@
 //
-//  GeneralPostTableViewCell.swift
+//  PhotoPostTableViewCell.swift
 //  Synergy
 //
 //  Created by thuyentruong on 12/3/19.
@@ -11,7 +11,7 @@ import FlexLayout
 import RxSwift
 import SwiftDate
 
-class GeneralPostTableViewCell: TableViewCell, PostDataTableViewCell {
+class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
@@ -33,7 +33,7 @@ class GeneralPostTableViewCell: TableViewCell, PostDataTableViewCell {
                 flex.addItem(postInfoLabel)
                 flex.addItem(captionLabel).marginTop(12).basis(1)
             }
-            flex.addItem(photoImageView).marginTop(20).maxWidth(100%)
+            flex.addItem(photoImageView).marginTop(20).height(400)
             flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
         }
 
@@ -43,7 +43,7 @@ class GeneralPostTableViewCell: TableViewCell, PostDataTableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        photoImageView.flex.height(0)
+        photoImageView.flex.height(400)
         invalidateIntrinsicContentSize()
     }
 
@@ -76,15 +76,19 @@ class GeneralPostTableViewCell: TableViewCell, PostDataTableViewCell {
                     Global.log.error(error)
                 })
                 .disposed(by: disposeBag)
+        } else {
+            photoImageView.image = R.image.defaultThumbnail()
+            photoImageView.flex.height(300)
         }
 
         postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
         photoImageView.flex.markDirty()
+        contentView.flex.layout(mode: .adjustHeight)
     }
 }
 
-extension GeneralPostTableViewCell: UITextViewDelegate {
+extension PhotoPostTableViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
         clickableTextDelegate?.click(textView, url: URL)
@@ -92,7 +96,7 @@ extension GeneralPostTableViewCell: UITextViewDelegate {
     }
 }
 
-extension GeneralPostTableViewCell {
+extension PhotoPostTableViewCell {
     fileprivate func makePostInfoLabel() -> UITextView {
         let textView = UITextView()
         textView.textContainerInset = .zero

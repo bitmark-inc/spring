@@ -126,6 +126,9 @@
 		5B2097C423B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
 		5B2097C523B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
 		5B2097C623B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
+		5B2097C823B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */; };
+		5B2097C923B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */; };
+		5B2097CA23B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */; };
 		5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
 		5B289E0123A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
 		5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
@@ -304,7 +307,6 @@
 		5B5DFFE423A1F0F4003D1A1C /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC21237A863300FA3196 /* NavigationController.swift */; };
 		5B5DFFE523A1F0F4003D1A1C /* Switch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC31237A863300FA3196 /* Switch.swift */; };
 		5B5DFFE623A1F0F4003D1A1C /* ServerAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2259CDA2387E56F00746280 /* ServerAPIError.swift */; };
-		5B5DFFE723A1F0F4003D1A1C /* GeneralPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807C22395FEEA0079A3C4 /* GeneralPostTableViewCell.swift */; };
 		5B5DFFE823A1F0F4003D1A1C /* SeparateLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC34237A863300FA3196 /* SeparateLine.swift */; };
 		5B5DFFE923A1F0F4003D1A1C /* PostTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290A123953B0600412CBC /* PostTableView.swift */; };
 		5B5DFFEA23A1F0F4003D1A1C /* String+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA4237A8A9200FA3196 /* String+Helper.swift */; };
@@ -444,8 +446,6 @@
 		E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
 		E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
-		E23807C32395FEEA0079A3C4 /* GeneralPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807C22395FEEA0079A3C4 /* GeneralPostTableViewCell.swift */; };
-		E23807C42395FEEA0079A3C4 /* GeneralPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807C22395FEEA0079A3C4 /* GeneralPostTableViewCell.swift */; };
 		E23807C62396023F0079A3C4 /* LinkAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807C52396023F0079A3C4 /* LinkAttributedString.swift */; };
 		E23807C72396023F0079A3C4 /* LinkAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807C52396023F0079A3C4 /* LinkAttributedString.swift */; };
 		E23807C9239618000079A3C4 /* PostDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807C8239618000079A3C4 /* PostDataTableViewCell.swift */; };
@@ -732,6 +732,7 @@
 		5B2097B923B4676D0079B421 /* ReactionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionTableView.swift; sourceTree = "<group>"; };
 		5B2097BF23B477FB0079B421 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionTableViewCell.swift; sourceTree = "<group>"; };
+		5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPostTableViewCell.swift; sourceTree = "<group>"; };
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
 		5B4A237623B1132E00447366 /* UsageBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeView.swift; sourceTree = "<group>"; };
 		5B4A237A23B1136E00447366 /* HeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingView.swift; sourceTree = "<group>"; };
@@ -808,7 +809,6 @@
 		E22BC2EA239E3FF000018BC4 /* ListHeadingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeadingViewCell.swift; sourceTree = "<group>"; };
 		E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FbmAccountDataEngine+Rx.swift"; sourceTree = "<group>"; };
 		E236B678238EAAF200C1A280 /* NavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationView.swift; sourceTree = "<group>"; };
-		E23807C22395FEEA0079A3C4 /* GeneralPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPostTableViewCell.swift; sourceTree = "<group>"; };
 		E23807C52396023F0079A3C4 /* LinkAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkAttributedString.swift; sourceTree = "<group>"; };
 		E23807C8239618000079A3C4 /* PostDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDataTableViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
@@ -1457,8 +1457,8 @@
 				58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */,
 				E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */,
 				58C009D72398C60D00302F49 /* LinkPostTableViewCell.swift */,
-				E23807C22395FEEA0079A3C4 /* GeneralPostTableViewCell.swift */,
 				E24420392399067600520FE9 /* VideoPostTableViewCell.swift */,
+				5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */,
 			);
 			path = PostCollectionViewCell;
 			sourceTree = "<group>";
@@ -2275,7 +2275,6 @@
 				5BBB663823A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */,
 				E28B55F0238CE66400F1BCF2 /* DataRequestedViewController.swift in Sources */,
 				5B9322FC23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
-				E23807C32395FEEA0079A3C4 /* GeneralPostTableViewCell.swift in Sources */,
 				5B2097B623B467560079B421 /* ReactionListViewModel.swift in Sources */,
 				5BA9FF6F23B23CAA00E57A20 /* IncomeView.swift in Sources */,
 				5832FCB0237A8A9300FA3196 /* String+Helper.swift in Sources */,
@@ -2323,6 +2322,7 @@
 				5B4A239523B1C4D000447366 /* Location.swift in Sources */,
 				E222908C239509EF00412CBC /* PostListViewController.swift in Sources */,
 				5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */,
+				5B2097C823B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */,
 				5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */,
 				5BEB478C23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A523B464410079B421 /* ReactionAPI.swift in Sources */,
@@ -2453,7 +2453,6 @@
 				5B5DFFE423A1F0F4003D1A1C /* NavigationController.swift in Sources */,
 				5B5DFFE523A1F0F4003D1A1C /* Switch.swift in Sources */,
 				5B5DFFE623A1F0F4003D1A1C /* ServerAPIError.swift in Sources */,
-				5B5DFFE723A1F0F4003D1A1C /* GeneralPostTableViewCell.swift in Sources */,
 				5BBB663A23A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */,
 				5B5DFFE823A1F0F4003D1A1C /* SeparateLine.swift in Sources */,
 				5B9322FE23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
@@ -2504,6 +2503,7 @@
 				5B4A239723B1C4D000447366 /* Location.swift in Sources */,
 				5B5D001123A1F0F4003D1A1C /* HomeTabbarController.swift in Sources */,
 				5B5D001223A1F0F4003D1A1C /* UsageViewController.swift in Sources */,
+				5B2097CA23B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */,
 				5B5D001323A1F0F4003D1A1C /* PostListViewController.swift in Sources */,
 				5BEB478E23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A723B464410079B421 /* ReactionAPI.swift in Sources */,
@@ -2626,7 +2626,6 @@
 				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
 				E2DB668C237D3B69005367C2 /* Switch.swift in Sources */,
 				E2259CDC2387E56F00746280 /* ServerAPIError.swift in Sources */,
-				E23807C42395FEEA0079A3C4 /* GeneralPostTableViewCell.swift in Sources */,
 				5BBB663923A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */,
 				E2DB668D237D3B69005367C2 /* SeparateLine.swift in Sources */,
 				5B9322FD23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
@@ -2677,6 +2676,7 @@
 				5B4A239623B1C4D000447366 /* Location.swift in Sources */,
 				5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E8238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
+				5B2097C923B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */,
 				E222908D239509EF00412CBC /* PostListViewController.swift in Sources */,
 				5BEB478D23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A623B464410079B421 /* ReactionAPI.swift in Sources */,

@@ -15,7 +15,7 @@ class PostTableView: TableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         self.register(cellWithClass: ListHeadingViewCell.self)
-        self.register(cellWithClass: GeneralPostTableViewCell.self)
+        self.register(cellWithClass: PhotoPostTableViewCell.self)
         self.register(cellWithClass: UpdatePostTableViewCell.self)
         self.register(cellWithClass: LinkPostTableViewCell.self)
         self.register(cellWithClass: LinkCaptionPostTableViewCell.self)

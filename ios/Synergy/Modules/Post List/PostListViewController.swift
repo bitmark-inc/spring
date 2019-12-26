@@ -135,10 +135,10 @@ extension PostListViewController: UITableViewDataSource {
             case .media:
                 cell = post.mediaData.first?.type == "video" ?
                     tableView.dequeueReusableCell(withClass: VideoPostTableViewCell.self, for: indexPath) :
-                    tableView.dequeueReusableCell(withClass: GeneralPostTableViewCell.self, for: indexPath)
+                    tableView.dequeueReusableCell(withClass: PhotoPostTableViewCell.self, for: indexPath)
 
             default:
-                cell = tableView.dequeueReusableCell(withClass: GeneralPostTableViewCell.self, for: indexPath)
+                cell = tableView.dequeueReusableCell(withClass: PhotoPostTableViewCell.self, for: indexPath)
             }
             cell.clickableTextDelegate = self
             cell.bindData(post: post)

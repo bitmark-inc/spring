@@ -33,15 +33,17 @@ class VideoPostTableViewCell: TableViewCell, PostDataTableViewCell {
                 flex.addItem(postInfoLabel)
                 flex.addItem(captionLabel).marginTop(12).basis(1)
             }
-            flex.addItem(photoImageView).marginTop(20).height(300).maxWidth(100%)
+            flex.addItem(photoImageView).marginTop(20).height(400)
             flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
         }
+
+        contentView.flex.layout(mode: .adjustHeight)
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        photoImageView.flex.height(0)
+        photoImageView.flex.height(400)
         invalidateIntrinsicContentSize()
     }
 
@@ -63,15 +65,26 @@ class VideoPostTableViewCell: TableViewCell, PostDataTableViewCell {
             lineHeight: 1.25,
             attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
 
-        if let media = post.mediaData.first, let thumbnail = media.thumbnail, let thumbnailURL = URL(string: thumbnail) {
+        if let media = post.mediaData.first, let thumbnail = media.thumbnail, let thumbnailURL = URL(string: thumbnail), thumbnailURL.pathExtension != "mp4" {
             photoImageView.loadURL(thumbnailURL)
-                .subscribe()
+                .subscribe(onCompleted: { [weak self] in
+                    guard let self = self else { return }
+                    self.photoImageView.flex.markDirty()
+                    self.contentView.flex.layout(mode: .adjustHeight)
+                }, onError: { (error) in
+                    guard !AppError.errorByNetworkConnection(error) else { return }
+                    Global.log.error(error)
+                })
                 .disposed(by: disposeBag)
+        } else {
+            photoImageView.image = R.image.defaultThumbnail()
+            photoImageView.flex.height(300)
         }
 
         postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
         photoImageView.flex.markDirty()
+        contentView.flex.layout(mode: .adjustHeight)
     }
 }
 
