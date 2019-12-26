@@ -116,7 +116,6 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 	// Get fingerprint
 	fingerprintBytes := h.Sum(nil)
 	fingerprint := hex.EncodeToString(fingerprintBytes)
-	fingerprint = "01" + fingerprint // Add version to fingerprint
 
 	_, err = b.store.UpdateFBArchiveStatus(ctx, &store.FBArchiveQueryParam{
 		ID: &archiveid,
@@ -130,11 +129,11 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) error {
 		return err
 	}
 
-	enqueuer.EnqueueUniqueIn(jobUploadArchive, 3, map[string]interface{}{
-		"s3_key":         s3key,
-		"account_number": accountNumber,
-		"archive_id":     archiveid,
-	})
+	// enqueuer.EnqueueUniqueIn(jobUploadArchive, 3, map[string]interface{}{
+	// 	"s3_key":         s3key,
+	// 	"account_number": accountNumber,
+	// 	"archive_id":     archiveid,
+	// })
 
 	logEntity.Info("Finish...")
 
