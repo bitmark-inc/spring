@@ -12,24 +12,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type postResult struct {
-	AddressText     string   `json:"address_text,omitempty"`
-	LatitudeNumber  float64  `json:"latitude_number,omitempty"`
-	LocationText    string   `json:"location_text,omitempty"`
-	LongitudeNumber float64  `json:"longitude_number,omitempty"`
-	TagsListText    []string `json:"tags_list_text"`
-	TimestampNumber int64    `json:"timestamp_number"`
-	TypeText        string   `json:"type_text"`
-	URLPlaceText    string   `json:"url_place_text"`
-	PhotoText       string   `json:"photo_text"`
-	VideoText       string   `json:"video_text"`
-	ThumbnailText   string   `json:"thumbnail_text"`
-	URLText         string   `json:"url_text"`
-	TitleText       string   `json:"title_text"`
-	PostText        string   `json:"post_text"`
-	IDNumber        uint64   `json:"id_number"`
-}
-
 type mediaData struct {
 	Type      string `json:"type"`
 	Source    string `json:"source"`
@@ -48,7 +30,7 @@ type locationData struct {
 }
 
 type friendData struct {
-	ID   uint64 `json:"id"`
+	ID   int    `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -120,7 +102,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 
 			if r.MediaAttached {
 				postType = "media"
-				for _, m := range r.Media {
+				for _, m := range r.PostMedia {
 					mediaType := "photo"
 					if m.FilenameExtension == ".mp4" {
 						mediaType = "video"
@@ -128,7 +110,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 					media = append(media, mediaData{
 						Type:      mediaType,
 						Source:    m.MediaURI,
-						Thumbnail: m.ThumbnailURI,
+						Thumbnail: m.MediaURI,
 					})
 				}
 			} else if r.ExternalContextURL != "" {
@@ -147,7 +129,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 				lat, _ := strconv.ParseFloat(firstPlace.Latitude, 64)
 				long, _ := strconv.ParseFloat(firstPlace.Longitude, 64)
 				l = &locationData{
-					Address: firstPlace.Place,
+					Address: firstPlace.Address,
 					Coordinate: struct {
 						Latitude  float64 `json:"latitude"`
 						Longitude float64 `json:"longitude"`
@@ -155,7 +137,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 						Latitude:  lat,
 						Longitude: long,
 					},
-					Name:      firstPlace.Place,
+					Name:      firstPlace.Name,
 					CreatedAt: r.Timestamp,
 				}
 
@@ -166,7 +148,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 			for _, f := range r.Tags {
 				friends = append(friends, friendData{
 					ID:   f.FriendID,
-					Name: f.FriendName,
+					Name: f.Tags,
 				})
 			}
 

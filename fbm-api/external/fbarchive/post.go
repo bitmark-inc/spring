@@ -16,7 +16,7 @@ type PostData struct {
 		Timestamp             int64  `json:"timestamp"`
 		UpdateTimestamp       int64  `json:"update_timestamp"`
 		Date                  string `json:"date"`
-		Weekday               string `json:"weekday"`
+		Weekday               int    `json:"weekday"`
 		Title                 string `json:"title"`
 		Post                  string `json:"post"`
 		ExternalContextURL    string `json:"external_context_url"`
@@ -26,31 +26,35 @@ type PostData struct {
 		EventStartTimestamp   int64  `json:"event_start_timestamp"`
 		EventEndTimestamp     int64  `json:"event_end_timestamp"`
 		MediaAttached         bool   `json:"media_attached"`
-		Media                 []struct {
+		Sentiment             string `json:"sentiment"`
+		PostMedia             []struct {
+			PkID              int    `json:"pk_id"`
+			PostID            int    `json:"post_id"`
+			PmID              int    `json:"pm_id"`
 			MediaURI          string `json:"media_uri"`
-			ThumbnailURI      string `json:"thumbnail_uri"`
 			FilenameExtension string `json:"filename_extension"`
-		} `json:"media"`
+			DataOwner         string `json:"data_owner"`
+		} `json:"post_media"`
 		Tags []struct {
-			FriendID   uint64 `json:"friend_id"`
-			FriendName string `json:"friend_name"`
-			Timestamp  int64  `json:"timestamp"`
-			DataOwner  string `json:"data_owner"`
+			Tfid      int    `json:"tfid"`
+			Tags      string `json:"tags"`
+			PostID    int    `json:"post_id"`
+			FriendID  int    `json:"friend_id"`
+			DataOwner string `json:"data_owner"`
 		} `json:"tags"`
 		Place []struct {
-			PlaceID   int    `json:"place_id"`
-			Place     string `json:"place"`
+			PpID      int    `json:"pp_id"`
+			Name      string `json:"name"`
+			Address   string `json:"address"`
 			Latitude  string `json:"latitude"`
 			Longitude string `json:"longitude"`
-			PlaceType string `json:"place_type"`
-			DataOwner string `json:"data_owner"`
 		} `json:"place"`
 		DataOwner string `json:"data_owner"`
 	} `json:"results"`
 }
 
 func (c *Client) GetPosts(ctx context.Context, accountNumber string, offset int) (*PostData, error) {
-	r, _ := c.createRequest(ctx, "GET", fmt.Sprintf("/posts?data_owner=%s&offset=%d", accountNumber, offset), nil)
+	r, _ := c.createRequest(ctx, "GET", fmt.Sprintf("/posts?data_owner=%s&offset=%d&order_by=asc", accountNumber, offset), nil)
 	reqDumpByte, err := httputil.DumpRequest(r, false)
 	if err != nil {
 		log.Error(err)

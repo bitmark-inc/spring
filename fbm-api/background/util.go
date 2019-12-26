@@ -64,7 +64,7 @@ func timestampToDateString(timestamp int64) string {
 }
 
 func getDiff(current, last uint64) float64 {
-	log.WithField("current", current).WithField("last", last).Info()
+	log.WithField("current", current).WithField("last", last).Debug()
 	var difference float64
 	if last != 0 {
 		difference = (float64(current) - float64(last)) / float64(last)
@@ -73,6 +73,6 @@ func getDiff(current, last uint64) float64 {
 	} else {
 		difference = 1
 	}
-	log.WithField("difference", difference).Info()
+	log.WithField("difference", difference).Debug()
 	return difference
 }
