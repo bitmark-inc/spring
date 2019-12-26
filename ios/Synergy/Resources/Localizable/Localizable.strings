@@ -49,6 +49,8 @@
 "you_gave" = "you gave";
 "ByType" = "BY TYPE";
 "ByDay" = "BY DAY";
+"ByMonth" = "BY MONTH";
+"ByYear" = "BY YEAR";
 "ByFriendTagged" = "BY FRIENDS TAGGED";
 "ByPlaceTagged" = "BY PLACES TAGGED";
 

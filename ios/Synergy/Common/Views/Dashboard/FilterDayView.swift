@@ -28,8 +28,6 @@ class FilterDayView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        headingLabel.text = R.string.localizable.byDay()
-
         flex.direction(.column)
             .marginTop(2).marginBottom(18)
             .define { (flex) in
@@ -72,6 +70,12 @@ class FilterDayView: UIView {
 
     func setProperties(section: Section, container: UsageViewController) {
         self.section = section
+
+        container.thisViewModel.timeUnitRelay
+            .subscribe(onNext: { [weak self] (timeUnit) in
+                self?.updateFilterText(timeUnit: timeUnit)
+            })
+            .disposed(by: disposeBag)
 
         switch section {
         case .posts:
@@ -184,6 +188,18 @@ class FilterDayView: UIView {
         }
 
         containerLayoutDelegate?.layout()
+    }
+
+    fileprivate func updateFilterText(timeUnit: TimeUnit) {
+        let filterText: String!
+
+        switch timeUnit {
+        case .week: filterText = R.string.localizable.byDay()
+        case .year: filterText = R.string.localizable.byMonth()
+        case .decade: filterText = R.string.localizable.byYear()
+        }
+
+        headingLabel.text = filterText
     }
 }
 
