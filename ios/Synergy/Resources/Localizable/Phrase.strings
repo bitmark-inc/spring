@@ -50,6 +50,8 @@
 
 "reactions.empty" = "You have no reactions!";
 
+"lens.description" = "We are making a simple lens builder and store. Like cooking recipes, people will be able to experiment, share, and sell lenses to get more utility from your data.";
+
 "account.settings.title" = "Account";
 "account.settings.security" = "Security";
 "account.settings.security.signOut" = "Unlink from device »";

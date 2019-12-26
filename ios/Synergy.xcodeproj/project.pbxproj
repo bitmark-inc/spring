@@ -97,10 +97,8 @@
 		58C009E02398C69400302F49 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */; };
 		58C009E12398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */; };
 		58C009E22398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */; };
-		58C009E62398C6CF00302F49 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* StreamViewController.swift */; };
-		58C009E72398C6CF00302F49 /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* StreamViewController.swift */; };
-		58C009E82398C6CF00302F49 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
-		58C009E92398C6CF00302F49 /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
+		58C009E62398C6CF00302F49 /* LensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* LensViewController.swift */; };
+		58C009E72398C6CF00302F49 /* LensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* LensViewController.swift */; };
 		5B2097A123B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
 		5B2097A223B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
 		5B2097A323B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
@@ -122,6 +120,9 @@
 		5B2097BA23B4676D0079B421 /* ReactionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097B923B4676D0079B421 /* ReactionTableView.swift */; };
 		5B2097BB23B4676D0079B421 /* ReactionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097B923B4676D0079B421 /* ReactionTableView.swift */; };
 		5B2097BC23B4676D0079B421 /* ReactionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097B923B4676D0079B421 /* ReactionTableView.swift */; };
+		5B2097C023B477FB0079B421 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* ImageService.swift */; };
+		5B2097C123B477FB0079B421 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* ImageService.swift */; };
+		5B2097C223B477FB0079B421 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* ImageService.swift */; };
 		5B2097C423B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
 		5B2097C523B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
 		5B2097C623B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
@@ -297,7 +298,7 @@
 		5B5DFFDE23A1F0F4003D1A1C /* AskNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB319B323A09882005F7C58 /* AskNotificationsViewController.swift */; };
 		5B5DFFDF23A1F0F4003D1A1C /* BitmarkSDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8C237A889A00FA3196 /* BitmarkSDKService.swift */; };
 		5B5DFFE023A1F0F4003D1A1C /* LinkCaptionPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */; };
-		5B5DFFE123A1F0F4003D1A1C /* StreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* StreamViewController.swift */; };
+		5B5DFFE123A1F0F4003D1A1C /* LensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* LensViewController.swift */; };
 		5B5DFFE223A1F0F4003D1A1C /* UIViewController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */; };
 		5B5DFFE323A1F0F4003D1A1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC10237A85B000FA3196 /* SceneDelegate.swift */; };
 		5B5DFFE423A1F0F4003D1A1C /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC21237A863300FA3196 /* NavigationController.swift */; };
@@ -323,7 +324,6 @@
 		5B5DFFF923A1F0F4003D1A1C /* EditingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2D237A863300FA3196 /* EditingTextView.swift */; };
 		5B5DFFFA23A1F0F4003D1A1C /* LaunchingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB8237AA18C00FA3196 /* LaunchingViewModel.swift */; };
 		5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2A237A863300FA3196 /* MakeUnderline.swift */; };
-		5B5DFFFD23A1F0F4003D1A1C /* StreamViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E52398C6CF00302F49 /* StreamViewModel.swift */; };
 		5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8E237A889A00FA3196 /* Storage.swift */; };
 		5B5DFFFF23A1F0F4003D1A1C /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
 		5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
@@ -722,8 +722,7 @@
 		58C009D72398C60D00302F49 /* LinkPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPostTableViewCell.swift; sourceTree = "<group>"; };
 		58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewController.swift; sourceTree = "<group>"; };
 		58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewModel.swift; sourceTree = "<group>"; };
-		58C009E42398C6CF00302F49 /* StreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewController.swift; sourceTree = "<group>"; };
-		58C009E52398C6CF00302F49 /* StreamViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamViewModel.swift; sourceTree = "<group>"; };
+		58C009E42398C6CF00302F49 /* LensViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LensViewController.swift; sourceTree = "<group>"; };
 		5B2097A023B464360079B421 /* ReactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionService.swift; sourceTree = "<group>"; };
 		5B2097A423B464410079B421 /* ReactionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionAPI.swift; sourceTree = "<group>"; };
 		5B2097A823B464A40079B421 /* ReactionDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReactionDataEngine+Rx.swift"; sourceTree = "<group>"; };
@@ -1121,6 +1120,7 @@
 				5BA9FF6123B2292100E57A20 /* Insights */,
 				E22290972395107700412CBC /* Post */,
 				5B20979F23B4641C0079B421 /* Reaction */,
+				5B2097BE23B477ED0079B421 /* Image */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1182,7 +1182,7 @@
 				E29F5A162383E2E600C1D9D8 /* Onboarding */,
 				5832D6E2238BBE240074AEDC /* Usage */,
 				5832D6FA238BC23D0074AEDC /* Insight */,
-				58C009E32398C6CF00302F49 /* Stream */,
+				58C009E32398C6CF00302F49 /* Lens */,
 				E222908A239509CB00412CBC /* Post List */,
 				5B2097B023B467340079B421 /* Reaction List */,
 				5832D6F7238BC23D0074AEDC /* Account */,
@@ -1231,13 +1231,14 @@
 			path = "Data Analyzing";
 			sourceTree = "<group>";
 		};
-		58C009E32398C6CF00302F49 /* Stream */ = {
+		58C009E32398C6CF00302F49 /* Lens */ = {
 			isa = PBXGroup;
 			children = (
-				58C009E42398C6CF00302F49 /* StreamViewController.swift */,
-				58C009E52398C6CF00302F49 /* StreamViewModel.swift */,
+				58C009E42398C6CF00302F49 /* LensViewController.swift */,
 			);
-			path = Stream;
+			path = Lens;
+			sourceTree = "<group>";
+		};
 		5B20979F23B4641C0079B421 /* Reaction */ = {
 			isa = PBXGroup;
 			children = (
@@ -1266,6 +1267,12 @@
 			path = List;
 			sourceTree = "<group>";
 		};
+		5B2097BE23B477ED0079B421 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				5B2097BF23B477FB0079B421 /* ImageService.swift */,
+			);
+			path = Image;
 			sourceTree = "<group>";
 		};
 		5B289DFC23A0D9BB00283C84 /* Trust Critical */ = {
@@ -2260,7 +2267,7 @@
 				5BB319B423A09882005F7C58 /* AskNotificationsViewController.swift in Sources */,
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
 				58C009D82398C60D00302F49 /* LinkCaptionPostTableViewCell.swift in Sources */,
-				58C009E62398C6CF00302F49 /* StreamViewController.swift in Sources */,
+				58C009E62398C6CF00302F49 /* LensViewController.swift in Sources */,
 				5832FC48237A863300FA3196 /* NavigationController.swift in Sources */,
 				5832FC57237A863300FA3196 /* Switch.swift in Sources */,
 				E2259CDB2387E56F00746280 /* ServerAPIError.swift in Sources */,
@@ -2292,7 +2299,6 @@
 				5BB2852F23A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
 				5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */,
-				58C009E82398C6CF00302F49 /* StreamViewModel.swift in Sources */,
 				5832FC50237A863300FA3196 /* MakeUnderline.swift in Sources */,
 				E236B676238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */,
 				5832FC94237A889A00FA3196 /* Storage.swift in Sources */,
@@ -2346,6 +2352,7 @@
 				5B590A7623B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				5832FCAA237A8A9200FA3196 /* UIViewController+Error.swift in Sources */,
 				5832D703238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
+				5B2097C023B477FB0079B421 /* ImageService.swift in Sources */,
 				5B2097A923B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230C23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				E2259CD0238783AE00746280 /* FBScript.swift in Sources */,
@@ -2440,7 +2447,7 @@
 				5B5DFFDE23A1F0F4003D1A1C /* AskNotificationsViewController.swift in Sources */,
 				5B5DFFDF23A1F0F4003D1A1C /* BitmarkSDKService.swift in Sources */,
 				5B5DFFE023A1F0F4003D1A1C /* LinkCaptionPostTableViewCell.swift in Sources */,
-				5B5DFFE123A1F0F4003D1A1C /* StreamViewController.swift in Sources */,
+				5B5DFFE123A1F0F4003D1A1C /* LensViewController.swift in Sources */,
 				5B5DFFE223A1F0F4003D1A1C /* UIViewController+Permission.swift in Sources */,
 				5B5DFFE323A1F0F4003D1A1C /* SceneDelegate.swift in Sources */,
 				5B5DFFE423A1F0F4003D1A1C /* NavigationController.swift in Sources */,
@@ -2474,7 +2481,6 @@
 				5BB2853123A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */,
 				5B9322FA23A362B800C3C408 /* SignOutWarningViewController.swift in Sources */,
-				5B5DFFFD23A1F0F4003D1A1C /* StreamViewModel.swift in Sources */,
 				5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */,
 				5B5DFFFF23A1F0F4003D1A1C /* FbmAccountDataEngine+Rx.swift in Sources */,
 				5B5D000023A1F0F4003D1A1C /* IconButtonView.swift in Sources */,
@@ -2527,6 +2533,7 @@
 				5B590A7823B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				5B5D002723A1F0F4003D1A1C /* FBScript.swift in Sources */,
 				5B5D002823A1F0F4003D1A1C /* ViewController.swift in Sources */,
+				5B2097C223B477FB0079B421 /* ImageService.swift in Sources */,
 				5B2097AB23B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230E23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				5B5D002923A1F0F4003D1A1C /* KeychainStore.swift in Sources */,
@@ -2613,7 +2620,7 @@
 				5BB319B523A09882005F7C58 /* AskNotificationsViewController.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
 				58C009D92398C60D00302F49 /* LinkCaptionPostTableViewCell.swift in Sources */,
-				58C009E72398C6CF00302F49 /* StreamViewController.swift in Sources */,
+				58C009E72398C6CF00302F49 /* LensViewController.swift in Sources */,
 				E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
 				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
 				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
@@ -2647,7 +2654,6 @@
 				5BB2853023A34235000C04CA /* SettingsBundle.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
 				5B9322F923A362B800C3C408 /* SignOutWarningViewController.swift in Sources */,
-				58C009E92398C6CF00302F49 /* StreamViewModel.swift in Sources */,
 				E2DB6697237D3B69005367C2 /* Storage.swift in Sources */,
 				E236B677238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift in Sources */,
 				E2DB6698237D3B69005367C2 /* IconButtonView.swift in Sources */,
@@ -2700,6 +2706,7 @@
 				5B590A7723B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				E2259CD1238783AE00746280 /* FBScript.swift in Sources */,
 				E2DB66A7237D3B69005367C2 /* ViewController.swift in Sources */,
+				5B2097C123B477FB0079B421 /* ImageService.swift in Sources */,
 				5B2097AA23B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230D23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				E2DB66A8237D3B69005367C2 /* KeychainStore.swift in Sources */,

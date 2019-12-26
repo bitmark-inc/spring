@@ -31,17 +31,17 @@ class HomeTabbarController: ESTabBarController {
             tag: 1
         )
 
-        let streamVC = StreamViewController(viewModel: StreamViewModel())
-        let streamNavVC = NavigationController(rootViewController: streamVC)
-        streamNavVC.tabBarItem = ESTabBarItem(
+        let lensVC = LensViewController()
+        let lensNavVC = NavigationController(rootViewController: lensVC)
+        lensNavVC.tabBarItem = ESTabBarItem(
             MainTabbarItemContentView(highlightColor: UIColor(hexString: "#5F6D07")!),
-            title: R.string.localizable.streams().localizedUppercase,
+            title: R.string.localizable.lens().localizedUppercase,
             image: R.image.stream(),
             tag: 2
         )
 
         let tabbarController = HomeTabbarController()
-        tabbarController.viewControllers = [usageNavVC, insightsNavVC, streamNavVC]
+        tabbarController.viewControllers = [usageNavVC, insightsNavVC, lensNavVC]
 
         return tabbarController
     }

@@ -71,6 +71,9 @@ class GeneralPostTableViewCell: TableViewCell, PostDataTableViewCell {
                     guard let self = self else { return }
                     self.photoImageView.flex.markDirty()
                     self.contentView.flex.layout(mode: .adjustHeight)
+                }, onError: { (error) in
+                    guard !AppError.errorByNetworkConnection(error) else { return }
+                    Global.log.error(error)
                 })
                 .disposed(by: disposeBag)
         }

@@ -14,7 +14,7 @@
 "Usage" = "Usage";
 "Insights" = "Insights";
 "Account" = "Account";
-"Streams" = "Streams";
+"Lens" = "Lens";
 "YourAuthorizationIsRequired" = "Your authorization is required.";
 "notify_me" = "Notify me »";
 "Enable" = "Enable";
@@ -42,7 +42,6 @@
 "plural.message" = "messages";
 
 "ComingSoon!" = "Coming Soon!";
-"ComingSoon.description" = "Remember RSS? Coming soon you will be able to publish and subscribe to data streams. Understand people through their data, and make money off of your data, too.";
 
 "numberOfPosts" = "%@ POSTS";
 "numberOfReactions" = "%@ REACTIONS";

@@ -107,12 +107,21 @@ class LaunchingViewController: ViewController {
 
     fileprivate func checkArchivesStatusToNavigate() {
         guard let viewModel = self.viewModel as? LaunchingViewModel else { return }
-        viewModel.checkIsArchivesFailed()
-            .subscribe(onSuccess: { (isArchivesFailed) in
-                if isArchivesFailed {
-                    self.gotoSignInWallScreen()
+        viewModel.fetchOverallArchiveStatus()
+            .subscribe(onSuccess: { [weak self] (archiveStatus) in
+                guard let self = self else { return }
+
+                if let archiveStatus = archiveStatus {
+                    switch archiveStatus {
+                    case .invalid:
+                        self.gotoSignInWallScreen()
+                    case .processed:
+                        self.gotoMainScreen()
+                    default:
+                        self.gotoDataAnalyzingScreen()
+                    }
                 } else {
-                    self.gotoDataAnalyzingScreen()
+                    self.gotoSignInWallScreen()
                 }
             }, onError: { (error) in
                 guard !AppError.errorByNetworkConnection(error) else { return }
