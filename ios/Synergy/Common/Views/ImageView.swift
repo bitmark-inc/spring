@@ -37,19 +37,20 @@ class ImageView: UIImageView {
 
     func loadURL(_ url: URL) -> Completable {
         return Completable.create { (event) -> Disposable in
-            var photoImageURL = URL(string: Constant.fbImageServerURL)
-            photoImageURL?.appendQueryParameters(["key": url.path.urlEncoded])
-
-            self.kf.setImage(with: photoImageURL) { [weak self] (_) in
-                guard let self = self, let imageSize = self.image?.size else { return }
-                let heightImage = self.frame.size.width * imageSize.height / imageSize.width
-                self.flex.maxWidth(100%).height(heightImage)
-                event(.completed)
-            }
-
+            _ = ImageService.makePhotoURL(key: url.path)
+                .subscribe(onSuccess: { [weak self] (photoURL, modifier) in
+                    guard let self = self else { return }
+                    self.kf.setImage(with: photoURL, options: [.requestModifier(modifier)]) { [weak self] (_) in
+                        guard let self = self, let imageSize = self.image?.size else { return }
+                        let heightImage = self.frame.size.width * imageSize.height / imageSize.width
+                        self.flex.maxWidth(100%).height(heightImage)
+                        event(.completed)
+                    }
+                }, onError: { (error) in
+                    event(.error(error))
+                })
             return Disposables.create()
         }
-
     }
 
     func setupViews() {

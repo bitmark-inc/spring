@@ -32,6 +32,7 @@ public struct Constant {
     
     struct TimeFormat {
         static let post = "MMM d 'at' h:mm a"
+        static let reaction = "MMM d 'at' h:mm a"
         static let archive = "MMM d 'at' h:mm a"
         static let full = "YYYY MMM d"
         static let short = "MMM d"
