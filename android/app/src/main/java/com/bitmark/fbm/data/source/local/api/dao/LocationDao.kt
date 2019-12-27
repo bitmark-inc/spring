@@ -38,6 +38,9 @@ abstract class LocationDao {
         limit: Int
     ): Single<List<LocationR>>
 
+    @Query("SELECT id FROM Location WHERE name IN (:names)")
+    abstract fun listIdByNames(names: List<String>): Single<List<String>>
+
     @Query("DELETE FROM Location")
     abstract fun delete(): Completable
 }

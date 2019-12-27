@@ -40,14 +40,14 @@ class UsageRemoteDataSource @Inject constructor(
         endedAtSec
     ).map { posts -> posts.filter { p -> p.tags?.map { t -> t.name }?.contains(tag) == true } }
 
-    fun listPostByLocations(
-        locations: List<String>,
+    fun listPostByLocationNames(
+        locationNames: List<String>,
         startedAtSec: Long,
         endedAtSec: Long
     ) = listRemotePost(
         startedAtSec,
         endedAtSec
-    ).map { posts -> posts.filter { p -> p.location != null && locations.contains(p.location!!.name) } }
+    ).map { posts -> posts.filter { p -> p.location != null && locationNames.contains(p.location!!.name) } }
 
     private fun listRemotePost(startedAtSec: Long, endedAtSec: Long) =
         fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }

@@ -52,9 +52,9 @@ abstract class PostDao {
     ): Single<List<PostData>>
 
     @Transaction
-    @Query("SELECT * FROM Post WHERE location_name IN (:locations) AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
+    @Query("SELECT * FROM Post WHERE location_id IN (:locationIds) AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
     abstract fun listOrderedPostByLocations(
-        locations: List<String>,
+        locationIds: List<String>,
         startedAt: Long,
         endedAt: Long,
         limit: Int

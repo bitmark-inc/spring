@@ -20,8 +20,8 @@ class PostData(
 
     @Relation(
         entity = LocationR::class,
-        entityColumn = "name",
-        parentColumn = "location_name"
+        entityColumn = "id",
+        parentColumn = "location_id"
     )
     val locations: List<LocationR> = listOf()
 ) : Data {

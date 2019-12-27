@@ -116,7 +116,7 @@ class PostDetailViewModel(
         startedAtSec: Long,
         endedAtSec: Long
     ) =
-        usageRepo.listPostByLocations(
+        usageRepo.listPostByLocationNames(
             locations,
             startedAtSec,
             endedAtSec

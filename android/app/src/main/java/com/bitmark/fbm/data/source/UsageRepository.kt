@@ -105,25 +105,30 @@ class UsageRepository(
         remoteDataSource.listPostByTag(tag, startedAtSec, endedAtSec)
             .flatMapCompletable { p -> localDataSource.savePosts(p) }
 
-    fun listPostByLocations(locations: List<String>, fromSec: Long, toSec: Long, limit: Int = 20) =
-        localDataSource.listPostByLocations(locations, fromSec, toSec, limit).flatMap { posts ->
+    fun listPostByLocationNames(
+        locationNames: List<String>,
+        fromSec: Long,
+        toSec: Long,
+        limit: Int = 20
+    ) =
+        localDataSource.listPostByLocations(locationNames, fromSec, toSec, limit).flatMap { posts ->
             if (posts.isEmpty()) {
-                listRemotePostByLocations(
-                    locations,
+                listRemotePostByLocationNames(
+                    locationNames,
                     fromSec,
                     toSec
-                ).andThen(localDataSource.listPostByLocations(locations, fromSec, toSec, limit))
+                ).andThen(localDataSource.listPostByLocations(locationNames, fromSec, toSec, limit))
             } else {
                 Single.just(posts)
             }
         }
 
-    private fun listRemotePostByLocations(
-        locations: List<String>,
+    private fun listRemotePostByLocationNames(
+        locationNames: List<String>,
         startedAtSec: Long,
         endedAtSec: Long
-    ) = remoteDataSource.listPostByLocations(
-        locations,
+    ) = remoteDataSource.listPostByLocationNames(
+        locationNames,
         startedAtSec,
         endedAtSec
     ).flatMapCompletable { p -> localDataSource.savePosts(p) }

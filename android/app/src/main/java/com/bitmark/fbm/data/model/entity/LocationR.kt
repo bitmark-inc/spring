@@ -10,8 +10,11 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.bitmark.cryptography.crypto.Sha3512
+import com.bitmark.cryptography.crypto.encoder.Hex.HEX
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.nio.charset.Charset
 
 @Entity(
     tableName = "Location",
@@ -24,8 +27,8 @@ data class LocationR(
     @Expose
     @SerializedName("id")
     @ColumnInfo(name = "id")
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    @PrimaryKey
+    var id: String,
 
     @Expose
     @SerializedName("name")
@@ -56,7 +59,8 @@ data class LocationR(
 val LocationR.createdAt: Long
     get() = createdAtSec * 1000
 
-fun LocationR.applyCreatedAt(createdAtSec: Long) {
+fun LocationR.applyRequiredValues(createdAtSec: Long) {
+    id = HEX.encode(Sha3512.hash("$name-$address".toByteArray(Charset.forName("UTF-8"))))
     this.createdAtSec = createdAtSec
 }
 

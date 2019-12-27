@@ -17,7 +17,14 @@ import com.google.gson.annotations.SerializedName
     indices = [Index(
         value = ["timestamp"],
         unique = true
-    ), Index(value = ["type"])]
+    ), Index(value = ["type"]), Index(value = ["location_id"])],
+    foreignKeys = [ForeignKey(
+        entity = LocationR::class,
+        parentColumns = ["id"],
+        childColumns = ["location_id"],
+        onDelete = ForeignKey.CASCADE,
+        onUpdate = ForeignKey.CASCADE
+    )]
 )
 data class PostR(
 
@@ -43,9 +50,9 @@ data class PostR(
     var type: PostType,
 
     @Expose
-    @SerializedName("location_name")
-    @ColumnInfo(name = "location_name")
-    var locationName: String?,
+    @SerializedName("location_id")
+    @ColumnInfo(name = "location_id")
+    var locationId: String?,
 
     @Expose
     @SerializedName("tags")
@@ -122,7 +129,7 @@ fun List<PostR>.canonical() {
 }
 
 internal fun PostR.applyLocation() {
-    locationName = location?.name
+    locationId = location?.id
 }
 
 val PostR.timestamp: Long

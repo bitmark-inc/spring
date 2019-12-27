@@ -37,19 +37,26 @@ class UsageLocalDataSource @Inject constructor(
         }
 
     fun listPostByLocations(
-        locations: List<String>,
+        locationNames: List<String>,
         startedAtSec: Long,
         endedAtSec: Long,
         limit: Int = 20
     ) =
-        databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.postDao()
-                .listOrderedPostByLocations(locations, startedAtSec, endedAtSec, limit)
+        listLocationIdByNames(locationNames).flatMap { ids ->
+            if (ids.isEmpty()) {
+                Single.just(listOf())
+            } else {
+                databaseApi.rxSingle { databaseGateway ->
+                    databaseGateway.postDao()
+                        .listOrderedPostByLocations(ids, startedAtSec, endedAtSec, limit)
+                }
+            }
+
         }
 
     fun savePosts(posts: List<PostR>) = databaseApi.rxSingle { databaseGateway ->
         val saveLocationStream = posts.filter { p -> p.location != null }.map { p ->
-            p.location!!.applyCreatedAt(p.timestampSec)
+            p.location!!.applyRequiredValues(p.timestampSec)
             databaseGateway.locationDao().save(p.location!!)
         }
         if (saveLocationStream.isEmpty()) {
@@ -97,5 +104,10 @@ class UsageLocalDataSource @Inject constructor(
     ) = databaseApi.rxSingle { databaseGateway ->
         databaseGateway.reactionDao().listOrderedByType(reaction, startedAtSec, endedAtSec, limit)
     }
+
+    private fun listLocationIdByNames(names: List<String>) =
+        databaseApi.rxSingle { databaseGateway ->
+            databaseGateway.locationDao().listIdByNames(names)
+        }
 
 }

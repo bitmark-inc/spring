@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7ffcbb8a1f7dec9176aa00764e6dd0cd",
+    "identityHash": "b8b1473b847ea3fac43ac6d7fc7eafbf",
     "entities": [
       {
         "tableName": "Section",
@@ -85,7 +85,7 @@
       },
       {
         "tableName": "Post",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`content` TEXT, `timestamp` INTEGER NOT NULL, `title` TEXT, `type` TEXT NOT NULL, `location_name` TEXT, `tags` TEXT, `media_data` TEXT, `url` TEXT, PRIMARY KEY(`timestamp`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`content` TEXT, `timestamp` INTEGER NOT NULL, `title` TEXT, `type` TEXT NOT NULL, `location_id` TEXT, `tags` TEXT, `media_data` TEXT, `url` TEXT, PRIMARY KEY(`timestamp`), FOREIGN KEY(`location_id`) REFERENCES `Location`(`id`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "content",
@@ -112,8 +112,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "locationName",
-            "columnName": "location_name",
+            "fieldPath": "locationId",
+            "columnName": "location_id",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -158,9 +158,29 @@
               "type"
             ],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_Post_type` ON `${TABLE_NAME}` (`type`)"
+          },
+          {
+            "name": "index_Post_location_id",
+            "unique": false,
+            "columnNames": [
+              "location_id"
+            ],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_Post_location_id` ON `${TABLE_NAME}` (`location_id`)"
           }
         ],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "Location",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "location_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "Comment",
@@ -245,12 +265,12 @@
       },
       {
         "tableName": "Location",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `coordinate` TEXT, `address` TEXT, `url` TEXT, `created_at` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `coordinate` TEXT, `address` TEXT, `url` TEXT, `created_at` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -288,7 +308,7 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [
           {
@@ -399,7 +419,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7ffcbb8a1f7dec9176aa00764e6dd0cd')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b8b1473b847ea3fac43ac6d7fc7eafbf')"
     ]
   }
 }
