@@ -81,7 +81,7 @@ func (s *Server) parseArchive(c *gin.Context) {
 	}
 	log.Info("Enqueued job with id:", job.ID)
 
-	// For fake reaction
+	// For reaction
 	reactionJob, err := s.backgroundEnqueuer.EnqueueUnique("analyze_reactions", work.Q{
 		"account_number": accountNumber,
 	})

@@ -45,10 +45,9 @@ func (c *Client) Login(ctx context.Context, username, password string) error {
 }
 
 func (c *Client) NewDataOwner(ctx context.Context, publicKey string) error {
-	r, _ := c.createRequest(ctx, "POST", "/data_owners", map[string]string{
+	r, _ := c.createRequest(ctx, "POST", "/data_owners/", map[string]string{
 		"public_key": publicKey,
 	})
-	r.Header.Add("Content-Type", "application/json")
 	resp, err := c.httpClient.Do(r)
 	if err != nil {
 		return err

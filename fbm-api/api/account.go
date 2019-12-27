@@ -35,6 +35,14 @@ func (s *Server) accountRegister(c *gin.Context) {
 		return
 	}
 
+	// Register data owner
+	if err := s.bitSocialClient.NewDataOwner(c, accountNumber); err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadGateway, errorInternalServer)
+		return
+	}
+
+	// Save to db
 	encPubKey, err := hex.DecodeString(params.EncPubKey)
 	if err != nil {
 		log.Debug(err)
