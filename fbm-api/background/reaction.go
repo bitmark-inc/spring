@@ -58,14 +58,16 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 		}
 	}
 
-	if err := b.countReaction(ctx, logEntry, accountNumber, nil); err != nil {
-		logEntry.Error(err)
-		sentry.CaptureException(err)
-		return err
+	if total != 0 {
+		if err := b.countReaction(ctx, logEntry, accountNumber, nil); err != nil {
+			logEntry.Error(err)
+			sentry.CaptureException(err)
+			return err
+		}
 	}
 
-	logEntry.Info("Enqueue parsing reaction")
-	if _, err := enqueuer.EnqueueUnique("analyze_reactions", work.Q{
+	logEntry.Info("Enqueue push notification")
+	if _, err := enqueuer.EnqueueUnique(jobNotificationFinish, work.Q{
 		"account_number": accountNumber,
 	}); err != nil {
 		return err
