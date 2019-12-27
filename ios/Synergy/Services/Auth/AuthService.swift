@@ -53,7 +53,7 @@ class AuthService {
                 return Disposables.create()
             }
 
-            if let auth = self.auth, auth.expireIn <= Date() {
+            if let auth = self.auth, auth.isValid {
                 event(.completed)
                 Global.log.debug("get cached JWT")
             } else {

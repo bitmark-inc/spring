@@ -49,7 +49,7 @@ class Post: Object, Decodable {
         location?.id = "postLocation_\(id)"
 
         let timestampInterval = try values.decode(Double.self, forKey: .timestamp)
-        timestamp = min(Date(timeIntervalSince1970: timestampInterval), Date())
+        timestamp = Date(timeIntervalSince1970: timestampInterval)
 
         if let tagsArray = try values.decodeIfPresent([Friend].self, forKey: .tags) {
             tags.append(objectsIn: tagsArray)
