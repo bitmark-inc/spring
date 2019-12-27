@@ -24,7 +24,7 @@ class NotificationReceivedHandler @Inject constructor(private val appRepo: AppRe
     @SuppressLint("CheckResult")
     override fun notificationReceived(notification: OSNotification?) {
         val event = notification?.payload?.additionalData?.getString("event")
-        if (event.isNullOrBlank() || event != "fb_archive_available") return
+        if (event.isNullOrBlank() || event != "fb_data_analyzed") return
         appRepo.setDataReady().subscribe({}, { e ->
             Tracer.ERROR.log(TAG, "setDataReady error: ${e.message ?: "unknown"}")
         })
