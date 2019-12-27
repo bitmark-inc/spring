@@ -86,7 +86,7 @@ func (s *Server) requestJWT(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"jwt_token": tokenString,
-		"expire_in": time.Hour.Milliseconds(),
+		"expire_in": time.Hour.Seconds(),
 	})
 }
 
