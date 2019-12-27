@@ -71,7 +71,7 @@ func (b *BackgroundContext) submitArchive(job *work.Job) error {
 	}
 
 	logEntity.Info("Finish...")
-	enqueuer.EnqueueIn(jobPeriodicArchiveCheck, 60*10, map[string]interface{}{
+	enqueuer.EnqueueIn(jobPeriodicArchiveCheck, 120, map[string]interface{}{
 		"archive_id": archiveid,
 	})
 	return nil
@@ -133,8 +133,8 @@ func (b *BackgroundContext) checkArchive(job *work.Job) error {
 		}
 	default:
 		// Retry after 10 minutes
-		log.Info("Retry after 10 minutes")
-		if _, err := enqueuer.EnqueueIn(jobPeriodicArchiveCheck, 10*60, map[string]interface{}{
+		log.Info("Retry after 1 minutes")
+		if _, err := enqueuer.EnqueueIn(jobPeriodicArchiveCheck, 60, map[string]interface{}{
 			"archive_id": archiveid,
 		}); err != nil {
 			return err

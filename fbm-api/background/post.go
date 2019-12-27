@@ -236,22 +236,31 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 		}
 	}
 
-	logEntity.Info("Parsing location")
 	// Calculate original location
-	geoCodingData, err := b.geoServiceClient.ReverseGeocode(ctx,
-		counter.lastLocation.Coordinate.Latitude,
-		counter.lastLocation.Coordinate.Longitude)
-	if err != nil {
-		return err
+	if counter.lastLocation != nil {
+		logEntity.Info("Parsing location")
+		geoCodingData, err := b.geoServiceClient.ReverseGeocode(ctx,
+			counter.lastLocation.Coordinate.Latitude,
+			counter.lastLocation.Coordinate.Longitude)
+		if err != nil {
+			return err
+		}
+
+		logEntity.Info("Update to db with account number: ", accountNumber)
+		// Get user and update
+		if _, err := b.store.UpdateAccountMetadata(ctx, &store.AccountQueryParam{
+			AccountNumber: &accountNumber,
+		}, map[string]interface{}{
+			"original_location":  geoCodingData.Address.CountryCode,
+			"original_timestamp": counter.earliestPostTimestamp,
+		}); err != nil {
+			return err
+		}
 	}
 
-	logEntity.Info("Update to db with account number: ", accountNumber)
-	// Get user and update
-	if _, err := b.store.UpdateAccountMetadata(ctx, &store.AccountQueryParam{
-		AccountNumber: &accountNumber,
-	}, map[string]interface{}{
-		"original_location":  geoCodingData.Address.CountryCode,
-		"original_timestamp": counter.earliestPostTimestamp,
+	logEntity.Info("Enqueue parsing reaction")
+	if _, err := enqueuer.EnqueueUnique("analyze_reactions", work.Q{
+		"account_number": accountNumber,
 	}); err != nil {
 		return err
 	}

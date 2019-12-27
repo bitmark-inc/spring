@@ -64,6 +64,13 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 		return err
 	}
 
+	logEntry.Info("Enqueue parsing reaction")
+	if _, err := enqueuer.EnqueueUnique("analyze_reactions", work.Q{
+		"account_number": accountNumber,
+	}); err != nil {
+		return err
+	}
+
 	logEntry.Info("Finish parsing reactions")
 
 	return nil
