@@ -8,6 +8,7 @@ package com.bitmark.fbm.feature.postdetail
 
 import com.bitmark.fbm.data.source.UsageRepository
 import com.bitmark.fbm.di.FragmentScope
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
@@ -19,6 +20,11 @@ class PostDetailModule {
     @Provides
     @FragmentScope
     fun provideNav(fragment: PostDetailFragment) = Navigator(fragment.parentFragment!!)
+
+    @Provides
+    @FragmentScope
+    fun provideDialogController(fragment: PostDetailFragment) =
+        DialogController(fragment.activity!!)
 
     @Provides
     @FragmentScope

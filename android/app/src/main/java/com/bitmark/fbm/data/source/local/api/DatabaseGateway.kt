@@ -16,7 +16,7 @@ import com.bitmark.fbm.data.source.local.api.dao.*
 
 @Database(
     entities = [SectionR::class, PostR::class, CommentR::class, LocationR::class, ReactionR::class],
-    version = 2
+    version = 1
 )
 @TypeConverters(
     MapStringConverter::class,

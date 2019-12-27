@@ -115,3 +115,14 @@ fun Navigator.goToPlayStore() {
     }
 
 }
+
+fun Navigator.openVideoPlayer(url: String, error: (Throwable) -> Unit) {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW)
+        val uri = Uri.parse(url)
+        intent.setDataAndType(uri, "video/*")
+        startActivity(intent)
+    } catch (e: Throwable) {
+        error(e)
+    }
+}

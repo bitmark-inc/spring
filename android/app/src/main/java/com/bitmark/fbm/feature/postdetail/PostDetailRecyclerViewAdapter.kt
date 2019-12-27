@@ -16,7 +16,6 @@ import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.MediaType
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.PostType
-import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.*
 import com.bitmark.fbm.util.modelview.PostModelView
@@ -39,6 +38,12 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
 
     private val items = mutableListOf<PostModelView>()
 
+    private var itemClickListener: OnItemClickListener? = null
+
+    fun setItemClickListener(listener: OnItemClickListener) {
+        this.itemClickListener = listener
+    }
+
     fun add(items: List<PostModelView>) {
         val pos = this.items.size
         this.items.addAll(items)
@@ -56,10 +61,10 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             }, parent, false
         )
         return when (viewType) {
-            UPDATE -> UpdateVH(view, period)
-            MEDIA  -> MediaVH(view, period)
-            STORY  -> StoryVH(view, period)
-            LINK   -> LinkVH(view, period)
+            UPDATE -> UpdateVH(view, period, itemClickListener)
+            MEDIA  -> MediaVH(view, period, itemClickListener)
+            STORY  -> StoryVH(view, period, itemClickListener)
+            LINK   -> LinkVH(view, period, itemClickListener)
             else   -> error("invalid view type")
         }
     }
@@ -86,7 +91,12 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         }
     }
 
-    open class VH(view: View, private val period: Period) : RecyclerView.ViewHolder(view) {
+    open class VH(
+        view: View,
+        private val period: Period,
+        protected val listener: OnItemClickListener?
+    ) : RecyclerView.ViewHolder(view) {
+
         protected fun getInfo(item: PostModelView): Spanned {
             val context = itemView.context!!
             val date = DateTimeUtil.millisToString(
@@ -124,7 +134,8 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         }
     }
 
-    class UpdateVH(view: View, period: Period) : VH(view, period) {
+    class UpdateVH(view: View, period: Period, listener: OnItemClickListener?) :
+        VH(view, period, listener) {
 
         fun bind(item: PostModelView) {
             with(itemView) {
@@ -134,9 +145,21 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         }
     }
 
-    class MediaVH(view: View, period: Period) : VH(view, period) {
+    class MediaVH(view: View, period: Period, listener: OnItemClickListener?) :
+        VH(view, period, listener) {
+
+        private lateinit var item: PostModelView
+
+        init {
+            with(itemView) {
+                ivPlayVideo.setSafetyOnclickListener {
+                    listener?.onVideoPlayClicked(item.url ?: "")
+                }
+            }
+        }
 
         fun bind(item: PostModelView) {
+            this.item = item
             with(itemView) {
                 tvInfoMedia.text = getInfo(item)
                 tvCaptionMedia.text = item.content
@@ -165,7 +188,8 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         }
     }
 
-    class StoryVH(view: View, period: Period) : VH(view, period) {
+    class StoryVH(view: View, period: Period, listener: OnItemClickListener?) :
+        VH(view, period, listener) {
 
         fun bind(item: PostModelView) {
             with(itemView) {
@@ -176,15 +200,14 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
         }
     }
 
-    class LinkVH(view: View, period: Period) : VH(view, period) {
+    class LinkVH(view: View, period: Period, listener: OnItemClickListener?) :
+        VH(view, period, listener) {
 
         init {
             with(itemView) {
                 tvLink.setOnClickListener {
                     val link = tvLink.text.toString()
-                    if (link.isNotEmpty()) {
-                        Navigator.openBrowser(context, link)
-                    }
+                    listener?.onLinkClicked(link)
                 }
             }
         }
@@ -206,4 +229,11 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             }
         }
     }
+}
+
+interface OnItemClickListener {
+
+    fun onVideoPlayClicked(url: String)
+
+    fun onLinkClicked(url: String)
 }

@@ -87,7 +87,7 @@ val PostR.mediaType: MediaType?
 data class MediaData(
     @Expose
     @SerializedName("source")
-    val source: String,
+    var source: String,
 
     @Expose
     @SerializedName("thumbnail")

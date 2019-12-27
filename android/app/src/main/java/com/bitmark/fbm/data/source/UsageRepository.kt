@@ -7,10 +7,12 @@
 package com.bitmark.fbm.data.source
 
 import com.bitmark.fbm.data.model.PostData
+import com.bitmark.fbm.data.model.entity.MediaType
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.data.model.entity.Reaction
 import com.bitmark.fbm.data.source.local.UsageLocalDataSource
 import com.bitmark.fbm.data.source.remote.UsageRemoteDataSource
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiConsumer
 
@@ -33,7 +35,7 @@ class UsageRepository(
             } else {
                 Single.just(posts)
             }
-        }
+        }.flatMap { posts -> applyPresignedUrl(posts) }
 
     private fun listRemotePost(startedAtSec: Long, endedAtSec: Long) =
         remoteDataSource.listPost(startedAtSec, endedAtSec).flatMapCompletable { posts ->
@@ -54,7 +56,7 @@ class UsageRepository(
             } else {
                 Single.just(posts)
             }
-        }
+        }.flatMap { posts -> applyPresignedUrl(posts) }
 
     private fun listRemotePostByType(
         type: PostType,
@@ -98,7 +100,7 @@ class UsageRepository(
                 collection.addAll(c)
             }
             collection.distinct()
-        }
+        }.flatMap { posts -> applyPresignedUrl(posts) }
     }
 
     private fun listRemotePostByTag(tag: String, startedAtSec: Long, endedAtSec: Long) =
@@ -121,7 +123,7 @@ class UsageRepository(
             } else {
                 Single.just(posts)
             }
-        }
+        }.flatMap { posts -> applyPresignedUrl(posts) }
 
     private fun listRemotePostByLocationNames(
         locationNames: List<String>,
@@ -148,6 +150,23 @@ class UsageRepository(
                 Single.just(reactions)
             }
         }
+
+    private fun applyPresignedUrl(posts: List<PostData>): Single<List<PostData>> {
+        val streams = posts.filter { p -> p.mediaType == MediaType.VIDEO && p.source != null }
+            .map { post ->
+                remoteDataSource.getPresignedUrl(post.source!!)
+                    .onErrorResumeNext { e ->
+                        if (e is IllegalAccessException) {
+                            Single.just("")
+                        } else {
+                            Single.error<String>(e)
+                        }
+                    }.map { presignedUrl -> post.post.mediaData?.get(0)?.source = presignedUrl }
+                    .ignoreElement()
+            }
+        return Completable.mergeDelayError(streams).andThen(Single.just(posts))
+    }
+
 
     fun listReactionByType(
         reaction: Reaction,

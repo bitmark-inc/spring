@@ -21,11 +21,16 @@ import com.bitmark.fbm.data.model.entity.fromString
 import com.bitmark.fbm.data.model.entity.value
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
+import com.bitmark.fbm.logging.Event
+import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.EndlessScrollListener
 import com.bitmark.fbm.util.ext.gone
+import com.bitmark.fbm.util.ext.openBrowser
+import com.bitmark.fbm.util.ext.openVideoPlayer
 import com.bitmark.fbm.util.ext.visible
 import com.bitmark.fbm.util.view.statistic.GroupView
 import com.bitmark.fbm.util.view.statistic.getPostType
@@ -82,6 +87,12 @@ class PostDetailFragment : BaseSupportFragment() {
     @Inject
     internal lateinit var navigator: Navigator
 
+    @Inject
+    internal lateinit var dialogController: DialogController
+
+    @Inject
+    internal lateinit var logger: EventLogger
+
     private var startedAtSec = -1L
 
     private var endedAtSec = -1L
@@ -93,6 +104,20 @@ class PostDetailFragment : BaseSupportFragment() {
     private lateinit var adapter: PostDetailRecyclerViewAdapter
 
     private val handler = Handler()
+
+    private val itemClickListener = object : OnItemClickListener {
+        override fun onVideoPlayClicked(url: String) {
+            navigator.openVideoPlayer(url) { e ->
+                logger.logError(Event.PLAY_VIDEO_ERROR, e)
+                // TODO change text later
+                dialogController.alert(e)
+            }
+        }
+
+        override fun onLinkClicked(url: String) {
+            navigator.openBrowser(url)
+        }
+    }
 
     override fun layoutRes(): Int = R.layout.fragment_usage_detail
 
@@ -145,6 +170,7 @@ class PostDetailFragment : BaseSupportFragment() {
         if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
         rv.addItemDecoration(itemDecoration)
         adapter = PostDetailRecyclerViewAdapter(Period.fromString(period))
+        adapter.setItemClickListener(itemClickListener)
         rv.adapter = adapter
 
         ivBack.setOnClickListener {

@@ -53,9 +53,6 @@ class PostData(
     val location: LocationR?
         get() = if (locations.isEmpty()) null else locations[0]
 
-    val comment: CommentR?
-        get() = if (comments.isEmpty()) null else comments[0]
-
     val timestamp: Long
         get() = post.timestamp
 

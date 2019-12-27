@@ -51,7 +51,13 @@ data class PostModelView(
             }
             val url = when (post.type) {
                 PostType.MEDIA, PostType.STORY -> {
-                    BuildConfig.FBM_ASSET_ENDPOINT + "?key=${URLEncoder.encode(uri, "UTF-8") ?: ""}"
+                    if (post.mediaType == MediaType.VIDEO) {
+                        post.source
+                    } else {
+                        BuildConfig.FBM_ASSET_ENDPOINT + "?key=${URLEncoder.encode(uri, "UTF-8")
+                            ?: ""}"
+                    }
+
                 }
                 PostType.LINK                  -> post.url
                 else                           -> null

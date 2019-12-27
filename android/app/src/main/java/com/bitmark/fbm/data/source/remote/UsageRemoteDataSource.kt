@@ -63,4 +63,7 @@ class UsageRemoteDataSource @Inject constructor(
 
     fun listReaction(startedAtSec: Long, endedAtSec: Long) =
         fbmApi.listReaction(startedAtSec, endedAtSec).map { res -> res["result"] }
+
+    fun getPresignedUrl(uri: String) =
+        fbmApi.getPresignedUrl(uri).map { res -> res.headers()["Location"] ?: error("Could not get presigned URL") }
 }

@@ -48,6 +48,7 @@ class ServiceGenerator {
             timeout: Long = CONNECTION_TIMEOUT
         ): OkHttpClient {
             val httpClientBuilder = OkHttpClient.Builder()
+            httpClientBuilder.followRedirects(false)
 
             appInterceptors?.forEach { interceptor ->
                 httpClientBuilder.addInterceptor(interceptor)
