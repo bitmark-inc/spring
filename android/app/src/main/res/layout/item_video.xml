@@ -42,16 +42,40 @@
         />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/ivVideoPreview"
+        android:id="@+id/ivVideoThumbnail"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_375"
-        android:layout_marginTop="@dimen/sp_24"
+        android:layout_marginTop="@dimen/dp_24"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCaptionVideo"
-        tools:src="@drawable/bg_1"
+        tools:src="@drawable/bg_4"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivDefaultThumbnail"
+        android:layout_width="@dimen/dp_62"
+        android:layout_height="@dimen/dp_44"
+        android:layout_margin="@dimen/dp_30"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/ivVideoThumbnail"
+        app:layout_constraintEnd_toEndOf="@id/ivVideoThumbnail"
+        app:srcCompat="@drawable/ic_camera"
+        tools:visibility="visible"
+        />
+
+    <com.bitmark.fbm.util.view.TouchableOpacityAppCompatImageView
+        android:id="@+id/ivPlayVideo"
+        android:layout_width="@dimen/dp_74"
+        android:layout_height="@dimen/dp_72"
+        app:layout_constraintBottom_toBottomOf="@id/ivVideoThumbnail"
+        app:layout_constraintEnd_toEndOf="@id/ivVideoThumbnail"
+        app:layout_constraintStart_toStartOf="@id/ivVideoThumbnail"
+        app:layout_constraintTop_toTopOf="@id/ivVideoThumbnail"
+        app:srcCompat="@drawable/ic_play_video"
+        tools:visibility="gone"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

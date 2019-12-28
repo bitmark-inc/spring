@@ -6,7 +6,6 @@
  */
 package com.bitmark.fbm.data.source.remote
 
-import android.content.Context
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.data.model.entity.Reaction
 import com.bitmark.fbm.data.model.entity.applyRequiredValues
@@ -14,11 +13,11 @@ import com.bitmark.fbm.data.model.entity.canonical
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
 class UsageRemoteDataSource @Inject constructor(
-    private val context: Context, // TODO remove later
     fbmApi: FbmApi,
     converter: Converter,
     rxErrorHandlingComposer: RxErrorHandlingComposer
@@ -50,7 +49,9 @@ class UsageRemoteDataSource @Inject constructor(
     ).map { posts -> posts.filter { p -> p.location != null && locationNames.contains(p.location!!.name) } }
 
     private fun listRemotePost(startedAtSec: Long, endedAtSec: Long) =
-        fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }
+        fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }.subscribeOn(
+            Schedulers.io()
+        )
 
     fun listReactionByType(
         reaction: Reaction,
@@ -62,8 +63,15 @@ class UsageRemoteDataSource @Inject constructor(
     ).map { reactions -> reactions.filter { r -> r.reaction == reaction } }
 
     fun listReaction(startedAtSec: Long, endedAtSec: Long) =
-        fbmApi.listReaction(startedAtSec, endedAtSec).map { res -> res["result"] }
+        fbmApi.listReaction(startedAtSec, endedAtSec).map { res -> res["result"] }.subscribeOn(
+            Schedulers.io()
+        )
 
     fun getPresignedUrl(uri: String) =
-        fbmApi.getPresignedUrl(uri).map { res -> res.headers()["Location"] ?: error("Could not get presigned URL") }
+        fbmApi.getPresignedUrl(uri).map { res ->
+            Pair(
+                uri,
+                res.headers()["Location"] ?: error("Could not get presigned URL")
+            )
+        }.subscribeOn(Schedulers.io())
 }

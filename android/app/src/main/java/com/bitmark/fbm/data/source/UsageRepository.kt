@@ -10,8 +10,11 @@ import com.bitmark.fbm.data.model.PostData
 import com.bitmark.fbm.data.model.entity.MediaType
 import com.bitmark.fbm.data.model.entity.PostType
 import com.bitmark.fbm.data.model.entity.Reaction
+import com.bitmark.fbm.data.model.entity.string
+import com.bitmark.fbm.data.model.hasVideo
 import com.bitmark.fbm.data.source.local.UsageLocalDataSource
 import com.bitmark.fbm.data.source.remote.UsageRemoteDataSource
+import com.bitmark.fbm.util.ext.flat
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiConsumer
@@ -152,19 +155,25 @@ class UsageRepository(
         }
 
     private fun applyPresignedUrl(posts: List<PostData>): Single<List<PostData>> {
-        val streams = posts.filter { p -> p.mediaType == MediaType.VIDEO && p.source != null }
+        val streams = posts.filter { p -> p.hasVideo() }
             .map { post ->
-                remoteDataSource.getPresignedUrl(post.source!!)
-                    .onErrorResumeNext { e ->
-                        if (e is IllegalAccessException) {
-                            Single.just("")
-                        } else {
-                            Single.error<String>(e)
+                post.mediaData!!.filter { d -> d.type == MediaType.VIDEO.string() }.map { media ->
+                    remoteDataSource.getPresignedUrl(media.source)
+                        .onErrorResumeNext { e ->
+                            if (e is IllegalAccessException) {
+                                Single.just(Pair("", ""))
+                            } else {
+                                Single.error<Pair<String, String>>(e)
+                            }
+                        }.map { p ->
+                            val uri = p.first
+                            val presignedUrl = p.second
+                            post.mediaData!!.find { d -> d.source == uri }?.source = presignedUrl
                         }
-                    }.map { presignedUrl -> post.post.mediaData?.get(0)?.source = presignedUrl }
-                    .ignoreElement()
+                        .ignoreElement()
+                }
             }
-        return Completable.mergeDelayError(streams).andThen(Single.just(posts))
+        return Completable.mergeDelayError(streams.flat()).andThen(Single.just(posts))
     }
 
 

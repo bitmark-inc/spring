@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/athens_gray"
+    >
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivVideoThumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_375"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/bg_4"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivDefaultThumbnail"
+        android:layout_width="@dimen/dp_62"
+        android:layout_height="@dimen/dp_44"
+        android:layout_alignBottom="@id/ivVideoThumbnail"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/dp_30"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_camera"
+        tools:visibility="visible"
+        />
+
+    <com.bitmark.fbm.util.view.TouchableOpacityAppCompatImageView
+        android:id="@+id/ivPlayVideo"
+        android:layout_width="@dimen/dp_74"
+        android:layout_height="@dimen/dp_72"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_play_video"
+        tools:visibility="visible"
+        />
+
+</RelativeLayout>

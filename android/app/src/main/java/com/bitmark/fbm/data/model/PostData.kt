@@ -13,17 +13,17 @@ import com.bitmark.fbm.data.model.entity.*
 
 class PostData(
     @Embedded
-    val post: PostR,
+    private val post: PostR,
 
     @Relation(entity = CommentR::class, entityColumn = "post_id", parentColumn = "timestamp")
-    val comments: List<CommentR> = listOf(),
+    private val comments: List<CommentR> = listOf(),
 
     @Relation(
         entity = LocationR::class,
         entityColumn = "id",
         parentColumn = "location_id"
     )
-    val locations: List<LocationR> = listOf()
+    private val locations: List<LocationR> = listOf()
 ) : Data {
 
     val type: PostType
@@ -48,7 +48,7 @@ class PostData(
         get() = post.mediaData?.first()?.thumbnail
 
     val source: String?
-        get() = post.mediaData?.first()?.source
+        get() = post.mediaData?.first()?.canonicalSource
 
     val location: LocationR?
         get() = if (locations.isEmpty()) null else locations[0]
@@ -59,4 +59,9 @@ class PostData(
     val mediaType: MediaType?
         get() = post.mediaType
 
+    val mediaData: List<MediaData>?
+        get() = post.mediaData
 }
+
+fun PostData.hasVideo() =
+    mediaData != null && mediaData!!.firstOrNull { d -> d.type == MediaType.VIDEO.string() } != null

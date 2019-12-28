@@ -7,10 +7,12 @@
 package com.bitmark.fbm.data.model.entity
 
 import androidx.room.*
+import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.model.FriendData
 import com.bitmark.fbm.util.ext.removeQuote
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.net.URLEncoder
 
 @Entity(
     tableName = "Post",
@@ -97,6 +99,13 @@ data class MediaData(
     @SerializedName("type")
     val type: String
 )
+
+val MediaData.canonicalSource: String
+    get() = if (type == MediaType.PHOTO.string()) {
+        BuildConfig.FBM_ASSET_ENDPOINT + "?key=${URLEncoder.encode(source, "UTF-8") ?: ""}"
+    } else {
+        source
+    }
 
 enum class MediaType {
     PHOTO,

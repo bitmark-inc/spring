@@ -6,11 +6,11 @@
  */
 package com.bitmark.fbm.util.modelview
 
-import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.model.PostData
+import com.bitmark.fbm.data.model.entity.MediaData
 import com.bitmark.fbm.data.model.entity.MediaType
 import com.bitmark.fbm.data.model.entity.PostType
-import java.net.URLEncoder
+import com.bitmark.fbm.data.model.entity.fromString
 
 
 data class PostModelView(
@@ -32,7 +32,7 @@ data class PostModelView(
 
     val thumbnail: String?,
 
-    val mediaType: MediaType?
+    val mediaData: List<MediaData>?
 
 ) : ModelView {
 
@@ -43,24 +43,11 @@ data class PostModelView(
             val location = post.location?.name
             val content = post.content ?: ""
             val title = post.title ?: ""
-            val uri = when (post.type) {
-                PostType.MEDIA, PostType.STORY -> {
-                    if (post.mediaType == MediaType.PHOTO) post.source else post.thumbnail
-                }
-                else                           -> null
-            }
+            val uri = post.source
             val url = when (post.type) {
-                PostType.MEDIA, PostType.STORY -> {
-                    if (post.mediaType == MediaType.VIDEO) {
-                        post.source
-                    } else {
-                        BuildConfig.FBM_ASSET_ENDPOINT + "?key=${URLEncoder.encode(uri, "UTF-8")
-                            ?: ""}"
-                    }
-
-                }
-                PostType.LINK                  -> post.url
-                else                           -> null
+                PostType.MEDIA -> post.source
+                PostType.LINK  -> post.url
+                else           -> null
             }
             return PostModelView(
                 post.type,
@@ -72,12 +59,19 @@ data class PostModelView(
                 post.timestamp,
                 title,
                 post.thumbnail,
-                post.mediaType
+                post.mediaData
             )
         }
+
     }
 
-    fun hasSingleTag() = tags.size == 1
-
-    fun hasLocation() = location != null
 }
+
+fun PostModelView.hasSingleTag() = tags.size == 1
+
+fun PostModelView.hasLocation() = location != null
+
+fun PostModelView.isMultiMediaPost() = mediaData != null && mediaData.size > 1
+
+val PostModelView.mediaType: MediaType?
+    get() = if (mediaData == null) null else MediaType.fromString(mediaData[0].type)
