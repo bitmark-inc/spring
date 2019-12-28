@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"strconv"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -59,6 +60,53 @@ func (d *DynamoDBStore) AddFBStat(ctx context.Context, key string, timestamp int
 		Item:      item,
 	})
 
+	return err
+}
+
+// FBStat represent a statistic record for Facebook data that will be push to dynamodb
+type FBStat struct {
+	Key       string
+	Timestamp int64
+	Value     interface{}
+}
+
+// AddFBStats will push all of the statistic records in stats array to dynamo DB
+func (d *DynamoDBStore) AddFBStats(ctx context.Context, stats []FBStat) error {
+	if len(stats) > 25 {
+		return errors.New("can not push more than 25 records at once for dynamodb")
+	}
+
+	writeRequests := make([]*dynamodb.WriteRequest, 0)
+
+	for _, stat := range stats {
+		data, err := json.Marshal(stat.Value)
+		if err != nil {
+			return err
+		}
+		info := fbData{
+			Key:       stat.Key,
+			Timestamp: stat.Timestamp,
+			Data:      data,
+		}
+		item, err := dynamodbattribute.MarshalMap(info)
+		if err != nil {
+			return err
+		}
+
+		writeRequests = append(writeRequests, &dynamodb.WriteRequest{
+			PutRequest: &dynamodb.PutRequest{
+				Item: item,
+			},
+		})
+	}
+
+	input := &dynamodb.BatchWriteItemInput{
+		RequestItems: map[string][]*dynamodb.WriteRequest{
+			*d.table: writeRequests,
+		},
+	}
+
+	_, err := d.svc.BatchWriteItem(input)
 	return err
 }
 

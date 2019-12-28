@@ -1,6 +1,9 @@
 package main
 
 import (
+	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
+
+	"context"
 	"time"
 )
 
@@ -71,4 +74,45 @@ func getDiff(current, last uint64) float64 {
 		difference = 1
 	}
 	return difference
+}
+
+type statSaver struct {
+	store store.FBDataStore
+	queue []store.FBStat
+	ctx   context.Context
+}
+
+func newStatSaver(ctx context.Context, fbstore store.FBDataStore) *statSaver {
+	return &statSaver{
+		store: fbstore,
+		queue: make([]store.FBStat, 0),
+		ctx:   ctx,
+	}
+}
+
+func (s *statSaver) save(key string, timestamp int64, value interface{}) error {
+	s.queue = append(s.queue, store.FBStat{
+		Key:       key,
+		Timestamp: timestamp,
+		Value:     value,
+	})
+
+	if len(s.queue) < 25 {
+		return nil
+	}
+
+	if err := s.flush(); err != nil {
+		return err
+	}
+
+	s.queue = make([]store.FBStat, 0)
+	return nil
+}
+
+func (s *statSaver) flush() error {
+	if len(s.queue) > 0 {
+		err := s.store.AddFBStats(s.ctx, s.queue)
+		return err
+	}
+	return nil
 }

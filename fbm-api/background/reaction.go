@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/bitmark-inc/fbm-apps/fbm-api/external/fbarchive"
 	"github.com/getsentry/sentry-go"
@@ -23,6 +24,8 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 	var currentOffset int64
 	var total int64
 
+	saver := newStatSaver(ctx, b.fbDataStore)
+
 	for {
 		// Checking job
 		job.Checkin(fmt.Sprintf("Fetching reaction batch at offset: %d", currentOffset))
@@ -36,17 +39,23 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 		currentOffset += int64(len(reactions))
 		total = t
 
-		logEntry.WithField("Total", total).WithField("Offset: ", currentOffset).Info("Querying reactions")
+		logEntry.WithField("Total", total).WithField("Offset: ", currentOffset).Info("Querying reactions at ", time.Now().Format("15:04:05"))
 
 		// Save to db & count
+		var lastTimestamp int64
 		for _, reaction := range reactions {
-			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction", reaction.Timestamp, reaction); err != nil {
+			if lastTimestamp == reaction.Timestamp {
+				continue
+			}
+			lastTimestamp = reaction.Timestamp
+
+			if err := saver.save(accountNumber+"/reaction", reaction.Timestamp, reaction); err != nil {
 				logEntry.Error(err)
 				sentry.CaptureException(err)
 				return err
 			}
 
-			if err := b.countReaction(ctx, logEntry, accountNumber, &reaction); err != nil {
+			if err := b.countReaction(ctx, logEntry, saver, accountNumber, &reaction); err != nil {
 				logEntry.Error(err)
 				sentry.CaptureException(err)
 				return err
@@ -59,7 +68,7 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 	}
 
 	if total != 0 {
-		if err := b.countReaction(ctx, logEntry, accountNumber, nil); err != nil {
+		if err := b.countReaction(ctx, logEntry, saver, accountNumber, nil); err != nil {
 			logEntry.Error(err)
 			sentry.CaptureException(err)
 			return err
@@ -73,6 +82,7 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 		return err
 	}
 
+	saver.flush()
 	logEntry.Info("Finish parsing reactions")
 
 	return nil
@@ -102,24 +112,24 @@ type reactionStat struct {
 var currentWeekReactionStat, currentYearReactionStat, currentDecadeReactionStat *reactionStat
 var lastWeekQuantity, lastYearQuantity, lastDecadeQuantity uint64
 
-func (b *BackgroundContext) countReaction(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *fbarchive.ReactionData) error {
-	err := b.countReactionToWeek(ctx, logEntry, accountNumber, reaction)
+func (b *BackgroundContext) countReaction(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
+	err := b.countReactionToWeek(ctx, logEntry, saver, accountNumber, reaction)
 	if err != nil {
 		return err
 	}
-	err = b.countReactionToYear(ctx, logEntry, accountNumber, reaction)
+	err = b.countReactionToYear(ctx, logEntry, saver, accountNumber, reaction)
 	if err != nil {
 		return err
 	}
-	err = b.countReactionToDecade(ctx, logEntry, accountNumber, reaction)
+	err = b.countReactionToDecade(ctx, logEntry, saver, accountNumber, reaction)
 	return err
 }
 
-func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *fbarchive.ReactionData) error {
+func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last week
 	if reaction == nil && currentWeekReactionStat != nil {
 		currentWeekReactionStat.DiffFromPrevious = getDiff(currentWeekReactionStat.Quantity, lastWeekQuantity)
-		err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat)
+		err := saver.save(accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat)
 		return err
 	}
 
@@ -128,7 +138,7 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 	needNewWeek := false
 	if currentWeekReactionStat != nil && currentWeekReactionStat.PeriodStartedAt != weekTimestamp {
 		currentWeekReactionStat.DiffFromPrevious = getDiff(currentWeekReactionStat.Quantity, lastWeekQuantity)
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat); err != nil {
+		if err := saver.save(accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat); err != nil {
 			return err
 		}
 		if absWeek(weekTimestamp-1) == currentWeekReactionStat.PeriodStartedAt {
@@ -180,11 +190,11 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 	return nil
 }
 
-func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *fbarchive.ReactionData) error {
+func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last year
 	if reaction == nil && currentYearReactionStat != nil {
 		currentYearReactionStat.DiffFromPrevious = getDiff(currentYearReactionStat.Quantity, lastYearQuantity)
-		err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat)
+		err := saver.save(accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat)
 		return err
 	}
 
@@ -193,7 +203,7 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 	needNewYear := false
 	if currentYearReactionStat != nil && currentYearReactionStat.PeriodStartedAt != yearTimestamp {
 		currentYearReactionStat.DiffFromPrevious = getDiff(currentYearReactionStat.Quantity, lastYearQuantity)
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat); err != nil {
+		if err := saver.save(accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat); err != nil {
 			return err
 		}
 		if absYear(yearTimestamp-1) == currentYearReactionStat.PeriodStartedAt {
@@ -245,11 +255,11 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 	return nil
 }
 
-func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry *log.Entry, accountNumber string, reaction *fbarchive.ReactionData) error {
+func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last decade
 	if reaction == nil && currentDecadeReactionStat != nil {
 		currentDecadeReactionStat.DiffFromPrevious = getDiff(currentDecadeReactionStat.Quantity, lastDecadeQuantity)
-		err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat)
+		err := saver.save(accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat)
 		return err
 	}
 
@@ -258,7 +268,7 @@ func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry 
 	needNewDecade := false
 	if currentDecadeReactionStat != nil && currentDecadeReactionStat.PeriodStartedAt != decadeTimestamp {
 		currentDecadeReactionStat.DiffFromPrevious = getDiff(currentDecadeReactionStat.Quantity, lastDecadeQuantity)
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat); err != nil {
+		if err := saver.save(accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat); err != nil {
 			return err
 		}
 		if absDecade(decadeTimestamp-1) == currentDecadeReactionStat.PeriodStartedAt {
