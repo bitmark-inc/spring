@@ -128,7 +128,7 @@ func (b *BackgroundContext) countReaction(ctx context.Context, logEntry *log.Ent
 func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last week
 	if reaction == nil && currentWeekReactionStat != nil {
-		currentWeekReactionStat.DiffFromPrevious = getDiff(currentWeekReactionStat.Quantity, lastWeekQuantity)
+		currentWeekReactionStat.DiffFromPrevious = getDiff(float64(currentWeekReactionStat.Quantity), float64(lastWeekQuantity))
 		err := saver.save(accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat)
 		return err
 	}
@@ -137,7 +137,7 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 	weekTimestamp := absWeek(reaction.Timestamp)
 	needNewWeek := false
 	if currentWeekReactionStat != nil && currentWeekReactionStat.PeriodStartedAt != weekTimestamp {
-		currentWeekReactionStat.DiffFromPrevious = getDiff(currentWeekReactionStat.Quantity, lastWeekQuantity)
+		currentWeekReactionStat.DiffFromPrevious = getDiff(float64(currentWeekReactionStat.Quantity), float64(lastWeekQuantity))
 		if err := saver.save(accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat); err != nil {
 			return err
 		}
@@ -193,7 +193,7 @@ func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *l
 func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last year
 	if reaction == nil && currentYearReactionStat != nil {
-		currentYearReactionStat.DiffFromPrevious = getDiff(currentYearReactionStat.Quantity, lastYearQuantity)
+		currentYearReactionStat.DiffFromPrevious = getDiff(float64(currentYearReactionStat.Quantity), float64(lastYearQuantity))
 		err := saver.save(accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat)
 		return err
 	}
@@ -202,7 +202,7 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 	yearTimestamp := absYear(reaction.Timestamp)
 	needNewYear := false
 	if currentYearReactionStat != nil && currentYearReactionStat.PeriodStartedAt != yearTimestamp {
-		currentYearReactionStat.DiffFromPrevious = getDiff(currentYearReactionStat.Quantity, lastYearQuantity)
+		currentYearReactionStat.DiffFromPrevious = getDiff(float64(currentYearReactionStat.Quantity), float64(lastYearQuantity))
 		if err := saver.save(accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat); err != nil {
 			return err
 		}
@@ -258,7 +258,7 @@ func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *l
 func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
 	// if pushing nil to count, flush the last decade
 	if reaction == nil && currentDecadeReactionStat != nil {
-		currentDecadeReactionStat.DiffFromPrevious = getDiff(currentDecadeReactionStat.Quantity, lastDecadeQuantity)
+		currentDecadeReactionStat.DiffFromPrevious = getDiff(float64(currentDecadeReactionStat.Quantity), float64(lastDecadeQuantity))
 		err := saver.save(accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat)
 		return err
 	}
@@ -267,7 +267,7 @@ func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry 
 	decadeTimestamp := absDecade(reaction.Timestamp)
 	needNewDecade := false
 	if currentDecadeReactionStat != nil && currentDecadeReactionStat.PeriodStartedAt != decadeTimestamp {
-		currentDecadeReactionStat.DiffFromPrevious = getDiff(currentDecadeReactionStat.Quantity, lastDecadeQuantity)
+		currentDecadeReactionStat.DiffFromPrevious = getDiff(float64(currentDecadeReactionStat.Quantity), float64(lastDecadeQuantity))
 		if err := saver.save(accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat); err != nil {
 			return err
 		}

@@ -37,6 +37,7 @@ const (
 	jobPeriodicArchiveCheck = "periodic_archive_check"
 	jobAnalyzePosts         = "analyze_posts"
 	jobAnalyzeReactions     = "analyze_reactions"
+	jobAnalyzeSentiments    = "analyze_sentiments"
 	jobNotificationFinish   = "notification_finish_parsing"
 )
 
@@ -185,6 +186,7 @@ func main() {
 	pool.JobWithOptions(jobPeriodicArchiveCheck, work.JobOptions{Priority: 10, MaxFails: 1}, b.checkArchive)
 	pool.JobWithOptions(jobAnalyzePosts, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractPost)
 	pool.JobWithOptions(jobAnalyzeReactions, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractReaction)
+	pool.JobWithOptions(jobAnalyzeSentiments, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractSentiment)
 	pool.JobWithOptions(jobNotificationFinish, work.JobOptions{Priority: 10, MaxFails: 1}, b.notifyAnalyzingDone)
 
 	log.Info("Start listening")

@@ -64,10 +64,10 @@ func timestampToDateString(timestamp int64) string {
 	return t.Format("2006-01-02")
 }
 
-func getDiff(current, last uint64) float64 {
+func getDiff(current, last float64) float64 {
 	var difference float64
 	if last != 0 {
-		difference = (float64(current) - float64(last)) / float64(last)
+		difference = (current - last) / last
 	} else if current == 0 {
 		difference = 0
 	} else {

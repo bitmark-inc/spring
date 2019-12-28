@@ -163,7 +163,8 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int6
 	return d.queryFBStatResult(input)
 }
 
-func (d *DynamoDBStore) GetFBFirstItem(ctx context.Context, key string) (interface{}, error) {
+// GetFBFirstStat returns the very first item sorted by timestamp
+func (d *DynamoDBStore) GetFBFirstStat(ctx context.Context, key string) (interface{}, error) {
 	input := &dynamodb.QueryInput{
 		TableName: d.table,
 		KeyConditions: map[string]*dynamodb.Condition{

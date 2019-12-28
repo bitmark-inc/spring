@@ -90,7 +90,18 @@ func (s *Server) parseArchive(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
-
 	log.Info("Enqueued job with id:", reactionJob.ID)
+
+	// For sentiment
+	sentimentJob, err := s.backgroundEnqueuer.EnqueueUnique("analyze_sentiments", work.Q{
+		"account_number": accountNumber,
+	})
+	if err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+	log.Info("Enqueued job with id:", sentimentJob.ID)
+
 	c.JSON(http.StatusAccepted, gin.H{"result": "ok"})
 }

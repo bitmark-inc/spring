@@ -9,13 +9,13 @@ import (
 
 // SentimentData represents the data response for GET /sentiment API
 type SentimentData struct {
-	Timestamp int64 `json:"timestamp"`
-	Score     uint8 `json:"score"`
+	Timestamp int64   `json:"timestamp"`
+	Score     float64 `json:"score"`
 }
 
-// GetSentiment calls the data source to get sentiment data for an owner at a timestamp
-func (c *Client) GetSentiment(ctx context.Context, dataOwner string, timestamp int64) (*SentimentData, error) {
-	queryPath := fmt.Sprintf("/analysis?type=sentiment&data_owner=%s&timestamp=%d", dataOwner, timestamp)
+// GetLast7DaysOfSentiment calls the data source to get sentiment data for an owner at a timestamp
+func (c *Client) GetLast7DaysOfSentiment(ctx context.Context, dataOwner string, timestamp int64) (*SentimentData, error) {
+	queryPath := fmt.Sprintf("/analysis?type=sentiment&data_owner=%s&timestamp=%d&backtrack=10", dataOwner, timestamp)
 	req, err := c.createRequest(ctx, "GET", queryPath, make(map[string]string))
 
 	req.Header.Add("Content-Type", "application/json")
