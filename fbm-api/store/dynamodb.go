@@ -159,7 +159,7 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int6
 			},
 		},
 		Limit:            aws.Int64(100),
-		ScanIndexForward: aws.Bool(true),
+		ScanIndexForward: aws.Bool(false),
 	}
 
 	return d.queryFBStatResult(input)
