@@ -54,21 +54,21 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) error {
 	}
 
 	saver.flush()
-	logEntry.Info("Finish parsing reactions")
+	logEntry.Info("Finish parsing sentiments")
 
 	return nil
 }
 
 type sentimentStat struct {
-	SectionName      string  `json:"section_name"`
-	Period           string  `json:"period"`
-	Quantity         int     `json:"quantity"`
-	Value            float64 `json:"value"`
-	PeriodStartedAt  int64   `json:"period_stared_at"`
-	DiffFromPrevious float64 `json:"diff_from_previous"`
-	SubPeriodValues  []float64
-	AccountNumber    string
-	IsSaved          bool
+	SectionName      string    `json:"section_name"`
+	Period           string    `json:"period"`
+	Quantity         int       `json:"quantity"`
+	Value            float64   `json:"value"`
+	PeriodStartedAt  int64     `json:"period_stared_at"`
+	DiffFromPrevious float64   `json:"diff_from_previous"`
+	SubPeriodValues  []float64 `json:"-"`
+	AccountNumber    string    `json:"-"`
+	IsSaved          bool      `json:"-"`
 }
 
 type sentimentStatCounter struct {
@@ -116,7 +116,6 @@ func (s *sentimentStatCounter) countWeek(accountNumber string, timestamp int64, 
 
 func (s *sentimentStatCounter) flushWeek() error {
 	if s.currentWeekStat != nil && !s.currentWeekStat.IsSaved {
-		s.log.WithField("data", s.currentWeekStat).Debug()
 		if err := s.saver.save(s.currentWeekStat.AccountNumber+"/sentiment-week-stat", s.currentWeekStat.PeriodStartedAt, s.currentWeekStat); err != nil {
 			return err
 		}
@@ -171,7 +170,6 @@ func (s *sentimentStatCounter) countYear(accountNumber string, timestamp int64, 
 
 func (s *sentimentStatCounter) flushYear() error {
 	if s.currentWeekStat != nil && !s.currentYearStat.IsSaved {
-		s.log.WithField("data", s.currentYearStat).Debug()
 		if err := s.saver.save(s.currentYearStat.AccountNumber+"/sentiment-year-stat", s.currentYearStat.PeriodStartedAt, s.currentYearStat); err != nil {
 			return err
 		}
@@ -226,7 +224,6 @@ func (s *sentimentStatCounter) countDecade(accountNumber string, timestamp int64
 
 func (s *sentimentStatCounter) flushDecade() error {
 	if s.currentWeekStat != nil && !s.currentDecadeStat.IsSaved {
-		s.log.WithField("data", s.currentDecadeStat).Debug()
 		if err := s.saver.save(s.currentDecadeStat.AccountNumber+"/sentiment-decade-stat", s.currentDecadeStat.PeriodStartedAt, s.currentDecadeStat); err != nil {
 			return err
 		}

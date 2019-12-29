@@ -158,26 +158,7 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int6
 				},
 			},
 		},
-	}
-
-	return d.queryFBStatResult(input)
-}
-
-// GetFBFirstStat returns the very first item sorted by timestamp
-func (d *DynamoDBStore) GetFBFirstStat(ctx context.Context, key string) (interface{}, error) {
-	input := &dynamodb.QueryInput{
-		TableName: d.table,
-		KeyConditions: map[string]*dynamodb.Condition{
-			"key": {
-				ComparisonOperator: aws.String("EQ"),
-				AttributeValueList: []*dynamodb.AttributeValue{
-					{
-						S: aws.String(key),
-					},
-				},
-			},
-		},
-		Limit:            aws.Int64(1),
+		Limit:            aws.Int64(100),
 		ScanIndexForward: aws.Bool(true),
 	}
 
