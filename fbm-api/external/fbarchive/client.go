@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -36,6 +37,10 @@ func NewClient(httpClient *http.Client) *Client {
 }
 
 func (c *Client) createRequest(ctx context.Context, method, path string, body map[string]string) (*http.Request, error) {
+	if c.token == "" {
+		return nil, errors.New("Not logged in yet, cannot make request")
+	}
+
 	buf := &bytes.Buffer{}
 	encoder := json.NewEncoder(buf)
 	if err := encoder.Encode(body); err != nil {

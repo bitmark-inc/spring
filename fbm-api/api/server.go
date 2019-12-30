@@ -89,10 +89,17 @@ func NewServer(store store.Store,
 func (s *Server) Run(addr string) error {
 	// Login to bitsocial server
 	ctx := context.Background()
-	if err := s.bitSocialClient.Login(ctx, viper.GetString("fbarchive.username"), viper.GetString("fbarchive.password")); err != nil {
-		return err
-	}
-	log.Info("Success logged in to bitsocial server")
+	go func() {
+		for {
+			err := s.bitSocialClient.Login(ctx, viper.GetString("fbarchive.username"), viper.GetString("fbarchive.password"))
+			if err == nil {
+				log.Info("Success logged in to bitsocial server")
+				return
+			}
+			log.WithError(err).Error("Cannot connect to bitsocial server")
+			time.Sleep(1 * time.Minute)
+		}
+	}()
 
 	r := gin.New()
 	r.Use(gin.Recovery())
