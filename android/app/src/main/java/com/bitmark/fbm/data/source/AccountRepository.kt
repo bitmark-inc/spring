@@ -11,6 +11,7 @@ import com.bitmark.fbm.data.model.isProcessed
 import com.bitmark.fbm.data.model.isValid
 import com.bitmark.fbm.data.source.local.AccountLocalDataSource
 import com.bitmark.fbm.data.source.remote.AccountRemoteDataSource
+import io.reactivex.Single
 
 
 class AccountRepository(
@@ -53,6 +54,18 @@ class AccountRepository(
 
     fun getAccountData() = localDataSource.getAccountData()
 
+    fun syncAccountData() = localDataSource.getAccountData().map { account ->
+        Pair(account.authRequired, account.keyAlias)
+    }.flatMap { p ->
+        val authRequired = p.first
+        val keyAlias = p.second
+        remoteDataSource.getAccountInfo().flatMap { account ->
+            account.authRequired = authRequired
+            account.keyAlias = keyAlias
+            saveAccountData(account).andThen(Single.just(account))
+        }
+    }
+
     fun registerIntercomUser(id: String) = remoteDataSource.registerIntercomUser(id)
 
     fun setArchiveRequestedAt(timestamp: Long) =
@@ -73,4 +86,5 @@ class AccountRepository(
 
     fun saveAccountKeyData(alias: String, authRequired: Boolean) =
         localDataSource.saveAccountKeyAlias(alias, authRequired)
+
 }

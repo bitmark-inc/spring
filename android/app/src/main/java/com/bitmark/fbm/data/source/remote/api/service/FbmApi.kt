@@ -6,10 +6,7 @@
  */
 package com.bitmark.fbm.data.source.remote.api.service
 
-import com.bitmark.fbm.data.model.AppInfoData
-import com.bitmark.fbm.data.model.ArchiveData
-import com.bitmark.fbm.data.model.AutomationScriptData
-import com.bitmark.fbm.data.model.JwtData
+import com.bitmark.fbm.data.model.*
 import com.bitmark.fbm.data.model.entity.PostR
 import com.bitmark.fbm.data.model.entity.ReactionR
 import com.bitmark.fbm.data.model.entity.SectionR
@@ -69,4 +66,7 @@ interface FbmApi {
 
     @GET("api/media")
     fun getPresignedUrl(@Query("key") uri: String): Single<Response<ResponseBody>>
+
+    @GET("api/accounts/me")
+    fun getAccountInfo(): Single<Map<String, AccountData>>
 }

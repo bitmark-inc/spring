@@ -156,6 +156,11 @@
     <string name="we_are_making_a_simple_lens">We are making a simple lens builder and store. Like cooking recipes, people will be able to experiment, share, and sell lenses to get more utility from your data.</string>
     <string name="there_was_error_when_loading_statistic">There was an error when loading statistic for this period</string>
     <string name="notifications">Notifications</string>
+    <string name="sign_in">Sign In</string>
+    <string name="wrong_recovery_key">Wrong Recovery Key!</string>
+    <string name="please_recheck_your_recovery_key">Please recheck your recovery key and tap to edit any incorrect words above.</string>
+    <string name="submit_arrow">Submit »</string>
+    <string name="could_not_sign_in">Could not sign in your account.Please try again later.</string>
 
     <string-array name="day_of_week">
         <item>S</item>

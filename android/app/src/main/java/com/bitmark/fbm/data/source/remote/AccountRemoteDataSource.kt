@@ -64,4 +64,9 @@ class AccountRemoteDataSource @Inject constructor(
 
     fun getArchives() =
         fbmApi.getArchives().map { res -> res["result"] ?: error("invalid response") }
+
+    fun getAccountInfo() =
+        fbmApi.getAccountInfo().map { res ->
+            res["result"] ?: error("invalid get account info response")
+        }
 }

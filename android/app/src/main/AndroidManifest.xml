@@ -57,14 +57,22 @@
             android:name=".feature.register.trustnotice.TrustNoticeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
 
-        <receiver android:name=".feature.notification.ScheduledNotificationReceiver" />
+        <activity android:name=".feature.signin.SignInActivity" />
+
+        <receiver
+            android:name=".feature.notification.ScheduledNotificationReceiver"
+            android:windowSoftInputMode="adjustNothing" />
 
         <meta-data
             android:name="com.onesignal.NotificationAccentColor.DEFAULT"
             android:value="@color/colorAccent" />
 
-        <meta-data android:name="com.onesignal.NotificationOpened.DEFAULT" android:value="DISABLE" />
+        <meta-data
+            android:name="com.onesignal.NotificationOpened.DEFAULT"
+            android:value="DISABLE" />
 
-        <meta-data android:name="io.sentry.dsn" android:value="https://130cf5848b034aba80d026039d64974e@sentry.io/1857021" />
+        <meta-data
+            android:name="io.sentry.dsn"
+            android:value="https://130cf5848b034aba80d026039d64974e@sentry.io/1857021" />
     </application>
 </manifest>

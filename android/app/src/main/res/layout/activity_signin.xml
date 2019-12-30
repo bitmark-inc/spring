@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dp_18"
+        android:paddingEnd="@dimen/dp_18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        >
+
+        <com.bitmark.fbm.util.view.TouchableOpacityAppCompatImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingTop="@dimen/dp_16"
+            android:paddingBottom="@dimen/dp_16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_back_2"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:layout_marginStart="@dimen/dp_18"
+        android:layout_marginEnd="@dimen/dp_18"
+        android:fontFamily="@font/domaine_sans"
+        android:includeFontPadding="false"
+        android:text="@string/sign_in"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        app:autoSizeMaxTextSize="@dimen/sp_36"
+        app:autoSizeMinTextSize="@dimen/sp_24"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutToolbar"
+        />
+
+    <EditText
+        android:id="@+id/etPhrase"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/bg_rect"
+        android:fontFamily="@font/grotesk_light_font_family"
+        android:gravity="top"
+        android:imeOptions="actionDone"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingTop="@dimen/dp_14"
+        android:paddingEnd="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_14"
+        android:textColor="@color/tundora"
+        android:textCursorDrawable="@null"
+        android:textSize="@dimen/sp_22"
+        app:layout_constraintEnd_toEndOf="@id/tvTitle"
+        app:layout_constraintStart_toStartOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        tools:text="abandon ability able about above absent absorb abstract absurd abuse access accident"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:fontFamily="@font/grotesk_light_font_family"
+        android:gravity="center"
+        android:text="@string/enter_your_12_words"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_22"
+        app:layout_constraintEnd_toEndOf="@id/etPhrase"
+        app:layout_constraintStart_toStartOf="@id/etPhrase"
+        app:layout_constraintTop_toBottomOf="@id/etPhrase"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvWrongKey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:fontFamily="@font/grotesk_regular_font_family"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/wrong_recovery_key"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/tvPlsRecheck"
+        app:layout_constraintEnd_toEndOf="@id/tvPlsRecheck"
+        app:layout_constraintStart_toStartOf="@id/tvPlsRecheck"
+        tools:visibility="visible"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvPlsRecheck"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_26"
+        android:fontFamily="@font/grotesk_light_font_family"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:text="@string/please_recheck_your_recovery_key"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/btnSubmit"
+        app:layout_constraintEnd_toEndOf="@id/btnSubmit"
+        app:layout_constraintStart_toStartOf="@id/btnSubmit"
+        tools:visibility="visible"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSubmit"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginStart="@dimen/dp_18"
+        android:layout_marginEnd="@dimen/dp_18"
+        android:layout_marginBottom="@dimen/dp_32"
+        android:background="@drawable/bg_mercury_stateful"
+        android:fontFamily="@font/grotesk_regular_font_family"
+        android:gravity="center"
+        android:includeFontPadding="false"
+        android:inputType="textMultiLine"
+        android:text="@string/submit_arrow"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
