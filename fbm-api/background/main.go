@@ -183,7 +183,7 @@ func main() {
 	pool.JobWithOptions(jobDownloadArchive, work.JobOptions{Priority: 10, MaxFails: 1}, b.downloadArchive)
 	pool.JobWithOptions(jobUploadArchive, work.JobOptions{Priority: 10, MaxFails: 1}, b.submitArchive)
 	pool.JobWithOptions(jobExtract, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractMedia)
-	pool.JobWithOptions(jobPeriodicArchiveCheck, work.JobOptions{Priority: 10, MaxFails: 1}, b.checkArchive)
+	pool.JobWithOptions(jobPeriodicArchiveCheck, work.JobOptions{Priority: 5, MaxFails: 1}, b.checkArchive)
 	pool.JobWithOptions(jobAnalyzePosts, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractPost)
 	pool.JobWithOptions(jobAnalyzeReactions, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractReaction)
 	pool.JobWithOptions(jobAnalyzeSentiments, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractSentiment)
