@@ -1,8 +1,8 @@
 //
-//  PhotoPostTableViewCell.swift
+//  MediaPostTableViewCell.swift
 //  Synergy
 //
-//  Created by thuyentruong on 12/3/19.
+//  Created by thuyentruong on 12/5/19.
 //  Copyright © 2019 Bitmark Inc. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import FlexLayout
 import RxSwift
 import SwiftDate
 
-class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
+class MediaPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
@@ -20,6 +20,7 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
     lazy var photoWidth: CGFloat = {
         return UIScreen.main.bounds.width - (OurTheme.postCellPadding.left + OurTheme.postCellPadding.right)
     }()
+
     var post: Post?
     weak var clickableDelegate: ClickableDelegate?
 
@@ -30,7 +31,8 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
         themeService.rx
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
-        contentView.flex.direction(.column).define { (flex) in
+        contentView.flex.direction(.column)
+            .define { (flex) in
                 flex.addItem().padding(OurTheme.postCellPadding).define { (flex) in
                 flex.addItem(postInfoLabel)
                 flex.addItem(captionLabel)
@@ -81,28 +83,59 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
     func loadImage() {
         guard let post = post else { return }
         for media in post.mediaData {
-            let photoImageView = makePhotoImageView()
+            let photoImageView = addMediaView(media: media)
+
+            if media.mediaSource == .video {
+                if let thumbnail = media.thumbnail, let thumbnailURL = URL(string: thumbnail), thumbnailURL.pathExtension != "mp4" {
+                    photoImageView.loadURL(thumbnailURL, width: photoWidth)
+                        .subscribe(onError: { (error) in
+                            guard !AppError.errorByNetworkConnection(error) else { return }
+                            Global.log.error(error)
+                            photoImageView.image = R.image.defaultThumbnail()
+                        })
+                        .disposed(by: disposeBag)
+                } else {
+                    photoImageView.image = R.image.defaultThumbnail()
+                }
+            } else {
+                if let photoURL = URL(string: media.source) {
+                    photoImageView.loadURL(photoURL, width: photoWidth)
+                        .subscribe(onError: { (error) in
+                            guard !AppError.errorByNetworkConnection(error) else { return }
+                            Global.log.error(error)
+                        })
+                        .disposed(by: disposeBag)
+                }
+            }
+        }
+    }
+
+    fileprivate func addMediaView(media: MediaData) -> ImageView {
+        let photoImageView = makePhotoImageView()
+        if media.mediaSource == .video {
+            self.photosView.flex.define { (flex) in
+                flex.addItem().height(20).backgroundColor(.clear)
+
+                flex.addItem().width(photoWidth).height(photoWidth).justifyContent(.center).define { (flex) in
+                    flex.addItem(photoImageView).grow(1)
+                    flex.addItem(makePlayButton(mediaSourceKey: media.source))
+                        .position(.absolute)
+                        .alignSelf(.center)
+                        .grow(1)
+                }
+            }
+        } else {
             self.photosView.flex.define { (flex) in
                 flex.addItem().height(20).backgroundColor(.clear)
                 flex.addItem(photoImageView).width(photoWidth).height(photoWidth)
             }
-
-            if let photoURL = URL(string: media.source) {
-                photoImageView.loadURL(photoURL, width: photoWidth)
-                    .subscribe(onError: { (error) in
-                        guard !AppError.errorByNetworkConnection(error) else { return }
-                        Global.log.error(error)
-                        photoImageView.image = R.image.defaultThumbnail()
-                    })
-                    .disposed(by: disposeBag)
-            } else {
-                photoImageView.image = R.image.defaultThumbnail()
-            }
         }
+
+        return photoImageView
     }
 }
 
-extension PhotoPostTableViewCell: UITextViewDelegate {
+extension MediaPostTableViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
         clickableDelegate?.click(textView, url: URL)
@@ -110,7 +143,7 @@ extension PhotoPostTableViewCell: UITextViewDelegate {
     }
 }
 
-extension PhotoPostTableViewCell {
+extension MediaPostTableViewCell {
     fileprivate func makePostInfoLabel() -> UITextView {
         let textView = UITextView()
         textView.textContainerInset = .zero
@@ -141,5 +174,14 @@ extension PhotoPostTableViewCell {
         let imageView = ImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
+    }
+
+    fileprivate func makePlayButton(mediaSourceKey: String) -> Button {
+        let button = Button()
+        button.setImage(R.image.playVideo(), for: .normal)
+        button.rx.tap.bind { [weak self] in
+            self?.clickableDelegate?.playVideo(mediaSourceKey)
+        }.disposed(by: disposeBag)
+        return button
     }
 }

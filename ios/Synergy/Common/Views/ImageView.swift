@@ -37,10 +37,10 @@ class ImageView: UIImageView {
 
     func loadURL(_ url: URL, width: CGFloat) -> Completable {
         return Completable.create { (event) -> Disposable in
-            _ = ImageService.makePhotoURL(key: url.path)
+            _ = MediaService.makePhotoURL(key: url.path)
                 .subscribe(onSuccess: { [weak self] (photoURL, modifier) in
                     guard let self = self else { return }
-                    self.kf.setImage(with: photoURL, options: [.requestModifier(modifier)]) { [weak self] (result) in
+                    self.kf.setImage(with: photoURL, options: [.requestModifier(modifier)]) { (result) in
                         switch result {
                         case .success(_):
                             event(.completed)

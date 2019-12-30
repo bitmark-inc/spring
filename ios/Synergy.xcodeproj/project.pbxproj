@@ -121,15 +121,12 @@
 		5B2097BA23B4676D0079B421 /* ReactionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097B923B4676D0079B421 /* ReactionTableView.swift */; };
 		5B2097BB23B4676D0079B421 /* ReactionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097B923B4676D0079B421 /* ReactionTableView.swift */; };
 		5B2097BC23B4676D0079B421 /* ReactionTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097B923B4676D0079B421 /* ReactionTableView.swift */; };
-		5B2097C023B477FB0079B421 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* ImageService.swift */; };
-		5B2097C123B477FB0079B421 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* ImageService.swift */; };
-		5B2097C223B477FB0079B421 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* ImageService.swift */; };
+		5B2097C023B477FB0079B421 /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* MediaService.swift */; };
+		5B2097C123B477FB0079B421 /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* MediaService.swift */; };
+		5B2097C223B477FB0079B421 /* MediaService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097BF23B477FB0079B421 /* MediaService.swift */; };
 		5B2097C423B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
 		5B2097C523B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
 		5B2097C623B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
-		5B2097C823B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */; };
-		5B2097C923B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */; };
-		5B2097CA23B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */; };
 		5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
 		5B289E0123A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
 		5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
@@ -320,7 +317,7 @@
 		5B5DFFF223A1F0F4003D1A1C /* ImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC35237A863300FA3196 /* ImageView.swift */; };
 		5B5DFFF323A1F0F4003D1A1C /* UsageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21EF9F6239111E3004D4513 /* UsageService.swift */; };
 		5B5DFFF423A1F0F4003D1A1C /* TextFieldWithRightIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27959E12386B8C1000E9CB9 /* TextFieldWithRightIcon.swift */; };
-		5B5DFFF623A1F0F4003D1A1C /* VideoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* VideoPostTableViewCell.swift */; };
+		5B5DFFF623A1F0F4003D1A1C /* MediaPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* MediaPostTableViewCell.swift */; };
 		5B5DFFF723A1F0F4003D1A1C /* Navigator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCB4237A9FD700FA3196 /* Navigator.swift */; };
 		5B5DFFF823A1F0F4003D1A1C /* GetYourDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BB3332384E7320044BC95 /* GetYourDataViewController.swift */; };
 		5B5DFFF923A1F0F4003D1A1C /* EditingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2D237A863300FA3196 /* EditingTextView.swift */; };
@@ -454,8 +451,8 @@
 		E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807CB23962F380079A3C4 /* PostAPI.swift */; };
 		E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
 		E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E23807D123963E3E0079A3C4 /* Array+Sentence.swift */; };
-		E244203A2399067600520FE9 /* VideoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* VideoPostTableViewCell.swift */; };
-		E244203B2399067600520FE9 /* VideoPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* VideoPostTableViewCell.swift */; };
+		E244203A2399067600520FE9 /* MediaPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* MediaPostTableViewCell.swift */; };
+		E244203B2399067600520FE9 /* MediaPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24420392399067600520FE9 /* MediaPostTableViewCell.swift */; };
 		E2442040239910E100520FE9 /* UpdatePostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */; };
 		E2442041239910E100520FE9 /* UpdatePostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */; };
 		E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
@@ -730,9 +727,8 @@
 		5B2097B123B4674B0079B421 /* ReactionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionListViewController.swift; sourceTree = "<group>"; };
 		5B2097B523B467560079B421 /* ReactionListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionListViewModel.swift; sourceTree = "<group>"; };
 		5B2097B923B4676D0079B421 /* ReactionTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionTableView.swift; sourceTree = "<group>"; };
-		5B2097BF23B477FB0079B421 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
+		5B2097BF23B477FB0079B421 /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
 		5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionTableViewCell.swift; sourceTree = "<group>"; };
-		5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPostTableViewCell.swift; sourceTree = "<group>"; };
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
 		5B4A237623B1132E00447366 /* UsageBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeView.swift; sourceTree = "<group>"; };
 		5B4A237A23B1136E00447366 /* HeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingView.swift; sourceTree = "<group>"; };
@@ -813,7 +809,7 @@
 		E23807C8239618000079A3C4 /* PostDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDataTableViewCell.swift; sourceTree = "<group>"; };
 		E23807CB23962F380079A3C4 /* PostAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAPI.swift; sourceTree = "<group>"; };
 		E23807D123963E3E0079A3C4 /* Array+Sentence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Sentence.swift"; sourceTree = "<group>"; };
-		E24420392399067600520FE9 /* VideoPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPostTableViewCell.swift; sourceTree = "<group>"; };
+		E24420392399067600520FE9 /* MediaPostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPostTableViewCell.swift; sourceTree = "<group>"; };
 		E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdatePostTableViewCell.swift; sourceTree = "<group>"; };
 		E24829C8238BC30F00995FBB /* R.generated+Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "R.generated+Font.swift"; sourceTree = "<group>"; };
 		E26268BA23964638000D7F51 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -1120,7 +1116,7 @@
 				5BA9FF6123B2292100E57A20 /* Insights */,
 				E22290972395107700412CBC /* Post */,
 				5B20979F23B4641C0079B421 /* Reaction */,
-				5B2097BE23B477ED0079B421 /* Image */,
+				5B2097BE23B477ED0079B421 /* Media */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1268,12 +1264,12 @@
 			path = List;
 			sourceTree = "<group>";
 		};
-		5B2097BE23B477ED0079B421 /* Image */ = {
+		5B2097BE23B477ED0079B421 /* Media */ = {
 			isa = PBXGroup;
 			children = (
-				5B2097BF23B477FB0079B421 /* ImageService.swift */,
+				5B2097BF23B477FB0079B421 /* MediaService.swift */,
 			);
-			path = Image;
+			path = Media;
 			sourceTree = "<group>";
 		};
 		5B289DFC23A0D9BB00283C84 /* Trust Critical */ = {
@@ -1457,8 +1453,7 @@
 				E23807C8239618000079A3C4 /* PostDataTableViewCell.swift */,
 				58C009D62398C60D00302F49 /* LinkPostTableViewCell.swift */,
 				E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */,
-				E24420392399067600520FE9 /* VideoPostTableViewCell.swift */,
-				5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */,
+				E24420392399067600520FE9 /* MediaPostTableViewCell.swift */,
 			);
 			path = PostCollectionViewCell;
 			sourceTree = "<group>";
@@ -2291,7 +2286,7 @@
 				5832FC5B237A863300FA3196 /* ImageView.swift in Sources */,
 				E21EF9F7239111E3004D4513 /* UsageService.swift in Sources */,
 				E27959E22386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
-				E244203A2399067600520FE9 /* VideoPostTableViewCell.swift in Sources */,
+				E244203A2399067600520FE9 /* MediaPostTableViewCell.swift in Sources */,
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
@@ -2322,7 +2317,6 @@
 				5B4A239523B1C4D000447366 /* Location.swift in Sources */,
 				E222908C239509EF00412CBC /* PostListViewController.swift in Sources */,
 				5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */,
-				5B2097C823B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */,
 				5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */,
 				5BEB478C23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A523B464410079B421 /* ReactionAPI.swift in Sources */,
@@ -2353,7 +2347,7 @@
 				5B590A7623B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				5832FCAA237A8A9200FA3196 /* UIViewController+Error.swift in Sources */,
 				5832D703238BC23D0074AEDC /* InsightViewModel.swift in Sources */,
-				5B2097C023B477FB0079B421 /* ImageService.swift in Sources */,
+				5B2097C023B477FB0079B421 /* MediaService.swift in Sources */,
 				5B2097A923B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230C23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				E2259CD0238783AE00746280 /* FBScript.swift in Sources */,
@@ -2472,7 +2466,7 @@
 				5B93230A23A3638C00C3C408 /* ViewRecoveryKeyWarningViewController.swift in Sources */,
 				5B5DFFF323A1F0F4003D1A1C /* UsageService.swift in Sources */,
 				5B5DFFF423A1F0F4003D1A1C /* TextFieldWithRightIcon.swift in Sources */,
-				5B5DFFF623A1F0F4003D1A1C /* VideoPostTableViewCell.swift in Sources */,
+				5B5DFFF623A1F0F4003D1A1C /* MediaPostTableViewCell.swift in Sources */,
 				5B5DFFF723A1F0F4003D1A1C /* Navigator.swift in Sources */,
 				5B5DFFF823A1F0F4003D1A1C /* GetYourDataViewController.swift in Sources */,
 				5B5DFFF923A1F0F4003D1A1C /* EditingTextView.swift in Sources */,
@@ -2503,7 +2497,6 @@
 				5B4A239723B1C4D000447366 /* Location.swift in Sources */,
 				5B5D001123A1F0F4003D1A1C /* HomeTabbarController.swift in Sources */,
 				5B5D001223A1F0F4003D1A1C /* UsageViewController.swift in Sources */,
-				5B2097CA23B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */,
 				5B5D001323A1F0F4003D1A1C /* PostListViewController.swift in Sources */,
 				5BEB478E23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A723B464410079B421 /* ReactionAPI.swift in Sources */,
@@ -2534,7 +2527,7 @@
 				5B590A7823B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				5B5D002723A1F0F4003D1A1C /* FBScript.swift in Sources */,
 				5B5D002823A1F0F4003D1A1C /* ViewController.swift in Sources */,
-				5B2097C223B477FB0079B421 /* ImageService.swift in Sources */,
+				5B2097C223B477FB0079B421 /* MediaService.swift in Sources */,
 				5B2097AB23B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230E23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				5B5D002923A1F0F4003D1A1C /* KeychainStore.swift in Sources */,
@@ -2645,7 +2638,7 @@
 				5B93230923A3638C00C3C408 /* ViewRecoveryKeyWarningViewController.swift in Sources */,
 				E21EF9F8239111E3004D4513 /* UsageService.swift in Sources */,
 				E27959E32386B8C1000E9CB9 /* TextFieldWithRightIcon.swift in Sources */,
-				E244203B2399067600520FE9 /* VideoPostTableViewCell.swift in Sources */,
+				E244203B2399067600520FE9 /* MediaPostTableViewCell.swift in Sources */,
 				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
 				E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
@@ -2676,7 +2669,6 @@
 				5B4A239623B1C4D000447366 /* Location.swift in Sources */,
 				5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E8238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
-				5B2097C923B49F830079B421 /* PhotoPostTableViewCell.swift in Sources */,
 				E222908D239509EF00412CBC /* PostListViewController.swift in Sources */,
 				5BEB478D23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A623B464410079B421 /* ReactionAPI.swift in Sources */,
@@ -2707,7 +2699,7 @@
 				5B590A7723B37CD0006C194D /* BiometricAuth.swift in Sources */,
 				E2259CD1238783AE00746280 /* FBScript.swift in Sources */,
 				E2DB66A7237D3B69005367C2 /* ViewController.swift in Sources */,
-				5B2097C123B477FB0079B421 /* ImageService.swift in Sources */,
+				5B2097C123B477FB0079B421 /* MediaService.swift in Sources */,
 				5B2097AA23B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230D23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				E2DB66A8237D3B69005367C2 /* KeychainStore.swift in Sources */,

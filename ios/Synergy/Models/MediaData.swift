@@ -21,3 +21,14 @@ class MediaData: Object, Decodable {
         return "source"
     }
 }
+
+extension MediaData {
+    var mediaSource: MediaSource {
+        return MediaSource(rawValue: type) ?? .photo
+    }
+}
+
+enum MediaSource: String {
+    case video
+    case photo
+}

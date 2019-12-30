@@ -14,6 +14,10 @@ import SwiftDate
 import RealmSwift
 import RxRealm
 import SafariServices
+import AVKit
+import AVFoundation
+import MediaPlayer
+import AudioToolbox
 
 class PostListViewController: ViewController, BackNavigator {
 
@@ -132,12 +136,9 @@ extension PostListViewController: UITableViewDataSource {
                 cell = tableView.dequeueReusableCell(withClass: LinkPostTableViewCell.self, for: indexPath)
 
             case .media:
-                cell = post.mediaData.first?.type == "video" ?
-                    tableView.dequeueReusableCell(withClass: VideoPostTableViewCell.self, for: indexPath) :
-                    tableView.dequeueReusableCell(withClass: PhotoPostTableViewCell.self, for: indexPath)
-
+                cell = tableView.dequeueReusableCell(withClass: MediaPostTableViewCell.self, for: indexPath)
             default:
-                cell = tableView.dequeueReusableCell(withClass: PhotoPostTableViewCell.self, for: indexPath)
+                cell = tableView.dequeueReusableCell(withClass: UpdatePostTableViewCell.self, for: indexPath)
             }
             cell.clickableDelegate = self
             cell.bindData(post: post)
@@ -164,6 +165,26 @@ extension PostListViewController: ClickableDelegate {
             let safariVC = SFSafariViewController(url: url)
             self.present(safariVC, animated: true, completion: nil)
         }
+    }
+
+    func playVideo(_ videoKey: String) {
+        MediaService.makeVideoURL(key: videoKey)
+            .subscribe(onSuccess: { [weak self] (asset) in
+                guard let self = self else { return }
+                let playerItem = AVPlayerItem(asset: asset)
+
+                let player = AVPlayer(playerItem: playerItem)
+                let playerVC = AVPlayerViewController()
+
+                playerVC.player = player
+                self.present(playerVC, animated: true) {
+                    player.play()
+                }
+            }, onError: { (error) in
+                guard !AppError.errorByNetworkConnection(error) else { return }
+                Global.log.error(error)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
