@@ -27,86 +27,104 @@ class PostDetailViewModel(
 
     private var lastEndedAtSec = -1L
 
-    fun listPost(startedAtSec: Long, endedAtSec: Long) {
+    fun listPost(startedAtSec: Long, endedAtSec: Long, gapSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostStream(startedAtSec, endedAtSec)
+                listPostStream(startedAtSec, endedAtSec, gapSec)
             )
         )
     }
 
-    fun listNextPost(startedAtSec: Long) {
+    fun listNextPost(startedAtSec: Long, gapSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostStream(startedAtSec, lastEndedAtSec - 1)
+                listPostStream(startedAtSec, lastEndedAtSec - 1, gapSec)
             )
         )
     }
 
-    private fun listPostStream(startedAtSec: Long, endedAtSec: Long) =
+    private fun listPostStream(startedAtSec: Long, endedAtSec: Long, gapSec: Long) =
         usageRepo.listPost(
             startedAtSec,
-            endedAtSec
+            endedAtSec,
+            gapSec
         ).observeOn(Schedulers.computation()).map(mapPosts())
 
-    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long) {
+    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long, gapSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByTypeStream(type, startedAtSec, endedAtSec)
+                listPostByTypeStream(type, startedAtSec, endedAtSec, gapSec)
             )
         )
     }
 
-    fun listNextPostByType(type: PostType, startedAtSec: Long) {
+    fun listNextPostByType(type: PostType, startedAtSec: Long, gapSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByTypeStream(type, startedAtSec, lastEndedAtSec - 1)
+                listPostByTypeStream(type, startedAtSec, lastEndedAtSec - 1, gapSec)
             )
         )
     }
 
-    private fun listPostByTypeStream(type: PostType, startedAtSec: Long, endedAtSec: Long) =
+    private fun listPostByTypeStream(
+        type: PostType,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        gapSec: Long
+    ) =
         usageRepo.listPostByType(
             type,
             startedAtSec,
-            endedAtSec
+            endedAtSec,
+            gapSec
         ).observeOn(Schedulers.computation()).map(mapPosts())
 
-    fun listPostByTags(tags: List<String>, startedAtSec: Long, endedAtSec: Long) {
+    fun listPostByTags(tags: List<String>, startedAtSec: Long, endedAtSec: Long, gapSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByTagsStream(tags, startedAtSec, endedAtSec)
+                listPostByTagsStream(tags, startedAtSec, endedAtSec, gapSec)
             )
         )
     }
 
-    fun listNextPostByTags(tags: List<String>, startedAtSec: Long) {
+    fun listNextPostByTags(tags: List<String>, startedAtSec: Long, gapSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByTagsStream(tags, startedAtSec, lastEndedAtSec - 1)
+                listPostByTagsStream(tags, startedAtSec, lastEndedAtSec - 1, gapSec)
             )
         )
     }
 
-    private fun listPostByTagsStream(tags: List<String>, startedAtSec: Long, endedAtSec: Long) =
+    private fun listPostByTagsStream(
+        tags: List<String>,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        gapSec: Long
+    ) =
         usageRepo.listPostByTags(
             tags,
             startedAtSec,
-            endedAtSec
+            endedAtSec,
+            gapSec
         ).observeOn(Schedulers.computation()).map(mapPosts())
 
-    fun listPostByLocations(locations: List<String>, startedAtSec: Long, endedAtSec: Long) {
+    fun listPostByLocations(
+        locations: List<String>,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        gapSec: Long
+    ) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByLocationsStream(locations, startedAtSec, endedAtSec)
+                listPostByLocationsStream(locations, startedAtSec, endedAtSec, gapSec)
             )
         )
     }
 
-    fun listNextPostByLocations(locations: List<String>, startedAtSec: Long) {
+    fun listNextPostByLocations(locations: List<String>, startedAtSec: Long, gapSec: Long) {
         listPostLiveData.add(
             rxLiveDataTransformer.single(
-                listPostByLocationsStream(locations, startedAtSec, lastEndedAtSec - 1)
+                listPostByLocationsStream(locations, startedAtSec, lastEndedAtSec - 1, gapSec)
             )
         )
     }
@@ -114,12 +132,14 @@ class PostDetailViewModel(
     private fun listPostByLocationsStream(
         locations: List<String>,
         startedAtSec: Long,
-        endedAtSec: Long
+        endedAtSec: Long,
+        gapSec: Long
     ) =
         usageRepo.listPostByLocationNames(
             locations,
             startedAtSec,
-            endedAtSec
+            endedAtSec,
+            gapSec
         ).observeOn(Schedulers.computation()).map(mapPosts())
 
     private fun mapPosts(): (List<PostData>) -> List<PostModelView> =

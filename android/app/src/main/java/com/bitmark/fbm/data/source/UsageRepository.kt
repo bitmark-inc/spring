@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source
 
+import com.bitmark.fbm.data.ext.ignoreRemoteError
 import com.bitmark.fbm.data.model.PostData
 import com.bitmark.fbm.data.model.entity.MediaType
 import com.bitmark.fbm.data.model.entity.PostType
@@ -25,71 +26,113 @@ class UsageRepository(
     private val localDataSource: UsageLocalDataSource
 ) : Repository {
 
-    fun listPost(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listPost(startedAtSec: Long, endedAtSec: Long, gapSec: Long, limit: Int = 20) =
         localDataSource.listPost(startedAtSec, endedAtSec, limit).flatMap { posts ->
+            when {
+                posts.isEmpty()                                  -> syncPosts(
+                    startedAtSec,
+                    endedAtSec,
+                    limit
+                )
+                posts.first().timestampSec + gapSec < endedAtSec -> {
+                    // missing posts due to the database cache
+                    val newStartedAt = posts.first().timestampSec
+                    syncPosts(newStartedAt, endedAtSec, limit).ignoreRemoteError(posts)
+                }
+                else                                             -> Single.just(posts)
+            }
+        }.flatMap { posts ->
+            applyPresignedUrl(posts).ignoreRemoteError(posts)
+        }
+
+    private fun syncPosts(startedAtSec: Long, endedAtSec: Long, limit: Int) =
+        remoteDataSource.listPost(
+            startedAtSec,
+            endedAtSec
+        ).flatMap { posts ->
             if (posts.isEmpty()) {
-                listRemotePost(startedAtSec, endedAtSec).andThen(
+                Single.just(listOf())
+            } else {
+                localDataSource.savePosts(posts).andThen(
                     localDataSource.listPost(
                         startedAtSec,
                         endedAtSec,
                         limit
                     )
                 )
-            } else {
-                Single.just(posts)
             }
-        }.flatMap { posts -> applyPresignedUrl(posts) }
-
-    private fun listRemotePost(startedAtSec: Long, endedAtSec: Long) =
-        remoteDataSource.listPost(startedAtSec, endedAtSec).flatMapCompletable { posts ->
-            localDataSource.savePosts(posts)
         }
 
-    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
-        localDataSource.listPostByType(type, startedAtSec, endedAtSec, limit).flatMap { posts ->
-            if (posts.isEmpty()) {
-                listRemotePostByType(type, startedAtSec, endedAtSec).andThen(
-                    localDataSource.listPostByType(
-                        type,
-                        startedAtSec,
-                        endedAtSec,
-                        limit
-                    )
-                )
-            } else {
-                Single.just(posts)
-            }
-        }.flatMap { posts -> applyPresignedUrl(posts) }
-
-    private fun listRemotePostByType(
+    fun listPostByType(
         type: PostType,
         startedAtSec: Long,
-        endedAtSec: Long
+        endedAtSec: Long,
+        gapSec: Long,
+        limit: Int = 20
+    ) =
+        localDataSource.listPostByType(type, startedAtSec, endedAtSec, limit).flatMap { posts ->
+            when {
+                posts.isEmpty()                                  -> {
+                    syncPostsByType(type, startedAtSec, endedAtSec, limit)
+                }
+                posts.first().timestampSec + gapSec < endedAtSec -> {
+                    // missing posts due to the database cache
+                    val newStartedAt = posts.first().timestampSec
+                    syncPostsByType(type, newStartedAt, endedAtSec, limit).ignoreRemoteError(posts)
+                }
+                else                                             -> Single.just(posts)
+            }
+        }.flatMap { posts -> applyPresignedUrl(posts).ignoreRemoteError(posts) }
+
+    private fun syncPostsByType(
+        type: PostType,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int
     ) = remoteDataSource.listPostByType(
         type,
         startedAtSec,
         endedAtSec
-    ).flatMapCompletable { p -> localDataSource.savePosts(p) }
+    ).flatMap { posts ->
+        if (posts.isEmpty()) {
+            Single.just(listOf())
+        } else {
+            localDataSource.savePosts(posts).andThen(
+                localDataSource.listPostByType(
+                    type,
+                    startedAtSec,
+                    endedAtSec,
+                    limit
+                )
+            )
+        }
+    }
+
 
     fun listPostByTags(
         tags: List<String>,
-        fromSec: Long,
+        startedAtSec: Long,
         endedAtSec: Long,
+        gapSec: Long,
         limit: Int = 20
     ): Single<List<PostData>> {
         val streams = tags.map { tag ->
-            localDataSource.listPostByTag(tag, fromSec, endedAtSec, limit).flatMap { posts ->
-                if (posts.isEmpty()) {
-                    listRemotePostByTag(tag, fromSec, endedAtSec).andThen(
-                        localDataSource.listPostByTag(
+            localDataSource.listPostByTag(tag, startedAtSec, endedAtSec, limit).flatMap { posts ->
+                when {
+                    posts.isEmpty()                                  -> {
+                        syncPostsByTag(tag, startedAtSec, endedAtSec, limit)
+                    }
+                    posts.first().timestampSec + gapSec < endedAtSec -> {
+                        // missing posts due to the database cache
+                        val newStartedAt = posts.first().timestampSec
+                        syncPostsByTag(
                             tag,
-                            fromSec,
+                            newStartedAt,
                             endedAtSec,
                             limit
-                        )
-                    )
-                } else {
-                    Single.just(posts)
+                        ).ignoreRemoteError(posts)
+                    }
+                    else                                             -> Single.just(posts)
                 }
             }
         }
@@ -103,54 +146,106 @@ class UsageRepository(
                 collection.addAll(c)
             }
             collection.distinct()
-        }.flatMap { posts -> applyPresignedUrl(posts) }
+        }.flatMap { posts -> applyPresignedUrl(posts).ignoreRemoteError(posts) }
     }
 
-    private fun listRemotePostByTag(tag: String, startedAtSec: Long, endedAtSec: Long) =
+    private fun syncPostsByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int) =
         remoteDataSource.listPostByTag(tag, startedAtSec, endedAtSec)
-            .flatMapCompletable { p -> localDataSource.savePosts(p) }
+            .flatMap { posts ->
+                if (posts.isEmpty()) {
+                    Single.just(listOf())
+                } else {
+                    localDataSource.savePosts(posts).andThen(
+                        localDataSource.listPostByTag(
+                            tag,
+                            startedAtSec,
+                            endedAtSec,
+                            limit
+                        )
+                    )
+                }
+            }
 
     fun listPostByLocationNames(
         locationNames: List<String>,
-        fromSec: Long,
-        toSec: Long,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        gapSec: Long,
         limit: Int = 20
     ) =
-        localDataSource.listPostByLocations(locationNames, fromSec, toSec, limit).flatMap { posts ->
-            if (posts.isEmpty()) {
-                listRemotePostByLocationNames(
-                    locationNames,
-                    fromSec,
-                    toSec
-                ).andThen(localDataSource.listPostByLocations(locationNames, fromSec, toSec, limit))
-            } else {
-                Single.just(posts)
-            }
-        }.flatMap { posts -> applyPresignedUrl(posts) }
+        localDataSource.listPostByLocations(
+            locationNames,
+            startedAtSec,
+            endedAtSec,
+            limit
+        ).flatMap { posts ->
+            when {
+                posts.isEmpty()                                  -> {
+                    syncPostsByLocationNames(locationNames, startedAtSec, endedAtSec, limit)
+                }
+                posts.first().timestampSec + gapSec < endedAtSec -> {
+                    // missing posts due to the database cache
+                    val newStartedAt = posts.first().timestampSec
+                    syncPostsByLocationNames(
+                        locationNames,
+                        newStartedAt,
+                        endedAtSec,
+                        limit
+                    ).ignoreRemoteError(posts)
+                }
+                else                                             -> Single.just(posts)
 
-    private fun listRemotePostByLocationNames(
+            }
+        }.flatMap { posts -> applyPresignedUrl(posts).ignoreRemoteError(posts) }
+
+    private fun syncPostsByLocationNames(
         locationNames: List<String>,
         startedAtSec: Long,
-        endedAtSec: Long
-    ) = remoteDataSource.listPostByLocationNames(
+        endedAtSec: Long,
+        limit: Int
+    ): Single<List<PostData>> = remoteDataSource.listPostByLocationNames(
         locationNames,
         startedAtSec,
         endedAtSec
-    ).flatMapCompletable { p -> localDataSource.savePosts(p) }
+    ).flatMap { posts ->
+        if (posts.isEmpty()) {
+            Single.just(listOf())
+        } else {
+            localDataSource.savePosts(posts).andThen(
+                localDataSource.listPostByLocations(
+                    locationNames,
+                    startedAtSec,
+                    endedAtSec,
+                    limit
+                )
+            )
+        }
+    }
 
-    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listReaction(startedAtSec: Long, endedAtSec: Long, gapSec: Long, limit: Int = 20) =
         localDataSource.listReaction(startedAtSec, endedAtSec, limit).flatMap { reactions ->
-            if (reactions.isEmpty()) {
-                remoteDataSource.listReaction(startedAtSec, endedAtSec).flatMap { rs ->
-                    if (rs.isEmpty()) {
-                        Single.just(rs)
-                    } else {
-                        localDataSource.saveReactions(rs)
-                            .andThen(localDataSource.listReaction(startedAtSec, endedAtSec, limit))
-                    }
+            when {
+                reactions.isEmpty()                                  -> {
+                    syncReaction(startedAtSec, endedAtSec, limit)
                 }
+                reactions.first().timestampSec + gapSec < endedAtSec -> {
+                    // missing reactions due to the database cache
+                    val newStartedAtSec = reactions.first().timestampSec
+                    syncReaction(newStartedAtSec, endedAtSec, limit).ignoreRemoteError(reactions)
+                }
+                else                                                 -> {
+                    Single.just(reactions)
+                }
+            }
+        }
+
+    private fun syncReaction(startedAtSec: Long, endedAtSec: Long, limit: Int) =
+        remoteDataSource.listReaction(startedAtSec, endedAtSec).flatMap { rs ->
+            if (rs.isEmpty()) {
+                Single.just(rs)
             } else {
-                Single.just(reactions)
+                localDataSource.saveReactions(rs)
+                    .andThen(localDataSource.listReaction(startedAtSec, endedAtSec, limit))
             }
         }
 
@@ -181,6 +276,7 @@ class UsageRepository(
         reaction: Reaction,
         startedAtSec: Long,
         endedAtSec: Long,
+        gapSec: Long,
         limit: Int = 20
     ) =
         localDataSource.listReactionByType(
@@ -189,26 +285,47 @@ class UsageRepository(
             endedAtSec,
             limit
         ).flatMap { reactions ->
-            if (reactions.isEmpty()) {
-                remoteDataSource.listReactionByType(reaction, startedAtSec, endedAtSec)
-                    .flatMap { rs ->
-                        if (rs.isEmpty()) {
-                            Single.just(rs)
-                        } else {
-                            localDataSource.saveReactions(rs)
-                                .andThen(
-                                    localDataSource.listReactionByType(
-                                        reaction,
-                                        startedAtSec,
-                                        endedAtSec,
-                                        limit
-                                    )
-                                )
-                        }
-                    }
-            } else {
-                Single.just(reactions)
+            when {
+                reactions.isEmpty()                                  -> {
+                    syncReactionByType(reaction, startedAtSec, endedAtSec, limit)
+                }
+                reactions.first().timestampSec + gapSec < endedAtSec -> {
+                    // missing reactions due to the database cache
+                    val newStartedAtSec = reactions.first().timestampSec
+                    syncReactionByType(
+                        reaction,
+                        newStartedAtSec,
+                        endedAtSec,
+                        limit
+                    ).ignoreRemoteError(reactions)
+                }
+                else                                                 -> {
+                    Single.just(reactions)
+                }
             }
         }
+
+    private fun syncReactionByType(
+        reaction: Reaction,
+        startedAtSec: Long,
+        endedAtSec: Long,
+        limit: Int
+    ) =
+        remoteDataSource.listReactionByType(reaction, startedAtSec, endedAtSec)
+            .flatMap { rs ->
+                if (rs.isEmpty()) {
+                    Single.just(rs)
+                } else {
+                    localDataSource.saveReactions(rs)
+                        .andThen(
+                            localDataSource.listReactionByType(
+                                reaction,
+                                startedAtSec,
+                                endedAtSec,
+                                limit
+                            )
+                        )
+                }
+            }
 
 }

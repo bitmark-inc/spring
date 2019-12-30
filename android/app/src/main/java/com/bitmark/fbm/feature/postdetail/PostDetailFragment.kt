@@ -15,10 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
-import com.bitmark.fbm.data.model.entity.GroupName
-import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.model.entity.fromString
-import com.bitmark.fbm.data.model.entity.value
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
@@ -105,6 +102,8 @@ class PostDetailFragment : BaseSupportFragment() {
 
     private val handler = Handler()
 
+    private lateinit var period: Period
+
     private val itemClickListener = object : OnItemClickListener {
         override fun onVideoPlayClicked(url: String) {
             navigator.openVideoPlayer(url) { e ->
@@ -129,9 +128,9 @@ class PostDetailFragment : BaseSupportFragment() {
         handler.postDelayed({
             val periodRange = chartItem.periodRange
             if (periodRange != null) {
-                listPost(chartItem, periodRange.first / 1000, periodRange.last / 1000)
+                listPost(chartItem, periodRange.first / 1000, periodRange.last / 1000, period)
             } else {
-                listPost(chartItem, startedAtSec, endedAtSec)
+                listPost(chartItem, startedAtSec, endedAtSec, period)
             }
         }, 250)
     }
@@ -140,7 +139,7 @@ class PostDetailFragment : BaseSupportFragment() {
         super.initComponents()
 
         val title = arguments?.getString(TITLE) ?: error("missing TITLE")
-        val period = arguments?.getString(PERIOD) ?: error("missing PERIOD")
+        period = Period.fromString(arguments?.getString(PERIOD) ?: error("missing PERIOD"))
         val periodDetail = arguments?.getString(PERIOD_DETAIL) ?: error("missing PERIOD_DETAIL")
         val subTitle = arguments?.getString(SUB_TITLE)
         startedAtSec = arguments?.getLong(STARTED_AT_SEC) ?: error("missing STARTED_AT_SEC")
@@ -157,9 +156,9 @@ class PostDetailFragment : BaseSupportFragment() {
         endlessScrollListener = object : EndlessScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 if (chartItem.periodRange != null) {
-                    listPost(chartItem, chartItem.periodRange!!.first / 1000)
+                    listPost(chartItem, chartItem.periodRange!!.first / 1000, period = period)
                 } else {
-                    listPost(chartItem, startedAtSec)
+                    listPost(chartItem, startedAtSec, period = period)
                 }
             }
         }
@@ -169,7 +168,7 @@ class PostDetailFragment : BaseSupportFragment() {
             ContextCompat.getDrawable(context!!, R.drawable.double_divider_white)
         if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
         rv.addItemDecoration(itemDecoration)
-        adapter = PostDetailRecyclerViewAdapter(Period.fromString(period))
+        adapter = PostDetailRecyclerViewAdapter(period)
         adapter.setItemClickListener(itemClickListener)
         rv.adapter = adapter
 
@@ -210,42 +209,46 @@ class PostDetailFragment : BaseSupportFragment() {
     private fun listPost(
         chartItem: GroupView.ChartItem,
         startedAtSec: Long,
-        endedAtSec: Long? = null
+        endedAtSec: Long? = null,
+        period: Period
     ) {
+        val range = period.toSubPeriodRange(startedAtSec)
+        val gap = (range.last - range.first) / 1000
+
         when (chartItem.groupName) {
             GroupName.TYPE       -> {
                 val postType = chartItem.getPostType()!!
                 if (endedAtSec != null) {
-                    viewModel.listPostByType(postType, startedAtSec, endedAtSec)
+                    viewModel.listPostByType(postType, startedAtSec, endedAtSec, gap)
                 } else {
-                    viewModel.listNextPostByType(postType, startedAtSec)
+                    viewModel.listNextPostByType(postType, startedAtSec, gap)
                 }
 
             }
 
             GroupName.SUB_PERIOD -> {
                 if (endedAtSec != null) {
-                    viewModel.listPost(startedAtSec, endedAtSec)
+                    viewModel.listPost(startedAtSec, endedAtSec, gap)
                 } else {
-                    viewModel.listNextPost(startedAtSec)
+                    viewModel.listNextPost(startedAtSec, gap)
                 }
             }
 
             GroupName.FRIEND     -> {
                 val tags = chartItem.aggregateVals ?: listOf(chartItem.entryVal)
                 if (endedAtSec != null) {
-                    viewModel.listPostByTags(tags, startedAtSec, endedAtSec)
+                    viewModel.listPostByTags(tags, startedAtSec, endedAtSec, gap)
                 } else {
-                    viewModel.listNextPostByTags(tags, startedAtSec)
+                    viewModel.listNextPostByTags(tags, startedAtSec, gap)
                 }
             }
 
             GroupName.PLACE      -> {
                 val places = chartItem.aggregateVals ?: listOf(chartItem.entryVal)
                 if (endedAtSec != null) {
-                    viewModel.listPostByLocations(places, startedAtSec, endedAtSec)
+                    viewModel.listPostByLocations(places, startedAtSec, endedAtSec, gap)
                 } else {
-                    viewModel.listNextPostByLocations(places, startedAtSec)
+                    viewModel.listNextPostByLocations(places, startedAtSec, gap)
                 }
             }
             else                 -> error("unsupported group name ${chartItem.groupName.value}")

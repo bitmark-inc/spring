@@ -15,10 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
-import com.bitmark.fbm.data.model.entity.GroupName
-import com.bitmark.fbm.data.model.entity.Period
-import com.bitmark.fbm.data.model.entity.fromString
-import com.bitmark.fbm.data.model.entity.value
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
@@ -90,6 +87,8 @@ class ReactionDetailFragment : BaseSupportFragment() {
 
     private val handler = Handler()
 
+    private lateinit var period: Period
+
     override fun layoutRes(): Int = R.layout.fragment_usage_detail
 
     override fun viewModel(): BaseViewModel? = viewModel
@@ -111,7 +110,7 @@ class ReactionDetailFragment : BaseSupportFragment() {
         super.initComponents()
 
         val title = arguments?.getString(TITLE) ?: error("missing TITLE")
-        val period = arguments?.getString(PERIOD) ?: error("missing PERIOD")
+        period = Period.fromString(arguments?.getString(PERIOD) ?: error("missing PERIOD"))
         val periodDetail = arguments?.getString(PERIOD_DETAIL) ?: error("missing PERIOD_DETAIL")
         val subTitle = arguments?.getString(SUB_TITLE)
         startedAtSec = arguments?.getLong(STARTED_AT_SEC) ?: error("missing STARTED_AT_SEC")
@@ -140,7 +139,7 @@ class ReactionDetailFragment : BaseSupportFragment() {
             ContextCompat.getDrawable(context!!, R.drawable.double_divider_white)
         if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
         rv.addItemDecoration(itemDecoration)
-        adapter = ReactionRecyclerViewAdapter(Period.fromString(period))
+        adapter = ReactionRecyclerViewAdapter(period)
         rv.adapter = adapter
 
         ivBack.setOnClickListener {
@@ -160,21 +159,23 @@ class ReactionDetailFragment : BaseSupportFragment() {
         startedAtSec: Long,
         endedAtSec: Long? = null
     ) {
+        val range = period.toSubPeriodRange(startedAtSec)
+        val gap = (range.last - range.first) / 1000
         when (chartItem.groupName) {
             GroupName.TYPE       -> {
                 val reaction = chartItem.getReaction()!!
                 if (endedAtSec != null) {
-                    viewModel.listReactionByType(reaction, startedAtSec, endedAtSec)
+                    viewModel.listReactionByType(reaction, startedAtSec, endedAtSec, gap)
                 } else {
-                    viewModel.listNextReactionByType(reaction, startedAtSec)
+                    viewModel.listNextReactionByType(reaction, startedAtSec, gap)
                 }
             }
 
             GroupName.SUB_PERIOD -> {
                 if (endedAtSec != null) {
-                    viewModel.listReaction(startedAtSec, endedAtSec)
+                    viewModel.listReaction(startedAtSec, endedAtSec, gap)
                 } else {
-                    viewModel.listNextReaction(startedAtSec)
+                    viewModel.listNextReaction(startedAtSec, gap)
                 }
             }
 

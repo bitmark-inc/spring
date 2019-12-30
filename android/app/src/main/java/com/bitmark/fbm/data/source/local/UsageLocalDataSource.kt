@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source.local
 
+import com.bitmark.fbm.data.model.PostData
 import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
@@ -41,7 +42,7 @@ class UsageLocalDataSource @Inject constructor(
         startedAtSec: Long,
         endedAtSec: Long,
         limit: Int = 20
-    ) =
+    ): Single<List<PostData>> =
         listLocationIdByNames(locationNames).flatMap { ids ->
             if (ids.isEmpty()) {
                 Single.just(listOf())

@@ -6,13 +6,11 @@
  */
 package com.bitmark.fbm.data.source.remote
 
-import com.bitmark.fbm.data.model.entity.PostType
-import com.bitmark.fbm.data.model.entity.Reaction
-import com.bitmark.fbm.data.model.entity.applyRequiredValues
-import com.bitmark.fbm.data.model.entity.canonical
+import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -43,7 +41,7 @@ class UsageRemoteDataSource @Inject constructor(
         locationNames: List<String>,
         startedAtSec: Long,
         endedAtSec: Long
-    ) = listRemotePost(
+    ): Single<List<PostR>> = listRemotePost(
         startedAtSec,
         endedAtSec
     ).map { posts -> posts.filter { p -> p.location != null && locationNames.contains(p.location!!.name) } }
