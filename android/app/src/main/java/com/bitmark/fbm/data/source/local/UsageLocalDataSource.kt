@@ -93,7 +93,12 @@ class UsageLocalDataSource @Inject constructor(
 
     fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
         databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.reactionDao().listOrdered(startedAtSec, endedAtSec, limit)
+            databaseGateway.reactionDao().listOrderedExcept(
+                arrayOf(Reaction.DOROTHY, Reaction.TOTO),
+                startedAtSec,
+                endedAtSec,
+                limit
+            )
         }
 
     fun listReactionByType(

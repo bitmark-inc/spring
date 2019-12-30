@@ -204,6 +204,11 @@ class StatisticFragment : BaseSupportFragment() {
                         Event.LOAD_STATISTIC_ERROR,
                         res.throwable()?.message ?: "unknown"
                     )
+                    adapter.clear()
+                    dialogController.alert(
+                        R.string.error,
+                        R.string.there_was_error_when_loading_statistic
+                    )
                     blocked = false
                 }
 

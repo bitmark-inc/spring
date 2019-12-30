@@ -10,6 +10,7 @@ import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.Reaction
 import com.bitmark.fbm.data.model.entity.ReactionR
 import com.bitmark.fbm.data.model.entity.timestamp
+import com.bitmark.fbm.data.model.entity.value
 
 
 data class ReactionModelView(
@@ -33,4 +34,5 @@ fun ReactionModelView.getDrawRes() = when (reaction) {
     Reaction.WOW   -> R.drawable.ic_wow
     Reaction.SAD   -> R.drawable.ic_sad
     Reaction.ANGRY -> R.drawable.ic_angry
+    else -> error("unsupported reaction ${reaction.value}")
 }

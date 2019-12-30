@@ -75,7 +75,15 @@ enum class Reaction {
 
     @Expose
     @SerializedName("ANGER")
-    ANGRY;
+    ANGRY,
+
+    @Expose
+    @SerializedName("DOROTHY")
+    DOROTHY,
+
+    @Expose
+    @SerializedName("TOTO")
+    TOTO;
 
     companion object
 }
@@ -84,22 +92,29 @@ fun Reaction.Companion.indexOf(reaction: String) = Reaction.fromString(reaction)
 
 fun Reaction.Companion.fromIndex(index: Int) = Reaction.values()[index]
 
+val Reaction.Companion.UNSUPPORTED_TYPE: Array<Reaction>
+    get() = arrayOf(Reaction.DOROTHY, Reaction.TOTO)
+
 val Reaction.value: String
     get() = when (this) {
-        Reaction.LIKE  -> "LIKE"
-        Reaction.LOVE  -> "LOVE"
-        Reaction.HAHA  -> "HAHA"
-        Reaction.WOW   -> "WOW"
-        Reaction.SAD   -> "SORRY"
-        Reaction.ANGRY -> "ANGER"
+        Reaction.LIKE    -> "LIKE"
+        Reaction.LOVE    -> "LOVE"
+        Reaction.HAHA    -> "HAHA"
+        Reaction.WOW     -> "WOW"
+        Reaction.SAD     -> "SORRY"
+        Reaction.ANGRY   -> "ANGER"
+        Reaction.DOROTHY -> "DOROTHY"
+        Reaction.TOTO    -> "TOTO"
     }
 
 fun Reaction.Companion.fromString(reaction: String) = when (reaction) {
-    "LIKE"  -> Reaction.LIKE
-    "LOVE"  -> Reaction.LOVE
-    "HAHA"  -> Reaction.HAHA
-    "WOW"   -> Reaction.WOW
-    "SORRY" -> Reaction.SAD
-    "ANGER" -> Reaction.ANGRY
-    else    -> error("invalid reaction string: $reaction")
+    "LIKE"    -> Reaction.LIKE
+    "LOVE"    -> Reaction.LOVE
+    "HAHA"    -> Reaction.HAHA
+    "WOW"     -> Reaction.WOW
+    "SORRY"   -> Reaction.SAD
+    "ANGER"   -> Reaction.ANGRY
+    "TOTO"    -> Reaction.TOTO
+    "DOROTHY" -> Reaction.DOROTHY
+    else      -> error("invalid reaction string: $reaction")
 }

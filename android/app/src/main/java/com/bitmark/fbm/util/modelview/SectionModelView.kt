@@ -47,7 +47,11 @@ data class SectionModelView(
                         else                 -> error("unsupported section")
                     }
 
-                    val data = types.data
+                    var data = types.data
+                    if (sectionName == SectionName.REACTION) {
+                        data =
+                            data.filterNot { d -> Reaction.fromString(d.key) in Reaction.UNSUPPORTED_TYPE }
+                    }
                     val entries = (0 until typesCount).map { i ->
                         val xVal = when (sectionName) {
                             SectionName.POST     -> PostType.fromIndex(i).value
@@ -108,6 +112,14 @@ data class SectionModelView(
                     val groupName = GroupName.fromString(gEntry.key)
                     if (groupName == GroupName.TYPE || groupName == GroupName.AREA) continue
                     var groupEntities = sectionR.getArrayGroup<GroupEntity>(groupName)
+                    if (sectionName == SectionName.REACTION) {
+                        // filter out unsupported reactions
+                        groupEntities = groupEntities.map { grs ->
+                            GroupEntity(grs.name, grs.data.filterNot { d ->
+                                Reaction.fromString(d.key) in Reaction.UNSUPPORTED_TYPE
+                            })
+                        }
+                    }
                     if (groupEntities.isEmpty()) continue
                     if (groupName != GroupName.SUB_PERIOD) {
                         groupEntities =

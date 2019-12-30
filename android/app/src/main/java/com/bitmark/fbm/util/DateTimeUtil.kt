@@ -132,7 +132,7 @@ class DateTimeUtil {
         fun getStartOfLastWeekMillis(timezone: String = "UTC"): Long {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone(timezone))
             calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-            calendar.set(Calendar.WEEK_OF_YEAR, calendar.get(Calendar.WEEK_OF_YEAR) - 1)
+            calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 7)
             val startOfSunday = getStartOfDate(calendar)
             return startOfSunday.timeInMillis
         }

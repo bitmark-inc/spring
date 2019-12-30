@@ -31,6 +31,14 @@ abstract class ReactionDao {
         limit: Int
     ): Single<List<ReactionR>>
 
+    @Query("SELECT * FROM Reaction WHERE reaction NOT IN (:exceptTypes) AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
+    abstract fun listOrderedExcept(
+        exceptTypes: Array<Reaction>,
+        startedAt: Long,
+        endedAt: Long,
+        limit: Int
+    ): Single<List<ReactionR>>
+
     @Query("SELECT * FROM Reaction WHERE reaction = :reaction AND timestamp BETWEEN :startedAt AND :endedAt ORDER BY timestamp DESC LIMIT :limit")
     abstract fun listOrderedByType(
         reaction: Reaction,
