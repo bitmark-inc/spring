@@ -7,6 +7,7 @@
 package com.bitmark.fbm.feature.statistic
 
 import androidx.lifecycle.Lifecycle
+import com.bitmark.fbm.data.ext.ignoreNetworkError
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.data.source.StatisticRepository
@@ -33,29 +34,36 @@ class StatisticViewModel(
             statisticRepo.listUsage(period, periodStartedAtSec)
         } else {
             statisticRepo.listInsights(period, periodStartedAtSec)
-        }.observeOn(Schedulers.computation()).map { sections ->
-            val defaultVMs = newDefaultSectionMVs(type, period).toMutableList()
-            when {
-                sections.isEmpty() -> defaultVMs
-                sections.size == defaultVMs.size -> {
-                    sections.map { s ->
-                        SectionModelView.newInstance(
-                            s,
-                            Random().nextInt(100)
-                        )
+        }.ignoreNetworkError(listOf()).observeOn(Schedulers.computation())
+            .map { sections ->
+                val defaultVMs = newDefaultSectionMVs(type, period).toMutableList()
+                when {
+                    sections.isEmpty()               -> defaultVMs
+                    sections.size == defaultVMs.size -> {
+                        sections.map { s ->
+                            SectionModelView.newInstance(
+                                s,
+                                Random().nextInt(100)
+                            )
+                        }
                     }
-                }
-                else -> {
-                    val vms =
-                        sections.map { s -> SectionModelView.newInstance(s, Random().nextInt(100)) }
-                    for (i in 0 until defaultVMs.size) {
-                        val vm = vms.firstOrNull { v -> v.name == defaultVMs[i].name } ?: continue
-                        defaultVMs.replace(vm, i)
+                    else                             -> {
+                        val vms =
+                            sections.map { s ->
+                                SectionModelView.newInstance(
+                                    s,
+                                    Random().nextInt(100)
+                                )
+                            }
+                        for (i in 0 until defaultVMs.size) {
+                            val vm =
+                                vms.firstOrNull { v -> v.name == defaultVMs[i].name } ?: continue
+                            defaultVMs.replace(vm, i)
+                        }
+                        defaultVMs
                     }
-                    defaultVMs
                 }
             }
-        }
         getStatisticLiveData.add(
             rxLiveDataTransformer.single(
                 stream
