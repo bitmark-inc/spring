@@ -192,12 +192,12 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
 
                 ivSentiment.setImageResource(
                     when (value) {
-                        1f, 2f  -> R.drawable.ic_anger_bw
-                        3f, 4f  -> R.drawable.ic_sad_bw
-                        5f, 6f  -> R.drawable.ic_no_feeling_bw
-                        7f, 8f  -> R.drawable.ic_smile_bw
-                        9f, 10f -> R.drawable.ic_happy_bw
-                        else    -> R.drawable.ic_wow_bw
+                        1f          -> R.drawable.ic_cry_bw
+                        2f, 3f      -> R.drawable.ic_sad_bw
+                        4f, 5f      -> R.drawable.ic_no_feeling_bw
+                        6f, 7f      -> R.drawable.ic_smile_bw
+                        8f, 9f, 10f -> R.drawable.ic_happy_bw
+                        else        -> R.drawable.ic_wow_bw
                     }
                 )
 
