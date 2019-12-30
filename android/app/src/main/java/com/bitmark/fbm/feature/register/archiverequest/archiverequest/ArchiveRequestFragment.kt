@@ -96,6 +96,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     private var blocked = false
 
+    // flag to determine already sent archive download request
+    private var registered = false
+
     private lateinit var executor: ExecutorService
 
     private val handler = Handler()
@@ -168,7 +171,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         wv.setDownloadListener { urlString, _, _, _, _ ->
             try {
                 val host = URL(urlString).host
-                if (host == ARCHIVE_DOWNLOAD_HOST) {
+                if (host == ARCHIVE_DOWNLOAD_HOST && !blocked) {
                     val cookie = CookieManager.getInstance().getCookie(urlString)
                     downloadArchiveCredential = DownloadArchiveCredential(
                         urlString,
@@ -554,6 +557,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         viewModel.registerAccountLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
+                    registered = true
                     progressBar.gone()
                     val bundle =
                         DataProcessingActivity.getBundle(
@@ -688,6 +692,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             when {
                 res.isSuccess() -> {
                     val account = res.data()!!
+                    if(registered) return@Observer
                     registerAccount(downloadArchiveCredential, account)
                 }
 
