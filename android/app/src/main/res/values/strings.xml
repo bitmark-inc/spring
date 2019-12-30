@@ -46,8 +46,8 @@
     <string name="faq_arrow">FAQ »</string>
     <string name="contact_arrow">Contact »</string>
     <string name="unlink_account">Unlink Account</string>
+    <string name="unlink_account_arrow">Unlink Account »</string>
     <string name="if_you_unlink_your_account">If you unlink your account, you will be completely logged out on this device and will need to enter your 12-word recovery key to regain access and relink your account to this device. \n\nTo make ensure that you will not completely lose access to your account, you will next be asked to enter your 12-word recovery key before unlinking your account. If you haven’t already written down your recovery key, please do so now.</string>
-    <string name="continue_lower_case">Continue</string>
     <string name="enter_your_12_words">Enter your 12-word recovery key above.</string>
     <string name="biometric_auth">Biometric</string>
     <string name="enable_biometric_authentication">Enable Biometric Authentication to secure your Spring data and account:</string>
@@ -56,7 +56,7 @@
     <string name="app_will_use_biometric">Spring will use Biometric Authentication to secure your account and data.</string>
     <string name="recovery_key">Recovery Key</string>
     <string name="your_recovery_key_allow_you">Your recovery key allows you to fully recover your Spring account even if your device is lost or damaged. It is the only way to recover your account (Spring does not have access to your recovery key or store it anywhere for you). \n\nPlease make sure you are in a safe location then write down your recovery key on a piece of paper and keep it safe.</string>
-    <string name="write_down_recovery_key">Write Down Recovery Key</string>
+    <string name="write_down_recovery_key_arrow">Write Down Recovery Key »</string>
     <string name="write_down_the_following_word">Write down the following words in order:</string>
     <string name="about">About</string>
     <string name="faq">FAQ</string>

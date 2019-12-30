@@ -6,6 +6,9 @@
  */
 package com.bitmark.fbm.feature.unlink.unlink
 
+import android.text.InputType
+import android.view.inputmethod.EditorInfo
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import com.bitmark.cryptography.error.ValidateException
 import com.bitmark.fbm.R
@@ -18,10 +21,7 @@ import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.splash.SplashActivity
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
-import com.bitmark.fbm.util.ext.createSnackbar
-import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import com.bitmark.fbm.util.ext.showKeyBoard
-import com.bitmark.fbm.util.ext.unexpectedAlert
+import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.features.Account
 import kotlinx.android.synthetic.main.fragment_unlink.*
 import javax.inject.Inject
@@ -54,24 +54,45 @@ class UnlinkFragment : BaseSupportFragment() {
     override fun initComponents() {
         super.initComponents()
 
+        etPhrase.imeOptions = EditorInfo.IME_ACTION_DONE
+        etPhrase.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        etPhrase.requestFocus()
+        activity?.showKeyBoard()
+
         btnUnlink.setSafetyOnclickListener {
             if (blocked) return@setSafetyOnclickListener
             try {
                 val recoveryKey = etPhrase.text.toString().trim().split(" ").toTypedArray()
                 Account.fromRecoveryPhrase(*recoveryKey)
+                showKeyEnteringResult(true)
                 viewModel.deleteData()
             } catch (e: ValidateException) {
-                // TODO change text later
-                dialogController.alert("Error", "Invalid recovery key")
+                showKeyEnteringResult(false)
             }
         }
 
-        etPhrase.requestFocus()
-        activity?.showKeyBoard()
+        etPhrase.doOnTextChanged { text, _, _, _ ->
+            val phrase = text?.trim()?.split(" ")
+            if (phrase != null && phrase.size == 12) {
+                etPhrase.setTextColor(context!!.getColor(R.color.international_klein_blue))
+            } else {
+                etPhrase.setTextColor(context!!.getColor(R.color.tundora))
+            }
+        }
 
         ivBack.setOnClickListener {
             if (blocked) return@setOnClickListener
             navigator.anim(RIGHT_LEFT).finishActivity()
+        }
+    }
+
+    private fun showKeyEnteringResult(valid: Boolean) {
+        if (valid) {
+            tvWrongKey.gone()
+            tvPlsRecheck.gone()
+        } else {
+            tvWrongKey.visible()
+            tvPlsRecheck.visible()
         }
     }
 
