@@ -28,15 +28,15 @@ extension Reactive where Base: UsageDataEngine {
 
                 let realm = try RealmConfig.currentRealm()
 
-                let postUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .posts).makeID()
-                let reactionUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .reactions).makeID()
+                let postUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .post).makeID()
+                let reactionUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .reaction).makeID()
 
                 if let postUsage = realm.object(ofType: Usage.self, forPrimaryKey: postUsageID),
                    let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID) {
 
                     event(.success([
-                        .posts: postUsage,
-                        .reactions: reactionUsage
+                        .post: postUsage,
+                        .reaction: reactionUsage
                     ]))
 
                     _ = UsageService.get(in: timeUnit, startDate: startDate)
@@ -56,8 +56,8 @@ extension Reactive where Base: UsageDataEngine {
                             let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID)
 
                             event(.success([
-                                .posts: postUsage,
-                                .reactions: reactionUsage
+                                .post: postUsage,
+                                .reaction: reactionUsage
                             ]))
                         }, onError: { (error) in
                             event(.error(error))

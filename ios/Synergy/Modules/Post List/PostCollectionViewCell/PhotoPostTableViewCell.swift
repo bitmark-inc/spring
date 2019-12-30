@@ -21,7 +21,7 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
         return UIScreen.main.bounds.width - (OurTheme.postCellPadding.left + OurTheme.postCellPadding.right)
     }()
     var post: Post?
-    weak var clickableTextDelegate: ClickableTextDelegate?
+    weak var clickableDelegate: ClickableDelegate?
 
     // MARK: - Inits
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -105,7 +105,7 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
 extension PhotoPostTableViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
-        clickableTextDelegate?.click(textView, url: URL)
+        clickableDelegate?.click(textView, url: URL)
         return false
     }
 }

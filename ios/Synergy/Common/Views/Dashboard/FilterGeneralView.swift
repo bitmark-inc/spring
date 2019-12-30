@@ -19,7 +19,7 @@ class FilterGeneralView: UIView {
     let chartView = HorizontalBarChartView()
     let fixedBarHeight: CGFloat = 4
 
-    var section: Section = .posts
+    var section: Section = .post
     var groupKey: GroupKey = .friend
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
     weak var navigatorDelegate: NavigatorDelegate?
@@ -92,7 +92,7 @@ class FilterGeneralView: UIView {
         }
 
         switch section {
-        case .posts:
+        case .post:
             container.thisViewModel.realmPostUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self else { return }
@@ -108,7 +108,7 @@ class FilterGeneralView: UIView {
 
                                 return GraphDataConverter.getDataGroupByNameValue(
                                     with: graphDatas,
-                                    in: .posts)
+                                    in: .post)
                         }
                         .subscribe(onNext: { [weak self] (data) in
                             self?.fillData(with: data)
@@ -120,7 +120,7 @@ class FilterGeneralView: UIView {
                 })
                 .disposed(by: disposeBag)
 
-        case .reactions:
+        case .reaction:
             container.thisViewModel.realmReactionUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self else { return }
@@ -136,7 +136,7 @@ class FilterGeneralView: UIView {
 
                                 return GraphDataConverter.getDataGroupByNameValue(
                                     with: graphDatas,
-                                    in: .posts)
+                                    in: .post)
                         }
                         .subscribe(onNext: { [weak self] (data) in
                             self?.fillData(with: data)
@@ -164,9 +164,9 @@ class FilterGeneralView: UIView {
 
             let barChartDataSet = BarChartDataSet(entries: entries)
             switch section {
-            case .posts:
+            case .post:
                 barChartDataSet.colors = PostType.barChartColors
-            case .reactions:
+            case .reaction:
                 barChartDataSet.colors = ReactionType.barChartColors
             default:
                 break
@@ -209,7 +209,7 @@ extension FilterGeneralView: ChartViewDelegate {
         guard let selectedValue = entry.data else { return }
 
         switch section {
-        case .posts:
+        case .post:
             navigatorDelegate?.goToPostListScreen(filterBy: groupKey, filterValue: selectedValue)
         default:
             return

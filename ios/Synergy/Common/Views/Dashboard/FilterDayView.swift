@@ -19,7 +19,7 @@ class FilterDayView: UIView {
     var chartView = BarChartView()
     let fixedBarWidth: CGFloat = 8
 
-    var section: Section = .posts
+    var section: Section = .post
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
     weak var navigatorDelegate: NavigatorDelegate?
     var dataObserver: Disposable? // stop observing old-data
@@ -78,7 +78,7 @@ class FilterDayView: UIView {
             .disposed(by: disposeBag)
 
         switch section {
-        case .posts:
+        case .post:
             container.thisViewModel.realmPostUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self else { return }
@@ -96,7 +96,7 @@ class FilterDayView: UIView {
                                     with: graphDatas,
                                     timeUnit: container.thisViewModel.timeUnitRelay.value,
                                     startDate: container.thisViewModel.dateRelay.value,
-                                    in: .posts)
+                                    in: .post)
                         }
                         .subscribe(onNext: { [weak self] (data) in
                             self?.fillData(with: data)
@@ -108,7 +108,7 @@ class FilterDayView: UIView {
                 })
                 .disposed(by: disposeBag)
 
-        case .reactions:
+        case .reaction:
             container.thisViewModel.realmReactionUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self else { return }
@@ -126,7 +126,7 @@ class FilterDayView: UIView {
                                     with: graphDatas,
                                     timeUnit: container.thisViewModel.timeUnitRelay.value,
                                     startDate: container.thisViewModel.dateRelay.value,
-                                    in: .reactions)
+                                    in: .reaction)
                         }
                         .subscribe(onNext: { [weak self] (data) in
                             self?.fillData(with: data)
@@ -157,9 +157,9 @@ class FilterDayView: UIView {
 
             let barChartDataSet = BarChartDataSet(entries: entries)
             switch section {
-            case .posts:
+            case .post:
                 barChartDataSet.colors = PostType.barChartColors
-            case .reactions:
+            case .reaction:
                 barChartDataSet.colors = ReactionType.barChartColors
             default:
                 break
@@ -210,9 +210,9 @@ extension FilterDayView: ChartViewDelegate {
         guard let selectedDate = entry.data else { return }
 
         switch section {
-        case .posts:
+        case .post:
             navigatorDelegate?.goToPostListScreen(filterBy: .day, filterValue: selectedDate)
-        case .reactions:
+        case .reaction:
             navigatorDelegate?.goToReactionListScreen(filterBy: .day, filterValue: selectedDate)
         default:
             return

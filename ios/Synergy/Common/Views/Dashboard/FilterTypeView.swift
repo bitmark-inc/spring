@@ -20,7 +20,7 @@ class FilterTypeView: UIView {
     private let fixedBarHeight: CGFloat = 4
     private lazy var noActivityView = makeNoActivityView()
 
-    var section: Section = .posts
+    var section: Section = .post
     weak var navigatorDelegate: NavigatorDelegate?
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
     var dataObserver: Disposable? // stop observing old-data
@@ -90,7 +90,7 @@ class FilterTypeView: UIView {
         self.section = section
 
         switch section {
-        case .posts:
+        case .post:
             container.thisViewModel.realmPostUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self else { return }
@@ -98,7 +98,7 @@ class FilterTypeView: UIView {
                         self.dataObserver?.dispose()
                         self.dataObserver = container.groupsPostUsageObservable
                             .map { $0.type }
-                            .map { GraphDataConverter.getDataGroupByType(with: $0, in: .posts) }
+                            .map { GraphDataConverter.getDataGroupByType(with: $0, in: .post) }
                             .subscribe(onNext: { [weak self] (data) in
                                 self?.fillData(with: data)
                             })
@@ -109,7 +109,7 @@ class FilterTypeView: UIView {
                 })
                 .disposed(by: disposeBag)
 
-        case .reactions:
+        case .reaction:
             container.thisViewModel.realmReactionUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self else { return }
@@ -117,7 +117,7 @@ class FilterTypeView: UIView {
                         self.dataObserver?.dispose()
                         self.dataObserver = container.groupsReactionUsageObservable
                             .map { $0.type }
-                            .map { GraphDataConverter.getDataGroupByType(with: $0, in: .reactions) }
+                            .map { GraphDataConverter.getDataGroupByType(with: $0, in: .reaction) }
                             .subscribe(onNext: { [weak self] (data) in
                                 self?.fillData(with: data)
                             })
@@ -146,9 +146,9 @@ class FilterTypeView: UIView {
             let barChartDataSet = BarChartDataSet(entries: entries)
 
             switch section {
-            case .posts:
+            case .post:
                 barChartDataSet.colors = PostType.barChartColors.reversed()
-            case .reactions:
+            case .reaction:
                 barChartDataSet.colors = ReactionType.barChartColors.reversed()
             default:
                 break
@@ -185,10 +185,10 @@ extension FilterTypeView: ChartViewDelegate {
 
         guard let typeKey = entry.data as? String else { return }
         switch section {
-        case .posts:
+        case .post:
             guard let type = PostType(rawValue: typeKey) else { return }
             navigatorDelegate?.goToPostListScreen(filterBy: .type, filterValue: type)
-        case .reactions:
+        case .reaction:
             guard let type = ReactionType(rawValue: typeKey) else { return }
             navigatorDelegate?.goToReactionListScreen(filterBy: .type, filterValue: type)
         default:

@@ -71,11 +71,11 @@ class UsageBadgeView: UIView {
                     postUsageObserver = container.postUsageObservable
                         .map { $0.diffFromPrevious }
                         .subscribe(onNext: { (postBadge) in
-                            self.fillData(with: (badge: postBadge, section: .posts))
+                            self.fillData(with: (badge: postBadge, section: .post))
                         })
                 } else {
                     postUsageObserver?.dispose()
-                    self.fillData(with: (badge: nil, section: .posts))
+                    self.fillData(with: (badge: nil, section: .post))
                 }
             })
             .disposed(by: disposeBag)
@@ -88,11 +88,11 @@ class UsageBadgeView: UIView {
                     reactionUsageObserver = container.reactionUsageObservable
                         .map { $0.diffFromPrevious }
                         .subscribe(onNext: { (reactionBadge) in
-                            self.fillData(with: (badge: reactionBadge, section: .reactions))
+                            self.fillData(with: (badge: reactionBadge, section: .reaction))
                         })
                 } else {
                     postUsageObserver?.dispose()
-                    self.fillData(with: (badge: nil, section: .reactions))
+                    self.fillData(with: (badge: nil, section: .reaction))
                 }
             })
             .disposed(by: disposeBag)
@@ -101,12 +101,12 @@ class UsageBadgeView: UIView {
     func fillData(with data: (badge: Double?, section: Section)) {
         let badge = data.badge
         switch data.section {
-        case .posts:
+        case .post:
             postDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             postDataBadgeView.percentageLabel.text = precentageText(with: badge)
             updateLayout(for: postDataBadgeView, with: badge)
 
-        case .reactions:
+        case .reaction:
             reactionsDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             reactionsDataBadgeView.percentageLabel.text = precentageText(with: badge)
             updateLayout(for: reactionsDataBadgeView, with: badge)

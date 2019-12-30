@@ -139,7 +139,7 @@ extension PostListViewController: UITableViewDataSource {
             default:
                 cell = tableView.dequeueReusableCell(withClass: PhotoPostTableViewCell.self, for: indexPath)
             }
-            cell.clickableTextDelegate = self
+            cell.clickableDelegate = self
             cell.bindData(post: post)
             return cell
 
@@ -149,7 +149,7 @@ extension PostListViewController: UITableViewDataSource {
     }
 }
 
-extension PostListViewController: ClickableTextDelegate {
+extension PostListViewController: ClickableDelegate {
     func click(_ textView: UITextView, url: URL) {
         if url.scheme == Constant.appName {
             guard let host = url.host,
@@ -174,7 +174,7 @@ extension PostListViewController {
         loadingState.onNext(.loading)
         let newFilterScope = FilterScope(
             date: currentFilterScope.date, timeUnit: currentFilterScope.timeUnit,
-            section: .posts,
+            section: .post,
             filterBy: filterBy, filterValue: filterValue)
 
         let postListviewModel = PostListViewModel(filterScope: newFilterScope)

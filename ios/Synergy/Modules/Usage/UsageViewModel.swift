@@ -47,8 +47,8 @@ class UsageViewModel: ViewModel {
                     .asObservable()
                     .subscribe(onNext: { [weak self] (usages) in
                         guard let self = self else { return }
-                        self.realmPostUsageRelay.accept(usages[.posts] ?? nil)
-                        self.realmReactionUsageRelay.accept(usages[.reactions] ?? nil)
+                        self.realmPostUsageRelay.accept(usages[.post] ?? nil)
+                        self.realmReactionUsageRelay.accept(usages[.reaction] ?? nil)
                     })
             })
             .disposed(by: disposeBag)

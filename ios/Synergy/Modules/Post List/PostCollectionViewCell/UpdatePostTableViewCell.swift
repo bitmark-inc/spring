@@ -16,7 +16,7 @@ class UpdatePostTableViewCell: TableViewCell, PostDataTableViewCell {
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
-    weak var clickableTextDelegate: ClickableTextDelegate?
+    weak var clickableDelegate: ClickableDelegate?
 
     // MARK: - Inits
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -70,7 +70,7 @@ class UpdatePostTableViewCell: TableViewCell, PostDataTableViewCell {
 extension UpdatePostTableViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
-        clickableTextDelegate?.click(textView, url: URL)
+        clickableDelegate?.click(textView, url: URL)
         return false
     }
 }

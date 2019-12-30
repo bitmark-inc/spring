@@ -47,7 +47,7 @@ class Insight: Object, Decodable {
 
         id = SectionScope(date: startedAt,
                           timeUnit: TimeUnit(rawValue: timeUnit) ?? .week,
-                          section: Section(rawValue: sectionName) ?? .posts).makeID()
+                          section: Section(rawValue: sectionName) ?? .post).makeID()
 
         if let groupsValue = try values.decodeIfPresent(Groups.self, forKey: .groups) {
             groups = try GroupsConverter(from: groupsValue).valueAsString

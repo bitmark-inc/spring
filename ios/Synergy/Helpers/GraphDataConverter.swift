@@ -79,9 +79,9 @@ class GraphDataConverter {
 
     fileprivate static func getOrderedKeys(in section: Section) -> [String] {
         switch section {
-        case .posts:
+        case .post:
             return PostType.orderedKey
-        case .reactions:
+        case .reaction:
             return ReactionType.orderedKey
         default:
             return []

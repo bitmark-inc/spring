@@ -41,17 +41,17 @@ class UsageViewController: ViewController {
     lazy var headingView = makeHeadingView()
     lazy var timelineView = makeTimelineView()
     lazy var badgeView = makeBadgeView()
-    lazy var postsHeadingView = makeSectionHeadingView(section: .posts)
-    lazy var postsFilterTypeView = makeFilterTypeView(section: .posts)
-    lazy var postsFilterDayView = makeFilterDayView(section: .posts)
-    lazy var postsFilterFriendView = makeFilterGeneralView(section: .posts, groupBy: 
+    lazy var postsHeadingView = makeSectionHeadingView(section: .post)
+    lazy var postsFilterTypeView = makeFilterTypeView(section: .post)
+    lazy var postsFilterDayView = makeFilterDayView(section: .post)
+    lazy var postsFilterFriendView = makeFilterGeneralView(section: .post, groupBy: 
         .friend)
-    lazy var postsFilterPlaceView = makeFilterGeneralView(section: .posts, groupBy:
+    lazy var postsFilterPlaceView = makeFilterGeneralView(section: .post, groupBy:
         .place)
-    lazy var reationsHeadingView = makeSectionHeadingView(section: .reactions)
-    lazy var reactionsFilterTypeView = makeFilterTypeView(section: .reactions)
-    lazy var reactionsFilterDayView = makeFilterDayView(section: .reactions)
-    lazy var reactionsFilterFriendView = makeFilterGeneralView(section: .reactions, groupBy:
+    lazy var reationsHeadingView = makeSectionHeadingView(section: .reaction)
+    lazy var reactionsFilterTypeView = makeFilterTypeView(section: .reaction)
+    lazy var reactionsFilterDayView = makeFilterDayView(section: .reaction)
+    lazy var reactionsFilterFriendView = makeFilterGeneralView(section: .reaction, groupBy:
         .friend)
 
     // SECTION: Post
@@ -271,7 +271,7 @@ extension UsageViewController: NavigatorDelegate {
         let filterScope = FilterScope(
             date: thisViewModel.dateRelay.value,
             timeUnit: thisViewModel.timeUnitRelay.value,
-            section: .posts,
+            section: .post,
             filterBy: filterBy, filterValue: filterValue)
 
         let viewModel = PostListViewModel(filterScope: filterScope)
@@ -282,7 +282,7 @@ extension UsageViewController: NavigatorDelegate {
         let filterScope = FilterScope(
             date: thisViewModel.dateRelay.value,
             timeUnit: thisViewModel.timeUnitRelay.value,
-            section: .reactions,
+            section: .reaction,
             filterBy: filterBy, filterValue: filterValue)
 
         let viewModel = ReactionListViewModel(filterScope: filterScope)

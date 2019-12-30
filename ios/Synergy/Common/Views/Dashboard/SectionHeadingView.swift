@@ -17,7 +17,7 @@ class SectionHeadingView: UIView {
     private let countLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 24))
     private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
 
-    var section: Section = .posts
+    var section: Section = .post
     var dataObserver: Disposable? // stop observing old-data
     let disposeBag = DisposeBag()
 
@@ -44,7 +44,7 @@ class SectionHeadingView: UIView {
         self.section = section
 
         switch section {
-        case .posts:
+        case .post:
             container.thisViewModel.realmPostUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self else { return }
@@ -66,7 +66,7 @@ class SectionHeadingView: UIView {
                 })
                 .disposed(by: disposeBag)
 
-        case .reactions:
+        case .reaction:
             container.thisViewModel.realmReactionUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self else { return }

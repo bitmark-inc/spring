@@ -77,7 +77,7 @@ class InsightBadgeView: UIView {
                         })
                 } else {
                     moodInsightObserver?.dispose()
-                    self.fillData(with: (badge: nil, section: .reactions))
+                    self.fillData(with: (badge: nil, section: .reaction))
                 }
             })
             .disposed(by: disposeBag)

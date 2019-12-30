@@ -10,12 +10,13 @@ import UIKit
 import RxSwift
 import SwiftDate
 
-protocol ClickableTextDelegate: class {
+protocol ClickableDelegate: class {
     func click(_ textView: UITextView, url: URL)
+    func playVideo(_ videoKey: String)
 }
 
 protocol PostDataTableViewCell where Self: UITableViewCell {
-    var clickableTextDelegate: ClickableTextDelegate? { get set }
+    var clickableDelegate: ClickableDelegate? { get set }
 
     func bindData(post: Post)
     func makePostInfo(timestamp: Date, friends: [Friend], locationName: String?) -> Single<NSMutableAttributedString>

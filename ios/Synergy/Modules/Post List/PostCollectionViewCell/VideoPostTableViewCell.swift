@@ -22,7 +22,7 @@ class VideoPostTableViewCell: TableViewCell, PostDataTableViewCell {
     }()
 
     var post: Post?
-    weak var clickableTextDelegate: ClickableTextDelegate?
+    weak var clickableDelegate: ClickableDelegate?
 
     // MARK: - Inits
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -108,7 +108,7 @@ class VideoPostTableViewCell: TableViewCell, PostDataTableViewCell {
 extension VideoPostTableViewCell: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
 
-        clickableTextDelegate?.click(textView, url: URL)
+        clickableDelegate?.click(textView, url: URL)
         return false
     }
 }

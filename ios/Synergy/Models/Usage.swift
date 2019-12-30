@@ -45,7 +45,7 @@ class Usage: Object, Decodable {
 
         id = SectionScope(date: startedAt,
                           timeUnit: TimeUnit(rawValue: timeUnit) ?? .week,
-                          section: Section(rawValue: sectionName) ?? .posts).makeID()
+                          section: Section(rawValue: sectionName) ?? .post).makeID()
 
         let groupsValue = try values.decode(Groups.self, forKey: .groups)
         groups = try GroupsConverter(from: groupsValue).valueAsString
@@ -70,8 +70,8 @@ class Usage: Object, Decodable {
 }
 
 enum Section: String {
-    case posts
-    case reactions
+    case post
+    case reaction
     case messages
     case fbIncome = "fb-income"
     case mood = "sentiment"
