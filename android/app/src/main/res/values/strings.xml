@@ -62,7 +62,7 @@
     <string name="faq">FAQ</string>
     <string name="just_remind_you">Just reminding you to check if your Facebook archive is ready. Tap to continue.</string>
     <string name="still_waiting_for_your_data">Still waiting for your data backup. Please continue to check back here regularly.</string>
-    <string name="fb_may_take_a_few_days">Facebook may take a few days to prepare your data archive, depending on how much data you have. Would you like us to remind you to check back here? If not, you will need to remember on your own to check if your backup is ready.</string>
+    <string name="fb_may_take_a_few_days">Facebook may take a few days to prepare your data archive, depending on how much data you have. \n\nWould you like us to remind you to check back here? If not, you will need to remember on your own to check if your backup is ready.</string>
     <string name="check_now_arrow">Check now »</string>
     <string name="still_waiting">Still Waiting</string>
     <string name="analyzing_data">Analyzing Data</string>
@@ -155,6 +155,7 @@
     <string name="coming_soon">Coming soon!</string>
     <string name="we_are_making_a_simple_lens">We are making a simple lens builder and store. Like cooking recipes, people will be able to experiment, share, and sell lenses to get more utility from your data.</string>
     <string name="there_was_error_when_loading_statistic">There was an error when loading statistic for this period</string>
+    <string name="notifications">Notifications</string>
 
     <string-array name="day_of_week">
         <item>S</item>

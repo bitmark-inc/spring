@@ -12,7 +12,7 @@
         android:id="@+id/layoutToolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
-        android:layout_marginTop="@dimen/dp_25"
+        android:layout_marginTop="25dp"
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -49,13 +49,14 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_48"
+            android:layout_height="40dp"
             android:fontFamily="@font/domaine_sans"
+            android:includeFontPadding="false"
             android:text="@string/trust_is_critical"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            app:autoSizeMaxTextSize="@dimen/sp_36"
-            app:autoSizeMinTextSize="@dimen/sp_24"
+            app:autoSizeMaxTextSize="36sp"
+            app:autoSizeMinTextSize="24sp"
             app:autoSizeTextType="uniform"
             />
 
@@ -66,7 +67,7 @@
             android:fontFamily="@font/grotesk_light_font_family"
             android:text="@string/spring_is_from_bitmark"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_18"
+            android:textSize="18sp"
             />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -76,7 +77,7 @@
             android:fontFamily="@font/grotesk_light_font_family"
             android:text="@string/sincerely_colon"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_18"
+            android:textSize="18sp"
             />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -93,7 +94,7 @@
             android:fontFamily="@font/grotesk_light_font_family"
             android:text="@string/sean_name_and_title"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_18"
+            android:textSize="18sp"
             />
 
 
@@ -103,16 +104,18 @@
         android:id="@+id/btnContinue"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_48"
+        android:layout_height="50dp"
         android:layout_marginStart="@dimen/dp_18"
         android:layout_marginEnd="@dimen/dp_18"
-        android:layout_marginBottom="@dimen/dp_44"
+        android:layout_marginBottom="44dp"
         android:background="@drawable/bg_cognac_stateful"
         android:fontFamily="@font/grotesk_regular_font_family"
+        android:gravity="center"
+        android:includeFontPadding="false"
         android:text="@string/continue_arrow"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_17"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         />
 
