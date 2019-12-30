@@ -33,6 +33,8 @@ class ListHeadingViewCell: TableViewCell {
 
                         flex.addItem(timelineLabel).marginTop(7)
                 }
+
+                flex.addItem(SectionSeparator()).marginTop(Size.dh(27))
         }
     }
 
@@ -47,7 +49,7 @@ class ListHeadingViewCell: TableViewCell {
         backButtonView.flex.addItem(backButton)
         sectionTitleLabel.setText(sectionInfo.sectionTitle)
         sectionTagLabel.setText(sectionInfo.taggedText)
-        timelineLabel.setText(sectionInfo.timelineText)
+        timelineLabel.setText(sectionInfo.timelineText?.uppercased())
     }
 }
 

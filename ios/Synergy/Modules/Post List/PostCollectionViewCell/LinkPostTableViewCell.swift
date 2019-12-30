@@ -15,6 +15,7 @@ class LinkPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
+    fileprivate lazy var captionLabel = makeCaptionLabel()
     fileprivate lazy var linkLabel = makeLinkLabel()
     weak var clickableTextDelegate: ClickableTextDelegate?
 
@@ -26,13 +27,12 @@ class LinkPostTableViewCell: TableViewCell, PostDataTableViewCell {
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem().height(18).backgroundColor(.white)
-            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
-            flex.addItem().padding(12, 17, 17, 12).define { (flex) in
+            flex.addItem().padding(OurTheme.postCellPadding).define { (flex) in
                 flex.addItem(postInfoLabel)
-                flex.addItem(linkLabel).marginTop(12)
+                flex.addItem(captionLabel)
+                flex.addItem(linkLabel)
             }
-            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
+            flex.addItem(makeSeparator())
         }
     }
 
@@ -55,9 +55,21 @@ class LinkPostTableViewCell: TableViewCell, PostDataTableViewCell {
             })
             .disposed(by: disposeBag)
 
-        linkLabel.text = post.url
+        if let caption = post.post {
+            captionLabel.attributedText = LinkAttributedString.make(
+                string: caption,
+                lineHeight: 1.25,
+                attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
+            captionLabel.flex.marginTop(12)
+        }
+
+        if let linkURL = post.url {
+            linkLabel.text = linkURL
+            linkLabel.flex.marginTop(12)
+        }
 
         postInfoLabel.flex.markDirty()
+        captionLabel.flex.markDirty()
         linkLabel.flex.markDirty()
     }
 }
@@ -82,6 +94,18 @@ extension LinkPostTableViewCell {
         textView.linkTextAttributes = [
             .foregroundColor: themeService.attrs.blackTextColor
         ]
+        return textView
+    }
+
+    fileprivate func makeCaptionLabel() -> UITextView {
+        let textView = UITextView()
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.backgroundColor = .clear
+        textView.delegate = self
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.dataDetectorTypes = .link
         return textView
     }
 

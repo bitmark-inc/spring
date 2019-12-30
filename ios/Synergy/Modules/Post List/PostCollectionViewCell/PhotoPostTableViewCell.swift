@@ -16,7 +16,11 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
     // MARK: - Properties
     fileprivate lazy var postInfoLabel = makePostInfoLabel()
     fileprivate lazy var captionLabel = makeCaptionLabel()
-    fileprivate lazy var photoImageView = makePhotoImageView()
+    fileprivate lazy var photosView = UIView()
+    lazy var photoWidth: CGFloat = {
+        return UIScreen.main.bounds.width - (OurTheme.postCellPadding.left + OurTheme.postCellPadding.right)
+    }()
+    var post: Post?
     weak var clickableTextDelegate: ClickableTextDelegate?
 
     // MARK: - Inits
@@ -27,14 +31,12 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem().height(18).backgroundColor(.white)
-            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
-            flex.addItem().padding(12, 17, 0, 12).define { (flex) in
+                flex.addItem().padding(OurTheme.postCellPadding).define { (flex) in
                 flex.addItem(postInfoLabel)
-                flex.addItem(captionLabel).marginTop(12).basis(1)
+                flex.addItem(captionLabel)
+                flex.addItem(photosView).width(100%)
             }
-            flex.addItem(photoImageView).marginTop(20).height(400)
-            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
+            flex.addItem(makeSeparator())
         }
 
         contentView.flex.layout(mode: .adjustHeight)
@@ -43,8 +45,7 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        photoImageView.flex.height(400)
-        invalidateIntrinsicContentSize()
+        photosView.removeSubviews()
     }
 
     required init?(coder: NSCoder) {
@@ -53,6 +54,7 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Data
     func bindData(post: Post) {
+        self.post = post
         makePostInfo(timestamp: post.timestamp, friends: post.tags.toArray(), locationName: post.location?.name)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] in
@@ -60,31 +62,43 @@ class PhotoPostTableViewCell: TableViewCell, PostDataTableViewCell {
             })
             .disposed(by: disposeBag)
 
-        captionLabel.attributedText = LinkAttributedString.make(
-            string: post.post ?? (post.title ?? ""),
-            lineHeight: 1.25,
-            attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
-
-        if let media = post.mediaData.first, let photoURL = URL(string: media.source) {
-            photoImageView.loadURL(photoURL)
-                .subscribe(onCompleted: { [weak self] in
-                    guard let self = self else { return }
-                    self.photoImageView.flex.markDirty()
-                    self.contentView.flex.layout(mode: .adjustHeight)
-                }, onError: { (error) in
-                    guard !AppError.errorByNetworkConnection(error) else { return }
-                    Global.log.error(error)
-                })
-                .disposed(by: disposeBag)
-        } else {
-            photoImageView.image = R.image.defaultThumbnail()
-            photoImageView.flex.height(300)
+        if let caption = post.post {
+            captionLabel.attributedText = LinkAttributedString.make(
+                string: caption,
+                lineHeight: 1.25,
+                attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
+            captionLabel.flex.marginTop(12)
         }
 
         postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
-        photoImageView.flex.markDirty()
+
+        loadImage()
+        photosView.flex.markDirty()
         contentView.flex.layout(mode: .adjustHeight)
+    }
+
+    func loadImage() {
+        guard let post = post else { return }
+        for media in post.mediaData {
+            let photoImageView = makePhotoImageView()
+            self.photosView.flex.define { (flex) in
+                flex.addItem().height(20).backgroundColor(.clear)
+                flex.addItem(photoImageView).width(photoWidth).height(photoWidth)
+            }
+
+            if let photoURL = URL(string: media.source) {
+                photoImageView.loadURL(photoURL, width: photoWidth)
+                    .subscribe(onError: { (error) in
+                        guard !AppError.errorByNetworkConnection(error) else { return }
+                        Global.log.error(error)
+                        photoImageView.image = R.image.defaultThumbnail()
+                    })
+                    .disposed(by: disposeBag)
+            } else {
+                photoImageView.image = R.image.defaultThumbnail()
+            }
+        }
     }
 }
 
@@ -124,6 +138,8 @@ extension PhotoPostTableViewCell {
     }
 
     fileprivate func makePhotoImageView() -> ImageView {
-        return ImageView()
+        let imageView = ImageView()
+        imageView.contentMode = .scaleAspectFill
+        return imageView
     }
 }

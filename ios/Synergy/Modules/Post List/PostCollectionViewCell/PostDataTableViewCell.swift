@@ -19,6 +19,7 @@ protocol PostDataTableViewCell where Self: UITableViewCell {
 
     func bindData(post: Post)
     func makePostInfo(timestamp: Date, friends: [Friend], locationName: String?) -> Single<NSMutableAttributedString>
+    func makeSeparator() -> UIView
 }
 
 extension PostDataTableViewCell {
@@ -51,4 +52,20 @@ extension PostDataTableViewCell {
             return Disposables.create()
         }
     }
+
+    func makeSeparator() -> UIView {
+        let view = UIView()
+        view.flex.direction(.column).define { (flex) in
+            flex.addItem()
+                .backgroundColor(UIColor(hexString: "#828180")!)
+                .margin(3, 0, 0, 0)
+                .height(1)
+            flex.addItem()
+                .backgroundColor(UIColor(hexString: "#828180")!)
+                .margin(3, 0, 0, 0)
+                .height(1)
+        }
+        return view
+    }
+
 }

@@ -89,10 +89,8 @@
 		58682EDC238F7079009BDDDF /* FilterSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58682EDA238F7079009BDDDF /* FilterSegment.swift */; };
 		58C009D12398A43100302F49 /* CustomxAxisRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D02398A43100302F49 /* CustomxAxisRender.swift */; };
 		58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D02398A43100302F49 /* CustomxAxisRender.swift */; };
-		58C009D82398C60D00302F49 /* LinkCaptionPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */; };
-		58C009D92398C60D00302F49 /* LinkCaptionPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */; };
-		58C009DA2398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D72398C60D00302F49 /* LinkPostTableViewCell.swift */; };
-		58C009DB2398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D72398C60D00302F49 /* LinkPostTableViewCell.swift */; };
+		58C009D82398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkPostTableViewCell.swift */; };
+		58C009D92398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkPostTableViewCell.swift */; };
 		58C009DF2398C69400302F49 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */; };
 		58C009E02398C69400302F49 /* DataAnalyzingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */; };
 		58C009E12398C69400302F49 /* DataAnalyzingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */; };
@@ -234,7 +232,6 @@
 		5B5D003623A1F0F4003D1A1C /* UsageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290732394B2A300412CBC /* UsageDataEngine+Rx.swift */; };
 		5B5D003723A1F0F4003D1A1C /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC18237A863300FA3196 /* Currency.swift */; };
 		5B5D003823A1F0F4003D1A1C /* FBArchiveAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55F3238D03C600F1BCF2 /* FBArchiveAPI.swift */; };
-		5B5D003923A1F0F4003D1A1C /* LinkPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D72398C60D00302F49 /* LinkPostTableViewCell.swift */; };
 		5B5D003A23A1F0F4003D1A1C /* Average.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290812394FBC500412CBC /* Average.swift */; };
 		5B5D003B23A1F0F4003D1A1C /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290982395108F00412CBC /* PostService.swift */; };
 		5B5D003C23A1F0F4003D1A1C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC19237A863300FA3196 /* ViewModel.swift */; };
@@ -303,7 +300,7 @@
 		5B5DFFDD23A1F0F4003D1A1C /* R.generated+Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = E24829C8238BC30F00995FBB /* R.generated+Font.swift */; };
 		5B5DFFDE23A1F0F4003D1A1C /* AskNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB319B323A09882005F7C58 /* AskNotificationsViewController.swift */; };
 		5B5DFFDF23A1F0F4003D1A1C /* BitmarkSDKService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8C237A889A00FA3196 /* BitmarkSDKService.swift */; };
-		5B5DFFE023A1F0F4003D1A1C /* LinkCaptionPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */; };
+		5B5DFFE023A1F0F4003D1A1C /* LinkPostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D62398C60D00302F49 /* LinkPostTableViewCell.swift */; };
 		5B5DFFE123A1F0F4003D1A1C /* LensViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009E42398C6CF00302F49 /* LensViewController.swift */; };
 		5B5DFFE223A1F0F4003D1A1C /* UIViewController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */; };
 		5B5DFFE323A1F0F4003D1A1C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC10237A85B000FA3196 /* SceneDelegate.swift */; };
@@ -721,8 +718,7 @@
 		5832FCC3237AB8AB00FA3196 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		58682EDA238F7079009BDDDF /* FilterSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSegment.swift; sourceTree = "<group>"; };
 		58C009D02398A43100302F49 /* CustomxAxisRender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomxAxisRender.swift; sourceTree = "<group>"; };
-		58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkCaptionPostTableViewCell.swift; sourceTree = "<group>"; };
-		58C009D72398C60D00302F49 /* LinkPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPostTableViewCell.swift; sourceTree = "<group>"; };
+		58C009D62398C60D00302F49 /* LinkPostTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LinkPostTableViewCell.swift; sourceTree = "<group>"; };
 		58C009DD2398C69400302F49 /* DataAnalyzingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewController.swift; sourceTree = "<group>"; };
 		58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewModel.swift; sourceTree = "<group>"; };
 		58C009E42398C6CF00302F49 /* LensViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LensViewController.swift; sourceTree = "<group>"; };
@@ -1459,9 +1455,8 @@
 			isa = PBXGroup;
 			children = (
 				E23807C8239618000079A3C4 /* PostDataTableViewCell.swift */,
-				58C009D62398C60D00302F49 /* LinkCaptionPostTableViewCell.swift */,
+				58C009D62398C60D00302F49 /* LinkPostTableViewCell.swift */,
 				E244203F239910E100520FE9 /* UpdatePostTableViewCell.swift */,
-				58C009D72398C60D00302F49 /* LinkPostTableViewCell.swift */,
 				E24420392399067600520FE9 /* VideoPostTableViewCell.swift */,
 				5B2097C723B49F830079B421 /* PhotoPostTableViewCell.swift */,
 			);
@@ -2271,7 +2266,7 @@
 				5832FC93237A889A00FA3196 /* BitmarkSDKService.swift in Sources */,
 				5BB319B423A09882005F7C58 /* AskNotificationsViewController.swift in Sources */,
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
-				58C009D82398C60D00302F49 /* LinkCaptionPostTableViewCell.swift in Sources */,
+				58C009D82398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */,
 				58C009E62398C6CF00302F49 /* LensViewController.swift in Sources */,
 				5832FC48237A863300FA3196 /* NavigationController.swift in Sources */,
 				5832FC57237A863300FA3196 /* Switch.swift in Sources */,
@@ -2381,7 +2376,6 @@
 				5832FC41237A863300FA3196 /* Currency.swift in Sources */,
 				5B4A237B23B1136E00447366 /* HeadingView.swift in Sources */,
 				5832FC42237A863300FA3196 /* ViewModel.swift in Sources */,
-				58C009DA2398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */,
 				E22290822394FBC500412CBC /* Average.swift in Sources */,
 				E22290992395108F00412CBC /* PostService.swift in Sources */,
 				5B4A238723B115D100447366 /* FilterDayView.swift in Sources */,
@@ -2452,7 +2446,7 @@
 				5B5DFFDD23A1F0F4003D1A1C /* R.generated+Font.swift in Sources */,
 				5B5DFFDE23A1F0F4003D1A1C /* AskNotificationsViewController.swift in Sources */,
 				5B5DFFDF23A1F0F4003D1A1C /* BitmarkSDKService.swift in Sources */,
-				5B5DFFE023A1F0F4003D1A1C /* LinkCaptionPostTableViewCell.swift in Sources */,
+				5B5DFFE023A1F0F4003D1A1C /* LinkPostTableViewCell.swift in Sources */,
 				5B5DFFE123A1F0F4003D1A1C /* LensViewController.swift in Sources */,
 				5B5DFFE223A1F0F4003D1A1C /* UIViewController+Permission.swift in Sources */,
 				5B5DFFE323A1F0F4003D1A1C /* SceneDelegate.swift in Sources */,
@@ -2563,7 +2557,6 @@
 				5B5D003723A1F0F4003D1A1C /* Currency.swift in Sources */,
 				5B4A237D23B1136E00447366 /* HeadingView.swift in Sources */,
 				5B5D003823A1F0F4003D1A1C /* FBArchiveAPI.swift in Sources */,
-				5B5D003923A1F0F4003D1A1C /* LinkPostTableViewCell.swift in Sources */,
 				5B5D003A23A1F0F4003D1A1C /* Average.swift in Sources */,
 				5B5D003B23A1F0F4003D1A1C /* PostService.swift in Sources */,
 				5B4A238923B115D100447366 /* FilterDayView.swift in Sources */,
@@ -2626,7 +2619,7 @@
 				E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5BB319B523A09882005F7C58 /* AskNotificationsViewController.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
-				58C009D92398C60D00302F49 /* LinkCaptionPostTableViewCell.swift in Sources */,
+				58C009D92398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */,
 				58C009E72398C6CF00302F49 /* LensViewController.swift in Sources */,
 				E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
 				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
@@ -2737,7 +2730,6 @@
 				E2DB66AD237D3B69005367C2 /* Currency.swift in Sources */,
 				5B4A237C23B1136E00447366 /* HeadingView.swift in Sources */,
 				E28B55F5238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */,
-				58C009DB2398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */,
 				E22290832394FBC500412CBC /* Average.swift in Sources */,
 				E222909A2395108F00412CBC /* PostService.swift in Sources */,
 				5B4A238823B115D100447366 /* FilterDayView.swift in Sources */,

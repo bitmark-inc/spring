@@ -35,16 +35,18 @@ class ImageView: UIImageView {
         setupViews()
     }
 
-    func loadURL(_ url: URL) -> Completable {
+    func loadURL(_ url: URL, width: CGFloat) -> Completable {
         return Completable.create { (event) -> Disposable in
             _ = ImageService.makePhotoURL(key: url.path)
                 .subscribe(onSuccess: { [weak self] (photoURL, modifier) in
                     guard let self = self else { return }
-                    self.kf.setImage(with: photoURL, options: [.requestModifier(modifier)]) { [weak self] (_) in
-                        guard let self = self, let imageSize = self.image?.size else { return }
-                        let heightImage = self.frame.size.width * imageSize.height / imageSize.width
-                        self.flex.maxWidth(100%).height(heightImage)
-                        event(.completed)
+                    self.kf.setImage(with: photoURL, options: [.requestModifier(modifier)]) { [weak self] (result) in
+                        switch result {
+                        case .success(_):
+                            event(.completed)
+                        case .failure(let error):
+                            event(.error(error))
+                        }
                     }
                 }, onError: { (error) in
                     event(.error(error))

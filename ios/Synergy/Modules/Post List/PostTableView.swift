@@ -18,7 +18,6 @@ class PostTableView: TableView {
         self.register(cellWithClass: PhotoPostTableViewCell.self)
         self.register(cellWithClass: UpdatePostTableViewCell.self)
         self.register(cellWithClass: LinkPostTableViewCell.self)
-        self.register(cellWithClass: LinkCaptionPostTableViewCell.self)
         self.register(cellWithClass: VideoPostTableViewCell.self)
 
         themeService.rx

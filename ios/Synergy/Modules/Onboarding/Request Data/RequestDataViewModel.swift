@@ -116,6 +116,7 @@ class RequestDataViewModel: ViewModel {
     }
     
     fileprivate func registerOneSignal(accountNumber: String) -> Completable {
+        Global.log.info("[process] registerOneSignal: \(accountNumber)")
         OneSignal.promptForPushNotifications(userResponse: { _ in
           OneSignal.sendTags([
             Constant.OneSignalTag.key: accountNumber

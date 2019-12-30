@@ -22,6 +22,7 @@ struct OurTheme {
     static let dashboardPaddingScreenTitle: CGFloat = Size.dh(8)
     static let accountPaddingScreenTitleInset = UIEdgeInsets(top: Size.dh(21), left: 0, bottom: Size.dh(43), right: 0)
     static let accountColorTheme = ColorTheme.black
+    static let postCellPadding  = UIEdgeInsets(top: Size.dh(27), left: 18, bottom: Size.dh(32), right: 18)
 }
 
 protocol Theme {
@@ -76,7 +77,7 @@ struct LightTheme: Theme {
     let themeGreenColor = UIColor(hexString: "#5F6D07")!
     let themeMercuryColor = UIColor(hexString: "#E7E7E7")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
-    let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
+    let postCellBackgroundColor = UIColor.clear
     let reactionCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let sectionBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let blurCoverColor = UIColor(hexString: "#FFF", transparency: 0.7)!
@@ -107,7 +108,7 @@ struct DarkTheme: Theme {
     let themeGreenColor = UIColor(hexString: "#5F6D07")!
     let themeMercuryColor = UIColor(hexString: "#E7E7E7")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
-    let postCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
+    let postCellBackgroundColor = UIColor.clear
     let reactionCellBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let sectionBackgroundColor = UIColor(hexString: "#EDF0F4")!
     let blurCoverColor = UIColor(hexString: "#FFF", transparency: 0.7)!

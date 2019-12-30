@@ -74,7 +74,7 @@ class PostListViewController: ViewController, BackNavigator {
                 flex.addItem(tableView).grow(1)
                 flex.addItem(emptyView)
                     .position(.absolute)
-                    .top(150).left(OurTheme.paddingInset.left)
+                    .top(200).left(OurTheme.paddingInset.left)
             }
     }
 
@@ -129,8 +129,7 @@ extension PostListViewController: UITableViewDataSource {
                 cell = tableView.dequeueReusableCell(withClass: UpdatePostTableViewCell.self, for: indexPath)
 
             case .link:
-                let linkTableCell = (post.post?.isEmpty ?? true) ? LinkPostTableViewCell.self : LinkCaptionPostTableViewCell.self
-                cell = tableView.dequeueReusableCell(withClass: linkTableCell, for: indexPath) as? PostDataTableViewCell
+                cell = tableView.dequeueReusableCell(withClass: LinkPostTableViewCell.self, for: indexPath)
 
             case .media:
                 cell = post.mediaData.first?.type == "video" ?

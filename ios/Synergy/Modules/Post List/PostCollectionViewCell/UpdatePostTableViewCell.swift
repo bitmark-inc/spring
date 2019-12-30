@@ -26,13 +26,11 @@ class UpdatePostTableViewCell: TableViewCell, PostDataTableViewCell {
             .bind({ $0.postCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem().height(18).backgroundColor(.white)
-            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
-            flex.addItem().padding(12, 17, 17, 12).define { (flex) in
+            flex.addItem().padding(OurTheme.postCellPadding).define { (flex) in
                 flex.addItem(postInfoLabel)
-                flex.addItem(captionLabel).marginTop(12)
+                flex.addItem(captionLabel)
             }
-            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
+            flex.addItem(makeSeparator())
         }
     }
 
@@ -55,13 +53,17 @@ class UpdatePostTableViewCell: TableViewCell, PostDataTableViewCell {
             })
             .disposed(by: disposeBag)
 
-        captionLabel.attributedText = LinkAttributedString.make(
-            string: post.post ?? (post.title ?? ""),
-            lineHeight: 1.25,
-            attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
+        if let caption = post.post {
+            captionLabel.attributedText = LinkAttributedString.make(
+                string: caption,
+                lineHeight: 1.25,
+                attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
+            captionLabel.flex.marginTop(12)
+        }
 
         postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
+        contentView.flex.layout(mode: .adjustHeight)
     }
 }
 
