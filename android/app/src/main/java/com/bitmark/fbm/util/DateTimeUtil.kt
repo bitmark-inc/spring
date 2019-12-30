@@ -55,10 +55,11 @@ class DateTimeUtil {
             timezone: String = "UTC"
         ): String {
             return try {
-                var formatter = SimpleDateFormat(oldFormat, Locale.getDefault())
+                // TODO change to Locale.getDefault() when supporting localization
+                var formatter = SimpleDateFormat(oldFormat, Locale.US)
                 formatter.timeZone = TimeZone.getTimeZone(timezone)
                 val d = formatter.parse(date)
-                formatter = SimpleDateFormat(newFormat, Locale.getDefault())
+                formatter = SimpleDateFormat(newFormat, Locale.US)
                 formatter.format(d)
             } catch (e: Throwable) {
                 ""
@@ -75,7 +76,7 @@ class DateTimeUtil {
             timezone: String = "UTC"
         ): String {
             return try {
-                val formatter = SimpleDateFormat(format, Locale.getDefault())
+                val formatter = SimpleDateFormat(format, Locale.US)
                 formatter.timeZone = TimeZone.getTimeZone(timezone)
                 formatter.format(date)
             } catch (e: Throwable) {
@@ -91,7 +92,7 @@ class DateTimeUtil {
             timezone: String = "UTC"
         ): Date? {
             return try {
-                val formatter = SimpleDateFormat(format, Locale.getDefault())
+                val formatter = SimpleDateFormat(format, Locale.US)
                 formatter.timeZone = TimeZone.getTimeZone(timezone)
                 formatter.parse(date)
             } catch (e: Throwable) {
