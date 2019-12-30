@@ -20,21 +20,21 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 		return err
 	}
 
-	ctx := context.Background()
 	var currentOffset int64
 	var total int64
 
+	ctx := context.Background()
 	saver := newStatSaver(ctx, b.fbDataStore)
+	counter := newReactionStatCounter(ctx, logEntry, saver, accountNumber)
 
 	for {
-		// Checking job
+		// Check-in job
 		job.Checkin(fmt.Sprintf("Fetching reaction batch at offset: %d", currentOffset))
 		reactions, t, err := b.bitSocialClient.GetReactions(ctx, accountNumber, "asc", currentOffset)
 		if err != nil {
 			logEntry.Error(err)
 			sentry.CaptureException(errors.New("Request reactions failed for onwer " + accountNumber))
-			// return err
-			continue
+			return err
 		}
 		currentOffset += int64(len(reactions))
 		total = t
@@ -55,7 +55,7 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 				return err
 			}
 
-			if err := b.countReaction(ctx, logEntry, saver, accountNumber, &reaction); err != nil {
+			if err := counter.count(accountNumber, reaction); err != nil {
 				logEntry.Error(err)
 				sentry.CaptureException(err)
 				return err
@@ -67,12 +67,15 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 		}
 	}
 
-	if total != 0 {
-		if err := b.countReaction(ctx, logEntry, saver, accountNumber, nil); err != nil {
-			logEntry.Error(err)
-			sentry.CaptureException(err)
-			return err
-		}
+	if err := counter.flush(); err != nil {
+		logEntry.Error(err)
+		sentry.CaptureException(err)
+		return err
+	}
+	if err := saver.flush(); err != nil {
+		logEntry.Error(err)
+		sentry.CaptureException(err)
+		return err
 	}
 
 	logEntry.Info("Enqueue push notification")
@@ -82,7 +85,6 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 		return err
 	}
 
-	saver.flush()
 	logEntry.Info("Finish parsing reactions")
 
 	return nil
@@ -107,215 +109,206 @@ type reactionStat struct {
 	PeriodStartedAt  int64             `json:"period_started_at"`
 	Quantity         uint64            `json:"quantity"`
 	Groups           reactionGroupStat `json:"groups"`
+	IsSaved          bool              `json:"-"`
 }
 
-var currentWeekReactionStat, currentYearReactionStat, currentDecadeReactionStat *reactionStat
-var lastWeekQuantity, lastYearQuantity, lastDecadeQuantity uint64
-
-func (b *BackgroundContext) countReaction(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
-	err := b.countReactionToWeek(ctx, logEntry, saver, accountNumber, reaction)
-	if err != nil {
-		return err
-	}
-	err = b.countReactionToYear(ctx, logEntry, saver, accountNumber, reaction)
-	if err != nil {
-		return err
-	}
-	err = b.countReactionToDecade(ctx, logEntry, saver, accountNumber, reaction)
-	return err
+type reactionStatCounter struct {
+	lastWeekStat      *reactionStat
+	currentWeekStat   *reactionStat
+	lastYearStat      *reactionStat
+	currentYearStat   *reactionStat
+	lastDecadeStat    *reactionStat
+	currentDecadeStat *reactionStat
+	accountNumber     string
+	ctx               context.Context
+	saver             *statSaver
+	log               *log.Entry
 }
 
-func (b *BackgroundContext) countReactionToWeek(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
-	// if pushing nil to count, flush the last week
-	if reaction == nil && currentWeekReactionStat != nil {
-		currentWeekReactionStat.DiffFromPrevious = getDiff(float64(currentWeekReactionStat.Quantity), float64(lastWeekQuantity))
-		err := saver.save(accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat)
-		return err
+func newReactionStatCounter(ctx context.Context, log *log.Entry, saver *statSaver, accountNumber string) *reactionStatCounter {
+	return &reactionStatCounter{
+		ctx:           ctx,
+		saver:         saver,
+		log:           log,
+		accountNumber: accountNumber,
 	}
+}
 
-	// if having data, let's count
-	weekTimestamp := absWeek(reaction.Timestamp)
-	needNewWeek := false
-	if currentWeekReactionStat != nil && currentWeekReactionStat.PeriodStartedAt != weekTimestamp {
-		currentWeekReactionStat.DiffFromPrevious = getDiff(float64(currentWeekReactionStat.Quantity), float64(lastWeekQuantity))
-		if err := saver.save(accountNumber+"/reaction-week-stat", currentWeekReactionStat.PeriodStartedAt, currentWeekReactionStat); err != nil {
+func (r *reactionStatCounter) createEmptyStat(period string, accountNumber string, timestamp int64) *reactionStat {
+	return &reactionStat{
+		SectionName:     "reaction",
+		Period:          period,
+		PeriodStartedAt: absPeriod(period, timestamp),
+		IsSaved:         false,
+		Groups: reactionGroupStat{
+			Type: struct {
+				Data map[string]int `json:"data"`
+			}{
+				Data: make(map[string]int),
+			},
+			SubPeriod: make([]reactionSubPeriodStat, 0),
+		},
+	}
+}
+
+func (r *reactionStatCounter) flushStat(period string, stat *reactionStat) error {
+	if stat != nil && !stat.IsSaved {
+		if err := r.saver.save(r.accountNumber+"/reaction-"+period+"-stat", stat.PeriodStartedAt, stat); err != nil {
 			return err
 		}
-		if absWeek(weekTimestamp-1) == currentWeekReactionStat.PeriodStartedAt {
-			lastWeekQuantity = currentWeekReactionStat.Quantity
-		} else {
-			lastWeekQuantity = 0
+		stat.IsSaved = true
+	}
+	return nil
+}
+
+func (r *reactionStatCounter) flush() error {
+	if err := r.flushStat("week", r.currentWeekStat); err != nil {
+		return err
+	}
+	if err := r.flushStat("year", r.currentYearStat); err != nil {
+		return err
+	}
+	if err := r.flushStat("decade", r.currentDecadeStat); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *reactionStatCounter) count(accountNumber string, reaction fbarchive.ReactionData) error {
+	if err := r.countWeek(accountNumber, reaction); err != nil {
+		return err
+	}
+	if err := r.countYear(accountNumber, reaction); err != nil {
+		return err
+	}
+	if err := r.countDecade(accountNumber, reaction); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *reactionStatCounter) countWeek(accountNumber string, reaction fbarchive.ReactionData) error {
+	periodTimestamp := absWeek(reaction.Timestamp)
+
+	if r.currentWeekStat != nil && r.currentWeekStat.PeriodStartedAt != periodTimestamp {
+		var lastPeriodQuantity uint64
+		if r.lastWeekStat != nil {
+			lastPeriodQuantity = r.lastWeekStat.Quantity
 		}
-		needNewWeek = true
-	}
 
-	if currentWeekReactionStat == nil {
-		needNewWeek = true
-	}
+		r.currentWeekStat.DiffFromPrevious = getDiff(float64(r.currentWeekStat.Quantity), float64(lastPeriodQuantity))
 
-	if needNewWeek {
-		currentWeekReactionStat = &reactionStat{
-			SectionName:      "reactions",
-			DiffFromPrevious: 5,
-			Period:           "week",
-			PeriodStartedAt:  weekTimestamp,
-			Quantity:         0,
-			Groups: reactionGroupStat{
-				Type: struct {
-					Data map[string]int `json:"data"`
-				}{
-					Data: make(map[string]int),
-				},
-				SubPeriod: make([]reactionSubPeriodStat, 0),
-			},
+		if err := r.flushStat("week", r.currentWeekStat); err != nil {
+			return err
 		}
+		r.lastWeekStat = r.currentWeekStat
+		r.currentWeekStat = r.createEmptyStat("week", accountNumber, periodTimestamp)
 	}
 
-	currentWeekReactionStat.Quantity++
-	plusOneValue(&currentWeekReactionStat.Groups.Type.Data, reaction.Reaction)
+	// The first time the function is called
+	if r.currentWeekStat == nil {
+		r.currentWeekStat = r.createEmptyStat("week", accountNumber, periodTimestamp)
+	}
 
-	subPeriod := currentWeekReactionStat.Groups.SubPeriod
-	dayTimestamp := absDay(reaction.Timestamp)
-	needNewDay := len(subPeriod) == 0 || subPeriod[len(subPeriod)-1].Name != strconv.FormatInt(dayTimestamp, 10)
+	r.currentWeekStat.Quantity++
+	plusOneValue(&r.currentWeekStat.Groups.Type.Data, reaction.Reaction)
 
-	if needNewDay {
+	subPeriod := r.currentWeekStat.Groups.SubPeriod
+	subPeriodTimestamp := absDay(reaction.Timestamp)
+	needNewSubPeriod := len(subPeriod) == 0 || subPeriod[len(subPeriod)-1].Name != strconv.FormatInt(subPeriodTimestamp, 10)
+
+	if needNewSubPeriod {
 		subPeriod = append(subPeriod, reactionSubPeriodStat{
-			Name: strconv.FormatInt(dayTimestamp, 10),
+			Name: strconv.FormatInt(subPeriodTimestamp, 10),
 			Data: make(map[string]int),
 		})
 	}
 	plusOneValue(&subPeriod[len(subPeriod)-1].Data, reaction.Reaction)
-	currentWeekReactionStat.Groups.SubPeriod = subPeriod
+	r.currentWeekStat.Groups.SubPeriod = subPeriod
 
 	return nil
 }
 
-func (b *BackgroundContext) countReactionToYear(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
-	// if pushing nil to count, flush the last year
-	if reaction == nil && currentYearReactionStat != nil {
-		currentYearReactionStat.DiffFromPrevious = getDiff(float64(currentYearReactionStat.Quantity), float64(lastYearQuantity))
-		err := saver.save(accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat)
-		return err
-	}
+func (r *reactionStatCounter) countYear(accountNumber string, reaction fbarchive.ReactionData) error {
+	periodTimestamp := absYear(reaction.Timestamp)
 
-	// if having data, let's count
-	yearTimestamp := absYear(reaction.Timestamp)
-	needNewYear := false
-	if currentYearReactionStat != nil && currentYearReactionStat.PeriodStartedAt != yearTimestamp {
-		currentYearReactionStat.DiffFromPrevious = getDiff(float64(currentYearReactionStat.Quantity), float64(lastYearQuantity))
-		if err := saver.save(accountNumber+"/reaction-year-stat", currentYearReactionStat.PeriodStartedAt, currentYearReactionStat); err != nil {
+	if r.currentYearStat != nil && r.currentYearStat.PeriodStartedAt != periodTimestamp {
+		var lastPeriodQuantity uint64
+		if r.lastYearStat != nil {
+			lastPeriodQuantity = r.lastYearStat.Quantity
+		}
+
+		r.currentYearStat.DiffFromPrevious = getDiff(float64(r.currentYearStat.Quantity), float64(lastPeriodQuantity))
+
+		if err := r.flushStat("year", r.currentYearStat); err != nil {
 			return err
 		}
-		if absYear(yearTimestamp-1) == currentYearReactionStat.PeriodStartedAt {
-			lastYearQuantity = currentYearReactionStat.Quantity
-		} else {
-			lastYearQuantity = 0
-		}
-		needNewYear = true
+		r.lastYearStat = r.currentYearStat
+		r.currentYearStat = r.createEmptyStat("year", accountNumber, periodTimestamp)
 	}
 
-	if currentYearReactionStat == nil {
-		needNewYear = true
+	// The first time the function is called
+	if r.currentYearStat == nil {
+		r.currentYearStat = r.createEmptyStat("year", accountNumber, periodTimestamp)
 	}
 
-	if needNewYear {
-		currentYearReactionStat = &reactionStat{
-			SectionName:      "reactions",
-			DiffFromPrevious: 5,
-			Period:           "year",
-			PeriodStartedAt:  yearTimestamp,
-			Quantity:         0,
-			Groups: reactionGroupStat{
-				Type: struct {
-					Data map[string]int `json:"data"`
-				}{
-					Data: make(map[string]int),
-				},
-				SubPeriod: make([]reactionSubPeriodStat, 0),
-			},
-		}
-	}
+	r.currentYearStat.Quantity++
+	plusOneValue(&r.currentYearStat.Groups.Type.Data, reaction.Reaction)
 
-	currentYearReactionStat.Quantity++
-	plusOneValue(&currentYearReactionStat.Groups.Type.Data, reaction.Reaction)
+	subPeriod := r.currentYearStat.Groups.SubPeriod
+	subPeriodTimestamp := absMonth(reaction.Timestamp)
+	needNewSubPeriod := len(subPeriod) == 0 || subPeriod[len(subPeriod)-1].Name != strconv.FormatInt(subPeriodTimestamp, 10)
 
-	subPeriod := currentYearReactionStat.Groups.SubPeriod
-	monthTimestamp := absMonth(reaction.Timestamp)
-	needNewMonth := len(subPeriod) == 0 || subPeriod[len(subPeriod)-1].Name != strconv.FormatInt(monthTimestamp, 10)
-
-	if needNewMonth {
+	if needNewSubPeriod {
 		subPeriod = append(subPeriod, reactionSubPeriodStat{
-			Name: strconv.FormatInt(monthTimestamp, 10),
+			Name: strconv.FormatInt(subPeriodTimestamp, 10),
 			Data: make(map[string]int),
 		})
 	}
 	plusOneValue(&subPeriod[len(subPeriod)-1].Data, reaction.Reaction)
-	currentYearReactionStat.Groups.SubPeriod = subPeriod
+	r.currentYearStat.Groups.SubPeriod = subPeriod
 
 	return nil
 }
 
-func (b *BackgroundContext) countReactionToDecade(ctx context.Context, logEntry *log.Entry, saver *statSaver, accountNumber string, reaction *fbarchive.ReactionData) error {
-	// if pushing nil to count, flush the last decade
-	if reaction == nil && currentDecadeReactionStat != nil {
-		currentDecadeReactionStat.DiffFromPrevious = getDiff(float64(currentDecadeReactionStat.Quantity), float64(lastDecadeQuantity))
-		err := saver.save(accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat)
-		return err
-	}
+func (r *reactionStatCounter) countDecade(accountNumber string, reaction fbarchive.ReactionData) error {
+	periodTimestamp := absDecade(reaction.Timestamp)
 
-	// if having data, let's count
-	decadeTimestamp := absDecade(reaction.Timestamp)
-	needNewDecade := false
-	if currentDecadeReactionStat != nil && currentDecadeReactionStat.PeriodStartedAt != decadeTimestamp {
-		currentDecadeReactionStat.DiffFromPrevious = getDiff(float64(currentDecadeReactionStat.Quantity), float64(lastDecadeQuantity))
-		if err := saver.save(accountNumber+"/reaction-decade-stat", currentDecadeReactionStat.PeriodStartedAt, currentDecadeReactionStat); err != nil {
+	if r.currentDecadeStat != nil && r.currentDecadeStat.PeriodStartedAt != periodTimestamp {
+		var lastPeriodQuantity uint64
+		if r.lastDecadeStat != nil {
+			lastPeriodQuantity = r.lastDecadeStat.Quantity
+		}
+
+		r.currentDecadeStat.DiffFromPrevious = getDiff(float64(r.currentDecadeStat.Quantity), float64(lastPeriodQuantity))
+
+		if err := r.flushStat("decade", r.currentDecadeStat); err != nil {
 			return err
 		}
-		if absDecade(decadeTimestamp-1) == currentDecadeReactionStat.PeriodStartedAt {
-			lastDecadeQuantity = currentDecadeReactionStat.Quantity
-		} else {
-			lastDecadeQuantity = 0
-		}
-		needNewDecade = true
+		r.lastDecadeStat = r.currentDecadeStat
+		r.currentDecadeStat = r.createEmptyStat("decade", accountNumber, periodTimestamp)
 	}
 
-	if currentDecadeReactionStat == nil {
-		needNewDecade = true
+	// The first time the function is called
+	if r.currentDecadeStat == nil {
+		r.currentDecadeStat = r.createEmptyStat("decade", accountNumber, periodTimestamp)
 	}
 
-	if needNewDecade {
-		currentDecadeReactionStat = &reactionStat{
-			SectionName:      "reactions",
-			DiffFromPrevious: 5,
-			Period:           "decade",
-			PeriodStartedAt:  decadeTimestamp,
-			Quantity:         0,
-			Groups: reactionGroupStat{
-				Type: struct {
-					Data map[string]int `json:"data"`
-				}{
-					Data: make(map[string]int),
-				},
-				SubPeriod: make([]reactionSubPeriodStat, 0),
-			},
-		}
-	}
+	r.currentDecadeStat.Quantity++
+	plusOneValue(&r.currentDecadeStat.Groups.Type.Data, reaction.Reaction)
 
-	currentDecadeReactionStat.Quantity++
-	plusOneValue(&currentDecadeReactionStat.Groups.Type.Data, reaction.Reaction)
+	subPeriod := r.currentDecadeStat.Groups.SubPeriod
+	subPeriodTimestamp := absYear(reaction.Timestamp)
+	needNewSubPeriod := len(subPeriod) == 0 || subPeriod[len(subPeriod)-1].Name != strconv.FormatInt(subPeriodTimestamp, 10)
 
-	subPeriod := currentDecadeReactionStat.Groups.SubPeriod
-	yearTimestamp := absYear(reaction.Timestamp)
-	needNewYear := len(subPeriod) == 0 || subPeriod[len(subPeriod)-1].Name != strconv.FormatInt(yearTimestamp, 10)
-
-	if needNewYear {
+	if needNewSubPeriod {
 		subPeriod = append(subPeriod, reactionSubPeriodStat{
-			Name: strconv.FormatInt(yearTimestamp, 10),
+			Name: strconv.FormatInt(subPeriodTimestamp, 10),
 			Data: make(map[string]int),
 		})
 	}
 	plusOneValue(&subPeriod[len(subPeriod)-1].Data, reaction.Reaction)
-	currentDecadeReactionStat.Groups.SubPeriod = subPeriod
+	r.currentDecadeStat.Groups.SubPeriod = subPeriod
 
 	return nil
 }

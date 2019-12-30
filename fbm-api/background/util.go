@@ -59,6 +59,22 @@ func absDecade(timestamp int64) int64 {
 	return absDay.Unix()
 }
 
+// absPeriod find start time of the period in seconds
+func absPeriod(period string, timestamp int64) int64 {
+	switch period {
+	case "week":
+		return absWeek(timestamp)
+	case "month":
+		return absMonth(timestamp)
+	case "year":
+		return absYear(timestamp)
+	case "decade":
+		return absDecade(timestamp)
+	default:
+		return timestamp
+	}
+}
+
 func timestampToDateString(timestamp int64) string {
 	t := time.Unix(timestamp, 0).UTC()
 	return t.Format("2006-01-02")
