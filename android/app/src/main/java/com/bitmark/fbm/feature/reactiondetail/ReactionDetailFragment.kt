@@ -136,7 +136,7 @@ class ReactionDetailFragment : BaseSupportFragment() {
         rv.addOnScrollListener(endlessScrollListener)
         val itemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)
         val dividerDrawable =
-            ContextCompat.getDrawable(context!!, R.drawable.double_divider_white)
+            ContextCompat.getDrawable(context!!, R.drawable.double_divider_white_black_stroke)
         if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
         rv.addItemDecoration(itemDecoration)
         adapter = ReactionRecyclerViewAdapter(period)

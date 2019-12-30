@@ -5,16 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/athens_gray"
-    android:paddingTop="@dimen/dp_18"
+    android:background="@color/white"
+    android:paddingStart="@dimen/dp_18"
+    android:paddingTop="@dimen/dp_30"
+    android:paddingEnd="@dimen/dp_18"
+    android:paddingBottom="@dimen/dp_30"
     >
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvInfoVideo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_18"
-        android:layout_marginEnd="@dimen/dp_18"
         android:fontFamily="@font/grotesk_regular_font_family"
         android:includeFontPadding="false"
         android:lineSpacingExtra="@dimen/sp_4"

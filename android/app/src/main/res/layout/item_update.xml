@@ -5,8 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/athens_gray"
-    android:padding="@dimen/dp_18"
+    android:background="@color/white"
+    android:paddingStart="@dimen/dp_18"
+    android:paddingTop="@dimen/dp_30"
+    android:paddingEnd="@dimen/dp_18"
+    android:paddingBottom="@dimen/dp_30"
     >
 
     <androidx.appcompat.widget.AppCompatTextView
