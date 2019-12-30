@@ -67,7 +67,6 @@ class UsageLocalDataSource @Inject constructor(
         }
     }.flatMap { ps ->
         databaseApi.rxSingle { databaseGateway ->
-            ps.canonical()
             ps.applyRequiredValues()
             databaseGateway.postDao().save(ps).andThen(Single.just(ps))
         }

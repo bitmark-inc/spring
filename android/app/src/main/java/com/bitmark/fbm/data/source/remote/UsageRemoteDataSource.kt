@@ -6,11 +6,10 @@
  */
 package com.bitmark.fbm.data.source.remote
 
-import com.bitmark.fbm.data.model.entity.*
+import com.bitmark.fbm.data.model.entity.applyRequiredValues
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -21,44 +20,11 @@ class UsageRemoteDataSource @Inject constructor(
     rxErrorHandlingComposer: RxErrorHandlingComposer
 ) : RemoteDataSource(fbmApi, converter, rxErrorHandlingComposer) {
 
-    fun listPost(startedAtSec: Long, endedAtSec: Long) = listRemotePost(startedAtSec, endedAtSec)
-
-    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long) = listRemotePost(
-        startedAtSec,
-        endedAtSec
-    ).map { posts ->
-        posts.canonical()
-        posts.applyRequiredValues()
-        posts.filter { p -> p.type == type }
-    }
-
-    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long) = listRemotePost(
-        startedAtSec,
-        endedAtSec
-    ).map { posts -> posts.filter { p -> p.tags?.map { t -> t.name }?.contains(tag) == true } }
-
-    fun listPostByLocationNames(
-        locationNames: List<String>,
-        startedAtSec: Long,
-        endedAtSec: Long
-    ): Single<List<PostR>> = listRemotePost(
-        startedAtSec,
-        endedAtSec
-    ).map { posts -> posts.filter { p -> p.location != null && locationNames.contains(p.location!!.name) } }
-
-    private fun listRemotePost(startedAtSec: Long, endedAtSec: Long) =
-        fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }.subscribeOn(
-            Schedulers.io()
-        )
-
-    fun listReactionByType(
-        reaction: Reaction,
-        startedAtSec: Long,
-        endedAtSec: Long
-    ) = listReaction(
-        startedAtSec,
-        endedAtSec
-    ).map { reactions -> reactions.filter { r -> r.reaction == reaction } }
+    fun listPost(startedAtSec: Long, endedAtSec: Long) =
+        fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }.map { posts ->
+            posts.applyRequiredValues()
+            posts
+        }.subscribeOn(Schedulers.io())
 
     fun listReaction(startedAtSec: Long, endedAtSec: Long) =
         fbmApi.listReaction(startedAtSec, endedAtSec).map { res -> res["result"] }.subscribeOn(

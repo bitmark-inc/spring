@@ -129,7 +129,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             )
             val info = StringBuilder(context.getString(R.string.date_format_1).format(date, time))
             val tags = item.tags
-            val firstTag = if (tags.isNotEmpty()) tags[0].removeQuote() else null
+            val firstTag = if (tags.isNotEmpty()) tags[0] else null
             if (firstTag != null) {
                 info.append(" ")
                 if (item.hasSingleTag()) {

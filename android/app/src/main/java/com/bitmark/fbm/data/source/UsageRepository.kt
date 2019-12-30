@@ -89,8 +89,7 @@ class UsageRepository(
         startedAtSec: Long,
         endedAtSec: Long,
         limit: Int
-    ) = remoteDataSource.listPostByType(
-        type,
+    ) = remoteDataSource.listPost(
         startedAtSec,
         endedAtSec
     ).flatMap { posts ->
@@ -150,7 +149,7 @@ class UsageRepository(
     }
 
     private fun syncPostsByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int) =
-        remoteDataSource.listPostByTag(tag, startedAtSec, endedAtSec)
+        remoteDataSource.listPost(startedAtSec, endedAtSec)
             .flatMap { posts ->
                 if (posts.isEmpty()) {
                     Single.just(listOf())
@@ -203,8 +202,7 @@ class UsageRepository(
         startedAtSec: Long,
         endedAtSec: Long,
         limit: Int
-    ): Single<List<PostData>> = remoteDataSource.listPostByLocationNames(
-        locationNames,
+    ): Single<List<PostData>> = remoteDataSource.listPost(
         startedAtSec,
         endedAtSec
     ).flatMap { posts ->
@@ -311,7 +309,7 @@ class UsageRepository(
         endedAtSec: Long,
         limit: Int
     ) =
-        remoteDataSource.listReactionByType(reaction, startedAtSec, endedAtSec)
+        remoteDataSource.listReaction(startedAtSec, endedAtSec)
             .flatMap { rs ->
                 if (rs.isEmpty()) {
                     Single.just(rs)
