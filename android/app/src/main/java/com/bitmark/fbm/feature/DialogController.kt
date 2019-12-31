@@ -14,7 +14,7 @@ import com.bitmark.fbm.R
 import com.bitmark.fbm.util.view.TaggedAlertDialog
 import java.util.*
 
-class DialogController(private val activity: Activity) {
+class DialogController(internal val activity: Activity) {
 
     private val queue = ArrayDeque<TaggedAlertDialog>()
 

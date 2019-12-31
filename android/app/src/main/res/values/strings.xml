@@ -165,6 +165,9 @@
     <string name="we_are_waiting_for_fb_2">We’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have. You can safely close this app now.</string>
     <string name="sorry_fb_is_still_prepare">Sorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have. You can safely close this app now.</string>
     <string name="you_requested_your_fb_archive">You requested your Facebook data archive</string>
+    <string name="update_now_arrow">Update now »</string>
+    <string name="update_available">Update Available</string>
+    <string name="a_new_version_is_available">A new version is available. Please update now to see the latest features.</string>
 
     <string-array name="day_of_week">
         <item>S</item>

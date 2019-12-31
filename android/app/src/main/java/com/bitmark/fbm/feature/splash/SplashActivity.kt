@@ -89,11 +89,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     val data = res.data()!!
                     val versionOutOfDate = data.first
                     if (versionOutOfDate) {
-                        // TODO change text later
-                        dialogController.alert(
-                            "New Update Available",
-                            "Your app is out of date, please update to the latest version."
-                        ) {
+                        dialogController.showUpdateRequired {
                             val updateUrl = data.second
                             val url = URL(updateUrl)
                             if (url.host == Constants.GOOGLE_PLAY_HOST) {

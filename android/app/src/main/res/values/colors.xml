@@ -32,6 +32,7 @@
     <color name="white_b3">#B3FFFFFF</color>
     <color name="indian_khaki">#BBAB8C</color>
     <color name="indian_khaki_66">#66BBAB8C</color>
+    <color name="black_trans_80">#80000000</color>
 
     <array name="color_palette_1">
         <item>@color/mabilu</item>

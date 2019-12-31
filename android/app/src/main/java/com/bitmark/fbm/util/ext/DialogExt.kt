@@ -8,6 +8,7 @@ package com.bitmark.fbm.util.ext
 
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.DialogController
+import com.bitmark.fbm.util.view.ActionAppCompatDialog
 
 fun DialogController.unexpectedAlert(action: () -> Unit = {}) =
     alert(
@@ -17,3 +18,14 @@ fun DialogController.unexpectedAlert(action: () -> Unit = {}) =
         false,
         clickEvent = action
     )
+
+fun DialogController.showUpdateRequired(action: () -> Unit) = show(
+    ActionAppCompatDialog(
+        activity,
+        R.string.update_available,
+        R.string.a_new_version_is_available,
+        R.string.update_now_arrow,
+        "update_required",
+        action
+    )
+)

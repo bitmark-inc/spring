@@ -7,6 +7,8 @@
 package com.bitmark.fbm.util.view
 
 import android.content.Context
+import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 
-class TaggedAlertDialog(context: Context, val tag: String?) : AlertDialog(context)
+open class TaggedAlertDialog(context: Context, val tag: String?, @StyleRes theme: Int = 0) :
+    AlertDialog(context, theme)
