@@ -130,11 +130,11 @@ func (b *BackgroundContext) downloadArchive(job *work.Job) (err error) {
 		return err
 	}
 
-	enqueuer.EnqueueUniqueIn(jobUploadArchive, 1, map[string]interface{}{
-		"s3_key":         s3key,
-		"account_number": accountNumber,
-		"archive_id":     archiveid,
-	})
+	// enqueuer.EnqueueUniqueIn(jobUploadArchive, 1, map[string]interface{}{
+	// 	"s3_key":         s3key,
+	// 	"account_number": accountNumber,
+	// 	"archive_id":     archiveid,
+	// })
 
 	logEntity.Info("Finish...")
 
