@@ -6,3 +6,18 @@
  */
 package com.bitmark.fbm.util.ext
 
+import java.text.DecimalFormat
+import kotlin.math.ln
+import kotlin.math.pow
+
+fun Double.abbreviate(): String {
+    val formatter = DecimalFormat("#.#")
+    if (this < 1000) return formatter.format(this)
+    val exp = (ln(this) / ln(1000.0)).toInt()
+    val n = formatter.format(this / 1000.0.pow(exp.toDouble()))
+    return String.format(
+        "%s%c",
+        n,
+        "KMGTPE"[exp - 1]
+    )
+}

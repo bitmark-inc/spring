@@ -6,21 +6,19 @@
  */
 package com.bitmark.fbm.util.view.statistic
 
+import com.bitmark.fbm.util.ext.abbreviate
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.ValueFormatter
-import java.text.DecimalFormat
 
 
 class StackedBarValueFormatter(private val isHorizontal: Boolean) : ValueFormatter() {
-
-    private val formatter = DecimalFormat("#")
 
     private var lastEntry: BarEntry? = null
 
     private var iteratedStackIndex = 0
 
     override fun getFormattedValue(value: Float): String {
-        return formatter.format(value)
+        return value.toDouble().abbreviate()
     }
 
     override fun getBarStackedLabel(value: Float, stackedEntry: BarEntry?): String {
@@ -38,7 +36,7 @@ class StackedBarValueFormatter(private val isHorizontal: Boolean) : ValueFormatt
 
         val v = when (yValLabelIndex) {
             iteratedStackIndex -> {
-                formatter.format(stackedEntry.y.toDouble())
+                stackedEntry.y.toDouble().abbreviate()
             }
             else               -> ""
         }
