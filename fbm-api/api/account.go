@@ -85,3 +85,26 @@ func (s *Server) meRoute(meAlias string) gin.HandlerFunc {
 		c.Set("account_number", accountNumber)
 	}
 }
+
+func (s *Server) accountUpdateMetadata(c *gin.Context) {
+	var params struct {
+		Metadata map[string]interface{} `json:"metadata"`
+	}
+
+	if err := c.BindJSON(&params); err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+
+	accountNumber := c.Param("account_number")
+
+	account, err := s.store.UpdateAccountMetadata(c, &store.AccountQueryParam{
+		AccountNumber: &accountNumber,
+	}, params.Metadata)
+	if shouldInterupt(err, c) {
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"result": account})
+}

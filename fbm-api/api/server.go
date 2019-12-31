@@ -129,6 +129,7 @@ func (s *Server) Run(addr string) error {
 	accountRoute.Use(s.recognizeAccountMiddleware())
 	{
 		accountRoute.GET("/:account_number", s.accountDetail)
+		accountRoute.PATCH("/:account_number", s.accountUpdateMetadata)
 	}
 
 	archivesRoute := apiRoute.Group("/archives")
