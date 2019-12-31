@@ -337,7 +337,9 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                             data.sectionName,
                             data.groupName,
                             stringResLabelMap[data.stringRes!!]
-                                ?: error("could not found item is stringResLabelMap")
+                                ?: error("could not found item is stringResLabelMap"),
+                            stringRes = data.stringRes,
+                            periodRange = data.periodRange
                         )
                     }
                     chartClickListener?.onClick(data)

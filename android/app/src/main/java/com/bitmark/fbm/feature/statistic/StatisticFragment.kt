@@ -229,8 +229,8 @@ class StatisticFragment : BaseSupportFragment() {
 
         val title = getString(
             when (chartItem.sectionName) {
-                SectionName.POST        -> R.string.posts
-                SectionName.REACTION    -> R.string.reactions
+                SectionName.POST        -> chartItem.stringRes ?: R.string.posts
+                SectionName.REACTION    -> chartItem.stringRes ?: R.string.reactions
                 SectionName.MESSAGE     -> R.string.messages
                 SectionName.AD_INTEREST -> R.string.ad_interests
                 SectionName.ADVERTISER  -> R.string.advertisers

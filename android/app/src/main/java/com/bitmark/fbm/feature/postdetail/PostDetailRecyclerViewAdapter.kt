@@ -20,7 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.util.DateTimeUtil
-import com.bitmark.fbm.util.ext.*
+import com.bitmark.fbm.util.ext.getDimensionPixelSize
+import com.bitmark.fbm.util.ext.load
+import com.bitmark.fbm.util.ext.setSafetyOnclickListener
+import com.bitmark.fbm.util.ext.toHtmlSpan
 import com.bitmark.fbm.util.modelview.*
 import com.bitmark.fbm.util.view.Media
 import com.bitmark.fbm.util.view.NoUnderlineSpan
@@ -241,13 +244,10 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
                 tvCaptionVideo.text = item.content
                 if (item.thumbnail == null) {
                     ivVideoThumbnail.setBackgroundColor(context.getColor(R.color.athens_gray))
-                    ivDefaultThumbnail.visible()
                 } else {
                     ivVideoThumbnail.load(item.thumbnail, item.uri, error = {
                         ivVideoThumbnail.setBackgroundColor(context.getColor(R.color.athens_gray))
-                        ivDefaultThumbnail.visible()
                     })
-                    ivDefaultThumbnail.gone()
                 }
             }
         }

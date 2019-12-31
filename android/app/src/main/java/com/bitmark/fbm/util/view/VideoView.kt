@@ -10,7 +10,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.RelativeLayout
 import com.bitmark.fbm.R
-import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.load
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.visible
@@ -32,14 +31,12 @@ class VideoView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     fun showThumbnail(media: Media, error: () -> Unit) {
         this.media = media
-        ivDefaultThumbnail.gone()
         ivPlayVideo.visible()
         ivVideoThumbnail.load(media.url, media.uri, error)
     }
 
     fun showDefaultThumbnail() {
         ivVideoThumbnail.setBackgroundColor(context.getColor(R.color.athens_gray))
-        ivDefaultThumbnail.visible()
     }
 
     fun setPlayClickListener(listener: (Media) -> Unit) {
