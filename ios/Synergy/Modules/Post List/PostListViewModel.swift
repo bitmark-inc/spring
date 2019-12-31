@@ -27,6 +27,11 @@ class PostListViewModel: ViewModel {
         super.init()
     }
 
+    deinit {
+        // cancel syncing posts
+        PostDataEngine.datePeriodSubject?.onCompleted()
+    }
+
     func getPosts() {
         PostDataEngine.rx.fetch(with: filterScope)
             .map { $0.sorted(byKeyPath: "timestamp", ascending: false)}

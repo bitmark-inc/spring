@@ -39,11 +39,10 @@ class ReactionListViewController: ViewController, BackNavigator {
                 self.refreshView()
 
                 Observable.changeset(from: realmReactions)
-                    .subscribe(onNext: { [weak self] (_, changes) in
-                        guard let self = self, let changes = changes else { return }
-
+                    .subscribe(onNext: { [weak self] (_, _) in
+                        guard let self = self else { return }
                         self.refreshView()
-                        self.tableView.applyChangeset(changes, section: 1)
+                        self.tableView.reloadData()
                     }, onError: { (error) in
                         Global.log.error(error)
                     })
@@ -74,7 +73,7 @@ class ReactionListViewController: ViewController, BackNavigator {
                 flex.addItem(tableView).grow(1)
                 flex.addItem(emptyView)
                     .position(.absolute)
-                    .top(150).left(OurTheme.paddingInset.left)
+                    .top(200).left(OurTheme.paddingInset.left)
             }
     }
 

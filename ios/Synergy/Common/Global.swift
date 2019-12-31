@@ -87,6 +87,7 @@ enum AppError: Error {
     case incorrectEmptyRealmObject
     case biometricNotConfigured
     case biometricError
+    case didRemoteQuery
 
     static func errorByNetworkConnection(_ error: Error) -> Bool {
         guard let error = error as? Self else { return false }

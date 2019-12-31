@@ -26,14 +26,12 @@ class ReactionTableViewCell: TableViewCell {
             .bind({ $0.reactionCellBackgroundColor }, to: rx.backgroundColor)
 
         contentView.flex.direction(.column).define { (flex) in
-            flex.addItem().height(18).backgroundColor(.white)
-            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
-            flex.addItem().padding(12, 17, 27, 12).define { (flex) in
+            flex.addItem().padding(OurTheme.postCellPadding).define { (flex) in
                 flex.addItem(timeLabel)
                 flex.addItem(descriptionLabel).marginTop(12)
                 flex.addItem(reactionImageView).marginTop(23).alignSelf(.start)
             }
-            flex.addItem().backgroundColor(ColorTheme.silver.color).height(1)
+            flex.addItem(SectionSeparator())
         }
     }
 

@@ -12,27 +12,72 @@ import RxSwift
 import SwiftDate
 
 class ReactionDataEngine {
-    static func sync(datePeriod: DatePeriod?) {
+
+    static var datePeriodSubject: PublishSubject<DatePeriod>?
+
+    static func sync(datePeriod: DatePeriod?) throws {
         guard let datePeriod = datePeriod else { return }
 
-        var startDate = min(datePeriod.endDate, Date())
-        var endDate = startDate
+        datePeriodSubject = PublishSubject<DatePeriod>()
 
-        repeat {
-            endDate = startDate
-            startDate = max(startDate - 30.days, datePeriod.startDate)
+        let realm = try RealmConfig.currentRealm()
+        let queryTrack = realm.object(ofType: QueryTrack.self, forPrimaryKey: RemoteQuery.reactions.rawValue)
+        let trackedDatePeriods = queryTrack?.datePeriods ?? []
+        let rootEndDate = datePeriod.endDate
 
-            _ = ReactionService.getAll(startDate: startDate, endDate: endDate)
-                .flatMapCompletable { Storage.store($0, inGlobalRealm: true) }
-                .observeOn(SerialDispatchQueueScheduler(qos: .background))
-                .subscribe(onCompleted: {
-                    loadingState.onNext(.hide)
-                }, onError: { (error) in
-                    guard !AppError.errorByNetworkConnection(error) else { return }
+        var syncedStartDate: Date = Date()
+
+        _ = datePeriodSubject?
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: { (datePeriod) in
+                let (startDate, endDate) = (datePeriod.startDate, datePeriod.endDate)
+                _ = fetchRemote(startDate: startDate, endDate: endDate)
+                    .subscribe(onSuccess: { (syncedSt) in
+                        loadingState.onNext(.hide)
+                        syncedStartDate = syncedSt
+
+                        if syncedStartDate <= startDate {
+                            datePeriodSubject?.onCompleted()
+                        } else {
+                            Self.datePeriodSubject?.onNext(
+                                DatePeriod(startDate: startDate, endDate: syncedStartDate - 1.seconds))
+                        }
+                    }, onError: { (error) in
+                        guard !AppError.errorByNetworkConnection(error) else { return }
+                        Global.log.error(error)
+                    })
+            }, onError: { (error) in
+                if let error = error as? AppError {
+                    switch error {
+                    case .didRemoteQuery: break
+                    default:
+                        Global.log.error(error)
+                    }
+                } else {
                     Global.log.error(error)
-                })
+                }
+            }, onCompleted: {
+                QueryTrack.store(
+                    trackedDatePeriods: trackedDatePeriods, in: .reactions,
+                    syncedDatePeriod: DatePeriod(startDate: syncedStartDate, endDate: rootEndDate))
+            })
 
-        } while startDate > datePeriod.startDate
+        if queryTrack?.didQuery(with: datePeriod) ?? false {
+            loadingState.onNext(.hide)
+            datePeriodSubject?.onError(AppError.didRemoteQuery) // this is not error, just track to ignore waste to store QueryTrack
+        } else {
+            datePeriodSubject?.onNext(datePeriod)
+        }
+    }
+
+    static func fetchRemote(startDate: Date, endDate: Date) -> Single<Date> {
+        return ReactionService.getAll(startDate: startDate, endDate: endDate)
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .flatMap({ (reactions) -> Single<Date> in
+                let syncedStartDate = reactions.compactMap { $0.timestamp }.min() ?? startDate
+                return Storage.store(reactions)
+                    .andThen(Single.just(syncedStartDate))
+            })
     }
 }
 
@@ -49,7 +94,7 @@ extension Reactive where Base: ReactionDataEngine {
                     throw AppError.incorrectThread
                 }
 
-                let realm = try RealmConfig.globalRealm()
+                let realm = try RealmConfig.currentRealm()
 
                 guard let filterQuery = makeFilterQuery(filterScope) else {
                     throw AppError.incorrectReactionFilter
@@ -60,7 +105,7 @@ extension Reactive where Base: ReactionDataEngine {
                 if reactions.count == 0 { loadingState.onNext(.loading) }
 
                 let datePeriod = extractQueryDatePeriod(filterScope)
-                ReactionDataEngine.sync(datePeriod: datePeriod)
+                try ReactionDataEngine.sync(datePeriod: datePeriod)
             } catch {
                 event(.error(error))
             }

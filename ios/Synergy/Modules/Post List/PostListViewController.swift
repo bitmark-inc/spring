@@ -43,11 +43,10 @@ class PostListViewController: ViewController, BackNavigator {
                 self.refreshView()
 
                 Observable.changeset(from: realmPosts)
-                    .subscribe(onNext: { [weak self] (_, changes) in
-                        guard let self = self, let changes = changes else { return }
-
+                    .subscribe(onNext: { [weak self] (_, _) in
+                        guard let self = self else { return }
                         self.refreshView()
-                        self.tableView.applyChangeset(changes, section: 1)
+                        self.tableView.reloadData()
                     }, onError: { (error) in
                         Global.log.error(error)
                     })

@@ -165,6 +165,12 @@
 		5B4A23A523B21CD400447366 /* SectionSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A423B21CD400447366 /* SectionSeparator.swift */; };
 		5B4A23A623B21CD400447366 /* SectionSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A423B21CD400447366 /* SectionSeparator.swift */; };
 		5B4A23A723B21CD400447366 /* SectionSeparator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A423B21CD400447366 /* SectionSeparator.swift */; };
+		5B58AC3723BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
+		5B58AC3823BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
+		5B58AC3923BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
+		5B58AC3B23BADF920041F216 /* DatePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3A23BADF920041F216 /* DatePeriod.swift */; };
+		5B58AC3C23BADF920041F216 /* DatePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3A23BADF920041F216 /* DatePeriod.swift */; };
+		5B58AC3D23BADF920041F216 /* DatePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3A23BADF920041F216 /* DatePeriod.swift */; };
 		5B590A6E23B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
 		5B590A6F23B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
 		5B590A7023B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
@@ -742,6 +748,8 @@
 		5B4A239C23B2120B00447366 /* Insight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Insight.swift; sourceTree = "<group>"; };
 		5B4A23A023B212E800447366 /* TimeUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUnit.swift; sourceTree = "<group>"; };
 		5B4A23A423B21CD400447366 /* SectionSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSeparator.swift; sourceTree = "<group>"; };
+		5B58AC3623BADC890041F216 /* QueryTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTrack.swift; sourceTree = "<group>"; };
+		5B58AC3A23BADF920041F216 /* DatePeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePeriod.swift; sourceTree = "<group>"; };
 		5B590A6D23B302D6006C194D /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
 		5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedBarValueFormatter.swift; sourceTree = "<group>"; };
 		5B590A7523B37CD0006C194D /* BiometricAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuth.swift; sourceTree = "<group>"; };
@@ -1475,6 +1483,7 @@
 				5B98950023AA0EC000B72700 /* FilterScope.swift */,
 				5B98950423AA338300B72700 /* GraphDataConverter.swift */,
 				5B590A7523B37CD0006C194D /* BiometricAuth.swift */,
+				5B58AC3A23BADF920041F216 /* DatePeriod.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1503,6 +1512,7 @@
 				5B4A239823B1D1C300447366 /* MediaData.swift */,
 				5B4A239C23B2120B00447366 /* Insight.swift */,
 				5B2097AC23B465070079B421 /* Reaction.swift */,
+				5B58AC3623BADC890041F216 /* QueryTrack.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2267,6 +2277,7 @@
 				5832FC57237A863300FA3196 /* Switch.swift in Sources */,
 				E2259CDB2387E56F00746280 /* ServerAPIError.swift in Sources */,
 				5832FC5A237A863300FA3196 /* SeparateLine.swift in Sources */,
+				5B58AC3B23BADF920041F216 /* DatePeriod.swift in Sources */,
 				5BBB663823A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */,
 				E28B55F0238CE66400F1BCF2 /* DataRequestedViewController.swift in Sources */,
 				5B9322FC23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
@@ -2318,6 +2329,7 @@
 				E222908C239509EF00412CBC /* PostListViewController.swift in Sources */,
 				5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */,
 				5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */,
+				5B58AC3723BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478C23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A523B464410079B421 /* ReactionAPI.swift in Sources */,
 				5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
@@ -2447,6 +2459,7 @@
 				5B5DFFE423A1F0F4003D1A1C /* NavigationController.swift in Sources */,
 				5B5DFFE523A1F0F4003D1A1C /* Switch.swift in Sources */,
 				5B5DFFE623A1F0F4003D1A1C /* ServerAPIError.swift in Sources */,
+				5B58AC3D23BADF920041F216 /* DatePeriod.swift in Sources */,
 				5BBB663A23A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */,
 				5B5DFFE823A1F0F4003D1A1C /* SeparateLine.swift in Sources */,
 				5B9322FE23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
@@ -2498,6 +2511,7 @@
 				5B5D001123A1F0F4003D1A1C /* HomeTabbarController.swift in Sources */,
 				5B5D001223A1F0F4003D1A1C /* UsageViewController.swift in Sources */,
 				5B5D001323A1F0F4003D1A1C /* PostListViewController.swift in Sources */,
+				5B58AC3923BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478E23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A723B464410079B421 /* ReactionAPI.swift in Sources */,
 				5B5D001423A1F0F4003D1A1C /* FbmAccount.swift in Sources */,
@@ -2619,6 +2633,7 @@
 				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
 				E2DB668C237D3B69005367C2 /* Switch.swift in Sources */,
 				E2259CDC2387E56F00746280 /* ServerAPIError.swift in Sources */,
+				5B58AC3C23BADF920041F216 /* DatePeriod.swift in Sources */,
 				5BBB663923A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */,
 				E2DB668D237D3B69005367C2 /* SeparateLine.swift in Sources */,
 				5B9322FD23A3635200C3C408 /* SignOutViewModel.swift in Sources */,
@@ -2670,6 +2685,7 @@
 				5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E8238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
 				E222908D239509EF00412CBC /* PostListViewController.swift in Sources */,
+				5B58AC3823BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478D23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B2097A623B464410079B421 /* ReactionAPI.swift in Sources */,
 				E28B560F238D16E800F1BCF2 /* FbmAccount.swift in Sources */,

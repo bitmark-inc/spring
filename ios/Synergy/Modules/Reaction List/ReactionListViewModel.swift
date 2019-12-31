@@ -27,6 +27,11 @@ class ReactionListViewModel: ViewModel {
         super.init()
     }
 
+    deinit {
+        // cancel syncing reactions
+        ReactionDataEngine.datePeriodSubject?.onCompleted()
+    }
+
     func getReactions() {
         ReactionDataEngine.rx.fetch(with: filterScope)
             .map { $0.sorted(byKeyPath: "timestamp", ascending: false)}
