@@ -18,6 +18,8 @@ enum class Event(val value: String) {
 
     ACCOUNT_UNLINK_ERROR("account_unlink_error"),
 
+    ACCOUNT_SIGNIN_ERROR("sign_in_error"),
+
     ARCHIVE_REQUEST_AUTOMATE_PAGE_DETECTION_ERROR("archive_automate_page_detection_error"),
 
     ARCHIVE_REQUEST_PREPARE_DATA_ERROR("archive_request_prepare_data_error"),

@@ -118,6 +118,7 @@ class SignInActivity : BaseAppCompatActivity() {
                 res.isError()   -> {
                     progressBar.gone()
                     blocked = false
+                    logger.logError(Event.ACCOUNT_SIGNIN_ERROR, res.throwable())
                     dialogController.alert(R.string.error, R.string.could_not_sign_in)
                 }
                 res.isLoading() -> {
