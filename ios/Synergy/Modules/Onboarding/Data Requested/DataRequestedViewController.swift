@@ -18,6 +18,7 @@ class DataRequestedViewController: ViewController {
     // MARK: - Properties
     lazy var dataRequestedTitleLabel = makeDataRequestedTitleLabel()
     lazy var dataRequestedDescLabel = makeDataRequestedDescLabel()
+    lazy var dataRequestedTimeDescLabel = makeDataRequestedTimeDescLabel()
     lazy var checkNowButton = makeCheckNowButton()
     let notificationCenter = UNUserNotificationCenter.current()
 
@@ -41,17 +42,24 @@ class DataRequestedViewController: ViewController {
             Global.log.error(AppError.emptyLocal)
             return
         }
+
+        dataRequestedTimeDescLabel.setText(
+            R.string.phrase.dataRequestedDescriptionTime(
+                archiveCreatedAt.string(withFormat: Constant.TimeFormat.archive)))
         
         switch viewModel.mission {
-        case .requestData, .checkRequestedData:
+        case .requestData:
             dataRequestedTitleLabel.setText(R.string.phrase.dataRequestedScreenTitle().localizedUppercase)
-            dataRequestedDescLabel.setText(
-                R.string.phrase.dataRequestedDescription(archiveCreatedAt.string(withFormat: Constant.TimeFormat.archive)))
-            
+            dataRequestedDescLabel.setText(R.string.phrase.dataRequestedDescription())
+
+        case .checkRequestedData:
+            dataRequestedTitleLabel.setText(R.string.phrase.dataRequestedScreenTitle().localizedUppercase)
+            dataRequestedDescLabel.setText(R.string.phrase.dataRequestedCheckDescription())
+
         case .downloadData:
             dataRequestedTitleLabel.setText(R.string.phrase.dataRequestedWaitingScreenTitle().localizedUppercase)
-            dataRequestedDescLabel.setText(
-                R.string.phrase.dataRequestedWaitingDescription(archiveCreatedAt.string(withFormat: Constant.TimeFormat.archive)))
+            dataRequestedDescLabel.setText(R.string.phrase.dataRequestedWaitingDescription())
+
         case .none:
             break
         }
@@ -107,6 +115,7 @@ class DataRequestedViewController: ViewController {
 
                 flex.addItem(dataRequestedTitleLabel).marginTop(Size.dh(45))
                 flex.addItem(dataRequestedDescLabel).marginTop(Size.dh(15))
+                flex.addItem(dataRequestedTimeDescLabel).marginTop(Size.dh(10))
                 
                 flex.addItem(checkNowButton)
                     .width(100%)
@@ -148,5 +157,15 @@ extension DataRequestedViewController {
         let submitButton = SubmitButton(title: R.string.localizable.check_now())
         submitButton.applyTheme(colorTheme: .cognac)
         return submitButton
+    }
+
+    fileprivate func makeDataRequestedTimeDescLabel() -> Label {
+        let label = Label()
+        label.numberOfLines = 0
+        label.apply(
+            text: "",
+            font: R.font.atlasGroteskThinItalic(size: Size.ds(18)),
+            colorTheme: .black, lineHeight: 1.2)
+        return label
     }
 }

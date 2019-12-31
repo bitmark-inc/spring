@@ -31,6 +31,14 @@ extension SubmitButton {
                 .bind({ $0.blackTextColor.withAlphaComponent(0.5) }, to: rx.titleColor(for: .disabled))
                 .disposed(by: disposeBag)
 
+        case .indianKhaki:
+            themeService.rx
+                .bind({ UIImage(color: $0.themeIndianKhakiColor, size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .normal))
+                .bind({ UIImage(color: $0.themeIndianKhakiColor.withAlphaComponent(0.5), size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .disabled))
+                .bind({ $0.blackTextColor }, to: rx.titleColor(for: .normal))
+                .bind({ $0.blackTextColor.withAlphaComponent(0.5) }, to: rx.titleColor(for: .disabled))
+                .disposed(by: disposeBag)
+
         default:
             themeService.rx
                 .bind({ UIImage(color: $0.themeColor, size: CGSize(width: 1, height: 1)) }, to: rx.backgroundImage(for: .normal))

@@ -156,11 +156,9 @@ extension GetYourDataViewController {
         return button
     }
 
-    fileprivate func makeAutomateAuthorizeButton() -> Button {
-        let button = Button()
-        button.applyLight(
-            title: R.string.phrase.getYourDataAuthorizeAutomate(),
-            font: R.font.atlasGroteskLight(size: 18))
+    fileprivate func makeAutomateAuthorizeButton() -> SubmitButton {
+        let button = SubmitButton(title: R.string.phrase.getYourDataAuthorizeAutomate())
+        button.applyTheme(colorTheme: .indianKhaki)
         return button
     }
 }

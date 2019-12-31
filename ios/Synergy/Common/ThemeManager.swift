@@ -45,6 +45,7 @@ protocol Theme {
     var indicatorColor: UIColor { get }
     var themeColor: UIColor { get }
     var themeBlueColor: UIColor { get }
+    var themeIndianKhakiColor: UIColor { get }
     var themeGreenColor: UIColor { get }
     var themeMercuryColor: UIColor { get }
     var controlBackgroundColor: UIColor { get }
@@ -75,6 +76,7 @@ struct LightTheme: Theme {
     let indicatorColor = UIColor.Material.grey
     let themeColor = UIColor(hexString: "#932C19")!
     let themeBlueColor = UIColor(hexString: "#0011AF")!
+    let themeIndianKhakiColor = ColorTheme.indianKhaki.color
     let themeGreenColor = UIColor(hexString: "#5F6D07")!
     let themeMercuryColor = UIColor(hexString: "#E7E7E7")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
@@ -106,6 +108,7 @@ struct DarkTheme: Theme {
     let indicatorColor = UIColor.Material.grey
     let themeColor = UIColor(hexString: "#932C19")!
     let themeBlueColor = UIColor(hexString: "#0011AF")!
+    let themeIndianKhakiColor = ColorTheme.indianKhaki.color
     let themeGreenColor = UIColor(hexString: "#5F6D07")!
     let themeMercuryColor = UIColor(hexString: "#E7E7E7")!
     let controlBackgroundColor = UIColor(hexString: "#EDF0F4")!
@@ -121,7 +124,7 @@ struct DarkTheme: Theme {
 enum ColorTheme: Int, CaseIterable {
     case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord, silver, yukonGold
 
-    case white, cognac, black, tundora, mercury
+    case white, cognac, black, tundora, mercury, indianKhaki
 
     var color: UIColor {
         switch self {
@@ -153,6 +156,7 @@ enum ColorTheme: Int, CaseIterable {
         case .black:        return UIColor.black
         case .tundora:      return UIColor(hexString: "#444")!
         case .mercury:      return UIColor(hexString: "#E7E7E7")!
+        case .indianKhaki:      return UIColor(hexString: "#BBAB8C")!
         }
     }
 
@@ -186,6 +190,7 @@ enum ColorTheme: Int, CaseIterable {
         case .black:        return UIColor.black
         case .tundora:      return UIColor(hexString: "#444")!
         case .mercury:      return UIColor(hexString: "#E7E7E7")!
+        case .indianKhaki:      return UIColor(hexString: "#BBAB8C")!
         }
     }
 
@@ -219,6 +224,7 @@ enum ColorTheme: Int, CaseIterable {
         case .black:        return "Black"
         case .tundora:      return "Tundora"
         case .mercury:      return "Mercury"
+        case .indianKhaki:      return "Cornflower Blue"
         }
     }
 }

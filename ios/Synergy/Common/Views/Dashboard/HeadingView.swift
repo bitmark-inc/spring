@@ -74,7 +74,7 @@ class HeadingView: UIView {
 
                 flex.addItem(accountButton)
                     .width(20).height(20)
-                    .position(.absolute).top(10).right(18)
+                    .position(.absolute).top(21).right(18)
         }
 
         backButton.titleLabel?.font = R.font.avenir(size: 14)

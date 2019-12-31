@@ -37,12 +37,16 @@
 "guide.requiredHelp" = "Your Help is Required.";
 
 "dataRequested.screenTitle" = "Data Requested";
-"dataRequested.description" = "You requested your Facebook data archive on %@.\n\nWe’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have.";
+"dataRequested.description" = "We’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have.";
+"dataRequested.descriptionTime" = "You requested your Facebook data archive on %@.";
+
+"dataRequested.check.description" = "We’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have. You can safely close this app now.";
+
 "dataRequested.waiting.screenTitle" = "Still Waiting";
-"dataRequested.waiting.description" = "You requested your Facebook data archive on %@.\n\nSorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have.";
+"dataRequested.waiting.description" = "Sorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have. You can safely close this app now.";
 
 "dataAnalyzing.screenTitle" = "Analyzing Data";
-"dataAnalyzing.description" = "Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready.";
+"dataAnalyzing.description" = "Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready. You can safely close this app now.";
 
 "dataRequested.scheduleNotify.message" = "Just reminding you to check if your Facebook archive is ready. Tap to continue.";
 
