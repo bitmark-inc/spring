@@ -7,7 +7,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (b *BackgroundContext) notifyAnalyzingDone(job *work.Job) error {
+func (b *BackgroundContext) notifyAnalyzingDone(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {

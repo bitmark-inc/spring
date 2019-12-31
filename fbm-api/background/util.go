@@ -1,9 +1,10 @@
 package main
 
 import (
+	"context"
+
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 
-	"context"
 	"time"
 )
 
@@ -95,14 +96,12 @@ func getDiff(current, last float64) float64 {
 type statSaver struct {
 	store store.FBDataStore
 	queue []store.FBStat
-	ctx   context.Context
 }
 
-func newStatSaver(ctx context.Context, fbstore store.FBDataStore) *statSaver {
+func newStatSaver(fbstore store.FBDataStore) *statSaver {
 	return &statSaver{
 		store: fbstore,
 		queue: make([]store.FBStat, 0),
-		ctx:   ctx,
 	}
 }
 
@@ -126,8 +125,9 @@ func (s *statSaver) save(key string, timestamp int64, value interface{}) error {
 }
 
 func (s *statSaver) flush() error {
+	ctx := context.Background()
 	if len(s.queue) > 0 {
-		err := s.store.AddFBStats(s.ctx, s.queue)
+		err := s.store.AddFBStats(ctx, s.queue)
 		return err
 	}
 	return nil

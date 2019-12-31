@@ -65,7 +65,8 @@ type statisticData struct {
 	} `json:"groups,omitempty"`
 }
 
-func (b *BackgroundContext) extractPost(job *work.Job) error {
+func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {
@@ -76,6 +77,8 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 
 	counter := newPostStatisticCounter()
 	currentOffset := 0
+
+	saver := newStatSaver(b.fbDataStore)
 
 	for {
 		postRespData, err := b.bitSocialClient.GetPosts(ctx, accountNumber, currentOffset)
@@ -152,7 +155,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 				Title:     r.Title,
 				Tags:      friends,
 			}
-			if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post", r.Timestamp, post); err != nil {
+			if err := saver.save(accountNumber+"/post", r.Timestamp, post); err != nil {
 				logEntity.Error(err)
 				sentry.CaptureException(err)
 				continue
@@ -160,6 +163,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 			counter.countWeek(&post)
 			counter.countYear(&post)
 			counter.countDecade(&post)
+			counter.LastPostTimestamp = post.Timestamp
 
 			if counter.earliestPostTimestamp > post.Timestamp {
 				counter.earliestPostTimestamp = post.Timestamp
@@ -177,6 +181,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) error {
 
 	logEntity.Info("Flushing...")
 	// Force to flush current data
+	saver.flush()
 	counter.flushWeekData()
 	counter.flushYearData()
 	counter.flushDecadeData()
@@ -255,6 +260,9 @@ type postStatisticCounter struct {
 	YearPlacePeriodsMap   map[string]map[string]int
 	DecadePlacePeriodsMap map[string]map[string]int
 
+	// LastPostTimestamp a flag to check duplicated item
+	LastPostTimestamp int64
+
 	// to cache the current week, year or decade
 	currentWeek   int64
 	currentYear   int64
@@ -328,6 +336,7 @@ func newPostStatisticCounter() *postStatisticCounter {
 		Decades: make([]statisticData, 0),
 
 		lastLocation:          nil,
+		LastPostTimestamp:     time.Now().Unix(),
 		earliestPostTimestamp: time.Now().Unix(),
 	}
 }
@@ -404,6 +413,11 @@ func (sc *postStatisticCounter) flushWeekData() {
 }
 
 func (sc *postStatisticCounter) countWeek(r *postData) {
+	// Skip duplicated items
+	if sc.LastPostTimestamp == r.Timestamp {
+		return
+	}
+
 	week := absWeek(r.Timestamp)
 	if sc.currentWeek == 0 {
 		sc.lastWeek = 0
@@ -507,6 +521,11 @@ func (sc *postStatisticCounter) flushYearData() {
 }
 
 func (sc *postStatisticCounter) countYear(r *postData) {
+	// Skip duplicated items
+	if sc.LastPostTimestamp == r.Timestamp {
+		return
+	}
+
 	year := absYear(r.Timestamp)
 	if sc.currentYear == 0 {
 		sc.lastYear = 0
@@ -610,6 +629,11 @@ func (sc *postStatisticCounter) flushDecadeData() {
 }
 
 func (sc *postStatisticCounter) countDecade(r *postData) {
+	// Skip duplicated items
+	if sc.LastPostTimestamp == r.Timestamp {
+		return
+	}
+
 	decade := absDecade(r.Timestamp)
 	if sc.currentDecade == 0 {
 		sc.lastDecade = 0

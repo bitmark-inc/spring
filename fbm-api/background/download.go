@@ -22,7 +22,8 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
-func (b *BackgroundContext) downloadArchive(job *work.Job) error {
+func (b *BackgroundContext) downloadArchive(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
 	fileURL := job.ArgString("file_url")
 	rawCookie := job.ArgString("raw_cookie")

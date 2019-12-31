@@ -16,6 +16,7 @@ require (
 	github.com/jackc/pgx/v4 v4.1.2
 	github.com/mattn/go-sqlite3 v2.0.1+incompatible // indirect
 	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b // indirect
+	github.com/prometheus/client_golang v1.3.0
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.4.2
@@ -23,4 +24,5 @@ require (
 	github.com/ugorji/go v1.1.7 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
 	golang.org/x/crypto v0.0.0-20191219195013-becbf705a915
+	golang.org/x/sync v0.0.0-20190911185100-cd5d95a43a6e
 )

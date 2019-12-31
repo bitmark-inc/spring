@@ -18,7 +18,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-func (b *BackgroundContext) extractMedia(job *work.Job) error {
+func (b *BackgroundContext) extractMedia(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
 	s3key := job.ArgString("s3_key")
 	archiveid := job.ArgInt64("archive_id")
@@ -114,13 +115,6 @@ func (b *BackgroundContext) extractMedia(job *work.Job) error {
 		logEntity.Error(err)
 		return err
 	}
-
-	// logEntity.Info("Send notification to: ", accountNumber)
-	// job.Checkin("Send notification to: " + accountNumber)
-	// if err := b.oneSignalClient.NotifyFBArchiveAvailable(ctx, accountNumber); err != nil {
-	// 	logEntity.Error(err)
-	// 	return err
-	// }
 
 	logEntity.Info("Finish...")
 

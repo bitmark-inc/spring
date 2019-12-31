@@ -10,7 +10,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (b *BackgroundContext) extractSentiment(job *work.Job) error {
+func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
 	logEntry := log.WithField("prefix", job.Name+"/"+job.ID)
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {
@@ -18,7 +19,7 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) error {
 	}
 
 	ctx := context.Background()
-	saver := newStatSaver(ctx, b.fbDataStore)
+	saver := newStatSaver(b.fbDataStore)
 	counter := newSentimentStatCounter(ctx, logEntry, saver)
 	firstPost, err := b.bitSocialClient.GetFirstPost(ctx, accountNumber)
 	logEntry.Debug(firstPost)

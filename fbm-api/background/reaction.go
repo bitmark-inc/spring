@@ -13,7 +13,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (b *BackgroundContext) extractReaction(job *work.Job) error {
+func (b *BackgroundContext) extractReaction(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
 	logEntry := log.WithField("prefix", job.Name+"/"+job.ID)
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {
@@ -24,7 +25,7 @@ func (b *BackgroundContext) extractReaction(job *work.Job) error {
 	var total int64
 
 	ctx := context.Background()
-	saver := newStatSaver(ctx, b.fbDataStore)
+	saver := newStatSaver(b.fbDataStore)
 	counter := newReactionStatCounter(ctx, logEntry, saver, accountNumber)
 
 	for {

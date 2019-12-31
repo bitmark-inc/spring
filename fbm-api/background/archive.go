@@ -15,7 +15,8 @@ import (
 	"github.com/spf13/viper"
 )
 
-func (b *BackgroundContext) submitArchive(job *work.Job) error {
+func (b *BackgroundContext) submitArchive(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
 	s3key := job.ArgString("s3_key")
 	archiveid := job.ArgInt64("archive_id")
@@ -77,7 +78,8 @@ func (b *BackgroundContext) submitArchive(job *work.Job) error {
 	return nil
 }
 
-func (b *BackgroundContext) checkArchive(job *work.Job) error {
+func (b *BackgroundContext) checkArchive(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
 	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
 	archiveid := job.ArgInt64("archive_id")
 	if err := job.ArgError(); err != nil {

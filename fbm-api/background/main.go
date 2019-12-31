@@ -21,13 +21,17 @@ import (
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
 	"github.com/gomodule/redigo/redis"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	prefixed "github.com/x-cray/logrus-prefixed-formatter"
+	"golang.org/x/sync/errgroup"
 )
 
 var (
 	enqueuer *work.Enqueuer
+	pool     *work.WorkerPool
+	g        errgroup.Group
 )
 
 const (
@@ -142,11 +146,18 @@ func main() {
 	})
 
 	// Login to bitsocial server
-	ctx := context.Background()
-	if err := bitSocialClient.Login(ctx, viper.GetString("fbarchive.username"), viper.GetString("fbarchive.password")); err != nil {
-		log.Fatal(err)
-	}
-	log.Info("Success logged in to bitsocial server")
+	go func(bitSocialClient *fbarchive.Client) {
+		for {
+			ctx := context.Background()
+			err := bitSocialClient.Login(ctx, viper.GetString("fbarchive.username"), viper.GetString("fbarchive.password"))
+			if err == nil {
+				log.Info("Success logged in to bitsocial server")
+				return
+			}
+			log.WithError(err).Error("Cannot connect to bitsocial server")
+			time.Sleep(1 * time.Minute)
+		}
+	}(bitSocialClient)
 
 	// Init db
 	pgstore, err := store.NewPGStore(context.Background())
@@ -164,6 +175,12 @@ func main() {
 		geoServiceClient: geoServiceClient,
 	}
 
+	// Register metrics
+	if err := registerMetrics(); err != nil {
+		log.Fatal(err)
+	}
+	maxProcessingGaugeVec.WithLabelValues().Set(float64(viper.GetUint("worker.concurrency")))
+
 	redisPool := &redis.Pool{
 		MaxActive: 5,
 		MaxIdle:   5,
@@ -173,21 +190,38 @@ func main() {
 		},
 	}
 
-	pool := work.NewWorkerPool(*b, 2, "fbm", redisPool)
+	pool = work.NewWorkerPool(*b, viper.GetUint("worker.concurrency"), "fbm", redisPool)
 	enqueuer = work.NewEnqueuer("fbm", redisPool)
 
 	// Add middleware for logging for each job
 	pool.Middleware(b.log)
+	pool.Middleware(b.jobStartCollectiveMetric)
 
 	// Map the name of jobs to handler functions
-	pool.JobWithOptions(jobDownloadArchive, work.JobOptions{Priority: 10, MaxFails: 1}, b.downloadArchive)
-	pool.JobWithOptions(jobUploadArchive, work.JobOptions{Priority: 10, MaxFails: 1}, b.submitArchive)
-	pool.JobWithOptions(jobExtract, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractMedia)
-	pool.JobWithOptions(jobPeriodicArchiveCheck, work.JobOptions{Priority: 5, MaxFails: 1}, b.checkArchive)
-	pool.JobWithOptions(jobAnalyzePosts, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractPost)
-	pool.JobWithOptions(jobAnalyzeReactions, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractReaction)
-	pool.JobWithOptions(jobAnalyzeSentiments, work.JobOptions{Priority: 10, MaxFails: 1}, b.extractSentiment)
-	pool.JobWithOptions(jobNotificationFinish, work.JobOptions{Priority: 10, MaxFails: 1}, b.notifyAnalyzingDone)
+	pool.JobWithOptions(jobDownloadArchive,
+		work.JobOptions{Priority: 10, MaxFails: 1},
+		b.downloadArchive)
+	pool.JobWithOptions(jobUploadArchive,
+		work.JobOptions{Priority: 10, MaxFails: 1},
+		b.submitArchive)
+	pool.JobWithOptions(jobExtract,
+		work.JobOptions{Priority: 10, MaxFails: 1},
+		b.extractMedia)
+	pool.JobWithOptions(jobPeriodicArchiveCheck,
+		work.JobOptions{Priority: 5, MaxFails: 1},
+		b.checkArchive)
+	pool.JobWithOptions(jobAnalyzePosts,
+		work.JobOptions{Priority: 10, MaxFails: 1},
+		b.extractPost)
+	pool.JobWithOptions(jobAnalyzeReactions,
+		work.JobOptions{Priority: 10, MaxFails: 1},
+		b.extractReaction)
+	pool.JobWithOptions(jobAnalyzeSentiments,
+		work.JobOptions{Priority: 10, MaxFails: 1},
+		b.extractSentiment)
+	pool.JobWithOptions(jobNotificationFinish,
+		work.JobOptions{Priority: 10, MaxFails: 1},
+		b.notifyAnalyzingDone)
 
 	log.Info("Start listening")
 
@@ -197,14 +231,43 @@ func main() {
 	// Wait for a signal to quit:
 	signalChan := make(chan os.Signal, 2)
 	signal.Notify(signalChan, os.Interrupt, syscall.SIGTERM)
-	<-signalChan
 
-	// Stop the pool
-	pool.Stop()
-	sentry.Flush(time.Second * 5)
+	// Create a new mux server
+	server := http.NewServeMux()
+	server.Handle("/metrics", promhttp.Handler())
+
+	go func(signalChan chan os.Signal) {
+		<-signalChan
+		log.Info("Preparing to shutdown")
+
+		// Stop the pool
+		pool.Stop()
+		sentry.Flush(time.Second * 5)
+
+		os.Exit(1)
+	}(signalChan)
+
+	http.ListenAndServe(viper.GetString("worker_serveraddr"), server)
 }
 
 func (b *BackgroundContext) log(job *work.Job, next work.NextMiddlewareFunc) error {
 	log.WithField("args", job.Args).Info("Starting job: ", job.Name)
 	return next()
+}
+
+// For metric
+func (b *BackgroundContext) jobStartCollectiveMetric(job *work.Job, next work.NextMiddlewareFunc) error {
+	currentProcessingGaugeVec.WithLabelValues(job.Name).Inc()
+	return next()
+}
+
+func jobEndCollectiveMetric(err error, job *work.Job) error {
+	totalProcessedCounterVec.WithLabelValues(job.Name).Inc()
+	currentProcessingGaugeVec.WithLabelValues(job.Name).Dec()
+	if err != nil {
+		totalFailedCounterVec.WithLabelValues(job.Name).Inc()
+	} else {
+		totalSuccessfulCounterVec.WithLabelValues(job.Name).Inc()
+	}
+	return nil
 }
