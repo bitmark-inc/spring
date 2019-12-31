@@ -44,6 +44,10 @@ final class StackedBarValueFormatter: IValueFormatter {
                 }
             }
             
+            if currentIndex == values.count * 3 {
+                entryMap.removeValue(forKey: e)
+            }
+            
             if currentIndex == values.count * 3 - rightZeroCount {
                 return Int(values.reduce(0, +)).abbreviated
             }
@@ -57,7 +61,8 @@ final class StackedBarValueFormatter: IValueFormatter {
             } else {
                 rightDeduct = zeroCount
             }
-            if currentIndex == values.count * 3 - rightDeduct {
+            if currentIndex % (values.count * 3 - rightDeduct) == 0 {
+                entryMap.removeValue(forKey: e)
                 return Int(values.reduce(0, +)).abbreviated
             }
         }
