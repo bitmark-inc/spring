@@ -133,22 +133,24 @@ class SplashActivity : BaseAppCompatActivity() {
 
                         // requested archive
                         archiveRequested -> handler.postDelayed({
-                            val bundle =
-                                DataProcessingActivity.getBundle(
-                                    getString(R.string.data_requested),
-                                    getString(R.string.you_requested_your_fb_data_format).format(
-                                        DateTimeUtil.millisToString(
-                                            archiveRequestedAt,
-                                            DateTimeUtil.DATE_FORMAT_3,
-                                            DateTimeUtil.defaultTimeZone()
-                                        ),
-                                        DateTimeUtil.millisToString(
-                                            archiveRequestedAt,
-                                            DateTimeUtil.TIME_FORMAT_1,
-                                            DateTimeUtil.defaultTimeZone()
-                                        )
-                                    ), true
-                                )
+                            val msg =
+                                "${getString(R.string.we_are_waiting_for_fb_1)}\n\n${getString(R.string.you_requested_your_fb_archive_format).format(
+                                    DateTimeUtil.millisToString(
+                                        archiveRequestedAt,
+                                        DateTimeUtil.DATE_FORMAT_3,
+                                        DateTimeUtil.defaultTimeZone()
+                                    ),
+                                    DateTimeUtil.millisToString(
+                                        archiveRequestedAt,
+                                        DateTimeUtil.TIME_FORMAT_1,
+                                        DateTimeUtil.defaultTimeZone()
+                                    )
+                                )}"
+                            val bundle = DataProcessingActivity.getBundle(
+                                getString(R.string.data_requested),
+                                msg,
+                                true
+                            )
                             navigator.anim(FADE_IN)
                                 .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                         }, 250)

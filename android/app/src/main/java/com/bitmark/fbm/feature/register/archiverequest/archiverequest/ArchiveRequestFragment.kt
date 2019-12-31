@@ -253,21 +253,25 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                     callback = { processing ->
                                         if (processing) {
                                             if (context == null) return@evaluateVerificationJs
+                                            val msg =
+                                                "${getString(R.string.sorry_fb_is_still_prepare)}\n\n${getString(
+                                                    R.string.you_requested_your_fb_archive_format
+                                                ).format(
+                                                    DateTimeUtil.millisToString(
+                                                        archiveRequestedAt,
+                                                        DateTimeUtil.DATE_FORMAT_3,
+                                                        DateTimeUtil.defaultTimeZone()
+                                                    ),
+                                                    DateTimeUtil.millisToString(
+                                                        archiveRequestedAt,
+                                                        DateTimeUtil.TIME_FORMAT_1,
+                                                        DateTimeUtil.defaultTimeZone()
+                                                    )
+                                                )}"
                                             val bundle =
                                                 DataProcessingActivity.getBundle(
                                                     getString(R.string.still_waiting),
-                                                    getString(R.string.you_requested_your_fb_data_format_2).format(
-                                                        DateTimeUtil.millisToString(
-                                                            archiveRequestedAt,
-                                                            DateTimeUtil.DATE_FORMAT_3,
-                                                            DateTimeUtil.defaultTimeZone()
-                                                        ),
-                                                        DateTimeUtil.millisToString(
-                                                            archiveRequestedAt,
-                                                            DateTimeUtil.TIME_FORMAT_1,
-                                                            DateTimeUtil.defaultTimeZone()
-                                                        )
-                                                    )
+                                                    msg
                                                 )
                                             navigator.anim(RIGHT_LEFT)
                                                 .startActivityAsRoot(
@@ -661,10 +665,10 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     if (enabled) {
                         scheduleNotification()
                     }
-                    val bundle =
-                        DataProcessingActivity.getBundle(
-                            getString(R.string.data_requested),
-                            getString(R.string.you_requested_your_fb_data_format).format(
+
+                    val msg =
+                        "${getString(R.string.we_are_waiting_for_fb_2)}\n\n${getString(R.string.you_requested_your_fb_archive_format)
+                            .format(
                                 DateTimeUtil.millisToString(
                                     archiveRequestedAt,
                                     DateTimeUtil.DATE_FORMAT_3,
@@ -675,8 +679,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                     DateTimeUtil.TIME_FORMAT_1,
                                     DateTimeUtil.defaultTimeZone()
                                 )
-                            )
-                        )
+                            )}"
+                    val bundle =
+                        DataProcessingActivity.getBundle(getString(R.string.data_requested), msg)
                     navigator.anim(RIGHT_LEFT)
                         .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                 }
@@ -692,7 +697,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             when {
                 res.isSuccess() -> {
                     val account = res.data()!!
-                    if(registered) return@Observer
+                    if (registered) return@Observer
                     registerAccount(downloadArchiveCredential, account)
                 }
 

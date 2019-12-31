@@ -74,7 +74,7 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
             navigator.anim(RIGHT_LEFT).finishActivity()
         }
 
-        tvAutomate.setSafetyOnclickListener {
+        btnAutomate.setSafetyOnclickListener {
             val fbId = etId.text.toString().trim()
             val fbPassword = etPassword.text.toString().trim()
             if (fbId.isBlank() || fbPassword.isBlank()) return@setSafetyOnclickListener

@@ -49,7 +49,7 @@
         app:layout_constraintBottom_toTopOf="@id/btnCheckNow"
         app:layout_constraintEnd_toEndOf="@id/btnCheckNow"
         app:layout_constraintStart_toStartOf="@id/btnCheckNow"
-        tools:text="@string/you_requested_your_fb_data_format"
+        tools:text="@string/we_are_waiting_for_fb_1"
         />
 
 

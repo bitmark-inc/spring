@@ -30,6 +30,8 @@
     <color name="screamin_green">#69EC48</color>
     <color name="quill_gray">#DFDFDE</color>
     <color name="white_b3">#B3FFFFFF</color>
+    <color name="indian_khaki">#BBAB8C</color>
+    <color name="indian_khaki_66">#66BBAB8C</color>
 
     <array name="color_palette_1">
         <item>@color/mabilu</item>

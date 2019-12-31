@@ -6,7 +6,11 @@
  */
 package com.bitmark.fbm.feature.register.dataprocessing
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.StyleSpan
 import android.view.View
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseAppCompatActivity
@@ -54,9 +58,20 @@ class DataProcessingActivity : BaseAppCompatActivity() {
         val title = intent?.extras?.getString(TITLE)
         val msg = intent?.extras?.getString(MESSAGE)
         val showActionButton = intent?.extras?.getBoolean(SHOW_ACTION_BUTTON) ?: false
+        val requestedAtMsg = getString(R.string.you_requested_your_fb_archive)
+        val requestedAtIndex = msg!!.indexOf(requestedAtMsg)
+        val spannableString = SpannableString(msg)
+        if (requestedAtIndex != -1) {
+            spannableString.setSpan(
+                StyleSpan(Typeface.ITALIC),
+                requestedAtIndex,
+                msg.length,
+                Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+            )
+        }
 
         tvTitle.text = title
-        tvMsg.text = msg
+        tvMsg.text = spannableString
         btnCheckNow.visibility = if (showActionButton) View.VISIBLE else View.INVISIBLE
 
         btnCheckNow.setSafetyOnclickListener {

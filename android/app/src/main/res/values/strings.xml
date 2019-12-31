@@ -66,7 +66,7 @@
     <string name="check_now_arrow">Check now »</string>
     <string name="still_waiting">Still Waiting</string>
     <string name="analyzing_data">Analyzing Data</string>
-    <string name="your_fb_data_archive_has_been_successfully">Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready.</string>
+    <string name="your_fb_data_archive_has_been_successfully">Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready. You can safely close this app now.</string>
     <string name="week">Week</string>
     <string name="year">Year</string>
     <string name="decade">Decade</string>
@@ -161,6 +161,10 @@
     <string name="please_recheck_your_recovery_key">Please recheck your recovery key and tap to edit any incorrect words above.</string>
     <string name="submit_arrow">Submit »</string>
     <string name="could_not_sign_in">Could not sign in your account.Please try again later.</string>
+    <string name="we_are_waiting_for_fb_1">We’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have.</string>
+    <string name="we_are_waiting_for_fb_2">We’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have. You can safely close this app now.</string>
+    <string name="sorry_fb_is_still_prepare">Sorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have. You can safely close this app now.</string>
+    <string name="you_requested_your_fb_archive">You requested your Facebook data archive</string>
 
     <string-array name="day_of_week">
         <item>S</item>
@@ -198,8 +202,7 @@
     <string name="weekly_avg_format">Weekly average = %1$d</string>
     <string name="yearly_avg_format">Yearly average = %1$d</string>
     <string name="decadely_avg_format">Decadely average = %1$d</string>
-    <string name="you_requested_your_fb_data_format">You requested your Facebook data archive on %1$s at %2$s. \n\nWe’re waiting for Facebook to finish preparing your data archive. This may take up to a few days, depending on how much data you have.</string>
-    <string name="you_requested_your_fb_data_format_2">You requested your Facebook data archive on %1$s at %2$s. \n\nSorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have.</string>
+    <string name="you_requested_your_fb_archive_format">You requested your Facebook data archive on %1$s at %2$s.</string>
     <string name="date_format_1"><![CDATA[%1$s at %2$s]]></string>
     <string name="with_format_1"><![CDATA[with <b>%s</b>]]></string>
     <string name="with_format_2"><![CDATA[with <b>%s</b> and <b>%d others</b>]]></string>
