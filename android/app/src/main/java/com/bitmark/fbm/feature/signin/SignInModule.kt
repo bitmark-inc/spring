@@ -7,6 +7,7 @@
 package com.bitmark.fbm.feature.signin
 
 import com.bitmark.fbm.data.source.AccountRepository
+import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.di.ActivityScope
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
@@ -21,9 +22,10 @@ class SignInModule {
     @Provides
     fun provideVM(
         accountRepo: AccountRepository,
+        appRepo: AppRepository,
         activity: SignInActivity,
         rxLiveDataTransformer: RxLiveDataTransformer
-    ) = SignInViewModel(activity.lifecycle, accountRepo, rxLiveDataTransformer)
+    ) = SignInViewModel(activity.lifecycle, accountRepo, appRepo, rxLiveDataTransformer)
 
     @ActivityScope
     @Provides

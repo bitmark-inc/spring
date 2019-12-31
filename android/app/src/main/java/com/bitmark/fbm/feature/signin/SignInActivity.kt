@@ -23,6 +23,7 @@ import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec
 import com.bitmark.sdk.features.Account
+import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.activity_signin.*
 import javax.inject.Inject
 
@@ -109,6 +110,7 @@ class SignInActivity : BaseAppCompatActivity() {
         viewModel.prepareDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
+                    OneSignal.setSubscription(true)
                     progressBar.gone()
                     blocked = false
                     navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)

@@ -23,6 +23,7 @@ import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.features.Account
+import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.fragment_unlink.*
 import javax.inject.Inject
 
@@ -102,6 +103,7 @@ class UnlinkFragment : BaseSupportFragment() {
         viewModel.deleteDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
+                    OneSignal.setSubscription(false)
                     val snackbar = layoutRoot.createSnackbar(
                         R.string.unlink_account,
                         R.string.your_account_has_been_unlinked

@@ -37,6 +37,7 @@ import com.bitmark.fbm.util.callback.Action1
 import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec
 import com.bitmark.sdk.features.Account
+import com.onesignal.OneSignal
 import kotlinx.android.synthetic.main.fragment_archive_request.*
 import java.net.URL
 import java.util.concurrent.ExecutorService
@@ -561,6 +562,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         viewModel.registerAccountLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
+                    OneSignal.setSubscription(true)
                     registered = true
                     progressBar.gone()
                     val bundle =
