@@ -22,3 +22,9 @@
 
 "biometric.notConfigured" = "Face ID/Touch ID may not be configured.";
 "biometric.error" = "There was a problem verifying your identity.";
+
+"signIn.incorrectRecoveryKey.title" = "Wrong Recovery Key!";
+"signIn.incorrectRecoveryKey.description" = "Please recheck your recovery key and tap to edit any incorrect words above.";
+"signIn.error" = "There was a problem signing in.";
+
+"generalTitle" = "Error";

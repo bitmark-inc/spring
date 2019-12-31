@@ -84,6 +84,8 @@ extension SignInWallViewController {
     }
 
     func goToSignInScreen() {
+        let viewModel = SignInViewModel()
+        navigator.show(segue: .signIn(viewModel: viewModel), sender: self)
     }
 }
 

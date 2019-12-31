@@ -10,6 +10,9 @@
 "launch.description" = "How you use Facebook.\nHow Facebook uses you.";
 "signinWall.description" = "How you use Facebook.\nHow Facebook uses you.";
 
+"signIn.title" = "Sign In";
+"signIn.submitButton" = "Submit »";
+
 "howitworks.title" = "How It Works";
 "howitworks.content.1" = "We’ll back up your Facebook data archive into a personal data vault that only you control.";
 "howitworks.content.2" = "We’ll generate private insights about your Facebook data.";

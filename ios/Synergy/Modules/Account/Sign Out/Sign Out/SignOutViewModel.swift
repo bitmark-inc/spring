@@ -11,7 +11,6 @@ import RxSwift
 import RxCocoa
 import Intercom
 
-
 class SignOutViewModel: ConfirmRecoveryKeyViewModel {
 
     // MARK: - Outputs

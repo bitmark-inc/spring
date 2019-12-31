@@ -26,9 +26,9 @@
 "HOW FACEBOOK USES YOU" = "HOW FACEBOOK USES YOU";
 "No_thanks" = "No thanks";
 "Check_now" = "Check now »";
-"requireAppUpdate.title" = "App update required";
-"requireAppUpdate.message" = "The new version of the application is availabel and is required to continue. Please go to update the latest version.";
-"requireAppUpdate.action" = "Go";
+"requireAppUpdate.title" = "Update Available";
+"requireAppUpdate.message" = "A new version is available. Please update now to see your data analysis.";
+"requireAppUpdate.action" = "Update now »";
 "ok" = "OK";
 
 "plural.post" = "posts";
@@ -85,3 +85,7 @@
 "biometric.passcode" = "Passcode";
 "biometric.requireToSecure" = "Spring will use %@ to secure your account and data.";
 "biometric.requireToRemoveSecure" = "Spring will remove %@ from securing your account and data.";
+
+"supportMessage" = "\n%@\n\nWould you like to contact with support team?";
+"Contact" = "Contact";
+"Cancel" = "Cancel";

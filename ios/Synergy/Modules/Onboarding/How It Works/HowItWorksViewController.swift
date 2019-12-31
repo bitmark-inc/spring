@@ -30,6 +30,7 @@ class HowItWorksViewController: ViewController, BackNavigator {
 
     override func setupViews() {
         let thumbImage = ImageView(image: R.image.howItWorksThumb())
+
         let blackView = UIView()
         blackView.backgroundColor = .black
 
@@ -48,7 +49,12 @@ class HowItWorksViewController: ViewController, BackNavigator {
 
         super.setupViews()
 
-        let lightBackItem = makeLightBackItem()
+        var lightBackItem: Button?
+
+        if let navigationController = self.navigationController,
+            navigationController.viewControllers.count > 1 {
+            lightBackItem = makeLightBackItem()
+        }
 
         let howItWorksTitle = Label()
         howItWorksTitle.applyBlack(
@@ -58,8 +64,12 @@ class HowItWorksViewController: ViewController, BackNavigator {
         contentView.flex
             .padding(OurTheme.paddingInset)
             .direction(.column).define { (flex) in
-                flex.addItem(lightBackItem)
-                flex.addItem().height(45%)
+                if let lightBackItem = lightBackItem {
+                    flex.addItem(lightBackItem)
+                    flex.addItem().height(45%)
+                } else {
+                    flex.addItem().height(50%)
+                }
 
                 flex.addItem(howItWorksTitle).marginTop(Size.dh(15))
 

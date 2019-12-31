@@ -23,8 +23,9 @@ class Navigator {
 
     // MARK: - segues list, all app scenes
     enum Scene {
-        case launching
+        case launching(viewModel: LaunchingViewModel)
         case signInWall(viewModel: SignInWallViewModel)
+        case signIn(viewModel: SignInViewModel)
         case howItWorks
         case trustIsCritical
         case askNotifications(viewModel: AskNotificationsViewModel)
@@ -61,11 +62,11 @@ class Navigator {
     // MARK: - get a single VC
     func get(segue: Scene) -> UIViewController? {
         switch segue {
-        case .launching:
-            let viewModel = LaunchingViewModel()
+        case .launching(let viewModel):
             let lauchingVC = LaunchingViewController(viewModel: viewModel)
             return NavigationController(rootViewController: lauchingVC)
         case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
+        case .signIn(let viewModel): return SignInViewController(viewModel: viewModel)
         case .howItWorks: return HowItWorksViewController()
         case .trustIsCritical: return TrustIsCriticalViewController()
         case .askNotifications(let viewModel): return AskNotificationsViewController(viewModel: viewModel)
@@ -187,24 +188,43 @@ class Navigator {
     }
 
     static func refreshOnboardingStateIfNeeded() {
-        guard let window = getWindow() else {
-            Global.log.error("window is empty")
-            return
-        }
+        _ = AppVersion.checkAppVersion()
+            .subscribe(onCompleted: {
+                guard let window = getWindow() else {
+                    Global.log.error("window is empty")
+                    return
+                }
 
-        guard let rootViewController = getRootViewController() else {
-            Global.log.error("rootViewController is empty")
-            return
-        }
+                guard let rootViewController = getRootViewController() else {
+                    Global.log.error("rootViewController is empty")
+                    return
+                }
 
-        // check if scene is on onboarding flow's refresh state
-        guard let currentVC = rootViewController.viewControllers.last,
-            [DataRequestedViewController.self, DataAnalyzingViewController.self].contains(where: { $0 == type(of: currentVC) })
-            else {
-                return
-        }
+                // check if scene is on onboarding flow's refresh state
+                guard let currentVC = rootViewController.viewControllers.last,
+                    [DataRequestedViewController.self, DataAnalyzingViewController.self].contains(where: { $0 == type(of: currentVC) })
+                    else {
+                        return
+                }
 
-        Navigator.default.show(segue: .launching, sender: nil, transition: .root(in: window))
+                let viewModel = LaunchingViewModel()
+                viewModel.checkedVersion = true
+                Navigator.default.show(segue: .launching(viewModel: viewModel), sender: nil, transition: .root(in: window))
+            }, onError: { (error) in
+                if let error = error as? AppError {
+                    switch error {
+                    case .requireAppUpdate(let updateURL):
+                        AppVersion.showAppRequireUpdateAlert(updateURL: updateURL)
+                        return
+                    case .noInternetConnection:
+                        return
+                    default:
+                        break
+                    }
+                }
+
+                Global.log.error(error)
+            })
     }
 
     static func getRootViewController() -> NavigationController? {

@@ -12,18 +12,24 @@ import SwifterSwift
 
 extension UIViewController {
     func showErrorAlert(message: String) {
-        showAlert(title: "Error".localized(), message: message, buttonTitles: ["OK".localized()])
+        showAlert(
+            title: R.string.error.generalTitle(),
+            message: message,
+            buttonTitles: [R.string.localizable.ok()])
     }
 
     func showErrorAlertWithSupport(message: String) {
-        let supportMessage = String(format: "supportMessage".localized(), message)
-        let alertController = UIAlertController(title: "Error".localized(), message: supportMessage, preferredStyle: .alert)
+        let supportMessage = R.string.localizable.supportMessage(message)
+        let alertController = UIAlertController(
+            title: R.string.error.generalTitle(),
+            message: supportMessage,
+            preferredStyle: .alert)
 
-        let supportButton = UIAlertAction(title: "Contact".localized(), style: .default) { (_) in
+        let supportButton = UIAlertAction(title: R.string.localizable.contact(), style: .default) { (_) in
             Intercom.presentMessenger()
         }
 
-        alertController.addAction(title: "Cancel".localized(), style: .default, handler: nil)
+        alertController.addAction(title: R.string.localizable.cancel(), style: .default, handler: nil)
         alertController.addAction(supportButton)
         alertController.preferredAction = supportButton
         alertController.show()

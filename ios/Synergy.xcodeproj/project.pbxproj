@@ -171,6 +171,15 @@
 		5B58AC3B23BADF920041F216 /* DatePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3A23BADF920041F216 /* DatePeriod.swift */; };
 		5B58AC3C23BADF920041F216 /* DatePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3A23BADF920041F216 /* DatePeriod.swift */; };
 		5B58AC3D23BADF920041F216 /* DatePeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3A23BADF920041F216 /* DatePeriod.swift */; };
+		5B58AC4323BB43E70041F216 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4223BB43E70041F216 /* AppVersion.swift */; };
+		5B58AC4423BB43E70041F216 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4223BB43E70041F216 /* AppVersion.swift */; };
+		5B58AC4523BB43E70041F216 /* AppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4223BB43E70041F216 /* AppVersion.swift */; };
+		5B58AC4823BB47620041F216 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4723BB47620041F216 /* SignInViewController.swift */; };
+		5B58AC4923BB47620041F216 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4723BB47620041F216 /* SignInViewController.swift */; };
+		5B58AC4A23BB47620041F216 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4723BB47620041F216 /* SignInViewController.swift */; };
+		5B58AC4C23BB47930041F216 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4B23BB47930041F216 /* SignInViewModel.swift */; };
+		5B58AC4D23BB47930041F216 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4B23BB47930041F216 /* SignInViewModel.swift */; };
+		5B58AC4E23BB47930041F216 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC4B23BB47930041F216 /* SignInViewModel.swift */; };
 		5B590A6E23B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
 		5B590A6F23B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
 		5B590A7023B302D6006C194D /* MoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B590A6D23B302D6006C194D /* MoodView.swift */; };
@@ -750,6 +759,9 @@
 		5B4A23A423B21CD400447366 /* SectionSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSeparator.swift; sourceTree = "<group>"; };
 		5B58AC3623BADC890041F216 /* QueryTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTrack.swift; sourceTree = "<group>"; };
 		5B58AC3A23BADF920041F216 /* DatePeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePeriod.swift; sourceTree = "<group>"; };
+		5B58AC4223BB43E70041F216 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
+		5B58AC4723BB47620041F216 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		5B58AC4B23BB47930041F216 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		5B590A6D23B302D6006C194D /* MoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodView.swift; sourceTree = "<group>"; };
 		5B590A7123B31D6D006C194D /* StackedBarValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedBarValueFormatter.swift; sourceTree = "<group>"; };
 		5B590A7523B37CD0006C194D /* BiometricAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuth.swift; sourceTree = "<group>"; };
@@ -1302,6 +1314,15 @@
 			path = Dashboard;
 			sourceTree = "<group>";
 		};
+		5B58AC4623BB474B0041F216 /* Sign In */ = {
+			isa = PBXGroup;
+			children = (
+				5B58AC4B23BB47930041F216 /* SignInViewModel.swift */,
+				5B58AC4723BB47620041F216 /* SignInViewController.swift */,
+			);
+			path = "Sign In";
+			sourceTree = "<group>";
+		};
 		5B590A7923B38088006C194D /* Biometric Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -1484,6 +1505,7 @@
 				5B98950423AA338300B72700 /* GraphDataConverter.swift */,
 				5B590A7523B37CD0006C194D /* BiometricAuth.swift */,
 				5B58AC3A23BADF920041F216 /* DatePeriod.swift */,
+				5B58AC4223BB43E70041F216 /* AppVersion.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1587,6 +1609,7 @@
 			isa = PBXGroup;
 			children = (
 				E29F5A1A2383E2E600C1D9D8 /* Sign In Wall */,
+				5B58AC4623BB474B0041F216 /* Sign In */,
 				E29F5A782383F8C900C1D9D8 /* How It Works */,
 				5B289DFC23A0D9BB00283C84 /* Trust Critical */,
 				5BB319AF23A0982E005F7C58 /* Notifications */,
@@ -2256,6 +2279,7 @@
 				E22BB3372384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				5B4A23A123B212E800447366 /* TimeUnit.swift in Sources */,
 				E222907C2394F19D00412CBC /* Groups.swift in Sources */,
+				5B58AC4823BB47620041F216 /* SignInViewController.swift in Sources */,
 				5832FC52237A863300FA3196 /* ActivityIndicator.swift in Sources */,
 				5B590A6E23B302D6006C194D /* MoodView.swift in Sources */,
 				E28B5611238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */,
@@ -2331,6 +2355,7 @@
 				5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */,
 				5B58AC3723BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478C23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
+				5B58AC4C23BB47930041F216 /* SignInViewModel.swift in Sources */,
 				5B2097A523B464410079B421 /* ReactionAPI.swift in Sources */,
 				5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
@@ -2346,6 +2371,7 @@
 				5BA9FF6B23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */,
 				5B590A7223B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */,
 				5832FCAC237A8A9200FA3196 /* UIFont+Theme.swift in Sources */,
+				5B58AC4323BB43E70041F216 /* AppVersion.swift in Sources */,
 				5832FC4F237A863300FA3196 /* TableViewCell.swift in Sources */,
 				5B98950523AA338300B72700 /* GraphDataConverter.swift in Sources */,
 				E27959D82386309C000E9CB9 /* AccountService+Rx.swift in Sources */,
@@ -2438,6 +2464,7 @@
 				5B5DFFD223A1F0F4003D1A1C /* Groups.swift in Sources */,
 				5B4A23A323B212E800447366 /* TimeUnit.swift in Sources */,
 				5B5DFFD323A1F0F4003D1A1C /* FbmAccountService.swift in Sources */,
+				5B58AC4A23BB47620041F216 /* SignInViewController.swift in Sources */,
 				5B5DFFD423A1F0F4003D1A1C /* GetYourDataViewModel.swift in Sources */,
 				5B590A7023B302D6006C194D /* MoodView.swift in Sources */,
 				5B5DFFD523A1F0F4003D1A1C /* ActivityIndicator.swift in Sources */,
@@ -2513,6 +2540,7 @@
 				5B5D001323A1F0F4003D1A1C /* PostListViewController.swift in Sources */,
 				5B58AC3923BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478E23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
+				5B58AC4E23BB47930041F216 /* SignInViewModel.swift in Sources */,
 				5B2097A723B464410079B421 /* ReactionAPI.swift in Sources */,
 				5B5D001423A1F0F4003D1A1C /* FbmAccount.swift in Sources */,
 				5B5D001523A1F0F4003D1A1C /* AccountViewController.swift in Sources */,
@@ -2528,6 +2556,7 @@
 				5BA9FF6D23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */,
 				5B590A7423B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */,
 				5B5D001D23A1F0F4003D1A1C /* UIFont+Theme.swift in Sources */,
+				5B58AC4523BB43E70041F216 /* AppVersion.swift in Sources */,
 				5B5D001E23A1F0F4003D1A1C /* TableViewCell.swift in Sources */,
 				5B98950723AA338300B72700 /* GraphDataConverter.swift in Sources */,
 				5B5D001F23A1F0F4003D1A1C /* Auth.swift in Sources */,
@@ -2612,6 +2641,7 @@
 				E222907D2394F19D00412CBC /* Groups.swift in Sources */,
 				5B4A23A223B212E800447366 /* TimeUnit.swift in Sources */,
 				E28B560C238D162400F1BCF2 /* FbmAccountService.swift in Sources */,
+				5B58AC4923BB47620041F216 /* SignInViewController.swift in Sources */,
 				E22BB3382384E73F0044BC95 /* GetYourDataViewModel.swift in Sources */,
 				5B590A6F23B302D6006C194D /* MoodView.swift in Sources */,
 				E2DB6685237D3B69005367C2 /* ActivityIndicator.swift in Sources */,
@@ -2687,6 +2717,7 @@
 				E222908D239509EF00412CBC /* PostListViewController.swift in Sources */,
 				5B58AC3823BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478D23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
+				5B58AC4D23BB47930041F216 /* SignInViewModel.swift in Sources */,
 				5B2097A623B464410079B421 /* ReactionAPI.swift in Sources */,
 				E28B560F238D16E800F1BCF2 /* FbmAccount.swift in Sources */,
 				5832D700238BC23D0074AEDC /* AccountViewController.swift in Sources */,
@@ -2702,6 +2733,7 @@
 				5BA9FF6C23B22A9400E57A20 /* InsightDataEngine+Rx.swift in Sources */,
 				5B590A7323B31D6D006C194D /* StackedBarValueFormatter.swift in Sources */,
 				E2DB66A3237D3B69005367C2 /* UIFont+Theme.swift in Sources */,
+				5B58AC4423BB43E70041F216 /* AppVersion.swift in Sources */,
 				E2DB66A4237D3B69005367C2 /* TableViewCell.swift in Sources */,
 				5B98950623AA338300B72700 /* GraphDataConverter.swift in Sources */,
 				E28B5608238D103300F1BCF2 /* Auth.swift in Sources */,

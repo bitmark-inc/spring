@@ -43,7 +43,7 @@ class SignOutViewController: ConfirmRecoveryKeyViewController, BackNavigator {
     // MARK: - Error Handlers
     func errorWhenSignOutAccount(error: Error) {
         if let error = error as? AccountError, error == .invalidRecoveryKey {
-            showErrorAlert(message: R.string.error.accountSignOutInvalidRecoveryKey())
+            errorRecoveryKeyView.isHidden = false
             return
         }
 
@@ -71,11 +71,15 @@ class SignOutViewController: ConfirmRecoveryKeyViewController, BackNavigator {
                     flex.addItem(recoveryKeyView)
                 }
 
-                flex.addItem(submitButton)
+                flex.addItem()
                     .width(100%)
                     .position(.absolute)
                     .left(OurTheme.paddingInset.left)
                     .bottom(OurTheme.paddingBottom)
+                    .define { (flex) in
+                        flex.addItem(errorRecoveryKeyView)
+                        flex.addItem(submitButton).marginTop(Size.dh(24))
+                    }
             }
     }
 }
@@ -84,7 +88,7 @@ class SignOutViewController: ConfirmRecoveryKeyViewController, BackNavigator {
 extension SignOutViewController {
     fileprivate func gotoOnboardingScreen() {
         let viewModel = SignInWallViewModel()
-        navigator.show(segue: .signInWall(viewModel: viewModel), sender: self, transition: .replace(type: .auto))
+        navigator.show(segue: .signInWall(viewModel: viewModel), sender: self, transition: .replace(type: .none))
     }
 }
 
