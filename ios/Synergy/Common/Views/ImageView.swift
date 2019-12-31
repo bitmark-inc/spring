@@ -38,6 +38,7 @@ class ImageView: UIImageView {
     func loadURL(_ url: URL, width: CGFloat) -> Completable {
         return Completable.create { (event) -> Disposable in
             _ = MediaService.makePhotoURL(key: url.path)
+                .observeOn(MainScheduler.instance)
                 .subscribe(onSuccess: { [weak self] (photoURL, modifier) in
                     guard let self = self else { return }
                     self.kf.setImage(with: photoURL, options: [.requestModifier(modifier)]) { (result) in
