@@ -190,18 +190,25 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
                     }
                 )
 
-                ivSentiment.setImageResource(
-                    when (value) {
-                        1f          -> R.drawable.ic_cry_bw
-                        2f, 3f      -> R.drawable.ic_sad_bw
-                        4f, 5f      -> R.drawable.ic_no_feeling_bw
-                        6f, 7f      -> R.drawable.ic_smile_bw
-                        8f, 9f, 10f -> R.drawable.ic_happy_bw
-                        else        -> R.drawable.ic_wow_bw
-                    }
-                )
+                if (value != null) {
+                    ivSentiment.setImageResource(
+                        when {
+                            value < 2f                -> R.drawable.ic_cry_bw
+                            value >= 2f && value < 4f -> R.drawable.ic_sad_bw
+                            value >= 4f && value < 6f -> R.drawable.ic_no_feeling_bw
+                            value >= 6f && value < 7f -> R.drawable.ic_smile_bw
+                            value >= 7f               -> R.drawable.ic_happy_bw
+                            else                      -> R.drawable.ic_wow_bw
+                        }
+                    )
+                }
 
-                if (value == null) tvNoData.visible() else tvNoData.gone()
+                if (value == null) {
+                    tvNoData.visible()
+                    ivSentiment.setImageResource(R.drawable.ic_wow_bw)
+                } else {
+                    tvNoData.gone()
+                }
             }
         }
     }
