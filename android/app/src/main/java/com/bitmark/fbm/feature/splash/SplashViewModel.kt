@@ -33,7 +33,6 @@ class SplashViewModel(
 
     internal val checkVersionOutOfDateLiveData = CompositeLiveData<Pair<Boolean, String>>()
 
-    // annotate that data has been deleted or not
     internal val prepareDataLiveData = CompositeLiveData<Boolean>()
 
     internal val checkDataReadyLiveData = CompositeLiveData<Boolean>()
@@ -69,14 +68,14 @@ class SplashViewModel(
                     } else {
                         Single.error<Boolean>(e)
                     }
-                }.flatMap { invalid ->
+                }/*.flatMap { invalid ->
                     if (invalid) {
                         // keep account data for next time using
                         appRepo.deleteAppData(true).andThen(Single.just(true))
                     } else {
                         Single.just(false)
                     }
-                })
+                }*/)
         )
     }
 

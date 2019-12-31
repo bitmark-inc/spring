@@ -168,10 +168,9 @@ class SplashActivity : BaseAppCompatActivity() {
         viewModel.prepareDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    val dataDeleted = res.data() ?: false
-                    if (dataDeleted) {
-                        // do onboarding again
-                        showOnboarding()
+                    val invalidArchives = res.data() ?: false
+                    if (invalidArchives) {
+                        showDataAnalyzing()
                     } else {
                         viewModel.checkDataReady()
                     }
@@ -201,13 +200,7 @@ class SplashActivity : BaseAppCompatActivity() {
                             navigator.anim(FADE_IN)
                                 .startActivityAsRoot(MainActivity::class.java)
                         } else {
-                            val bundle =
-                                DataProcessingActivity.getBundle(
-                                    getString(R.string.analyzing_data),
-                                    getString(R.string.your_fb_data_archive_has_been_successfully)
-                                )
-                            navigator.anim(FADE_IN)
-                                .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
+                            showDataAnalyzing()
                         }
                     }, 250)
                 }
@@ -219,6 +212,16 @@ class SplashActivity : BaseAppCompatActivity() {
             }
         })
 
+    }
+
+    private fun showDataAnalyzing() {
+        val bundle =
+            DataProcessingActivity.getBundle(
+                getString(R.string.analyzing_data),
+                getString(R.string.your_fb_data_archive_has_been_successfully)
+            )
+        navigator.anim(FADE_IN)
+            .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
     }
 
     private fun showOnboarding() {
