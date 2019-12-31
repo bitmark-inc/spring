@@ -18,8 +18,8 @@ class NotificationOpenedHandler @Inject constructor(private val context: Context
     OneSignal.NotificationOpenedHandler {
 
     override fun notificationOpened(result: OSNotificationOpenResult?) {
-        val event = result?.notification?.payload?.additionalData?.getString("event")
-        if (event.isNullOrBlank() || event != "fb_data_analyzed") return
+//        val event = result?.notification?.payload?.additionalData?.getString("event")
+//        if (event.isNullOrBlank() || event != "fb_data_analyzed") return
 
         val intent = Intent(context, SplashActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
