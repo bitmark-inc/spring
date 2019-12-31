@@ -82,7 +82,7 @@ type sentimentStat struct {
 	Period           string    `json:"period"`
 	Quantity         int       `json:"quantity"`
 	Value            float64   `json:"value"`
-	PeriodStartedAt  int64     `json:"period_stared_at"`
+	PeriodStartedAt  int64     `json:"period_started_at"`
 	DiffFromPrevious float64   `json:"diff_from_previous"`
 	SubPeriodValues  []float64 `json:"-"`
 	AccountNumber    string    `json:"-"`
