@@ -30,7 +30,6 @@ import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
-import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.formatPeriod
 import com.bitmark.fbm.util.formatSubPeriod
 import com.bitmark.fbm.util.view.statistic.GroupView
@@ -78,8 +77,6 @@ class StatisticFragment : BaseSupportFragment() {
     private var periodStartedAt = -1L
 
     private var periodGap = -1
-
-    private var blocked = false
 
     private val handler = Handler()
 
@@ -133,16 +130,14 @@ class StatisticFragment : BaseSupportFragment() {
             }
         })
 
-        ivNextPeriod.setSafetyOnclickListener {
-            if (blocked) return@setSafetyOnclickListener
+        ivNextPeriod.setOnClickListener {
             periodGap--
             periodStartedAt = getStartOfPeriodMillis(period, periodStartedAt, true)
             showPeriod(period, periodStartedAt, periodGap)
             viewModel.getStatistic(type, period, periodStartedAt / 1000)
         }
 
-        ivPrevPeriod.setSafetyOnclickListener {
-            if (blocked) return@setSafetyOnclickListener
+        ivPrevPeriod.setOnClickListener {
             periodGap++
             periodStartedAt = getStartOfPeriodMillis(period, periodStartedAt, false)
             showPeriod(period, periodStartedAt, periodGap)
@@ -194,8 +189,8 @@ class StatisticFragment : BaseSupportFragment() {
             when {
                 res.isSuccess() -> {
                     val data = res.data() ?: return@Observer
+                    if (data.any { s -> s.periodStartedAtSec != periodStartedAt / 1000 }) return@Observer
                     adapter.set(data)
-                    blocked = false
                 }
 
                 res.isError()   -> {
@@ -209,11 +204,9 @@ class StatisticFragment : BaseSupportFragment() {
                         R.string.error,
                         R.string.there_was_error_when_loading_statistic
                     )
-                    blocked = false
                 }
 
                 res.isLoading() -> {
-                    blocked = true
                 }
             }
         })

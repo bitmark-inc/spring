@@ -36,7 +36,8 @@ class StatisticViewModel(
             statisticRepo.listInsights(period, periodStartedAtSec)
         }.ignoreNetworkError(listOf()).observeOn(Schedulers.computation())
             .map { sections ->
-                val defaultVMs = newDefaultSectionMVs(type, period).toMutableList()
+                val defaultVMs =
+                    newDefaultSectionMVs(type, period, periodStartedAtSec).toMutableList()
                 when {
                     sections.isEmpty()               -> defaultVMs
                     sections.size == defaultVMs.size -> {
@@ -71,16 +72,31 @@ class StatisticViewModel(
         )
     }
 
-    private fun newDefaultSectionMVs(@Statistic.Type type: String, period: Period) =
+    private fun newDefaultSectionMVs(
+        @Statistic.Type type: String, period: Period,
+        periodStartedAtSec: Long
+    ) =
         if (type == Statistic.USAGE) {
             listOf(
-                SectionModelView.newDefaultInstance(SectionName.POST, period),
-                SectionModelView.newDefaultInstance(SectionName.REACTION, period)
+                SectionModelView.newDefaultInstance(SectionName.POST, period, periodStartedAtSec),
+                SectionModelView.newDefaultInstance(
+                    SectionName.REACTION,
+                    period,
+                    periodStartedAtSec
+                )
             )
         } else {
             listOf(
-                SectionModelView.newDefaultInstance(SectionName.FB_INCOME, period),
-                SectionModelView.newDefaultInstance(SectionName.SENTIMENT, period)
+                SectionModelView.newDefaultInstance(
+                    SectionName.FB_INCOME,
+                    period,
+                    periodStartedAtSec
+                ),
+                SectionModelView.newDefaultInstance(
+                    SectionName.SENTIMENT,
+                    period,
+                    periodStartedAtSec
+                )
             )
         }
 

@@ -13,6 +13,7 @@ import kotlin.math.roundToInt
 data class SectionModelView(
     val name: SectionName,
     val period: Period,
+    val periodStartedAtSec: Long,
     val quantity: Int,
     val diffFromPrev: Int?,
     val average: Int,
@@ -23,8 +24,8 @@ data class SectionModelView(
 
         private const val THRESHOLD_VALS_COUNT = 4
 
-        fun newDefaultInstance(name: SectionName, period: Period) =
-            SectionModelView(name, period, 0, null, 0, listOf(), null)
+        fun newDefaultInstance(name: SectionName, period: Period, periodStartedAtSec: Long) =
+            SectionModelView(name, period, periodStartedAtSec, 0, null, 0, listOf(), null)
 
         fun newInstance(sectionR: SectionR, avg: Int): SectionModelView {
             val sectionName = sectionR.name
@@ -221,6 +222,7 @@ data class SectionModelView(
             return SectionModelView(
                 sectionName,
                 period,
+                sectionR.periodStartedAtSec,
                 quantity,
                 (diffFromPrev * 100).roundToInt(),
                 avg,

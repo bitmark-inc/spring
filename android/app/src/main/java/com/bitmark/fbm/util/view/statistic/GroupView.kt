@@ -323,7 +323,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         chartView.setTouchEnabled(true)
         chartView.isHighlightPerTapEnabled = true
         chartView.isHighlightPerDragEnabled = false
-        chartView.animateY(500)
+        chartView.animateY(200)
         chartView.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
             override fun onNothingSelected() {
 
