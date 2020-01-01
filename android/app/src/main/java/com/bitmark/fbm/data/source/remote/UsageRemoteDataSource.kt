@@ -33,9 +33,6 @@ class UsageRemoteDataSource @Inject constructor(
 
     fun getPresignedUrl(uri: String) =
         fbmApi.getPresignedUrl(uri).map { res ->
-            Pair(
-                uri,
-                res.headers()["Location"] ?: error("Could not get presigned URL")
-            )
+            res.headers()["Location"] ?: error("Could not get presigned URL")
         }.subscribeOn(Schedulers.io())
 }

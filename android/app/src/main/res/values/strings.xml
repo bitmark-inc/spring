@@ -168,6 +168,7 @@
     <string name="update_now_arrow">Update now »</string>
     <string name="update_available">Update Available</string>
     <string name="a_new_version_is_available">A new version is available. Please update now to see the latest features.</string>
+    <string name="could_not_play_video">Could not play video. Please try again later.</string>
 
     <string-array name="day_of_week">
         <item>S</item>

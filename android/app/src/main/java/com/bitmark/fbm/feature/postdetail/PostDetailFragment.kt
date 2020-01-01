@@ -102,15 +102,14 @@ class PostDetailFragment : BaseSupportFragment() {
 
     private val handler = Handler()
 
+    private var blocked = false
+
     private lateinit var period: Period
 
     private val itemClickListener = object : OnItemClickListener {
-        override fun onVideoPlayClicked(url: String) {
-            navigator.openVideoPlayer(url) { e ->
-                logger.logError(Event.PLAY_VIDEO_ERROR, e)
-                // TODO change text later
-                dialogController.alert(e)
-            }
+        override fun onVideoPlayClicked(uri: String) {
+            if (blocked) return
+            viewModel.getPresignedUrl(uri)
         }
 
         override fun onLinkClicked(url: String) {
@@ -201,6 +200,29 @@ class PostDetailFragment : BaseSupportFragment() {
 
                 res.isLoading() -> {
                     progressBar.visible()
+                }
+            }
+        })
+
+        viewModel.getPresignedUrlLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val presignedUrl = res.data() ?: return@Observer
+                    navigator.openVideoPlayer(presignedUrl) { e ->
+                        logger.logError(Event.PLAY_VIDEO_ERROR, e)
+                        dialogController.alert(R.string.error, R.string.could_not_play_video)
+                    }
+                    blocked = false
+                }
+
+                res.isError()   -> {
+                    logger.logError(Event.PLAY_VIDEO_ERROR, res.throwable())
+                    dialogController.alert(R.string.error, R.string.could_not_play_video)
+                    blocked = false
+                }
+
+                res.isLoading() -> {
+                    blocked = true
                 }
             }
         })

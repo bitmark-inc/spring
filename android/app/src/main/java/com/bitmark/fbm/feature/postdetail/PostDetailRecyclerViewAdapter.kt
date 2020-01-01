@@ -310,7 +310,7 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
 
 interface OnItemClickListener {
 
-    fun onVideoPlayClicked(url: String)
+    fun onVideoPlayClicked(uri: String)
 
     fun onLinkClicked(url: String)
 }

@@ -25,6 +25,8 @@ class PostDetailViewModel(
 
     internal val listPostLiveData = CompositeLiveData<List<PostModelView>>()
 
+    internal val getPresignedUrlLiveData = CompositeLiveData<String>()
+
     private var lastEndedAtSec = -1L
 
     fun listPost(startedAtSec: Long, endedAtSec: Long, gapSec: Long) {
@@ -150,4 +152,8 @@ class PostDetailViewModel(
             posts.filter { p -> p.type != PostType.UNSPECIFIED }
                 .map { p -> PostModelView.newInstance(p) }
         }
+
+    fun getPresignedUrl(uri: String) {
+        getPresignedUrlLiveData.add(rxLiveDataTransformer.single(usageRepo.getPresignUrl(uri)))
+    }
 }
