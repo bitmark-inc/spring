@@ -213,6 +213,7 @@ class StatisticFragment : BaseSupportFragment() {
     }
 
     private fun handleChartClicked(chartItem: GroupView.ChartItem) {
+        if(chartItem.yVal == 0f) return
         val endedAtSec = when (period) {
             Period.WEEK   -> DateTimeUtil.getEndOfWeek(periodStartedAt)
             Period.YEAR   -> DateTimeUtil.getEndOfYearMillis(periodStartedAt)
@@ -236,16 +237,16 @@ class StatisticFragment : BaseSupportFragment() {
             SectionName.POST     -> {
                 when (chartItem.groupName) {
                     GroupName.FRIEND -> getString(R.string.tagged_with_lower_format).format(
-                        chartItem.entryVal
+                        chartItem.xVal
                     )
-                    GroupName.PLACE  -> getString(R.string.tagged_at_lower_format).format(chartItem.entryVal)
+                    GroupName.PLACE  -> getString(R.string.tagged_at_lower_format).format(chartItem.xVal)
                     else             -> ""
                 }
             }
 
             SectionName.REACTION -> {
                 when (chartItem.groupName) {
-                    GroupName.FRIEND -> getString(R.string.reacted_to_lower_format).format(chartItem.entryVal)
+                    GroupName.FRIEND -> getString(R.string.reacted_to_lower_format).format(chartItem.xVal)
                     else             -> ""
                 }
             }

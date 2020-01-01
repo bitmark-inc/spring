@@ -35,5 +35,7 @@ fun GroupModelView.aggregatedIndex() = entries.indexOfFirst { e -> e.isAggregate
 
 data class Entry(val xValue: Array<String>, val yValues: FloatArray)
 
+fun Entry.sum() = yValues.sum()
+
 fun Entry.isAggregated() = xValue.size > 1
 

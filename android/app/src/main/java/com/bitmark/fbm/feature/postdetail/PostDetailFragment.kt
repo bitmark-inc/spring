@@ -257,7 +257,7 @@ class PostDetailFragment : BaseSupportFragment() {
             }
 
             GroupName.FRIEND     -> {
-                val tags = chartItem.aggregateVals ?: listOf(chartItem.entryVal)
+                val tags = chartItem.aggregateVals ?: listOf(chartItem.xVal)
                 if (endedAtSec != null) {
                     viewModel.listPostByTags(tags, startedAtSec, endedAtSec, gap)
                 } else {
@@ -266,7 +266,7 @@ class PostDetailFragment : BaseSupportFragment() {
             }
 
             GroupName.PLACE      -> {
-                val places = chartItem.aggregateVals ?: listOf(chartItem.entryVal)
+                val places = chartItem.aggregateVals ?: listOf(chartItem.xVal)
                 if (endedAtSec != null) {
                     viewModel.listPostByLocations(places, startedAtSec, endedAtSec, gap)
                 } else {

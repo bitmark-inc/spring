@@ -18,6 +18,7 @@ import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.bitmark.fbm.util.modelview.GroupModelView
 import com.bitmark.fbm.util.modelview.hasAggregatedData
 import com.bitmark.fbm.util.modelview.reverse
+import com.bitmark.fbm.util.modelview.sum
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -170,6 +171,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
         for (index in barXValues.indices) {
             val xVal = barXValues[index]
+            val entry = gEntries[index]
             val resId =
                 if (needResIdAsAdditionalData(group)) {
                     stringResLabelMap.entries.first { e -> context.getString(e.key) == xVal }.key
@@ -190,12 +192,20 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
             }
 
             val data =
-                ChartItem(group.sectionName, group.name, xVal, resId, periodRange, hiddenXVals)
+                ChartItem(
+                    group.sectionName,
+                    group.name,
+                    xVal,
+                    entry.sum(),
+                    resId,
+                    periodRange,
+                    hiddenXVals
+                )
 
             barEntries.add(
                 BarEntry(
                     index.toFloat(),
-                    gEntries[index].yValues,
+                    entry.yValues,
                     data
                 )
             )
@@ -338,6 +348,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                             data.groupName,
                             stringResLabelMap[data.stringRes!!]
                                 ?: error("could not found item is stringResLabelMap"),
+                            data.yVal,
                             stringRes = data.stringRes,
                             periodRange = data.periodRange
                         )
@@ -363,7 +374,9 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
         val groupName: GroupName,
 
-        val entryVal: String,
+        val xVal: String,
+
+        val yVal: Float,
 
         val stringRes: Int? = null,
 
@@ -374,7 +387,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 }
 
 fun GroupView.ChartItem.getPostType() =
-    if (sectionName != SectionName.POST) null else PostType.fromString(entryVal)
+    if (sectionName != SectionName.POST) null else PostType.fromString(xVal)
 
 fun GroupView.ChartItem.getReaction() =
-    if (sectionName != SectionName.REACTION) null else Reaction.fromString(entryVal)
+    if (sectionName != SectionName.REACTION) null else Reaction.fromString(xVal)

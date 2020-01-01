@@ -187,7 +187,7 @@ class LocationDetailFragment : BaseSupportFragment() {
     ) {
         when (chartItem.groupName) {
             GroupName.AREA       -> {
-                val name = chartItem.aggregateVals ?: listOf(chartItem.entryVal)
+                val name = chartItem.aggregateVals ?: listOf(chartItem.xVal)
                 if (endedAtSec != null) {
                     viewModel.listLocationByNames(name, startedAtSec, endedAtSec)
                 } else {
