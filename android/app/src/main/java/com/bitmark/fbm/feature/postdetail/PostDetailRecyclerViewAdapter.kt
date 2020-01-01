@@ -214,10 +214,10 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             }
         }
 
-        fun getParams(context: Context): RelativeLayout.LayoutParams {
+        private fun getParams(context: Context): RelativeLayout.LayoutParams {
             val params = RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
-                context.getDimensionPixelSize(R.dimen.dp_375)
+                context.getDimensionPixelSize(R.dimen.dp_340)
             )
             params.setMargins(0, context.getDimensionPixelSize(R.dimen.dp_24), 0, 0)
             return params

@@ -44,8 +44,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivPhoto"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_375"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_340"
         android:layout_marginTop="@dimen/dp_24"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"

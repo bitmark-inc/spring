@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/athens_gray"
+    android:background="@color/white"
     >
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivVideoThumbnail"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_375"
+        android:layout_height="@dimen/dp_340"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         tools:src="@drawable/bg_4"
@@ -27,4 +27,4 @@
         tools:visibility="visible"
         />
 
-</RelativeLayout>
+</merge>

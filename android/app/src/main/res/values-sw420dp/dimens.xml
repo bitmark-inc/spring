@@ -25,6 +25,7 @@
 	<dimen name="dp_30">33.60dp</dimen>
 	<dimen name="dp_32">35.84dp</dimen>
 	<dimen name="dp_320">358.40dp</dimen>
+	<dimen name="dp_340">380.80dp</dimen>
 	<dimen name="dp_36">40.32dp</dimen>
 	<dimen name="dp_375">420.00dp</dimen>
 	<dimen name="dp_38">42.56dp</dimen>
