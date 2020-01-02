@@ -395,7 +395,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         var detectedPage = ""
         val evaluated = AtomicInteger(0)
         val pages = script.pages
-        val timeout = 30000 // 30 sec
+        val timeout = 15000 // 15 sec
 
         val evaluateJs = fun(p: Page, onDone: () -> Unit) {
             wv.evaluateVerificationJs(p.detection) { detected ->
