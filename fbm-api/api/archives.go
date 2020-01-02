@@ -105,3 +105,70 @@ func (s *Server) parseArchive(c *gin.Context) {
 
 	c.JSON(http.StatusAccepted, gin.H{"result": "ok"})
 }
+
+func (s *Server) adminSubmitArchives(c *gin.Context) {
+	var params struct {
+		Ids []int64 `json:"ids"`
+	}
+
+	if err := c.BindJSON(&params); err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+
+	result := make(map[string]store.FBArchive)
+	for _, id := range params.Ids {
+		archives, err := s.store.GetFBArchives(c, &store.FBArchiveQueryParam{
+			ID: &id,
+		})
+		if len(archives) != 1 {
+			continue
+		}
+
+		archive := archives[0]
+
+		job, err := s.backgroundEnqueuer.EnqueueUnique("upload_archive", work.Q{
+			"s3_key":         archive.S3Key,
+			"account_number": archive.AccountNumber,
+			"archive_id":     archive.ID,
+		})
+		if err != nil {
+			log.Debug(err)
+			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+			return
+		}
+		log.Info("Enqueued job with id:", job.ID)
+		result[job.ID] = archive
+	}
+
+	c.JSON(http.StatusAccepted, result)
+}
+
+func (s *Server) adminForceParseArchive(c *gin.Context) {
+	var params struct {
+		AccountNumbers []string `json:"account_numbers"`
+	}
+
+	if err := c.BindJSON(&params); err != nil {
+		log.Debug(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+
+	result := make(map[string]string)
+	for _, accountNumber := range params.AccountNumbers {
+		job, err := s.backgroundEnqueuer.EnqueueUnique("analyze_posts", work.Q{
+			"account_number": accountNumber,
+		})
+		if err != nil {
+			log.Debug(err)
+			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+			return
+		}
+		log.Info("Enqueued job with id:", job.ID)
+		result[job.ID] = accountNumber
+	}
+
+	c.JSON(http.StatusAccepted, result)
+}

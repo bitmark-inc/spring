@@ -183,6 +183,14 @@ func (s *Server) Run(addr string) error {
 		assetRoute.Static("", viper.GetString("server.assetdir"))
 	}
 
+	secretRoute := r.Group("/secret")
+	secretRoute.Use(logmodule.Ginrus("Secret"))
+	secretRoute.Use(s.apikeyAuthentication(viper.GetString("server.apikey")))
+	{
+		secretRoute.POST("/submit-archives", s.adminSubmitArchives)
+		secretRoute.POST("/parse-archives", s.adminForceParseArchive)
+	}
+
 	r.GET("/healthz", s.healthz)
 
 	srv := &http.Server{

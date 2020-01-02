@@ -137,6 +137,17 @@ func (s *Server) fakeCredential() gin.HandlerFunc {
 	}
 }
 
+func (s *Server) apikeyAuthentication(key string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		apiToken := c.GetHeader("Api-Token")
+		if apiToken == "" || apiToken != key {
+			c.AbortWithStatus(http.StatusForbidden)
+			return
+		}
+		c.Next()
+	}
+}
+
 func (s *Server) recognizeAccountMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		requester := c.GetString("requester")
