@@ -6,16 +6,21 @@
  */
 package com.bitmark.fbm.feature.main
 
+import android.os.Handler
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.BehaviorComponent
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
 import com.bitmark.fbm.feature.usage.UsageContainerFragment
 import com.bitmark.fbm.util.ext.getDimensionPixelSize
+import com.bitmark.fbm.util.ext.gone
+import com.bitmark.fbm.util.ext.visible
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -27,11 +32,31 @@ class MainActivity : BaseAppCompatActivity() {
     @Inject
     internal lateinit var viewModel: MainViewModel
 
+    @Inject
+    internal lateinit var connectivityHandler: ConnectivityHandler
+
+    private val handler = Handler()
+
     private lateinit var vpAdapter: MainViewPagerAdapter
 
     override fun layoutRes(): Int = R.layout.activity_main
 
     override fun viewModel(): BaseViewModel? = viewModel
+
+    private val connectivityChangeListener =
+        object : ConnectivityHandler.NetworkStateChangeListener {
+            override fun onChange(connected: Boolean) {
+                if (!connected) {
+                    if (layoutNoNetwork.isVisible) return
+                    layoutNoNetwork.visible(true)
+                    handler.postDelayed({ layoutNoNetwork.gone(true) }, 2000)
+                } else {
+                    layoutNoNetwork.gone(true)
+                    handler.removeCallbacksAndMessages(null)
+                }
+            }
+
+        }
 
     override fun initComponents() {
         super.initComponents()
@@ -79,6 +104,25 @@ class MainActivity : BaseAppCompatActivity() {
             true
         }
 
+    }
+
+    override fun deinitComponents() {
+        handler.removeCallbacksAndMessages(null)
+        super.deinitComponents()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        connectivityHandler.addNetworkStateChangeListener(
+            connectivityChangeListener
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        connectivityHandler.removeNetworkStateChangeListener(
+            connectivityChangeListener
+        )
     }
 
     override fun onBackPressed() {

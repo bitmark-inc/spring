@@ -10,6 +10,7 @@ import com.bitmark.apiservice.configuration.GlobalConfiguration
 import com.bitmark.apiservice.configuration.Network
 import com.bitmark.fbm.data.source.remote.api.middleware.BitmarkSdkHttpObserver
 import com.bitmark.fbm.data.source.remote.api.service.ServiceGenerator
+import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
 import com.bitmark.fbm.feature.notification.NotificationOpenedHandler
 import com.bitmark.fbm.feature.notification.NotificationReceivedHandler
 import com.bitmark.fbm.keymanagement.ApiKeyManager.Companion.API_KEY_MANAGER
@@ -45,6 +46,9 @@ class FbmApplication : DaggerApplication() {
     @Inject
     internal lateinit var notificationReceivedHandler: NotificationReceivedHandler
 
+    @Inject
+    internal lateinit var connectivityHandler: ConnectivityHandler
+
     private val applicationInjector = DaggerAppComponent.builder()
         .application(this)
         .build()
@@ -70,6 +74,7 @@ class FbmApplication : DaggerApplication() {
             )
         }
         registerActivityLifecycleCallbacks(appLifecycleHandler)
+        connectivityHandler.register()
     }
 
     private fun buildBmSdkConfig(): GlobalConfiguration.Builder {
