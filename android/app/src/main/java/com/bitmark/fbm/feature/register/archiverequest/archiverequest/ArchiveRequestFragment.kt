@@ -365,7 +365,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         dialogController.alert(
             "Error",
             "Incorrect authentication credentials.",
-            tag = "login failed"
+            tag = "login_failed"
         ) { navigator.anim(RIGHT_LEFT).popFragment() }
     }
 
@@ -425,7 +425,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         execute(object : Action0 {
             override fun invoke() {
                 if (detectedPage == "" && System.currentTimeMillis() - startTime < timeout) {
-                    execute(this)
+                    handler.postDelayed({ execute(this) }, 500)
                 } else {
                     if (detectedPage == "") {
                         // could not detect the page
