@@ -227,17 +227,20 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         dataSet.colors = colors.toList()
         val barData = BarData(dataSet)
         barData.barWidth = if (vertical) 0.4f else 0.15f
-        barData.setValueTextSize(12f)
+        barData.setValueTextSize(10.5f)
         barData.setValueTypeface(font)
         barData.setValueFormatter(StackedBarValueFormatter(!vertical))
         return barData
     }
 
     private fun calculateHorizontalHeight(xCount: Int) =
-        if (xCount == 0) 0 else context.getDimensionPixelSize(R.dimen.dp_180) * xCount / MAX_HORIZONTAL_COUNT + 100 / xCount
+        if (xCount == 0) 0 else context.getDimensionPixelSize(R.dimen.dp_180) * xCount / MAX_HORIZONTAL_COUNT
 
-    private fun calculateVerticalWidth(xCount: Int) =
-        if (xCount == 0) 0 else (0.75f * resources.displayMetrics.widthPixels * xCount / MAX_VERTICAL_COUNT + 100 / xCount).toInt()
+    private fun calculateVerticalWidth(xCount: Int): Int {
+        val room =
+            resources.displayMetrics.widthPixels - 4 * context.getDimensionPixelSize(R.dimen.dp_18)
+        return if (xCount == 0) 0 else (0.85f * room * xCount / MAX_VERTICAL_COUNT).toInt()
+    }
 
 
     private fun getBarXValues(group: GroupModelView): List<String> {
