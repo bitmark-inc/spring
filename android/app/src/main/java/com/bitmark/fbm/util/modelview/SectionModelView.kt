@@ -128,8 +128,8 @@ data class SectionModelView(
                         val dateRange = period.toPeriodRangeSec(sectionR.periodStartedAtSec)
                         if (groupEntities.size < dateRange.size) {
                             // fill missing sub-period records
-                            val newGroupEntities = dateRange.map { dateMillis ->
-                                val name = (dateMillis / 1000).toString()
+                            val newGroupEntities = dateRange.map { dateSec ->
+                                val name = dateSec.toString()
                                 GroupEntity(
                                     name,
                                     groupEntities.find { e -> e.name == name }?.data ?: mapOf()
