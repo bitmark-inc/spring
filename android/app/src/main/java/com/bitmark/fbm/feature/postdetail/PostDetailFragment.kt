@@ -127,11 +127,11 @@ class PostDetailFragment : BaseSupportFragment() {
         handler.postDelayed({
             val periodRange = chartItem.periodRange
             if (periodRange != null) {
-                listPost(chartItem, periodRange.first / 1000, periodRange.last / 1000, period)
+                listPost(chartItem, periodRange.first, periodRange.last, period)
             } else {
                 listPost(chartItem, startedAtSec, endedAtSec, period)
             }
-        }, 250)
+        }, 200)
     }
 
     override fun initComponents() {
@@ -155,7 +155,7 @@ class PostDetailFragment : BaseSupportFragment() {
         endlessScrollListener = object : EndlessScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 if (chartItem.periodRange != null) {
-                    listPost(chartItem, chartItem.periodRange!!.first / 1000, period = period)
+                    listPost(chartItem, chartItem.periodRange!!.first, period = period)
                 } else {
                     listPost(chartItem, startedAtSec, period = period)
                 }
@@ -234,8 +234,8 @@ class PostDetailFragment : BaseSupportFragment() {
         endedAtSec: Long? = null,
         period: Period
     ) {
-        val range = period.toSubPeriodRange(startedAtSec)
-        val gap = (range.last - range.first) / 1000
+        val range = period.toSubPeriodRangeSec(startedAtSec)
+        val gap = range.last - range.first
 
         when (chartItem.groupName) {
             GroupName.TYPE       -> {

@@ -103,7 +103,7 @@ class LocationDetailFragment : BaseSupportFragment() {
         handler.postDelayed({
             val periodRange = chartItem.periodRange
             if (periodRange != null) {
-                listLocation(chartItem, periodRange.first / 1000, periodRange.last / 1000)
+                listLocation(chartItem, periodRange.first, periodRange.last / 1000)
             } else {
                 listLocation(chartItem, startedAtSec, endedAtSec)
             }
@@ -131,7 +131,7 @@ class LocationDetailFragment : BaseSupportFragment() {
         endlessScrollListener = object : EndlessScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 if (chartItem.periodRange != null) {
-                    listLocation(chartItem, chartItem.periodRange!!.first / 1000)
+                    listLocation(chartItem, chartItem.periodRange!!.first )
                 } else {
                     listLocation(chartItem, startedAtSec)
                 }

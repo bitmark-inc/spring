@@ -63,9 +63,6 @@ data class SectionR(
     val value: Float?
 ) : Record
 
-val SectionR.periodStartedAt: Long
-    get() = periodStartedAtSec * 1000
-
 inline fun <reified T> SectionR.getGroup(g: GroupName): T {
     val gson = Gson().newBuilder().create()
     val group = groups?.get(g.value) ?: error("${g.value} is not existing")
@@ -122,7 +119,7 @@ enum class SectionName {
 
 fun SectionName.Companion.fromString(name: String) = when (name) {
     "post"         -> SectionName.POST
-    "reaction"    -> SectionName.REACTION
+    "reaction"     -> SectionName.REACTION
     "messages"     -> SectionName.MESSAGE
     "ad_interests" -> SectionName.AD_INTEREST
     "advertisers"  -> SectionName.ADVERTISER
@@ -214,16 +211,16 @@ val Period.value: String
         Period.DECADE -> "decade"
     }
 
-fun Period.toSubPeriodRange(startedAtMillis: Long) = LongRange(
-    startedAtMillis, when (this) {
-        Period.WEEK   -> DateTimeUtil.getEndOfDateMillis(startedAtMillis)
-        Period.YEAR   -> DateTimeUtil.getEndOfMonthMillis(startedAtMillis)
-        Period.DECADE -> DateTimeUtil.getEndOfYearMillis(startedAtMillis)
-    }
+fun Period.toSubPeriodRangeSec(startedAtSec: Long) = LongRange(
+    startedAtSec, when (this) {
+        Period.WEEK   -> DateTimeUtil.getEndOfDateMillis(startedAtSec * 1000)
+        Period.YEAR   -> DateTimeUtil.getEndOfMonthMillis(startedAtSec * 1000)
+        Period.DECADE -> DateTimeUtil.getEndOfYearMillis(startedAtSec * 1000)
+    } / 1000
 )
 
-fun Period.toPeriodRange(startedAtMillis: Long) = when (this) {
-    Period.WEEK   -> DateTimeUtil.getStartOfDatesMillisInWeek(startedAtMillis)
-    Period.YEAR   -> DateTimeUtil.getStartOfDatesMillisInYear(startedAtMillis)
-    Period.DECADE -> DateTimeUtil.getStartOfDatesMillisInDecade(startedAtMillis)
-}
+fun Period.toPeriodRangeSec(startedAtSec: Long) = when (this) {
+    Period.WEEK   -> DateTimeUtil.getStartOfDatesMillisInWeek(startedAtSec * 1000)
+    Period.YEAR   -> DateTimeUtil.getStartOfDatesMillisInYear(startedAtSec * 1000)
+    Period.DECADE -> DateTimeUtil.getStartOfDatesMillisInDecade(startedAtSec * 1000)
+}.map { it / 1000 }

@@ -34,5 +34,5 @@ fun ReactionModelView.getDrawRes() = when (reaction) {
     Reaction.WOW   -> R.drawable.ic_wow
     Reaction.SAD   -> R.drawable.ic_sad
     Reaction.ANGRY -> R.drawable.ic_angry
-    else -> error("unsupported reaction ${reaction.value}")
+    else           -> error("unsupported reaction ${reaction.value}")
 }

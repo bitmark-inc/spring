@@ -179,8 +179,8 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                     null
                 }
             val periodRange = if (vertical) {
-                val periodStartedAt = group.entries[index].xValue.first().toLong() * 1000
-                group.period.toSubPeriodRange(periodStartedAt)
+                val periodStartedAt = group.entries[index].xValue.first().toLong()
+                group.period.toSubPeriodRangeSec(periodStartedAt)
             } else {
                 null
             }
