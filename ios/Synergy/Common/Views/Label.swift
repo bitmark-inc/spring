@@ -107,7 +107,7 @@ extension Label {
         }
     }
 
-    func apply(text: String, font: UIFont?, colorTheme: ColorTheme, lineHeight: CGFloat? = nil) {
+    func apply(text: String? = nil, font: UIFont?, colorTheme: ColorTheme, lineHeight: CGFloat? = nil) {
         self.text = text
         self.font = font
 

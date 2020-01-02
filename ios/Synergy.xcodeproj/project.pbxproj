@@ -340,6 +340,9 @@
 		5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2A237A863300FA3196 /* MakeUnderline.swift */; };
 		5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8E237A889A00FA3196 /* Storage.swift */; };
 		5B5DFFFF23A1F0F4003D1A1C /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
+		5B75A14823BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
+		5B75A14923BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
+		5B75A14A23BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
 		5B9322F923A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
 		5B9322FA23A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
@@ -768,6 +771,7 @@
 		5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthViewController.swift; sourceTree = "<group>"; };
 		5B5D007423A1F0F4003D1A1C /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Inhouse-Info.plist"; path = "/Users/thuyentruong/code/3-bitmark/fbm-apps/ios/Inhouse-Info.plist"; sourceTree = "<absolute>"; };
+		5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBadgeView.swift; sourceTree = "<group>"; };
 		5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewController.swift; sourceTree = "<group>"; };
 		5B9322FB23A3635200C3C408 /* SignOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewModel.swift; sourceTree = "<group>"; };
 		5B9322FF23A3635E00C3C408 /* SignOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewController.swift; sourceTree = "<group>"; };
@@ -1306,6 +1310,7 @@
 				5B4A237A23B1136E00447366 /* HeadingView.swift */,
 				5B4A237E23B1145100447366 /* TimeFilterView.swift */,
 				5B4A238E23B118E500447366 /* SectionHeadingView.swift */,
+				5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */,
 				5B4A238223B1156F00447366 /* FilterTypeView.swift */,
 				5B4A238623B115D100447366 /* FilterDayView.swift */,
 				5B4A238A23B1166300447366 /* FilterGeneralView.swift */,
@@ -2294,6 +2299,7 @@
 				E24829C9238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5832FC93237A889A00FA3196 /* BitmarkSDKService.swift in Sources */,
 				5BB319B423A09882005F7C58 /* AskNotificationsViewController.swift in Sources */,
+				5B75A14823BD95EE00FFF910 /* DataBadgeView.swift in Sources */,
 				5832FC12237A85B000FA3196 /* SceneDelegate.swift in Sources */,
 				58C009D82398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */,
 				58C009E62398C6CF00302F49 /* LensViewController.swift in Sources */,
@@ -2479,6 +2485,7 @@
 				5B5DFFDD23A1F0F4003D1A1C /* R.generated+Font.swift in Sources */,
 				5B5DFFDE23A1F0F4003D1A1C /* AskNotificationsViewController.swift in Sources */,
 				5B5DFFDF23A1F0F4003D1A1C /* BitmarkSDKService.swift in Sources */,
+				5B75A14A23BD95EE00FFF910 /* DataBadgeView.swift in Sources */,
 				5B5DFFE023A1F0F4003D1A1C /* LinkPostTableViewCell.swift in Sources */,
 				5B5DFFE123A1F0F4003D1A1C /* LensViewController.swift in Sources */,
 				5B5DFFE223A1F0F4003D1A1C /* UIViewController+Permission.swift in Sources */,
@@ -2656,6 +2663,7 @@
 				E24829CA238BC31000995FBB /* R.generated+Font.swift in Sources */,
 				5BB319B523A09882005F7C58 /* AskNotificationsViewController.swift in Sources */,
 				E2DB6689237D3B69005367C2 /* BitmarkSDKService.swift in Sources */,
+				5B75A14923BD95EE00FFF910 /* DataBadgeView.swift in Sources */,
 				58C009D92398C60D00302F49 /* LinkPostTableViewCell.swift in Sources */,
 				58C009E72398C6CF00302F49 /* LensViewController.swift in Sources */,
 				E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,

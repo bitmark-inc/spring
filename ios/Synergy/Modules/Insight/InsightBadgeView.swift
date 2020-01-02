@@ -77,7 +77,7 @@ class InsightBadgeView: UIView {
                         })
                 } else {
                     moodInsightObserver?.dispose()
-                    self.fillData(with: (badge: nil, section: .reaction))
+                    self.fillData(with: (badge: nil, section: .mood))
                 }
             })
             .disposed(by: disposeBag)
@@ -89,12 +89,12 @@ class InsightBadgeView: UIView {
         case .fbIncome:
             fbIncomeDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             fbIncomeDataBadgeView.percentageLabel.text = precentageText(with: badge)
-            updateLayout(for: fbIncomeDataBadgeView, with: badge)
+            fbIncomeDataBadgeView.updateValue(with: badge)
 
         case .mood:
             moodDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             moodDataBadgeView.percentageLabel.text = precentageText(with: badge)
-            updateLayout(for: moodDataBadgeView, with: badge)
+            moodDataBadgeView.updateValue(with: badge)
 
         default:
             break
@@ -117,19 +117,6 @@ class InsightBadgeView: UIView {
         let number = NSNumber(value: abs(Int(badge * 100)))
         guard let formattedNumber = numberFormatter.string(from: number) else { return "" }
         return "  \(formattedNumber)%"
-    }
-
-    fileprivate func updateLayout(for badgeView: DataBadgeView, with badge: Double?) {
-        if badge != nil {
-            badgeView.percentageLabel.textAlignment = .left
-            badgeView.updownImageView.flex.width(16)
-        } else {
-            badgeView.percentageLabel.textAlignment = .center
-            badgeView.updownImageView.flex.width(0)
-        }
-
-        badgeView.percentageLabel.flex.markDirty()
-        badgeView.updownImageView.flex.markDirty()
     }
 }
 

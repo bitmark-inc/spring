@@ -104,17 +104,17 @@ class UsageBadgeView: UIView {
         case .post:
             postDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             postDataBadgeView.percentageLabel.text = precentageText(with: badge)
-            updateLayout(for: postDataBadgeView, with: badge)
+            postDataBadgeView.updateValue(with: badge)
 
         case .reaction:
             reactionsDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             reactionsDataBadgeView.percentageLabel.text = precentageText(with: badge)
-            updateLayout(for: reactionsDataBadgeView, with: badge)
+            reactionsDataBadgeView.updateValue(with: badge)
 
         case .messages:
             messagesDataBadgeView.updownImageView.image = getUpDownImageView(with: badge)
             messagesDataBadgeView.percentageLabel.text = precentageText(with: badge)
-            updateLayout(for: messagesDataBadgeView, with: badge)
+            messagesDataBadgeView.updateValue(with: badge)
 
         default:
             break
@@ -137,57 +137,5 @@ class UsageBadgeView: UIView {
         let number = NSNumber(value: abs(Int(badge * 100)))
         guard let formattedNumber = numberFormatter.string(from: number) else { return "" }
         return "  \(formattedNumber)%"
-    }
-
-    fileprivate func updateLayout(for badgeView: DataBadgeView, with badge: Double?) {
-        if badge != nil {
-            badgeView.percentageLabel.textAlignment = .left
-            badgeView.updownImageView.flex.width(16)
-        } else {
-            badgeView.percentageLabel.textAlignment = .center
-            badgeView.updownImageView.flex.width(0)
-        }
-
-        badgeView.percentageLabel.flex.markDirty()
-        badgeView.updownImageView.flex.markDirty()
-    }
-}
-
-
-final class DataBadgeView: UIView {
-    private let disposeBag = DisposeBag()
-
-    let updownImageView = UIImageView()
-    let percentageLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 15))
-    let descriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 14))
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        let toplineView = UIView()
-        toplineView.flex.direction(.row).define { (flex) in
-            flex.alignItems(.center)
-            flex.addItem(updownImageView).height(16)
-            flex.addItem(percentageLabel).grow(1)
-        }
-
-        self.flex.direction(.column).define { (flex) in
-            flex.alignItems(.stretch)
-            flex.addItem(toplineView)
-            flex.addItem(descriptionLabel).marginTop(6)
-        }
-
-        percentageLabel.text = "--"
-        percentageLabel.textAlignment = .center
-
-        themeService.rx
-            .bind({ $0.blackTextColor }, to: updownImageView.rx.tintColor)
-            .bind({ $0.blackTextColor }, to: percentageLabel.rx.textColor)
-            .bind({ $0.blackTextColor }, to: descriptionLabel.rx.textColor)
-            .disposed(by: disposeBag)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
