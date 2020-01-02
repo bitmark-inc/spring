@@ -165,9 +165,15 @@ fun ImageView.load(
     url: String,
     cache: String? = null,
     success: () -> Unit = {},
-    error: (GlideException?) -> Unit = {}
+    error: (GlideException?) -> Unit = {},
+    placeholder: Int = R.drawable.bg_athens_gray
 ) =
-    Glide.with(context).load(GlideUrlNoToken(url, cache)).listener(object :
+    Glide.with(context).load(
+        GlideUrlNoToken(
+            url,
+            cache
+        )
+    ).placeholder(placeholder).listener(object :
         RequestListener<Drawable> {
         override fun onLoadFailed(
             e: GlideException?,
