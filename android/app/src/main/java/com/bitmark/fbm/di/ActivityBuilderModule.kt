@@ -8,8 +8,8 @@ package com.bitmark.fbm.di
 
 import com.bitmark.fbm.feature.account.AccountActivity
 import com.bitmark.fbm.feature.account.AccountModule
-import com.bitmark.fbm.feature.auth.BiometricAuthActivity
-import com.bitmark.fbm.feature.auth.BiometricAuthModule
+import com.bitmark.fbm.feature.biometricauth.BiometricAuthActivity
+import com.bitmark.fbm.feature.biometricauth.BiometricAuthModule
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.main.MainModule
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity

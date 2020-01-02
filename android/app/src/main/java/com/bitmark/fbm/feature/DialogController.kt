@@ -9,7 +9,6 @@ package com.bitmark.fbm.feature
 import android.app.Activity
 import android.content.DialogInterface
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatDialog
 import com.bitmark.fbm.R
 import com.bitmark.fbm.util.view.TaggedAlertDialog
 import java.util.*
@@ -18,7 +17,7 @@ class DialogController(internal val activity: Activity) {
 
     private val queue = ArrayDeque<TaggedAlertDialog>()
 
-    var showingDialog: AppCompatDialog? = null
+    var showingDialog: TaggedAlertDialog? = null
         private set
 
     private fun dismissListener(forwarder: () -> Unit = {}) =
@@ -27,7 +26,9 @@ class DialogController(internal val activity: Activity) {
             forwarder()
         }
 
-    fun isShowing() = showingDialog != null
+    fun isShowing() = showingDialog != null && showingDialog!!.isShowing
+
+    fun isShowing(tag: String) = isShowing() && showingDialog?.tag == tag
 
     fun show(dialog: TaggedAlertDialog, dismissCallback: () -> Unit = {}) {
         dialog.setOnDismissListener(dismissListener(dismissCallback))
@@ -45,6 +46,15 @@ class DialogController(internal val activity: Activity) {
             showNext()
         })
         dialog.dismiss()
+    }
+
+    fun dismiss(tag: String, dismissCallback: () -> Unit = {}) {
+        val dialog = (if (showingDialog?.tag == tag) {
+            showingDialog
+        } else {
+            queue.find { d -> d.tag == tag }
+        }) ?: return
+        dismiss(dialog, dismissCallback)
     }
 
     fun alert(

@@ -4,7 +4,7 @@
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
-package com.bitmark.fbm.feature.auth
+package com.bitmark.fbm.feature.biometricauth
 
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.di.ActivityScope

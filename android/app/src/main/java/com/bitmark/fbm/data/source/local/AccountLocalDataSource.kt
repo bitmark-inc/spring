@@ -13,6 +13,7 @@ import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
 import com.bitmark.fbm.data.source.local.api.SharedPrefApi
 import io.reactivex.Single
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
@@ -23,7 +24,7 @@ class AccountLocalDataSource @Inject constructor(
 ) : LocalDataSource(databaseApi, sharedPrefApi, fileStorageApi) {
 
     fun checkJwtExpired() = Single.fromCallable {
-        System.currentTimeMillis() - Jwt.getInstance().expiredAt <= 0
+        System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(5) > Jwt.getInstance().expiredAt
     }
 
     fun saveAccountData(accountData: AccountData) =

@@ -11,7 +11,7 @@ import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
-import com.bitmark.fbm.feature.auth.BiometricAuthActivity
+import com.bitmark.fbm.feature.biometricauth.BiometricAuthActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.util.ext.openBrowser

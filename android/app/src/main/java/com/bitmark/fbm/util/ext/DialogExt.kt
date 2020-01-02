@@ -9,6 +9,7 @@ package com.bitmark.fbm.util.ext
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.util.view.ActionAppCompatDialog
+import com.bitmark.fbm.util.view.AuthRequiredDialog
 
 fun DialogController.unexpectedAlert(action: () -> Unit = {}) =
     alert(
@@ -29,3 +30,15 @@ fun DialogController.showUpdateRequired(action: () -> Unit) = show(
         action
     )
 )
+
+fun DialogController.showAuthRequired(action: () -> Unit) {
+    val authRequiredDialog = AuthRequiredDialog(activity, "auth_required") {
+        dismissAuthRequired()
+        action()
+    }
+    show(authRequiredDialog)
+}
+
+fun DialogController.dismissAuthRequired() = dismiss("auth_required")
+
+fun DialogController.isAuthRequiredShowing() = isShowing("auth_required")

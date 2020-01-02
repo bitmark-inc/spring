@@ -12,6 +12,7 @@ import android.os.Bundle
 import com.bitmark.fbm.logging.Tracer
 
 class AppLifecycleHandler : Application.ActivityLifecycleCallbacks {
+
     companion object {
         private const val TAG = "AppLifecycleHandler"
     }
@@ -77,6 +78,7 @@ class AppLifecycleHandler : Application.ActivityLifecycleCallbacks {
     }
 
     interface AppStateChangedListener {
+
         fun onForeground() {}
 
         fun onBackground() {}

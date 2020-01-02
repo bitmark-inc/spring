@@ -185,7 +185,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     if (error is UnknownException) {
                         dialogController.unexpectedAlert { navigator.exitApp() }
                     } else {
-                        dialogController.alert(error)
+                        dialogController.alert(error) { navigator.exitApp() }
                     }
                 }
             }
@@ -246,6 +246,11 @@ class SplashActivity : BaseAppCompatActivity() {
             dialogController,
             successAction = action,
             setupRequiredAction = { navigator.gotoSecuritySetting() },
+            canceledAction = {
+                dialogController.showAuthRequired {
+                    loadAccount(accountData, action)
+                }
+            },
             invalidErrorAction = { e ->
                 logger.logError(Event.ACCOUNT_LOAD_KEY_STORE_ERROR, e)
                 dialogController.alert(e) { navigator.exitApp() }

@@ -20,6 +20,8 @@ enum class Event(val value: String) {
 
     ACCOUNT_SIGNIN_ERROR("sign_in_error"),
 
+    ACCOUNT_GET_JWT_ERROR("account_get_jwt_error"),
+
     ARCHIVE_REQUEST_AUTOMATE_PAGE_DETECTION_ERROR("archive_automate_page_detection_error"),
 
     ARCHIVE_REQUEST_PREPARE_DATA_ERROR("archive_request_prepare_data_error"),

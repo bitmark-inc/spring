@@ -41,7 +41,7 @@ class AccountRemoteDataSource @Inject constructor(
         ).map { jwt ->
             val jwtCache = Jwt.getInstance()
             jwtCache.token = jwt.token
-            jwtCache.expiredAt = System.currentTimeMillis() + jwt.expiredIn
+            jwtCache.expiredAt = System.currentTimeMillis() + jwt.expiredIn * 1000
         }.ignoreElement().subscribeOn(Schedulers.io())
     }
 

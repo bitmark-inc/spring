@@ -69,6 +69,7 @@ class FbmApplication : DaggerApplication() {
                 "intercept rx error ${e.javaClass} with message ${e.message} to be sent to thread uncaught exception"
             )
         }
+        registerActivityLifecycleCallbacks(appLifecycleHandler)
     }
 
     private fun buildBmSdkConfig(): GlobalConfiguration.Builder {

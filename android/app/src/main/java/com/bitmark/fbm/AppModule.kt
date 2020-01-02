@@ -9,6 +9,7 @@ package com.bitmark.fbm
 import android.app.Application
 import android.content.Context
 import com.bitmark.fbm.data.source.AccountRepository
+import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.SentryEventLogger
 import dagger.Module
@@ -25,6 +26,10 @@ class AppModule {
     @Provides
     @Singleton
     fun provideAppLifecycleHandler() = AppLifecycleHandler()
+
+    @Provides
+    @Singleton
+    fun provideConnectivityHandler(context: Context) = ConnectivityHandler(context)
 
     @Provides
     @Singleton

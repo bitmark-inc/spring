@@ -24,11 +24,14 @@ class MainActivity : BaseAppCompatActivity() {
     @Inject
     internal lateinit var navigator: Navigator
 
+    @Inject
+    internal lateinit var viewModel: MainViewModel
+
     private lateinit var vpAdapter: MainViewPagerAdapter
 
     override fun layoutRes(): Int = R.layout.activity_main
 
-    override fun viewModel(): BaseViewModel? = null
+    override fun viewModel(): BaseViewModel? = viewModel
 
     override fun initComponents() {
         super.initComponents()
