@@ -80,6 +80,8 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 
 	saver := newStatSaver(b.fbDataStore)
 
+	lastPostTimestamp := time.Now().Unix()
+
 	for {
 		postRespData, err := b.bitSocialClient.GetPosts(ctx, accountNumber, currentOffset)
 		if err != nil {
@@ -155,15 +157,18 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 				Title:     r.Title,
 				Tags:      friends,
 			}
-			if err := saver.save(accountNumber+"/post", r.Timestamp, post); err != nil {
-				logEntity.Error(err)
-				sentry.CaptureException(err)
-				continue
+			if lastPostTimestamp != r.Timestamp {
+				if err := saver.save(accountNumber+"/post", r.Timestamp, post); err != nil {
+					logEntity.Error(err)
+					sentry.CaptureException(err)
+					continue
+				}
+				counter.countWeek(&post)
+				counter.countYear(&post)
+				counter.countDecade(&post)
+				counter.LastPostTimestamp = r.Timestamp
+				lastPostTimestamp = r.Timestamp
 			}
-			counter.countWeek(&post)
-			counter.countYear(&post)
-			counter.countDecade(&post)
-			counter.LastPostTimestamp = post.Timestamp
 
 			if counter.earliestPostTimestamp > post.Timestamp {
 				counter.earliestPostTimestamp = post.Timestamp
@@ -232,7 +237,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 	}
 
 	logEntity.Info("Enqueue parsing reaction")
-	if _, err := enqueuer.EnqueueUnique("analyze_reactions", work.Q{
+	if _, err := enqueuer.EnqueueUnique(jobAnalyzeSentiments, work.Q{
 		"account_number": accountNumber,
 	}); err != nil {
 		return err

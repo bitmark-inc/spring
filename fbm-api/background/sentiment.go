@@ -74,6 +74,12 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 	}
 	logEntry.Info("Finish parsing sentiments")
 
+	if _, err := enqueuer.EnqueueUnique(jobAnalyzeReactions, work.Q{
+		"account_number": accountNumber,
+	}); err != nil {
+		return err
+	}
+
 	return nil
 }
 
