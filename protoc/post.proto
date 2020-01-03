@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+message Coordinate {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message Location {
+    string address = 1;
+    Coordinate coordinate = 2;
+    int64 created_at = 3;
+    string name = 4;
+    string url = 5;
+}
+
+message MediaData {
+    string source = 1;
+    string thumbnail = 2;
+    string type = 3;
+}
+
+message Tag {
+    int64 id = 1;
+    string name = 2;
+}
+
+message Post {
+    int64 id = 1;
+    string post = 2;
+    int64 timestamp = 3;
+    string title = 4;
+    string type = 5;
+    string url = 6;
+    Location location = 7;
+    repeated MediaData mediaData = 8;
+    repeated Tag tag = 9;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+message Reaction {
+    string actor = 1;
+    string reaction = 2;
+    int64 reaction_id = 3;
+    int64 timestamp = 4;
+    string title = 5;
+}
