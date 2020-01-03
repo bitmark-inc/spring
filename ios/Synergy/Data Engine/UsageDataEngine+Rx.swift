@@ -17,7 +17,6 @@ extension UsageDataEngine: ReactiveCompatible {}
 extension Reactive where Base: UsageDataEngine {
 
     static func fetchAndSyncUsage(timeUnit: TimeUnit, startDate: Date) -> Single<[Section: Usage?]> {
-
         Global.log.info("[start] UsageDataEngine.rx.fetchAndSyncUsage")
 
         return Single<[Section: Usage?]>.create { (event) -> Disposable in

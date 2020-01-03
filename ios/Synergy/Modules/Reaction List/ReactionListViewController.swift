@@ -31,7 +31,7 @@ class ReactionListViewController: ViewController, BackNavigator {
 
         guard let viewModel = viewModel as? ReactionListViewModel else { return }
 
-        viewModel.reactionsObservable
+        viewModel.reactionsRelay.filterNil()
             .subscribe(onNext: { [weak self] (realmReactions) in
                 guard let self = self else { return }
                 self.reactions = realmReactions
@@ -67,6 +67,7 @@ class ReactionListViewController: ViewController, BackNavigator {
         loadingState.onNext(.hide)
 
         tableView.dataSource = self
+        tableView.delegate = self
 
         contentView.flex
             .direction(.column).alignContent(.center).define { (flex) in
@@ -89,7 +90,7 @@ class ReactionListViewController: ViewController, BackNavigator {
     }
 }
 
-extension ReactionListViewController: UITableViewDataSource {
+extension ReactionListViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -103,7 +104,6 @@ extension ReactionListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         switch indexPath.section {
         case 0:
             let cell = tableView.dequeueReusableCell(withClass: ListHeadingViewCell.self, for: indexPath)
@@ -124,6 +124,17 @@ extension ReactionListViewController: UITableViewDataSource {
 
         default:
             return tableView.dequeueReusableCell(withClass: ListHeadingViewCell.self, for: indexPath)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let lastIndexPathInItemsSection = tableView.indexPathForLastRow(inSection: 1), indexPath.section == 1
+            else {
+                return
+        }
+
+        if indexPath.row == lastIndexPathInItemsSection.row {
+            thisViewModel.loadMore()
         }
     }
 }

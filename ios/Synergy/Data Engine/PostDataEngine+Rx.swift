@@ -9,11 +9,18 @@
 import Foundation
 import RealmSwift
 import RxSwift
+import RxCocoa
 import SwiftDate
+
+enum LoadDataEvent {
+    case triggerRemoteLoad
+    case remoteLoaded
+}
 
 class PostDataEngine {
 
     static var datePeriodSubject: PublishSubject<DatePeriod>?
+    static var triggerSubject: PublishSubject<LoadDataEvent>?
 
     static func sync(datePeriod: DatePeriod?) throws {
         guard let datePeriod = datePeriod else { return }
@@ -21,27 +28,33 @@ class PostDataEngine {
         datePeriodSubject = PublishSubject<DatePeriod>()
 
         let realm = try RealmConfig.currentRealm()
-        let queryTrack = realm.object(ofType: QueryTrack.self, forPrimaryKey: RemoteQuery.reactions.rawValue)
+        let queryTrack = realm.object(ofType: QueryTrack.self, forPrimaryKey: RemoteQuery.posts.rawValue)
         let trackedDatePeriods = queryTrack?.datePeriods ?? []
         let rootEndDate = datePeriod.endDate
 
-        var syncedStartDate: Date = Date()
+        var syncedStartDate: Date?
 
-        _ = datePeriodSubject?
+        guard let datePeriodSubject = datePeriodSubject, let triggerSubject = triggerSubject else { return }
+        let triggeredDatePeriodObserver = PublishSubject
+            .zip(
+                datePeriodSubject,
+                triggerSubject.filter { $0 == .triggerRemoteLoad })
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { (datePeriod) in
+            .subscribe(onNext: { (datePeriod, _) in
                 let (startDate, endDate) = (datePeriod.startDate, datePeriod.endDate)
                 _ = fetchRemote(startDate: startDate, endDate: endDate)
                     .subscribe(onSuccess: { (syncedSt) in
                         loadingState.onNext(.hide)
                         syncedStartDate = syncedSt
 
+                        guard let syncedStartDate = syncedStartDate else { return }
                         if syncedStartDate <= startDate {
-                            datePeriodSubject?.onCompleted()
+                            datePeriodSubject.onCompleted()
                         } else {
                             Self.datePeriodSubject?.onNext(
                                 DatePeriod(startDate: startDate, endDate: syncedStartDate - 1.seconds))
                         }
+                        triggerSubject.onNext(.remoteLoaded)
                     }, onError: { (error) in
                         guard !AppError.errorByNetworkConnection(error) else { return }
                         Global.log.error(error)
@@ -56,17 +69,34 @@ class PostDataEngine {
                 } else {
                     Global.log.error(error)
                 }
-            }, onCompleted: {
-                QueryTrack.store(
-                    trackedDatePeriods: trackedDatePeriods, in: .posts,
-                    syncedDatePeriod: DatePeriod(startDate: syncedStartDate, endDate: rootEndDate))
             })
 
-        if queryTrack?.didQuery(with: datePeriod) ?? false {
-            loadingState.onNext(.hide)
-            datePeriodSubject?.onError(AppError.didRemoteQuery) // this is not error, just track to ignore waste to store QueryTrack
+        _ = datePeriodSubject
+            .subscribe(onCompleted: {
+                triggeredDatePeriodObserver.dispose()
+                if let syncedStartDate = syncedStartDate {
+                    QueryTrack.store(
+                        trackedDatePeriods: trackedDatePeriods, in: .posts,
+                        syncedDatePeriod: DatePeriod(startDate: syncedStartDate, endDate: rootEndDate))
+                }
+            })
+
+        let shortenPeriod: DatePeriod?
+        if let queryTrack = queryTrack {
+            shortenPeriod = queryTrack.removeQueriedPeriod(for: datePeriod)
         } else {
-            datePeriodSubject?.onNext(datePeriod)
+            shortenPeriod = datePeriod
+        }
+
+        if let shortenPeriod = shortenPeriod {
+            datePeriodSubject.onNext(shortenPeriod)
+
+            if shortenPeriod.endDate.appTimeFormat == datePeriod.endDate.appTimeFormat {
+                triggerSubject.onNext(.triggerRemoteLoad)
+            }
+        } else {
+            loadingState.onNext(.hide)
+            datePeriodSubject.onError(AppError.didRemoteQuery) // this is not error, just track to ignore waste to store QueryTrack
         }
     }
 
@@ -96,6 +126,7 @@ extension Reactive where Base: PostDataEngine {
                 }
 
                 let realm = try RealmConfig.currentRealm()
+                PostDataEngine.triggerSubject = PublishSubject<LoadDataEvent>()
 
                 guard let filterQuery = makeFilterQuery(filterScope) else {
                     throw AppError.incorrectPostFilter

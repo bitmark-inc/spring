@@ -19,7 +19,7 @@ class ReactionListViewModel: ViewModel {
     let filterScope: FilterScope!
 
     // MARK: - Outputs
-    let reactionsObservable = PublishSubject<Results<Reaction>>()
+    let reactionsRelay = BehaviorRelay<Results<Reaction>?>(value: nil)
 
     // MARK: - Init
     init(filterScope: FilterScope) {
@@ -36,8 +36,27 @@ class ReactionListViewModel: ViewModel {
         ReactionDataEngine.rx.fetch(with: filterScope)
             .map { $0.sorted(byKeyPath: "timestamp", ascending: false)}
             .asObservable()
-            .bind(to: reactionsObservable)
+            .bind(to: reactionsRelay)
             .disposed(by: disposeBag)
+    }
+
+    func loadMore() {
+        guard let reactions = reactionsRelay.value else { return }
+        let currentNumberOfReactions = reactions.count
+
+        ReactionDataEngine.triggerSubject?
+            .filter({ $0 == .remoteLoaded}).take(1)
+            .asSingle()
+            .subscribe(onSuccess: { (_) in
+                let updatedNumberOfReactions = reactions.count
+
+                if updatedNumberOfReactions <= currentNumberOfReactions {
+                    self.loadMore()
+                }
+            })
+            .disposed(by: disposeBag)
+
+        ReactionDataEngine.triggerSubject?.onNext(.triggerRemoteLoad)
     }
 
     func makeSectionTitle() -> String {

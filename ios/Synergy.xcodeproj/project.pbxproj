@@ -343,6 +343,8 @@
 		5B75A14823BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14923BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14A23BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
+		5B75A14D23BD9EA400FFF910 /* DatePeriodSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14C23BD9EA400FFF910 /* DatePeriodSpec.swift */; };
+		5B75A15223BDD66000FFF910 /* QueryTrackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A15123BDD66000FFF910 /* QueryTrackSpec.swift */; };
 		5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
 		5B9322F923A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
 		5B9322FA23A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
@@ -772,6 +774,8 @@
 		5B5D007423A1F0F4003D1A1C /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Inhouse-Info.plist"; path = "/Users/thuyentruong/code/3-bitmark/fbm-apps/ios/Inhouse-Info.plist"; sourceTree = "<absolute>"; };
 		5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBadgeView.swift; sourceTree = "<group>"; };
+		5B75A14C23BD9EA400FFF910 /* DatePeriodSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePeriodSpec.swift; sourceTree = "<group>"; };
+		5B75A15123BDD66000FFF910 /* QueryTrackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTrackSpec.swift; sourceTree = "<group>"; };
 		5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewController.swift; sourceTree = "<group>"; };
 		5B9322FB23A3635200C3C408 /* SignOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewModel.swift; sourceTree = "<group>"; };
 		5B9322FF23A3635E00C3C408 /* SignOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewController.swift; sourceTree = "<group>"; };
@@ -1038,6 +1042,8 @@
 		5832FC02237A6DB900FA3196 /* SynergyTests */ = {
 			isa = PBXGroup;
 			children = (
+				5B75A15023BDD64100FFF910 /* Models */,
+				5B75A14B23BD9E7A00FFF910 /* Helpers */,
 				5832FC03237A6DB900FA3196 /* SynergyTests.swift */,
 				5832FC05237A6DB900FA3196 /* Info.plist */,
 			);
@@ -1334,6 +1340,22 @@
 				5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */,
 			);
 			path = "Biometric Auth";
+			sourceTree = "<group>";
+		};
+		5B75A14B23BD9E7A00FFF910 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				5B75A14C23BD9EA400FFF910 /* DatePeriodSpec.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		5B75A15023BDD64100FFF910 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5B75A15123BDD66000FFF910 /* QueryTrackSpec.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		5B9322E923A361E200C3C408 /* Account */ = {
@@ -1743,6 +1765,7 @@
 				5832FBFB237A6DB900FA3196 /* Sources */,
 				5832FBFC237A6DB900FA3196 /* Frameworks */,
 				5832FBFD237A6DB900FA3196 /* Resources */,
+				C9F2F12FE7CB3B63FE951931 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2162,6 +2185,23 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Synergy/Pods-Synergy-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		C9F2F12FE7CB3B63FE951931 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SynergyTests/Pods-SynergyTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SynergyTests/Pods-SynergyTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SynergyTests/Pods-SynergyTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E2DB667C237D3B69005367C2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2445,6 +2485,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5832FC04237A6DB900FA3196 /* SynergyTests.swift in Sources */,
+				5B75A14D23BD9EA400FFF910 /* DatePeriodSpec.swift in Sources */,
+				5B75A15223BDD66000FFF910 /* QueryTrackSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

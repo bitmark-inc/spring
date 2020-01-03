@@ -19,7 +19,7 @@ class PostListViewModel: ViewModel {
     let filterScope: FilterScope!
 
     // MARK: - Outputs
-    let postsObservable = PublishSubject<Results<Post>>()
+    let postsRelay = BehaviorRelay<Results<Post>?>(value: nil)
 
     // MARK: - Init
     init(filterScope: FilterScope) {
@@ -36,8 +36,27 @@ class PostListViewModel: ViewModel {
         PostDataEngine.rx.fetch(with: filterScope)
             .map { $0.sorted(byKeyPath: "timestamp", ascending: false)}
             .asObservable()
-            .bind(to: postsObservable)
+            .bind(to: postsRelay)
             .disposed(by: disposeBag)
+    }
+
+    func loadMore() {
+        guard let posts = postsRelay.value else { return }
+        let currentNumberOfPosts = posts.count
+
+        PostDataEngine.triggerSubject?
+            .filter({ $0 == .remoteLoaded}).take(1)
+            .asSingle()
+            .subscribe(onSuccess: { (_) in
+                let updatedNumberOfPosts = posts.count
+
+                if updatedNumberOfPosts <= currentNumberOfPosts {
+                    self.loadMore()
+                }
+            })
+            .disposed(by: disposeBag)
+
+        PostDataEngine.triggerSubject?.onNext(.triggerRemoteLoad)
     }
 
     func makeSectionTitle() -> String {

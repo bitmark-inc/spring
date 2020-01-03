@@ -35,7 +35,7 @@ class PostListViewController: ViewController, BackNavigator {
 
         guard let viewModel = viewModel as? PostListViewModel else { return }
 
-        viewModel.postsObservable
+        viewModel.postsRelay.filterNil()
             .subscribe(onNext: { [weak self] (realmPosts) in
                 guard let self = self else { return }
                 self.posts = realmPosts
@@ -71,6 +71,7 @@ class PostListViewController: ViewController, BackNavigator {
         loadingState.onNext(.hide)
 
         tableView.dataSource = self
+        tableView.delegate = self
 
         contentView.flex
             .direction(.column).alignContent(.center).define { (flex) in
@@ -90,7 +91,7 @@ class PostListViewController: ViewController, BackNavigator {
     }
 }
 
-extension PostListViewController: UITableViewDataSource {
+extension PostListViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -135,7 +136,12 @@ extension PostListViewController: UITableViewDataSource {
                 cell = tableView.dequeueReusableCell(withClass: LinkPostTableViewCell.self, for: indexPath)
 
             case .media:
-                cell = tableView.dequeueReusableCell(withClass: MediaPostTableViewCell.self, for: indexPath)
+                if post.mediaData.count > 0 {
+                    cell = tableView.dequeueReusableCell(withClass: MediaPostTableViewCell.self, for: indexPath)
+                } else {
+                    fallthrough
+                }
+
             default:
                 cell = tableView.dequeueReusableCell(withClass: UpdatePostTableViewCell.self, for: indexPath)
             }
@@ -145,6 +151,17 @@ extension PostListViewController: UITableViewDataSource {
 
         default:
             return tableView.dequeueReusableCell(withClass: ListHeadingViewCell.self, for: indexPath)
+        }
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let lastIndexPathInItemsSection = tableView.indexPathForLastRow(inSection: 1), indexPath.section == 1
+            else {
+                return
+        }
+
+        if indexPath.row == lastIndexPathInItemsSection.row {
+            thisViewModel.loadMore()
         }
     }
 }
