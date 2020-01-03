@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +24,7 @@ import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
+import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
 import com.bitmark.fbm.util.EndlessScrollListener
 import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.visible
@@ -78,6 +80,9 @@ class ReactionDetailFragment : BaseSupportFragment() {
     @Inject
     internal lateinit var navigator: Navigator
 
+    @Inject
+    internal lateinit var connectivityHandler: ConnectivityHandler
+
     private lateinit var adapter: ReactionRecyclerViewAdapter
 
     private var startedAtSec = -1L
@@ -91,6 +96,21 @@ class ReactionDetailFragment : BaseSupportFragment() {
     private val handler = Handler()
 
     private lateinit var period: Period
+
+    private val connectivityChangeListener =
+        object : ConnectivityHandler.NetworkStateChangeListener {
+            override fun onChange(connected: Boolean) {
+                if (!connected) {
+                    if (layoutNoNetwork.isVisible) return
+                    layoutNoNetwork.visible(true)
+                    handler.postDelayed({ layoutNoNetwork.gone(true) }, 2000)
+                } else {
+                    layoutNoNetwork.gone(true)
+                    handler.removeCallbacksAndMessages(null)
+                }
+            }
+
+        }
 
     override fun layoutRes(): Int = R.layout.fragment_usage_detail
 
@@ -157,6 +177,20 @@ class ReactionDetailFragment : BaseSupportFragment() {
         super.deinitComponents()
     }
 
+    override fun onResume() {
+        super.onResume()
+        connectivityHandler.addNetworkStateChangeListener(
+            connectivityChangeListener
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        connectivityHandler.removeNetworkStateChangeListener(
+            connectivityChangeListener
+        )
+    }
+
     private fun listReaction(
         chartItem: GroupView.ChartItem,
         startedAtSec: Long,
@@ -180,9 +214,6 @@ class ReactionDetailFragment : BaseSupportFragment() {
                 }
             }
 
-            GroupName.FRIEND     -> {
-                // TODO implement later
-            }
             else                 -> error("unsupported group name ${chartItem.groupName.value}")
         }
     }
@@ -195,7 +226,13 @@ class ReactionDetailFragment : BaseSupportFragment() {
                 res.isSuccess() -> {
                     progressBar.gone()
                     val reactions = res.data()!!
-                    adapter.add(reactions)
+                    if (adapter.isEmpty() && reactions.isEmpty()) {
+                        tvNoData.visible()
+                    } else {
+                        tvNoData.gone()
+                        adapter.add(reactions)
+                    }
+
                 }
 
                 res.isError()   -> {

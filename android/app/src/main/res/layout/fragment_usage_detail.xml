@@ -129,5 +129,30 @@
         tools:visibility="visible"
         />
 
+    <include
+        android:id="@+id/layoutNoNetwork"
+        layout="@layout/layout_nonetwork"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNoData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/grotesk_light_font_family"
+        android:includeFontPadding="false"
+        android:text="@string/no_data_to_show"
+        android:textAllCaps="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_18"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

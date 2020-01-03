@@ -29,6 +29,8 @@ class ReactionRecyclerViewAdapter(private val period: Period) :
         notifyItemRangeInserted(pos, reactions.size)
     }
 
+    fun isEmpty() = itemCount == 0
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
         LayoutInflater.from(parent.context).inflate(
             R.layout.item_reaction,

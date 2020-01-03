@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,7 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
+import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
@@ -93,6 +95,9 @@ class PostDetailFragment : BaseSupportFragment() {
     @Inject
     internal lateinit var logger: EventLogger
 
+    @Inject
+    internal lateinit var connectivityHandler: ConnectivityHandler
+
     private var startedAtSec = -1L
 
     private var endedAtSec = -1L
@@ -108,6 +113,21 @@ class PostDetailFragment : BaseSupportFragment() {
     private var blocked = false
 
     private lateinit var period: Period
+
+    private val connectivityChangeListener =
+        object : ConnectivityHandler.NetworkStateChangeListener {
+            override fun onChange(connected: Boolean) {
+                if (!connected) {
+                    if (layoutNoNetwork.isVisible) return
+                    layoutNoNetwork.visible(true)
+                    handler.postDelayed({ layoutNoNetwork.gone(true) }, 2000)
+                } else {
+                    layoutNoNetwork.gone(true)
+                    handler.removeCallbacksAndMessages(null)
+                }
+            }
+
+        }
 
     private val itemClickListener = object : OnItemClickListener {
         override fun onVideoPlayClicked(uri: String) {
@@ -185,6 +205,20 @@ class PostDetailFragment : BaseSupportFragment() {
         super.deinitComponents()
     }
 
+    override fun onResume() {
+        super.onResume()
+        connectivityHandler.addNetworkStateChangeListener(
+            connectivityChangeListener
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        connectivityHandler.removeNetworkStateChangeListener(
+            connectivityChangeListener
+        )
+    }
+
     override fun observe() {
         super.observe()
 
@@ -193,7 +227,12 @@ class PostDetailFragment : BaseSupportFragment() {
                 res.isSuccess() -> {
                     progressBar.gone()
                     val data = res.data() ?: return@Observer
-                    adapter.add(data)
+                    if (adapter.isEmpty() && data.isEmpty()) {
+                        tvNoData.visible()
+                    } else {
+                        tvNoData.gone()
+                        adapter.add(data)
+                    }
                 }
 
                 res.isError()   -> {

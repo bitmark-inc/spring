@@ -15,19 +15,12 @@
         android:layout_above="@id/bottomNav"
         />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <include
         android:id="@+id/layoutNoNetwork"
+        layout="@layout/layout_nonetwork"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/bottomNav"
-        android:background="@color/concord"
-        android:fontFamily="@font/grotesk_regular"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:padding="@dimen/dp_6"
-        android:text="@string/no_internet_connection"
-        android:textColor="@color/white"
-        android:textSize="@dimen/sp_12"
         android:visibility="gone"
         tools:visibility="visible"
         />
