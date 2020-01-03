@@ -100,13 +100,14 @@ class ReactionDetailFragment : BaseSupportFragment() {
     private val connectivityChangeListener =
         object : ConnectivityHandler.NetworkStateChangeListener {
             override fun onChange(connected: Boolean) {
+                val runnable = Runnable { layoutNoNetwork.gone(true) }
                 if (!connected) {
                     if (layoutNoNetwork.isVisible) return
                     layoutNoNetwork.visible(true)
-                    handler.postDelayed({ layoutNoNetwork.gone(true) }, 2000)
+                    handler.postDelayed(runnable, 2000)
                 } else {
                     layoutNoNetwork.gone(true)
-                    handler.removeCallbacksAndMessages(null)
+                    handler.removeCallbacks(runnable)
                 }
             }
 

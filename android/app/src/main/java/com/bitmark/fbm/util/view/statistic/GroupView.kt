@@ -234,7 +234,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
     }
 
     private fun calculateHorizontalHeight(xCount: Int) =
-        if (xCount == 0) 0 else context.getDimensionPixelSize(R.dimen.dp_180) * xCount / MAX_HORIZONTAL_COUNT
+        if (xCount == 0) 0 else context.getDimensionPixelSize(R.dimen.dp_180) * xCount / MAX_HORIZONTAL_COUNT + 100 / xCount
 
     private fun calculateVerticalWidth(xCount: Int): Int {
         val room =
