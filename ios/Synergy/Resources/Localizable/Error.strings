@@ -28,3 +28,4 @@
 "signIn.error" = "There was a problem signing in.";
 
 "generalTitle" = "Error";
+"NoInternetConnection" = "No Internet Connection";

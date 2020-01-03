@@ -18,7 +18,7 @@ class ServerAssetsService {
         Global.log.info("[start] getFBAutomation")
 
         return provider.rx
-            .request(.fbAutomation)
+            .onlineRequest(.fbAutomation)
             .filterSuccess()
             .map([FBScript].self, atKeyPath: "pages")
     }
@@ -27,7 +27,7 @@ class ServerAssetsService {
         Global.log.info("[start] getAppInformation")
 
         return provider.rx
-            .request(.appInformation)
+            .onlineRequest(.appInformation)
             .mapJSON()
             .map { ($0 as? [String: Any])?["information"] as? [String: Any] }.errorOnNil()
             .map { $0["ios"] as? [String: Any] }.errorOnNil()

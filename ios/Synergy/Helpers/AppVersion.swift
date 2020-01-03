@@ -27,6 +27,8 @@ class AppVersion {
                     } else {
                         event(.completed)
                     }
+                }, onError: { (error) in
+                    event(.error(error))
                 })
 
             return Disposables.create()

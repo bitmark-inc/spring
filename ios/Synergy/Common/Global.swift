@@ -93,9 +93,9 @@ enum AppError: Error {
         guard let error = error as? Self else { return false }
         switch error {
         case .noInternetConnection:
-            return false
-        default:
             return true
+        default:
+            return false
         }
     }
 }

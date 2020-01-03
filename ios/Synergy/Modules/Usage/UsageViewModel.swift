@@ -18,19 +18,11 @@ class UsageViewModel: ViewModel {
     let timeUnitRelay = BehaviorRelay<TimeUnit>(value: .week)
 
     // MARK: - Outputs
-    let realmAverageObservable = PublishSubject<Results<Average>>()
     let realmPostUsageRelay = BehaviorRelay<Usage?>(value: nil)
     let realmReactionUsageRelay = BehaviorRelay<Usage?>(value: nil)
 
     override init() {
         super.init()
-    }
-
-    func fetchAverage() {
-        timeUnitRelay
-            .flatMap { AverageDataEngine.rx.fetchAndSyncAverage(timeUnit: $0) }
-            .bind(to: realmAverageObservable)
-            .disposed(by: disposeBag)
     }
 
     func fetchUsage() {
@@ -41,7 +33,9 @@ class UsageViewModel: ViewModel {
 
                 _ = UsageDataEngine.rx.fetchAndSyncUsage(timeUnit: timeUnit, startDate: date)
                     .catchError({ (error) -> Single<[Section: Usage?]> in
-                        Global.log.error(error)
+                        if !AppError.errorByNetworkConnection(error) {
+                            Global.log.error(error)
+                        }
                         return Single.just([:])
                     })
                     .asObservable()
