@@ -12,6 +12,7 @@ var (
 		1004: "invalid parameters",
 		1005: "cannot parse request",
 		1006: "account not found",
+		1007: "API for this client version has been discontinued",
 	}
 
 	errorInternalServer             = errorJSON(999)
@@ -22,6 +23,7 @@ var (
 	errorInvalidParameters          = errorJSON(1004)
 	errorCannotParseRequest         = errorJSON(1005)
 	errorAccountNotFound            = errorJSON(1006)
+	errorUnsupportedClientVersion   = errorJSON(1007)
 )
 
 // errorJSON converts an error code to a standardized error object

@@ -166,3 +166,23 @@ func (s *Server) recognizeAccountMiddleware() gin.HandlerFunc {
 		c.Set("account", account)
 	}
 }
+
+func (s *Server) clientVersionGateway() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		clientType := c.GetHeader("Client-Type")
+		clientVersion := c.GetHeader("Client-Version")
+		code, err := strconv.Atoi(clientVersion)
+		if err != nil ||
+			(clientType != "ios" && clientType != "android") ||
+			code <= 0 {
+			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+			return
+		}
+
+		clientMinimumVersion := viper.GetInt("clients." + clientType + ".minimum_client_version")
+		if code < clientMinimumVersion {
+			c.AbortWithStatusJSON(http.StatusNotAcceptable, errorUnsupportedClientVersion)
+			return
+		}
+	}
+}

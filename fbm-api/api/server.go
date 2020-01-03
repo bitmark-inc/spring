@@ -116,6 +116,7 @@ func (s *Server) Run(addr string) error {
 
 	apiRoute := r.Group("/api")
 	apiRoute.Use(logmodule.Ginrus("API"))
+	apiRoute.Use(s.clientVersionGateway())
 	apiRoute.GET("/information", s.information)
 
 	apiRoute.POST("/auth", s.requestJWT)
