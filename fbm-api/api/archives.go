@@ -21,7 +21,7 @@ func (s *Server) downloadFBArchive(c *gin.Context) {
 
 	if err := c.BindJSON(&params); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
@@ -43,7 +43,7 @@ func (s *Server) downloadFBArchive(c *gin.Context) {
 	job, err := s.backgroundEnqueuer.EnqueueUnique("download_archive", args)
 	if err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 	log.Info("Enqueued job with id:", job.ID)
@@ -76,7 +76,7 @@ func (s *Server) parseArchive(c *gin.Context) {
 	})
 	if err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 	log.Info("Enqueued job with id:", job.ID)
@@ -87,7 +87,7 @@ func (s *Server) parseArchive(c *gin.Context) {
 	})
 	if err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 	log.Info("Enqueued job with id:", reactionJob.ID)
@@ -98,7 +98,7 @@ func (s *Server) parseArchive(c *gin.Context) {
 	})
 	if err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 	log.Info("Enqueued job with id:", sentimentJob.ID)
@@ -113,7 +113,7 @@ func (s *Server) adminSubmitArchives(c *gin.Context) {
 
 	if err := c.BindJSON(&params); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
@@ -135,7 +135,7 @@ func (s *Server) adminSubmitArchives(c *gin.Context) {
 		})
 		if err != nil {
 			log.Debug(err)
-			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+			abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 			return
 		}
 		log.Info("Enqueued job with id:", job.ID)
@@ -152,7 +152,7 @@ func (s *Server) adminForceParseArchive(c *gin.Context) {
 
 	if err := c.BindJSON(&params); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
@@ -163,7 +163,7 @@ func (s *Server) adminForceParseArchive(c *gin.Context) {
 		})
 		if err != nil {
 			log.Debug(err)
-			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+			abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 			return
 		}
 		log.Info("Enqueued job with id:", job.ID)

@@ -11,7 +11,7 @@ import (
 
 // PostData represents a single post returned by the API
 type PostData struct {
-	PostID                uint64 `json:"post_id"`
+	PostID                int64  `json:"post_id"`
 	Timestamp             int64  `json:"timestamp"`
 	UpdateTimestamp       int64  `json:"update_timestamp"`
 	Date                  string `json:"date"`
@@ -35,10 +35,10 @@ type PostData struct {
 		DataOwner         string `json:"data_owner"`
 	} `json:"post_media"`
 	Tags []struct {
-		Tfid      int    `json:"tfid"`
+		Tfid      int64  `json:"tfid"`
 		Tags      string `json:"tags"`
-		PostID    int    `json:"post_id"`
-		FriendID  int    `json:"friend_id"`
+		PostID    int64  `json:"post_id"`
+		FriendID  int64  `json:"friend_id"`
 		DataOwner string `json:"data_owner"`
 	} `json:"tags"`
 	Place []struct {

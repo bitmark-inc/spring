@@ -39,7 +39,7 @@ func (s *Server) getStatistic(c *gin.Context) {
 
 	if err := c.ShouldBindQuery(&query); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 

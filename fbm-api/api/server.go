@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gogo/protobuf/proto"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -21,6 +22,7 @@ import (
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/gin"
 	"github.com/gocraft/work"
+	"github.com/golang/protobuf/jsonpb"
 	"github.com/spf13/viper"
 )
 
@@ -256,7 +258,7 @@ func shouldInterupt(err error, c *gin.Context) bool {
 	}
 
 	c.Error(err)
-	c.AbortWithStatusJSON(http.StatusInternalServerError, errorInternalServer)
+	abortWithEncoding(c, http.StatusInternalServerError, errorInternalServer)
 
 	return true
 }
@@ -294,4 +296,25 @@ func (s *Server) information(c *gin.Context) {
 			"ios":     viper.GetStringMap("clients.ios"),
 		},
 	})
+}
+
+func responseWithEncoding(c *gin.Context, code int, obj proto.Message) {
+	c.Status(code)
+	acceptEncoding := c.GetHeader("Accept-Encoding")
+
+	switch acceptEncoding {
+	case "application/x-protobuf":
+		c.Header("Content-Type", "application/x-protobuf")
+		b, _ := proto.Marshal(obj)
+		c.Writer.Write(b)
+	default:
+		c.Header("Content-Type", "application/json; charset=utf-8")
+		marshaler := jsonpb.Marshaler{}
+		marshaler.Marshal(c.Writer, obj)
+	}
+}
+
+func abortWithEncoding(c *gin.Context, code int, obj proto.Message) {
+	responseWithEncoding(c, code, obj)
+	c.Abort()
 }

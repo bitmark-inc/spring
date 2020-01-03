@@ -3,7 +3,9 @@ package api
 import (
 	"net/http"
 
+	"github.com/bitmark-inc/fbm-apps/fbm-api/protomodel"
 	"github.com/gin-gonic/gin"
+	"github.com/golang/protobuf/proto"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -16,25 +18,32 @@ func (s *Server) getAllReactions(c *gin.Context) {
 
 	if err := c.BindQuery(&params); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		// abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
 	if params.StartedAt >= params.EndedAt {
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
-	reactions, err := s.fbDataStore.GetFBStat(c, accountNumber+"/reaction", params.StartedAt, params.EndedAt)
+	data, err := s.fbDataStore.GetFBStat(c, accountNumber+"/reaction", params.StartedAt, params.EndedAt)
 	if shouldInterupt(err, c) {
 		return
 	}
 
-	if reactions == nil {
-		reactions = []interface{}{}
+	reactions := make([]*protomodel.Reaction, 0)
+	for _, d := range data {
+		var reaction protomodel.Reaction
+		err := proto.Unmarshal(d, &reaction)
+		if shouldInterupt(err, c) {
+			return
+		}
+
+		reactions = append(reactions, &reaction)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"result": reactions,
+	responseWithEncoding(c, http.StatusOK, &protomodel.ReactionsResponse{
+		Result: reactions,
 	})
 }

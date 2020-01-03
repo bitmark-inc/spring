@@ -2,7 +2,6 @@ package store
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
 	"strconv"
 
@@ -18,7 +17,8 @@ type DynamoDBStore struct {
 	svc   *dynamodb.DynamoDB
 }
 
-type fbData struct {
+// FbData represent a statistic record for Facebook data that will be push to dynamodb
+type FbData struct {
 	Key       string `dynamodbav:"key"`
 	Timestamp int64  `dynamodbav:"timestamp"`
 	Data      []byte `dynamodbav:"data"`
@@ -39,15 +39,11 @@ func NewDynamoDBStore(config *aws.Config, tablename string) (*DynamoDBStore, err
 	}, nil
 }
 
-func (d *DynamoDBStore) AddFBStat(ctx context.Context, key string, timestamp int64, value interface{}) error {
-	data, err := json.Marshal(value)
-	if err != nil {
-		return err
-	}
-	info := fbData{
+func (d *DynamoDBStore) AddFBStat(ctx context.Context, key string, timestamp int64, value []byte) error {
+	info := FbData{
 		Key:       key,
 		Timestamp: timestamp,
-		Data:      data,
+		Data:      value,
 	}
 
 	item, err := dynamodbattribute.MarshalMap(info)
@@ -63,32 +59,16 @@ func (d *DynamoDBStore) AddFBStat(ctx context.Context, key string, timestamp int
 	return err
 }
 
-// FBStat represent a statistic record for Facebook data that will be push to dynamodb
-type FBStat struct {
-	Key       string
-	Timestamp int64
-	Value     interface{}
-}
-
 // AddFBStats will push all of the statistic records in stats array to dynamo DB
-func (d *DynamoDBStore) AddFBStats(ctx context.Context, stats []FBStat) error {
-	if len(stats) > 25 {
+func (d *DynamoDBStore) AddFBStats(ctx context.Context, data []FbData) error {
+	if len(data) > 25 {
 		return errors.New("can not push more than 25 records at once for dynamodb")
 	}
 
 	writeRequests := make([]*dynamodb.WriteRequest, 0)
 
-	for _, stat := range stats {
-		data, err := json.Marshal(stat.Value)
-		if err != nil {
-			return err
-		}
-		info := fbData{
-			Key:       stat.Key,
-			Timestamp: stat.Timestamp,
-			Data:      data,
-		}
-		item, err := dynamodbattribute.MarshalMap(info)
+	for _, d := range data {
+		item, err := dynamodbattribute.MarshalMap(d)
 		if err != nil {
 			return err
 		}
@@ -110,31 +90,27 @@ func (d *DynamoDBStore) AddFBStats(ctx context.Context, stats []FBStat) error {
 	return err
 }
 
-func (d *DynamoDBStore) queryFBStatResult(input *dynamodb.QueryInput) ([]interface{}, error) {
+func (d *DynamoDBStore) queryFBStatResult(input *dynamodb.QueryInput) ([][]byte, error) {
 	result, err := d.svc.Query(input)
 	if err != nil {
 		return nil, err
 	}
 
-	var items []fbData
+	var items []FbData
 
 	if err := dynamodbattribute.UnmarshalListOfMaps(result.Items, &items); err != nil {
 		return nil, err
 	}
 
-	var data []interface{}
+	var data [][]byte
 	for _, i := range items {
-		var d interface{}
-		if err := json.Unmarshal(i.Data, &d); err != nil {
-			return nil, err
-		}
-		data = append(data, d)
+		data = append(data, i.Data)
 	}
 
 	return data, nil
 }
 
-func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int64) ([]interface{}, error) {
+func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int64) ([][]byte, error) {
 	input := &dynamodb.QueryInput{
 		TableName: d.table,
 		KeyConditions: map[string]*dynamodb.Condition{
@@ -165,7 +141,7 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int6
 	return d.queryFBStatResult(input)
 }
 
-func (d *DynamoDBStore) GetExactFBStat(ctx context.Context, key string, in int64) (interface{}, error) {
+func (d *DynamoDBStore) GetExactFBStat(ctx context.Context, key string, in int64) ([]byte, error) {
 	input := &dynamodb.QueryInput{
 		TableName: d.table,
 		KeyConditions: map[string]*dynamodb.Condition{
@@ -192,7 +168,7 @@ func (d *DynamoDBStore) GetExactFBStat(ctx context.Context, key string, in int64
 		return nil, err
 	}
 
-	var items []fbData
+	var items []FbData
 
 	if err := dynamodbattribute.UnmarshalListOfMaps(result.Items, &items); err != nil {
 		return nil, err
@@ -202,10 +178,5 @@ func (d *DynamoDBStore) GetExactFBStat(ctx context.Context, key string, in int64
 		return nil, nil
 	}
 
-	var data interface{}
-	if err := json.Unmarshal(items[0].Data, &data); err != nil {
-		return nil, err
-	}
-
-	return data, nil
+	return items[0].Data, nil
 }

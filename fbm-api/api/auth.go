@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"github.com/bitmark-inc/bitmark-sdk-go/account"
+	"github.com/bitmark-inc/fbm-apps/fbm-api/protomodel"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	jwt "github.com/dgrijalva/jwt-go"
 	jwtrequest "github.com/dgrijalva/jwt-go/request"
@@ -31,24 +32,28 @@ func (s *Server) requestJWT(c *gin.Context) {
 
 	if err := c.BindJSON(&req); err != nil {
 		c.Error(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		responseWithEncoding(c, http.StatusBadRequest, &protomodel.ErrorResponse{
+			Error: &protomodel.Error{
+				Message: err.Error(),
+			},
+		})
 		return
 	}
 
 	sig, err := hex.DecodeString(req.Signature)
 	if err != nil {
-		c.AbortWithStatusJSON(401, errorInvalidParameters)
+		abortWithEncoding(c, 401, errorInvalidParameters)
 		return
 	}
 
 	if err := account.Verify(req.Requester, []byte(req.Timestamp), sig); err != nil {
-		c.AbortWithStatusJSON(401, errorInvalidSignature)
+		abortWithEncoding(c, 401, errorInvalidSignature)
 		return
 	}
 
 	t, err := strconv.ParseInt(req.Timestamp, 10, 64)
 	if err != nil {
-		c.AbortWithStatusJSON(401, errorInvalidParameters)
+		abortWithEncoding(c, 401, errorInvalidParameters)
 		return
 	}
 
@@ -56,7 +61,7 @@ func (s *Server) requestJWT(c *gin.Context) {
 	now := time.Unix(0, time.Now().UnixNano())
 	duration := now.Sub(created)
 	if math.Abs(duration.Minutes()) > float64(5) {
-		c.AbortWithStatusJSON(401, errorAuthorizationExpired)
+		abortWithEncoding(c, 401, errorAuthorizationExpired)
 		return
 	}
 
@@ -80,7 +85,7 @@ func (s *Server) requestJWT(c *gin.Context) {
 	tokenString, err := token.SignedString(s.jwtPrivateKey)
 	if err != nil {
 		c.Error(err)
-		c.AbortWithStatusJSON(http.StatusInternalServerError, errorInternalServer)
+		abortWithEncoding(c, http.StatusInternalServerError, errorInternalServer)
 		return
 	}
 
@@ -111,12 +116,12 @@ func (s *Server) authMiddleware() gin.HandlerFunc {
 
 		if err != nil {
 			log.WithError(err).Debug("authorization error")
-			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidAuthorizationFormat)
+			abortWithEncoding(c, http.StatusBadRequest, errorInvalidAuthorizationFormat)
 			return
 		}
 
 		if !token.Valid {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, errorInvalidAuthorizationFormat)
+			abortWithEncoding(c, http.StatusUnauthorized, errorInvalidAuthorizationFormat)
 			return
 		}
 
@@ -159,11 +164,12 @@ func (s *Server) recognizeAccountMiddleware() gin.HandlerFunc {
 		}
 
 		if account == nil {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, errorAccountNotFound)
+			abortWithEncoding(c, http.StatusUnauthorized, errorAccountNotFound)
 			return
 		}
 
 		c.Set("account", account)
+		c.Next()
 	}
 }
 
@@ -175,14 +181,16 @@ func (s *Server) clientVersionGateway() gin.HandlerFunc {
 		if err != nil ||
 			(clientType != "ios" && clientType != "android") ||
 			code <= 0 {
-			c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+			abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 			return
 		}
 
 		clientMinimumVersion := viper.GetInt("clients." + clientType + ".minimum_client_version")
 		if code < clientMinimumVersion {
-			c.AbortWithStatusJSON(http.StatusNotAcceptable, errorUnsupportedClientVersion)
+			abortWithEncoding(c, http.StatusNotAcceptable, errorUnsupportedClientVersion)
 			return
 		}
+
+		c.Next()
 	}
 }

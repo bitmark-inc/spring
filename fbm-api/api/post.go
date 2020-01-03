@@ -6,7 +6,9 @@ import (
 	"net/url"
 	"strconv"
 
+	"github.com/bitmark-inc/fbm-apps/fbm-api/protomodel"
 	"github.com/gin-gonic/gin"
+	"github.com/golang/protobuf/proto"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -19,21 +21,28 @@ func (s *Server) getAllPosts(c *gin.Context) {
 
 	if err := c.BindQuery(&params); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
-	posts, err := s.fbDataStore.GetFBStat(c, accountNumber+"/post", params.StartedAt, params.EndedAt)
+	data, err := s.fbDataStore.GetFBStat(c, accountNumber+"/post", params.StartedAt, params.EndedAt)
 	if shouldInterupt(err, c) {
 		return
 	}
 
-	if posts == nil {
-		posts = []interface{}{}
+	posts := make([]*protomodel.Post, 0)
+	for _, d := range data {
+		var post protomodel.Post
+		err := proto.Unmarshal(d, &post)
+		if shouldInterupt(err, c) {
+			return
+		}
+
+		posts = append(posts, &post)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"result": posts,
+	responseWithEncoding(c, http.StatusOK, &protomodel.PostsResponse{
+		Result: posts,
 	})
 }
 
@@ -44,32 +53,42 @@ func (s *Server) getPostStats(c *gin.Context) {
 
 	if err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
-	results := make([]interface{}, 0)
+	results := make([]*protomodel.Usage, 0)
 
-	postStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/post-%s-stat", accountNumber, period), startedAt)
+	postStatData, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/post-%s-stat", accountNumber, period), startedAt)
 	if shouldInterupt(err, c) {
 		return
 	}
 
-	if postStat != nil {
-		results = append(results, postStat)
+	if postStatData != nil {
+		var postStat protomodel.Usage
+		err := proto.Unmarshal(postStatData, &postStat)
+		if shouldInterupt(err, c) {
+			return
+		}
+		results = append(results, &postStat)
 	}
 
-	reactionStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/reaction-%s-stat", accountNumber, period), startedAt)
+	reactionStatData, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/reaction-%s-stat", accountNumber, period), startedAt)
 	if shouldInterupt(err, c) {
 		return
 	}
 
-	if reactionStat != nil {
-		results = append(results, reactionStat)
+	if reactionStatData != nil {
+		var reactionStat protomodel.Usage
+		err := proto.Unmarshal(reactionStatData, &reactionStat)
+		if shouldInterupt(err, c) {
+			return
+		}
+		results = append(results, &reactionStat)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"result": results,
+	responseWithEncoding(c, http.StatusOK, &protomodel.UsageResponse{
+		Result: results,
 	})
 }
 
@@ -77,7 +96,7 @@ func (s *Server) getPostMediaURI(c *gin.Context) {
 	key := c.Query("key")
 	keyDecoded, err := url.QueryUnescape(key)
 	if key == "" {
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 

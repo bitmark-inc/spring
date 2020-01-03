@@ -95,21 +95,21 @@ func getDiff(current, last float64) float64 {
 
 type statSaver struct {
 	store store.FBDataStore
-	queue []store.FBStat
+	queue []store.FbData
 }
 
 func newStatSaver(fbstore store.FBDataStore) *statSaver {
 	return &statSaver{
 		store: fbstore,
-		queue: make([]store.FBStat, 0),
+		queue: make([]store.FbData, 0),
 	}
 }
 
-func (s *statSaver) save(key string, timestamp int64, value interface{}) error {
-	s.queue = append(s.queue, store.FBStat{
+func (s *statSaver) save(key string, timestamp int64, data []byte) error {
+	s.queue = append(s.queue, store.FbData{
 		Key:       key,
 		Timestamp: timestamp,
-		Value:     value,
+		Data:      data,
 	})
 
 	if len(s.queue) < 25 {
@@ -120,7 +120,7 @@ func (s *statSaver) save(key string, timestamp int64, value interface{}) error {
 		return err
 	}
 
-	s.queue = make([]store.FBStat, 0)
+	s.queue = make([]store.FbData, 0)
 	return nil
 }
 

@@ -6,8 +6,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/bitmark-inc/fbm-apps/fbm-api/protomodel"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/gin-gonic/gin"
+	"github.com/golang/protobuf/proto"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -110,18 +112,18 @@ func (s *Server) getInsight(c *gin.Context) {
 
 	period := c.Param("period")
 	if period != "week" && period != "year" && period != "decade" {
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
 	startedAt, err := strconv.ParseInt(c.Query("started_at"), 10, 64)
 	if err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
-	results := make([]interface{}, 0)
+	results := make([]*protomodel.Insight, 0)
 
 	// fb income for data
 	currentPeriodFBIncome := s.getFBIncomeFromData(account, period, startedAt)
@@ -134,7 +136,7 @@ func (s *Server) getInsight(c *gin.Context) {
 		diff = (currentPeriodFBIncome - previousPeriodFBIncome) / previousPeriodFBIncome
 	}
 
-	results = append(results, InsightSection{
+	results = append(results, &protomodel.Insight{
 		SectionName:      "fb-income",
 		Value:            currentPeriodFBIncome,
 		PeriodStartedAt:  startedAt,
@@ -142,16 +144,21 @@ func (s *Server) getInsight(c *gin.Context) {
 		DiffFromPrevious: diff,
 	})
 
-	sentimentStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/sentiment-%s-stat", accountNumber, period), startedAt)
+	sentimentStatData, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/sentiment-%s-stat", accountNumber, period), startedAt)
 	if shouldInterupt(err, c) {
 		return
 	}
 
-	if sentimentStat != nil {
-		results = append(results, sentimentStat)
+	if sentimentStatData != nil {
+		var sentimentStat protomodel.Insight
+		err := proto.Unmarshal(sentimentStatData, &sentimentStat)
+		if shouldInterupt(err, c) {
+			return
+		}
+		results = append(results, &sentimentStat)
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"result": results,
+	responseWithEncoding(c, http.StatusOK, &protomodel.InsightResponse{
+		Result: results,
 	})
 }
