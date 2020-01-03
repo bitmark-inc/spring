@@ -38,7 +38,13 @@ extension Reactive where Base: InsightDataEngine {
                         .mood: moodInsight
                     ]))
 
-                    // NOTE: Remote Sync to make sure the auto-generate data not change
+                    _ = InsightService.get(in: timeUnit, startDate: startDate)
+                        .flatMapCompletable { Storage.store($0) }
+                        .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+                        .subscribe(onError: { (error) in
+                            guard !AppError.errorByNetworkConnection(error) else { return }
+                            Global.log.error(error)
+                        })
                 } else {
                     _ = InsightService.get(in: timeUnit, startDate: startDate)
                         .flatMapCompletable { Storage.store($0) }
