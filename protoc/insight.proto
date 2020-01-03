@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message Insight {
+    string sectionName = 1 [json_name="section_name"];
+    double diffFromPrevious = 2 [json_name="diff_from_previous"];
+    string period = 3 [json_name="period"];
+    int64 periodStartedAt = 4 [json_name="period_started_at"];
+    int32 quantity = 5 [json_name="quantity"];
+    double value = 6 [json_name="value"];
+}
+
+message InsightResponse {
+    repeated Insight result = 1 [json_name="result"];
+}

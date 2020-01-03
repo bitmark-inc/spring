@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message Error {
+    int32 code = 1 [json_name="code"];
+    string message = 2 [json_name="message"];
+}
+
+message ErrorResponse {
+    Error error = 1 [json_name="error"];
+}

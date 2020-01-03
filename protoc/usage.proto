@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+message PeriodData {
+    string name = 1 [json_name="name"];
+    map<string, int64> data = 2 [json_name="data"];
+}
+
+message Group {
+    PeriodData type = 1 [json_name="type"];
+    repeated PeriodData subPeriod = 2 [json_name="sub_period"];
+    repeated PeriodData friend = 3 [json_name="friend"];
+    repeated PeriodData place = 4 [json_name="place"];
+}
+
+message Usage {
+    string sectionName = 1 [json_name="section_name"];
+    double diffFromPrevious = 2 [json_name="diff_from_previous"];
+    string period = 3 [json_name="period"];
+    int64 periodStartedAt = 4 [json_name="period_started_at"];
+    int64 quantity = 5 [json_name="quantity"];
+    double value = 6 [json_name="value"];
+    Group groups = 7 [json_name="groups"];
+}
+
+message UsageResponse {
+    repeated Usage result = 1 [json_name="result"];
+}

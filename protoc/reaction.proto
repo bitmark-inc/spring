@@ -1,9 +1,13 @@
 syntax = "proto3";
 
 message Reaction {
-    string actor = 1;
-    string reaction = 2;
-    int64 reaction_id = 3;
-    int64 timestamp = 4;
-    string title = 5;
+    string actor = 1 [json_name="actor"];
+    string reaction = 2 [json_name="reaction"];
+    int64 reaction_id = 3 [json_name="reaction_id"];
+    int64 timestamp = 4 [json_name="timestamp"];
+    string title = 5 [json_name="title"];
+}
+
+message ReactionsResponse {
+    repeated Reaction result = 1 [json_name="result"];
 }
