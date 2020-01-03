@@ -49,7 +49,9 @@ target 'Synergy' do
 
   target 'SynergyTests' do
     inherit! :search_paths
-    # Pods for testing
+
+    pod 'Quick'
+    pod 'Nimble'
   end
 
 end

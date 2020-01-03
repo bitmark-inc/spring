@@ -43,6 +43,52 @@ extension DatePeriod {
         let notOverlap = datePeriod.endDate < startDate || datePeriod.startDate > endDate
         return !notOverlap
     }
+
+    func isLinked(with datePeriod: DatePeriod) -> Bool {
+        return (endDate + 1.seconds).appTimeFormat == datePeriod.startDate.appTimeFormat ||
+            (datePeriod.endDate + 1.seconds).appTimeFormat == startDate.appTimeFormat
+    }
+
+    func isRelated(with datePeriod: DatePeriod) -> Bool {
+        return isOverlap(with: datePeriod) || isLinked(with: datePeriod)
+    }
+}
+
+extension DatePeriod: Equatable {
+    static func ==(lhs: DatePeriod, rhs: DatePeriod) -> Bool {
+        return lhs.startDate.appTimeFormat == rhs.startDate.appTimeFormat &&
+            lhs.endDate.appTimeFormat == rhs.endDate.appTimeFormat
+    }
+
+    static func +(lhs: DatePeriod, rhs: DatePeriod) -> DatePeriod {
+        return DatePeriod(
+            startDate: Swift.min(lhs.startDate, rhs.startDate),
+            endDate: Swift.max(lhs.endDate, rhs.endDate))
+    }
+
+
+    static func -(lhs: DatePeriod, rhs: DatePeriod) -> DatePeriod? {
+        guard lhs.isOverlap(with: rhs) else { return nil }
+
+        if lhs.startDate >= rhs.startDate && lhs.endDate <= rhs.endDate {
+            return nil
+        }
+
+        // ignore thist to avoid cutting pieces remote queries complicated
+        if lhs.startDate < rhs.startDate && lhs.endDate > rhs.endDate {
+            return lhs
+        }
+
+        if lhs.endDate <= rhs.endDate {
+            return DatePeriod(startDate: lhs.startDate, endDate: rhs.startDate - 1.seconds)
+        }
+
+        if lhs.endDate > rhs.endDate {
+            return DatePeriod(startDate: rhs.endDate + 1.seconds, endDate: lhs.endDate)
+        }
+
+        return nil
+    }
 }
 
 extension Array where Element == DatePeriod {
@@ -53,24 +99,21 @@ extension Array where Element == DatePeriod {
 
     func add(newDatePeriod: DatePeriod) -> [DatePeriod] {
         var updatedDatePeriods = self
-        var isNotOverlapped: Bool = true
+        var adjustedDatePeriod: DatePeriod?
 
-        (0..<self.count).forEach { (index) in
-            var datePeriod = updatedDatePeriods[index]
-
-            if datePeriod.isOverlap(with: newDatePeriod) {
-                isNotOverlapped = false
-                datePeriod = DatePeriod(
-                    startDate: Swift.min(newDatePeriod.startDate, datePeriod.startDate),
-                    endDate: Swift.max(newDatePeriod.endDate, datePeriod.endDate))
-                updatedDatePeriods[index] = datePeriod
+        for datePeriod in self {
+            if datePeriod.isRelated(with: newDatePeriod) {
+                adjustedDatePeriod = datePeriod + newDatePeriod
+                updatedDatePeriods.removeAll(datePeriod)
+                break
             }
         }
 
-        if isNotOverlapped {
+        if let adjustedDatePeriod = adjustedDatePeriod {
+            return updatedDatePeriods.add(newDatePeriod: adjustedDatePeriod)
+        } else {
             updatedDatePeriods.append(newDatePeriod)
+            return updatedDatePeriods
         }
-
-        return updatedDatePeriods
     }
 }

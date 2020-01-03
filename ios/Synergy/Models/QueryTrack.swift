@@ -37,10 +37,17 @@ extension QueryTrack {
         }
     }
 
-    func didQuery(with newDatePeriod: DatePeriod) -> Bool {
-        return datePeriods.firstIndex(where: {
-            $0.startDate <= newDatePeriod.startDate && $0.endDate >= newDatePeriod.endDate
-        }) != nil
+    func removeQueriedPeriod(for newDatePeriod: DatePeriod) -> DatePeriod? {
+        var shortenDatePeriod: DatePeriod? = newDatePeriod
+        for datePeriod in datePeriods {
+            if shortenDatePeriod!.isOverlap(with: datePeriod) {
+                shortenDatePeriod = shortenDatePeriod! - datePeriod
+                if shortenDatePeriod == nil {
+                    break
+                }
+            }
+        }
+        return shortenDatePeriod
     }
 
     static func store(trackedDatePeriods: [DatePeriod], in remoteQuery: RemoteQuery, syncedDatePeriod: DatePeriod) {
