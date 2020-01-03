@@ -20,10 +20,10 @@ import io.reactivex.Single
 @Dao
 abstract class SectionDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun save(section: SectionR): Single<Long>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun save(sections: List<SectionR>): Single<List<Long>>
 
     @Query("DELETE FROM Section")

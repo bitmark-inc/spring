@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b8b1473b847ea3fac43ac6d7fc7eafbf",
+    "identityHash": "6e9bcea5f84b9830550f2f8b7614469f",
     "entities": [
       {
         "tableName": "Section",
@@ -414,12 +414,59 @@
           }
         ],
         "foreignKeys": []
+      },
+      {
+        "tableName": "Criteria",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` TEXT NOT NULL, `started_at` INTEGER NOT NULL, `ended_at` INTEGER NOT NULL, `query` TEXT NOT NULL, PRIMARY KEY(`query`))",
+        "fields": [
+          {
+            "fieldPath": "type",
+            "columnName": "type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "startedAt",
+            "columnName": "started_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "endedAt",
+            "columnName": "ended_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "query",
+            "columnName": "query",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "query"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [
+          {
+            "name": "index_Criteria_query",
+            "unique": true,
+            "columnNames": [
+              "query"
+            ],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_Criteria_query` ON `${TABLE_NAME}` (`query`)"
+          }
+        ],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b8b1473b847ea3fac43ac6d7fc7eafbf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6e9bcea5f84b9830550f2f8b7614469f')"
     ]
   }
 }

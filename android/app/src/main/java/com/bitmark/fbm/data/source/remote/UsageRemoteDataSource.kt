@@ -6,7 +6,6 @@
  */
 package com.bitmark.fbm.data.source.remote
 
-import com.bitmark.fbm.data.model.entity.applyRequiredValues
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
 import com.bitmark.fbm.data.source.remote.api.middleware.RxErrorHandlingComposer
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
@@ -21,10 +20,7 @@ class UsageRemoteDataSource @Inject constructor(
 ) : RemoteDataSource(fbmApi, converter, rxErrorHandlingComposer) {
 
     fun listPost(startedAtSec: Long, endedAtSec: Long) =
-        fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }.map { posts ->
-            posts.applyRequiredValues()
-            posts
-        }.subscribeOn(Schedulers.io())
+        fbmApi.listPost(startedAtSec, endedAtSec).map { res -> res["result"] }.subscribeOn(Schedulers.io())
 
     fun listReaction(startedAtSec: Long, endedAtSec: Long) =
         fbmApi.listReaction(startedAtSec, endedAtSec).map { res -> res["result"] }.subscribeOn(

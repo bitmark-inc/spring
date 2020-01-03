@@ -1,6 +1,6 @@
 /**
  * SPDX-License-Identifier: ISC
- * Copyright © 2014-2019 Bitmark. All rights reserved.
+ * Copyright © 2014-2020 Bitmark. All rights reserved.
  * Use of this source code is governed by an ISC
  * license that can be found in the LICENSE file.
  */
@@ -10,20 +10,19 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.bitmark.fbm.data.model.entity.CommentR
+import com.bitmark.fbm.data.model.entity.CriteriaR
 import io.reactivex.Completable
 import io.reactivex.Single
 
-
 @Dao
-abstract class CommentDao {
+abstract class CriteriaDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun save(comment: CommentR) : Single<Long>
+    abstract fun save(criteria: CriteriaR): Completable
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    abstract fun save(comments: List<CommentR>) : Single<List<Long>>
-
-    @Query("DELETE FROM Comment")
+    @Query("DELETE FROM Criteria")
     abstract fun delete(): Completable
+
+    @Query("SELECT * FROM Criteria WHERE `query` = :query")
+    abstract fun getCriteria(query: String): Single<CriteriaR>
 }

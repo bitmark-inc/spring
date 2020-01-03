@@ -219,7 +219,15 @@ fun Period.toSubPeriodRangeSec(startedAtSec: Long) = LongRange(
     } / 1000
 )
 
-fun Period.toPeriodRangeSec(startedAtSec: Long) = when (this) {
+fun Period.toPeriodRangeSec(startedAtSec: Long) = LongRange(
+    startedAtSec, when (this) {
+        Period.WEEK   -> DateTimeUtil.getEndOfWeek(startedAtSec * 1000)
+        Period.YEAR   -> DateTimeUtil.getEndOfYearMillis(startedAtSec * 1000)
+        Period.DECADE -> DateTimeUtil.getEndOfDecade(startedAtSec * 1000)
+    } / 1000
+)
+
+fun Period.toSubPeriodCollectionSec(startedAtSec: Long) = when (this) {
     Period.WEEK   -> DateTimeUtil.getStartOfDatesMillisInWeek(startedAtSec * 1000)
     Period.YEAR   -> DateTimeUtil.getStartOfDatesMillisInYear(startedAtSec * 1000)
     Period.DECADE -> DateTimeUtil.getStartOfDatesMillisInDecade(startedAtSec * 1000)

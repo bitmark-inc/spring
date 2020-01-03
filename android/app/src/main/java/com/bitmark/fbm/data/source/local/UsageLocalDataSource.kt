@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source.local
 
+import com.bitmark.fbm.data.ext.mapToCheckDbRecordResult
 import com.bitmark.fbm.data.model.PostData
 import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
@@ -87,6 +88,70 @@ class UsageLocalDataSource @Inject constructor(
     private fun saveComments(comments: List<CommentR>) =
         databaseApi.rxSingle { databaseGateway -> databaseGateway.commentDao().save(comments) }
 
+    fun checkPostStored(startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxSingle { databaseGateway ->
+            val criteria = CriteriaR.fromPostWRange(startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao()
+                .getCriteria(criteria.query)
+                .mapToCheckDbRecordResult()
+        }
+
+    fun checkPostWTypeStored(type: PostType, startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxSingle { databaseGateway ->
+            val criteria = CriteriaR.fromPostWType(type, startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao()
+                .getCriteria(criteria.query)
+                .mapToCheckDbRecordResult()
+        }
+
+    fun checkPostWTagsStored(tags: List<String>, startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxSingle { databaseGateway ->
+            val criteria = CriteriaR.fromPostWTags(tags, startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao()
+                .getCriteria(criteria.query)
+                .mapToCheckDbRecordResult()
+        }
+
+    fun checkPostWLocationsStored(
+        locationNames: List<String>,
+        startedAtSec: Long,
+        endedAtSec: Long
+    ) =
+        databaseApi.rxSingle { databaseGateway ->
+            val criteria = CriteriaR.fromPostWLocations(locationNames, startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao()
+                .getCriteria(criteria.query)
+                .mapToCheckDbRecordResult()
+        }
+
+    fun saveListPostCriteria(startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxCompletable { databaseGateway ->
+            val criteria = CriteriaR.fromPostWRange(startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao().save(criteria)
+        }
+
+    fun saveListPostWTypeCriteria(type: PostType, startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxCompletable { databaseGateway ->
+            val criteria = CriteriaR.fromPostWType(type, startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao().save(criteria)
+        }
+
+    fun saveListPostWTagsCriteria(tags: List<String>, startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxCompletable { databaseGateway ->
+            val criteria = CriteriaR.fromPostWTags(tags, startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao().save(criteria)
+        }
+
+    fun saveListPostWLocationsCriteria(
+        locationNames: List<String>,
+        startedAtSec: Long,
+        endedAtSec: Long
+    ) =
+        databaseApi.rxCompletable { databaseGateway ->
+            val criteria = CriteriaR.fromPostWLocations(locationNames, startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao().save(criteria)
+        }
+
     fun saveReactions(reactions: List<ReactionR>) = databaseApi.rxCompletable { databaseGateway ->
         databaseGateway.reactionDao().save(reactions)
     }
@@ -99,6 +164,34 @@ class UsageLocalDataSource @Inject constructor(
                 endedAtSec,
                 limit
             )
+        }
+
+    fun checkReactionStored(startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxSingle { databaseGateway ->
+            val criteria = CriteriaR.fromReactionWRange(startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao()
+                .getCriteria(criteria.query)
+                .mapToCheckDbRecordResult()
+        }
+
+    fun checkReactionWTypeStored(reaction: Reaction, startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxSingle { databaseGateway ->
+            val criteria = CriteriaR.fromReactionWType(reaction, startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao()
+                .getCriteria(criteria.query)
+                .mapToCheckDbRecordResult()
+        }
+
+    fun saveReactionCriteria(startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxCompletable { databaseGateway ->
+            val criteria = CriteriaR.fromReactionWRange(startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao().save(criteria)
+        }
+
+    fun saveReactionWTypeCriteria(reaction: Reaction, startedAtSec: Long, endedAtSec: Long) =
+        databaseApi.rxCompletable { databaseGateway ->
+            val criteria = CriteriaR.fromReactionWType(reaction, startedAtSec, endedAtSec)
+            databaseGateway.criteriaDao().save(criteria)
         }
 
     fun listReactionByType(

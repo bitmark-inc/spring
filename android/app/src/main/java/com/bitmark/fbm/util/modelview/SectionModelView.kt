@@ -125,7 +125,7 @@ data class SectionModelView(
                         groupEntities =
                             groupEntities.sortedByDescending { g -> g.data.entries.sumBy { e -> e.value } }
                     } else {
-                        val dateRange = period.toPeriodRangeSec(sectionR.periodStartedAtSec)
+                        val dateRange = period.toSubPeriodCollectionSec(sectionR.periodStartedAtSec)
                         if (groupEntities.size < dateRange.size) {
                             // fill missing sub-period records
                             val newGroupEntities = dateRange.map { dateSec ->

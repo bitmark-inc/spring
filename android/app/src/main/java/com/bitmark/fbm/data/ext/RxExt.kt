@@ -10,7 +10,7 @@ import com.bitmark.fbm.data.source.remote.api.error.HttpException
 import com.bitmark.fbm.data.source.remote.api.error.NetworkException
 import io.reactivex.Single
 
-fun <T> Single<T>.ignoreNetworkError(data: T) = onErrorResumeNext { e ->
+fun <T> Single<T>.onNetworkErrorReturn(data: T) = onErrorResumeNext { e ->
     if (e is NetworkException) {
         Single.just(data)
     } else {
@@ -18,7 +18,7 @@ fun <T> Single<T>.ignoreNetworkError(data: T) = onErrorResumeNext { e ->
     }
 }
 
-fun <T> Single<T>.ignoreRemoteError(data: T) = onErrorResumeNext { e ->
+fun <T> Single<T>.onRemoteErrorReturn(data: T) = onErrorResumeNext { e ->
     if (e is NetworkException || e is HttpException) {
         Single.just(data)
     } else {
@@ -26,4 +26,20 @@ fun <T> Single<T>.ignoreRemoteError(data: T) = onErrorResumeNext { e ->
     }
 }
 
-fun <T> Single<T>.ignoreError(data: T) = onErrorResumeNext { Single.just(data) }
+fun <T> Single<T>.onIgnoreErrorReturn(data: T) = onErrorResumeNext { Single.just(data) }
+
+fun <T> Single<T>.mapToCheckDbRecordResult() = map { true }.onErrorResumeNext { e ->
+    if (e.isDbRecNotFoundError()) {
+        Single.just(false)
+    } else {
+        Single.error(e)
+    }
+}
+
+fun <T> Single<T>.onNetworkErrorResumeNext(action: () -> Single<T>) = onErrorResumeNext { e ->
+    if (e is NetworkException) {
+        action()
+    } else {
+        Single.error<T>(e)
+    }
+}

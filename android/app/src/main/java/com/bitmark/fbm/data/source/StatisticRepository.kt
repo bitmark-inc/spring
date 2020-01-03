@@ -7,6 +7,8 @@
 package com.bitmark.fbm.data.source
 
 import com.bitmark.fbm.data.model.entity.Period
+import com.bitmark.fbm.data.model.entity.SectionR
+import com.bitmark.fbm.data.model.entity.toPeriodRangeSec
 import com.bitmark.fbm.data.source.local.StatisticLocalDataSource
 import com.bitmark.fbm.data.source.remote.StatisticRemoteDataSource
 import io.reactivex.Single
@@ -17,29 +19,35 @@ class StatisticRepository(
     private val localDataSource: StatisticLocalDataSource
 ) : Repository {
 
-    fun listUsage(period: Period, periodStartedAtSec: Long) =
-        localDataSource.listUsage(period, periodStartedAtSec).flatMap { sections ->
-            if (sections.isEmpty()) {
+    fun listUsage(period: Period, periodStartedAtSec: Long): Single<List<SectionR>> {
+        val range = period.toPeriodRangeSec(periodStartedAtSec)
+        return localDataSource.checkUsageStored(range.first, range.last).flatMap { stored ->
+            if (stored) {
+                localDataSource.listUsage(period, periodStartedAtSec)
+            } else {
                 listRemoteUsage(
                     period,
                     periodStartedAtSec
-                ).flatMap { localDataSource.listUsage(period, periodStartedAtSec) }
-            } else {
-                Single.just(sections)
+                ).andThen(localDataSource.listUsage(period, periodStartedAtSec))
             }
         }
+    }
 
-    fun listInsights(period: Period, periodStartedAtSec: Long) =
-        localDataSource.listInsights(period, periodStartedAtSec).flatMap { sections ->
-            if (sections.isEmpty()) {
-                listRemoteInsights(
-                    period,
-                    periodStartedAtSec
-                ).flatMap { localDataSource.listInsights(period, periodStartedAtSec) }
+    fun listInsights(period: Period, periodStartedAtSec: Long): Single<List<SectionR>> {
+        val range = period.toPeriodRangeSec(periodStartedAtSec)
+        return localDataSource.checkInsightStored(range.first, range.last).flatMap { stored ->
+            if (stored) {
+                localDataSource.listInsights(period, periodStartedAtSec)
             } else {
-                Single.just(sections)
+                listRemoteInsights(period, periodStartedAtSec).andThen(
+                    localDataSource.listInsights(
+                        period,
+                        periodStartedAtSec
+                    )
+                )
             }
         }
+    }
 
     private fun listRemoteUsage(
         period: Period,
@@ -47,15 +55,19 @@ class StatisticRepository(
     ) = remoteDataSource.listUsage(
         period,
         periodStartedAtSec
-    ).flatMap { statistics ->
+    ).flatMapCompletable { statistics ->
+        val range = period.toPeriodRangeSec(periodStartedAtSec)
         localDataSource.saveStatistics(statistics)
+            .flatMapCompletable { localDataSource.saveUsageCriteria(range.first, range.last) }
     }
 
     private fun listRemoteInsights(period: Period, periodStartedAtSec: Long) =
         remoteDataSource.listInsights(
             period,
             periodStartedAtSec
-        ).flatMap { statistics ->
+        ).flatMapCompletable { statistics ->
+            val range = period.toPeriodRangeSec(periodStartedAtSec)
             localDataSource.saveStatistics(statistics)
+                .flatMapCompletable { localDataSource.saveInsightCriteria(range.first, range.last) }
         }
 }

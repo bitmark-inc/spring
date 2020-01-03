@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
-import com.bitmark.fbm.data.model.entity.*
+import com.bitmark.fbm.data.model.entity.GroupName
+import com.bitmark.fbm.data.model.entity.Period
+import com.bitmark.fbm.data.model.entity.fromString
+import com.bitmark.fbm.data.model.entity.value
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
@@ -159,23 +162,21 @@ class ReactionDetailFragment : BaseSupportFragment() {
         startedAtSec: Long,
         endedAtSec: Long? = null
     ) {
-        val range = period.toSubPeriodRangeSec(startedAtSec)
-        val gap = range.last - range.first
         when (chartItem.groupName) {
             GroupName.TYPE       -> {
                 val reaction = chartItem.getReaction()!!
                 if (endedAtSec != null) {
-                    viewModel.listReactionByType(reaction, startedAtSec, endedAtSec, gap)
+                    viewModel.listReactionByType(reaction, startedAtSec, endedAtSec)
                 } else {
-                    viewModel.listNextReactionByType(reaction, startedAtSec, gap)
+                    viewModel.listNextReactionByType(reaction, startedAtSec)
                 }
             }
 
             GroupName.SUB_PERIOD -> {
                 if (endedAtSec != null) {
-                    viewModel.listReaction(startedAtSec, endedAtSec, gap)
+                    viewModel.listReaction(startedAtSec, endedAtSec)
                 } else {
-                    viewModel.listNextReaction(startedAtSec, gap)
+                    viewModel.listNextReaction(startedAtSec)
                 }
             }
 

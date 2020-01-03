@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
-import com.bitmark.fbm.data.model.entity.*
+import com.bitmark.fbm.data.model.entity.GroupName
+import com.bitmark.fbm.data.model.entity.Period
+import com.bitmark.fbm.data.model.entity.fromString
+import com.bitmark.fbm.data.model.entity.value
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
@@ -127,9 +130,9 @@ class PostDetailFragment : BaseSupportFragment() {
         handler.postDelayed({
             val periodRange = chartItem.periodRange
             if (periodRange != null) {
-                listPost(chartItem, periodRange.first, periodRange.last, period)
+                listPost(chartItem, periodRange.first, periodRange.last)
             } else {
-                listPost(chartItem, startedAtSec, endedAtSec, period)
+                listPost(chartItem, startedAtSec, endedAtSec)
             }
         }, 200)
     }
@@ -155,9 +158,9 @@ class PostDetailFragment : BaseSupportFragment() {
         endlessScrollListener = object : EndlessScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                 if (chartItem.periodRange != null) {
-                    listPost(chartItem, chartItem.periodRange!!.first, period = period)
+                    listPost(chartItem, chartItem.periodRange!!.first)
                 } else {
-                    listPost(chartItem, startedAtSec, period = period)
+                    listPost(chartItem, startedAtSec)
                 }
             }
         }
@@ -231,46 +234,43 @@ class PostDetailFragment : BaseSupportFragment() {
     private fun listPost(
         chartItem: GroupView.ChartItem,
         startedAtSec: Long,
-        endedAtSec: Long? = null,
-        period: Period
+        endedAtSec: Long? = null
     ) {
-        val range = period.toSubPeriodRangeSec(startedAtSec)
-        val gap = range.last - range.first
 
         when (chartItem.groupName) {
             GroupName.TYPE       -> {
                 val postType = chartItem.getPostType()!!
                 if (endedAtSec != null) {
-                    viewModel.listPostByType(postType, startedAtSec, endedAtSec, gap)
+                    viewModel.listPostByType(postType, startedAtSec, endedAtSec)
                 } else {
-                    viewModel.listNextPostByType(postType, startedAtSec, gap)
+                    viewModel.listNextPostByType(postType, startedAtSec)
                 }
 
             }
 
             GroupName.SUB_PERIOD -> {
                 if (endedAtSec != null) {
-                    viewModel.listPost(startedAtSec, endedAtSec, gap)
+                    viewModel.listPost(startedAtSec, endedAtSec)
                 } else {
-                    viewModel.listNextPost(startedAtSec, gap)
+                    viewModel.listNextPost(startedAtSec)
                 }
             }
 
             GroupName.FRIEND     -> {
                 val tags = chartItem.aggregateVals ?: listOf(chartItem.xVal)
                 if (endedAtSec != null) {
-                    viewModel.listPostByTags(tags, startedAtSec, endedAtSec, gap)
+                    viewModel.listPostByTags(tags, startedAtSec, endedAtSec)
                 } else {
-                    viewModel.listNextPostByTags(tags, startedAtSec, gap)
+                    viewModel.listNextPostByTags(tags, startedAtSec)
                 }
             }
 
             GroupName.PLACE      -> {
                 val places = chartItem.aggregateVals ?: listOf(chartItem.xVal)
                 if (endedAtSec != null) {
-                    viewModel.listPostByLocations(places, startedAtSec, endedAtSec, gap)
+                    viewModel.listPostByLocations(places, startedAtSec, endedAtSec)
                 } else {
-                    viewModel.listNextPostByLocations(places, startedAtSec, gap)
+                    viewModel.listNextPostByLocations(places, startedAtSec)
                 }
             }
             else                 -> error("unsupported group name ${chartItem.groupName.value}")

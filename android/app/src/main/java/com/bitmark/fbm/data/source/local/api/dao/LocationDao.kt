@@ -17,10 +17,10 @@ import io.reactivex.Single
 @Dao
 abstract class LocationDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun save(location: LocationR): Completable
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun save(locations: List<LocationR>): Completable
 
     @Query("SELECT * FROM Location WHERE created_at BETWEEN :startedAtSec AND :endedAtSec ORDER BY created_at DESC LIMIT :limit")

@@ -18,7 +18,7 @@ import io.reactivex.Single
 @Dao
 abstract class ReactionDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun save(reactions: List<ReactionR>): Completable
 
     @Query("DELETE FROM Reaction")

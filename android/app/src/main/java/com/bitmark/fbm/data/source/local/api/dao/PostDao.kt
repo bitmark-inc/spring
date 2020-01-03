@@ -16,10 +16,10 @@ import io.reactivex.Single
 @Dao
 abstract class PostDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun save(post: PostR): Completable
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract fun save(posts: List<PostR>): Completable
 
     @Query("DELETE FROM Post")

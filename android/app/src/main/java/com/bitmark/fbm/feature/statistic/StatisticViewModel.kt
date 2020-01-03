@@ -7,7 +7,7 @@
 package com.bitmark.fbm.feature.statistic
 
 import androidx.lifecycle.Lifecycle
-import com.bitmark.fbm.data.ext.ignoreNetworkError
+import com.bitmark.fbm.data.ext.onNetworkErrorReturn
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.SectionName
 import com.bitmark.fbm.data.source.StatisticRepository
@@ -34,7 +34,7 @@ class StatisticViewModel(
             statisticRepo.listUsage(period, periodStartedAtSec)
         } else {
             statisticRepo.listInsights(period, periodStartedAtSec)
-        }.ignoreNetworkError(listOf()).observeOn(Schedulers.computation())
+        }.onNetworkErrorReturn(listOf()).observeOn(Schedulers.computation())
             .map { sections ->
                 val defaultVMs =
                     newDefaultSectionMVs(type, period, periodStartedAtSec).toMutableList()

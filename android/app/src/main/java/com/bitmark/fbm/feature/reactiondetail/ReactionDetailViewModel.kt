@@ -26,25 +26,23 @@ class ReactionDetailViewModel(
 
     private var lastEndedAtSec = -1L
 
-    fun listReaction(startedAtSec: Long, endedAtSec: Long, gapSec: Long) {
+    fun listReaction(startedAtSec: Long, endedAtSec: Long) {
         listReactionLiveData.add(
             rxLiveDataTransformer.single(
                 listReactionStream(
                     startedAtSec,
-                    endedAtSec,
-                    gapSec
+                    endedAtSec
                 )
             )
         )
     }
 
-    fun listNextReaction(startedAtSec: Long, gapSec: Long) {
+    fun listNextReaction(startedAtSec: Long) {
         listReactionLiveData.add(
             rxLiveDataTransformer.single(
                 listReactionStream(
                     startedAtSec,
-                    lastEndedAtSec - 1,
-                    gapSec
+                    lastEndedAtSec - 1
                 )
             )
         )
@@ -52,13 +50,11 @@ class ReactionDetailViewModel(
 
     private fun listReactionStream(
         startedAtSec: Long,
-        endedAtSec: Long,
-        gapSec: Long
+        endedAtSec: Long
     ): Single<List<ReactionModelView>> =
         usageRepo.listReaction(
             startedAtSec,
-            endedAtSec,
-            gapSec
+            endedAtSec
         ).map { reactions ->
             if (reactions.isNotEmpty()) {
                 lastEndedAtSec = reactions.last().timestampSec
@@ -66,27 +62,25 @@ class ReactionDetailViewModel(
             reactions.map { r -> ReactionModelView.newInstance(r) }
         }
 
-    fun listReactionByType(reaction: Reaction, startedAtSec: Long, endedAtSec: Long, gapSec: Long) {
+    fun listReactionByType(reaction: Reaction, startedAtSec: Long, endedAtSec: Long) {
         listReactionLiveData.add(
             rxLiveDataTransformer.single(
                 listReactionStreamByType(
                     reaction,
                     startedAtSec,
-                    endedAtSec,
-                    gapSec
+                    endedAtSec
                 )
             )
         )
     }
 
-    fun listNextReactionByType(reaction: Reaction, startedAtSec: Long, gapSec: Long) {
+    fun listNextReactionByType(reaction: Reaction, startedAtSec: Long) {
         listReactionLiveData.add(
             rxLiveDataTransformer.single(
                 listReactionStreamByType(
                     reaction,
                     startedAtSec,
-                    lastEndedAtSec - 1,
-                    gapSec
+                    lastEndedAtSec - 1
                 )
             )
         )
@@ -95,14 +89,12 @@ class ReactionDetailViewModel(
     private fun listReactionStreamByType(
         reaction: Reaction,
         startedAtSec: Long,
-        endedAtSec: Long,
-        gapSec: Long
+        endedAtSec: Long
     ): Single<List<ReactionModelView>> =
         usageRepo.listReactionByType(
             reaction,
             startedAtSec,
-            endedAtSec,
-            gapSec
+            endedAtSec
         ).map { reactions ->
             if (reactions.isNotEmpty()) {
                 lastEndedAtSec = reactions.last().timestampSec

@@ -15,7 +15,7 @@ import com.bitmark.fbm.data.source.local.api.converter.*
 import com.bitmark.fbm.data.source.local.api.dao.*
 
 @Database(
-    entities = [SectionR::class, PostR::class, CommentR::class, LocationR::class, ReactionR::class],
+    entities = [SectionR::class, PostR::class, CommentR::class, LocationR::class, ReactionR::class, CriteriaR::class],
     version = 1
 )
 @TypeConverters(
@@ -29,7 +29,8 @@ import com.bitmark.fbm.data.source.local.api.dao.*
     ReactionConverter::class,
     MediaDataConverter::class,
     CollectionLongConverter::class,
-    FriendDataConverter::class
+    FriendDataConverter::class,
+    CriteriaTypeConverter::class
 )
 abstract class DatabaseGateway : RoomDatabase() {
 
@@ -46,5 +47,7 @@ abstract class DatabaseGateway : RoomDatabase() {
     abstract fun locationDao(): LocationDao
 
     abstract fun reactionDao(): ReactionDao
+
+    abstract fun criteriaDao(): CriteriaDao
 
 }
