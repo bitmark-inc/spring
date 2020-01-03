@@ -60,7 +60,10 @@ class MediaPostTableViewCell: TableViewCell, PostDataTableViewCell {
         makePostInfo(timestamp: post.timestamp, friends: post.tags.toArray(), locationName: post.location?.name)
             .observeOn(MainScheduler.instance)
             .subscribe(onSuccess: { [weak self] in
-                self?.postInfoLabel.attributedText = $0
+                guard let self = self else { return }
+                self.postInfoLabel.attributedText = $0
+                self.postInfoLabel.flex.markDirty()
+                self.contentView.flex.layout(mode: .adjustHeight)
             })
             .disposed(by: disposeBag)
 
@@ -70,13 +73,14 @@ class MediaPostTableViewCell: TableViewCell, PostDataTableViewCell {
                 lineHeight: 1.25,
                 attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
             captionLabel.flex.marginTop(12)
+        } else {
+            captionLabel.attributedText = nil
+            captionLabel.flex.marginTop(0)
         }
 
-        postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
-
         loadImage()
-        photosView.flex.markDirty()
+
         contentView.flex.layout(mode: .adjustHeight)
     }
 
@@ -108,12 +112,14 @@ class MediaPostTableViewCell: TableViewCell, PostDataTableViewCell {
                 }
             }
         }
+
+        photosView.flex.markDirty()
     }
 
     fileprivate func addMediaView(media: MediaData) -> ImageView {
         let photoImageView = makePhotoImageView()
         if media.mediaSource == .video {
-            self.photosView.flex.define { (flex) in
+            photosView.flex.define { (flex) in
                 flex.addItem().height(20).backgroundColor(.clear)
 
                 flex.addItem().width(photoWidth).height(photoWidth).justifyContent(.center).define { (flex) in
@@ -125,7 +131,7 @@ class MediaPostTableViewCell: TableViewCell, PostDataTableViewCell {
                 }
             }
         } else {
-            self.photosView.flex.define { (flex) in
+            photosView.flex.define { (flex) in
                 flex.addItem().height(20).backgroundColor(.clear)
                 flex.addItem(photoImageView).width(photoWidth).height(photoWidth)
             }
