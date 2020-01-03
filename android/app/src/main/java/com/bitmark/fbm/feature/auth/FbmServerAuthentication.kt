@@ -12,6 +12,7 @@ import com.bitmark.cryptography.crypto.encoder.Hex.HEX
 import com.bitmark.cryptography.crypto.encoder.Raw.RAW
 import com.bitmark.fbm.AppLifecycleHandler
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.ext.onNetworkErrorComplete
 import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.model.isValid
 import com.bitmark.fbm.data.source.AccountRepository
@@ -105,7 +106,7 @@ class FbmServerAuthentication @Inject constructor(
                 Triple(timestamp, signature, requester)
             }.subscribeOn(Schedulers.computation()).flatMapCompletable { t ->
                 accountRepo.registerFbmServerJwt(t.first, t.second, t.third)
-            }.retry(3).observeOn(AndroidSchedulers.mainThread())
+            }.retry(3).onNetworkErrorComplete().observeOn(AndroidSchedulers.mainThread())
                 .subscribe({}, { e ->
                     if (e != null) {
                         logger.logError(Event.ACCOUNT_GET_JWT_ERROR, e)

@@ -8,6 +8,7 @@ package com.bitmark.fbm.data.ext
 
 import com.bitmark.fbm.data.source.remote.api.error.HttpException
 import com.bitmark.fbm.data.source.remote.api.error.NetworkException
+import io.reactivex.Completable
 import io.reactivex.Single
 
 fun <T> Single<T>.onNetworkErrorReturn(data: T) = onErrorResumeNext { e ->
@@ -41,5 +42,13 @@ fun <T> Single<T>.onNetworkErrorResumeNext(action: () -> Single<T>) = onErrorRes
         action()
     } else {
         Single.error<T>(e)
+    }
+}
+
+fun Completable.onNetworkErrorComplete() = onErrorResumeNext { e ->
+    if (e is NetworkException) {
+        Completable.complete()
+    } else {
+        Completable.error(e)
     }
 }
