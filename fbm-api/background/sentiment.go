@@ -12,11 +12,26 @@ import (
 
 func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 	defer jobEndCollectiveMetric(err, job)
+
 	logEntry := log.WithField("prefix", job.Name+"/"+job.ID)
+
 	accountNumber := job.ArgString("account_number")
 	if err := job.ArgError(); err != nil {
 		return err
 	}
+
+	defer func() error {
+		if err == nil {
+			logEntry.Info("Finish parsing sentiments")
+
+			if _, err := enqueuer.EnqueueUnique(jobAnalyzeReactions, work.Q{
+				"account_number": accountNumber,
+			}); err != nil {
+				return err
+			}
+		}
+		return err
+	}()
 
 	ctx := context.Background()
 	saver := newStatSaver(b.fbDataStore)
@@ -70,13 +85,6 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 	if err := saver.flush(); err != nil {
 		logEntry.Error(err)
 		sentry.CaptureException(err)
-		return err
-	}
-	logEntry.Info("Finish parsing sentiments")
-
-	if _, err := enqueuer.EnqueueUnique(jobAnalyzeReactions, work.Q{
-		"account_number": accountNumber,
-	}); err != nil {
 		return err
 	}
 
