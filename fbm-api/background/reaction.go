@@ -56,7 +56,7 @@ func (b *BackgroundContext) extractReaction(job *work.Job) (err error) {
 				return err
 			}
 
-			if err := counter.count(accountNumber, reaction); err != nil {
+			if err := counter.count(reaction); err != nil {
 				logEntry.Error(err)
 				sentry.CaptureException(err)
 				return err
@@ -135,7 +135,7 @@ func newReactionStatCounter(ctx context.Context, log *log.Entry, saver *statSave
 	}
 }
 
-func (r *reactionStatCounter) createEmptyStat(period string, accountNumber string, timestamp int64) *reactionStat {
+func (r *reactionStatCounter) createEmptyStat(period string, timestamp int64) *reactionStat {
 	return &reactionStat{
 		SectionName:     "reaction",
 		Period:          period,
@@ -152,63 +152,69 @@ func (r *reactionStatCounter) createEmptyStat(period string, accountNumber strin
 	}
 }
 
-func (r *reactionStatCounter) flushStat(period string, stat *reactionStat) error {
-	if stat != nil && !stat.IsSaved {
-		if err := r.saver.save(r.accountNumber+"/reaction-"+period+"-stat", stat.PeriodStartedAt, stat); err != nil {
+func (r *reactionStatCounter) flushStat(period string, currentStat *reactionStat, lastStat *reactionStat) error {
+	if currentStat != nil && !currentStat.IsSaved {
+		// Calculate the difference
+		var lastQuantity uint64
+		if lastStat != nil {
+			lastQuantity = lastStat.Quantity
+		}
+		log.Debug("last quantity: ", lastQuantity)
+		log.Debug("current quantity: ", currentStat.Quantity)
+		currentStat.DiffFromPrevious = getDiff(float64(currentStat.Quantity), float64(lastQuantity))
+
+		log.Debug("Diff: ", currentStat.DiffFromPrevious)
+
+		// Save data
+		if err := r.saver.save(r.accountNumber+"/reaction-"+period+"-stat", currentStat.PeriodStartedAt, currentStat); err != nil {
 			return err
 		}
-		stat.IsSaved = true
+		currentStat.IsSaved = true
 	}
 	return nil
 }
 
 func (r *reactionStatCounter) flush() error {
-	if err := r.flushStat("week", r.currentWeekStat); err != nil {
+	if err := r.flushStat("week", r.currentWeekStat, r.lastWeekStat); err != nil {
 		return err
 	}
-	if err := r.flushStat("year", r.currentYearStat); err != nil {
+	if err := r.flushStat("year", r.currentYearStat, r.lastYearStat); err != nil {
 		return err
 	}
-	if err := r.flushStat("decade", r.currentDecadeStat); err != nil {
-		return err
-	}
-	return nil
-}
-
-func (r *reactionStatCounter) count(accountNumber string, reaction fbarchive.ReactionData) error {
-	if err := r.countWeek(accountNumber, reaction); err != nil {
-		return err
-	}
-	if err := r.countYear(accountNumber, reaction); err != nil {
-		return err
-	}
-	if err := r.countDecade(accountNumber, reaction); err != nil {
+	if err := r.flushStat("decade", r.currentDecadeStat, r.lastDecadeStat); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (r *reactionStatCounter) countWeek(accountNumber string, reaction fbarchive.ReactionData) error {
+func (r *reactionStatCounter) count(reaction fbarchive.ReactionData) error {
+	if err := r.countWeek(reaction); err != nil {
+		return err
+	}
+	if err := r.countYear(reaction); err != nil {
+		return err
+	}
+	if err := r.countDecade(reaction); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (r *reactionStatCounter) countWeek(reaction fbarchive.ReactionData) error {
 	periodTimestamp := absWeek(reaction.Timestamp)
 
+	// Release the current period if next period has come
 	if r.currentWeekStat != nil && r.currentWeekStat.PeriodStartedAt != periodTimestamp {
-		var lastPeriodQuantity uint64
-		if r.lastWeekStat != nil {
-			lastPeriodQuantity = r.lastWeekStat.Quantity
-		}
-
-		r.currentWeekStat.DiffFromPrevious = getDiff(float64(r.currentWeekStat.Quantity), float64(lastPeriodQuantity))
-
-		if err := r.flushStat("week", r.currentWeekStat); err != nil {
+		if err := r.flushStat("week", r.currentWeekStat, r.lastWeekStat); err != nil {
 			return err
 		}
 		r.lastWeekStat = r.currentWeekStat
-		r.currentWeekStat = r.createEmptyStat("week", accountNumber, periodTimestamp)
+		r.currentWeekStat = nil
 	}
 
-	// The first time the function is called
+	// no data for current period yet, let's create one
 	if r.currentWeekStat == nil {
-		r.currentWeekStat = r.createEmptyStat("week", accountNumber, periodTimestamp)
+		r.currentWeekStat = r.createEmptyStat("week", periodTimestamp)
 	}
 
 	r.currentWeekStat.Quantity++
@@ -230,27 +236,21 @@ func (r *reactionStatCounter) countWeek(accountNumber string, reaction fbarchive
 	return nil
 }
 
-func (r *reactionStatCounter) countYear(accountNumber string, reaction fbarchive.ReactionData) error {
+func (r *reactionStatCounter) countYear(reaction fbarchive.ReactionData) error {
 	periodTimestamp := absYear(reaction.Timestamp)
 
+	// Release the current period if next period has come
 	if r.currentYearStat != nil && r.currentYearStat.PeriodStartedAt != periodTimestamp {
-		var lastPeriodQuantity uint64
-		if r.lastYearStat != nil {
-			lastPeriodQuantity = r.lastYearStat.Quantity
-		}
-
-		r.currentYearStat.DiffFromPrevious = getDiff(float64(r.currentYearStat.Quantity), float64(lastPeriodQuantity))
-
-		if err := r.flushStat("year", r.currentYearStat); err != nil {
+		if err := r.flushStat("year", r.currentYearStat, r.lastYearStat); err != nil {
 			return err
 		}
 		r.lastYearStat = r.currentYearStat
-		r.currentYearStat = r.createEmptyStat("year", accountNumber, periodTimestamp)
+		r.currentYearStat = nil
 	}
 
-	// The first time the function is called
+	// no data for current period yet, let's create one
 	if r.currentYearStat == nil {
-		r.currentYearStat = r.createEmptyStat("year", accountNumber, periodTimestamp)
+		r.currentYearStat = r.createEmptyStat("year", periodTimestamp)
 	}
 
 	r.currentYearStat.Quantity++
@@ -272,27 +272,22 @@ func (r *reactionStatCounter) countYear(accountNumber string, reaction fbarchive
 	return nil
 }
 
-func (r *reactionStatCounter) countDecade(accountNumber string, reaction fbarchive.ReactionData) error {
+func (r *reactionStatCounter) countDecade(reaction fbarchive.ReactionData) error {
 	periodTimestamp := absDecade(reaction.Timestamp)
 
+	// Release the current period if next period has come
 	if r.currentDecadeStat != nil && r.currentDecadeStat.PeriodStartedAt != periodTimestamp {
-		var lastPeriodQuantity uint64
-		if r.lastDecadeStat != nil {
-			lastPeriodQuantity = r.lastDecadeStat.Quantity
-		}
-
-		r.currentDecadeStat.DiffFromPrevious = getDiff(float64(r.currentDecadeStat.Quantity), float64(lastPeriodQuantity))
-
-		if err := r.flushStat("decade", r.currentDecadeStat); err != nil {
+		log.Debug("Current period started at: ", periodTimestamp)
+		if err := r.flushStat("decade", r.currentDecadeStat, r.lastDecadeStat); err != nil {
 			return err
 		}
 		r.lastDecadeStat = r.currentDecadeStat
-		r.currentDecadeStat = r.createEmptyStat("decade", accountNumber, periodTimestamp)
+		r.currentDecadeStat = nil
 	}
 
-	// The first time the function is called
+	// no data for current period yet, let's create one
 	if r.currentDecadeStat == nil {
-		r.currentDecadeStat = r.createEmptyStat("decade", accountNumber, periodTimestamp)
+		r.currentDecadeStat = r.createEmptyStat("decade", periodTimestamp)
 	}
 
 	r.currentDecadeStat.Quantity++

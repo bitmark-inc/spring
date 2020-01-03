@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"errors"
-	"time"
+	"math"
 
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
@@ -35,18 +35,14 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 
 	ctx := context.Background()
 	saver := newStatSaver(b.fbDataStore)
-	counter := newSentimentStatCounter(ctx, logEntry, saver)
-	firstPost, err := b.bitSocialClient.GetFirstPost(ctx, accountNumber)
-	logEntry.Debug(firstPost)
+	counter := newSentimentStatCounter(ctx, logEntry, saver, accountNumber)
 
+	// Get first post to get the starting timestamp
+	firstPost, err := b.bitSocialClient.GetFirstPost(ctx, accountNumber)
 	if err != nil {
 		logEntry.Error(err)
-		sentry.CaptureException(errors.New("Request reactions failed for onwer " + accountNumber))
+		sentry.CaptureException(errors.New("Request first post failed for onwer " + accountNumber))
 		return err
-	}
-
-	if firstPost == nil {
-		return nil
 	}
 
 	// This user has no post at all, no sentiment to calculate
@@ -54,8 +50,24 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 		return nil
 	}
 
+	// Get last post to get the ending timestamp
+	lastPost, err := b.bitSocialClient.GetLastPost(ctx, accountNumber)
+	if err != nil {
+		logEntry.Error(err)
+		sentry.CaptureException(errors.New("Request last post failed for onwer " + accountNumber))
+		return err
+	}
+
+	// last post can not be nil
+	if lastPost == nil {
+		err := errors.New("Last post can not be nil")
+		logEntry.Error(err)
+		sentry.CaptureException(err)
+		return err
+	}
+
 	timestampOffset := absWeek(firstPost.Timestamp)
-	nextWeek := absWeek(time.Now().Unix())
+	nextWeek := absWeek(lastPost.Timestamp) + 7*24*60*60
 	toEndOfWeek := int64(7*24*60*60 - 1)
 
 	for {
@@ -65,7 +77,7 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 		}
 		logEntry.Debug(data)
 
-		if err := counter.count(accountNumber, timestampOffset, data.Score); err != nil {
+		if err := counter.count(timestampOffset, data.Score); err != nil {
 			logEntry.Error(err)
 			sentry.CaptureException(err)
 			return err
@@ -99,7 +111,6 @@ type sentimentStat struct {
 	PeriodStartedAt  int64     `json:"period_started_at"`
 	DiffFromPrevious float64   `json:"diff_from_previous"`
 	SubPeriodValues  []float64 `json:"-"`
-	AccountNumber    string    `json:"-"`
 	IsSaved          bool      `json:"-"`
 }
 
@@ -113,157 +124,138 @@ type sentimentStatCounter struct {
 	ctx               context.Context
 	saver             *statSaver
 	log               *log.Entry
+	accountNumber     string
 }
 
-func newSentimentStatCounter(ctx context.Context, log *log.Entry, saver *statSaver) *sentimentStatCounter {
+func newSentimentStatCounter(ctx context.Context, log *log.Entry, saver *statSaver, accountNumber string) *sentimentStatCounter {
 	return &sentimentStatCounter{
-		ctx:   ctx,
-		saver: saver,
-		log:   log,
+		ctx:           ctx,
+		saver:         saver,
+		log:           log,
+		accountNumber: accountNumber,
 	}
 }
 
-func (s *sentimentStatCounter) count(accountNumber string, timestamp int64, sentimentValue float64) error {
-	if err := s.countWeek(accountNumber, timestamp, sentimentValue); err != nil {
+func (s *sentimentStatCounter) count(timestamp int64, sentimentValue float64) error {
+	if err := s.countWeek(timestamp, sentimentValue); err != nil {
 		return err
 	}
-	if err := s.countYear(accountNumber, timestamp, sentimentValue); err != nil {
+	if err := s.countYear(timestamp, sentimentValue); err != nil {
 		return err
 	}
-	if err := s.countDecade(accountNumber, timestamp, sentimentValue); err != nil {
+	if err := s.countDecade(timestamp, sentimentValue); err != nil {
 		return err
 	}
 	return nil
 }
 
 func (s *sentimentStatCounter) flush() error {
-	if err := s.flushStat("week", s.currentWeekStat); err != nil {
+	if err := s.flushStat("week", s.currentWeekStat, s.lastWeekStat); err != nil {
 		return err
 	}
-	if err := s.flushStat("year", s.currentYearStat); err != nil {
+	if err := s.flushStat("year", s.currentYearStat, s.lastYearStat); err != nil {
 		return err
 	}
-	if err := s.flushStat("decade", s.currentDecadeStat); err != nil {
+	if err := s.flushStat("decade", s.currentDecadeStat, s.lastDecadeStat); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (s *sentimentStatCounter) flushStat(period string, stat *sentimentStat) error {
-	if stat != nil && !stat.IsSaved {
-		if err := s.saver.save(stat.AccountNumber+"/sentiment-"+period+"-stat", stat.PeriodStartedAt, stat); err != nil {
+func (s *sentimentStatCounter) flushStat(period string, currentStat *sentimentStat, lastStat *sentimentStat) error {
+	if currentStat != nil && !currentStat.IsSaved {
+		currentStat.Value = s.averageSentiment(currentStat.SubPeriodValues)
+
+		lastSentiment := 0.0
+		if lastStat != nil {
+			lastSentiment = lastStat.Value
+		}
+		currentStat.DiffFromPrevious = getDiff(currentStat.Value, lastSentiment)
+
+		if err := s.saver.save(s.accountNumber+"/sentiment-"+period+"-stat", currentStat.PeriodStartedAt, currentStat); err != nil {
 			return err
 		}
-		stat.IsSaved = true
+		currentStat.IsSaved = true
 	}
 	return nil
 }
 
-func (s *sentimentStatCounter) countWeek(accountNumber string, timestamp int64, sentimentValue float64) error {
-	s.lastWeekStat = s.currentWeekStat
-
-	lastSentiment := 0.0
-	if s.lastWeekStat != nil {
-		lastSentiment = s.lastWeekStat.Value
+func (s *sentimentStatCounter) averageSentiment(sentiments []float64) float64 {
+	totalSentiment := 0.0
+	for _, v := range sentiments {
+		totalSentiment += v
 	}
-
-	s.currentWeekStat = &sentimentStat{
-		SectionName:      "sentiment",
-		Period:           "week",
-		Value:            sentimentValue,
-		PeriodStartedAt:  absWeek(timestamp),
-		DiffFromPrevious: getDiff(sentimentValue, lastSentiment),
-		IsSaved:          false,
-		AccountNumber:    accountNumber,
-	}
-	if err := s.flushStat("week", s.currentWeekStat); err != nil {
-		return err
-	}
-	return nil
+	averageSentiment := totalSentiment / float64(len(sentiments))
+	return math.Round(averageSentiment)
 }
 
-func (s *sentimentStatCounter) createEmptyYearStat(accountNumer string, timestamp int64) *sentimentStat {
+func (s *sentimentStatCounter) createEmptyStat(period string, timestamp int64) *sentimentStat {
 	return &sentimentStat{
 		SectionName:     "sentiment",
-		Period:          "year",
-		PeriodStartedAt: absYear(timestamp),
+		Period:          period,
+		PeriodStartedAt: absPeriod(period, timestamp),
 		IsSaved:         false,
-		AccountNumber:   accountNumer,
 		SubPeriodValues: make([]float64, 0),
 	}
 }
 
-func (s *sentimentStatCounter) countYear(accountNumber string, timestamp int64, sentimentValue float64) error {
-	yearTimestamp := absYear(timestamp)
+func (s *sentimentStatCounter) countWeek(timestamp int64, sentimentValue float64) error {
+	periodTimestamp := absWeek(timestamp)
 
-	// New year, let's save current year before continuing to aggregate
-	if s.currentYearStat != nil && s.currentYearStat.PeriodStartedAt != yearTimestamp {
-		totalSentiment := 0.0
-		for _, v := range s.currentYearStat.SubPeriodValues {
-			totalSentiment += v
+	// flush the current period to give space for next period
+	if s.currentWeekStat != nil && s.currentWeekStat.PeriodStartedAt != periodTimestamp {
+		if err := s.flushStat("week", s.currentWeekStat, s.lastWeekStat); err != nil {
+			return err
 		}
-		s.currentYearStat.Value = totalSentiment / float64(len(s.currentYearStat.SubPeriodValues))
+		s.lastWeekStat = s.currentWeekStat
+		s.currentWeekStat = nil
+	}
 
-		lastYearSentiment := 0.0
-		if s.lastYearStat != nil {
-			lastYearSentiment = s.lastYearStat.Value
-		}
-		s.currentYearStat.DiffFromPrevious = getDiff(s.currentYearStat.Value, lastYearSentiment)
+	// no current period, let's create a new one
+	if s.currentWeekStat == nil {
+		s.currentWeekStat = s.createEmptyStat("week", timestamp)
+	}
 
-		if err := s.flushStat("year", s.currentYearStat); err != nil {
+	s.currentWeekStat.SubPeriodValues = append(s.currentWeekStat.SubPeriodValues, sentimentValue)
+	return nil
+}
+
+func (s *sentimentStatCounter) countYear(timestamp int64, sentimentValue float64) error {
+	periodTimestamp := absYear(timestamp)
+
+	// flush the current period to give space for next period
+	if s.currentYearStat != nil && s.currentYearStat.PeriodStartedAt != periodTimestamp {
+		if err := s.flushStat("year", s.currentYearStat, s.lastYearStat); err != nil {
 			return err
 		}
 		s.lastYearStat = s.currentYearStat
-		s.currentYearStat = s.createEmptyYearStat(accountNumber, timestamp)
+		s.currentYearStat = nil
 	}
 
-	// The first time this function is call
+	// no current period, let's create a new one
 	if s.currentYearStat == nil {
-		s.currentYearStat = s.createEmptyYearStat(accountNumber, timestamp)
+		s.currentYearStat = s.createEmptyStat("year", timestamp)
 	}
 
 	s.currentYearStat.SubPeriodValues = append(s.currentYearStat.SubPeriodValues, sentimentValue)
 	return nil
 }
 
-func (s *sentimentStatCounter) createEmptyDecadeStat(accountNumer string, timestamp int64) *sentimentStat {
-	return &sentimentStat{
-		SectionName:     "sentiment",
-		Period:          "decade",
-		PeriodStartedAt: absDecade(timestamp),
-		IsSaved:         false,
-		AccountNumber:   accountNumer,
-		SubPeriodValues: make([]float64, 0),
-	}
-}
-
-func (s *sentimentStatCounter) countDecade(accountNumber string, timestamp int64, sentimentValue float64) error {
-	decadeTimestamp := absDecade(timestamp)
+func (s *sentimentStatCounter) countDecade(timestamp int64, sentimentValue float64) error {
+	periodTimestamp := absDecade(timestamp)
 
 	// New decade, let's save current decade before continuing to aggregate
-	if s.currentDecadeStat != nil && s.currentDecadeStat.PeriodStartedAt != decadeTimestamp {
-		totalSentiment := 0.0
-		for _, v := range s.currentDecadeStat.SubPeriodValues {
-			totalSentiment += v
-		}
-		s.currentDecadeStat.Value = totalSentiment / float64(len(s.currentDecadeStat.SubPeriodValues))
-
-		lastDecadeSentiment := 0.0
-		if s.lastDecadeStat != nil {
-			lastDecadeSentiment = s.lastDecadeStat.Value
-		}
-		s.currentDecadeStat.DiffFromPrevious = getDiff(s.currentDecadeStat.Value, lastDecadeSentiment)
-
-		if err := s.flushStat("year", s.currentDecadeStat); err != nil {
+	if s.currentDecadeStat != nil && s.currentDecadeStat.PeriodStartedAt != periodTimestamp {
+		if err := s.flushStat("decade", s.currentDecadeStat, s.lastDecadeStat); err != nil {
 			return err
 		}
 		s.lastDecadeStat = s.currentDecadeStat
-		s.currentDecadeStat = s.createEmptyDecadeStat(accountNumber, timestamp)
+		s.currentDecadeStat = nil
 	}
 
 	// The first time this function is call
 	if s.currentDecadeStat == nil {
-		s.currentDecadeStat = s.createEmptyDecadeStat(accountNumber, timestamp)
+		s.currentDecadeStat = s.createEmptyStat("decade", timestamp)
 	}
 
 	s.currentDecadeStat.SubPeriodValues = append(s.currentDecadeStat.SubPeriodValues, sentimentValue)

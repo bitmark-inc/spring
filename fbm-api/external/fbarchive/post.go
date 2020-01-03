@@ -76,6 +76,20 @@ func (c *Client) GetFirstPost(ctx context.Context, accountNumber string) (*PostD
 	return &postResponse.Results[0], nil
 }
 
+// GetLastPost returns the very first post of this account
+func (c *Client) GetLastPost(ctx context.Context, accountNumber string) (*PostData, error) {
+	postResponse, err := c.getPosts(ctx, accountNumber, 0, 1, "des")
+	if err != nil {
+		return nil, err
+	}
+
+	if len(postResponse.Results) == 0 {
+		return nil, nil
+	}
+
+	return &postResponse.Results[0], nil
+}
+
 func (c *Client) getPosts(ctx context.Context, accountNumber string, offset, limit int, orderBy string) (*PostsResponse, error) {
 	r, _ := c.createRequest(ctx, "GET", fmt.Sprintf("/posts?data_owner=%s&order_by=%s&limit=%d&offset=%d", accountNumber, orderBy, limit, offset), nil)
 	_, err := httputil.DumpRequest(r, false)

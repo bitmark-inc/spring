@@ -145,7 +145,6 @@ func (s *Server) Run(addr string) error {
 	postRoute.Use(s.fakeCredential())
 	{
 		postRoute.GET("", s.getAllPosts)
-		postRoute.POST("/reanalyze", s.parseArchive)
 	}
 
 	mediaRoute := apiRoute.Group("/media")
@@ -189,6 +188,7 @@ func (s *Server) Run(addr string) error {
 	{
 		secretRoute.POST("/submit-archives", s.adminSubmitArchives)
 		secretRoute.POST("/parse-archives", s.adminForceParseArchive)
+		secretRoute.POST("/reanalyze", s.parseArchive)
 	}
 
 	r.GET("/healthz", s.healthz)

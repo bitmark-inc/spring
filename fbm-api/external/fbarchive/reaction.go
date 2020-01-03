@@ -24,7 +24,7 @@ type ReactionResponse struct {
 
 // GetReactions calls the data source to get reaction data for an owner, returned reaction data and count
 func (c *Client) GetReactions(ctx context.Context, dataOwner, orderBy string, offset int64) ([]ReactionData, int64, error) {
-	queryPath := fmt.Sprintf("/reactions?data_owner=%s&order_by=%s&offset=%d&limit=1000", dataOwner, orderBy, offset)
+	queryPath := fmt.Sprintf("/reactions?data_owner=%s&order_by=%s&offset=%d&limit=10000", dataOwner, orderBy, offset)
 	req, err := c.createRequest(ctx, "GET", queryPath, make(map[string]string))
 
 	req.Header.Add("Content-Type", "application/json")
