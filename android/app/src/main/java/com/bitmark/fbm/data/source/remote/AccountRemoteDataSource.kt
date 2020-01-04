@@ -46,7 +46,8 @@ class AccountRemoteDataSource @Inject constructor(
     }
 
     fun registerFbmServerAccount(encPubKey: String): Single<AccountData> {
-        return fbmApi.registerAccount(mapOf("enc_pub_key" to encPubKey)).map { res -> res.data }
+        return fbmApi.registerAccount(mapOf("enc_pub_key" to encPubKey))
+            .map { res -> res["result"] ?: error("invalid response") }
             .subscribeOn(Schedulers.io())
     }
 

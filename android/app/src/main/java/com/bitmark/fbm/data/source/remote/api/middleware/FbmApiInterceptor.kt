@@ -7,13 +7,20 @@
 package com.bitmark.fbm.data.source.remote.api.middleware
 
 import android.text.TextUtils
+import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.source.local.Jwt
 import com.bitmark.fbm.logging.Tracer
 import okhttp3.Response
-import javax.inject.Inject
 
 
-class FbmApiInterceptor @Inject constructor() : Interceptor() {
+class FbmApiInterceptor :
+    Interceptor() {
+
+    private var listener: ApiInterceptorListener? = null
+
+    fun setListener(listener: ApiInterceptorListener?) {
+        this.listener = listener
+    }
 
     override fun getTag(): String? = "FbmApiServer"
 
@@ -23,6 +30,8 @@ class FbmApiInterceptor @Inject constructor() : Interceptor() {
             .addHeader("Accept", "application/json")
             .addHeader("Cache-Control", "no-cache")
             .addHeader("Cache-Control", "no-store")
+            .addHeader("Client-Type", "android")
+            .addHeader("Client-Version", "${BuildConfig.VERSION_CODE}")
         if (!TextUtils.isEmpty(Jwt.getInstance().token))
             builder.addHeader(
                 "Authorization",
@@ -33,6 +42,12 @@ class FbmApiInterceptor @Inject constructor() : Interceptor() {
         Tracer.INFO.log(getTag()!!, req.toString())
         val res = chain.proceed(req)
         Tracer.INFO.log(getTag()!!, res.toString())
+        listener?.onServiceStateChanged(res.code != 406)
         return res
+    }
+
+    interface ApiInterceptorListener {
+
+        fun onServiceStateChanged(supported: Boolean)
     }
 }

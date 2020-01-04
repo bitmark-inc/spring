@@ -12,11 +12,11 @@ import com.bitmark.fbm.data.source.remote.api.error.NetworkException
 import com.bitmark.fbm.data.source.remote.api.error.UnknownException
 import java.io.IOException
 
-fun Throwable.isNetworkError() = this is IOException
+private fun Throwable.isNetworkError() = this is IOException
 
 fun Throwable.isDbRecNotFoundError() = this is EmptyResultSetException
 
-fun Throwable.isHttpError() =
+private fun Throwable.isHttpError() =
     this is com.bitmark.apiservice.utils.error.HttpException || this is retrofit2.HttpException
 
 fun Throwable.toRemoteError() = when {
@@ -36,3 +36,5 @@ fun Throwable.toRemoteError() = when {
     }
     else             -> UnknownException(this)
 }
+
+fun Throwable.isServiceUnsupportedError() = this is HttpException && this.code == 406

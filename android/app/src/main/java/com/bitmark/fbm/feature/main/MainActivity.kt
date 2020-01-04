@@ -10,17 +10,13 @@ import android.os.Handler
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.Observer
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.bitmark.fbm.R
-import com.bitmark.fbm.feature.BaseAppCompatActivity
-import com.bitmark.fbm.feature.BaseViewModel
-import com.bitmark.fbm.feature.BehaviorComponent
-import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.feature.*
 import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
 import com.bitmark.fbm.feature.usage.UsageContainerFragment
-import com.bitmark.fbm.util.ext.getDimensionPixelSize
-import com.bitmark.fbm.util.ext.gone
-import com.bitmark.fbm.util.ext.visible
+import com.bitmark.fbm.util.ext.*
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -34,6 +30,9 @@ class MainActivity : BaseAppCompatActivity() {
 
     @Inject
     internal lateinit var connectivityHandler: ConnectivityHandler
+
+    @Inject
+    internal lateinit var dialogController: DialogController
 
     private val handler = Handler()
 
@@ -109,6 +108,21 @@ class MainActivity : BaseAppCompatActivity() {
     override fun deinitComponents() {
         handler.removeCallbacksAndMessages(null)
         super.deinitComponents()
+    }
+
+    override fun observe() {
+        super.observe()
+
+        viewModel.serviceUnsupportedLiveData.observe(this, Observer { url ->
+            dialogController.showUpdateRequired {
+                if (url.isEmpty()) {
+                    navigator.goToPlayStore()
+                } else {
+                    navigator.goToUpdateApp(url)
+                }
+                navigator.exitApp()
+            }
+        })
     }
 
     override fun onResume() {

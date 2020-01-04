@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.ext.isServiceUnsupportedError
 import com.bitmark.fbm.data.model.entity.GroupName
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.fromString
@@ -260,7 +261,9 @@ class PostDetailFragment : BaseSupportFragment() {
 
                 res.isError()   -> {
                     logger.logError(Event.PLAY_VIDEO_ERROR, res.throwable())
-                    dialogController.alert(R.string.error, R.string.could_not_play_video)
+                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+                        dialogController.alert(R.string.error, R.string.could_not_play_video)
+                    }
                     blocked = false
                 }
 

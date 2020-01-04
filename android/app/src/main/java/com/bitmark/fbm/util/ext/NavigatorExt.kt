@@ -15,6 +15,8 @@ import android.provider.Settings
 import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.NONE
+import com.bitmark.fbm.util.Constants
+import java.net.URL
 
 
 fun Navigator.gotoSecuritySetting() {
@@ -124,5 +126,14 @@ fun Navigator.openVideoPlayer(url: String, error: (Throwable) -> Unit) {
         startActivity(intent)
     } catch (e: Throwable) {
         error(e)
+    }
+}
+
+fun Navigator.goToUpdateApp(updateUrl: String) {
+    val url = URL(updateUrl)
+    if (url.host == Constants.GOOGLE_PLAY_HOST) {
+        goToPlayStore()
+    } else {
+        openBrowser(updateUrl)
     }
 }

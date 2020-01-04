@@ -12,7 +12,6 @@ import com.bitmark.fbm.data.model.entity.ReactionR
 import com.bitmark.fbm.data.model.entity.SectionR
 import com.bitmark.fbm.data.source.remote.api.request.ArchiveRequestPayload
 import com.bitmark.fbm.data.source.remote.api.request.RegisterJwtRequest
-import com.bitmark.fbm.data.source.remote.api.response.RegisterAccountResponse
 import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.ResponseBody
@@ -23,7 +22,7 @@ import retrofit2.http.*
 interface FbmApi {
 
     @POST("api/accounts")
-    fun registerAccount(@Body body: Map<String, String>): Single<RegisterAccountResponse>
+    fun registerAccount(@Body body: Map<String, String>): Single<Map<String, AccountData>>
 
     @POST("api/auth")
     fun registerJwt(@Body request: RegisterJwtRequest): Single<JwtData>

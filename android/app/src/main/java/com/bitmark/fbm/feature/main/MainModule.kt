@@ -6,7 +6,10 @@
  */
 package com.bitmark.fbm.feature.main
 
+import com.bitmark.fbm.data.source.AppRepository
+import com.bitmark.fbm.data.source.remote.api.event.RemoteApiBus
 import com.bitmark.fbm.di.ActivityScope
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.auth.FbmServerAuthentication
 import dagger.Module
@@ -22,6 +25,15 @@ class MainModule {
 
     @Provides
     @ActivityScope
-    fun provideVM(activity: MainActivity, fbmServerAuth: FbmServerAuthentication) =
-        MainViewModel(activity.lifecycle, fbmServerAuth)
+    fun provideVM(
+        activity: MainActivity,
+        fbmServerAuth: FbmServerAuthentication,
+        appRepo: AppRepository,
+        remoteApiBus: RemoteApiBus
+    ) =
+        MainViewModel(activity.lifecycle, fbmServerAuth, remoteApiBus, appRepo)
+
+    @ActivityScope
+    @Provides
+    fun provideDialogController(activity: MainActivity) = DialogController(activity)
 }

@@ -16,6 +16,7 @@ import android.webkit.*
 import androidx.lifecycle.Observer
 import com.bitmark.apiservice.utils.callback.Callback1
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.ext.isServiceUnsupportedError
 import com.bitmark.fbm.data.model.*
 import com.bitmark.fbm.data.source.remote.api.error.UnknownException
 import com.bitmark.fbm.feature.BaseSupportFragment
@@ -581,10 +582,12 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                         Event.ARCHIVE_REQUEST_REGISTER_ACCOUNT_ERROR,
                         res.throwable() ?: UnknownException("unknown")
                     )
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.could_not_register_account
-                    ) { navigator.finishActivity() }
+                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+                        dialogController.alert(
+                            R.string.error,
+                            R.string.could_not_register_account
+                        ) { navigator.popFragment() }
+                    }
                     blocked = false
                 }
 
@@ -618,7 +621,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                         throwable ?: UnknownException()
                                     )
                                     dialogController.unexpectedAlert {
-                                        navigator.anim(RIGHT_LEFT).finishActivity()
+                                        navigator.anim(RIGHT_LEFT).popFragment()
                                     }
                                 }
 
@@ -632,12 +635,14 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     progressBar.gone()
                     val error = res.throwable()
                     logger.logError(Event.ARCHIVE_REQUEST_PREPARE_DATA_ERROR, error)
-                    if (error is UnknownException) {
-                        dialogController.unexpectedAlert {
-                            navigator.anim(RIGHT_LEFT).finishActivity()
+                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+                        if (error is UnknownException) {
+                            dialogController.unexpectedAlert {
+                                navigator.anim(RIGHT_LEFT).popFragment()
+                            }
+                        } else {
+                            dialogController.alert(error) { navigator.popFragment() }
                         }
-                    } else {
-                        dialogController.alert(error) { navigator.finishActivity() }
                     }
                 }
 
@@ -655,7 +660,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
                 res.isError()   -> {
                     logger.logSharedPrefError(res.throwable(), "save archive requested at error")
-                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).popFragment() }
                 }
             }
         })
@@ -690,7 +695,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
                 res.isError()   -> {
                     logger.logSharedPrefError(res.throwable(), "check notification enabled error")
-                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).popFragment() }
                 }
             }
         })
@@ -705,7 +710,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
                 res.isError()   -> {
                     logger.logSharedPrefError(res.throwable(), "get existing account error")
-                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
+                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).popFragment() }
                 }
             }
         })

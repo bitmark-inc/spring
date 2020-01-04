@@ -25,6 +25,7 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
+import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.EndlessScrollListener
 import com.bitmark.fbm.util.ext.gone
 import com.bitmark.fbm.util.ext.visible
@@ -237,6 +238,7 @@ class ReactionDetailFragment : BaseSupportFragment() {
                 }
 
                 res.isError()   -> {
+                    Tracer.ERROR.log("ReactionDetailFragment", res.throwable()?.message ?: "unknown")
                     progressBar.gone()
                 }
 

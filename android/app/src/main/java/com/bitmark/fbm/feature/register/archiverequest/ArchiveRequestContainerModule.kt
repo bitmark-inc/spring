@@ -7,6 +7,8 @@
 package com.bitmark.fbm.feature.register.archiverequest
 
 import com.bitmark.fbm.data.source.AccountRepository
+import com.bitmark.fbm.data.source.AppRepository
+import com.bitmark.fbm.data.source.remote.api.event.RemoteApiBus
 import com.bitmark.fbm.di.ActivityScope
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
@@ -31,6 +33,14 @@ class ArchiveRequestContainerModule {
     fun provideViewModel(
         activity: ArchiveRequestContainerActivity,
         accountRepo: AccountRepository,
-        rxLiveDataTransformer: RxLiveDataTransformer
-    ) = ArchiveRequestContainerViewModel(activity.lifecycle, accountRepo, rxLiveDataTransformer)
+        appRepo: AppRepository,
+        rxLiveDataTransformer: RxLiveDataTransformer,
+        remoteApiBus: RemoteApiBus
+    ) = ArchiveRequestContainerViewModel(
+        activity.lifecycle,
+        accountRepo,
+        appRepo,
+        rxLiveDataTransformer,
+        remoteApiBus
+    )
 }

@@ -8,6 +8,7 @@ package com.bitmark.fbm.data.source.remote.api
 
 import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.ext.newGsonInstance
+import com.bitmark.fbm.data.source.remote.api.event.RemoteApiBus
 import com.bitmark.fbm.data.source.remote.api.middleware.FbmApiInterceptor
 import com.bitmark.fbm.data.source.remote.api.service.FbmApi
 import com.bitmark.fbm.data.source.remote.api.service.ServiceGenerator
@@ -21,13 +22,21 @@ class NetworkModule {
     @Singleton
     @Provides
     fun provideFbmServerApi(
-        authInterceptor: FbmApiInterceptor
+        apiInterceptor: FbmApiInterceptor
     ): FbmApi {
         return ServiceGenerator.createService(
             BuildConfig.FBM_API_ENDPOINT,
             FbmApi::class.java,
             newGsonInstance(),
-            appInterceptors = listOf(authInterceptor)
+            appInterceptors = listOf(apiInterceptor)
         )
     }
+
+    @Singleton
+    @Provides
+    fun provideFbmInterceptor() = FbmApiInterceptor()
+
+    @Singleton
+    @Provides
+    fun provideRemoteBus(apiInterceptor: FbmApiInterceptor) = RemoteApiBus(apiInterceptor)
 }

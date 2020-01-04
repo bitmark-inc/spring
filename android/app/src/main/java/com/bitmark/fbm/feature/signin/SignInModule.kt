@@ -8,6 +8,7 @@ package com.bitmark.fbm.feature.signin
 
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
+import com.bitmark.fbm.data.source.remote.api.event.RemoteApiBus
 import com.bitmark.fbm.di.ActivityScope
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
@@ -24,8 +25,15 @@ class SignInModule {
         accountRepo: AccountRepository,
         appRepo: AppRepository,
         activity: SignInActivity,
-        rxLiveDataTransformer: RxLiveDataTransformer
-    ) = SignInViewModel(activity.lifecycle, accountRepo, appRepo, rxLiveDataTransformer)
+        rxLiveDataTransformer: RxLiveDataTransformer,
+        remoteApiBus: RemoteApiBus
+    ) = SignInViewModel(
+        activity.lifecycle,
+        accountRepo,
+        appRepo,
+        rxLiveDataTransformer,
+        remoteApiBus
+    )
 
     @ActivityScope
     @Provides

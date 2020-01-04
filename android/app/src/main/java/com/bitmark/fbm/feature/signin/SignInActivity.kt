@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.ext.isServiceUnsupportedError
 import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
@@ -119,12 +120,25 @@ class SignInActivity : BaseAppCompatActivity() {
                     progressBar.gone()
                     blocked = false
                     logger.logError(Event.ACCOUNT_SIGNIN_ERROR, res.throwable())
-                    dialogController.alert(R.string.error, R.string.could_not_sign_in)
+                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+                        dialogController.alert(R.string.error, R.string.could_not_sign_in)
+                    }
                 }
                 res.isLoading() -> {
                     blocked = true
                     progressBar.visible()
                 }
+            }
+        })
+
+        viewModel.serviceUnsupportedLiveData.observe(this, Observer { url ->
+            dialogController.showUpdateRequired {
+                if (url.isEmpty()) {
+                    navigator.goToPlayStore()
+                } else {
+                    navigator.goToUpdateApp(url)
+                }
+                navigator.exitApp()
             }
         })
     }

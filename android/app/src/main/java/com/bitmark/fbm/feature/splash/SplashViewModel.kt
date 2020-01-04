@@ -9,10 +9,10 @@ package com.bitmark.fbm.feature.splash
 import androidx.lifecycle.Lifecycle
 import com.bitmark.cryptography.crypto.encoder.Hex
 import com.bitmark.cryptography.crypto.encoder.Raw
+import com.bitmark.fbm.data.ext.onNetworkErrorResumeNext
 import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
-import com.bitmark.fbm.data.source.remote.api.error.NetworkException
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
@@ -62,13 +62,8 @@ class SplashViewModel(
             rxLiveDataTransformer.single(
                 registerJwtStream(account).andThen(
                     checkInvalidArchiveStream()
-                ).onErrorResumeNext { e ->
-                    if (e is NetworkException) {
-                        Single.just(false)
-                    } else {
-                        Single.error<Boolean>(e)
-                    }
-                }/*.flatMap { invalid ->
+                ).onNetworkErrorResumeNext { Single.just(false) }
+                /*.flatMap { invalid ->
                     if (invalid) {
                         // keep account data for next time using
                         appRepo.deleteAppData(true).andThen(Single.just(true))

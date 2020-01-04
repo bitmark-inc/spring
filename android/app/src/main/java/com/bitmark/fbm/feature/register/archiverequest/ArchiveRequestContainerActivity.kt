@@ -15,8 +15,7 @@ import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.register.archiverequest.archiverequest.ArchiveRequestFragment
 import com.bitmark.fbm.feature.register.archiverequest.credential.ArchiveRequestCredentialFragment
 import com.bitmark.fbm.logging.EventLogger
-import com.bitmark.fbm.util.ext.logSharedPrefError
-import com.bitmark.fbm.util.ext.unexpectedAlert
+import com.bitmark.fbm.util.ext.*
 import javax.inject.Inject
 
 class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
@@ -76,6 +75,17 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
                     logger.logSharedPrefError(res.throwable(), "could not get archive requested at")
                     dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }
+            }
+        })
+
+        viewModel.serviceUnsupportedLiveData.observe(this, Observer { url ->
+            dialogController.showUpdateRequired {
+                if (url.isEmpty()) {
+                    navigator.goToPlayStore()
+                } else {
+                    navigator.goToUpdateApp(url)
+                }
+                navigator.exitApp()
             }
         })
     }

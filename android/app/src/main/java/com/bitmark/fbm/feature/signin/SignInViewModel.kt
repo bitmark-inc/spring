@@ -7,16 +7,19 @@
 package com.bitmark.fbm.feature.signin
 
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
 import com.bitmark.cryptography.crypto.encoder.Hex.HEX
 import com.bitmark.cryptography.crypto.encoder.Raw.RAW
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
+import com.bitmark.fbm.data.source.remote.api.event.RemoteApiBus
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import com.bitmark.sdk.features.Account
 import io.reactivex.Completable
 import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
@@ -24,10 +27,13 @@ class SignInViewModel(
     lifecycle: Lifecycle,
     private val accountRepo: AccountRepository,
     private val appRepo: AppRepository,
-    private val rxLiveDataTransformer: RxLiveDataTransformer
+    private val rxLiveDataTransformer: RxLiveDataTransformer,
+    private val remoteApiBus: RemoteApiBus
 ) : BaseViewModel(lifecycle) {
 
     internal val prepareDataLiveData = CompositeLiveData<Any>()
+
+    internal val serviceUnsupportedLiveData = MutableLiveData<String>()
 
     fun prepareData(account: Account, keyAlias: String, authRequired: Boolean) {
         prepareDataLiveData.add(
@@ -57,7 +63,29 @@ class SignInViewModel(
             accountData.authRequired = authRequired
             Completable.mergeArray(
                 accountRepo.saveAccountData(accountData),
-                appRepo.registerNotificationService(accountData.id)
+                appRepo.registerNotificationService(accountData.id),
+                appRepo.setDataReady()
             )
         })
+
+    override fun onStart() {
+        super.onStart()
+
+        remoteApiBus.serviceStatePublisher.subscribe(this) { supported ->
+            if (supported) return@subscribe
+            subscribe(appRepo.getUpdateAppUrl().observeOn(AndroidSchedulers.mainThread())
+                .subscribe { url, e ->
+                    if (e == null) {
+                        serviceUnsupportedLiveData.value = url
+                    } else {
+                        serviceUnsupportedLiveData.value = ""
+                    }
+                })
+        }
+    }
+
+    override fun onStop() {
+        remoteApiBus.unsubscribe(this)
+        super.onStop()
+    }
 }

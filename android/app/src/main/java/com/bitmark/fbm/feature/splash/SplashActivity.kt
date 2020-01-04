@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.lifecycle.Observer
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.ext.isServiceUnsupportedError
 import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.model.isValid
 import com.bitmark.fbm.data.source.remote.api.error.UnknownException
@@ -25,13 +26,11 @@ import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.feature.signin.SignInActivity
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
-import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec
 import com.bitmark.sdk.features.Account
 import kotlinx.android.synthetic.main.activity_splash.*
-import java.net.URL
 import javax.inject.Inject
 
 class SplashActivity : BaseAppCompatActivity() {
@@ -91,12 +90,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     if (versionOutOfDate) {
                         dialogController.showUpdateRequired {
                             val updateUrl = data.second
-                            val url = URL(updateUrl)
-                            if (url.host == Constants.GOOGLE_PLAY_HOST) {
-                                navigator.goToPlayStore()
-                            } else {
-                                navigator.openBrowser(updateUrl)
-                            }
+                            navigator.goToUpdateApp(updateUrl)
                             navigator.exitApp()
                         }
                     } else {
@@ -177,15 +171,17 @@ class SplashActivity : BaseAppCompatActivity() {
                 }
 
                 res.isError()   -> {
-                    val error = res.throwable()
+                    val error = res.throwable()!!
                     logger.logError(
                         Event.SPLASH_PREPARE_DATA_ERROR,
-                        "$TAG: prepare data error: ${error?.message ?: "unknown"}"
+                        "$TAG: prepare data error: ${error.message ?: "unknown"}"
                     )
-                    if (error is UnknownException) {
-                        dialogController.unexpectedAlert { navigator.exitApp() }
-                    } else {
-                        dialogController.alert(error) { navigator.exitApp() }
+                    if (!error.isServiceUnsupportedError()) {
+                        if (error is UnknownException) {
+                            dialogController.unexpectedAlert { navigator.exitApp() }
+                        } else {
+                            dialogController.alert(error) { navigator.exitApp() }
+                        }
                     }
                 }
             }

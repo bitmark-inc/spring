@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.ext.isServiceUnsupportedError
 import com.bitmark.fbm.data.model.entity.*
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
@@ -202,11 +203,13 @@ class StatisticFragment : BaseSupportFragment() {
                         Event.LOAD_STATISTIC_ERROR,
                         res.throwable()?.message ?: "unknown"
                     )
-                    adapter.clear()
-                    dialogController.alert(
-                        R.string.error,
-                        R.string.there_was_error_when_loading_statistic
-                    )
+                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+                        adapter.clear()
+                        dialogController.alert(
+                            R.string.error,
+                            R.string.there_was_error_when_loading_statistic
+                        )
+                    }
                 }
 
                 res.isLoading() -> {

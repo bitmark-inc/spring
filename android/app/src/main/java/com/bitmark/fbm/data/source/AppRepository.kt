@@ -38,6 +38,9 @@ class AppRepository(
             )
         }
 
+    fun getUpdateAppUrl() =
+        remoteDataSource.getAppInfo().map { info -> info.androidAppInfo.updateUrl }
+
     fun deleteAppData(keepAccountData: Boolean = false) = Completable.mergeArray(
         localDataSource.deleteDb(),
         localDataSource.deleteSharePref(keepAccountData),
