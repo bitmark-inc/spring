@@ -11,6 +11,7 @@ import RxSwift
 import Moya
 
 protocol AuthorizedTargetType: TargetType { }
+protocol VersionTargetType: TargetType {}
 
 struct MoyaAuthPlugin: PluginType {
     let tokenClosure: () -> String?
@@ -25,6 +26,22 @@ struct MoyaAuthPlugin: PluginType {
 
         var request = request
         request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+        return request
+    }
+}
+
+struct MoyaVersionPlugin: PluginType {
+    func prepare(_ request: URLRequest, target: TargetType) -> URLRequest {
+        guard
+            let _ = target as? VersionTargetType,
+            let bundleVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+            else {
+                return request
+        }
+
+        var request = request
+        request.addValue("ios", forHTTPHeaderField: "Client-Type")
+        request.addValue(bundleVersion, forHTTPHeaderField: "Client-Version")
         return request
     }
 }

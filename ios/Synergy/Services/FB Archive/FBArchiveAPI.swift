@@ -14,7 +14,7 @@ enum FBArchiveAPI {
     case getAll
 }
 
-extension FBArchiveAPI: AuthorizedTargetType {
+extension FBArchiveAPI: AuthorizedTargetType, VersionTargetType {
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL + "/api/archives")!
     }

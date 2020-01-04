@@ -13,7 +13,7 @@ enum AuthAPI {
     case auth(accountNumber: String, timestamp: String, signature: Data)
 }
 
-extension AuthAPI: TargetType {
+extension AuthAPI: VersionTargetType {
 
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL + "/api/auth")!

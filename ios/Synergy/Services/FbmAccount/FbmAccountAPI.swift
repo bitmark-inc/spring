@@ -15,7 +15,7 @@ enum FbmAccountAPI {
     case getMe
 }
 
-extension FbmAccountAPI: AuthorizedTargetType {
+extension FbmAccountAPI: AuthorizedTargetType, VersionTargetType {
 
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL + "/api/accounts")!

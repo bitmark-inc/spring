@@ -13,7 +13,7 @@ enum ReactionAPI {
     case get(startDate: Date, endDate: Date)
 }
 
-extension ReactionAPI: AuthorizedTargetType {
+extension ReactionAPI: AuthorizedTargetType, VersionTargetType {
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL + "/api/reactions")!
     }

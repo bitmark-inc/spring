@@ -14,7 +14,7 @@ enum ServerAssetsAPI {
     case appInformation
 }
 
-extension ServerAssetsAPI: TargetType {
+extension ServerAssetsAPI: VersionTargetType {
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL)!
     }
