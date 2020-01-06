@@ -11,5 +11,5 @@ message Insight {
 }
 
 message InsightResponse {
-    repeated Insight result = 1 [json_name="result"];
+    repeated Insight result = 1 [json_name="result", (gogoproto.jsontag)="result"];
 }
