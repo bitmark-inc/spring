@@ -1,10 +1,11 @@
 syntax = "proto3";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
 message Error {
-    int32 code = 1 [json_name="code"];
-    string message = 2 [json_name="message"];
+    int32 code = 1 [json_name="code", (gogoproto.jsontag)="code"];
+    string message = 2 [json_name="message", (gogoproto.jsontag)="message"];
 }
 
 message ErrorResponse {
-    Error error = 1 [json_name="error"];
+    Error error = 1 [json_name="error", (gogoproto.jsontag)="error"];
 }
