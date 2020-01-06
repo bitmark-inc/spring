@@ -53,3 +53,6 @@ fun Context.pxToDp(px: Float) = px / resources.displayMetrics.density
 
 fun Context.dpToPx(dp: Int) = dp * resources.displayMetrics.density
 
+val Context.screenWidth: Int
+    get() = resources.displayMetrics.widthPixels
+

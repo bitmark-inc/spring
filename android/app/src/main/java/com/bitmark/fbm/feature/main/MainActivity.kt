@@ -7,14 +7,14 @@
 package com.bitmark.fbm.feature.main
 
 import android.os.Handler
-import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationAdapter
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.*
 import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
+import com.bitmark.fbm.feature.main.MainViewPagerAdapter.Companion.TAB_INSIGHT
+import com.bitmark.fbm.feature.main.MainViewPagerAdapter.Companion.TAB_LENS
+import com.bitmark.fbm.feature.main.MainViewPagerAdapter.Companion.TAB_USAGE
 import com.bitmark.fbm.feature.usage.UsageContainerFragment
 import com.bitmark.fbm.util.ext.*
 import kotlinx.android.synthetic.main.activity_main.*
@@ -60,47 +60,29 @@ class MainActivity : BaseAppCompatActivity() {
     override fun initComponents() {
         super.initComponents()
 
-        val navAdapter = AHBottomNavigationAdapter(this, R.menu.navigation)
-        navAdapter.setupWithBottomNavigation(bottomNav)
-        bottomNav.defaultBackgroundColor = ContextCompat.getColor(
-            this,
-            R.color.white
-        )
-        bottomNav.accentColor =
-            ContextCompat.getColor(this, R.color.cognac)
-        bottomNav.inactiveColor =
-            ContextCompat.getColor(this, R.color.black)
-        bottomNav.setTitleTypeface(
-            ResourcesCompat.getFont(this, R.font.grotesk_regular)
-        )
-        bottomNav.setTitleTextSize(
-            getDimensionPixelSize(R.dimen.sp_12).toFloat(),
-            getDimensionPixelSize(R.dimen.sp_10).toFloat()
-        )
-
         vpAdapter = MainViewPagerAdapter(supportFragmentManager)
         viewPager.offscreenPageLimit = vpAdapter.count
         viewPager.adapter = vpAdapter
-        viewPager.setCurrentItem(0, false)
+        viewPager.setCurrentItem(TAB_USAGE, false)
 
-        bottomNav.setOnTabSelectedListener { position, wasSelected ->
-            viewPager.setCurrentItem(position, true)
+        bottomNav.setActiveItem(TAB_USAGE)
+        bottomNav.setIndicatorWidth(screenWidth / vpAdapter.count.toFloat())
 
-            bottomNav.accentColor =
-                ContextCompat.getColor(
-                    this, when (position) {
-                        0    -> R.color.cognac
-                        1    -> R.color.international_klein_blue
-                        2    -> R.color.olive
-                        else -> error("invalid tab pos")
-                    }
-                )
+        bottomNav.onItemSelected = { pos ->
+            viewPager.setCurrentItem(pos, true)
 
-            if (wasSelected) {
-                (vpAdapter.currentFragment as? BehaviorComponent)?.refresh()
+            val color = when (pos) {
+                TAB_USAGE   -> R.color.cognac
+                TAB_INSIGHT -> R.color.international_klein_blue
+                TAB_LENS    -> R.color.olive
+                else        -> error("invalid tab pos")
             }
 
-            true
+            bottomNav.setActiveColor(color)
+        }
+
+        bottomNav.onItemReselected = {
+            (vpAdapter.currentFragment as? BehaviorComponent)?.refresh()
         }
 
     }
@@ -144,8 +126,8 @@ class MainActivity : BaseAppCompatActivity() {
         if (currentFragment is UsageContainerFragment && !currentFragment.onBackPressed())
             super.onBackPressed()
         else if (currentFragment?.onBackPressed() == false) {
-            bottomNav.currentItem = 0
-            viewPager.setCurrentItem(0, false)
+            bottomNav.setActiveItem(TAB_USAGE, R.color.cognac)
+            viewPager.setCurrentItem(TAB_USAGE, false)
         }
     }
 }

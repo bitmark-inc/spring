@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,11 +26,24 @@
         tools:visibility="visible"
         />
 
-    <com.aurelhubert.ahbottomnavigation.AHBottomNavigation
+    <com.bitmark.fbm.util.view.bottomview.NiceBottomBar
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_56"
+        android:layout_height="70dp"
         android:layout_alignParentBottom="true"
+        app:activeItem="0"
+        app:backgroundColor="@color/white"
+        app:badgeColor="@color/cognac"
+        app:iconSize="@dimen/dp_20"
+        app:indicatorColor="@color/cognac"
+        app:indicatorEnabled="true"
+        app:indicatorGravity="top"
+        app:indicatorInterpolator="linear"
+        app:itemFontFamily="@font/grotesk_regular"
+        app:menu="@menu/navigation"
+        app:textColor="@color/black"
+        app:textColorActive="@color/cognac"
+        app:textSize="@dimen/sp_10"
         />
 
 </RelativeLayout>
