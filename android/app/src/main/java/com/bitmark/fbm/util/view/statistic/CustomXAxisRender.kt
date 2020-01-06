@@ -6,7 +6,10 @@
  */
 package com.bitmark.fbm.util.view.statistic
 
+import android.content.Context
 import android.graphics.Canvas
+import com.bitmark.fbm.R
+import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.renderer.XAxisRendererHorizontalBarChart
@@ -16,6 +19,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler
 
 
 class CustomXAxisRender(
+    private val context: Context,
     viewPortHandler: ViewPortHandler, xAxis: XAxis,
     trans: Transformer, chart: BarChart
 ) : XAxisRendererHorizontalBarChart(viewPortHandler, xAxis, trans, chart) {
@@ -108,7 +112,14 @@ class CustomXAxisRender(
             if (mViewPortHandler.isInBoundsY(y)) {
 
                 val label = mXAxis.valueFormatter.getAxisLabel(mXAxis.mEntries[i / 2], mXAxis)
-                drawLabel(c, label, pos - 10f, y - 40f, anchor, labelRotationAngleDegrees)
+                drawLabel(
+                    c,
+                    label,
+                    pos - context.getDimensionPixelSize(R.dimen.dp_3),
+                    y - context.getDimensionPixelSize(R.dimen.dp_10),
+                    anchor,
+                    labelRotationAngleDegrees
+                )
             }
             i += 2
         }

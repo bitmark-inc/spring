@@ -165,7 +165,13 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
 
         fun bind(item: Item) {
             with(itemView) {
-                ivIncome.text = String.format("$%.2f", item.section?.value ?: 0f)
+                if (item.section?.value == null || item.section.value == 0f) {
+                    tvIncome.text = "--"
+                    tvMsg.text = context.getString(R.string.sorry_no_data)
+                } else {
+                    tvIncome.text = String.format("$%.2f", item.section.value)
+                    tvMsg.text = context.getString(R.string.income_fb_made_from_you)
+                }
             }
         }
     }

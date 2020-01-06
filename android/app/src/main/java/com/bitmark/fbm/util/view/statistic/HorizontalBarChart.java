@@ -48,7 +48,7 @@ public class HorizontalBarChart extends BarChart {
 
         mAxisRendererLeft = new YAxisRendererHorizontalBarChart(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
         mAxisRendererRight = new YAxisRendererHorizontalBarChart(mViewPortHandler, mAxisRight, mRightAxisTransformer);
-        mXAxisRenderer = new CustomXAxisRender(mViewPortHandler, mXAxis, mLeftAxisTransformer, this);
+        mXAxisRenderer = new CustomXAxisRender(getContext(), mViewPortHandler, mXAxis, mLeftAxisTransformer, this);
     }
 
     private RectF mOffsetsBuffer = new RectF();

@@ -7,6 +7,7 @@
 package com.bitmark.fbm.util.view
 
 import android.content.Context
+import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.data.source.local.Jwt
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
@@ -27,10 +28,10 @@ class GlideModule : AppGlideModule() {
             .addInterceptor(object : Interceptor {
                 override fun intercept(chain: Interceptor.Chain): Response {
                     val req = chain.request()
-                    val builder = req.newBuilder().addHeader(
-                        "Authorization",
-                        "Bearer " + Jwt.getInstance().token
-                    )
+                    val builder = req.newBuilder()
+                        .addHeader("Authorization", "Bearer " + Jwt.getInstance().token)
+                        .addHeader("Client-Type", "android")
+                        .addHeader("Client-Version", "${BuildConfig.VERSION_CODE}")
                     return chain.proceed(builder.build())
                 }
 

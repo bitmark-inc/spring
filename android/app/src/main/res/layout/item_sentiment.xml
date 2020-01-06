@@ -70,10 +70,13 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/ivSeekbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_10"
         android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvPeriodAvg"
         tools:src="@drawable/ic_seek_bar_7"
         />

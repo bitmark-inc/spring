@@ -14,7 +14,7 @@
     >
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/ivIncome"
+        android:id="@+id/tvIncome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/grotesk_regular"
@@ -25,14 +25,15 @@
         />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
         android:fontFamily="@font/grotesk_light"
         android:includeFontPadding="false"
-        android:text="@string/income_fb_made_from_you"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_12"
+        tools:text="@string/income_fb_made_from_you"
         />
 
 </LinearLayout>
