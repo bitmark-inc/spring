@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_24"
         android:fontFamily="@font/domaine_sans"
-        android:text="@string/average"
+        android:text="@string/period_average"
         android:textAllCaps="true"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_14"

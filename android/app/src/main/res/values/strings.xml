@@ -137,10 +137,10 @@
     <string name="your_help_is_required">Your help is required.</string>
     <string name="others">Others</string>
     <string name="no_activity_for_this_period">No activity for this period.</string>
-    <string name="income_fb_made_from_you">Income Facebook made from you</string>
+    <string name="income_fb_made_from_you">Income Facebook made from you this period</string>
     <string name="your_mood">Your Mood</string>
     <string name="sentiment_analysis_of_your_post">sentiment analysis of your posts</string>
-    <string name="average">Average</string>
+    <string name="period_average">Period Average</string>
     <string name="happy">Happy</string>
     <string name="unhappy">Unhappy</string>
     <string name="one">1</string>
