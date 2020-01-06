@@ -8,62 +8,11 @@ import (
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
+	"github.com/golang/protobuf/proto"
 	log "github.com/sirupsen/logrus"
+
+	"github.com/bitmark-inc/fbm-apps/fbm-api/protomodel"
 )
-
-type mediaData struct {
-	Type      string `json:"type"`
-	Source    string `json:"source"`
-	Thumbnail string `json:"thumbnail,omitempty"`
-}
-
-type locationData struct {
-	Address    string `json:"address"`
-	Coordinate struct {
-		Latitude  float64 `json:"latitude"`
-		Longitude float64 `json:"longitude"`
-	} `json:"coordinate"`
-	URL       string `json:"url"`
-	Name      string `json:"name"`
-	CreatedAt int64  `json:"created_at"`
-}
-
-type friendData struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
-
-type postData struct {
-	Timestamp int64         `json:"timestamp"`
-	Type      string        `json:"type"`
-	Post      string        `json:"post,omitempty"`
-	ID        uint64        `json:"id"`
-	Media     []mediaData   `json:"mediaData,omitempty"`
-	Location  *locationData `json:"location,omitempty"`
-	URL       string        `json:"url,omitempty"`
-	Title     string        `json:"title"`
-	Tags      []friendData  `json:"tags,omitempty"`
-}
-
-type periodData struct {
-	Name string         `json:"name,omitempty"`
-	Data map[string]int `json:"data"`
-}
-
-type statisticData struct {
-	SectionName      string  `json:"section_name"`
-	DiffFromPrevious float64 `json:"diff_from_previous"`
-	Period           string  `json:"period"`
-	PeriodStartedAt  int64   `json:"period_started_at"`
-	Quantity         int     `json:"quantity"`
-	Value            float64 `json:"value"`
-	Groups           struct {
-		Type      periodData   `json:"type"`
-		SubPeriod []periodData `json:"sub_period"`
-		Friend    []periodData `json:"friend"`
-		Place     []periodData `json:"place"`
-	} `json:"groups,omitempty"`
-}
 
 func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 	defer jobEndCollectiveMetric(err, job)
@@ -93,7 +42,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 		// Save to db
 		for _, r := range postRespData.Results {
 			postType := ""
-			media := make([]mediaData, 0)
+			media := make([]*protomodel.MediaData, 0)
 
 			if r.MediaAttached {
 				postType = "media"
@@ -102,7 +51,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 					if m.FilenameExtension == ".mp4" {
 						mediaType = "video"
 					}
-					media = append(media, mediaData{
+					media = append(media, &protomodel.MediaData{
 						Type:      mediaType,
 						Source:    m.MediaURI,
 						Thumbnail: m.MediaURI,
@@ -116,17 +65,14 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 				continue
 			}
 
-			var l *locationData
+			var l *protomodel.Location
 			if len(r.Place) > 0 {
 				firstPlace := r.Place[0]
 				lat, _ := strconv.ParseFloat(firstPlace.Latitude, 64)
 				long, _ := strconv.ParseFloat(firstPlace.Longitude, 64)
-				l = &locationData{
+				l = &protomodel.Location{
 					Address: firstPlace.Address,
-					Coordinate: struct {
-						Latitude  float64 `json:"latitude"`
-						Longitude float64 `json:"longitude"`
-					}{
+					Coordinate: &protomodel.Coordinate{
 						Latitude:  lat,
 						Longitude: long,
 					},
@@ -134,38 +80,40 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 					CreatedAt: r.Timestamp,
 				}
 
-				counter.lastLocation = l
+				counter.lastLocation = l.GetCoordinate()
 			}
 
-			friends := make([]friendData, 0)
+			friends := make([]*protomodel.Tag, 0)
 			for _, f := range r.Tags {
-				friends = append(friends, friendData{
-					ID:   f.FriendID,
+				friends = append(friends, &protomodel.Tag{
+					Id:   f.FriendID,
 					Name: f.Tags,
 				})
 			}
 
 			// Add post
-			post := postData{
+			post := &protomodel.Post{
 				Timestamp: r.Timestamp,
 				Type:      postType,
 				Post:      r.Post,
-				ID:        r.PostID,
-				Media:     media,
+				Id:        r.PostID,
+				MediaData: media,
 				Location:  l,
-				URL:       r.ExternalContextURL,
+				Url:       r.ExternalContextURL,
 				Title:     r.Title,
-				Tags:      friends,
+				Tag:       friends,
 			}
+
 			if lastPostTimestamp != r.Timestamp {
-				if err := saver.save(accountNumber+"/post", r.Timestamp, post); err != nil {
+				postData, _ := proto.Marshal(post)
+				if err := saver.save(accountNumber+"/post", r.Timestamp, postData); err != nil {
 					logEntity.Error(err)
 					sentry.CaptureException(err)
 					continue
 				}
-				counter.countWeek(&post)
-				counter.countYear(&post)
-				counter.countDecade(&post)
+				counter.countWeek(post)
+				counter.countYear(post)
+				counter.countDecade(post)
 				counter.LastPostTimestamp = r.Timestamp
 				lastPostTimestamp = r.Timestamp
 			}
@@ -193,21 +141,24 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 
 	// Save stats
 	for _, weekStat := range counter.Weeks {
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-week-stat", weekStat.PeriodStartedAt, weekStat); err != nil {
+		weekStatData, _ := proto.Marshal(weekStat)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-week-stat", weekStat.PeriodStartedAt, weekStatData); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
 			continue
 		}
 	}
 	for _, yearStat := range counter.Years {
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-year-stat", yearStat.PeriodStartedAt, yearStat); err != nil {
+		yearStatData, _ := proto.Marshal(yearStat)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-year-stat", yearStat.PeriodStartedAt, yearStatData); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
 			continue
 		}
 	}
 	for _, decadeStat := range counter.Decades {
-		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-decade-stat", decadeStat.PeriodStartedAt, decadeStat); err != nil {
+		decadeStatData, _ := proto.Marshal(decadeStat)
+		if err := b.fbDataStore.AddFBStat(ctx, accountNumber+"/post-decade-stat", decadeStat.PeriodStartedAt, decadeStatData); err != nil {
 			logEntity.Error(err)
 			sentry.CaptureException(err)
 			continue
@@ -218,8 +169,8 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 	if counter.lastLocation != nil {
 		logEntity.Info("Parsing location")
 		geoCodingData, err := b.geoServiceClient.ReverseGeocode(ctx,
-			counter.lastLocation.Coordinate.Latitude,
-			counter.lastLocation.Coordinate.Longitude)
+			counter.lastLocation.Latitude,
+			counter.lastLocation.Longitude)
 		if err != nil {
 			return err
 		}
@@ -249,21 +200,21 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 }
 
 type postStatisticCounter struct {
-	Weeks   []statisticData
-	Years   []statisticData
-	Decades []statisticData
+	Weeks   []*protomodel.Usage
+	Years   []*protomodel.Usage
+	Decades []*protomodel.Usage
 
-	WeekTypePeriodsMap   map[string]map[string]int
-	YearTypePeriodsMap   map[string]map[string]int
-	DecadeTypePeriodsMap map[string]map[string]int
+	WeekTypePeriodsMap   map[string]map[string]int64
+	YearTypePeriodsMap   map[string]map[string]int64
+	DecadeTypePeriodsMap map[string]map[string]int64
 
-	WeekFriendPeriodsMap   map[string]map[string]int
-	YearFriendPeriodsMap   map[string]map[string]int
-	DecadeFriendPeriodsMap map[string]map[string]int
+	WeekFriendPeriodsMap   map[string]map[string]int64
+	YearFriendPeriodsMap   map[string]map[string]int64
+	DecadeFriendPeriodsMap map[string]map[string]int64
 
-	WeekPlacePeriodsMap   map[string]map[string]int
-	YearPlacePeriodsMap   map[string]map[string]int
-	DecadePlacePeriodsMap map[string]map[string]int
+	WeekPlacePeriodsMap   map[string]map[string]int64
+	YearPlacePeriodsMap   map[string]map[string]int64
+	DecadePlacePeriodsMap map[string]map[string]int64
 
 	// LastPostTimestamp a flag to check duplicated item
 	LastPostTimestamp int64
@@ -279,20 +230,20 @@ type postStatisticCounter struct {
 	lastDecade int64
 
 	// to count the type overral of a week, year or decade
-	currentWeekTypeMap   map[string]int
-	currentYearTypeMap   map[string]int
-	currentDecadeTypeMap map[string]int
+	currentWeekTypeMap   map[string]int64
+	currentYearTypeMap   map[string]int64
+	currentDecadeTypeMap map[string]int64
 
 	// to cache the total post of last period
-	lastTotalPostOfWeek   int
-	lastTotalPostOfYear   int
-	lastTotalPostOfDecade int
+	lastTotalPostOfWeek   int64
+	lastTotalPostOfYear   int64
+	lastTotalPostOfDecade int64
 
-	lastLocation          *locationData
+	lastLocation          *protomodel.Coordinate
 	earliestPostTimestamp int64
 }
 
-func plusOneValue(m *map[string]int, key string) {
+func plusOneValue(m *map[string]int64, key string) {
 	if v, ok := (*m)[key]; ok {
 		(*m)[key] = v + 1
 	} else {
@@ -300,7 +251,7 @@ func plusOneValue(m *map[string]int, key string) {
 	}
 }
 
-func addOneToArray(m *map[string]int, key string) {
+func addOneToArray(m *map[string]int64, key string) {
 	if v, ok := (*m)[key]; ok {
 		(*m)[key] = v + 1
 	} else {
@@ -308,37 +259,37 @@ func addOneToArray(m *map[string]int, key string) {
 	}
 }
 
-func getMap(m map[string]map[string]int, key string) *map[string]int {
+func getMap(m map[string]map[string]int64, key string) *map[string]int64 {
 	if v, ok := m[key]; ok {
 		return &v
 	}
 
-	v := make(map[string]int)
+	v := make(map[string]int64)
 	m[key] = v
 	return &v
 }
 
 func newPostStatisticCounter() *postStatisticCounter {
 	return &postStatisticCounter{
-		WeekTypePeriodsMap:   make(map[string]map[string]int),
-		YearTypePeriodsMap:   make(map[string]map[string]int),
-		DecadeTypePeriodsMap: make(map[string]map[string]int),
+		WeekTypePeriodsMap:   make(map[string]map[string]int64),
+		YearTypePeriodsMap:   make(map[string]map[string]int64),
+		DecadeTypePeriodsMap: make(map[string]map[string]int64),
 
-		WeekFriendPeriodsMap:   make(map[string]map[string]int),
-		YearFriendPeriodsMap:   make(map[string]map[string]int),
-		DecadeFriendPeriodsMap: make(map[string]map[string]int),
+		WeekFriendPeriodsMap:   make(map[string]map[string]int64),
+		YearFriendPeriodsMap:   make(map[string]map[string]int64),
+		DecadeFriendPeriodsMap: make(map[string]map[string]int64),
 
-		WeekPlacePeriodsMap:   make(map[string]map[string]int),
-		YearPlacePeriodsMap:   make(map[string]map[string]int),
-		DecadePlacePeriodsMap: make(map[string]map[string]int),
+		WeekPlacePeriodsMap:   make(map[string]map[string]int64),
+		YearPlacePeriodsMap:   make(map[string]map[string]int64),
+		DecadePlacePeriodsMap: make(map[string]map[string]int64),
 
-		currentWeekTypeMap:   make(map[string]int),
-		currentYearTypeMap:   make(map[string]int),
-		currentDecadeTypeMap: make(map[string]int),
+		currentWeekTypeMap:   make(map[string]int64),
+		currentYearTypeMap:   make(map[string]int64),
+		currentDecadeTypeMap: make(map[string]int64),
 
-		Weeks:   make([]statisticData, 0),
-		Years:   make([]statisticData, 0),
-		Decades: make([]statisticData, 0),
+		Weeks:   make([]*protomodel.Usage, 0),
+		Years:   make([]*protomodel.Usage, 0),
+		Decades: make([]*protomodel.Usage, 0),
 
 		lastLocation:          nil,
 		LastPostTimestamp:     time.Now().Unix(),
@@ -348,34 +299,34 @@ func newPostStatisticCounter() *postStatisticCounter {
 
 func (sc *postStatisticCounter) flushWeekData() {
 	// Sub periods
-	subPeriods := make([]periodData, 0)
+	subPeriods := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.WeekTypePeriodsMap {
-		subPeriods = append(subPeriods, periodData{
+		subPeriods = append(subPeriods, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Friends
-	friends := make([]periodData, 0)
+	friends := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.WeekFriendPeriodsMap {
-		friends = append(friends, periodData{
+		friends = append(friends, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Places
-	places := make([]periodData, 0)
+	places := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.WeekPlacePeriodsMap {
-		places = append(places, periodData{
+		places = append(places, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Calculate the current total
-	currentTotal := 0
+	var currentTotal int64 = 0
 	for _, count := range sc.currentWeekTypeMap {
 		currentTotal += count
 	}
@@ -387,19 +338,14 @@ func (sc *postStatisticCounter) flushWeekData() {
 	}
 	sc.lastTotalPostOfWeek = currentTotal
 
-	weekStatisticData := statisticData{
+	weekStatisticData := &protomodel.Usage{
 		SectionName:      "post",
 		Period:           "week",
 		Quantity:         currentTotal,
 		PeriodStartedAt:  sc.currentWeek,
 		DiffFromPrevious: difference,
-		Groups: struct {
-			Type      periodData   `json:"type"`
-			SubPeriod []periodData `json:"sub_period"`
-			Friend    []periodData `json:"friend"`
-			Place     []periodData `json:"place"`
-		}{
-			Type: periodData{
+		Groups: &protomodel.Group{
+			Type: &protomodel.PeriodData{
 				Data: sc.currentWeekTypeMap,
 			},
 			SubPeriod: subPeriods,
@@ -411,13 +357,13 @@ func (sc *postStatisticCounter) flushWeekData() {
 	sc.Weeks = append(sc.Weeks, weekStatisticData)
 
 	// Clean obsolete data
-	sc.WeekTypePeriodsMap = make(map[string]map[string]int)
-	sc.WeekFriendPeriodsMap = make(map[string]map[string]int)
-	sc.WeekPlacePeriodsMap = make(map[string]map[string]int)
-	sc.currentWeekTypeMap = make(map[string]int)
+	sc.WeekTypePeriodsMap = make(map[string]map[string]int64)
+	sc.WeekFriendPeriodsMap = make(map[string]map[string]int64)
+	sc.WeekPlacePeriodsMap = make(map[string]map[string]int64)
+	sc.currentWeekTypeMap = make(map[string]int64)
 }
 
-func (sc *postStatisticCounter) countWeek(r *postData) {
+func (sc *postStatisticCounter) countWeek(r *protomodel.Post) {
 	// Skip duplicated items
 	if sc.LastPostTimestamp == r.Timestamp {
 		return
@@ -448,7 +394,7 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 		plusOneValue(weekPlaceMap, r.Type)
 	}
 
-	for _, f := range r.Tags {
+	for _, f := range r.Tag {
 		weekFriendMap := getMap(sc.WeekFriendPeriodsMap, f.Name)
 		plusOneValue(weekFriendMap, r.Type)
 	}
@@ -456,34 +402,34 @@ func (sc *postStatisticCounter) countWeek(r *postData) {
 
 func (sc *postStatisticCounter) flushYearData() {
 	// Sub periods
-	subPeriods := make([]periodData, 0)
+	subPeriods := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.YearTypePeriodsMap {
-		subPeriods = append(subPeriods, periodData{
+		subPeriods = append(subPeriods, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Friends
-	friends := make([]periodData, 0)
+	friends := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.YearFriendPeriodsMap {
-		friends = append(friends, periodData{
+		friends = append(friends, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Places
-	places := make([]periodData, 0)
+	places := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.YearPlacePeriodsMap {
-		places = append(places, periodData{
+		places = append(places, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Count the difference with last period
-	currentTotal := 0
+	var currentTotal int64 = 0
 	for _, count := range sc.currentYearTypeMap {
 		currentTotal += count
 	}
@@ -495,19 +441,14 @@ func (sc *postStatisticCounter) flushYearData() {
 	}
 	sc.lastTotalPostOfYear = currentTotal
 
-	yearStatisticData := statisticData{
+	yearStatisticData := &protomodel.Usage{
 		SectionName:      "post",
 		Period:           "year",
 		Quantity:         currentTotal,
 		PeriodStartedAt:  sc.currentYear,
 		DiffFromPrevious: difference,
-		Groups: struct {
-			Type      periodData   `json:"type"`
-			SubPeriod []periodData `json:"sub_period"`
-			Friend    []periodData `json:"friend"`
-			Place     []periodData `json:"place"`
-		}{
-			Type: periodData{
+		Groups: &protomodel.Group{
+			Type: &protomodel.PeriodData{
 				Data: sc.currentYearTypeMap,
 			},
 			SubPeriod: subPeriods,
@@ -519,13 +460,13 @@ func (sc *postStatisticCounter) flushYearData() {
 	sc.Years = append(sc.Years, yearStatisticData)
 
 	// Clean obsolete data
-	sc.YearTypePeriodsMap = make(map[string]map[string]int)
-	sc.YearFriendPeriodsMap = make(map[string]map[string]int)
-	sc.YearPlacePeriodsMap = make(map[string]map[string]int)
-	sc.currentYearTypeMap = make(map[string]int)
+	sc.YearTypePeriodsMap = make(map[string]map[string]int64)
+	sc.YearFriendPeriodsMap = make(map[string]map[string]int64)
+	sc.YearPlacePeriodsMap = make(map[string]map[string]int64)
+	sc.currentYearTypeMap = make(map[string]int64)
 }
 
-func (sc *postStatisticCounter) countYear(r *postData) {
+func (sc *postStatisticCounter) countYear(r *protomodel.Post) {
 	// Skip duplicated items
 	if sc.LastPostTimestamp == r.Timestamp {
 		return
@@ -556,7 +497,7 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 		plusOneValue(yearPlaceMap, r.Type)
 	}
 
-	for _, f := range r.Tags {
+	for _, f := range r.Tag {
 		yearFriendMap := getMap(sc.YearFriendPeriodsMap, f.Name)
 		plusOneValue(yearFriendMap, r.Type)
 	}
@@ -564,34 +505,34 @@ func (sc *postStatisticCounter) countYear(r *postData) {
 
 func (sc *postStatisticCounter) flushDecadeData() {
 	// Sub periods
-	subPeriods := make([]periodData, 0)
+	subPeriods := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.DecadeTypePeriodsMap {
-		subPeriods = append(subPeriods, periodData{
+		subPeriods = append(subPeriods, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Friends
-	friends := make([]periodData, 0)
+	friends := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.DecadeFriendPeriodsMap {
-		friends = append(friends, periodData{
+		friends = append(friends, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Places
-	places := make([]periodData, 0)
+	places := make([]*protomodel.PeriodData, 0)
 	for name, dayData := range sc.DecadePlacePeriodsMap {
-		places = append(places, periodData{
+		places = append(places, &protomodel.PeriodData{
 			Name: name,
 			Data: dayData,
 		})
 	}
 
 	// Count the difference with last period
-	currentTotal := 0
+	var currentTotal int64 = 0
 	for _, count := range sc.currentDecadeTypeMap {
 		currentTotal += count
 	}
@@ -603,19 +544,14 @@ func (sc *postStatisticCounter) flushDecadeData() {
 	}
 	sc.lastTotalPostOfDecade = currentTotal
 
-	decadeStatisticData := statisticData{
+	decadeStatisticData := &protomodel.Usage{
 		SectionName:      "post",
 		Period:           "decade",
 		Quantity:         currentTotal,
 		PeriodStartedAt:  sc.currentDecade,
 		DiffFromPrevious: difference,
-		Groups: struct {
-			Type      periodData   `json:"type"`
-			SubPeriod []periodData `json:"sub_period"`
-			Friend    []periodData `json:"friend"`
-			Place     []periodData `json:"place"`
-		}{
-			Type: periodData{
+		Groups: &protomodel.Group{
+			Type: &protomodel.PeriodData{
 				Data: sc.currentDecadeTypeMap,
 			},
 			SubPeriod: subPeriods,
@@ -627,13 +563,13 @@ func (sc *postStatisticCounter) flushDecadeData() {
 	sc.Decades = append(sc.Decades, decadeStatisticData)
 
 	// Clean obsolete data
-	sc.DecadeTypePeriodsMap = make(map[string]map[string]int)
-	sc.DecadeFriendPeriodsMap = make(map[string]map[string]int)
-	sc.DecadePlacePeriodsMap = make(map[string]map[string]int)
-	sc.currentDecadeTypeMap = make(map[string]int)
+	sc.DecadeTypePeriodsMap = make(map[string]map[string]int64)
+	sc.DecadeFriendPeriodsMap = make(map[string]map[string]int64)
+	sc.DecadePlacePeriodsMap = make(map[string]map[string]int64)
+	sc.currentDecadeTypeMap = make(map[string]int64)
 }
 
-func (sc *postStatisticCounter) countDecade(r *postData) {
+func (sc *postStatisticCounter) countDecade(r *protomodel.Post) {
 	// Skip duplicated items
 	if sc.LastPostTimestamp == r.Timestamp {
 		return
@@ -664,7 +600,7 @@ func (sc *postStatisticCounter) countDecade(r *postData) {
 		plusOneValue(decadePlaceMap, r.Type)
 	}
 
-	for _, f := range r.Tags {
+	for _, f := range r.Tag {
 		decadeFriendMap := getMap(sc.DecadeFriendPeriodsMap, f.Name)
 		plusOneValue(decadeFriendMap, r.Type)
 	}

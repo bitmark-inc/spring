@@ -21,7 +21,7 @@ func (s *Server) accountRegister(c *gin.Context) {
 	}
 
 	if account != nil {
-		c.AbortWithStatusJSON(http.StatusForbidden, errorAccountTaken)
+		abortWithEncoding(c, http.StatusForbidden, errorAccountTaken)
 		return
 	}
 
@@ -31,14 +31,14 @@ func (s *Server) accountRegister(c *gin.Context) {
 
 	if err := c.BindJSON(&params); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
 	// Register data owner
 	if err := s.bitSocialClient.NewDataOwner(c, accountNumber); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadGateway, errorInternalServer)
+		abortWithEncoding(c, http.StatusBadGateway, errorInternalServer)
 		return
 	}
 
@@ -46,7 +46,7 @@ func (s *Server) accountRegister(c *gin.Context) {
 	encPubKey, err := hex.DecodeString(params.EncPubKey)
 	if err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
@@ -68,7 +68,7 @@ func (s *Server) accountDetail(c *gin.Context) {
 	}
 
 	if account == nil {
-		c.AbortWithStatusJSON(http.StatusUnauthorized, errorAccountNotFound)
+		abortWithEncoding(c, http.StatusUnauthorized, errorAccountNotFound)
 		return
 	}
 
@@ -93,7 +93,7 @@ func (s *Server) accountUpdateMetadata(c *gin.Context) {
 
 	if err := c.BindJSON(&params); err != nil {
 		log.Debug(err)
-		c.AbortWithStatusJSON(http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 

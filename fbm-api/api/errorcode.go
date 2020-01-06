@@ -1,9 +1,11 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/bitmark-inc/fbm-apps/fbm-api/protomodel"
+)
 
 var (
-	errorMessageMap = map[int]string{
+	errorMessageMap = map[int32]string{
 		999:  "internal server error",
 		1000: "invalid signature",
 		1001: "invalid authorization format",
@@ -27,7 +29,7 @@ var (
 )
 
 // errorJSON converts an error code to a standardized error object
-func errorJSON(code int) gin.H {
+func errorJSON(code int32) *protomodel.ErrorResponse {
 	var message string
 	if msg, ok := errorMessageMap[code]; ok {
 		message = msg
@@ -35,10 +37,10 @@ func errorJSON(code int) gin.H {
 		message = "unknown"
 	}
 
-	return gin.H{
-		"error": gin.H{
-			"code":    code,
-			"message": message,
+	return &protomodel.ErrorResponse{
+		Error: &protomodel.Error{
+			Code:    code,
+			Message: message,
 		},
 	}
 }

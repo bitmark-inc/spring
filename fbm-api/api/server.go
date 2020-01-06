@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/gogo/protobuf/proto"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -116,8 +117,8 @@ func (s *Server) Run(addr string) error {
 
 	apiRoute := r.Group("/api")
 	apiRoute.Use(logmodule.Ginrus("API"))
-	apiRoute.Use(s.clientVersionGateway())
 	apiRoute.GET("/information", s.information)
+	apiRoute.Use(s.clientVersionGateway())
 
 	apiRoute.POST("/auth", s.requestJWT)
 
@@ -256,7 +257,7 @@ func shouldInterupt(err error, c *gin.Context) bool {
 	}
 
 	c.Error(err)
-	c.AbortWithStatusJSON(http.StatusInternalServerError, errorInternalServer)
+	abortWithEncoding(c, http.StatusInternalServerError, errorInternalServer)
 
 	return true
 }
@@ -294,4 +295,20 @@ func (s *Server) information(c *gin.Context) {
 			"ios":     viper.GetStringMap("clients.ios"),
 		},
 	})
+}
+
+func responseWithEncoding(c *gin.Context, code int, obj proto.Message) {
+	acceptEncoding := c.GetHeader("Accept-Encoding")
+
+	switch acceptEncoding {
+	case "application/x-protobuf":
+		c.ProtoBuf(code, obj)
+	default:
+		c.JSON(code, obj)
+	}
+}
+
+func abortWithEncoding(c *gin.Context, code int, obj proto.Message) {
+	responseWithEncoding(c, code, obj)
+	c.Abort()
 }

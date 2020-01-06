@@ -81,14 +81,14 @@ var (
 // FBDataStore an interface for storing fb archive data
 type FBDataStore interface {
 	// AddFBStat to add a FB stat
-	AddFBStat(ctx context.Context, key string, timestamp int64, value interface{}) error
+	AddFBStat(ctx context.Context, key string, timestamp int64, value []byte) error
 
 	// AddFBStat to add multiple FB
-	AddFBStats(ctx context.Context, stats []FBStat) error
+	AddFBStats(ctx context.Context, data []FbData) error
 
 	// GetFBStat to get a FB stat
-	GetFBStat(ctx context.Context, key string, from, to int64) ([]interface{}, error)
+	GetFBStat(ctx context.Context, key string, from, to, limit int64) ([][]byte, error)
 
 	// GetExactFBStat to get a FB stat exactly in timestamp
-	GetExactFBStat(ctx context.Context, key string, in int64) (interface{}, error)
+	GetExactFBStat(ctx context.Context, key string, in int64) ([]byte, error)
 }

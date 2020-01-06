@@ -5,8 +5,10 @@ import (
 	"errors"
 	"math"
 
+	"github.com/bitmark-inc/fbm-apps/fbm-api/protomodel"
 	"github.com/getsentry/sentry-go"
 	"github.com/gocraft/work"
+	"github.com/golang/protobuf/proto"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -104,14 +106,9 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 }
 
 type sentimentStat struct {
-	SectionName      string    `json:"section_name"`
-	Period           string    `json:"period"`
-	Quantity         int       `json:"quantity"`
-	Value            float64   `json:"value"`
-	PeriodStartedAt  int64     `json:"period_started_at"`
-	DiffFromPrevious float64   `json:"diff_from_previous"`
-	SubPeriodValues  []float64 `json:"-"`
-	IsSaved          bool      `json:"-"`
+	Insight         *protomodel.Insight
+	SubPeriodValues []float64
+	IsSaved         bool
 }
 
 type sentimentStatCounter struct {
@@ -164,15 +161,16 @@ func (s *sentimentStatCounter) flush() error {
 
 func (s *sentimentStatCounter) flushStat(period string, currentStat *sentimentStat, lastStat *sentimentStat) error {
 	if currentStat != nil && !currentStat.IsSaved {
-		currentStat.Value = s.averageSentiment(currentStat.SubPeriodValues)
+		currentStat.Insight.Value = s.averageSentiment(currentStat.SubPeriodValues)
 
 		lastSentiment := 0.0
 		if lastStat != nil {
-			lastSentiment = lastStat.Value
+			lastSentiment = lastStat.Insight.Value
 		}
-		currentStat.DiffFromPrevious = getDiff(currentStat.Value, lastSentiment)
+		currentStat.Insight.DiffFromPrevious = getDiff(currentStat.Insight.Value, lastSentiment)
 
-		if err := s.saver.save(s.accountNumber+"/sentiment-"+period+"-stat", currentStat.PeriodStartedAt, currentStat); err != nil {
+		statData, _ := proto.Marshal(currentStat.Insight)
+		if err := s.saver.save(s.accountNumber+"/sentiment-"+period+"-stat", currentStat.Insight.PeriodStartedAt, statData); err != nil {
 			return err
 		}
 		currentStat.IsSaved = true
@@ -191,9 +189,11 @@ func (s *sentimentStatCounter) averageSentiment(sentiments []float64) float64 {
 
 func (s *sentimentStatCounter) createEmptyStat(period string, timestamp int64) *sentimentStat {
 	return &sentimentStat{
-		SectionName:     "sentiment",
-		Period:          period,
-		PeriodStartedAt: absPeriod(period, timestamp),
+		Insight: &protomodel.Insight{
+			SectionName:     "sentiment",
+			Period:          period,
+			PeriodStartedAt: absPeriod(period, timestamp),
+		},
 		IsSaved:         false,
 		SubPeriodValues: make([]float64, 0),
 	}
@@ -203,7 +203,7 @@ func (s *sentimentStatCounter) countWeek(timestamp int64, sentimentValue float64
 	periodTimestamp := absWeek(timestamp)
 
 	// flush the current period to give space for next period
-	if s.currentWeekStat != nil && s.currentWeekStat.PeriodStartedAt != periodTimestamp {
+	if s.currentWeekStat != nil && s.currentWeekStat.Insight.PeriodStartedAt != periodTimestamp {
 		if err := s.flushStat("week", s.currentWeekStat, s.lastWeekStat); err != nil {
 			return err
 		}
@@ -224,7 +224,7 @@ func (s *sentimentStatCounter) countYear(timestamp int64, sentimentValue float64
 	periodTimestamp := absYear(timestamp)
 
 	// flush the current period to give space for next period
-	if s.currentYearStat != nil && s.currentYearStat.PeriodStartedAt != periodTimestamp {
+	if s.currentYearStat != nil && s.currentYearStat.Insight.PeriodStartedAt != periodTimestamp {
 		if err := s.flushStat("year", s.currentYearStat, s.lastYearStat); err != nil {
 			return err
 		}
@@ -245,7 +245,7 @@ func (s *sentimentStatCounter) countDecade(timestamp int64, sentimentValue float
 	periodTimestamp := absDecade(timestamp)
 
 	// New decade, let's save current decade before continuing to aggregate
-	if s.currentDecadeStat != nil && s.currentDecadeStat.PeriodStartedAt != periodTimestamp {
+	if s.currentDecadeStat != nil && s.currentDecadeStat.Insight.PeriodStartedAt != periodTimestamp {
 		if err := s.flushStat("decade", s.currentDecadeStat, s.lastDecadeStat); err != nil {
 			return err
 		}
