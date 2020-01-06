@@ -56,7 +56,10 @@ class PostDataEngine {
                         }
                         triggerSubject.onNext(.remoteLoaded)
                     }, onError: { (error) in
-                        guard !AppError.errorByNetworkConnection(error) else { return }
+                        guard !AppError.errorByNetworkConnection(error) else {
+                            loadingState.onNext(.hide)
+                            return
+                        }
                         Global.log.error(error)
                     })
             }, onError: { (error) in

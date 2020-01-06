@@ -25,13 +25,22 @@ class SignInViewModel: ConfirmRecoveryKeyViewModel {
         loadingState.onNext(.loading)
         AccountService.rx.getAccount(phrases: recoveryKeyRelay.value)
             .do(onSuccess: { [weak self] in self?.accountRelay.accept($0) })
-            .do(onSuccess: { Global.current.account = $0 })
             .flatMap({ [weak self] (account) -> Single<FbmAccount> in
-                self?.accountRelay.accept(account)
                 Global.current.account = account
+                self?.accountRelay.accept(account)
                 return FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
             })
             .flatMap { _ in FbmAccountService.fetchOverallArchiveStatus() }
+            .do(onSuccess: { (archiveStatus) in
+                Global.current.userDefault?.latestArchiveStatus = archiveStatus?.rawValue
+            })
+            .catchError({ (error) -> Single<ArchiveStatus?> in
+                if AppError.errorByNetworkConnection(error) {
+                    return Single.just(ArchiveStatus(rawValue: Global.current.userDefault?.latestArchiveStatus ?? ""))
+                } else {
+                    return Single.error(error)
+                }
+            })
             .asObservable()
             .materialize().bind { [weak self] in
                 loadingState.onNext(.hide)

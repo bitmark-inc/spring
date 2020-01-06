@@ -30,7 +30,7 @@ extension Reactive where Base: FbmAccountDataEngine {
                 }
 
                 let realm = try RealmConfig.currentRealm()
-                if let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) {
+                if let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) ?? realm.objects(FbmAccount.self).first { // TODO-NOTE: temporary fake-data
                     event(.success(fbmAccount))
                 } else {
                     _ = FbmAccountService.getMe()

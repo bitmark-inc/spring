@@ -36,9 +36,11 @@ class GetYourDataViewController: ViewController, BackNavigator {
             .disposed(by: disposeBag)
 
         automateAuthorizeButton.rx.tap.bind { [weak self] in
-            guard let self = self else { return }
-            viewModel.saveFBCredentialToKeychain()
-            self.gotoRequestData()
+            _ = connectedToInternet()
+                .subscribe(onCompleted: { [weak self] in
+                    viewModel.saveFBCredentialToKeychain()
+                    self?.gotoRequestData()
+                })
         }.disposed(by: disposeBag)
 
         viewModel.loginRelay.accept(loginTextField.text!)

@@ -28,7 +28,9 @@ class AppVersion {
                         event(.completed)
                     }
                 }, onError: { (error) in
-                    event(.error(error))
+                    AppError.errorByNetworkConnection(error) ?
+                        event(.completed) : // works as offline mode
+                        event(.error(error))
                 })
 
             return Disposables.create()

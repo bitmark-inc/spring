@@ -41,7 +41,9 @@ class InsightViewModel: ViewModel {
 
             _ = InsightDataEngine.rx.fetchAndSyncInsight(timeUnit: timeUnit, startDate: date)
                 .catchError({ (error) -> Single<[Section: Insight?]> in
-                    Global.log.error(error)
+                    if !AppError.errorByNetworkConnection(error) {
+                        Global.log.error(error)
+                    }
                     return Single.just([:])
                 })
                 .asObservable()

@@ -15,7 +15,7 @@ let globalStatusBarStyle = BehaviorRelay<UIStatusBarStyle>(value: .default)
 var themeService = ThemeType.currentThemeService(for: .unspecified)
 
 struct OurTheme {
-    static let paddingInset = UIEdgeInsets(top: 0, left: Size.dw(18), bottom: 0, right: Size.dw(18))
+    static let paddingInset = UIEdgeInsets(top: 4, left: Size.dw(18), bottom: 0, right: Size.dw(18))
     static let scrollingPaddingInset = UIEdgeInsets(top: 0, left: Size.dw(18), bottom: Size.dh(150), right: Size.dw(18))
     static let paddingBottom: CGFloat = Size.dh(45)
     static let onboardingPaddingScreenTitle: CGFloat = Size.dh(28)

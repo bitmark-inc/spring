@@ -21,33 +21,7 @@ class LaunchingViewController: ViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        guard let viewModel = viewModel as? LaunchingViewModel else { return }
-
-        if !viewModel.checkedVersion {
-            AppVersion.checkAppVersion()
-            .subscribe(onCompleted: { [weak self] in
-                self?.navigate()
-            }, onError: { [weak self] (error) in
-                guard let self = self else { return }
-                if let error = error as? AppError {
-                    switch error {
-                    case .requireAppUpdate(let updateURL):
-                        AppVersion.showAppRequireUpdateAlert(updateURL: updateURL)
-                        return
-                    case .noInternetConnection:
-                        return
-                    default:
-                        break
-                    }
-                }
-
-                Global.log.error(error)
-                self.showErrorAlertWithSupport(message: R.string.error.system())
-            })
-            .disposed(by: disposeBag)
-        } else {
-            navigate()
-        }
+        navigate()
     }
 
     fileprivate func navigate() {
@@ -115,23 +89,33 @@ class LaunchingViewController: ViewController {
         FbmAccountService.fetchOverallArchiveStatus()
             .subscribe(onSuccess: { [weak self] (archiveStatus) in
                 guard let self = self else { return }
+                Global.current.userDefault?.latestArchiveStatus = archiveStatus?.rawValue
+                self.navigateWithArchiveStatus(archiveStatus)
 
-                if let archiveStatus = archiveStatus {
-                    switch archiveStatus {
-                    case .processed:
-                        self.gotoMainScreen()
-                    default:
-                        self.gotoDataAnalyzingScreen()
-                    }
-                } else {
-                    self.gotoSignInWallScreen()
+            }, onError: { [weak self] (error) in
+                guard let self = self else { return }
+                if AppError.errorByNetworkConnection(error) {
+                    let archiveStatus = ArchiveStatus(rawValue: Global.current.userDefault?.latestArchiveStatus ?? "")
+                    self.navigateWithArchiveStatus(archiveStatus)
+                    return
                 }
-            }, onError: { (error) in
-                guard !AppError.errorByNetworkConnection(error) else { return }
                 Global.log.error(error)
                 self.showErrorAlertWithSupport(message: R.string.error.system())
             })
             .disposed(by: disposeBag)
+    }
+
+    fileprivate func navigateWithArchiveStatus(_ archiveStatus: ArchiveStatus?) {
+        if let archiveStatus = archiveStatus {
+            switch archiveStatus {
+            case .processed:
+                gotoMainScreen()
+            default:
+                gotoDataAnalyzingScreen()
+            }
+        } else {
+            gotoSignInWallScreen()
+        }
     }
 
     override func setupViews() {

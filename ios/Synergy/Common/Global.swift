@@ -17,6 +17,11 @@ class Global {
 
     var account: Account?
     var currency: Currency?
+    lazy var userDefault: UserDefaults? = {
+        guard let accountNumber = account?.getAccountNumber()
+            else { return nil }
+        return UserDefaults.userStandard(for: accountNumber)
+    }()
     var didUserTapNotification: Bool = false
 
     lazy var decoder: JSONDecoder = {
@@ -72,6 +77,7 @@ class Global {
 enum AppError: Error {
     case emptyLocal
     case emptyCurrentAccount
+    case emptyUserDefaults
     case emptyJWT
     case emptyFBArchiveCreatedAtInUserDefaults
     case emptyCredentialKeychain
@@ -106,6 +112,10 @@ enum AccountError: Error {
 }
 
 extension UserDefaults {
+    static func userStandard(for number: String) -> UserDefaults? {
+        return UserDefaults(suiteName: number)
+    }
+
     var FBArchiveCreatedAt: Date? {
         get { return date(forKey: #function) }
         set { set(newValue, forKey: #function) }
@@ -113,11 +123,6 @@ extension UserDefaults {
 
     var enteredBackgroundTime: Date? {
         get { return date(forKey: #function) }
-        set { set(newValue, forKey: #function) }
-    }
-    
-    var enablePushNotification: Bool {
-        get { return bool(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
 
@@ -130,6 +135,17 @@ extension UserDefaults {
     var accountNumber: String? {
         get { return string(forKey: "accountNumber_preference") }
         set { set(newValue, forKey: "accountNumber_preference") }
+    }
+
+    var enablePushNotification: Bool {
+        get { return bool(forKey: #function) }
+        set { set(newValue, forKey: #function) }
+    }
+
+    // Per Account
+    var latestArchiveStatus: String? {
+        get { return string(forKey: #function) }
+        set { set(newValue, forKey: #function) }
     }
 
     var isAccountSecured: Bool {

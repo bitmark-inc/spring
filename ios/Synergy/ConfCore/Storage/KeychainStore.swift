@@ -38,7 +38,7 @@ class KeychainStore {
         } else {
             try keychain.set(seedCore, key: accountCoreKey)
         }
-        UserDefaults.standard.isAccountSecured = isSecured
+        Global.current.userDefault?.isAccountSecured = isSecured
     }
 
     static func removeSeedCoreFromKeychain() throws {

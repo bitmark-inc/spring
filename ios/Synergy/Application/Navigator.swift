@@ -232,8 +232,11 @@ class Navigator {
     }
 
     static func getWindow() -> UIWindow? {
-        return UIApplication.shared.windows
+        let window = UIApplication.shared.windows
             .filter { ($0.rootViewController as? NavigationController) != nil }
             .first
+
+        window?.makeKeyAndVisible()
+        return window
     }
 }

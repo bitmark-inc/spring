@@ -24,7 +24,7 @@ class BiometricAuthViewController: ViewController, BackNavigator {
     override func bindViewModel() {
         super.bindViewModel()
 
-        enableSwitch.isOn = UserDefaults.standard.isAccountSecured
+        enableSwitch.isOn = Global.current.userDefault?.isAccountSecured ?? false
 
         enableSwitch.rx.isOn
             .skip(1)
