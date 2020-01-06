@@ -13,12 +13,14 @@ import RxSwift
 class KeychainStore {
 
     // MARK: - Properties
-    static private let accountCoreKey = "account_core"
-    private static let encryptedDBKey = "synergy_encrypted_db_key"
-    private static let fbCredentialUsernameKey = "fb_credential_username_key"
-    private static let fbCredentialPasswordKey = "fb_credential_password_key"
+    fileprivate static let accountCoreKey = "account_core"
+    fileprivate static func makeEncryptedDBKey(number: String) -> String {
+        "synergy_encrypted_db_key_\(number)"
+    }
+    fileprivate static let fbCredentialUsernameKey = "fb_credential_username_key"
+    fileprivate static let fbCredentialPasswordKey = "fb_credential_password_key"
 
-    private static let keychain: Keychain = {
+    fileprivate static let keychain: Keychain = {
         return Keychain(service: Bundle.main.bundleIdentifier!)
             .authenticationPrompt(R.string.localizable.yourAuthorizationIsRequired())
     }()
@@ -66,27 +68,31 @@ class KeychainStore {
     }
 
     // *** Encrypted db key ***
-    static func saveEncryptedDBKeyToKeychain(_ encryptedKey: Data) throws {
+    static func saveEncryptedDBKeyToKeychain(_ encryptedKey: Data, for accountNumber: String) throws {
         Global.log.info("save EncryptedDBKey into keychain")
         defer { Global.log.info("finished saving EncryptedDBKey into keychain") }
+
+        let encryptedDBKey = makeEncryptedDBKey(number: accountNumber)
 
         try keychain.accessibility(Accessibility.afterFirstUnlock)
             .set(encryptedKey, key: encryptedDBKey)
     }
 
-    static func getEncryptedDBKeyFromKeychain() -> Data? {
+    static func getEncryptedDBKeyFromKeychain(for accountNumber: String) -> Data? {
         do {
+            let encryptedDBKey = makeEncryptedDBKey(number: accountNumber)
             return try keychain.getData(encryptedDBKey)
         } catch {
             return nil
         }
     }
-
-    static func removeEncryptedDBKeyFromKeychain() throws {
-      Global.log.info("[start] removeEncryptedDBKeyFromKeychain")
-      defer { Global.log.info("[done] removeEncryptedDBKeyFromKeychain") }
-
-      try keychain.remove(encryptedDBKey)
+    
+    static func removeEncryptedDBKeyFromKeychain(for accountNumber: String) throws {
+        Global.log.info("[start] removeEncryptedDBKeyFromKeychain")
+        defer { Global.log.info("[done] removeEncryptedDBKeyFromKeychain") }
+        
+        let encryptedDBKey = makeEncryptedDBKey(number: accountNumber)
+        try keychain.remove(encryptedDBKey)
     }
 
     // *** FB Credential ***

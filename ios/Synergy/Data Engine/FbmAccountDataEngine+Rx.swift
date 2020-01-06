@@ -30,14 +30,14 @@ extension Reactive where Base: FbmAccountDataEngine {
                 }
 
                 let realm = try RealmConfig.currentRealm()
-                if let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) ?? realm.objects(FbmAccount.self).first { // TODO-NOTE: temporary fake-data
+                if let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) {
                     event(.success(fbmAccount))
                 } else {
                     _ = FbmAccountService.getMe()
                         .flatMapCompletable { Storage.store($0) }
                         .observeOn(MainScheduler.instance)
                         .subscribe(onCompleted: {
-                            guard let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) ?? realm.objects(FbmAccount.self).first // TODO-NOTE: temporary fake-data
+                            guard let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number)
                                 else {
                                     Global.log.error(AppError.incorrectEmptyRealmObject)
                                     return

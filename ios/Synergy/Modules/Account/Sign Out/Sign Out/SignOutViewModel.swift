@@ -18,6 +18,10 @@ class SignOutViewModel: ConfirmRecoveryKeyViewModel {
 
     // MARK: - Handlers
     func signOutAccount() {
+        guard let account = Global.current.account else {
+            Global.log.error(AppError.emptyCurrentAccount)
+            return
+        }
         do {
             guard try validRecoveryKey() else {
                 signOutAccountResultSubject.onNext(
@@ -33,7 +37,7 @@ class SignOutViewModel: ConfirmRecoveryKeyViewModel {
 
             do {
                 try FileManager.default.removeItem(at: FileManager.databaseDirectoryURL)
-                try KeychainStore.removeEncryptedDBKeyFromKeychain()
+                try KeychainStore.removeEncryptedDBKeyFromKeychain(for: account.getAccountNumber())
             } catch {
                 Global.log.error(error)
             }

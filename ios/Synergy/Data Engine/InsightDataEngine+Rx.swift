@@ -30,9 +30,10 @@ extension Reactive where Base: InsightDataEngine {
                 let fbIncomeInsightID = SectionScope(date: startDate, timeUnit: timeUnit, section: .fbIncome).makeID()
                 let moodInsightID = SectionScope(date: startDate, timeUnit: timeUnit, section: .mood).makeID()
 
-                if let fbIncomeInsight = realm.object(ofType: Insight.self, forPrimaryKey: fbIncomeInsightID),
-                   let moodInsight = realm.object(ofType: Insight.self, forPrimaryKey: moodInsightID) {
+                let fbIncomeInsight = realm.object(ofType: Insight.self, forPrimaryKey: fbIncomeInsightID)
+                let moodInsight = realm.object(ofType: Insight.self, forPrimaryKey: moodInsightID)
 
+                if fbIncomeInsight != nil || moodInsight != nil {
                     event(.success([
                         .fbIncome: fbIncomeInsight,
                         .mood: moodInsight

@@ -30,9 +30,10 @@ extension Reactive where Base: UsageDataEngine {
                 let postUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .post).makeID()
                 let reactionUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .reaction).makeID()
 
-                if let postUsage = realm.object(ofType: Usage.self, forPrimaryKey: postUsageID),
-                   let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID) {
+                let postUsage = realm.object(ofType: Usage.self, forPrimaryKey: postUsageID)
+                let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID)
 
+                if postUsage != nil || reactionUsage != nil {
                     event(.success([
                         .post: postUsage,
                         .reaction: reactionUsage
@@ -44,7 +45,6 @@ extension Reactive where Base: UsageDataEngine {
                         .subscribe(onError: { (error) in
                             Global.backgroundErrorSubject.onNext(error)
                         })
-
                 } else {
                     _ = UsageService.get(in: timeUnit, startDate: startDate)
                         .flatMapCompletable { Storage.store($0) }

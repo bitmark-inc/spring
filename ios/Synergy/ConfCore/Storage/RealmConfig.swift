@@ -37,14 +37,16 @@ enum RealmConfig {
 
     func configuration() throws -> Realm.Configuration {
         var fileURL: URL!
-        let encryptionKeyData = try getKey()
+        let encryptionKeyData: Data!
 
         switch self {
         case .anonymous:
             fileURL = dbDirectoryURL().appendingPathComponent("data.realm")
+            encryptionKeyData = try getKey()
 
         case .user(let accountNumber):
-            fileURL = dbDirectoryURL().appendingPathComponent("\(accountNumber).realm")
+            fileURL = dbDirectoryURL(for: accountNumber).appendingPathComponent("\(accountNumber).realm")
+            encryptionKeyData = try getKey(for: accountNumber)
         }
 
         return Realm.Configuration(
@@ -54,12 +56,12 @@ enum RealmConfig {
         )
     }
 
-    fileprivate func dbDirectoryURL() -> URL {
+    fileprivate func dbDirectoryURL(for accountNumber: String = "") -> URL {
         Global.log.debug("[start] dbDirectoryURL")
         let dbDirectory = FileManager.databaseDirectoryURL
 
         do {
-            if KeychainStore.getEncryptedDBKeyFromKeychain() == nil && FileManager.default.fileExists(atPath: dbDirectory.path) {
+            if KeychainStore.getEncryptedDBKeyFromKeychain(for: accountNumber) == nil && FileManager.default.fileExists(atPath: dbDirectory.path) {
                 try FileManager.default.removeItem(at: dbDirectory)
             }
 
@@ -76,8 +78,8 @@ enum RealmConfig {
     }
 
     // Reference: https://realm.io/docs/swift/latest/#encryption
-    fileprivate func getKey() throws -> Data {
-        guard let encryptedDBKey = KeychainStore.getEncryptedDBKeyFromKeychain() else {
+    fileprivate func getKey(for accountNumber: String = "") throws -> Data {
+        guard let encryptedDBKey = KeychainStore.getEncryptedDBKeyFromKeychain(for: accountNumber) else {
             #if targetEnvironment(simulator)
             let key = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ012345678901".data(using: .utf8)!
             #else
@@ -88,7 +90,7 @@ enum RealmConfig {
             })
             #endif
 
-            try KeychainStore.saveEncryptedDBKeyToKeychain(key)
+            try KeychainStore.saveEncryptedDBKeyToKeychain(key, for: accountNumber)
             return key
         }
 
