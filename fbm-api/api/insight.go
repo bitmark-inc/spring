@@ -2,7 +2,6 @@ package api
 
 import (
 	"fmt"
-	"math/rand"
 	"net/http"
 	"strconv"
 
@@ -11,50 +10,46 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func (s *Server) getSentiment(accountNumber, period string, timestamp int64) int {
-	return rand.Intn(9) + 1
-}
-
-func getPreviousPeriodStartingPoint(period string, currentTimestamp int64) int64 {
+func getPreviousPeriodStartingPoint(period string, currentPeriodTimestamp int64) int64 {
 	switch period {
 	case "week":
-		return currentTimestamp - 7*24*60*60
+		return currentPeriodTimestamp - 7*24*60*60
 	case "year":
-		return currentTimestamp - 365*24*60*60
+		return currentPeriodTimestamp - 365*24*60*60
 	case "decade":
-		return currentTimestamp - 10*365*24*60*60
+		return currentPeriodTimestamp - 10*365*24*60*60
+	}
+	return 0
+}
+
+func getNextPeriodStartingPoint(period string, currentPeriodTimestamp int64) int64 {
+	switch period {
+	case "week":
+		return currentPeriodTimestamp + 7*24*60*60
+	case "year":
+		return currentPeriodTimestamp + 365*24*60*60
+	case "decade":
+		return currentPeriodTimestamp + 10*365*24*60*60
 	}
 	return 0
 }
 
 func getTotalFBIncomeForDataPeriod(period string, from int64, lookupRange []fbIncomePeriod) float64 {
-	totalQuarter := 1
-	switch period {
-	case "week":
-		totalQuarter = 1
-	case "year":
-		totalQuarter = 4
-	case "decade":
-		totalQuarter = 40
-	}
+
+	// "to" variable is to set the upper threshold for the period that is longer than quarter
+	to := getNextPeriodStartingPoint(period, from) - 1
 
 	amount := 0.0
-	quarterCounter := 0
 
 	for _, v := range lookupRange {
 		if period == "week" && from >= v.StartedAt {
 			amount = v.QuarterAmount / 13
-			quarterCounter++
-		} else if period == "year" && from <= v.StartedAt {
+			break // for period shorter than quarter, we break right away
+		} else if period == "year" && from <= v.StartedAt && to > v.StartedAt {
+			log.Debug("Amount: ", v.QuarterAmount)
 			amount += v.QuarterAmount
-			quarterCounter++
-		} else if period == "decade" && from <= v.StartedAt {
+		} else if period == "decade" && from <= v.StartedAt && to > v.StartedAt {
 			amount += v.QuarterAmount
-			quarterCounter++
-		}
-
-		if quarterCounter >= totalQuarter {
-			break
 		}
 	}
 
@@ -63,7 +58,7 @@ func getTotalFBIncomeForDataPeriod(period string, from int64, lookupRange []fbIn
 
 func (s *Server) getFBIncomeFromData(account *store.Account, period string, timestamp int64) float64 {
 	countryCode := ""
-	if c, ok := account.Metadata["original_country"].(string); ok {
+	if c, ok := account.Metadata["original_location"].(string); ok {
 		countryCode = c
 	}
 
@@ -105,7 +100,7 @@ type InsightSection struct {
 }
 
 func (s *Server) getInsight(c *gin.Context) {
-	accountNumber := c.GetString("requester")
+	// accountNumber := c.GetString("requester")
 	account := c.MustGet("account").(*store.Account)
 
 	period := c.Param("period")
@@ -125,22 +120,25 @@ func (s *Server) getInsight(c *gin.Context) {
 
 	// fb income for data
 	currentPeriodFBIncome := s.getFBIncomeFromData(account, period, startedAt)
-	previousPeriodFBIncome := s.getFBIncomeFromData(account, period, getPreviousPeriodStartingPoint(period, startedAt))
-	var diff float64
 
-	if previousPeriodFBIncome == 0 {
-		diff = 1
-	} else {
-		diff = (currentPeriodFBIncome - previousPeriodFBIncome) / previousPeriodFBIncome
+	if currentPeriodFBIncome != 0 {
+		previousPeriodFBIncome := s.getFBIncomeFromData(account, period, getPreviousPeriodStartingPoint(period, startedAt))
+		var diff float64
+
+		if previousPeriodFBIncome == 0 {
+			diff = 1
+		} else {
+			diff = (currentPeriodFBIncome - previousPeriodFBIncome) / previousPeriodFBIncome
+		}
+
+		results = append(results, InsightSection{
+			SectionName:      "fb-income",
+			Value:            currentPeriodFBIncome,
+			PeriodStartedAt:  startedAt,
+			Period:           period,
+			DiffFromPrevious: diff,
+		})
 	}
-
-	results = append(results, InsightSection{
-		SectionName:      "fb-income",
-		Value:            currentPeriodFBIncome,
-		PeriodStartedAt:  startedAt,
-		Period:           period,
-		DiffFromPrevious: diff,
-	})
 
 	sentimentStat, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/sentiment-%s-stat", accountNumber, period), startedAt)
 	if shouldInterupt(err, c) {
