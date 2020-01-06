@@ -24,7 +24,10 @@ import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.bitmark.fbm.util.ext.load
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.ext.toHtmlSpan
-import com.bitmark.fbm.util.modelview.*
+import com.bitmark.fbm.util.modelview.PostModelView
+import com.bitmark.fbm.util.modelview.hasLocation
+import com.bitmark.fbm.util.modelview.isMultiMediaPost
+import com.bitmark.fbm.util.modelview.mediaType
 import com.bitmark.fbm.util.view.Media
 import com.bitmark.fbm.util.view.NoUnderlineSpan
 import com.bitmark.fbm.util.view.VideoView
@@ -137,15 +140,28 @@ class PostDetailRecyclerViewAdapter(private val period: Period) :
             val firstTag = if (tags.isNotEmpty()) tags[0] else null
             if (firstTag != null) {
                 info.append(" ")
-                if (item.hasSingleTag()) {
-                    info.append(context.getString(R.string.with_format_1).format(firstTag))
-                } else {
-                    info.append(
-                        context.getString(R.string.with_format_2).format(
-                            firstTag,
-                            tags.size - 1
+                when (tags.size) {
+                    1    -> {
+                        info.append(context.getString(R.string.with_format_1).format(firstTag))
+                    }
+                    2    -> {
+                        info.append(
+                            context.getString(R.string.with_format_4).format(
+                                item.tags[0],
+                                item.tags[1]
+                            )
                         )
-                    )
+                    }
+                    else -> {
+                        val displayTags = tags.take(2)
+                        info.append(
+                            context.getString(if (tags.size == 3) R.string.with_format_3 else R.string.with_format_2).format(
+                                displayTags[0],
+                                displayTags[1],
+                                tags.size - 2
+                            )
+                        )
+                    }
                 }
             }
             if (item.hasLocation()) {

@@ -16,11 +16,12 @@
         android:id="@+id/tvInfoMedia"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/grotesk_regular_font_family"
+        android:fontFamily="@font/domaine_sans"
         android:includeFontPadding="false"
         android:lineSpacingExtra="@dimen/sp_4"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_14"
+        android:textAllCaps="true"
         tools:text="Nov 4 at 8:17 PM with Phil Lin at Saffron 46"
         />
 

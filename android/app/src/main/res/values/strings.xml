@@ -210,10 +210,12 @@
     <string name="yearly_avg_format">Yearly average = %1$d</string>
     <string name="decadely_avg_format">Decadely average = %1$d</string>
     <string name="you_requested_your_fb_archive_format">You requested your Facebook data archive on %1$s at %2$s.</string>
-    <string name="date_format_1"><![CDATA[%1$s at %2$s]]></string>
-    <string name="with_format_1"><![CDATA[with <b>%s</b>]]></string>
-    <string name="with_format_2"><![CDATA[with <b>%s</b> and <b>%d others</b>]]></string>
-    <string name="at_format"><![CDATA[at <b>%s</b>]]></string>
+    <string name="date_format_1">%1$s at %2$s</string>
+    <string name="with_format_1">W/%1$s</string>
+    <string name="with_format_2">W/%1$s, %2$s &amp; %3$d others</string>
+    <string name="with_format_3">W/%1$s, %2$s &amp; %3$d other</string>
+    <string name="with_format_4">W/%1$s &amp; %2$s</string>
+    <string name="at_format">"@"%1$s</string>
     <string name="tagged_with_lower_format">tagged with %1$s</string>
     <string name="tagged_at_lower_format">tagged at %1$s</string>
     <string name="reacted_to_lower_format">reacted to %1$s</string>

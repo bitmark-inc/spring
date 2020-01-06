@@ -67,8 +67,6 @@ data class PostModelView(
 
 }
 
-fun PostModelView.hasSingleTag() = tags.size == 1
-
 fun PostModelView.hasLocation() = location != null
 
 fun PostModelView.isMultiMediaPost() = mediaData != null && mediaData.size > 1
