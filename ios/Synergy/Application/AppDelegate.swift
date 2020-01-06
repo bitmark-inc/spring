@@ -86,6 +86,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SettingsBundle.setVersion()
         Navigator.refreshOnboardingStateIfNeeded()
     }
+
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        Navigator.evaluatePolicyWhenUserSetEnable()
+    }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

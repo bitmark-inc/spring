@@ -208,7 +208,6 @@ class Navigator {
                 }
 
                 let viewModel = LaunchingViewModel()
-                viewModel.checkedVersion = true
                 Navigator.default.show(segue: .launching(viewModel: viewModel), sender: nil, transition: .root(in: window))
             }, onError: { (error) in
                 if let error = error as? AppError {
@@ -224,6 +223,27 @@ class Navigator {
                 }
 
                 Global.log.error(error)
+            })
+    }
+
+    static let requireAuthorizationTime = 1 // minutes
+    static var retryAuthenticationAlert: UIAlertController?
+    static func evaluatePolicyWhenUserSetEnable() {
+        guard Global.current.account != nil,
+            let enteredBackgroundTime = UserDefaults.standard.enteredBackgroundTime else {
+                return
+        }
+        guard Global.current.userDefault?.isAccountSecured ?? false else { return }
+        guard Date() >= enteredBackgroundTime.adding(.minute, value: requireAuthorizationTime) else { return }
+
+        retryAuthenticationAlert?.dismiss(animated: false, completion: nil)
+
+        _ = AccountService.rx.existsCurrentAccount()
+            .observeOn(MainScheduler.instance)
+            .subscribe(onError: { (_) in
+                Navigator.retryAuthenticationAlert = ErrorAlert.showAuthenticationRequiredAlert {
+                    Navigator.evaluatePolicyWhenUserSetEnable()
+                }
             })
     }
 

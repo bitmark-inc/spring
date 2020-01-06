@@ -53,9 +53,8 @@ extension Reactive where Base: AccountService {
                     let seed = try Seed.fromCore(seedCore, version: .v2)
                     return Single.just(try Account(seed: seed))
                 } catch {
-                    Global.log.error(error)
+                    return Single.error(error)
                 }
-                return Single.just(nil)
             })
     }
 

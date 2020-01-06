@@ -10,5 +10,4 @@ import Foundation
 import RxSwift
 
 class LaunchingViewModel: ViewModel {
-    var checkedVersion: Bool = false
 }

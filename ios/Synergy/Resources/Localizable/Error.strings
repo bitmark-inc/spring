@@ -29,3 +29,6 @@
 
 "generalTitle" = "Error";
 "NoInternetConnection" = "No Internet Connection";
+
+"biometricAuth.required" = "%@ Required";
+"biometricAuth.description" = "%@ has been enabled to secure this app.";

@@ -38,6 +38,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         Navigator.refreshOnboardingStateIfNeeded()
     }
 
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        Navigator.evaluatePolicyWhenUserSetEnable()
+    }
+
     func sceneWillResignActive(_ scene: UIScene) {
         // Called when the scene will move from an active state to an inactive state.
         // This may occur due to temporary interruptions (ex. an incoming phone call).

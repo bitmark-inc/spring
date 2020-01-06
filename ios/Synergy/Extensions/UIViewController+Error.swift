@@ -35,3 +35,19 @@ extension UIViewController {
         alertController.show()
     }
 }
+
+struct ErrorAlert {
+    static func showAuthenticationRequiredAlert(action: @escaping () -> Void) -> UIAlertController {
+        let policyType = BiometricAuth.currentDeviceEvaluatePolicyType()
+        let retryAuthenticationAlert = UIAlertController(
+            title: R.string.error.biometricAuthRequired(policyType.text),
+            message: R.string.error.biometricAuthDescription(policyType.text),
+            preferredStyle: .alert)
+
+        retryAuthenticationAlert.addAction(
+            title: R.string.localizable.tryAgain(), style: .default,
+            handler: { _ in action() })
+        retryAuthenticationAlert.show()
+        return retryAuthenticationAlert
+    }
+}

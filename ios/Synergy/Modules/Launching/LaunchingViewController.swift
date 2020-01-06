@@ -35,17 +35,23 @@ class LaunchingViewController: ViewController {
         } else {
             AccountService.rx.existsCurrentAccount()
                 .observeOn(MainScheduler.instance)
-                .do(onSuccess: { (account) in
-                    guard let account = account else { return }
-                    AccountService.registerIntercom(for: account.getAccountNumber())
-                    SettingsBundle.setAccountNumber(accountNumber: account.getAccountNumber())
-                })
-                .flatMapCompletable { [weak self] in
-                    guard let self = self else { return Completable.never() }
-                    return try self.prepareAndGotoNext(account: $0)
-                }
-                .subscribe(onError: { (error) in
-                    Global.log.error(error)
+                .subscribe(onSuccess: { [weak self] (account) in
+                    guard let self = self else { return }
+                    if let account = account {
+                        AccountService.registerIntercom(for: account.getAccountNumber())
+                        SettingsBundle.setAccountNumber(accountNumber: account.getAccountNumber())
+                    }
+
+                    do {
+                        _ = try self.prepareAndGotoNext(account: account).subscribe()
+                    } catch {
+                        Global.log.error(error)
+                    }
+
+                }, onError: { (error) in
+                    _ = ErrorAlert.showAuthenticationRequiredAlert { [weak self] in
+                        self?.navigate()
+                    }
                 })
                 .disposed(by: disposeBag)
         }
