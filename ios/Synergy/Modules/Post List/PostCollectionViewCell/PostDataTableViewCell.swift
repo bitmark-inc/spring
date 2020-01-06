@@ -13,6 +13,7 @@ import SwiftDate
 protocol ClickableDelegate: class {
     func click(_ textView: UITextView, url: URL)
     func playVideo(_ videoKey: String)
+    func errorWhenLoadingMedia(error: Error)
 }
 
 protocol PostDataTableViewCell where Self: UITableViewCell {

@@ -21,12 +21,9 @@ class MediaService {
                 .do(onSubscribed: { AuthService.shared.mutexRefreshJwt() })
                 .andThen(connectedToInternet())
                 .subscribe(onCompleted: {
-
                     let modifier = AnyModifier { request in
                         var request = request
-                        if let token = AuthService.shared.auth?.jwtToken {
-                            request.addValue("Bearer " + token, forHTTPHeaderField: "Authorization")
-                        }
+                        request.allHTTPHeaderFields = makeMediaHeaders()
                         return request
                     }
 
@@ -47,10 +44,7 @@ class MediaService {
                     .do(onSubscribed: { AuthService.shared.mutexRefreshJwt() })
                     .andThen(connectedToInternet())
                     .subscribe(onCompleted: {
-                        guard let token = AuthService.shared.auth?.jwtToken  else { return }
-                        let headerFields = ["Authorization": "Bearer " + token]
-                        let asset = AVURLAsset(url: videoURL, options: ["AVURLAssetHTTPHeaderFieldsKey": headerFields])
-
+                        let asset = AVURLAsset(url: videoURL, options: ["AVURLAssetHTTPHeaderFieldsKey": makeMediaHeaders()])
                         event(.success(asset))
                     }, onError: { (error) in
                         event(.error(error))
@@ -58,4 +52,18 @@ class MediaService {
                 return Disposables.create()
             }
         }
+
+    static func makeMediaHeaders() -> [String: String] {
+        guard let token = AuthService.shared.auth?.jwtToken,
+            let bundleVersion = Bundle.main.infoDictionary?["CFBundleVersion"] as? String
+            else {
+                return [:]
+        }
+
+        return [
+            "Authorization": "Bearer " + token,
+            "Client-Type": "ios",
+            "Client-Version": bundleVersion
+        ]
+    }
 }

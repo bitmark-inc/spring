@@ -50,3 +50,32 @@ class AppVersion {
         alertController.show()
     }
 }
+
+extension UIViewController {
+    func showIfRequireUpdateVersion(with error: Error) -> Bool {
+        if let error = error as? ServerAPIError {
+            switch error.code {
+            case .RequireUpdateVersion:
+                _ = ServerAssetsService.getAppInformation()
+                .subscribe(onSuccess: { (iosInfo) in
+                    guard let appUpdatePath = iosInfo.appUpdateURL,
+                        let appUpdateURL = URL(string: appUpdatePath)
+                        else {
+                            return
+                    }
+                    AppVersion.showAppRequireUpdateAlert(updateURL: appUpdateURL)
+                }, onError: { [weak self] (error) in
+                    guard let self = self,
+                        !AppError.errorByNetworkConnection(error) else { return }
+                    Global.log.error(error)
+                    self.showErrorAlertWithSupport(message: R.string.error.requestData())
+                })
+                return true
+
+            default:
+                return false
+            }
+        }
+        return false
+    }
+}

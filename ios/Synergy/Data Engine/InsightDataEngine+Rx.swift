@@ -42,8 +42,7 @@ extension Reactive where Base: InsightDataEngine {
                         .flatMapCompletable { Storage.store($0) }
                         .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
                         .subscribe(onError: { (error) in
-                            guard !AppError.errorByNetworkConnection(error) else { return }
-                            Global.log.error(error)
+                            Global.backgroundErrorSubject.onNext(error)
                         })
                 } else {
                     _ = InsightService.get(in: timeUnit, startDate: startDate)

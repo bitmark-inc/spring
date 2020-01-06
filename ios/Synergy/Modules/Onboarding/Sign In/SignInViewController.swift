@@ -53,6 +53,9 @@ class SignInViewController: ConfirmRecoveryKeyViewController, BackNavigator {
 
     // MARK: - Error Handlers
     func errorWhenSignInAccount(error: Error) {
+        guard !AppError.errorByNetworkConnection(error) else { return }
+        guard !showIfRequireUpdateVersion(with: error) else { return }
+
         if let error = error as? ServerAPIError {
             switch error.code {
             case .AccountNotFound:
@@ -68,7 +71,6 @@ class SignInViewController: ConfirmRecoveryKeyViewController, BackNavigator {
             return
         }
 
-        guard !AppError.errorByNetworkConnection(error) else { return }
         Global.log.error(error)
         showErrorAlertWithSupport(message: R.string.error.signInError())
     }

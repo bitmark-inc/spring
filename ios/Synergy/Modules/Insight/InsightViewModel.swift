@@ -18,21 +18,10 @@ class InsightViewModel: ViewModel {
     let timeUnitRelay = BehaviorRelay<TimeUnit>(value: .week)
 
     // MARK: - Outputs
+    let fetchDataResultSubject = PublishSubject<Event<Void>>()
     let realmIncomeInsightRelay = BehaviorRelay<Insight?>(value: nil)
     let realmMoodInsightRelay = BehaviorRelay<Insight?>(value: nil)
-//
-//    override init() {
-//        super.init()
-//
-//    }
-//
-//    func fetchAverage() {
-//        timeUnitRelay
-//            .flatMap { AverageDataEngine.rx.fetchAndSyncAverage(timeUnit: $0) }
-//            .bind(to: realmAverageObservable)
-//            .disposed(by: disposeBag)
-//    }
-//
+
     func fetchInsight() {
         dateRelay // ignore timeUnit change, cause when timeUnit change, it trigger date change also
         .subscribe(onNext: { [weak self] (date) in
@@ -40,10 +29,8 @@ class InsightViewModel: ViewModel {
             let timeUnit = self.timeUnitRelay.value
 
             _ = InsightDataEngine.rx.fetchAndSyncInsight(timeUnit: timeUnit, startDate: date)
-                .catchError({ (error) -> Single<[Section: Insight?]> in
-                    if !AppError.errorByNetworkConnection(error) {
-                        Global.log.error(error)
-                    }
+                .catchError({ [weak self] (error) -> Single<[Section: Insight?]> in
+                    self?.fetchDataResultSubject.onNext(Event.error(error))
                     return Single.just([:])
                 })
                 .asObservable()

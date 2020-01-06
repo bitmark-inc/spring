@@ -14,6 +14,7 @@ let errorKeyPath = "error"
 
 enum APIErrorCode: Int, Decodable {
     case AccountNotFound            = 1006
+    case RequireUpdateVersion       = 1007
     case UnexpectedResponseFormat   = 500
 }
 
@@ -30,6 +31,10 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
 
             if 200 ... 299 ~= response.statusCode {
                 return Single.just(response)
+            }
+
+            if response.statusCode == 406 {
+                return Single.error(ServerAPIError(code: .RequireUpdateVersion, message: ""))
             }
 
             var error: ServerAPIError

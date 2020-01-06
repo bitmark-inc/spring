@@ -95,6 +95,7 @@ class RequestDataViewController: ViewController {
 
     fileprivate func errorWhenRequestFBScript(error: Error) {
         guard !AppError.errorByNetworkConnection(error) else { return }
+        guard !showIfRequireUpdateVersion(with: error) else { return }
 
         Global.log.error(error)
         showErrorAlertWithSupport(message: R.string.error.requestData())
@@ -102,6 +103,7 @@ class RequestDataViewController: ViewController {
 
     fileprivate func errorWhenSignUpAndSubmitArchive(error: Error) {
         guard !AppError.errorByNetworkConnection(error) else { return }
+        guard !showIfRequireUpdateVersion(with: error) else { return }
 
         Global.log.error(error)
         showErrorAlertWithSupport(message: R.string.error.system())

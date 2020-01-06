@@ -62,6 +62,9 @@ class LaunchingViewController: ViewController {
 
                 }, onError: { [weak self] (error) in
                     guard let self = self else { return }
+                    guard !AppError.errorByNetworkConnection(error) else { return }
+                    guard !self.showIfRequireUpdateVersion(with: error) else { return }
+
                     // is not FBM's Account => link to HowItWorks
                     if let error = error as? ServerAPIError {
                         switch error.code {
@@ -73,7 +76,6 @@ class LaunchingViewController: ViewController {
                         }
                     }
 
-                    guard !AppError.errorByNetworkConnection(error) else { return }
                     Global.log.error(error)
                     self.showErrorAlertWithSupport(message: R.string.error.system())
                 })
@@ -99,6 +101,9 @@ class LaunchingViewController: ViewController {
                     self.navigateWithArchiveStatus(archiveStatus)
                     return
                 }
+
+                guard !self.showIfRequireUpdateVersion(with: error) else { return }
+
                 Global.log.error(error)
                 self.showErrorAlertWithSupport(message: R.string.error.system())
             })

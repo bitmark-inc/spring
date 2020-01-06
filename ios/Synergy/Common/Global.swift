@@ -14,6 +14,7 @@ import Moya
 class Global {
     static var current = Global()
     static let `default` = current
+    static let backgroundErrorSubject = PublishSubject<Error>()
 
     var account: Account?
     var currency: Currency?

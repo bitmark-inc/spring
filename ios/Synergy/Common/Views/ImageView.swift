@@ -46,7 +46,11 @@ class ImageView: UIImageView {
                         case .success(_):
                             event(.completed)
                         case .failure(let error):
-                            event(.error(error))
+                            if error.isInvalidResponseStatusCode(406) {
+                                event(.error(ServerAPIError(code: .RequireUpdateVersion, message: "")))
+                            } else {
+                                event(.error(error))
+                            }
                         }
                     }
                 }, onError: { (error) in

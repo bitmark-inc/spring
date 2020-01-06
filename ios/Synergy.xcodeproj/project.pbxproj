@@ -215,7 +215,6 @@
 		5B5D001523A1F0F4003D1A1C /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832D6F9238BC23D0074AEDC /* AccountViewController.swift */; };
 		5B5D001623A1F0F4003D1A1C /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC30237A863300FA3196 /* TableView.swift */; };
 		5B5D001723A1F0F4003D1A1C /* CustomxAxisRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C009D02398A43100302F49 /* CustomxAxisRender.swift */; };
-		5B5D001823A1F0F4003D1A1C /* AverageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */; };
 		5B5D001B23A1F0F4003D1A1C /* NavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B678238EAAF200C1A280 /* NavigationView.swift */; };
 		5B5D001C23A1F0F4003D1A1C /* DataRequestedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B55EF238CE66400F1BCF2 /* DataRequestedViewController.swift */; };
 		5B5D001D23A1F0F4003D1A1C /* UIFont+Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCA0237A8A9200FA3196 /* UIFont+Theme.swift */; };
@@ -431,8 +430,6 @@
 		E222907D2394F19D00412CBC /* Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222907B2394F19D00412CBC /* Groups.swift */; };
 		E22290822394FBC500412CBC /* Average.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290812394FBC500412CBC /* Average.swift */; };
 		E22290832394FBC500412CBC /* Average.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290812394FBC500412CBC /* Average.swift */; };
-		E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */; };
-		E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */; };
 		E222908C239509EF00412CBC /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222908B239509EF00412CBC /* PostListViewController.swift */; };
 		E222908D239509EF00412CBC /* PostListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222908B239509EF00412CBC /* PostListViewController.swift */; };
 		E222908F239509F900412CBC /* PostListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E222908E239509F900412CBC /* PostListViewModel.swift */; };
@@ -817,7 +814,6 @@
 		E22290732394B2A300412CBC /* UsageDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UsageDataEngine+Rx.swift"; sourceTree = "<group>"; };
 		E222907B2394F19D00412CBC /* Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Groups.swift; sourceTree = "<group>"; };
 		E22290812394FBC500412CBC /* Average.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Average.swift; sourceTree = "<group>"; };
-		E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AverageDataEngine+Rx.swift"; sourceTree = "<group>"; };
 		E222908B239509EF00412CBC /* PostListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewController.swift; sourceTree = "<group>"; };
 		E222908E239509F900412CBC /* PostListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostListViewModel.swift; sourceTree = "<group>"; };
 		E222909123950B2500412CBC /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -1571,7 +1567,6 @@
 			children = (
 				E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */,
 				E22290732394B2A300412CBC /* UsageDataEngine+Rx.swift */,
-				E22290872394FDD700412CBC /* AverageDataEngine+Rx.swift */,
 				E222909E2395116900412CBC /* PostDataEngine+Rx.swift */,
 				5B2097A823B464A40079B421 /* ReactionDataEngine+Rx.swift */,
 				5BA9FF6A23B22A9400E57A20 /* InsightDataEngine+Rx.swift */,
@@ -2406,7 +2401,6 @@
 				5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
 				58C009D12398A43100302F49 /* CustomxAxisRender.swift in Sources */,
-				E22290882394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				58FF431023B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5B4A239923B1D1C300447366 /* MediaData.swift in Sources */,
@@ -2596,7 +2590,6 @@
 				5B5D001623A1F0F4003D1A1C /* TableView.swift in Sources */,
 				5B5D001723A1F0F4003D1A1C /* CustomxAxisRender.swift in Sources */,
 				58FF431223B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
-				5B5D001823A1F0F4003D1A1C /* AverageDataEngine+Rx.swift in Sources */,
 				5B4A239B23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7D23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
 				5B5D001B23A1F0F4003D1A1C /* NavigationView.swift in Sources */,
@@ -2774,7 +2767,6 @@
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
 				58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */,
 				58FF431123B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
-				E22290892394FDD700412CBC /* AverageDataEngine+Rx.swift in Sources */,
 				5B4A239A23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7C23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
 				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,

@@ -196,11 +196,20 @@ extension PostListViewController: ClickableDelegate {
                 self.present(playerVC, animated: true) {
                     player.play()
                 }
-            }, onError: { (error) in
+            }, onError: { [weak self] (error) in
                 guard !AppError.errorByNetworkConnection(error) else { return }
+                guard let self = self, !self.showIfRequireUpdateVersion(with: error) else { return }
+
                 Global.log.error(error)
             })
             .disposed(by: disposeBag)
+    }
+
+    func errorWhenLoadingMedia(error: Error) {
+        guard !AppError.errorByNetworkConnection(error) else { return }
+        guard !showIfRequireUpdateVersion(with: error) else { return }
+
+        Global.log.error(error)
     }
 }
 

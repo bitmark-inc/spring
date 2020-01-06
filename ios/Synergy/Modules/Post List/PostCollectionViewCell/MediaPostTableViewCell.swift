@@ -92,9 +92,10 @@ class MediaPostTableViewCell: TableViewCell, PostDataTableViewCell {
             if media.mediaSource == .video {
                 if let thumbnail = media.thumbnail, let thumbnailURL = URL(string: thumbnail), thumbnailURL.pathExtension != "mp4" {
                     photoImageView.loadURL(thumbnailURL, width: photoWidth)
-                        .subscribe(onError: { (error) in
+                        .subscribe(onError: { [weak self] (error) in
                             guard !AppError.errorByNetworkConnection(error) else { return }
-                            Global.log.error(error)
+
+                            self?.clickableDelegate?.errorWhenLoadingMedia(error: error)
                             photoImageView.image = R.image.defaultThumbnail()
                         })
                         .disposed(by: disposeBag)
@@ -104,9 +105,9 @@ class MediaPostTableViewCell: TableViewCell, PostDataTableViewCell {
             } else {
                 if let photoURL = URL(string: media.source) {
                     photoImageView.loadURL(photoURL, width: photoWidth)
-                        .subscribe(onError: { (error) in
+                        .subscribe(onError: { [weak self] (error) in
                             guard !AppError.errorByNetworkConnection(error) else { return }
-                            Global.log.error(error)
+                            self?.clickableDelegate?.errorWhenLoadingMedia(error: error)
                         })
                         .disposed(by: disposeBag)
                 }

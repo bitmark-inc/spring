@@ -18,12 +18,9 @@ class UsageViewModel: ViewModel {
     let timeUnitRelay = BehaviorRelay<TimeUnit>(value: .week)
 
     // MARK: - Outputs
+    let fetchDataResultSubject = PublishSubject<Event<Void>>()
     let realmPostUsageRelay = BehaviorRelay<Usage?>(value: nil)
     let realmReactionUsageRelay = BehaviorRelay<Usage?>(value: nil)
-
-    override init() {
-        super.init()
-    }
 
     func fetchUsage() {
         dateRelay // ignore timeUnit change, cause when timeUnit change, it trigger date change also
@@ -32,10 +29,8 @@ class UsageViewModel: ViewModel {
                 let timeUnit = self.timeUnitRelay.value
 
                 _ = UsageDataEngine.rx.fetchAndSyncUsage(timeUnit: timeUnit, startDate: date)
-                    .catchError({ (error) -> Single<[Section: Usage?]> in
-                        if !AppError.errorByNetworkConnection(error) {
-                            Global.log.error(error)
-                        }
+                    .catchError({ [weak self] (error) -> Single<[Section: Usage?]> in
+                        self?.fetchDataResultSubject.onNext(Event.error(error))
                         return Single.just([:])
                     })
                     .asObservable()

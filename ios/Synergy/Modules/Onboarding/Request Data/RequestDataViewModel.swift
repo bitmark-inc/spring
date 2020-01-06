@@ -42,8 +42,9 @@ class RequestDataViewModel: ViewModel {
         ServerAssetsService.getFBAutomation()
             .subscribe(onSuccess: { [weak self] (fbScripts) in
                 self?.fbScriptsRelay.accept(fbScripts)
-                }, onError: { [weak self] (error) in
-                    self?.fbScriptResultSubject.onNext(Event.error(error))
+            },
+            onError: { [weak self] (error) in
+                self?.fbScriptResultSubject.onNext(Event.error(error))
             })
             .disposed(by: disposeBag)
     }

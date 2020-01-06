@@ -50,8 +50,8 @@ class ReactionDataEngine {
                         }
                         triggerSubject.onNext(.remoteLoaded)
                     }, onError: { (error) in
-                        guard !AppError.errorByNetworkConnection(error) else { return }
-                        Global.log.error(error)
+                        loadingState.onNext(.hide)
+                        Global.backgroundErrorSubject.onNext(error)
                     })
             }, onError: { (error) in
                 if let error = error as? AppError {

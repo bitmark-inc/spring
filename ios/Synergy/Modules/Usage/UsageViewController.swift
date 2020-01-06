@@ -94,6 +94,19 @@ class UsageViewController: ViewController {
         super.bindViewModel()
         
         guard let viewModel = viewModel as? UsageViewModel else { return }
+
+        viewModel.fetchDataResultSubject
+            .subscribe(onNext: { [weak self] (event) in
+                guard let self = self else { return }
+                switch event {
+                case .error(let error):
+                    self.errorWhenFetchingData(error: error)
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+
         viewModel.fetchUsage()
 
         thisViewModel.dateRelay
@@ -112,6 +125,13 @@ class UsageViewController: ViewController {
             .disposed(by: disposeBag)
     }
 
+    func errorWhenFetchingData(error: Error) {
+        guard !AppError.errorByNetworkConnection(error) else { return }
+        guard !showIfRequireUpdateVersion(with: error) else { return }
+
+        Global.log.error(error)
+        showErrorAlertWithSupport(message: R.string.error.signInError())
+    }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

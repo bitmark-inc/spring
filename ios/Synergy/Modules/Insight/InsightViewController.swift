@@ -49,6 +49,18 @@ class InsightViewController: ViewController {
         super.bindViewModel()
 
         guard let viewModel = viewModel as? InsightViewModel else { return }
+        viewModel.fetchDataResultSubject
+            .subscribe(onNext: { [weak self] (event) in
+                guard let self = self else { return }
+                switch event {
+                case .error(let error):
+                    self.errorWhenFetchingData(error: error)
+                default:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+
         viewModel.fetchInsight()
 
         thisViewModel.dateRelay
@@ -65,6 +77,14 @@ class InsightViewController: ViewController {
                     distance: distance)
             })
             .disposed(by: disposeBag)
+    }
+
+    func errorWhenFetchingData(error: Error) {
+        guard !AppError.errorByNetworkConnection(error) else { return }
+        guard !showIfRequireUpdateVersion(with: error) else { return }
+
+        Global.log.error(error)
+        showErrorAlertWithSupport(message: R.string.error.signInError())
     }
 
     override func viewDidLayoutSubviews() {

@@ -54,5 +54,15 @@ class ThemedViewController: UIViewController {
         loadingState
             .bind(to: SVProgressHUD.rx.state)
             .disposed(by: disposeBag)
+
+        Global.backgroundErrorSubject
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] (error) in
+                guard !AppError.errorByNetworkConnection(error) else { return }
+                guard let self = self, !self.showIfRequireUpdateVersion(with: error) else { return }
+
+                Global.log.error(error)
+            })
+            .disposed(by: disposeBag)
     }
 }
