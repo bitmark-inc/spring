@@ -110,7 +110,7 @@ func (d *DynamoDBStore) queryFBStatResult(input *dynamodb.QueryInput) ([][]byte,
 	return data, nil
 }
 
-func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int64) ([][]byte, error) {
+func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to, limit int64) ([][]byte, error) {
 	input := &dynamodb.QueryInput{
 		TableName: d.table,
 		KeyConditions: map[string]*dynamodb.Condition{
@@ -134,7 +134,7 @@ func (d *DynamoDBStore) GetFBStat(ctx context.Context, key string, from, to int6
 				},
 			},
 		},
-		Limit:            aws.Int64(100),
+		Limit:            aws.Int64(limit),
 		ScanIndexForward: aws.Bool(false),
 	}
 

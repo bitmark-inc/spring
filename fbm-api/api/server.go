@@ -22,7 +22,6 @@ import (
 	sentrygin "github.com/getsentry/sentry-go/gin"
 	"github.com/gin-gonic/gin"
 	"github.com/gocraft/work"
-	"github.com/golang/protobuf/jsonpb"
 	"github.com/spf13/viper"
 )
 
@@ -118,8 +117,8 @@ func (s *Server) Run(addr string) error {
 
 	apiRoute := r.Group("/api")
 	apiRoute.Use(logmodule.Ginrus("API"))
-	apiRoute.Use(s.clientVersionGateway())
 	apiRoute.GET("/information", s.information)
+	apiRoute.Use(s.clientVersionGateway())
 
 	apiRoute.POST("/auth", s.requestJWT)
 
@@ -299,18 +298,13 @@ func (s *Server) information(c *gin.Context) {
 }
 
 func responseWithEncoding(c *gin.Context, code int, obj proto.Message) {
-	c.Status(code)
 	acceptEncoding := c.GetHeader("Accept-Encoding")
 
 	switch acceptEncoding {
 	case "application/x-protobuf":
-		c.Header("Content-Type", "application/x-protobuf")
-		b, _ := proto.Marshal(obj)
-		c.Writer.Write(b)
+		c.ProtoBuf(code, obj)
 	default:
-		c.Header("Content-Type", "application/json; charset=utf-8")
-		marshaler := jsonpb.Marshaler{}
-		marshaler.Marshal(c.Writer, obj)
+		c.JSON(code, obj)
 	}
 }
 

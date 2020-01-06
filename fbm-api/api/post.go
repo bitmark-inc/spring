@@ -17,6 +17,7 @@ func (s *Server) getAllPosts(c *gin.Context) {
 	var params struct {
 		StartedAt int64 `form:"started_at"`
 		EndedAt   int64 `form:"ended_at"`
+		Limit     int64 `form:"limit"`
 	}
 
 	if err := c.BindQuery(&params); err != nil {
@@ -25,7 +26,20 @@ func (s *Server) getAllPosts(c *gin.Context) {
 		return
 	}
 
-	data, err := s.fbDataStore.GetFBStat(c, accountNumber+"/post", params.StartedAt, params.EndedAt)
+	if params.StartedAt >= params.EndedAt {
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
+		return
+	}
+
+	if params.Limit > 1000 {
+		params.Limit = 1000
+	}
+
+	if params.Limit < 1 {
+		params.Limit = 100
+	}
+
+	data, err := s.fbDataStore.GetFBStat(c, accountNumber+"/post", params.StartedAt, params.EndedAt, params.Limit)
 	if shouldInterupt(err, c) {
 		return
 	}

@@ -14,11 +14,12 @@ func (s *Server) getAllReactions(c *gin.Context) {
 	var params struct {
 		StartedAt int64 `form:"started_at"`
 		EndedAt   int64 `form:"ended_at"`
+		Limit     int64 `form:"limit"`
 	}
 
 	if err := c.BindQuery(&params); err != nil {
 		log.Debug(err)
-		// abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
+		abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
 		return
 	}
 
@@ -27,7 +28,15 @@ func (s *Server) getAllReactions(c *gin.Context) {
 		return
 	}
 
-	data, err := s.fbDataStore.GetFBStat(c, accountNumber+"/reaction", params.StartedAt, params.EndedAt)
+	if params.Limit > 1000 {
+		params.Limit = 1000
+	}
+
+	if params.Limit < 1 {
+		params.Limit = 100
+	}
+
+	data, err := s.fbDataStore.GetFBStat(c, accountNumber+"/reaction", params.StartedAt, params.EndedAt, params.Limit)
 	if shouldInterupt(err, c) {
 		return
 	}
