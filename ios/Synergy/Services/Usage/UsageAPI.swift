@@ -15,7 +15,7 @@ enum UsageAPI {
     case getInDecade(startDate: Date)
 }
 
-extension UsageAPI: AuthorizedTargetType {
+extension UsageAPI: AuthorizedTargetType, VersionTargetType {
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL + "/api/usage")!
     }

@@ -64,7 +64,8 @@ class Global {
         })),
         MoyaAuthPlugin(tokenClosure: {
             return AuthService.shared.auth?.jwtToken
-        })
+        }),
+        MoyaVersionPlugin()
     ]
 }
 

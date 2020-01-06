@@ -15,7 +15,7 @@ enum InsightAPI {
     case getInDecade(startDate: Date)
 }
 
-extension InsightAPI: AuthorizedTargetType {
+extension InsightAPI: AuthorizedTargetType, VersionTargetType {
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL + "/api/insight")!
     }

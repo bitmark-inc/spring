@@ -1,12 +1,13 @@
 syntax = "proto3";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
 message Insight {
-    string sectionName = 1 [json_name="section_name"];
-    double diffFromPrevious = 2 [json_name="diff_from_previous"];
-    string period = 3 [json_name="period"];
-    int64 periodStartedAt = 4 [json_name="period_started_at"];
-    int32 quantity = 5 [json_name="quantity"];
-    double value = 6 [json_name="value"];
+    string sectionName = 1 [json_name="section_name", (gogoproto.jsontag)="section_name"];
+    double diffFromPrevious = 2 [json_name="diff_from_previous", (gogoproto.jsontag)="diff_from_previous"];
+    string period = 3 [json_name="period", (gogoproto.jsontag)="period"];
+    int64 periodStartedAt = 4 [json_name="period_started_at", (gogoproto.jsontag)="period_started_at"];
+    int32 quantity = 5 [json_name="quantity", (gogoproto.jsontag)="quantity"];
+    double value = 6 [json_name="value", (gogoproto.jsontag)="value"];
 }
 
 message InsightResponse {

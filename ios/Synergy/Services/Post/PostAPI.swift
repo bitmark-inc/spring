@@ -13,7 +13,7 @@ enum PostAPI {
     case get(startDate: Date, endDate: Date)
 }
 
-extension PostAPI: AuthorizedTargetType {
+extension PostAPI: AuthorizedTargetType, VersionTargetType {
     var baseURL: URL {
         return URL(string: Constant.default.fBMServerURL + "/api/posts")!
     }
