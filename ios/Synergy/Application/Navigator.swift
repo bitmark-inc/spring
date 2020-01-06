@@ -189,6 +189,7 @@ class Navigator {
 
     static func refreshOnboardingStateIfNeeded() {
         _ = AppVersion.checkAppVersion()
+            .observeOn(MainScheduler.instance)
             .subscribe(onCompleted: {
                 guard let window = getWindow() else {
                     Global.log.error("window is empty")

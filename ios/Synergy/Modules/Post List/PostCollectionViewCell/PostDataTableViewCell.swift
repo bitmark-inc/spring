@@ -28,7 +28,7 @@ extension PostDataTableViewCell {
     func makePostInfo(timestamp: Date, friends: [Friend], locationName: String?) -> String {
         let timestampText = timestamp.toFormat(Constant.TimeFormat.post)
 
-        let friendTags = friends.map { $0.name }.toSentence()
+        let friendTags = friends.map { $0.name }.toFriendsSentence()
         let friendTagsText = friends.isEmpty ? "" : R.string.phrase.postPostInfoFriendTags(friendTags)
 
         var locationTagText = ""

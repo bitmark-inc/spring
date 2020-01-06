@@ -129,6 +129,7 @@
 		5B2097C623B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
 		5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
 		5B289E0123A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
+		5B466DBC23C334EA0027D4CB /* ArrayStringSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */; };
 		5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
 		5B4A237823B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
 		5B4A237923B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
@@ -747,6 +748,7 @@
 		5B2097BF23B477FB0079B421 /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
 		5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionTableViewCell.swift; sourceTree = "<group>"; };
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
+		5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayStringSpec.swift; sourceTree = "<group>"; };
 		5B4A237623B1132E00447366 /* UsageBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeView.swift; sourceTree = "<group>"; };
 		5B4A237A23B1136E00447366 /* HeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingView.swift; sourceTree = "<group>"; };
 		5B4A237E23B1145100447366 /* TimeFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterView.swift; sourceTree = "<group>"; };
@@ -1039,6 +1041,7 @@
 			isa = PBXGroup;
 			children = (
 				5B75A15023BDD64100FFF910 /* Models */,
+				5B466DBA23C334CD0027D4CB /* Extensions */,
 				5B75A14B23BD9E7A00FFF910 /* Helpers */,
 				5832FC03237A6DB900FA3196 /* SynergyTests.swift */,
 				5832FC05237A6DB900FA3196 /* Info.plist */,
@@ -1304,6 +1307,14 @@
 				5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */,
 			);
 			path = "Trust Critical";
+			sourceTree = "<group>";
+		};
+		5B466DBA23C334CD0027D4CB /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		5B4A239323B1B64000447366 /* Dashboard */ = {
@@ -2479,6 +2490,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5832FC04237A6DB900FA3196 /* SynergyTests.swift in Sources */,
+				5B466DBC23C334EA0027D4CB /* ArrayStringSpec.swift in Sources */,
 				5B75A14D23BD9EA400FFF910 /* DatePeriodSpec.swift in Sources */,
 				5B75A15223BDD66000FFF910 /* QueryTrackSpec.swift in Sources */,
 			);

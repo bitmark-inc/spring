@@ -62,15 +62,17 @@ class MediaPostTableViewCell: TableViewCell, PostDataTableViewCell {
             friends: post.tags.toArray(),
             locationName: post.location?.name)
 
-        if let caption = post.post {
+        if let caption = post.post, caption.isNotEmpty {
             captionLabel.attributedText = LinkAttributedString.make(
                 string: caption,
                 lineHeight: 1.25,
                 attributes: [.font: R.font.atlasGroteskLight(size: 16)!])
             captionLabel.flex.marginTop(12)
+            captionLabel.flex.maxHeight(100%)
         } else {
             captionLabel.attributedText = nil
             captionLabel.flex.marginTop(0)
+            captionLabel.flex.maxHeight(0)
         }
 
         postInfoLabel.flex.markDirty()

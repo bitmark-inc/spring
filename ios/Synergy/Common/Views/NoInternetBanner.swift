@@ -21,8 +21,8 @@ class NoInternetBanner {
     }()
 
     static func show() {
-        _ = Navigator.getWindow() // to make sure UIWindow that show banner is same as main Window
         DispatchQueue.main.async {
+            _ = Navigator.getWindow() // to make sure UIWindow that show banner is same as main Window
             banner.show()
         }
     }

@@ -19,6 +19,11 @@ class SignOutWarningViewController: ViewController, BackNavigator {
     lazy var continueButton = makeContinueButton()
     fileprivate var lockTextViewClick: Bool = false // for unknown reason, textview delegate function call more than 1 times
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        lockTextViewClick = false
+    }
+
     override func bindViewModel() {
         super.bindViewModel()
 
