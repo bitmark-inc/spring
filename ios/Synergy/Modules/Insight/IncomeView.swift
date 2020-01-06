@@ -63,7 +63,12 @@ class IncomeView: UIView {
                             })
                     } else {
                         self.dataObserver?.dispose()
-                        self.fillData(amount: nil, descriptionText: nil)
+                        let timeUnit = container.thisViewModel.timeUnitRelay.value
+                        let distance = container.segmentDistances[timeUnit]!
+
+                        self.fillData(
+                            amount: nil,
+                            descriptionText: R.string.localizable.incomeDescription(timeUnit.meaningTimeText(with: distance).lowercased()))
                     }
                 })
                 .disposed(by: disposeBag)
@@ -76,15 +81,14 @@ class IncomeView: UIView {
     func fillData(amount: Double?, descriptionText: String?) {
         if let amount = amount {
             amountLabel.text = String(format: "$%.02f", amount)
-            descriptionLabel.text = descriptionText
-            amountLabel.flex.markDirty()
-            descriptionLabel.flex.markDirty()
-            flex.height(sectionHeight)
         } else {
-            flex.height(0)
+            amountLabel.text = "--"
         }
 
-        flex.markDirty()
+        descriptionLabel.text = descriptionText
+
+        amountLabel.flex.markDirty()
+        descriptionLabel.flex.markDirty()
         containerLayoutDelegate?.layout()
     }
 }
