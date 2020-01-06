@@ -9,7 +9,7 @@
 import Foundation
 
 extension Array where Element == String {
-    func toSentence(connector: String = ", ", lastConnector: String = R.string.localizable.and()) -> String {
+    func toSentence(connector: String = ", ", lastConnector: String = "&") -> String {
         switch count {
         case 0:
             return ""

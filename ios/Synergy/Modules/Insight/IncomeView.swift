@@ -16,7 +16,6 @@ class IncomeView: UIView {
     // MARK: - Properties
     fileprivate lazy var amountLabel = makeAmountLabel()
     fileprivate lazy var descriptionLabel = makeDescriptionLabel()
-    fileprivate let sectionHeight: CGFloat = 170
 
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
     var dataObserver: Disposable? // stop observing old-data
@@ -31,9 +30,9 @@ class IncomeView: UIView {
                 flex.addItem(SectionSeparator())
 
                 flex.addItem()
-                    .height(sectionHeight)
+                    .padding(30, 0, 30, 0)
                     .alignItems(.center).define { (flex) in
-                        flex.addItem(amountLabel).marginTop(30)
+                        flex.addItem(amountLabel)
                         flex.addItem(descriptionLabel).marginTop(20)
                     }
             }
@@ -54,21 +53,11 @@ class IncomeView: UIView {
                         self.dataObserver = container.incomeInsightObservable
                             .map { $0.value }
                             .subscribe(onNext: { [weak self] (amount) in
-                                let timeUnit = container.thisViewModel.timeUnitRelay.value
-                                let distance = container.segmentDistances[timeUnit]!
-
-                                self?.fillData(
-                                    amount: amount,
-                                    descriptionText: R.string.localizable.incomeDescription(timeUnit.meaningTimeText(with: distance).lowercased()))
+                                self?.fillData(amount: amount)
                             })
                     } else {
                         self.dataObserver?.dispose()
-                        let timeUnit = container.thisViewModel.timeUnitRelay.value
-                        let distance = container.segmentDistances[timeUnit]!
-
-                        self.fillData(
-                            amount: nil,
-                            descriptionText: R.string.localizable.incomeDescription(timeUnit.meaningTimeText(with: distance).lowercased()))
+                        self.fillData(amount: nil)
                     }
                 })
                 .disposed(by: disposeBag)
@@ -78,18 +67,15 @@ class IncomeView: UIView {
         }
     }
 
-    func fillData(amount: Double?, descriptionText: String?) {
+    func fillData(amount: Double?) {
         if let amount = amount {
             amountLabel.text = String(format: "$%.02f", amount)
         } else {
             amountLabel.text = "--"
         }
 
-        descriptionLabel.text = descriptionText
-
         amountLabel.flex.markDirty()
-        descriptionLabel.flex.markDirty()
-        containerLayoutDelegate?.layout()
+        flex.layout()
     }
 }
 
@@ -97,7 +83,6 @@ extension IncomeView {
     fileprivate func makeAmountLabel() -> Label {
         let label = Label()
         label.apply(
-            text: "",
             font: R.font.avenir(size: 45),
             colorTheme: ColorTheme.cognac)
         return label
@@ -106,7 +91,7 @@ extension IncomeView {
     fileprivate func makeDescriptionLabel() -> Label {
         let label = Label()
         label.apply(
-            text: "",
+            text: R.string.localizable.incomeDescription(),
             font: R.font.atlasGroteskThin(size: Size.ds(12)),
             colorTheme: ColorTheme.black)
         return label

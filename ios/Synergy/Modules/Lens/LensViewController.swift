@@ -18,6 +18,14 @@ class LensViewController: ViewController {
     fileprivate lazy var streamDescLabel = makeStreamDescLabel()
     fileprivate lazy var accountButton = makeAccountButton()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     override func bindViewModel() {
         super.bindViewModel()
 

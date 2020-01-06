@@ -50,9 +50,11 @@
 
 "dataRequested.scheduleNotify.message" = "Just reminding you to check if your Facebook archive is ready. Tap to continue.";
 
+"mood.average" = "Period Average";
+
 "posts.empty" = "You have no posts!";
-"post.postInfo.friendTags" = " with %@";
-"post.postInfo.locationTag" = " at %@";
+"post.postInfo.friendTags" = " W/%@";
+"post.postInfo.locationTag" = " @%@";
 "post.sectionTitle.tag" = "tagged with %@";
 
 "reactions.empty" = "You have no reactions!";

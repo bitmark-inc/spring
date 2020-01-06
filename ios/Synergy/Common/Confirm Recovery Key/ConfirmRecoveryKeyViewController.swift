@@ -48,7 +48,7 @@ extension ConfirmRecoveryKeyViewController {
     fileprivate func makeRecoveryKeyView() -> UIView {
         let view = UIView()
         view.flex.direction(.column).define { (flex) in
-            flex.addItem(recoveryKeyBox).height(Size.dh(145))
+            flex.addItem(recoveryKeyBox)
             flex.addItem(guideLabel).marginTop(Size.dh(27))
         }
         return view
@@ -56,11 +56,22 @@ extension ConfirmRecoveryKeyViewController {
 
     fileprivate func makeRecoveryKeyBox() -> UIView {
         let view = UIView()
-        view.borderWidth = 1
-        view.flex.padding(UIEdgeInsets(top: 14, left: 20, bottom: 14, right: 21))
+
+        view.flex
+            .height(Size.dh(145))
             .define { (flex) in
-                flex.addItem(recoveryKeyTextView).grow(1)
-            }
+                let boxImage = ImageView(image: R.image.recoveryInputBox())
+                boxImage.contentMode = .scaleToFill
+                flex.addItem(boxImage).grow(1).width(100%).height(100%)
+                    .position(.absolute)
+                    .top(0)
+
+                flex.addItem()
+                    .padding(UIEdgeInsets(top: Size.dh(10), left: Size.dw(10), bottom: Size.dh(10), right: Size.dw(10)))
+                    .define { (flex) in
+                         flex.addItem(recoveryKeyTextView).width(100%).height(100%)
+                }
+        }
 
         themeService.rx
             .bind({ $0.blackTextColor }, to: view.rx.borderColor)
@@ -75,6 +86,7 @@ extension ConfirmRecoveryKeyViewController {
         textView.autocapitalizationType = .none
         textView.returnKeyType = .done
         textView.delegate = self
+        textView.backgroundColor = .clear
 
         themeService.rx
             .bind({ $0.blackTextColor }, to: textView.rx.textColor)

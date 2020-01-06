@@ -61,16 +61,11 @@ class MoodView: UIView {
                         self.dataObserver = container.moodInsightObservable
                             .map { $0.value }
                             .subscribe(onNext: { [weak self] (moodValue) in
-                                let timeUnit = container.thisViewModel.timeUnitRelay.value
-                                let distance = container.segmentDistances[timeUnit]!
-
-                                self?.fillData(
-                                    moodValue: moodValue,
-                                    descriptionText: R.string.localizable.incomeDescription(timeUnit.meaningTimeText(with: distance).lowercased()))
+                                self?.fillData(moodValue: moodValue)
                             })
                     } else {
                         self.dataObserver?.dispose()
-                        self.fillData(moodValue: nil, descriptionText: nil)
+                        self.fillData(moodValue: nil)
                     }
                 })
                 .disposed(by: disposeBag)
@@ -80,7 +75,7 @@ class MoodView: UIView {
         }
     }
 
-    func fillData(moodValue: Double?, descriptionText: String?) {
+    func fillData(moodValue: Double?) {
         if let moodValue = moodValue {
             noActivityView.isHidden = true
             let moodType = MoodType(value: Int(moodValue))
@@ -107,7 +102,7 @@ extension MoodView {
     fileprivate func makeTitleBarLabel() -> Label {
         let label = Label()
         label.apply(
-            text: R.string.localizable.average().localizedUppercase,
+            text: R.string.phrase.moodAverage().localizedUppercase,
             font: R.font.atlasGroteskLight(size: Size.ds(14)),
             colorTheme: ColorTheme.black)
         return label

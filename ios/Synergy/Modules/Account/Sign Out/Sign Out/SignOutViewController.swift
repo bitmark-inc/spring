@@ -44,6 +44,7 @@ class SignOutViewController: ConfirmRecoveryKeyViewController, BackNavigator {
     func errorWhenSignOutAccount(error: Error) {
         if let error = error as? AccountError, error == .invalidRecoveryKey {
             errorRecoveryKeyView.isHidden = false
+            recoveryKeyTextView.textColor = ColorTheme.internationalKleinBlue.color
             return
         }
 

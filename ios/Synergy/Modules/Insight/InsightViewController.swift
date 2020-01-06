@@ -45,6 +45,14 @@ class InsightViewController: ViewController {
         .week: 0, .year: 0, .decade: 0
     ]
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     override func bindViewModel() {
         super.bindViewModel()
 

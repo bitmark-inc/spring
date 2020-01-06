@@ -124,7 +124,7 @@ struct DarkTheme: Theme {
 enum ColorTheme: Int, CaseIterable {
     case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord, silver, yukonGold
 
-    case white, cognac, black, tundora, mercury, indianKhaki
+    case white, cognac, black, tundora, mercury, indianKhaki, wildSand
 
     var color: UIColor {
         switch self {
@@ -157,6 +157,7 @@ enum ColorTheme: Int, CaseIterable {
         case .tundora:      return UIColor(hexString: "#444")!
         case .mercury:      return UIColor(hexString: "#E7E7E7")!
         case .indianKhaki:      return UIColor(hexString: "#BBAB8C")!
+        case .wildSand:     return UIColor(hexString: "#F6F6F6")!
         }
     }
 
@@ -191,6 +192,7 @@ enum ColorTheme: Int, CaseIterable {
         case .tundora:      return UIColor(hexString: "#444")!
         case .mercury:      return UIColor(hexString: "#E7E7E7")!
         case .indianKhaki:      return UIColor(hexString: "#BBAB8C")!
+        case .wildSand:     return UIColor(hexString: "#F6F6F6")!
         }
     }
 
@@ -225,6 +227,7 @@ enum ColorTheme: Int, CaseIterable {
         case .tundora:      return "Tundora"
         case .mercury:      return "Mercury"
         case .indianKhaki:      return "Cornflower Blue"
+        case .wildSand:     return "WildSand"
         }
     }
 }

@@ -73,10 +73,10 @@
 "income" = "income";
 "mood" = "mood";
 
-"income.description" = "Income Facebook made from you %@";
+"income.description" = "Income Facebook made from you this period";
 "yourMood" = "Your Mood";
+
 "sentimentAnalysisOfYourPosts" = "sentiment analysis of your posts";
-"Average" = "Average";
 "Unhappy" = "Unhappy";
 "Happy" = "Happy";
 

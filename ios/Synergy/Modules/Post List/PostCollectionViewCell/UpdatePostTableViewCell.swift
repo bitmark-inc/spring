@@ -46,15 +46,10 @@ class UpdatePostTableViewCell: TableViewCell, PostDataTableViewCell {
 
     // MARK: - Data
     func bindData(post: Post) {
-        makePostInfo(timestamp: post.timestamp, friends: post.tags.toArray(), locationName: post.location?.name)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onSuccess: { [weak self] in
-                guard let self = self else { return }
-                self.postInfoLabel.attributedText = $0
-                self.postInfoLabel.flex.markDirty()
-                self.contentView.flex.layout(mode: .adjustHeight)
-            })
-            .disposed(by: disposeBag)
+        postInfoLabel.text = makePostInfo(
+            timestamp: post.timestamp,
+            friends: post.tags.toArray(),
+            locationName: post.location?.name)
 
         if let caption = post.post {
             captionLabel.attributedText = LinkAttributedString.make(
@@ -67,6 +62,7 @@ class UpdatePostTableViewCell: TableViewCell, PostDataTableViewCell {
             captionLabel.flex.marginTop(0)
         }
 
+        postInfoLabel.flex.markDirty()
         captionLabel.flex.markDirty()
         contentView.flex.layout(mode: .adjustHeight)
     }
@@ -81,18 +77,13 @@ extension UpdatePostTableViewCell: UITextViewDelegate {
 }
 
 extension UpdatePostTableViewCell {
-    fileprivate func makePostInfoLabel() -> UITextView {
-        let textView = UITextView()
-        textView.textContainerInset = .zero
-        textView.textContainer.lineFragmentPadding = 0
-        textView.backgroundColor = .clear
-        textView.delegate = self
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.linkTextAttributes = [
-            .foregroundColor: themeService.attrs.blackTextColor
-        ]
-        return textView
+    fileprivate func makePostInfoLabel() -> Label {
+        let label = Label()
+        label.numberOfLines = 0
+        label.apply(
+            font: R.font.domaineSansTextLight(size: Size.ds(14)),
+            colorTheme: .black, lineHeight: 1.3)
+        return label
     }
 
     fileprivate func makeCaptionLabel() -> UITextView {
