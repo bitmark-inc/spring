@@ -26,6 +26,14 @@ class AccountViewController: ViewController, BackNavigator {
     lazy var contactOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportContact())
     lazy var surveyOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportGetYourThoughts())
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     override func bindViewModel() {
         super.bindViewModel()
 

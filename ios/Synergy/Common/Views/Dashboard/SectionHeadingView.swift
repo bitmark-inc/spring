@@ -55,7 +55,7 @@ class SectionHeadingView: UIView {
                             .map { $0.quantity }
                             .subscribe(onNext: { [weak self] in
                                 self?.fillData(
-                                    countText: R.string.localizable.numberOfPosts("\($0)"),
+                                    countText: R.string.localizable.numberOfPosts($0.commaRepresentation),
                                     actionDescriptionText: R.string.localizable.you_made())
                             })
                         dataObserver?.disposed(by: self.disposeBag)
@@ -78,7 +78,7 @@ class SectionHeadingView: UIView {
                             .map { $0.quantity }
                             .subscribe(onNext: { [weak self] in
                                 self?.fillData(
-                                    countText: R.string.localizable.numberOfReactions("\($0)"),
+                                    countText: R.string.localizable.numberOfReactions($0.commaRepresentation),
                                     actionDescriptionText: R.string.localizable.you_gave())
                             })
 

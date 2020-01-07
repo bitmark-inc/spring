@@ -232,7 +232,6 @@
 		5B5D002923A1F0F4003D1A1C /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC90237A889A00FA3196 /* KeychainStore.swift */; };
 		5B5D002A23A1F0F4003D1A1C /* ConfirmRecoveryKeyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC1D237A863300FA3196 /* ConfirmRecoveryKeyViewController.swift */; };
 		5B5D002B23A1F0F4003D1A1C /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FCC3237AB8AB00FA3196 /* R.generated.swift */; };
-		5B5D002C23A1F0F4003D1A1C /* String+Facebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = E292EE0C23976F1A00DC466E /* String+Facebook.swift */; };
 		5B5D002D23A1F0F4003D1A1C /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC1A237A863300FA3196 /* ThemeManager.swift */; };
 		5B5D002E23A1F0F4003D1A1C /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC23237A863300FA3196 /* UnderlinedTextField.swift */; };
 		5B5D002F23A1F0F4003D1A1C /* ListHeadingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E22BC2EA239E3FF000018BC4 /* ListHeadingViewCell.swift */; };
@@ -408,6 +407,9 @@
 		5BBB663A23A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBB663723A7305800DAAB1F /* RecoveryKeyWordCell.swift */; };
 		5BC5C69123A0A4B000EA211E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BC5C69023A0A4B000EA211E /* InfoPlist.strings */; };
 		5BC5C69223A0A4B100EA211E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BC5C69023A0A4B000EA211E /* InfoPlist.strings */; };
+		5BE86EA223C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
+		5BE86EA323C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
+		5BE86EA423C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
 		5BEB478C23AC7EB100750AC6 /* UsageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEB478B23AC7EB100750AC6 /* UsageAPI.swift */; };
 		5BEB478D23AC7EB100750AC6 /* UsageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEB478B23AC7EB100750AC6 /* UsageAPI.swift */; };
 		5BEB478E23AC7EB100750AC6 /* UsageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BEB478B23AC7EB100750AC6 /* UsageAPI.swift */; };
@@ -513,8 +515,6 @@
 		E28B5612238D180B00F1BCF2 /* FbmAccountAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B5610238D180B00F1BCF2 /* FbmAccountAPI.swift */; };
 		E28B561B238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */; };
 		E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */ = {isa = PBXBuildFile; fileRef = E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */; };
-		E292EE0D23976F1A00DC466E /* String+Facebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = E292EE0C23976F1A00DC466E /* String+Facebook.swift */; };
-		E292EE0E23976F1A00DC466E /* String+Facebook.swift in Sources */ = {isa = PBXBuildFile; fileRef = E292EE0C23976F1A00DC466E /* String+Facebook.swift */; };
 		E29F5A242383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */; };
 		E29F5A252383E2E700C1D9D8 /* SignInWallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */; };
 		E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */; };
@@ -798,6 +798,7 @@
 		5BBB663723A7305800DAAB1F /* RecoveryKeyWordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKeyWordCell.swift; sourceTree = "<group>"; };
 		5BC5C69023A0A4B000EA211E /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		5BE22E6A23A227C5007EBFC9 /* Synergy Inhouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Synergy Inhouse.entitlements"; sourceTree = "<group>"; };
+		5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Formatter.swift"; sourceTree = "<group>"; };
 		5BEB478B23AC7EB100750AC6 /* UsageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageAPI.swift; sourceTree = "<group>"; };
 		5BEF584323AB2EA500901D52 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		5BEF584723AB6BE200901D52 /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
@@ -858,7 +859,6 @@
 		E28B560D238D16E800F1BCF2 /* FbmAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FbmAccount.swift; sourceTree = "<group>"; };
 		E28B5610238D180B00F1BCF2 /* FbmAccountAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FbmAccountAPI.swift; sourceTree = "<group>"; };
 		E28B561A238D21A700F1BCF2 /* UIViewController+Permission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Permission.swift"; sourceTree = "<group>"; };
-		E292EE0C23976F1A00DC466E /* String+Facebook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Facebook.swift"; sourceTree = "<group>"; };
 		E29F5A1B2383E2E600C1D9D8 /* SignInWallViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInWallViewModel.swift; sourceTree = "<group>"; };
 		E29F5A1C2383E2E600C1D9D8 /* SignInWallViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInWallViewController.swift; sourceTree = "<group>"; };
 		E29F5A2D2383E59700C1D9D8 /* AtlasGrotesk-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AtlasGrotesk-Black.otf"; sourceTree = "<group>"; };
@@ -1185,8 +1185,8 @@
 				5832FCA3237A8A9200FA3196 /* FileManager+Directory.swift */,
 				5832FCA4237A8A9200FA3196 /* String+Helper.swift */,
 				E23807D123963E3E0079A3C4 /* Array+Sentence.swift */,
-				E292EE0C23976F1A00DC466E /* String+Facebook.swift */,
 				5BEF584323AB2EA500901D52 /* Date+Extension.swift */,
+				5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -2440,8 +2440,8 @@
 				5B2097A923B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230C23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				E2259CD0238783AE00746280 /* FBScript.swift in Sources */,
+				5BE86EA223C45ADB00D3D9BB /* Int+Formatter.swift in Sources */,
 				5832FC46237A863300FA3196 /* ViewController.swift in Sources */,
-				E292EE0D23976F1A00DC466E /* String+Facebook.swift in Sources */,
 				5B4A238F23B118E500447366 /* SectionHeadingView.swift in Sources */,
 				5832FC96237A889A00FA3196 /* KeychainStore.swift in Sources */,
 				5832FC45237A863300FA3196 /* ConfirmRecoveryKeyViewController.swift in Sources */,
@@ -2628,10 +2628,10 @@
 				5B2097AB23B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230E23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				5B5D002923A1F0F4003D1A1C /* KeychainStore.swift in Sources */,
+				5BE86EA423C45ADB00D3D9BB /* Int+Formatter.swift in Sources */,
 				5B5D002A23A1F0F4003D1A1C /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				5B5D002B23A1F0F4003D1A1C /* R.generated.swift in Sources */,
 				5B4A239123B118E500447366 /* SectionHeadingView.swift in Sources */,
-				5B5D002C23A1F0F4003D1A1C /* String+Facebook.swift in Sources */,
 				5B5D002D23A1F0F4003D1A1C /* ThemeManager.swift in Sources */,
 				5B4A237923B1132E00447366 /* UsageBadgeView.swift in Sources */,
 				5B5D002E23A1F0F4003D1A1C /* UnderlinedTextField.swift in Sources */,
@@ -2805,10 +2805,10 @@
 				5B2097AA23B464A40079B421 /* ReactionDataEngine+Rx.swift in Sources */,
 				5B93230D23A363A100C3C408 /* ViewRecoveryKeyViewModel.swift in Sources */,
 				E2DB66A8237D3B69005367C2 /* KeychainStore.swift in Sources */,
+				5BE86EA323C45ADB00D3D9BB /* Int+Formatter.swift in Sources */,
 				E2DB66A9237D3B69005367C2 /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				E2DB66AA237D3B69005367C2 /* R.generated.swift in Sources */,
 				5B4A239023B118E500447366 /* SectionHeadingView.swift in Sources */,
-				E292EE0E23976F1A00DC466E /* String+Facebook.swift in Sources */,
 				E2DB66AB237D3B69005367C2 /* ThemeManager.swift in Sources */,
 				5B4A237823B1132E00447366 /* UsageBadgeView.swift in Sources */,
 				E2DB66AC237D3B69005367C2 /* UnderlinedTextField.swift in Sources */,

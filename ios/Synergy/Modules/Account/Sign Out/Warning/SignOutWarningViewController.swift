@@ -19,6 +19,14 @@ class SignOutWarningViewController: ViewController, BackNavigator {
     lazy var continueButton = makeContinueButton()
     fileprivate var lockTextViewClick: Bool = false // for unknown reason, textview delegate function call more than 1 times
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         lockTextViewClick = false

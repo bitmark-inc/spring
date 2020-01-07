@@ -21,6 +21,14 @@ class BiometricAuthViewController: ViewController, BackNavigator {
     lazy var enableSwitchView = makeEnableSwitchView()
     lazy var enableSwitch = makeEnableSwitch()
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     override func bindViewModel() {
         super.bindViewModel()
 

@@ -29,6 +29,14 @@ class ViewRecoveryKeyViewController: ViewController, BackNavigator {
         return pageSize
     }
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13.0, *) {
+            return .darkContent
+        } else {
+            return .default
+        }
+    }
+
     override func bindViewModel() {
         super.bindViewModel()
 
