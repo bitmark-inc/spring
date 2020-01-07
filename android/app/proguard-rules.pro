@@ -58,6 +58,10 @@
 # Gson
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+-keep class com.bitmark.fbm.data.model.** { *; }
 
 # RxJava, RxAndroid
 -keep class rx.schedulers.Schedulers {
