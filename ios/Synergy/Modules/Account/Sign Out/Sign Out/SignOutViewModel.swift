@@ -34,13 +34,7 @@ class SignOutViewModel: ConfirmRecoveryKeyViewModel {
 
             // clear user data
             try FileManager.default.removeItem(at: FileManager.filesDocumentDirectoryURL)
-
-            do {
-                try FileManager.default.removeItem(at: FileManager.databaseDirectoryURL)
-                try KeychainStore.removeEncryptedDBKeyFromKeychain(for: account.getAccountNumber())
-            } catch {
-                Global.log.error(error)
-            }
+            try RealmConfig.removeRealm(of: account.getAccountNumber())
 
             Global.current = Global() // reset local variable
             AuthService.shared = AuthService()

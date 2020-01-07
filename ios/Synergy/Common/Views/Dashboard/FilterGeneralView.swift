@@ -23,7 +23,6 @@ class FilterGeneralView: UIView {
     var groupKey: GroupKey = .friend
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
     weak var navigatorDelegate: NavigatorDelegate?
-    var dataObserver: Disposable? // stop observing old-data
     let disposeBag = DisposeBag()
 
     // MARK: - Init
@@ -79,8 +78,11 @@ class FilterGeneralView: UIView {
     }
 
     func setProperties(section: Section, groupKey: GroupKey, container: UsageViewController) {
+        weak var container = container
         self.section = section
         self.groupKey = groupKey
+
+        var dataObserver: Disposable? // stop observing old-data
 
         switch groupKey {
         case .friend:
@@ -93,12 +95,12 @@ class FilterGeneralView: UIView {
 
         switch section {
         case .post:
-            container.thisViewModel.realmPostUsageRelay
+            container?.thisViewModel.realmPostUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self else { return }
+                    guard let self = self, let container = container else { return }
                     if usage != nil {
-                        self.dataObserver?.dispose()
-                        self.dataObserver = container.groupsPostUsageObservable
+                        dataObserver?.dispose()
+                        dataObserver = container.groupsPostUsageObservable
                             .map { groupKey == .friend ? $0.friend : $0.place }
                             .map { (graphDatas) -> [(names: [String], sumData: Double, data: [Double])]? in
                                 guard let graphDatas = graphDatas
@@ -109,24 +111,27 @@ class FilterGeneralView: UIView {
                                 return GraphDataConverter.getDataGroupByNameValue(
                                     with: graphDatas,
                                     in: .post)
-                        }
-                        .subscribe(onNext: { [weak self] (data) in
-                            self?.fillData(with: data)
-                        })
+                            }
+                            .subscribe(onNext: { [weak self] (data) in
+                                self?.fillData(with: data)
+                            })
+
+                        dataObserver?
+                            .disposed(by: self.disposeBag)
                     } else {
-                        self.dataObserver?.dispose()
+                        dataObserver?.dispose()
                         self.fillData(with: nil)
                     }
                 })
                 .disposed(by: disposeBag)
 
         case .reaction:
-            container.thisViewModel.realmReactionUsageRelay
+            container?.thisViewModel.realmReactionUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self else { return }
+                    guard let self = self, let container = container else { return }
                     if usage != nil {
-                        self.dataObserver?.dispose()
-                        self.dataObserver = container.groupsReactionUsageObservable
+                        dataObserver?.dispose()
+                        dataObserver = container.groupsReactionUsageObservable
                             .map { groupKey == .friend ? $0.friend : $0.place }
                             .map { (graphDatas) -> [(names: [String], sumData: Double, data: [Double])]? in
                                 guard let graphDatas = graphDatas
@@ -137,12 +142,15 @@ class FilterGeneralView: UIView {
                                 return GraphDataConverter.getDataGroupByNameValue(
                                     with: graphDatas,
                                     in: .post)
-                        }
-                        .subscribe(onNext: { [weak self] (data) in
-                            self?.fillData(with: data)
-                        })
+                            }
+                            .subscribe(onNext: { [weak self] (data) in
+                                self?.fillData(with: data)
+                            })
+
+                        dataObserver?
+                            .disposed(by: self.disposeBag)
                     } else {
-                        self.dataObserver?.dispose()
+                        dataObserver?.dispose()
                         self.fillData(with: nil)
                     }
                 })

@@ -22,7 +22,6 @@ class FilterDayView: UIView {
     var section: Section = .post
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
     weak var navigatorDelegate: NavigatorDelegate?
-    var dataObserver: Disposable? // stop observing old-data
     let disposeBag = DisposeBag()
 
     override init(frame: CGRect) {
@@ -69,9 +68,12 @@ class FilterDayView: UIView {
     }
 
     func setProperties(section: Section, container: UsageViewController) {
+        weak var container = container
         self.section = section
 
-        container.thisViewModel.timeUnitRelay
+        var dataObserver: Disposable? // stop observing old-data
+
+        container?.thisViewModel.timeUnitRelay
             .subscribe(onNext: { [weak self] (timeUnit) in
                 self?.updateFilterText(timeUnit: timeUnit)
             })
@@ -79,15 +81,15 @@ class FilterDayView: UIView {
 
         switch section {
         case .post:
-            container.thisViewModel.realmPostUsageRelay
+            container?.thisViewModel.realmPostUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self else { return }
+                    guard let self = self, let container = container  else { return }
                     if usage != nil {
-                        self.dataObserver?.dispose()
-                        self.dataObserver = container.groupsPostUsageObservable
+                        dataObserver?.dispose()
+                        dataObserver = container.groupsPostUsageObservable
                             .map { $0.subPeriod }
-                            .map { (graphDatas) -> [Date: (String, [Double])]? in
-                                guard let graphDatas = graphDatas
+                            .map { [weak container] (graphDatas) -> [Date: (String, [Double])]? in
+                                guard let graphDatas = graphDatas, let container = container
                                     else {
                                         return nil
                                 }
@@ -97,27 +99,30 @@ class FilterDayView: UIView {
                                     timeUnit: container.thisViewModel.timeUnitRelay.value,
                                     startDate: container.thisViewModel.dateRelay.value,
                                     in: .post)
-                        }
-                        .subscribe(onNext: { [weak self] (data) in
-                            self?.fillData(with: data)
-                        })
+                            }
+                            .subscribe(onNext: { [weak self] (data) in
+                                self?.fillData(with: data)
+                            })
+
+                        dataObserver?
+                            .disposed(by: self.disposeBag)
                     } else {
-                        self.dataObserver?.dispose()
+                        dataObserver?.dispose()
                         self.fillData(with: nil)
                     }
                 })
                 .disposed(by: disposeBag)
 
         case .reaction:
-            container.thisViewModel.realmReactionUsageRelay
+            container?.thisViewModel.realmReactionUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self else { return }
+                    guard let self = self, let container = container  else { return }
                     if usage != nil {
-                        self.dataObserver?.dispose()
-                        self.dataObserver = container.groupsReactionUsageObservable
+                        dataObserver?.dispose()
+                        dataObserver = container.groupsReactionUsageObservable
                             .map { $0.subPeriod }
-                            .map { (graphDatas) -> [Date: (String, [Double])]? in
-                                guard let graphDatas = graphDatas
+                            .map { [weak container] (graphDatas) -> [Date: (String, [Double])]? in
+                                guard let graphDatas = graphDatas, let container = container
                                     else {
                                         return nil
                                 }
@@ -127,12 +132,15 @@ class FilterDayView: UIView {
                                     timeUnit: container.thisViewModel.timeUnitRelay.value,
                                     startDate: container.thisViewModel.dateRelay.value,
                                     in: .reaction)
-                        }
-                        .subscribe(onNext: { [weak self] (data) in
-                            self?.fillData(with: data)
-                        })
+                            }
+                            .subscribe(onNext: { [weak self] (data) in
+                                self?.fillData(with: data)
+                            })
+
+                        dataObserver?
+                            .disposed(by: self.disposeBag)
                     } else {
-                        self.dataObserver?.dispose()
+                        dataObserver?.dispose()
                         self.fillData(with: nil)
                     }
                 })

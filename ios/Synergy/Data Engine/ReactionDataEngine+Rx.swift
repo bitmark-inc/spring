@@ -16,15 +16,32 @@ class ReactionDataEngine {
     static var datePeriodSubject: PublishSubject<DatePeriod>?
     static var triggerSubject: PublishSubject<LoadDataEvent>?
 
-    static func sync(datePeriod: DatePeriod?) throws {
+    static func sync(datePeriod: DatePeriod?) {
         guard let datePeriod = datePeriod else { return }
 
         datePeriodSubject = PublishSubject<DatePeriod>()
 
-        let realm = try RealmConfig.currentRealm()
-        let queryTrack = realm.object(ofType: QueryTrack.self, forPrimaryKey: RemoteQuery.reactions.rawValue)
-        let trackedDatePeriods = queryTrack?.datePeriods ?? []
+        var trackedDatePeriods = [DatePeriod]()
+        var shortenPeriod: DatePeriod?
         let rootEndDate = datePeriod.endDate
+
+        autoreleasepool {
+            do {
+                let realm = try RealmConfig.currentRealm()
+                let queryTrack = realm.object(ofType: QueryTrack.self, forPrimaryKey: RemoteQuery.reactions.rawValue)
+
+                trackedDatePeriods = queryTrack?.datePeriods ?? []
+
+                if let queryTrack = queryTrack {
+                    shortenPeriod = queryTrack.removeQueriedPeriod(for: datePeriod)
+                } else {
+                    shortenPeriod = datePeriod
+                }
+            } catch {
+                Global.log.error(error)
+            }
+        }
+
 
         var syncedStartDate: Date?
 
@@ -75,13 +92,6 @@ class ReactionDataEngine {
                 }
             })
 
-        let shortenPeriod: DatePeriod?
-        if let queryTrack = queryTrack {
-            shortenPeriod = queryTrack.removeQueriedPeriod(for: datePeriod)
-        } else {
-            shortenPeriod = datePeriod
-        }
-
         if let shortenPeriod = shortenPeriod {
             datePeriodSubject.onNext(shortenPeriod)
 
@@ -113,29 +123,31 @@ extension Reactive where Base: ReactionDataEngine {
         Global.log.info("[start] ReactionDataEngion.rx.fetch")
 
         return Single<Results<Reaction>>.create { (event) -> Disposable in
-            do {
-                guard Thread.current.isMainThread else {
-                    throw AppError.incorrectThread
+            autoreleasepool {
+                do {
+                    guard Thread.current.isMainThread else {
+                        throw AppError.incorrectThread
+                    }
+
+                    let realm = try RealmConfig.currentRealm()
+                    ReactionDataEngine.triggerSubject = PublishSubject<LoadDataEvent>()
+
+                    guard let filterQuery = makeFilterQuery(filterScope) else {
+                        throw AppError.incorrectReactionFilter
+                    }
+                    let reactions = realm.objects(Reaction.self).filter(filterQuery)
+                    event(.success(reactions))
+
+                    if reactions.count == 0 { loadingState.onNext(.loading) }
+
+                    let datePeriod = extractQueryDatePeriod(filterScope)
+                    ReactionDataEngine.sync(datePeriod: datePeriod)
+                } catch {
+                    event(.error(error))
                 }
 
-                let realm = try RealmConfig.currentRealm()
-                ReactionDataEngine.triggerSubject = PublishSubject<LoadDataEvent>()
-
-                guard let filterQuery = makeFilterQuery(filterScope) else {
-                    throw AppError.incorrectReactionFilter
-                }
-                let reactions = realm.objects(Reaction.self).filter(filterQuery)
-                event(.success(reactions))
-
-                if reactions.count == 0 { loadingState.onNext(.loading) }
-
-                let datePeriod = extractQueryDatePeriod(filterScope)
-                try ReactionDataEngine.sync(datePeriod: datePeriod)
-            } catch {
-                event(.error(error))
+                return Disposables.create()
             }
-
-            return Disposables.create()
         }
     }
 

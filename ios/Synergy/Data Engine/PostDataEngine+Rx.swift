@@ -27,11 +27,26 @@ class PostDataEngine {
 
         datePeriodSubject = PublishSubject<DatePeriod>()
 
-        let realm = try RealmConfig.currentRealm()
-        let queryTrack = realm.object(ofType: QueryTrack.self, forPrimaryKey: RemoteQuery.posts.rawValue)
-        let trackedDatePeriods = queryTrack?.datePeriods ?? []
+        var trackedDatePeriods = [DatePeriod]()
+        var shortenPeriod: DatePeriod?
         let rootEndDate = datePeriod.endDate
 
+        autoreleasepool {
+            do {
+                let realm = try RealmConfig.currentRealm()
+                let queryTrack = realm.object(ofType: QueryTrack.self, forPrimaryKey: RemoteQuery.posts.rawValue)
+
+                trackedDatePeriods = queryTrack?.datePeriods ?? []
+
+                if let queryTrack = queryTrack {
+                    shortenPeriod = queryTrack.removeQueriedPeriod(for: datePeriod)
+                } else {
+                    shortenPeriod = datePeriod
+                }
+            } catch {
+                Global.log.error(error)
+            }
+        }
         var syncedStartDate: Date?
 
         guard let datePeriodSubject = datePeriodSubject, let triggerSubject = triggerSubject else { return }
@@ -81,13 +96,6 @@ class PostDataEngine {
                 }
             })
 
-        let shortenPeriod: DatePeriod?
-        if let queryTrack = queryTrack {
-            shortenPeriod = queryTrack.removeQueriedPeriod(for: datePeriod)
-        } else {
-            shortenPeriod = datePeriod
-        }
-
         if let shortenPeriod = shortenPeriod {
             datePeriodSubject.onNext(shortenPeriod)
 
@@ -120,26 +128,28 @@ extension Reactive where Base: PostDataEngine {
         Global.log.info("[start] PostDataEngine.rx.fetch")
 
         return Single<Results<Post>>.create { (event) -> Disposable in
-            do {
-                guard Thread.current.isMainThread else {
-                    throw AppError.incorrectThread
+            autoreleasepool {
+                do {
+                    guard Thread.current.isMainThread else {
+                        throw AppError.incorrectThread
+                    }
+
+                    let realm = try RealmConfig.currentRealm()
+                    PostDataEngine.triggerSubject = PublishSubject<LoadDataEvent>()
+
+                    guard let filterQuery = makeFilterQuery(filterScope) else {
+                        throw AppError.incorrectPostFilter
+                    }
+                    let posts = realm.objects(Post.self).filter(filterQuery)
+                    event(.success(posts))
+
+                    if posts.count == 0 { loadingState.onNext(.loading) }
+
+                    let datePeriod = extractQueryDatePeriod(filterScope)
+                    try PostDataEngine.sync(datePeriod: datePeriod)
+                } catch {
+                    event(.error(error))
                 }
-
-                let realm = try RealmConfig.currentRealm()
-                PostDataEngine.triggerSubject = PublishSubject<LoadDataEvent>()
-
-                guard let filterQuery = makeFilterQuery(filterScope) else {
-                    throw AppError.incorrectPostFilter
-                }
-                let posts = realm.objects(Post.self).filter(filterQuery)
-                event(.success(posts))
-
-                if posts.count == 0 { loadingState.onNext(.loading) }
-
-                let datePeriod = extractQueryDatePeriod(filterScope)
-                try PostDataEngine.sync(datePeriod: datePeriod)
-            } catch {
-                event(.error(error))
             }
 
             return Disposables.create()

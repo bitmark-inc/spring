@@ -24,32 +24,34 @@ extension Reactive where Base: FbmAccountDataEngine {
                 return Disposables.create()
             }
 
-            do {
-                guard Thread.current.isMainThread else {
-                    throw AppError.incorrectThread
+            autoreleasepool {
+                do {
+                    guard Thread.current.isMainThread else {
+                        throw AppError.incorrectThread
+                    }
+                    
+                    let realm = try RealmConfig.currentRealm()
+                    if let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) {
+                        event(.success(fbmAccount))
+                    } else {
+                        _ = FbmAccountService.getMe()
+                            .flatMapCompletable { Storage.store($0) }
+                            .observeOn(MainScheduler.instance)
+                            .subscribe(onCompleted: {
+                                guard let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number)
+                                    else {
+                                        Global.log.error(AppError.incorrectEmptyRealmObject)
+                                        return
+                                }
+                                
+                                event(.success(fbmAccount))
+                            }, onError: { (error) in
+                                event(.error(error))
+                            })
+                    }
+                } catch {
+                    event(.error(error))
                 }
-
-                let realm = try RealmConfig.currentRealm()
-                if let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number) {
-                    event(.success(fbmAccount))
-                } else {
-                    _ = FbmAccountService.getMe()
-                        .flatMapCompletable { Storage.store($0) }
-                        .observeOn(MainScheduler.instance)
-                        .subscribe(onCompleted: {
-                            guard let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number)
-                                else {
-                                    Global.log.error(AppError.incorrectEmptyRealmObject)
-                                    return
-                            }
-
-                            event(.success(fbmAccount))
-                        }, onError: { (error) in
-                            event(.error(error))
-                        })
-                }
-            } catch {
-                event(.error(error))
             }
 
             return Disposables.create()

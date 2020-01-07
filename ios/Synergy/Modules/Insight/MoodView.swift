@@ -20,7 +20,6 @@ class MoodView: UIView {
     fileprivate lazy var noActivityView = makeNoActivityView()
 
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
-    var dataObserver: Disposable? // stop observing old-data
     let disposeBag = DisposeBag()
 
     // MARK: - Properties
@@ -51,20 +50,26 @@ class MoodView: UIView {
     }
 
     func setProperties(section: Section, container: InsightViewController) {
+        weak var container = container
+        var dataObserver: Disposable? // stop observing old-data
+
         switch section {
         case .mood:
-            container.thisViewModel.realmMoodInsightRelay
+            container?.thisViewModel.realmMoodInsightRelay
                 .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self else { return }
+                    guard let self = self, let container = container else { return }
                     if usage != nil {
-                        self.dataObserver?.dispose()
-                        self.dataObserver = container.moodInsightObservable
+                        dataObserver?.dispose()
+                        dataObserver = container.moodInsightObservable
                             .map { $0.value }
                             .subscribe(onNext: { [weak self] (moodValue) in
                                 self?.fillData(moodValue: moodValue)
                             })
+
+                        dataObserver?
+                            .disposed(by: self.disposeBag)
                     } else {
-                        self.dataObserver?.dispose()
+                        dataObserver?.dispose()
                         self.fillData(moodValue: nil)
                     }
                 })

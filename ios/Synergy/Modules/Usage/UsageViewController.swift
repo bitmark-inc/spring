@@ -161,7 +161,7 @@ class UsageViewController: ViewController {
         contentView.flex
             .direction(.column).define { (flex) in
                 flex.addItem(scroll).height(100%)
-        }
+            }
     }
 }
 

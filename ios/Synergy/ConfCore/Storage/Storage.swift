@@ -19,13 +19,15 @@ class Storage {
     // MARK: - Handlers
     static func store(_ objects: [Object], inGlobalRealm: Bool = false) -> Completable {
         return Completable.create { (event) -> Disposable in
-            self.performWrite(inGlobalRealm: inGlobalRealm, writeBlock: { (backgroundRealm) in
-                objects.forEach { (object) in
-                    backgroundRealm.add(object, update: .modified)
-                }
-            }, completionBlock: { (error) in
-                error != nil ? event(.error(error!)) : event(.completed)
-            })
+            autoreleasepool {
+                self.performWrite(inGlobalRealm: inGlobalRealm, writeBlock: { (backgroundRealm) in
+                    objects.forEach { (object) in
+                        backgroundRealm.add(object, update: .modified)
+                    }
+                }, completionBlock: { (error) in
+                    error != nil ? event(.error(error!)) : event(.completed)
+                })
+            }
 
             return Disposables.create()
         }
@@ -35,12 +37,14 @@ class Storage {
         Global.log.info("[start] store object")
 
         return Completable.create { (event) -> Disposable in
-            self.performWrite(inGlobalRealm: inGlobalRealm, writeBlock: { (backgroundRealm) in
-                backgroundRealm.add(object, update: .modified)
-            }, completionBlock: { (error) in
-                Global.log.info("[done] store object")
-                error != nil ? event(.error(error!)) : event(.completed)
-            })
+            autoreleasepool {
+                self.performWrite(inGlobalRealm: inGlobalRealm, writeBlock: { (backgroundRealm) in
+                    backgroundRealm.add(object, update: .modified)
+                }, completionBlock: { (error) in
+                    Global.log.info("[done] store object")
+                    error != nil ? event(.error(error!)) : event(.completed)
+                })
+            }
 
             return Disposables.create()
         }
@@ -49,22 +53,25 @@ class Storage {
     static private func performWrite(inGlobalRealm: Bool = false, writeBlock: @escaping (Realm) throws -> Void,
                                               completionBlock: ((Error?) -> Void)? = nil) {
         DispatchQueue.main.async {
-          var storageError: Error?
+            var storageError: Error?
 
-          do {
-            let backgroundRealm = try inGlobalRealm ? RealmConfig.globalRealm() : RealmConfig.currentRealm()
-            self.notificationToken = backgroundRealm.observe { (notification, realm) in
-              completionBlock?(storageError)
-              self.notificationToken?.invalidate()
+            autoreleasepool {
+                do {
+
+                    let backgroundRealm = try inGlobalRealm ? RealmConfig.globalRealm() : RealmConfig.currentRealm()
+                    self.notificationToken = backgroundRealm.observe { (notification, realm) in
+                        completionBlock?(storageError)
+                        self.notificationToken?.invalidate()
+                    }
+
+                    backgroundRealm.beginWrite()
+                    try writeBlock(backgroundRealm)
+                    try backgroundRealm.commitWrite()
+                } catch {
+                    storageError = error
+                }
             }
 
-            backgroundRealm.beginWrite()
-            try writeBlock(backgroundRealm)
-            try backgroundRealm.commitWrite()
-
-          } catch {
-            storageError = error
-          }
         }
     }
 }

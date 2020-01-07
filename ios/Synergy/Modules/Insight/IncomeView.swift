@@ -18,7 +18,6 @@ class IncomeView: UIView {
     fileprivate lazy var descriptionLabel = makeDescriptionLabel()
 
     weak var containerLayoutDelegate: ContainerLayoutDelegate?
-    var dataObserver: Disposable? // stop observing old-data
     let disposeBag = DisposeBag()
 
     // MARK: - Properties
@@ -43,20 +42,26 @@ class IncomeView: UIView {
     }
 
     func setProperties(section: Section, container: InsightViewController) {
+        weak var container = container
+        var dataObserver: Disposable? // stop observing old-data
+
         switch section {
         case .fbIncome:
-            container.thisViewModel.realmIncomeInsightRelay
+            container?.thisViewModel.realmIncomeInsightRelay
                 .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self else { return }
+                    guard let self = self, let container = container else { return }
                     if usage != nil {
-                        self.dataObserver?.dispose()
-                        self.dataObserver = container.incomeInsightObservable
+                        dataObserver?.dispose()
+                        dataObserver = container.incomeInsightObservable
                             .map { $0.value }
                             .subscribe(onNext: { [weak self] (amount) in
                                 self?.fillData(amount: amount)
                             })
+
+                        dataObserver?
+                            .disposed(by: self.disposeBag)
                     } else {
-                        self.dataObserver?.dispose()
+                        dataObserver?.dispose()
                         self.fillData(amount: nil)
                     }
                 })

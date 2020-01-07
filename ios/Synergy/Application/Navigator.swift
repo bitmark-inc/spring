@@ -227,7 +227,7 @@ class Navigator {
             })
     }
 
-    static let requireAuthorizationTime = 1 // minutes
+    static let requireAuthorizationTime = 30 // minutes
     static var retryAuthenticationAlert: UIAlertController?
     static func evaluatePolicyWhenUserSetEnable() {
         guard Global.current.account != nil,

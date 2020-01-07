@@ -45,19 +45,23 @@ class InsightBadgeView: UIView {
     }
 
     func setProperties(container: InsightViewController) {
+        weak var container = container
         var fbIncomeInsightObserver: Disposable?
         var moodInsightObserver: Disposable?
 
-        container.thisViewModel.realmIncomeInsightRelay
+        container?.thisViewModel.realmIncomeInsightRelay
             .subscribe(onNext: { [weak self] (insight) in
-                guard let self = self else { return }
+                guard let self = self, let container = container else { return }
                 if insight != nil {
                     fbIncomeInsightObserver?.dispose()
                     fbIncomeInsightObserver = container.incomeInsightObservable
                         .map { $0.diffFromPrevious }
-                        .subscribe(onNext: { (fbIncomeBadge) in
-                            self.fillData(with: (badge: fbIncomeBadge, section: .fbIncome))
+                        .subscribe(onNext: { [weak self] (fbIncomeBadge) in
+                            self?.fillData(with: (badge: fbIncomeBadge, section: .fbIncome))
                         })
+
+                    fbIncomeInsightObserver?
+                        .disposed(by: self.disposeBag)
                 } else {
                     fbIncomeInsightObserver?.dispose()
                     self.fillData(with: (badge: nil, section: .fbIncome))
@@ -65,16 +69,19 @@ class InsightBadgeView: UIView {
             })
             .disposed(by: disposeBag)
 
-        container.thisViewModel.realmMoodInsightRelay
+        container?.thisViewModel.realmMoodInsightRelay
             .subscribe(onNext: { [weak self] (usage) in
-                guard let self = self else { return }
+                guard let self = self, let container = container else { return }
                 if usage != nil {
                     moodInsightObserver?.dispose()
                     moodInsightObserver = container.moodInsightObservable
                         .map { $0.diffFromPrevious }
-                        .subscribe(onNext: { (moodBadge) in
-                            self.fillData(with: (badge: moodBadge, section: .mood))
+                        .subscribe(onNext: { [weak self] (moodBadge) in
+                            self?.fillData(with: (badge: moodBadge, section: .mood))
                         })
+
+                    moodInsightObserver?
+                        .disposed(by: self.disposeBag)
                 } else {
                     moodInsightObserver?.dispose()
                     self.fillData(with: (badge: nil, section: .mood))

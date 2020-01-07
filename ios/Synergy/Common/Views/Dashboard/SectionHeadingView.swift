@@ -18,7 +18,6 @@ class SectionHeadingView: UIView {
     private let actionDescriptionLabel = Label.create(withFont: R.font.atlasGroteskLight(size: 10))
 
     var section: Section = .post
-    var dataObserver: Disposable? // stop observing old-data
     let disposeBag = DisposeBag()
 
     // MARK: - Properties
@@ -41,24 +40,27 @@ class SectionHeadingView: UIView {
     }
 
     func setProperties(section: Section, container: UsageViewController) {
+        weak var container = container
         self.section = section
+        var dataObserver: Disposable? // stop observing old-data
 
         switch section {
         case .post:
-            container.thisViewModel.realmPostUsageRelay
+            container?.thisViewModel.realmPostUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self else { return }
+                    guard let self = self, let container = container else { return }
                     if usage != nil {
-                        self.dataObserver?.dispose()
-                        self.dataObserver = container.postUsageObservable
+                        dataObserver?.dispose()
+                        dataObserver = container.postUsageObservable
                             .map { $0.quantity }
                             .subscribe(onNext: { [weak self] in
                                 self?.fillData(
                                     countText: R.string.localizable.numberOfPosts("\($0)"),
                                     actionDescriptionText: R.string.localizable.you_made())
                             })
+                        dataObserver?.disposed(by: self.disposeBag)
                     } else {
-                        self.dataObserver?.dispose()
+                        dataObserver?.dispose()
                         self.fillData(
                             countText: R.string.localizable.numberOfPosts("0"),
                             actionDescriptionText: R.string.localizable.you_made())
@@ -67,20 +69,23 @@ class SectionHeadingView: UIView {
                 .disposed(by: disposeBag)
 
         case .reaction:
-            container.thisViewModel.realmReactionUsageRelay
+            container?.thisViewModel.realmReactionUsageRelay
                 .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self else { return }
+                    guard let self = self, let container = container else { return }
                     if usage != nil {
-                        self.dataObserver?.dispose()
-                        self.dataObserver = container.reactionUsageObservable
+                        dataObserver?.dispose()
+                        dataObserver = container.reactionUsageObservable
                             .map { $0.quantity }
                             .subscribe(onNext: { [weak self] in
                                 self?.fillData(
                                     countText: R.string.localizable.numberOfReactions("\($0)"),
                                     actionDescriptionText: R.string.localizable.you_gave())
                             })
+
+                        dataObserver?
+                            .disposed(by: self.disposeBag)
                     } else {
-                        self.dataObserver?.dispose()
+                        dataObserver?.dispose()
                         self.fillData(
                             countText: R.string.localizable.numberOfReactions("0"),
                             actionDescriptionText: R.string.localizable.you_gave())

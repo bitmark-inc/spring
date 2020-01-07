@@ -60,19 +60,25 @@ class UsageBadgeView: UIView {
     }
 
     func setProperties(container: UsageViewController) {
+        weak var container = container
         var postUsageObserver: Disposable?
         var reactionUsageObserver: Disposable?
 
-        container.thisViewModel.realmPostUsageRelay
+        container?.thisViewModel.realmPostUsageRelay
             .subscribe(onNext: { [weak self] (usage) in
-                guard let self = self else { return }
+                guard let self = self, let container = container else { return }
+
                 if usage != nil {
                     postUsageObserver?.dispose()
                     postUsageObserver = container.postUsageObservable
                         .map { $0.diffFromPrevious }
-                        .subscribe(onNext: { (postBadge) in
-                            self.fillData(with: (badge: postBadge, section: .post))
+                        .subscribe(onNext: { [weak self] (postBadge) in
+                            self?.fillData(with: (badge: postBadge, section: .post))
                         })
+
+                    postUsageObserver?
+                        .disposed(by: self.disposeBag)
+
                 } else {
                     postUsageObserver?.dispose()
                     self.fillData(with: (badge: nil, section: .post))
@@ -80,16 +86,19 @@ class UsageBadgeView: UIView {
             })
             .disposed(by: disposeBag)
 
-        container.thisViewModel.realmReactionUsageRelay
+        container?.thisViewModel.realmReactionUsageRelay
             .subscribe(onNext: { [weak self] (usage) in
-                guard let self = self else { return }
+                guard let self = self, let container = container else { return }
                 if usage != nil {
                     reactionUsageObserver?.dispose()
                     reactionUsageObserver = container.reactionUsageObservable
                         .map { $0.diffFromPrevious }
-                        .subscribe(onNext: { (reactionBadge) in
-                            self.fillData(with: (badge: reactionBadge, section: .reaction))
+                        .subscribe(onNext: { [weak self] (reactionBadge) in
+                            self?.fillData(with: (badge: reactionBadge, section: .reaction))
                         })
+
+                    reactionUsageObserver?
+                        .disposed(by: self.disposeBag)
                 } else {
                     postUsageObserver?.dispose()
                     self.fillData(with: (badge: nil, section: .reaction))

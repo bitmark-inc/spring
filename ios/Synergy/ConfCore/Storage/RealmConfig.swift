@@ -56,6 +56,22 @@ enum RealmConfig {
         )
     }
 
+    static func removeRealm(of accountNumber: String) throws {
+        guard let realmURL = try Self.user(accountNumber).configuration().fileURL else { return }
+        let realmURLs = [
+            realmURL,
+            realmURL.appendingPathExtension("lock"),
+            realmURL.appendingPathExtension("note"),
+            realmURL.appendingPathExtension("management")
+        ]
+
+        for URL in realmURLs {
+            try FileManager.default.removeItem(at: URL)
+        }
+
+        try KeychainStore.removeEncryptedDBKeyFromKeychain(for: accountNumber)
+    }
+
     fileprivate func dbDirectoryURL(for accountNumber: String = "") -> URL {
         Global.log.debug("[start] dbDirectoryURL")
         let dbDirectory = FileManager.databaseDirectoryURL
