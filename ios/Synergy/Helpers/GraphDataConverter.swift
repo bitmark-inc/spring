@@ -134,10 +134,13 @@ enum ReactionType: String {
     }
 
     static var barChartColors: [UIColor] {
-        return [UIColor(hexString: "#BBEAA6")!,
-                UIColor(hexString: "#E3C878")!,
-                UIColor(hexString: "#ED9A73")!,
-                UIColor(hexString: "#81CFFA")!
+        return [
+            UIColor(hexString: "#81CFFA")!,
+            UIColor(hexString: "#E688A1")!,
+            UIColor(hexString: "#E3C878")!,
+            UIColor(hexString: "#ED9A73")!,
+            UIColor(hexString: "#BBEAA6")!,
+            UIColor(hexString: "#E29AF4")!
         ]
     }
 
