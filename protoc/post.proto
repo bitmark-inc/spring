@@ -34,7 +34,7 @@ message Post {
     string url = 6 [json_name="url", (gogoproto.jsontag)="url"];
     Location location = 7 [json_name="location", (gogoproto.jsontag)="location"];
     repeated MediaData mediaData = 8 [json_name="mediaData", (gogoproto.jsontag)="mediaData"];
-    repeated Tag tag = 9 [json_name="tag", (gogoproto.jsontag)="tag"];
+    repeated Tag tags = 9 [json_name="tags", (gogoproto.jsontag)="tags"];
 }
 
 message PostsResponse {

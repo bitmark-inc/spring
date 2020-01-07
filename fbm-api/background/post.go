@@ -101,7 +101,7 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 				Location:  l,
 				Url:       r.ExternalContextURL,
 				Title:     r.Title,
-				Tag:       friends,
+				Tags:      friends,
 			}
 
 			if lastPostTimestamp != r.Timestamp {
@@ -394,7 +394,7 @@ func (sc *postStatisticCounter) countWeek(r *protomodel.Post) {
 		plusOneValue(weekPlaceMap, r.Type)
 	}
 
-	for _, f := range r.Tag {
+	for _, f := range r.Tags {
 		weekFriendMap := getMap(sc.WeekFriendPeriodsMap, f.Name)
 		plusOneValue(weekFriendMap, r.Type)
 	}
@@ -497,7 +497,7 @@ func (sc *postStatisticCounter) countYear(r *protomodel.Post) {
 		plusOneValue(yearPlaceMap, r.Type)
 	}
 
-	for _, f := range r.Tag {
+	for _, f := range r.Tags {
 		yearFriendMap := getMap(sc.YearFriendPeriodsMap, f.Name)
 		plusOneValue(yearFriendMap, r.Type)
 	}
@@ -600,7 +600,7 @@ func (sc *postStatisticCounter) countDecade(r *protomodel.Post) {
 		plusOneValue(decadePlaceMap, r.Type)
 	}
 
-	for _, f := range r.Tag {
+	for _, f := range r.Tags {
 		decadeFriendMap := getMap(sc.DecadeFriendPeriodsMap, f.Name)
 		plusOneValue(decadeFriendMap, r.Type)
 	}
