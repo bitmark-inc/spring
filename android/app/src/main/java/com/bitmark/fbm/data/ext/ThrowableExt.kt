@@ -12,29 +12,28 @@ import com.bitmark.fbm.data.source.remote.api.error.NetworkException
 import com.bitmark.fbm.data.source.remote.api.error.UnknownException
 import java.io.IOException
 
-private fun Throwable.isNetworkError() = this is IOException
+fun Throwable.isNetworkError() = this is NetworkException
 
 fun Throwable.isDbRecNotFoundError() = this is EmptyResultSetException
 
-private fun Throwable.isHttpError() =
-    this is com.bitmark.apiservice.utils.error.HttpException || this is retrofit2.HttpException
+private fun Throwable.isHttpError() = this is HttpException
 
-fun Throwable.toRemoteError() = when {
-    isNetworkError() -> NetworkException(this)
-    isHttpError()    -> {
+fun Throwable.toRemoteError() = when (this) {
+    is IOException -> NetworkException(this)
+    is com.bitmark.apiservice.utils.error.HttpException, is retrofit2.HttpException -> {
         val code = when (this) {
             is com.bitmark.apiservice.utils.error.HttpException -> statusCode
-            is retrofit2.HttpException                          -> code()
-            else                                                -> -1
+            is retrofit2.HttpException -> code()
+            else -> -1
         }
         val message = when (this) {
             is com.bitmark.apiservice.utils.error.HttpException -> "error: $errorMessage, reason: $reason"
-            is retrofit2.HttpException                          -> message()
-            else                                                -> message ?: ""
+            is retrofit2.HttpException -> message()
+            else -> message ?: ""
         }
         HttpException(code, message)
     }
-    else             -> UnknownException(this)
+    else -> UnknownException(this)
 }
 
 fun Throwable.isServiceUnsupportedError() = this is HttpException && this.code == 406

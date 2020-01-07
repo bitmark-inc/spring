@@ -64,6 +64,8 @@ class ConnectivityHandler @Inject constructor(private val context: Context) :
         return activeNetwork?.isConnectedOrConnecting == true
     }
 
+    fun isConnected() = connected
+
     interface NetworkStateChangeListener {
         fun onChange(connected: Boolean)
     }

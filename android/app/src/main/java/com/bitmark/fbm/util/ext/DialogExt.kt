@@ -42,3 +42,6 @@ fun DialogController.showAuthRequired(action: () -> Unit) {
 fun DialogController.dismissAuthRequired() = dismiss("auth_required")
 
 fun DialogController.isAuthRequiredShowing() = isShowing("auth_required")
+
+fun DialogController.showNoInternetConnection(action: () -> Unit = {}) =
+    alert(R.string.no_internet_connection, R.string.pls_check_your_connection, clickEvent = action)

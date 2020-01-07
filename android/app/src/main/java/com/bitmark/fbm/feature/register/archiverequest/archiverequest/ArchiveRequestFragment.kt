@@ -24,6 +24,7 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
+import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
 import com.bitmark.fbm.feature.notification.buildSimpleNotificationBundle
 import com.bitmark.fbm.feature.notification.cancelNotification
 import com.bitmark.fbm.feature.notification.pushDailyRepeatingNotification
@@ -95,6 +96,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     @Inject
     internal lateinit var logger: EventLogger
+
+    @Inject
+    internal lateinit var connectivityHandler: ConnectivityHandler
 
     private var blocked = false
 
@@ -289,8 +293,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                         }
                                     })
                             }
-                            hasCredential()      -> automateArchiveRequest(wv, script)
-                            else                 -> {
+                            hasCredential() -> automateArchiveRequest(wv, script)
+                            else -> {
                                 checkArchiveIsCreating(wv, script)
                             }
                         }
@@ -367,7 +371,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             "Error",
             "Incorrect authentication credentials.",
             tag = "login_failed"
-        ) { navigator.anim(RIGHT_LEFT).popFragment() }
+        ) { finish() }
     }
 
     private fun showAutomatingState() {
@@ -576,17 +580,22 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     blocked = false
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     progressBar.gone()
                     logger.logError(
                         Event.ARCHIVE_REQUEST_REGISTER_ACCOUNT_ERROR,
                         res.throwable() ?: UnknownException("unknown")
                     )
-                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+
+                    if (!connectivityHandler.isConnected()) {
+                        dialogController.showNoInternetConnection {
+                            finish()
+                        }
+                    } else if (!res.throwable()!!.isServiceUnsupportedError()) {
                         dialogController.alert(
                             R.string.error,
                             R.string.could_not_register_account
-                        ) { navigator.popFragment() }
+                        ) { finish() }
                     }
                     blocked = false
                 }
@@ -621,7 +630,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                                         throwable ?: UnknownException()
                                     )
                                     dialogController.unexpectedAlert {
-                                        navigator.anim(RIGHT_LEFT).popFragment()
+                                        finish()
                                     }
                                 }
 
@@ -631,17 +640,24 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     }
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     progressBar.gone()
                     val error = res.throwable()
                     logger.logError(Event.ARCHIVE_REQUEST_PREPARE_DATA_ERROR, error)
-                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+
+                    if (!connectivityHandler.isConnected()) {
+                        dialogController.showNoInternetConnection {
+                            finish()
+                        }
+                    } else if (!res.throwable()!!.isServiceUnsupportedError()) {
                         if (error is UnknownException) {
                             dialogController.unexpectedAlert {
-                                navigator.anim(RIGHT_LEFT).popFragment()
+                                finish()
                             }
                         } else {
-                            dialogController.alert(error) { navigator.popFragment() }
+                            dialogController.alert(error) {
+                                finish()
+                            }
                         }
                     }
                 }
@@ -658,9 +674,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     viewModel.checkNotificationEnabled()
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     logger.logSharedPrefError(res.throwable(), "save archive requested at error")
-                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).popFragment() }
+                    dialogController.unexpectedAlert { finish() }
                 }
             }
         })
@@ -693,9 +709,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                         .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     logger.logSharedPrefError(res.throwable(), "check notification enabled error")
-                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).popFragment() }
+                    dialogController.unexpectedAlert { finish() }
                 }
             }
         })
@@ -708,13 +724,15 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     registerAccount(downloadArchiveCredential, account)
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     logger.logSharedPrefError(res.throwable(), "get existing account error")
-                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).popFragment() }
+                    dialogController.unexpectedAlert { finish() }
                 }
             }
         })
     }
+
+    private fun finish() = navigator.anim(RIGHT_LEFT).popFragment()
 
     private fun scheduleNotification() {
         if (context == null) return
@@ -733,6 +751,6 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     }
 
     override fun onBackPressed(): Boolean {
-        return navigator.anim(RIGHT_LEFT).popFragment()
+        return finish()
     }
 }

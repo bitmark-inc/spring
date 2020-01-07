@@ -18,6 +18,7 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
+import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
@@ -42,6 +43,9 @@ class SignInActivity : BaseAppCompatActivity() {
 
     @Inject
     internal lateinit var logger: EventLogger
+
+    @Inject
+    internal lateinit var connectivityHandler: ConnectivityHandler
 
     private var blocked = false
 
@@ -116,11 +120,13 @@ class SignInActivity : BaseAppCompatActivity() {
                     blocked = false
                     navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
                 }
-                res.isError()   -> {
+                res.isError() -> {
                     progressBar.gone()
                     blocked = false
                     logger.logError(Event.ACCOUNT_SIGNIN_ERROR, res.throwable())
-                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+                    if (!connectivityHandler.isConnected()) {
+                        dialogController.showNoInternetConnection()
+                    } else if (!res.throwable()!!.isServiceUnsupportedError()) {
                         dialogController.alert(R.string.error, R.string.could_not_sign_in)
                     }
                 }
