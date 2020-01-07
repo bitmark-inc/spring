@@ -23,17 +23,17 @@ class UsageLocalDataSource @Inject constructor(
     fileStorageApi: FileStorageApi
 ) : LocalDataSource(databaseApi, sharedPrefApi, fileStorageApi) {
 
-    fun listPost(startedAt: Long, endedAt: Long, limit: Int = 20) =
+    fun listPost(startedAt: Long, endedAt: Long, limit: Int = 100) =
         databaseApi.rxSingle { databaseGateway ->
             databaseGateway.postDao().listOrderedPost(startedAt, endedAt, limit)
         }
 
-    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listPostByType(type: PostType, startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         databaseApi.rxSingle { databaseGateway ->
             databaseGateway.postDao().listOrderedPostByType(type, startedAtSec, endedAtSec, limit)
         }
 
-    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listPostByTag(tag: String, startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         databaseApi.rxSingle { databaseGateway ->
             databaseGateway.postDao().listOrderedPostByTag(tag, startedAtSec, endedAtSec, limit)
         }
@@ -42,7 +42,7 @@ class UsageLocalDataSource @Inject constructor(
         locationNames: List<String>,
         startedAtSec: Long,
         endedAtSec: Long,
-        limit: Int = 20
+        limit: Int = 100
     ): Single<List<PostData>> =
         listLocationIdByNames(locationNames).flatMap { ids ->
             if (ids.isEmpty()) {
@@ -156,7 +156,7 @@ class UsageLocalDataSource @Inject constructor(
         databaseGateway.reactionDao().save(reactions)
     }
 
-    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         databaseApi.rxSingle { databaseGateway ->
             databaseGateway.reactionDao().listOrderedExcept(
                 arrayOf(Reaction.DOROTHY, Reaction.TOTO),
@@ -198,7 +198,7 @@ class UsageLocalDataSource @Inject constructor(
         reaction: Reaction,
         startedAtSec: Long,
         endedAtSec: Long,
-        limit: Int = 20
+        limit: Int = 100
     ) = databaseApi.rxSingle { databaseGateway ->
         databaseGateway.reactionDao().listOrderedByType(reaction, startedAtSec, endedAtSec, limit)
     }

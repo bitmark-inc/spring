@@ -23,7 +23,7 @@ class UsageRepository(
     private val localDataSource: UsageLocalDataSource
 ) : Repository {
 
-    fun listPost(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listPost(startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         localDataSource.checkPostStored(startedAtSec, endedAtSec).flatMap { stored ->
             if (stored) {
                 localDataSource.listPost(startedAtSec, endedAtSec, limit)
@@ -60,7 +60,7 @@ class UsageRepository(
         type: PostType,
         startedAtSec: Long,
         endedAtSec: Long,
-        limit: Int = 20
+        limit: Int = 100
     ) = localDataSource.checkPostWTypeStored(type, startedAtSec, endedAtSec).flatMap { stored ->
         if (stored) {
             localDataSource.listPostByType(type, startedAtSec, endedAtSec, limit)
@@ -144,7 +144,7 @@ class UsageRepository(
         tags: List<String>,
         startedAtSec: Long,
         endedAtSec: Long,
-        limit: Int = 20
+        limit: Int = 100
     ): Single<List<PostData>> {
         return localDataSource.checkPostWTagsStored(tags, startedAtSec, endedAtSec)
             .flatMap { stored ->
@@ -249,7 +249,7 @@ class UsageRepository(
         locationNames: List<String>,
         startedAtSec: Long,
         endedAtSec: Long,
-        limit: Int = 20
+        limit: Int = 100
     ) = localDataSource.checkPostWLocationsStored(
         locationNames,
         startedAtSec,
@@ -335,7 +335,7 @@ class UsageRepository(
         }
     }
 
-    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listReaction(startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         localDataSource.checkReactionStored(startedAtSec, endedAtSec).flatMap { stored ->
             if (stored) {
                 localDataSource.listReaction(startedAtSec, endedAtSec, limit)
@@ -424,7 +424,7 @@ class UsageRepository(
         reaction: Reaction,
         startedAtSec: Long,
         endedAtSec: Long,
-        limit: Int = 20
+        limit: Int = 100
     ) = localDataSource.checkReactionWTypeStored(
         reaction,
         startedAtSec,

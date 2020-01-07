@@ -19,12 +19,12 @@ class InsightsLocalDataSource @Inject constructor(
     fileStorageApi: FileStorageApi
 ) : LocalDataSource(databaseApi, sharedPrefApi, fileStorageApi) {
 
-    fun listLocation(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listLocation(startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         databaseApi.rxSingle { databaseGateway ->
             databaseGateway.locationDao().listOrdered(startedAtSec, endedAtSec, limit)
         }
 
-    fun listLocationByNames(names: List<String>, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listLocationByNames(names: List<String>, startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         databaseApi.rxSingle { databaseGateway ->
             databaseGateway.locationDao().listOrderedByNames(names, startedAtSec, endedAtSec, limit)
         }

@@ -33,7 +33,7 @@ class InsightsRemoteDataSource @Inject constructor(
         names: List<String>,
         startedAtSec: Long,
         endedAtSec: Long,
-        limit: Int = 20
+        limit: Int = 100
     ) =
         listLocation().map { locations ->
             locations.filter { l -> l.name in names && l.createdAtSec in startedAtSec..endedAtSec }

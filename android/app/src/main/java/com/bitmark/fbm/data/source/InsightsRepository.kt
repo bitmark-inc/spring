@@ -16,7 +16,7 @@ class InsightsRepository(
     private val localDataSource: InsightsLocalDataSource
 ) {
 
-    fun listLocation(startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listLocation(startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         localDataSource.listLocation(startedAtSec, endedAtSec).flatMap { locations ->
             if (locations.isEmpty()) {
                 listRemoteLocation(startedAtSec, endedAtSec, limit).andThen(
@@ -39,7 +39,7 @@ class InsightsRepository(
             localDataSource.saveLocations(locations)
         }
 
-    fun listLocationByNames(names: List<String>, startedAtSec: Long, endedAtSec: Long, limit: Int = 20) =
+    fun listLocationByNames(names: List<String>, startedAtSec: Long, endedAtSec: Long, limit: Int = 100) =
         localDataSource.listLocationByNames(names, startedAtSec, endedAtSec).flatMap { locations ->
             if (locations.isEmpty()) {
                 listRemoteLocationByName(names, startedAtSec, endedAtSec, limit).andThen(
