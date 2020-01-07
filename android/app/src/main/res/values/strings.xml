@@ -200,12 +200,12 @@
     </string-array>
 
     <string name="word_of_format">Word %1$d of %2$d</string>
-    <string name="posts_format">%1$d posts</string>
-    <string name="reactions_format">%1$d reactions</string>
-    <string name="messages_format">%1$d messages</string>
-    <string name="ad_interests_format">%1$d ad interests</string>
-    <string name="advertiser_format">%1$d advertisers</string>
-    <string name="locations_format">%1$d locations</string>
+    <string name="posts_format">%1$s posts</string>
+    <string name="reactions_format">%1$s reactions</string>
+    <string name="messages_format">%1$s messages</string>
+    <string name="ad_interests_format">%1$s ad interests</string>
+    <string name="advertiser_format">%1$s advertisers</string>
+    <string name="locations_format">%1$s locations</string>
     <string name="diff_last_format">%1$d%% from last week</string>
     <string name="weekly_avg_format">Weekly average = %1$d</string>
     <string name="yearly_avg_format">Yearly average = %1$d</string>

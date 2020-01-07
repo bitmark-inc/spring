@@ -26,6 +26,14 @@
         tools:visibility="visible"
         />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/bottomNav"
+        android:background="@color/concord"
+        />
+
     <com.bitmark.fbm.util.view.bottomview.NiceBottomBar
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"

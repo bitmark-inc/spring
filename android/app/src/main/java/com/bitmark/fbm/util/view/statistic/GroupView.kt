@@ -84,32 +84,32 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         }
         tvName.text = context.getString(
             when (group.sectionName) {
-                SectionName.POST     -> {
+                SectionName.POST -> {
                     when (group.name) {
-                        GroupName.TYPE       -> R.string.by_type
+                        GroupName.TYPE -> R.string.by_type
                         GroupName.SUB_PERIOD -> when (group.period) {
-                            Period.WEEK   -> R.string.by_day
-                            Period.YEAR   -> R.string.by_month
+                            Period.WEEK -> R.string.by_day
+                            Period.YEAR -> R.string.by_month
                             Period.DECADE -> R.string.by_year
                         }
-                        GroupName.FRIEND     -> R.string.by_friends_tagged
-                        GroupName.PLACE      -> R.string.by_place_tagged
-                        else                 -> R.string.empty
+                        GroupName.FRIEND -> R.string.by_friends_tagged
+                        GroupName.PLACE -> R.string.by_place_tagged
+                        else -> R.string.empty
                     }
                 }
                 SectionName.REACTION -> {
                     when (group.name) {
-                        GroupName.TYPE       -> R.string.by_type
+                        GroupName.TYPE -> R.string.by_type
                         GroupName.SUB_PERIOD -> when (group.period) {
-                            Period.WEEK   -> R.string.by_day
-                            Period.YEAR   -> R.string.by_month
+                            Period.WEEK -> R.string.by_day
+                            Period.YEAR -> R.string.by_month
                             Period.DECADE -> R.string.by_year
                         }
-                        GroupName.FRIEND     -> R.string.by_friend
-                        else                 -> R.string.empty
+                        GroupName.FRIEND -> R.string.by_friend
+                        else -> R.string.empty
                     }
                 }
-                else                 -> R.string.empty
+                else -> R.string.empty
             }
         ).toUpperCase()
         tvNameSuffix.text = context.getString(
@@ -117,11 +117,11 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                 SectionName.REACTION -> {
                     when (group.name) {
                         GroupName.SUB_PERIOD -> R.string.you_reacted
-                        GroupName.FRIEND     -> R.string.you_reacted_to
-                        else                 -> R.string.empty
+                        GroupName.FRIEND -> R.string.you_reacted_to
+                        else -> R.string.empty
                     }
                 }
-                else                 -> R.string.empty
+                else -> R.string.empty
             }
         ).toLowerCase()
 
@@ -216,8 +216,8 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                 when (group.sectionName) {
                     SectionName.LOCATION -> R.array.color_palette_1
                     SectionName.REACTION -> R.array.color_palette_2
-                    SectionName.POST     -> R.array.color_palette_4
-                    else                 -> R.array.color_palette_3
+                    SectionName.POST -> R.array.color_palette_4
+                    else -> R.array.color_palette_3
                 }
             )
         if (group.name !in arrayOf(GroupName.TYPE, GroupName.AREA)) {
@@ -254,12 +254,12 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                     val xVal = entry.xValue
                     val periodStartedAt = xVal.first().toLong() * 1000
                     when (group.period) {
-                        Period.WEEK   -> {
+                        Period.WEEK -> {
                             val dow = context.resources.getStringArray(R.array.day_of_week).toList()
                             val index = DateTimeUtil.getDoW(periodStartedAt) - 1
                             dow[index]
                         }
-                        Period.YEAR   -> {
+                        Period.YEAR -> {
                             val moy =
                                 context.resources.getStringArray(R.array.month_of_year).toList()
                             val index = DateTimeUtil.getMoY(periodStartedAt)
@@ -271,7 +271,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                     }
                 }
             }
-            needResIdAsAdditionalData(group)   -> {
+            needResIdAsAdditionalData(group) -> {
                 gEntries.map { entry ->
                     context.getString(stringResLabelMap.entries.first { e ->
                         e.value.equals(
@@ -282,7 +282,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                 }
             }
 
-            group.hasAggregatedData()          -> {
+            group.hasAggregatedData() -> {
                 gEntries.map { e ->
                     if (e.xValue.size > 1) {
                         context.getString(R.string.others)
@@ -292,7 +292,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                 }
             }
 
-            else                               -> {
+            else -> {
                 gEntries.map { e -> e.xValue.first() }
             }
         }
@@ -363,7 +363,12 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                 }
             }
         })
-        if (vertical) chartView.setExtraOffsets(0f, 0f, 0f, 15f)
+        if (vertical) chartView.setExtraOffsets(
+            0f,
+            0f,
+            0f,
+            context.getDimensionPixelSize(R.dimen.dp_12).toFloat()
+        )
         return chartView
     }
 

@@ -21,3 +21,8 @@ fun Double.abbreviate(): String {
         "KMGTPE"[exp - 1]
     )
 }
+
+fun Int.decimalFormat(format: String = "###,###.###"): String {
+    val formatter = DecimalFormat(format)
+    return formatter.format(this)
+}

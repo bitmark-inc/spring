@@ -37,7 +37,6 @@ import androidx.annotation.ColorRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.bitmark.fbm.R
-import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.bitmark.fbm.util.view.bottomview.Constants.DEFAULT_INDICATOR_COLOR
 import com.bitmark.fbm.util.view.bottomview.Constants.DEFAULT_TEXT_COLOR
 import com.bitmark.fbm.util.view.bottomview.Constants.DEFAULT_TEXT_COLOR_ACTIVE
@@ -223,12 +222,11 @@ class NiceBottomBar : View {
 
         // Draw indicator
         if (barIndicatorEnabled) {
-            val indicatorHeight = context.getDimensionPixelSize(R.dimen.dp_2).toFloat()
             canvas.drawLine(
                 indicatorLocation - barIndicatorWidth / 2,
-                (if (barIndicatorGravity == 1) height - indicatorHeight else indicatorHeight),
+                (if (barIndicatorGravity == 1) height - 5f else 5f),
                 indicatorLocation + barIndicatorWidth / 2,
-                (if (barIndicatorGravity == 1) height - indicatorHeight else indicatorHeight),
+                (if (barIndicatorGravity == 1) height - 5f else 5f),
                 paintIndicator
             )
         }
@@ -346,7 +344,7 @@ class NiceBottomBar : View {
             indicatorLocation = animation.animatedValue as Float
             invalidate()
         }
-        animator.duration = 200
+        animator.duration = 100
 
         animator.start()
     }

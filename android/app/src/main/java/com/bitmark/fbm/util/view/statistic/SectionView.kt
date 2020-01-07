@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import androidx.core.view.children
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.entity.SectionName
+import com.bitmark.fbm.util.ext.decimalFormat
 import com.bitmark.fbm.util.ext.getDimensionPixelSize
 import com.bitmark.fbm.util.modelview.GroupModelView
 import com.bitmark.fbm.util.modelview.SectionModelView
@@ -50,35 +51,41 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     fun bind(section: SectionModelView) {
         when (section.name) {
-            SectionName.POST        -> {
-                tvOverview.text = context.getString(R.string.posts_format).format(section.quantity)
+            SectionName.POST -> {
+                tvOverview.text = context.getString(R.string.posts_format)
+                    .format(section.quantity.decimalFormat())
                 tvOverviewSuffix.text = context.getString(R.string.you_made).toLowerCase()
             }
-            SectionName.REACTION    -> {
+            SectionName.REACTION -> {
                 tvOverview.text =
-                    context.getString(R.string.reactions_format).format(section.quantity)
+                    context.getString(R.string.reactions_format)
+                        .format(section.quantity.decimalFormat())
                 tvOverviewSuffix.text = context.getString(R.string.you_gave).toLowerCase()
             }
-            SectionName.MESSAGE     -> {
+            SectionName.MESSAGE -> {
                 tvOverview.text =
-                    context.getString(R.string.messages_format).format(section.quantity)
+                    context.getString(R.string.messages_format)
+                        .format(section.quantity.decimalFormat())
                 tvOverviewSuffix.text =
                     context.getString(R.string.you_sent_or_received).toLowerCase()
             }
             SectionName.AD_INTEREST -> {
                 tvOverview.text =
-                    context.getString(R.string.ad_interests_format).format(section.quantity)
+                    context.getString(R.string.ad_interests_format)
+                        .format(section.quantity.decimalFormat())
                 tvOverviewSuffix.text = context.getString(R.string.tracked_by_fb).toLowerCase()
             }
-            SectionName.ADVERTISER  -> {
+            SectionName.ADVERTISER -> {
                 tvOverview.text =
-                    context.getString(R.string.advertiser_format).format(section.quantity)
+                    context.getString(R.string.advertiser_format)
+                        .format(section.quantity.decimalFormat())
                 tvOverviewSuffix.text =
                     context.getString(R.string.collected_data_about_you).toLowerCase()
             }
-            SectionName.LOCATION    -> {
+            SectionName.LOCATION -> {
                 tvOverview.text =
-                    context.getString(R.string.locations_format).format(section.quantity)
+                    context.getString(R.string.locations_format)
+                        .format(section.quantity.decimalFormat())
                 tvOverviewSuffix.text = context.getString(R.string.tracked_by_fb).toLowerCase()
             }
         }
