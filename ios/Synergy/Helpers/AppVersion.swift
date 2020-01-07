@@ -43,9 +43,11 @@ class AppVersion {
             message: R.string.localizable.requireAppUpdateMessage(),
             preferredStyle: .alert)
 
-        alertController.addAction(title: R.string.localizable.requireAppUpdateAction(), style: .default) { (_) in
+        let action = UIAlertAction(title: R.string.localizable.requireAppUpdateAction(), style: .default) { (_) in
             UIApplication.shared.open(updateURL)
         }
+        alertController.addAction(action)
+        alertController.preferredAction = action
 
         alertController.show()
     }

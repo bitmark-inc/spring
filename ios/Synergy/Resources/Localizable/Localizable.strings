@@ -26,9 +26,9 @@
 "HOW FACEBOOK USES YOU" = "HOW FACEBOOK USES YOU";
 "No_thanks" = "No thanks";
 "Check_now" = "Check now »";
-"requireAppUpdate.title" = "Update Available";
-"requireAppUpdate.message" = "A new version is available. Please update now to see your data analysis.";
-"requireAppUpdate.action" = "Update now »";
+"requireAppUpdate.title" = "Update Required";
+"requireAppUpdate.message" = "The Spring app on your device is out of date. Please update Spring to continue using it.";
+"requireAppUpdate.action" = "Update now";
 "ok" = "OK";
 
 "plural.post" = "posts";
