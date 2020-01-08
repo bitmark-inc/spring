@@ -87,4 +87,10 @@ class AccountRepository(
     fun saveAccountKeyData(alias: String, authRequired: Boolean) =
         localDataSource.saveAccountKeyAlias(alias, authRequired)
 
+    fun saveAdsPrefCategories(categories: List<String>) =
+        localDataSource.saveAdsPrefCategories(categories)
+
+    fun listAdsPrefCategory() = localDataSource.listAdsPrefCategory()
+
+
 }

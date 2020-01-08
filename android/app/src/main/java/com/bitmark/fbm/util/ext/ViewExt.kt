@@ -20,7 +20,11 @@ import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.model.Page
+import com.bitmark.fbm.data.model.fromString
+import com.bitmark.fbm.data.model.value
 import com.bitmark.fbm.logging.Tracer
+import com.bitmark.fbm.util.callback.Action0
 import com.bitmark.fbm.util.view.GlideUrlNoToken
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -29,6 +33,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.layout_snack_bar.view.*
+import java.util.concurrent.atomic.AtomicInteger
 
 fun View.gone(withAnim: Boolean = false) {
     if (withAnim) {
@@ -124,7 +129,7 @@ fun WebView.evaluateVerificationJs(
     evaluateJavascript(script) { value ->
         when {
             value.isBoolean() -> callback(value?.toBoolean() ?: false)
-            else              -> {
+            else -> {
                 Tracer.ERROR.log(
                     "WebView.evaluateVerificationJs()",
                     "Script: $script, value: $value"
@@ -197,3 +202,54 @@ fun ImageView.load(
         }
 
     }).into(this)
+
+fun WebView.detectPage(
+    pages: List<Page>,
+    tag: String = "WebView.detectPage()",
+    timeout: Long = 15000,
+    callback: (Page.Name) -> Unit
+) {
+    var detectedPage = ""
+    val evaluated = AtomicInteger(0)
+
+    val evaluateJs = fun(p: Page, onDone: () -> Unit) {
+        this.evaluateVerificationJs(p.detection) { detected ->
+            evaluated.incrementAndGet()
+            if (detected) {
+                detectedPage = p.name.value
+            } else {
+                // error go here
+                Tracer.DEBUG.log(tag, "evaluateJavascript: ${p.detection}, result: $detected")
+            }
+            onDone()
+        }
+    }
+
+    val execute = fun(onDone: Action0) {
+        evaluated.set(0)
+        for (page in pages) {
+            evaluateJs(page) {
+                if (evaluated.get() == pages.size) {
+                    onDone.invoke()
+                }
+            }
+        }
+    }
+
+    val startTime = System.currentTimeMillis()
+    execute(object : Action0 {
+        override fun invoke() {
+            if (detectedPage == "" && System.currentTimeMillis() - startTime < timeout) {
+                handler.postDelayed({ execute(this) }, 500)
+            } else {
+                if (detectedPage == "") {
+                    // could not detect the page
+                    // log event with all breadcrumbs
+                    callback(Page.Name.UNKNOWN)
+                }
+                Tracer.DEBUG.log(tag, "detected the current page: $detectedPage")
+                callback(Page.Name.fromString(detectedPage))
+            }
+        }
+    })
+}

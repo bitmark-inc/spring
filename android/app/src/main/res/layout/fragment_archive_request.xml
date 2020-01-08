@@ -31,6 +31,7 @@
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="@dimen/sp_18"
+            android:visibility="gone"
             />
 
     </LinearLayout>

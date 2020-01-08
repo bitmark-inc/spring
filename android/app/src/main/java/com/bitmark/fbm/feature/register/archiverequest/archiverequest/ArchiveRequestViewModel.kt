@@ -40,6 +40,8 @@ class ArchiveRequestViewModel(
 
     internal val getExistingAccountDataLiveData = CompositeLiveData<AccountData>()
 
+    internal val saveFbAdsPrefCategoriesLiveData = CompositeLiveData<Any>()
+
     fun registerAccount(
         account: Account,
         archiveUrl: String,
@@ -156,6 +158,16 @@ class ArchiveRequestViewModel(
     fun getExistingAccountData() {
         getExistingAccountDataLiveData.add(
             rxLiveDataTransformer.single(accountRepo.getAccountData())
+        )
+    }
+
+    fun saveFbAdsPrefCategories(categories: List<String>) {
+        saveFbAdsPrefCategoriesLiveData.add(
+            rxLiveDataTransformer.completable(
+                accountRepo.saveAdsPrefCategories(
+                    categories
+                )
+            )
         )
     }
 
