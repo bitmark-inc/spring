@@ -42,6 +42,15 @@ class FbmAccountService {
     static func fetchOverallArchiveStatus() -> Single<ArchiveStatus?> {
         return Single.create { (event) -> Disposable in
             _ = FBArchiveService.getAll()
+                .do(onSuccess: { (archives) in
+                    _ = ArchiveDataEngine.rx.store(archives)
+                        .andThen(ArchiveDataEngine.rx.issueBitmarkIfNeeded())
+                        .subscribe(onCompleted: {
+                            Global.log.info("[done] storeAndIssueBitmarkIfNeeded")
+                        }, onError: { (error) in
+                            Global.log.error(error)
+                        })
+                })
                 .subscribe(onSuccess: { (archives) in
                     guard archives.count > 0 else {
                         event(.success(nil))

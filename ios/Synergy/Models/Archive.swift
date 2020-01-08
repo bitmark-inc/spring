@@ -10,18 +10,22 @@ import Foundation
 import Realm
 import RealmSwift
 
-class Archive: Decodable {
-    let id: Int
-    let startedAt, endedAt: String
-    let status, createdAt, updatedAt: String
+class Archive: Object, Decodable {
+
+    // MARK: - Properties
+    @objc dynamic var id: Int64 = 0
+    @objc dynamic var status: String = ""
+    @objc dynamic var contentHash: String = ""
+    @objc dynamic var issueBitmark: Bool = false
 
     enum CodingKeys: String, CodingKey {
         case id
-        case startedAt = "started_at"
-        case endedAt = "ended_at"
         case status
-        case createdAt = "created_at"
-        case updatedAt = "updated_at"
+        case contentHash = "content_hash"
+    }
+
+    override static func primaryKey() -> String? {
+        return "id"
     }
 }
 

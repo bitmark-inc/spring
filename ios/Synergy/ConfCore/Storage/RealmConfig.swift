@@ -8,6 +8,7 @@
 
 import Foundation
 import RealmSwift
+import RxSwift
 
 enum RealmConfig {
 
@@ -30,6 +31,16 @@ enum RealmConfig {
         let configuration = try RealmConfig.anonymous.configuration()
         Global.log.debug("globalRealm: \(configuration)")
         return try Realm(configuration: configuration)
+    }
+
+    static func rxCurrentRealm() -> Single<Realm> {
+        Single.deferred {
+            do {
+                return Single.just(try currentRealm())
+            } catch {
+                return Single.error(error)
+            }
+        }
     }
 
     case anonymous
