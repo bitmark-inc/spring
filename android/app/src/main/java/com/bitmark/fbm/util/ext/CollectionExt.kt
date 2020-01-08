@@ -28,7 +28,7 @@ fun <T> MutableList<T>.replace(value: T, index: Int) {
     add(index, value)
 }
 
-fun <T> List<List<T>>.flat(): List<T> {
+fun <T> List<List<T>>.flatten(): List<T> {
     val copy = mutableListOf<T>()
     for (collection in this) {
         copy.addAll(collection)

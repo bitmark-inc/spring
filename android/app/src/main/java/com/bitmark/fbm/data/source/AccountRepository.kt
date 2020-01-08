@@ -81,8 +81,10 @@ class AccountRepository(
         archives.none { a -> a.isValid() }
     }
 
-    fun checkArchiveProcessed() =
-        remoteDataSource.getArchives().map { archives -> archives.indexOfFirst { a -> a.isProcessed() } != -1 }
+    fun checkArchiveProcessed() = listProcessedArchive().map { archives -> archives.isNotEmpty() }
+
+    fun listProcessedArchive() =
+        remoteDataSource.getArchives().map { archives -> archives.filter { a -> a.isProcessed() } }
 
     fun saveAccountKeyData(alias: String, authRequired: Boolean) =
         localDataSource.saveAccountKeyAlias(alias, authRequired)
