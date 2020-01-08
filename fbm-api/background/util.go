@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"errors"
 
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 
@@ -107,12 +106,6 @@ func newStatSaver(fbstore store.FBDataStore) *statSaver {
 }
 
 func (s *statSaver) save(key string, timestamp int64, data []byte) error {
-	for _, data := range s.queue {
-		if data.Key == key {
-			return errors.New("Trying to add duplicated key: " + key)
-		}
-	}
-
 	s.queue = append(s.queue, store.FbData{
 		Key:       key,
 		Timestamp: timestamp,
