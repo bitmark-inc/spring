@@ -170,7 +170,7 @@ extension LaunchingViewController {
     }
 
     func gotoDownloadFBArchiveScreen() {
-        let viewModel = RequestDataViewModel(.downloadData)
+        let viewModel = RequestDataViewModel(missions: [.downloadData])
         navigator.show(segue: .requestData(viewModel: viewModel), sender: self, transition: .replace(type: .none))
     }
 

@@ -386,6 +386,18 @@
 		5B75A14A23BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14D23BD9EA400FFF910 /* DatePeriodSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14C23BD9EA400FFF910 /* DatePeriodSpec.swift */; };
 		5B75A15223BDD66000FFF910 /* QueryTrackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A15123BDD66000FFF910 /* QueryTrackSpec.swift */; };
+		5B80A63F23C57252002E591E /* ArchiveDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A63E23C57252002E591E /* ArchiveDataEngine+Rx.swift */; };
+		5B80A64023C57252002E591E /* ArchiveDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A63E23C57252002E591E /* ArchiveDataEngine+Rx.swift */; };
+		5B80A64123C57252002E591E /* ArchiveDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A63E23C57252002E591E /* ArchiveDataEngine+Rx.swift */; };
+		5B80A64323C57EE4002E591E /* AssetService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64223C57EE4002E591E /* AssetService+Rx.swift */; };
+		5B80A64423C57EE4002E591E /* AssetService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64223C57EE4002E591E /* AssetService+Rx.swift */; };
+		5B80A64523C57EE4002E591E /* AssetService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64223C57EE4002E591E /* AssetService+Rx.swift */; };
+		5B80A64823C597F1002E591E /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64723C597F1002E591E /* ReleaseNoteViewController.swift */; };
+		5B80A64923C597F1002E591E /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64723C597F1002E591E /* ReleaseNoteViewController.swift */; };
+		5B80A64A23C597F1002E591E /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64723C597F1002E591E /* ReleaseNoteViewController.swift */; };
+		5B80A69E23C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
+		5B80A69F23C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
+		5B80A6A023C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
 		5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
 		5B9322F923A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
 		5B9322FA23A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
@@ -831,6 +843,10 @@
 		5B80A69A23C5D00B002E591E /* IBMPlexMono-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Thin.ttf"; sourceTree = "<group>"; };
 		5B80A69B23C5D00B002E591E /* IBMPlexMono-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-LightItalic.ttf"; sourceTree = "<group>"; };
 		5B80A69C23C5D00B002E591E /* IBMPlexMono-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		5B80A63E23C57252002E591E /* ArchiveDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArchiveDataEngine+Rx.swift"; sourceTree = "<group>"; };
+		5B80A64223C57EE4002E591E /* AssetService+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AssetService+Rx.swift"; sourceTree = "<group>"; };
+		5B80A64723C597F1002E591E /* ReleaseNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseNoteViewController.swift; sourceTree = "<group>"; };
+		5B80A69D23C5D89E002E591E /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewController.swift; sourceTree = "<group>"; };
 		5B9322FB23A3635200C3C408 /* SignOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewModel.swift; sourceTree = "<group>"; };
 		5B9322FF23A3635E00C3C408 /* SignOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewController.swift; sourceTree = "<group>"; };
@@ -1646,6 +1662,7 @@
 				5B4A239C23B2120B00447366 /* Insight.swift */,
 				5B2097AC23B465070079B421 /* Reaction.swift */,
 				5B58AC3623BADC890041F216 /* QueryTrack.swift */,
+				5B80A69D23C5D89E002E591E /* UserInfo.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2525,6 +2542,7 @@
 				E222908C239509EF00412CBC /* PostListViewController.swift in Sources */,
 				5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */,
 				5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */,
+				5B80A69E23C5D89E002E591E /* UserInfo.swift in Sources */,
 				5B58AC3723BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478C23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B58AC4C23BB47930041F216 /* SignInViewModel.swift in Sources */,
@@ -2713,6 +2731,7 @@
 				5B5D001123A1F0F4003D1A1C /* HomeTabbarController.swift in Sources */,
 				5B5D001223A1F0F4003D1A1C /* UsageViewController.swift in Sources */,
 				5B5D001323A1F0F4003D1A1C /* PostListViewController.swift in Sources */,
+				5B80A6A023C5D89E002E591E /* UserInfo.swift in Sources */,
 				5B58AC3923BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478E23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B58AC4E23BB47930041F216 /* SignInViewModel.swift in Sources */,
@@ -2890,6 +2909,7 @@
 				5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E8238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
 				E222908D239509EF00412CBC /* PostListViewController.swift in Sources */,
+				5B80A69F23C5D89E002E591E /* UserInfo.swift in Sources */,
 				5B58AC3823BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478D23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B58AC4D23BB47930041F216 /* SignInViewModel.swift in Sources */,
