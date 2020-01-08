@@ -57,6 +57,12 @@ class RepositoryModule {
 
     @Singleton
     @Provides
+    fun provideBmRepo(
+        remoteDataSource: BitmarkRemoteDataSource
+    ) = BitmarkRepository(remoteDataSource)
+
+    @Singleton
+    @Provides
     fun provideDatabaseGateway(context: Context): DatabaseGateway {
         return Room.databaseBuilder(
             context, DatabaseGateway::class.java,

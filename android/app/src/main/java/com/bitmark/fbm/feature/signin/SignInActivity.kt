@@ -51,6 +51,8 @@ class SignInActivity : BaseAppCompatActivity() {
 
     private val handler = Handler()
 
+    private lateinit var account: Account
+
     override fun layoutRes(): Int = R.layout.activity_signin
 
     override fun viewModel(): BaseViewModel? = viewModel
@@ -67,7 +69,7 @@ class SignInActivity : BaseAppCompatActivity() {
             if (blocked) return@setSafetyOnclickListener
             try {
                 val phrase = etPhrase.text.toString().trim().split(" ").toTypedArray()
-                val account = Account.fromRecoveryPhrase(*phrase)
+                account = Account.fromRecoveryPhrase(*phrase)
                 showKeyEnteringResult(true)
                 val authRequired = false
                 saveAccount(account, authRequired, successAction = { alias ->
@@ -118,7 +120,8 @@ class SignInActivity : BaseAppCompatActivity() {
                     OneSignal.setSubscription(true)
                     progressBar.gone()
                     blocked = false
-                    navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
+                    val bundle = MainActivity.getBundle(account.seed.encodedSeed)
+                    navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java, bundle)
                 }
                 res.isError() -> {
                     progressBar.gone()
