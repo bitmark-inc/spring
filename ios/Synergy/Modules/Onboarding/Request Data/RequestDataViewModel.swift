@@ -15,6 +15,7 @@ enum Mission {
     case requestData
     case checkRequestedData
     case downloadData
+    case getCategories
 }
 
 class RequestDataViewModel: ViewModel {
@@ -22,18 +23,18 @@ class RequestDataViewModel: ViewModel {
     // MARK: - Properties
     var login: String?
     var password: String?
-    var mission: Mission!
+    var missions = [Mission]()
 
     // MARK: - Output
     let fbScriptsRelay = BehaviorRelay<[FBScript]>(value: [])
     let fbScriptResultSubject = PublishSubject<Event<Void>>()
     let signUpAndSubmitArchiveResultSubject = PublishSubject<Event<Never>>()
 
-    init(login: String? = nil, password: String? = nil, _ mission: Mission) {
+    init(login: String? = nil, password: String? = nil, missions: [Mission]) {
         super.init()
         self.login = login
         self.password = password
-        self.mission = mission
+        self.missions = missions
 
         self.setup()
     }
@@ -45,6 +46,24 @@ class RequestDataViewModel: ViewModel {
             },
             onError: { [weak self] (error) in
                 self?.fbScriptResultSubject.onNext(Event.error(error))
+            })
+            .disposed(by: disposeBag)
+
+
+        signUpAndSubmitArchiveResultSubject
+            .filter({ $0.isCompleted })
+            .subscribe(onNext: { (_) in
+                guard let fbCategoriesInfo = UserDefaults.standard.fbCategoriesInfo as? [String] else {
+                    return
+                }
+
+                _ = Storage.store(fbCategoriesInfo.compactMap { UserInfo(key: .adsCategory, value: $0) })
+                    .subscribe(onCompleted: {
+                        Global.log.info("[done] store UserInfo - adsCategory")
+                        UserDefaults.standard.fbCategoriesInfo = nil
+                    }, onError: { (error) in
+                        Global.log.error(error)
+                    })
             })
             .disposed(by: disposeBag)
     }

@@ -60,6 +60,10 @@ class DataRequestedViewController: ViewController {
             dataRequestedTitleLabel.setText(R.string.phrase.dataRequestedWaitingScreenTitle().localizedUppercase)
             dataRequestedDescLabel.setText(R.string.phrase.dataRequestedWaitingDescription())
 
+        case .getCategories:
+            // TODO
+            break
+
         case .none:
             break
         }
@@ -129,7 +133,7 @@ class DataRequestedViewController: ViewController {
 // MARK: - Navigator
 extension DataRequestedViewController {
     func gotoDownloadFBArchiveScreen() {
-        let viewModel = RequestDataViewModel(.downloadData)
+        let viewModel = RequestDataViewModel(missions: [.downloadData])
         navigator.show(segue: .requestData(viewModel: viewModel), sender: self)
     }
 }
