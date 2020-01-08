@@ -139,7 +139,7 @@ function buildDemographicsPage() {
 function buildBehaviorsPage() {
   let behaviorsPage = {};
   behaviorsPage.name = `behaviors`;
-  behaviorsPage.detection = `!!(document.location.href.indexOf('/ads/preferences/behaviors') !== -1)`;
+  behaviorsPage.detection = `!!(document.querySelector('article > div._1lbp') || document.querySelector('a[data-sigil="redirect_to_behavior"]'))`;
   behaviorsPage.actions = {};
   behaviorsPage.actions.getCategories = `
     (function() {

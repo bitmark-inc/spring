@@ -76,7 +76,7 @@
     },
     {
       "name": "behaviors",
-      "detection": "!!(document.location.href.indexOf('/ads/preferences/behaviors') !== -1)",
+      "detection": "!!(document.querySelector('article > div._1lbp') || document.querySelector('a[data-sigil=\"redirect_to_behavior\"]'))",
       "actions": {
         "getCategories": "\n    (function() {\n      let nodes = [...document.querySelectorAll('a[data-sigil=\"redirect_to_behavior\"]')];\n      return nodes.map(node => node.text)\n    })();\n  "
       }
