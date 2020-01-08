@@ -35,7 +35,8 @@
       "urlSignal": "/settings/",
       "detection": "document.querySelector('a[href*=\"/dyi/\"]') && document.location.href.indexOf('/settings') !== -1;",
       "actions": {
-        "goToArchivePage": "document.querySelector('a[href*=\"/dyi/\"]').click();"
+        "goToArchivePage": "document.querySelector('a[href*=\"/dyi/\"]').click();",
+        "goToAdsPreferencesPage": "document.querySelector('a[href*=\"/ads/\"]').click();"
       }
     },
     {
