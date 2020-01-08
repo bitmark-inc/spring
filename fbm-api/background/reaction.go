@@ -30,6 +30,7 @@ func (b *BackgroundContext) extractReaction(job *work.Job) (err error) {
 	saver := newStatSaver(b.fbDataStore)
 	counter := newReactionStatCounter(ctx, logEntry, saver, accountNumber)
 
+	var lastTimestamp int64
 	for {
 		// Check-in job
 		job.Checkin(fmt.Sprintf("Fetching reaction batch at offset: %d", currentOffset))
@@ -45,7 +46,6 @@ func (b *BackgroundContext) extractReaction(job *work.Job) (err error) {
 		logEntry.WithField("Total", total).WithField("Offset: ", currentOffset).Info("Querying reactions at ", time.Now().Format("15:04:05"))
 
 		// Save to db & count
-		var lastTimestamp int64
 		for _, reaction := range reactions {
 			if lastTimestamp == reaction.Timestamp {
 				continue
