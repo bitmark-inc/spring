@@ -59,6 +59,27 @@
       "actions": {
         "reauth": "document.querySelector('input[name=\"pass\"]').value = \"%password%\";document.querySelector('input[data-testid=\"sec_ac_button\"]').click();"
       }
+    },
+    {
+      "name": "ads_preferences",
+      "detection": "!!document.querySelector('a[href*=\"/ads/preferences/demographics/\"]');",
+      "actions": {
+        "goToYourInformationPage": "document.querySelector('a[href*=\"/ads/preferences/demographics/\"]').click();"
+      }
+    },
+    {
+      "name": "demographics",
+      "detection": "!!document.querySelector('a[href*=\"/ads/preferences/behaviors\"]');",
+      "actions": {
+        "goToBehaviorsPage": "document.querySelector('a[href*=\"/ads/preferences/behaviors\"]').click();"
+      }
+    },
+    {
+      "name": "behaviors",
+      "detection": "!!(document.location.href.indexOf('/ads/preferences/behaviors') !== -1)",
+      "actions": {
+        "getCategories": "\n    (function() {\n      let nodes = [...document.querySelectorAll('a[data-sigil=\"redirect_to_behavior\"]')];\n      return nodes.map(node => node.text)\n    })();\n  "
+      }
     }
   ]
 }

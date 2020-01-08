@@ -124,14 +124,16 @@ function buildAdsReferencesPage() {
   adsPreferencesPage.detection = `!!document.querySelector('a[href*="/ads/preferences/demographics/"]');`;
   adsPreferencesPage.actions = {};
   adsPreferencesPage.actions.goToYourInformationPage = `document.querySelector('a[href*="/ads/preferences/demographics/"]').click();`;
+  return adsPreferencesPage;
 }
 
 function buildDemographicsPage() {
-  let adsPreferencesPage = {};
-  adsPreferencesPage.name = `demographics`;
-  adsPreferencesPage.detection = `!!document.querySelector('a[href*="/ads/preferences/behaviors"]');`;
-  adsPreferencesPage.actions = {};
-  adsPreferencesPage.actions.goToBehaviorsPage = `document.querySelector('a[href*="/ads/preferences/behaviors"]').click();`;
+  let demographicPage = {};
+  demographicPage.name = `demographics`;
+  demographicPage.detection = `!!document.querySelector('a[href*="/ads/preferences/behaviors"]');`;
+  demographicPage.actions = {};
+  demographicPage.actions.goToBehaviorsPage = `document.querySelector('a[href*="/ads/preferences/behaviors"]').click();`;
+  return demographicPage;
 }
 
 function buildBehaviorsPage() {
@@ -145,6 +147,7 @@ function buildBehaviorsPage() {
       return nodes.map(node => node.text)
     })();
   `;
+  return behaviorsPage;
 }
 
 function buildReauthPage() {
@@ -166,7 +169,10 @@ function buildReauthPage() {
       buildNewFeedPage(),
       buildSettingsPage(),
       buildArchivePage(),
-      buildReauthPage()
+      buildReauthPage(),
+      buildAdsReferencesPage(),
+      buildDemographicsPage(),
+      buildBehaviorsPage()
     ]
   };
   
