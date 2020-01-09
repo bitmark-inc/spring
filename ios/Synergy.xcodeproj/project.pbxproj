@@ -425,9 +425,6 @@
 		5B98950523AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
 		5B98950623AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
 		5B98950723AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
-		5BA9FF5E23B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
-		5BA9FF5F23B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
-		5BA9FF6023B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
 		5BA9FF6323B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
 		5BA9FF6423B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
 		5BA9FF6523B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
@@ -850,7 +847,6 @@
 		5B93232323A39BFC00C3C408 /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		5B98950023AA0EC000B72700 /* FilterScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScope.swift; sourceTree = "<group>"; };
 		5B98950423AA338300B72700 /* GraphDataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDataConverter.swift; sourceTree = "<group>"; };
-		5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightBadgeView.swift; sourceTree = "<group>"; };
 		5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightAPI.swift; sourceTree = "<group>"; };
 		5BA9FF6623B2294900E57A20 /* InsightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightService.swift; sourceTree = "<group>"; };
 		5BA9FF6A23B22A9400E57A20 /* InsightDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InsightDataEngine+Rx.swift"; sourceTree = "<group>"; };
@@ -1024,7 +1020,7 @@
 			children = (
 				5832D6E3238BBE390074AEDC /* UsageViewModel.swift */,
 				5832D6E6238BBE4A0074AEDC /* UsageViewController.swift */,
-				5B4A237623B1132E00447366 /* UsageBadgeView.swift */,
+				5B54FADE23C704C00029B5D5 /* Sections */,
 			);
 			path = Usage;
 			sourceTree = "<group>";
@@ -1045,8 +1041,8 @@
 		5832D6FA238BC23D0074AEDC /* Insight */ = {
 			isa = PBXGroup;
 			children = (
-				5832D6FB238BC23D0074AEDC /* InsightViewController.swift */,
 				5832D6FC238BC23D0074AEDC /* InsightViewModel.swift */,
+				5832D6FB238BC23D0074AEDC /* InsightViewController.swift */,
 				5B54FAD923C6DAA90029B5D5 /* Sections */,
 			);
 			path = Insight;
@@ -1397,10 +1393,17 @@
 		5B54FAD923C6DAA90029B5D5 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
-				5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */,
 				5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */,
-				5B590A6D23B302D6006C194D /* MoodView.swift */,
 				5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */,
+			);
+			path = Sections;
+			sourceTree = "<group>";
+		};
+		5B54FADE23C704C00029B5D5 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				5B4A237623B1132E00447366 /* UsageBadgeView.swift */,
+				5B590A6D23B302D6006C194D /* MoodView.swift */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -2529,7 +2532,6 @@
 				5832FCAE237A8A9300FA3196 /* MoyaProviderType+Request.swift in Sources */,
 				5832FC4E237A863300FA3196 /* ReadingTextView.swift in Sources */,
 				5B54FADB23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
-				5BA9FF5E23B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5B93231823A363C800C3C408 /* AboutViewController.swift in Sources */,
 				E27959DF238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
@@ -2719,7 +2721,6 @@
 				5B5D000523A1F0F4003D1A1C /* MoyaProviderType+Request.swift in Sources */,
 				5B5D000623A1F0F4003D1A1C /* ReadingTextView.swift in Sources */,
 				5B54FADD23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
-				5BA9FF6023B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				5B5D000723A1F0F4003D1A1C /* SignInWallViewController.swift in Sources */,
 				5B93231A23A363C800C3C408 /* AboutViewController.swift in Sources */,
 				5B5D000923A1F0F4003D1A1C /* RequestDataViewController.swift in Sources */,
@@ -2898,7 +2899,6 @@
 				E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */,
 				E2DB669C237D3B69005367C2 /* ReadingTextView.swift in Sources */,
 				5B54FADC23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
-				5BA9FF5F23B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				E29F5A272383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5B93231923A363C800C3C408 /* AboutViewController.swift in Sources */,
 				E27959E0238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,

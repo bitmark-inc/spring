@@ -80,7 +80,7 @@ class RequestDataViewController: ViewController {
                     Global.log.info("[done] SignUpAndSubmitArchive")
                     UserDefaults.standard.FBArchiveCreatedAt = nil
                     self.clearAllNotifications()
-                    self.gotoDataAnalyzing()
+                    self.gotoDataAnalyzingScreen()
                 default:
                     break
                 }
@@ -550,18 +550,45 @@ extension RequestDataViewController {
                             return
                     }
 
-                    self.webView.evaluateJavaScript(getCategoriesAction) { [weak self] (result, error) in
-                        guard let self = self else { return }
+                    self.webView.evaluateJavaScript(getCategoriesAction) { [weak self] (adsCategories, error) in
                         guard error == nil else {
                             Global.log.error(error)
                             return
                         }
 
-                        UserDefaults.standard.fbCategoriesInfo = result as? [String]
-                        self.gotoDataRequested()
+                        guard let self = self,
+                            let adsCategories = adsCategories as? [String] else { return }
+
+                        if Global.current.account == nil {
+                            UserDefaults.standard.fbCategoriesInfo = adsCategories
+                            self.gotoDataRequested()
+                        } else {
+                            self.thisViewModel.storeAdsCategoriesInfo(adsCategories)
+                                .subscribe(onCompleted: { [weak self] in
+                                    self?.navigateWithArchiveStatus(
+                                        ArchiveStatus(rawValue: Global.current.userDefault?.latestArchiveStatus ?? ""))
+                                }, onError: { [weak self] (error) in
+                                    Global.log.error(error)
+                                    self?.showErrorAlertWithSupport(message: R.string.error.system())
+                                })
+                                .disposed(by: self.disposeBag)
+                        }
                     }
             })
             .disposed(by: disposeBag)
+    }
+
+    fileprivate func navigateWithArchiveStatus(_ archiveStatus: ArchiveStatus?) {
+        if let archiveStatus = archiveStatus {
+            switch archiveStatus {
+            case .processed:
+                gotoMainScreen()
+            default:
+                gotoDataAnalyzingScreen()
+            }
+        } else {
+            gotoHowItWorksScreen()
+        }
     }
 
 
@@ -606,9 +633,17 @@ extension RequestDataViewController {
         navigator.show(segue: .dataRequested(viewModel: dataRquestedViewModel), sender: self)
     }
 
-    func gotoDataAnalyzing() {
+    func gotoDataAnalyzingScreen() {
         let viewModel = DataAnalyzingViewModel()
         navigator.show(segue: .dataAnalyzing(viewModel: viewModel), sender: self)
+    }
+
+    func gotoMainScreen() {
+        navigator.show(segue: .hometabs, sender: self, transition: .replace(type: .none))
+    }
+
+    func gotoHowItWorksScreen() {
+        navigator.show(segue: .howItWorks, sender: self, transition: .replace(type: .none))
     }
 }
 

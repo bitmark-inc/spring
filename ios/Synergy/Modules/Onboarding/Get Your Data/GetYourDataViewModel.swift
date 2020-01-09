@@ -11,6 +11,9 @@ import RxCocoa
 
 class GetYourDataViewModel: ViewModel {
 
+    // MARK: - Properties
+    var missions = [Mission]()
+
     // MARK: - Inputs
     let loginRelay = BehaviorRelay(value: "")
     let passwordRelay = BehaviorRelay(value: "")
@@ -20,8 +23,10 @@ class GetYourDataViewModel: ViewModel {
     // MARK: - Outputs
     var automateAuthorizeBtnEnabled: Driver<Bool>!
 
-    override init() {
+    init(missions: [Mission]) {
         super.init()
+        self.missions = missions
+
         self.setup()
     }
 

@@ -52,12 +52,12 @@ class RequestDataViewModel: ViewModel {
 
         signUpAndSubmitArchiveResultSubject
             .filter({ $0.isCompleted })
-            .subscribe(onNext: { (_) in
-                guard let fbCategoriesInfo = UserDefaults.standard.fbCategoriesInfo as? [String] else {
+            .subscribe(onNext: { [weak self] (_) in
+                guard let self = self, let adsCategories = UserDefaults.standard.fbCategoriesInfo as? [String] else {
                     return
                 }
 
-                _ = Storage.store(fbCategoriesInfo.compactMap { UserInfo(key: .adsCategory, value: $0) })
+                _ = self.storeAdsCategoriesInfo(adsCategories)
                     .subscribe(onCompleted: {
                         Global.log.info("[done] store UserInfo - adsCategory")
                         UserDefaults.standard.fbCategoriesInfo = nil
@@ -133,6 +133,11 @@ class RequestDataViewModel: ViewModel {
                 self?.signUpAndSubmitArchiveResultSubject.onNext($0)
             }
             .disposed(by: disposeBag)
+    }
+
+    func storeAdsCategoriesInfo(_ adsCategories: [String]) -> Completable {
+        return Storage.store(
+            adsCategories.compactMap { UserInfo(key: .adsCategory, value: $0) })
     }
     
     fileprivate func registerOneSignal(accountNumber: String) -> Completable {

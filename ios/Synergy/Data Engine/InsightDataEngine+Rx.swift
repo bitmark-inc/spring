@@ -26,6 +26,24 @@ class InsightDataEngine {
             }
         }
     }
+
+    static func existsAdsCategories() -> Bool {
+        autoreleasepool {
+            do {
+                guard Thread.current.isMainThread else {
+                    throw AppError.incorrectThread
+                }
+
+                let realm = try RealmConfig.currentRealm()
+                return realm.objects(UserInfo.self)
+                    .filter("key == %@", UserInfoKey.adsCategory.rawValue)
+                    .count > 0
+            } catch {
+                Global.log.error(error)
+                return false
+            }
+        }
+    }
 }
 
 extension InsightDataEngine: ReactiveCompatible {}
