@@ -18,6 +18,7 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 	logEntry := log.WithField("prefix", job.Name+"/"+job.ID)
 
 	accountNumber := job.ArgString("account_number")
+	archiveid := job.ArgInt64("archive_id")
 	if err := job.ArgError(); err != nil {
 		return err
 	}
@@ -28,6 +29,7 @@ func (b *BackgroundContext) extractSentiment(job *work.Job) (err error) {
 
 			if _, err := enqueuer.EnqueueUnique(jobAnalyzeReactions, work.Q{
 				"account_number": accountNumber,
+				"archive_id":     archiveid,
 			}); err != nil {
 				return err
 			}

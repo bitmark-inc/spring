@@ -27,6 +27,12 @@ func (b *BackgroundContext) submitArchive(job *work.Job) (err error) {
 
 	ctx := context.Background()
 
+	// Register data owner
+	if err := b.bitSocialClient.NewDataOwner(ctx, accountNumber); err != nil {
+		log.Debug(err)
+		return err
+	}
+
 	sess := session.New(b.awsConf)
 	downloader := s3manager.NewDownloader(sess)
 
@@ -119,16 +125,9 @@ func (b *BackgroundContext) checkArchive(job *work.Job) (err error) {
 			return err
 		}
 	case "SUCCESS":
-		if _, err := b.store.UpdateFBArchiveStatus(ctx, &store.FBArchiveQueryParam{
-			ID: &archiveid,
-		}, &store.FBArchiveQueryParam{
-			Status: &store.FBArchiveStatusProcessed,
-		}); err != nil {
-			logEntity.Error(err)
-			return err
-		}
 		if _, err := enqueuer.EnqueueIn(jobAnalyzePosts, 3, work.Q{
 			"account_number": archives[0].AccountNumber,
+			"archive_id":     archiveid,
 		}); err != nil {
 			logEntity.Error(err)
 			return err
