@@ -127,7 +127,7 @@ class LaunchingViewController: ViewController {
                 }
             } else {
                 let viewModel = GetYourDataViewModel(missions: [.getCategories])
-                navigator.show(segue: .getYourData(viewModel: viewModel), sender: self)
+                navigator.show(segue: .getYourData(viewModel: viewModel), sender: self, transition: .replace(type: .none))
             }
         } else {
             gotoSignInWallScreen()

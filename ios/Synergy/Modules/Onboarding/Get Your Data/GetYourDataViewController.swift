@@ -134,7 +134,13 @@ extension GetYourDataViewController {
     fileprivate func makeLoginTextField() -> TextField {
         let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
         textfield.textContentType = .username
-        textfield.set(placeholder: R.string.phrase.getYourDataLoginPlaceholder())
+        textfield.attributedPlaceholder = NSAttributedString(
+            string: R.string.phrase.getYourDataLoginPlaceholder(),
+            attributes: [
+                .font: R.font.ibmPlexMono(size: 18)!,
+                .foregroundColor: themeService.attrs.textFieldPlaceholderColor
+        ])
+        textfield.font = R.font.ibmPlexMonoMedium(size: 18)
         textfield.autocapitalizationType = .none
         textfield.returnKeyType = .done
         return textfield
@@ -142,7 +148,13 @@ extension GetYourDataViewController {
 
     fileprivate func makePasswordTextField() -> TextField {
         let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
-        textfield.set(placeholder: R.string.phrase.getYourDataPasswordPlaceholder())
+        textfield.attributedPlaceholder = NSAttributedString(
+            string: R.string.phrase.getYourDataPasswordPlaceholder(),
+            attributes: [
+                .font: R.font.ibmPlexMono(size: 18)!,
+                .foregroundColor: themeService.attrs.textFieldPlaceholderColor
+        ])
+        textfield.font = R.font.ibmPlexMonoMedium(size: 18)
         textfield.textContentType = .password
         textfield.isSecureTextEntry = true
         textfield.returnKeyType = .done
