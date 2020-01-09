@@ -3,6 +3,7 @@ import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
 message Insight {
     double fbIncome = 1 [json_name="fb_income", (gogoproto.jsontag)="fb_income"];
+    int64 fbIncomeFrom = 2 [json_name="fb_income_from", (gogoproto.jsontag)="fb_income_from"];
 }
 
 message InsightResponse {

@@ -9,20 +9,32 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func getTotalFBIncomeForDataPeriod(lookupRange []fbIncomePeriod, from, to int64) float64 {
+type fbIncomeInfo struct {
+	Income float64
+	From   int64
+}
+
+func getTotalFBIncomeForDataPeriod(lookupRange []fbIncomePeriod, from, to int64) fbIncomeInfo {
 	amount := 0.0
 
 	if len(lookupRange) == 0 {
-		return amount
+		return fbIncomeInfo{
+			Income: 0.0,
+			From:   0,
+		}
+	}
+
+	firstDayTimestamp := from
+	if from < lookupRange[0].StartedAt {
+		firstDayTimestamp = lookupRange[0].StartedAt
+		from = firstDayTimestamp
 	}
 
 	quarterIndex := 0
 	for {
 		currentQuarter := lookupRange[quarterIndex]
 
-		if currentQuarter.StartedAt > from { // if from is far in the past, move it up the the latest point facebook as income
-			from = currentQuarter.StartedAt
-		} else if from > currentQuarter.EndedAt { // our of current quarter, check next quarter
+		if from > currentQuarter.EndedAt { // our of current quarter, check next quarter
 			quarterIndex++
 		} else { // from is in current quarter
 			amount += currentQuarter.QuarterAmount / 90
@@ -34,13 +46,19 @@ func getTotalFBIncomeForDataPeriod(lookupRange []fbIncomePeriod, from, to int64)
 		}
 	}
 
-	return amount
+	return fbIncomeInfo{
+		Income: amount,
+		From:   firstDayTimestamp,
+	}
 }
 
-func (s *Server) getFBIncomeFromUserData(account *store.Account) float64 {
+func (s *Server) getFBIncomeFromUserData(account *store.Account) fbIncomeInfo {
 	f, ok := account.Metadata["original_timestamp"].(float64)
 	if !ok {
-		return -1
+		return fbIncomeInfo{
+			Income: -1,
+			From:   0,
+		}
 	}
 	from := int64(f)
 
@@ -92,7 +110,8 @@ func (s *Server) getInsight(c *gin.Context) {
 
 	responseWithEncoding(c, http.StatusOK, &protomodel.InsightResponse{
 		Result: &protomodel.Insight{
-			FbIncome: fbIncome,
+			FbIncome:     fbIncome.Income,
+			FbIncomeFrom: fbIncome.From,
 		},
 	})
 }
