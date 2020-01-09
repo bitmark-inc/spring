@@ -25,12 +25,7 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
 type Insight struct {
-	SectionName          string   `protobuf:"bytes,1,opt,name=sectionName,json=section_name,proto3" json:"section_name"`
-	DiffFromPrevious     float64  `protobuf:"fixed64,2,opt,name=diffFromPrevious,json=diff_from_previous,proto3" json:"diff_from_previous"`
-	Period               string   `protobuf:"bytes,3,opt,name=period,proto3" json:"period"`
-	PeriodStartedAt      int64    `protobuf:"varint,4,opt,name=periodStartedAt,json=period_started_at,proto3" json:"period_started_at"`
-	Quantity             int32    `protobuf:"varint,5,opt,name=quantity,proto3" json:"quantity"`
-	Value                float64  `protobuf:"fixed64,6,opt,name=value,proto3" json:"value"`
+	FbIncome             float64  `protobuf:"fixed64,1,opt,name=fbIncome,json=fb_income,proto3" json:"fb_income"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -69,53 +64,18 @@ func (m *Insight) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Insight proto.InternalMessageInfo
 
-func (m *Insight) GetSectionName() string {
+func (m *Insight) GetFbIncome() float64 {
 	if m != nil {
-		return m.SectionName
-	}
-	return ""
-}
-
-func (m *Insight) GetDiffFromPrevious() float64 {
-	if m != nil {
-		return m.DiffFromPrevious
-	}
-	return 0
-}
-
-func (m *Insight) GetPeriod() string {
-	if m != nil {
-		return m.Period
-	}
-	return ""
-}
-
-func (m *Insight) GetPeriodStartedAt() int64 {
-	if m != nil {
-		return m.PeriodStartedAt
-	}
-	return 0
-}
-
-func (m *Insight) GetQuantity() int32 {
-	if m != nil {
-		return m.Quantity
-	}
-	return 0
-}
-
-func (m *Insight) GetValue() float64 {
-	if m != nil {
-		return m.Value
+		return m.FbIncome
 	}
 	return 0
 }
 
 type InsightResponse struct {
-	Result               []*Insight `protobuf:"bytes,1,rep,name=result,proto3" json:"result"`
-	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
-	XXX_unrecognized     []byte     `json:"-"`
-	XXX_sizecache        int32      `json:"-"`
+	Result               *Insight `protobuf:"bytes,1,opt,name=result,proto3" json:"result"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
 func (m *InsightResponse) Reset()         { *m = InsightResponse{} }
@@ -151,7 +111,7 @@ func (m *InsightResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_InsightResponse proto.InternalMessageInfo
 
-func (m *InsightResponse) GetResult() []*Insight {
+func (m *InsightResponse) GetResult() *Insight {
 	if m != nil {
 		return m.Result
 	}
@@ -166,28 +126,18 @@ func init() {
 func init() { proto.RegisterFile("insight.proto", fileDescriptor_7f26ddb8102ea1e1) }
 
 var fileDescriptor_7f26ddb8102ea1e1 = []byte{
-	// 327 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x91, 0xd1, 0x4a, 0xf3, 0x30,
-	0x1c, 0xc5, 0xbf, 0x6c, 0xdf, 0xea, 0x96, 0x4d, 0x36, 0x03, 0x4a, 0xf0, 0xa2, 0x29, 0xbb, 0xea,
-	0x85, 0x6e, 0xe0, 0x1e, 0x40, 0x56, 0x44, 0xf0, 0x46, 0x24, 0x3e, 0x40, 0xe9, 0xb6, 0xb4, 0x0b,
-	0xac, 0x4d, 0x4d, 0xd2, 0x81, 0x6f, 0xe2, 0x93, 0xf8, 0x0c, 0x5e, 0xfa, 0x04, 0x45, 0xea, 0x5d,
-	0x9f, 0x42, 0x4c, 0xc2, 0x40, 0xf4, 0xea, 0x9c, 0xf3, 0x3b, 0x7f, 0x12, 0xfe, 0x09, 0x3c, 0xe6,
-	0x85, 0xe2, 0xd9, 0x56, 0xcf, 0x4a, 0x29, 0xb4, 0x38, 0xbf, 0xcc, 0xb8, 0xde, 0x56, 0xab, 0xd9,
-	0x5a, 0xe4, 0xf3, 0x4c, 0x64, 0x62, 0x6e, 0xf0, 0xaa, 0x4a, 0x4d, 0x32, 0xc1, 0x38, 0x3b, 0x3e,
-	0x7d, 0xed, 0xc0, 0xa3, 0x3b, 0x7b, 0x00, 0x5a, 0xc0, 0xa1, 0x62, 0x6b, 0xcd, 0x45, 0x71, 0x9f,
-	0xe4, 0x0c, 0x83, 0x00, 0x84, 0x83, 0x68, 0xd2, 0xd6, 0x64, 0xe4, 0x70, 0x5c, 0x24, 0x39, 0xa3,
-	0x3f, 0x12, 0xba, 0x81, 0x93, 0x0d, 0x4f, 0xd3, 0x5b, 0x29, 0xf2, 0x07, 0xc9, 0xf6, 0x5c, 0x54,
-	0x0a, 0x77, 0x02, 0x10, 0x82, 0xe8, 0xac, 0xad, 0x09, 0xfa, 0xee, 0xe2, 0x54, 0x8a, 0x3c, 0x2e,
-	0x5d, 0x4b, 0xff, 0x60, 0x68, 0x0a, 0xbd, 0x92, 0x49, 0x2e, 0x36, 0xb8, 0x6b, 0x6e, 0x85, 0x6d,
-	0x4d, 0x1c, 0xa1, 0x4e, 0xd1, 0x12, 0x8e, 0xad, 0x7b, 0xd4, 0x89, 0xd4, 0x6c, 0xb3, 0xd4, 0xf8,
-	0x7f, 0x00, 0xc2, 0x6e, 0x74, 0xda, 0xd6, 0xe4, 0xc4, 0x56, 0xb1, 0xb2, 0x5d, 0x9c, 0x68, 0xfa,
-	0x1b, 0xa1, 0x10, 0xf6, 0x9f, 0xaa, 0xa4, 0xd0, 0x5c, 0x3f, 0xe3, 0x5e, 0x00, 0xc2, 0x5e, 0x34,
-	0x6a, 0x6b, 0x72, 0x60, 0xf4, 0xe0, 0x10, 0x81, 0xbd, 0x7d, 0xb2, 0xab, 0x18, 0xf6, 0xcc, 0x2e,
-	0x83, 0xb6, 0x26, 0x16, 0x50, 0x2b, 0xd3, 0x6b, 0x38, 0x76, 0xef, 0x46, 0x99, 0x2a, 0x45, 0xa1,
-	0x18, 0xba, 0x80, 0x9e, 0x64, 0xaa, 0xda, 0x69, 0x0c, 0x82, 0x6e, 0x38, 0xbc, 0xea, 0xcf, 0xdc,
-	0x84, 0x5d, 0xc7, 0x76, 0xd4, 0x69, 0x34, 0x79, 0x6b, 0x7c, 0xf0, 0xde, 0xf8, 0xe0, 0xa3, 0xf1,
-	0xc1, 0xcb, 0xa7, 0xff, 0x6f, 0xe5, 0x99, 0x2f, 0x59, 0x7c, 0x05, 0x00, 0x00, 0xff, 0xff, 0xd9,
-	0x63, 0x0f, 0xd6, 0xd2, 0x01, 0x00, 0x00,
+	// 175 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0xcd, 0xcc, 0x2b, 0xce,
+	0x4c, 0xcf, 0x28, 0xd1, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x97, 0xd2, 0x4d, 0xcf, 0x2c, 0xc9, 0x28,
+	0x4d, 0xd2, 0x4b, 0xce, 0xcf, 0xd5, 0x4f, 0xcf, 0x4f, 0xcf, 0xd7, 0x07, 0x0b, 0x27, 0x95, 0xa6,
+	0x81, 0x79, 0x60, 0x0e, 0x98, 0x05, 0x51, 0xae, 0x64, 0xca, 0xc5, 0xee, 0x09, 0xd1, 0x2f, 0xa4,
+	0xc5, 0xc5, 0x91, 0x96, 0xe4, 0x99, 0x97, 0x9c, 0x9f, 0x9b, 0x2a, 0xc1, 0xa8, 0xc0, 0xa8, 0xc1,
+	0xe8, 0xc4, 0xfb, 0xea, 0x9e, 0x3c, 0x67, 0x5a, 0x52, 0x7c, 0x26, 0x58, 0x30, 0x08, 0xc1, 0x54,
+	0xb2, 0xe7, 0xe2, 0x87, 0x6a, 0x0b, 0x4a, 0x2d, 0x2e, 0xc8, 0xcf, 0x2b, 0x4e, 0x15, 0xd2, 0xe1,
+	0x62, 0x2b, 0x4a, 0x2d, 0x2e, 0xcd, 0x29, 0x01, 0x6b, 0xe6, 0x36, 0xe2, 0xd0, 0x83, 0xaa, 0x70,
+	0xe2, 0x7a, 0x75, 0x4f, 0x1e, 0x2a, 0x17, 0x04, 0xa5, 0x9d, 0x04, 0x4e, 0x3c, 0x92, 0x63, 0xbc,
+	0xf0, 0x48, 0x8e, 0xf1, 0xc1, 0x23, 0x39, 0xc6, 0x19, 0x8f, 0xe5, 0x18, 0x92, 0xd8, 0xc0, 0x0e,
+	0x32, 0x06, 0x04, 0x00, 0x00, 0xff, 0xff, 0x1d, 0xb3, 0x78, 0x36, 0xd0, 0x00, 0x00, 0x00,
 }
 
 func (m *Insight) Marshal() (dAtA []byte, err error) {
@@ -214,41 +164,11 @@ func (m *Insight) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if m.Value != 0 {
+	if m.FbIncome != 0 {
 		i -= 8
-		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Value))))
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.FbIncome))))
 		i--
-		dAtA[i] = 0x31
-	}
-	if m.Quantity != 0 {
-		i = encodeVarintInsight(dAtA, i, uint64(m.Quantity))
-		i--
-		dAtA[i] = 0x28
-	}
-	if m.PeriodStartedAt != 0 {
-		i = encodeVarintInsight(dAtA, i, uint64(m.PeriodStartedAt))
-		i--
-		dAtA[i] = 0x20
-	}
-	if len(m.Period) > 0 {
-		i -= len(m.Period)
-		copy(dAtA[i:], m.Period)
-		i = encodeVarintInsight(dAtA, i, uint64(len(m.Period)))
-		i--
-		dAtA[i] = 0x1a
-	}
-	if m.DiffFromPrevious != 0 {
-		i -= 8
-		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.DiffFromPrevious))))
-		i--
-		dAtA[i] = 0x11
-	}
-	if len(m.SectionName) > 0 {
-		i -= len(m.SectionName)
-		copy(dAtA[i:], m.SectionName)
-		i = encodeVarintInsight(dAtA, i, uint64(len(m.SectionName)))
-		i--
-		dAtA[i] = 0xa
+		dAtA[i] = 0x9
 	}
 	return len(dAtA) - i, nil
 }
@@ -277,19 +197,17 @@ func (m *InsightResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i -= len(m.XXX_unrecognized)
 		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.Result) > 0 {
-		for iNdEx := len(m.Result) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Result[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintInsight(dAtA, i, uint64(size))
+	if m.Result != nil {
+		{
+			size, err := m.Result.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
 			}
-			i--
-			dAtA[i] = 0xa
+			i -= size
+			i = encodeVarintInsight(dAtA, i, uint64(size))
 		}
+		i--
+		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -311,24 +229,7 @@ func (m *Insight) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.SectionName)
-	if l > 0 {
-		n += 1 + l + sovInsight(uint64(l))
-	}
-	if m.DiffFromPrevious != 0 {
-		n += 9
-	}
-	l = len(m.Period)
-	if l > 0 {
-		n += 1 + l + sovInsight(uint64(l))
-	}
-	if m.PeriodStartedAt != 0 {
-		n += 1 + sovInsight(uint64(m.PeriodStartedAt))
-	}
-	if m.Quantity != 0 {
-		n += 1 + sovInsight(uint64(m.Quantity))
-	}
-	if m.Value != 0 {
+	if m.FbIncome != 0 {
 		n += 9
 	}
 	if m.XXX_unrecognized != nil {
@@ -343,11 +244,9 @@ func (m *InsightResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if len(m.Result) > 0 {
-		for _, e := range m.Result {
-			l = e.Size()
-			n += 1 + l + sovInsight(uint64(l))
-		}
+	if m.Result != nil {
+		l = m.Result.Size()
+		n += 1 + l + sovInsight(uint64(l))
 	}
 	if m.XXX_unrecognized != nil {
 		n += len(m.XXX_unrecognized)
@@ -391,40 +290,8 @@ func (m *Insight) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field SectionName", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowInsight
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthInsight
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthInsight
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.SectionName = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
 			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field DiffFromPrevious", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field FbIncome", wireType)
 			}
 			var v uint64
 			if (iNdEx + 8) > l {
@@ -432,88 +299,7 @@ func (m *Insight) Unmarshal(dAtA []byte) error {
 			}
 			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
 			iNdEx += 8
-			m.DiffFromPrevious = float64(math.Float64frombits(v))
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Period", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowInsight
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthInsight
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthInsight
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Period = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field PeriodStartedAt", wireType)
-			}
-			m.PeriodStartedAt = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowInsight
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.PeriodStartedAt |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Quantity", wireType)
-			}
-			m.Quantity = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowInsight
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Quantity |= int32(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 6:
-			if wireType != 1 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Value", wireType)
-			}
-			var v uint64
-			if (iNdEx + 8) > l {
-				return io.ErrUnexpectedEOF
-			}
-			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
-			iNdEx += 8
-			m.Value = float64(math.Float64frombits(v))
+			m.FbIncome = float64(math.Float64frombits(v))
 		default:
 			iNdEx = preIndex
 			skippy, err := skipInsight(dAtA[iNdEx:])
@@ -597,8 +383,10 @@ func (m *InsightResponse) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Result = append(m.Result, &Insight{})
-			if err := m.Result[len(m.Result)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if m.Result == nil {
+				m.Result = &Insight{}
+			}
+			if err := m.Result.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
