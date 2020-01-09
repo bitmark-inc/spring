@@ -175,7 +175,7 @@ func (s *Server) Run(addr string) error {
 	insightRoute.Use(s.fakeCredential())
 	insightRoute.Use(s.recognizeAccountMiddleware())
 	{
-		insightRoute.GET("/:period", s.getInsight)
+		insightRoute.GET("", s.getInsight)
 	}
 
 	assetRoute := r.Group("/assets")
