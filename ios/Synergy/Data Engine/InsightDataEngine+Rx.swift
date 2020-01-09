@@ -10,7 +10,23 @@ import Foundation
 import RealmSwift
 import RxSwift
 
-class InsightDataEngine {}
+class InsightDataEngine {
+    static func fetchAdsCategories() -> Results<UserInfo>? {
+        autoreleasepool {
+            do {
+                guard Thread.current.isMainThread else {
+                    throw AppError.incorrectThread
+                }
+
+                let realm = try RealmConfig.currentRealm()
+                return realm.objects(UserInfo.self).filter("key == %@", UserInfoKey.adsCategory.rawValue)
+            } catch {
+                Global.log.error(error)
+                return nil
+            }
+        }
+    }
+}
 
 extension InsightDataEngine: ReactiveCompatible {}
 

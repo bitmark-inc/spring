@@ -52,6 +52,9 @@
 
 "mood.average" = "Period Average";
 
+"adsCategory.header" = "CATEGORIES FOR ADS";
+"adsCategory.description" = "These categories are based on your activity. They are used by advertisers to personalize your information.";
+
 "posts.empty" = "You have no posts!";
 "post.postInfo.friendTags" = " W/%@";
 "post.postInfo.locationTag" = " @%@";

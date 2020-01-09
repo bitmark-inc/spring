@@ -28,6 +28,7 @@ class InsightViewController: ViewController {
     lazy var fbIncomeView = makeFBIncomeView()
     lazy var moodHeadingView = makeSectionHeadingView(section: .mood)
     lazy var moodView = makeMoodView()
+    lazy var adsCategoryView = makeAdsCategoryView()
 
     // SECTION: FB Income
     lazy var incomeInsightObservable: Observable<Insight> = {
@@ -111,6 +112,7 @@ class InsightViewController: ViewController {
             flex.addItem(fbIncomeView)
             flex.addItem(moodHeadingView)
             flex.addItem(moodView)
+            flex.addItem(adsCategoryView)
         }
 
         scroll.addSubview(insightView)
@@ -173,6 +175,13 @@ extension InsightViewController {
         moodView.containerLayoutDelegate = self
         moodView.setProperties(section: .mood, container: self)
         return moodView
+    }
+
+    fileprivate func  makeAdsCategoryView() -> AdsCategoryView {
+        let adsCategoryView = AdsCategoryView()
+        adsCategoryView.containerLayoutDelegate = self
+        adsCategoryView.setProperties(container: self)
+        return adsCategoryView
     }
 }
 
