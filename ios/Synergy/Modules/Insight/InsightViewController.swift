@@ -27,9 +27,10 @@ class InsightViewController: ViewController {
     lazy var adsCategoryView = makeAdsCategoryView()
 
     // SECTION: FB Income
-    lazy var incomeInsightObservable: Observable<Insight> = {
-        thisViewModel.realmIncomeInsightRelay.filterNil()
+    lazy var realmInsightObservable: Observable<Insight> = {
+        thisViewModel.realmInsightsInfoRelay.filterNil()
             .flatMap { Observable.from(object: $0) }
+            .map { try InsightConverter(from: $0.value).value }
     }()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

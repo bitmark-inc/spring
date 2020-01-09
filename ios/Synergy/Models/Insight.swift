@@ -2,72 +2,42 @@
 //  Insight.swift
 //  Synergy
 //
-//  Created by Thuyen Truong on 12/24/19.
-//  Copyright © 2019 Bitmark Inc. All rights reserved.
+//  Created by Thuyen Truong on 1/9/20.
+//  Copyright © 2020 Bitmark Inc. All rights reserved.
 //
 
 import Foundation
-import Realm
-import RealmSwift
 
-class Insight: Object, Decodable {
-
-    // MARK: - Properties
-    @objc dynamic var id: String = ""
-    @objc dynamic var sectionName: String = ""
-    @objc dynamic var timeUnit: String = ""
-    @objc dynamic var startedAt: Date = Date()
-    @objc dynamic var quantity: Int = 0
-    @objc dynamic var value: Double = 0.0
-    @objc dynamic var diffFromPrevious: Double = 0
-    @objc dynamic var groups: String?
-
-    override static func primaryKey() -> String? {
-        return "id"
-    }
+struct Insight: Codable {
+    let fbIncome: Double
 
     enum CodingKeys: String, CodingKey {
-        case id, quantity, value, groups
-        case sectionName = "section_name"
-        case timeUnit = "period"
-        case startedAt = "period_started_at"
-        case diffFromPrevious = "diff_from_previous"
+        case fbIncome = "fb_income"
     }
+}
 
-    required public init(from decoder: Decoder) throws {
-        super.init()
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        sectionName = try values.decode(String.self, forKey: .sectionName)
-        timeUnit = try values.decode(String.self, forKey: .timeUnit)
-        let timestampInterval = try values.decode(Double.self, forKey: .startedAt)
-        startedAt = Date(timeIntervalSince1970: timestampInterval)
-        quantity = try values.decode(Int.self, forKey: .quantity)
-        value = try values.decode(Double.self, forKey: .value)
-        diffFromPrevious = try values.decode(Double.self, forKey: .diffFromPrevious)
+class InsightConverter {
 
-        id = SectionScope(date: startedAt,
-                          timeUnit: TimeUnit(rawValue: timeUnit) ?? .week,
-                          section: Section(rawValue: sectionName) ?? .post).makeID()
+    // MARK: - Properties
+    var valueAsString: String!
+    var value: Insight
+    let encodingRule: String.Encoding = .utf8
 
-        if let groupsValue = try values.decodeIfPresent(Groups.self, forKey: .groups) {
-            groups = try GroupsConverter(from: groupsValue).valueAsString
+    // MARK: - Init
+    init(from value: String) throws {
+        valueAsString = value
+
+        guard let jsonData = valueAsString.data(using: encodingRule)
+            else {
+                throw "invalid groups string"
         }
+        self.value = try JSONDecoder().decode(Insight.self, from: jsonData)
     }
 
-    // MARK: - Realm Required Init
-    required init() {
-        super.init()
-    }
+    init(from value: Insight) throws {
+        self.value = value
 
-    override init(value: Any) {
-        super.init(value: value)
-    }
-
-    required init(value: Any, schema: RLMSchema) {
-        super.init(value: value, schema: schema)
-    }
-
-    required init(realm: RLMRealm, schema: RLMObjectSchema) {
-        super.init(realm: realm, schema: schema)
+        let jsonData = try JSONEncoder().encode(value)
+        valueAsString = String(data: jsonData, encoding: encodingRule)
     }
 }
