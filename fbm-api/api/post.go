@@ -73,6 +73,7 @@ func (s *Server) getPostStats(c *gin.Context) {
 
 	results := make([]*protomodel.Usage, 0)
 
+	// For post
 	postStatData, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/post-%s-stat", accountNumber, period), startedAt)
 	if shouldInterupt(err, c) {
 		return
@@ -87,6 +88,7 @@ func (s *Server) getPostStats(c *gin.Context) {
 		results = append(results, &postStat)
 	}
 
+	// For reaction
 	reactionStatData, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/reaction-%s-stat", accountNumber, period), startedAt)
 	if shouldInterupt(err, c) {
 		return
@@ -99,6 +101,21 @@ func (s *Server) getPostStats(c *gin.Context) {
 			return
 		}
 		results = append(results, &reactionStat)
+	}
+
+	// For sentiment
+	sentimentStatData, err := s.fbDataStore.GetExactFBStat(c, fmt.Sprintf("%s/sentiment-%s-stat", accountNumber, period), startedAt)
+	if shouldInterupt(err, c) {
+		return
+	}
+
+	if sentimentStatData != nil {
+		var sentimentStat protomodel.Usage
+		err := proto.Unmarshal(sentimentStatData, &sentimentStat)
+		if shouldInterupt(err, c) {
+			return
+		}
+		results = append(results, &sentimentStat)
 	}
 
 	responseWithEncoding(c, http.StatusOK, &protomodel.UsageResponse{
