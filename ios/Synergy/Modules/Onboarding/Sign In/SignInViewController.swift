@@ -31,16 +31,8 @@ class SignInViewController: ConfirmRecoveryKeyViewController, BackNavigator {
                     self.errorWhenSignInAccount(error: error)
                 case .next(let archiveStatus):
                     Global.log.info("[done] signIn Account")
-                    if let archiveStatus = archiveStatus {
-                        switch archiveStatus {
-                        case .processed:
-                            self.gotoMainScreen()
-                        default:
-                            self.gotoDataAnalyzingScreen()
-                        }
-                    } else {
-                        self.gotoHowItWorksScreen()
-                    }
+                    self.navigateWithArchiveStatus(archiveStatus)
+
                 default:
                     break
                 }
@@ -49,6 +41,24 @@ class SignInViewController: ConfirmRecoveryKeyViewController, BackNavigator {
         submitButton.rx.tap.bind {
             viewModel.signInAccount()
         }.disposed(by: disposeBag)
+    }
+
+    fileprivate func navigateWithArchiveStatus(_ archiveStatus: ArchiveStatus?) {
+        if let archiveStatus = archiveStatus {
+            if InsightDataEngine.existsAdsCategories() {
+                switch archiveStatus {
+                case .processed:
+                    gotoMainScreen()
+                default:
+                    gotoDataAnalyzingScreen()
+                }
+            } else {
+                let viewModel = GetYourDataViewModel(missions: [.getCategories])
+                navigator.show(segue: .getYourData(viewModel: viewModel), sender: self)
+            }
+        } else {
+            gotoHowItWorksScreen()
+        }
     }
 
     // MARK: - Error Handlers

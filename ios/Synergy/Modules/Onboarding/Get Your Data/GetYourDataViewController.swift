@@ -120,7 +120,7 @@ extension GetYourDataViewController {
         let requestDataViewModel = RequestDataViewModel(
             login: viewModel.loginRelay.value,
             password: viewModel.passwordRelay.value,
-            missions: [.requestData, .getCategories])
+            missions: viewModel.missions)
         navigator.show(segue: .requestData(viewModel: requestDataViewModel), sender: self)
     }
 

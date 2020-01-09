@@ -105,7 +105,7 @@ class AskNotificationsViewController: ViewController {
 // MARK: - Navigator
 extension AskNotificationsViewController {
     func gotoGetYourDataScreen() {
-        let viewModel = GetYourDataViewModel()
+        let viewModel = GetYourDataViewModel(missions: [.requestData, .getCategories])
         navigator.show(segue: .getYourData(viewModel: viewModel), sender: self)
     }
 }

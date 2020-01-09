@@ -131,4 +131,12 @@ class KeychainStore {
             return Disposables.create()
         })
     }
+
+    static func removeFBCredential() throws {
+        Global.log.info("[start] removeFBCredential")
+        defer { Global.log.info("[done] removeFBCredential") }
+
+        try keychain.remove(fbCredentialUsernameKey)
+        try keychain.remove(fbCredentialPasswordKey)
+    }
 }

@@ -49,18 +49,18 @@ class MoodView: UIView {
         super.init(coder: coder)
     }
 
-    func setProperties(section: Section, container: InsightViewController) {
+    func setProperties(section: Section, container: UsageViewController) {
         weak var container = container
         var dataObserver: Disposable? // stop observing old-data
 
         switch section {
         case .mood:
-            container?.thisViewModel.realmMoodInsightRelay
+            container?.thisViewModel.realmMoodRelay
                 .subscribe(onNext: { [weak self] (usage) in
                     guard let self = self, let container = container else { return }
                     if usage != nil {
                         dataObserver?.dispose()
-                        dataObserver = container.moodInsightObservable
+                        dataObserver = container.moodObservable
                             .map { $0.value }
                             .subscribe(onNext: { [weak self] (moodValue) in
                                 self?.fillData(moodValue: moodValue)

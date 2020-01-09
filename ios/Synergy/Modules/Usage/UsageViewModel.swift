@@ -21,6 +21,7 @@ class UsageViewModel: ViewModel {
     let fetchDataResultSubject = PublishSubject<Event<Void>>()
     let realmPostUsageRelay = BehaviorRelay<Usage?>(value: nil)
     let realmReactionUsageRelay = BehaviorRelay<Usage?>(value: nil)
+    let realmMoodRelay = BehaviorRelay<Usage?>(value: nil)
 
     func fetchUsage() {
         dateRelay // ignore timeUnit change, cause when timeUnit change, it trigger date change also
@@ -38,6 +39,7 @@ class UsageViewModel: ViewModel {
                         guard let self = self else { return }
                         self.realmPostUsageRelay.accept(usages[.post] ?? nil)
                         self.realmReactionUsageRelay.accept(usages[.reaction] ?? nil)
+                        self.realmMoodRelay.accept(usages[.mood] ?? nil)
                     })
             })
             .disposed(by: disposeBag)

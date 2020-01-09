@@ -41,6 +41,8 @@ class UsageViewController: ViewController {
     lazy var headingView = makeHeadingView()
     lazy var timelineView = makeTimelineView()
     lazy var badgeView = makeBadgeView()
+    lazy var moodHeadingView = makeSectionHeadingView(section: .mood)
+    lazy var moodView = makeMoodView()
     lazy var postsHeadingView = makeSectionHeadingView(section: .post)
     lazy var postsFilterTypeView = makeFilterTypeView(section: .post)
     lazy var postsFilterDayView = makeFilterDayView(section: .post)
@@ -53,6 +55,12 @@ class UsageViewController: ViewController {
     lazy var reactionsFilterDayView = makeFilterDayView(section: .reaction)
     lazy var reactionsFilterFriendView = makeFilterGeneralView(section: .reaction, groupBy:
         .friend)
+
+    // SECTION: Mood
+    lazy var moodObservable: Observable<Usage> = {
+        thisViewModel.realmMoodRelay.filterNil()
+            .flatMap { Observable.from(object: $0) }
+    }()
 
     // SECTION: Post
     lazy var postUsageObservable: Observable<Usage> = {
@@ -146,6 +154,8 @@ class UsageViewController: ViewController {
             flex.addItem(headingView)
             flex.addItem(timelineView)
             flex.addItem(badgeView)
+            flex.addItem(moodHeadingView)
+            flex.addItem(moodView)
             flex.addItem(postsHeadingView)
             flex.addItem(postsFilterTypeView)
             flex.addItem(postsFilterDayView)
@@ -192,6 +202,13 @@ extension UsageViewController {
         let sectionHeadingView = SectionHeadingView()
         sectionHeadingView.setProperties(section: section, container: self)
         return sectionHeadingView
+    }
+
+    fileprivate func makeMoodView() -> MoodView {
+        let moodView = MoodView()
+        moodView.containerLayoutDelegate = self
+        moodView.setProperties(section: .mood, container: self)
+        return moodView
     }
 
     fileprivate func makeFilterTypeView(section: Section) -> FilterTypeView {
