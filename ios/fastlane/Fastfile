@@ -39,7 +39,7 @@ platform :ios do
 			scheme: "Synergy Inhouse")
 
 		update_info_plist(
-			plist_path: "./Inhouse-Info.plist",
+			plist_path: "./Synergy/Inhouse-Info.plist",
 			block: proc do |plist|
 				appCredential = plist["AppCredentials"]
 				appCredential["API_FBM_SERVER_URL"] = ENV["SERVER_URL"]
