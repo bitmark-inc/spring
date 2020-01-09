@@ -1,0 +1,18 @@
+kind: pipeline
+type: exec
+name: default
+
+platform:
+  os: darwin
+  arch: amd64
+
+steps:
+- name: ios test version
+  commands:
+  - cd ios
+  - fastlane ios dev
+  environment:
+    SENTRY_AUTH_TOKEN:
+      from_secret: SENTRY_AUTH_TOKEN
+    APPCENTER_API_TOKEN:
+      from_secret: APPCENTER_API_TOKEN
