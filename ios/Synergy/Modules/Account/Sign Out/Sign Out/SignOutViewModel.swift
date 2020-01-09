@@ -37,6 +37,9 @@ class SignOutViewModel: ConfirmRecoveryKeyViewModel {
             try FileManager.default.removeItem(at: FileManager.filesDocumentDirectoryURL)
             try RealmConfig.removeRealm(of: account.getAccountNumber())
 
+            // clear user cookie in webview
+            HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
+
             Global.current = Global() // reset local variable
             AuthService.shared = AuthService()
             Intercom.logout()

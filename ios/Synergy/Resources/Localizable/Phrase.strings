@@ -29,7 +29,7 @@
 "getYourData.screenTitle" = "Get Your Data";
 "getYourData.login.placeholder" = "Facebook login";
 "getYourData.password.placeholder" = "Facebook password";
-"getYourData.giveAutomateTrust" = "We’ll only use your Facebook login information to automate your back up.\n\nYour login is stored locally, never in the Cloud.";
+"getYourData.giveAutomateTrust" = "We’ll only use your Facebook login information to automate your back up.\n\nYour login is stored on your device, never in the Cloud.";
 "getYourData.authorize.automate" = "Authorize »";
 "getYourData.authorize.manual" = "Prefer not to automate this?";
 
