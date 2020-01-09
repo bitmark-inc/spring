@@ -70,6 +70,8 @@
 "graph.noActivity" = "No activity for this period.";
 "graph.mood.noActivity" = "Sorry, no data available!";
 
+"noDataAvailable" = "Sorry, no data available!";
+
 "income" = "income";
 "mood" = "mood";
 

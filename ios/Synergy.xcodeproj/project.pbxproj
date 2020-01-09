@@ -208,6 +208,9 @@
 		5B54FAD623C6D4480029B5D5 /* IBMPlexMono-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B80A69923C5D00B002E591E /* IBMPlexMono-SemiBold.ttf */; };
 		5B54FAD723C6D4480029B5D5 /* IBMPlexMono-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B80A69C23C5D00B002E591E /* IBMPlexMono-SemiBoldItalic.ttf */; };
 		5B54FAD823C6D4480029B5D5 /* IBMPlexMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B80A69B23C5D00B002E591E /* IBMPlexMono-LightItalic.ttf */; };
+		5B54FADB23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */; };
+		5B54FADC23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */; };
+		5B54FADD23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */; };
 		5B58AC3723BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
 		5B58AC3823BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
 		5B58AC3923BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
@@ -386,15 +389,6 @@
 		5B75A14A23BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14D23BD9EA400FFF910 /* DatePeriodSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14C23BD9EA400FFF910 /* DatePeriodSpec.swift */; };
 		5B75A15223BDD66000FFF910 /* QueryTrackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A15123BDD66000FFF910 /* QueryTrackSpec.swift */; };
-		5B80A63F23C57252002E591E /* ArchiveDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A63E23C57252002E591E /* ArchiveDataEngine+Rx.swift */; };
-		5B80A64023C57252002E591E /* ArchiveDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A63E23C57252002E591E /* ArchiveDataEngine+Rx.swift */; };
-		5B80A64123C57252002E591E /* ArchiveDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A63E23C57252002E591E /* ArchiveDataEngine+Rx.swift */; };
-		5B80A64323C57EE4002E591E /* AssetService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64223C57EE4002E591E /* AssetService+Rx.swift */; };
-		5B80A64423C57EE4002E591E /* AssetService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64223C57EE4002E591E /* AssetService+Rx.swift */; };
-		5B80A64523C57EE4002E591E /* AssetService+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64223C57EE4002E591E /* AssetService+Rx.swift */; };
-		5B80A64823C597F1002E591E /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64723C597F1002E591E /* ReleaseNoteViewController.swift */; };
-		5B80A64923C597F1002E591E /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64723C597F1002E591E /* ReleaseNoteViewController.swift */; };
-		5B80A64A23C597F1002E591E /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A64723C597F1002E591E /* ReleaseNoteViewController.swift */; };
 		5B80A69E23C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
 		5B80A69F23C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
 		5B80A6A023C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
@@ -815,6 +809,7 @@
 		5B4A239C23B2120B00447366 /* Insight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Insight.swift; sourceTree = "<group>"; };
 		5B4A23A023B212E800447366 /* TimeUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUnit.swift; sourceTree = "<group>"; };
 		5B4A23A423B21CD400447366 /* SectionSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSeparator.swift; sourceTree = "<group>"; };
+		5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCategoryView.swift; sourceTree = "<group>"; };
 		5B58AC3623BADC890041F216 /* QueryTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTrack.swift; sourceTree = "<group>"; };
 		5B58AC3A23BADF920041F216 /* DatePeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePeriod.swift; sourceTree = "<group>"; };
 		5B58AC4223BB43E70041F216 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
@@ -843,9 +838,6 @@
 		5B80A69A23C5D00B002E591E /* IBMPlexMono-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Thin.ttf"; sourceTree = "<group>"; };
 		5B80A69B23C5D00B002E591E /* IBMPlexMono-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-LightItalic.ttf"; sourceTree = "<group>"; };
 		5B80A69C23C5D00B002E591E /* IBMPlexMono-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
-		5B80A63E23C57252002E591E /* ArchiveDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArchiveDataEngine+Rx.swift"; sourceTree = "<group>"; };
-		5B80A64223C57EE4002E591E /* AssetService+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AssetService+Rx.swift"; sourceTree = "<group>"; };
-		5B80A64723C597F1002E591E /* ReleaseNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseNoteViewController.swift; sourceTree = "<group>"; };
 		5B80A69D23C5D89E002E591E /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewController.swift; sourceTree = "<group>"; };
 		5B9322FB23A3635200C3C408 /* SignOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewModel.swift; sourceTree = "<group>"; };
@@ -1055,9 +1047,7 @@
 			children = (
 				5832D6FB238BC23D0074AEDC /* InsightViewController.swift */,
 				5832D6FC238BC23D0074AEDC /* InsightViewModel.swift */,
-				5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */,
-				5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */,
-				5B590A6D23B302D6006C194D /* MoodView.swift */,
+				5B54FAD923C6DAA90029B5D5 /* Sections */,
 			);
 			path = Insight;
 			sourceTree = "<group>";
@@ -1402,6 +1392,17 @@
 				5B4A23A423B21CD400447366 /* SectionSeparator.swift */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		5B54FAD923C6DAA90029B5D5 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */,
+				5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */,
+				5B590A6D23B302D6006C194D /* MoodView.swift */,
+				5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */,
+			);
+			path = Sections;
 			sourceTree = "<group>";
 		};
 		5B58AC4623BB474B0041F216 /* Sign In */ = {
@@ -2527,6 +2528,7 @@
 				5832D701238BC23D0074AEDC /* InsightViewController.swift in Sources */,
 				5832FCAE237A8A9300FA3196 /* MoyaProviderType+Request.swift in Sources */,
 				5832FC4E237A863300FA3196 /* ReadingTextView.swift in Sources */,
+				5B54FADB23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
 				5BA9FF5E23B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5B93231823A363C800C3C408 /* AboutViewController.swift in Sources */,
@@ -2716,6 +2718,7 @@
 				5B5D000423A1F0F4003D1A1C /* InsightViewController.swift in Sources */,
 				5B5D000523A1F0F4003D1A1C /* MoyaProviderType+Request.swift in Sources */,
 				5B5D000623A1F0F4003D1A1C /* ReadingTextView.swift in Sources */,
+				5B54FADD23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
 				5BA9FF6023B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				5B5D000723A1F0F4003D1A1C /* SignInWallViewController.swift in Sources */,
 				5B93231A23A363C800C3C408 /* AboutViewController.swift in Sources */,
@@ -2894,6 +2897,7 @@
 				5832D702238BC23D0074AEDC /* InsightViewController.swift in Sources */,
 				E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */,
 				E2DB669C237D3B69005367C2 /* ReadingTextView.swift in Sources */,
+				5B54FADC23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
 				5BA9FF5F23B221F900E57A20 /* InsightBadgeView.swift in Sources */,
 				E29F5A272383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5B93231923A363C800C3C408 /* AboutViewController.swift in Sources */,

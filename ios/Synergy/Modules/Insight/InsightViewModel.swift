@@ -21,8 +21,11 @@ class InsightViewModel: ViewModel {
     let fetchDataResultSubject = PublishSubject<Event<Void>>()
     let realmIncomeInsightRelay = BehaviorRelay<Insight?>(value: nil)
     let realmMoodInsightRelay = BehaviorRelay<Insight?>(value: nil)
+    let realmAdsCategoriesRelay = BehaviorRelay<Results<UserInfo>?>(value: nil)
 
     func fetchInsight() {
+        realmAdsCategoriesRelay.accept(InsightDataEngine.fetchAdsCategories())
+
         dateRelay // ignore timeUnit change, cause when timeUnit change, it trigger date change also
         .subscribe(onNext: { [weak self] (date) in
             guard let self = self else { return }
