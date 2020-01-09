@@ -11,7 +11,6 @@ import com.bitmark.fbm.data.source.remote.api.event.RemoteApiBus
 import com.bitmark.fbm.di.ActivityScope
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
-import com.bitmark.fbm.feature.archiveissuing.ArchiveIssuanceProcessor
 import com.bitmark.fbm.feature.auth.FbmServerAuthentication
 import dagger.Module
 import dagger.Provides
@@ -30,16 +29,9 @@ class MainModule {
         activity: MainActivity,
         fbmServerAuth: FbmServerAuthentication,
         appRepo: AppRepository,
-        remoteApiBus: RemoteApiBus,
-        archiveIssuanceProcessor: ArchiveIssuanceProcessor
+        remoteApiBus: RemoteApiBus
     ) =
-        MainViewModel(
-            activity.lifecycle,
-            fbmServerAuth,
-            remoteApiBus,
-            appRepo,
-            archiveIssuanceProcessor
-        )
+        MainViewModel(activity.lifecycle, fbmServerAuth, remoteApiBus, appRepo)
 
     @ActivityScope
     @Provides

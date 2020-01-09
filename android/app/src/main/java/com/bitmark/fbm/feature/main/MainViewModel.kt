@@ -11,9 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.data.source.remote.api.event.RemoteApiBus
 import com.bitmark.fbm.feature.BaseViewModel
-import com.bitmark.fbm.feature.archiveissuing.ArchiveIssuanceProcessor
 import com.bitmark.fbm.feature.auth.FbmServerAuthentication
-import com.bitmark.sdk.features.Account
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 
@@ -21,8 +19,7 @@ class MainViewModel(
     lifecycle: Lifecycle,
     private val fbmServerAuth: FbmServerAuthentication,
     private val remoteApiBus: RemoteApiBus,
-    private val appRepo: AppRepository,
-    private val archiveIssuanceProcessor: ArchiveIssuanceProcessor
+    private val appRepo: AppRepository
 ) :
     BaseViewModel(lifecycle) {
 
@@ -56,13 +53,5 @@ class MainViewModel(
     override fun onDestroy() {
         fbmServerAuth.stop()
         super.onDestroy()
-    }
-
-    fun startArchiveIssuanceProcessor(account: Account) {
-        archiveIssuanceProcessor.start(account)
-    }
-
-    fun stopArchiveIssuanceProcessor() {
-        archiveIssuanceProcessor.stop()
     }
 }

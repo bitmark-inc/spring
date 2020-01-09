@@ -6,7 +6,6 @@
  */
 package com.bitmark.fbm.feature.main
 
-import android.os.Bundle
 import android.os.Handler
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -18,7 +17,6 @@ import com.bitmark.fbm.feature.main.MainViewPagerAdapter.Companion.TAB_LENS
 import com.bitmark.fbm.feature.main.MainViewPagerAdapter.Companion.TAB_USAGE
 import com.bitmark.fbm.feature.usage.UsageContainerFragment
 import com.bitmark.fbm.util.ext.*
-import com.bitmark.sdk.features.Account
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -44,16 +42,6 @@ class MainActivity : BaseAppCompatActivity() {
 
     override fun viewModel(): BaseViewModel? = viewModel
 
-    companion object {
-        private const val ACCOUNT_SEED = "account_seed"
-
-        fun getBundle(encodedSeed: String): Bundle {
-            val bundle = Bundle()
-            bundle.putString(ACCOUNT_SEED, encodedSeed)
-            return bundle
-        }
-    }
-
     private val connectivityChangeListener =
         object : ConnectivityHandler.NetworkStateChangeListener {
             override fun onChange(connected: Boolean) {
@@ -68,19 +56,6 @@ class MainActivity : BaseAppCompatActivity() {
             }
 
         }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val seed = intent?.extras?.getString(ACCOUNT_SEED) ?: error("missing ACCOUNT_SEED")
-        val account = Account.fromSeed(seed)
-        viewModel.startArchiveIssuanceProcessor(account)
-    }
-
-    override fun onDestroy() {
-        viewModel.stopArchiveIssuanceProcessor()
-        super.onDestroy()
-    }
 
     override fun initComponents() {
         super.initComponents()
@@ -97,10 +72,10 @@ class MainActivity : BaseAppCompatActivity() {
             viewPager.setCurrentItem(pos, true)
 
             val color = when (pos) {
-                TAB_USAGE -> R.color.cognac
+                TAB_USAGE   -> R.color.cognac
                 TAB_INSIGHT -> R.color.international_klein_blue
-                TAB_LENS -> R.color.olive
-                else -> error("invalid tab pos")
+                TAB_LENS    -> R.color.olive
+                else        -> error("invalid tab pos")
             }
 
             bottomNav.setActiveColor(color)
