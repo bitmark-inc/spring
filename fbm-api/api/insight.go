@@ -7,7 +7,6 @@ import (
 	"github.com/bitmark-inc/fbm-apps/fbm-api/protomodel"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
 )
 
 func getTotalFBIncomeForDataPeriod(lookupRange []fbIncomePeriod, from, to int64) float64 {
@@ -52,8 +51,6 @@ func (s *Server) getFBIncomeFromUserData(account *store.Account) float64 {
 	} else {
 		to = int64(t)
 	}
-
-	log.Info(to)
 
 	countryCode := ""
 	if c, ok := account.Metadata["original_location"].(string); ok {
