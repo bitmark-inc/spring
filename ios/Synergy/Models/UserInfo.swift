@@ -21,14 +21,15 @@ class UserInfo: Object, Decodable {
         return "id"
     }
 
-    convenience init(key: UserInfoKey, value: String) {
+    convenience init(id: String = NSUUID().uuidString, key: UserInfoKey, value: String) {
         self.init()
+        self.id = id
         self.key = key.rawValue
         self.value = value
-        self.id = NSUUID().uuidString
     }
 }
 
 enum UserInfoKey: String {
     case adsCategory
+    case insights
 }

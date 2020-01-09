@@ -49,8 +49,9 @@ class Usage: Object, Decodable {
                           timeUnit: TimeUnit(rawValue: timeUnit) ?? .week,
                           section: Section(rawValue: sectionName) ?? .post).makeID()
 
-        let groupsValue = try values.decode(Groups.self, forKey: .groups)
-        groups = try GroupsConverter(from: groupsValue).valueAsString
+        if let groupsValue = try values.decodeIfPresent(Groups.self, forKey: .groups) {
+            groups = try GroupsConverter(from: groupsValue).valueAsString
+        }
     }
 
     // MARK: - Realm Required Init

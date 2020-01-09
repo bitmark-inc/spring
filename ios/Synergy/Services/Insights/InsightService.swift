@@ -14,18 +14,21 @@ class InsightService {
 
     static var provider = MoyaProvider<InsightAPI>(plugins: Global.default.networkLoggerPlugin)
 
-    static func get(in timeUnit: TimeUnit, startDate: Date) -> Single<[Insight]> {
+    static func get() -> Single<Insight> {
         Global.log.info("[start] InsightService.get")
 
-        let insightAPI: InsightAPI!
-        switch timeUnit {
-        case .week:     insightAPI = .getInWeek(startDate: startDate)
-        case .year:     insightAPI = .getInYear(startDate: startDate)
-        case .decade:   insightAPI = .getInDecade(startDate: startDate)
-        }
-
-        return provider.rx.requestWithRefreshJwt(insightAPI)
+        return provider.rx.requestWithRefreshJwt(.get)
             .filterSuccess()
-            .map([Insight].self, atKeyPath: "result")
+            .map(Insight.self, atKeyPath: "result")
+    }
+
+    static func getInUserInfo() -> Single<UserInfo> {
+        return get()
+            .map({ (insight) -> UserInfo in
+                return UserInfo(
+                    id: Global.userInsightID,
+                    key: UserInfoKey.insights,
+                    value: try InsightConverter(from: insight).valueAsString)
+            })
     }
 }

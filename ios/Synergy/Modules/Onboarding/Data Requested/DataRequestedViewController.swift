@@ -70,7 +70,10 @@ class DataRequestedViewController: ViewController {
         
         checkNowButton.isHidden = viewModel.mission != .checkRequestedData
         checkNowButton.rx.tap.bind { [weak self] in
-            self?.gotoDownloadFBArchiveScreen()
+            _ = connectedToInternet()
+                .subscribe(onCompleted: { [weak self] in
+                    self?.gotoDownloadFBArchiveScreen()
+                })
         }.disposed(by: disposeBag)
     }
 

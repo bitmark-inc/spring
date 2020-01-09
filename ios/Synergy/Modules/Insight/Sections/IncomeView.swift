@@ -43,29 +43,13 @@ class IncomeView: UIView {
 
     func setProperties(section: Section, container: InsightViewController) {
         weak var container = container
-        var dataObserver: Disposable? // stop observing old-data
 
         switch section {
         case .fbIncome:
-            container?.thisViewModel.realmIncomeInsightRelay
-                .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self, let container = container else { return }
-                    if usage != nil {
-                        dataObserver?.dispose()
-                        dataObserver = container.incomeInsightObservable
-                            .map { $0.value }
-                            .subscribe(onNext: { [weak self] (amount) in
-                                self?.fillData(amount: amount)
-                            })
-
-                        dataObserver?
-                            .disposed(by: self.disposeBag)
-                    } else {
-                        dataObserver?.dispose()
-                        self.fillData(amount: nil)
-                    }
-                })
-                .disposed(by: disposeBag)
+            container?.realmInsightObservable
+                .subscribe(onNext: { [weak self] (insight) in
+                    self?.fillData(amount: insight.fbIncome)
+                }).disposed(by: disposeBag)
 
         default:
             break
@@ -73,7 +57,7 @@ class IncomeView: UIView {
     }
 
     func fillData(amount: Double?) {
-        if let amount = amount {
+        if let amount = amount, amount >= 0 {
             amountLabel.text = String(format: "$%.02f", amount)
         } else {
             amountLabel.text = "--"
@@ -88,7 +72,7 @@ extension IncomeView {
     fileprivate func makeAmountLabel() -> Label {
         let label = Label()
         label.apply(
-            font: R.font.avenir(size: 45),
+            font: R.font.atlasGroteskRegular(size: 42),
             colorTheme: ColorTheme.cognac)
         return label
     }
@@ -97,7 +81,7 @@ extension IncomeView {
         let label = Label()
         label.apply(
             text: R.string.localizable.incomeDescription(),
-            font: R.font.atlasGroteskThin(size: Size.ds(12)),
+            font: R.font.atlasGroteskLight(size: Size.ds(12)),
             colorTheme: ColorTheme.black)
         return label
     }

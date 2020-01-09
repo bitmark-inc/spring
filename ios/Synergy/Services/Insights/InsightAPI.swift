@@ -10,9 +10,7 @@ import Foundation
 import Moya
 
 enum InsightAPI {
-    case getInWeek(startDate: Date)
-    case getInYear(startDate: Date)
-    case getInDecade(startDate: Date)
+    case get
 }
 
 extension InsightAPI: AuthorizedTargetType, VersionTargetType {
@@ -21,11 +19,7 @@ extension InsightAPI: AuthorizedTargetType, VersionTargetType {
     }
 
     var path: String {
-        switch self {
-        case .getInWeek:    return "week"
-        case .getInYear:    return "year"
-        case .getInDecade:  return "decade"
-        }
+        return ""
     }
 
     var method: Moya.Method {
@@ -37,16 +31,7 @@ extension InsightAPI: AuthorizedTargetType, VersionTargetType {
     }
 
     var parameters: [String: Any]? {
-        var params: [String: Any] = [:]
-
-        switch self {
-        case .getInWeek(let startDate),
-             .getInYear(let startDate),
-             .getInDecade(let startDate):
-            params["started_at"] = startDate.appTimeFormat
-        }
-
-        return params
+        return nil
     }
 
     var task: Task {
