@@ -144,18 +144,16 @@ extension DataRequestedViewController {
 extension DataRequestedViewController {
     fileprivate func makeDataRequestedTitleLabel() -> Label {
         let label = Label()
-        label.applyBlack(
-            text: "",
-            font: R.font.domaineSansTextLight(size: Size.ds(36)))
+        label.apply(font: R.font.domaineSansTextLight(size: Size.ds(36)), colorTheme: .black)
         return label
     }
     
     fileprivate func makeDataRequestedDescLabel() -> Label {
         let label = Label()
         label.numberOfLines = 0
-        label.applyBlack(
-            text: "",
+        label.apply(
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
+            colorTheme: .black,
             lineHeight: 1.2)
         return label
     }
@@ -170,7 +168,6 @@ extension DataRequestedViewController {
         let label = Label()
         label.numberOfLines = 0
         label.apply(
-            text: "",
             font: R.font.atlasGroteskThinItalic(size: Size.ds(18)),
             colorTheme: .black, lineHeight: 1.2)
         return label

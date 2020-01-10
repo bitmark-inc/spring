@@ -69,6 +69,7 @@ class IncomeView: UIView {
         amountLabel.flex.markDirty()
         descriptionLabel.flex.markDirty()
         flex.layout()
+        containerLayoutDelegate?.layout()
     }
 }
 

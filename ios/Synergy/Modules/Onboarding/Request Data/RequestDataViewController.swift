@@ -664,9 +664,9 @@ extension RequestDataViewController {
 
     fileprivate func makeGuideTextLabel() -> Label {
         let label = Label()
-        label.applyLight(
-            text: "",
-            font: R.font.atlasGroteskRegular(size: 18),
+        label.apply(
+            font: R.font.atlasGroteskLight(size: 18),
+            colorTheme: .white,
             lineHeight: 1.2)
         return label
     }
@@ -677,7 +677,7 @@ extension RequestDataViewController {
         let label = Label()
         label.apply(
             text: R.string.phrase.guideAutomating().localizedUppercase,
-            font: R.font.domaineSansTextLight(size: Size.ds(40)),
+            font: R.font.domaineSansTextRegular(size: Size.ds(40)),
             colorTheme: .black)
         label.numberOfLines = 0
 

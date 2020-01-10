@@ -49,7 +49,6 @@ class RequestDataViewModel: ViewModel {
             })
             .disposed(by: disposeBag)
 
-
         signUpAndSubmitArchiveResultSubject
             .filter({ $0.isCompleted })
             .subscribe(onNext: { [weak self] (_) in
@@ -97,6 +96,18 @@ class RequestDataViewModel: ViewModel {
             }
         }
 
+        let registerOneSignalNotificationCompletable = Completable.deferred {
+            guard let accountNumber = Global.current.account?.getAccountNumber() else {
+                return Completable.never()
+            }
+
+            guard UserDefaults.standard.enablePushNotification else {
+                return Completable.empty()
+            }
+
+            return self.registerOneSignal(accountNumber: accountNumber)
+        }
+
         let fbArchiveCreatedAtTime: Date!
         if let fbArchiveCreatedAt = UserDefaults.standard.FBArchiveCreatedAt {
             fbArchiveCreatedAtTime = fbArchiveCreatedAt
@@ -107,19 +118,18 @@ class RequestDataViewModel: ViewModel {
 
         createdAccounCompletable
             .andThen(FbmAccountService.create())
-            .catchErrorJustReturn(FbmAccount())
-            .flatMapCompletable({ [weak self] (_) -> Completable in
-                guard let self = self,
-                    let accountNumber = Global.current.account?.getAccountNumber() else {
-                        return Completable.never()
+            .catchError { (error) -> Single<FbmAccount> in
+                if let error = error as? ServerAPIError, error.code == .AccountHasTaken {
+                    return Single.just(FbmAccount())
                 }
 
-                guard UserDefaults.standard.enablePushNotification else {
-                    return Completable.empty()
-                }
-
-                return self.registerOneSignal(accountNumber: accountNumber)
-            })
+                return Single.error(error)
+            }
+            .flatMapCompletable { (fbmAccount) -> Completable in
+                guard fbmAccount.accountNumber.isNotEmpty else { return Completable.empty() }
+                return FbmAccountDataEngine.rx.updateMetadata(for: fbmAccount)
+            }
+            .andThen(registerOneSignalNotificationCompletable)
             .andThen(
                 FBArchiveService.submit(
                     headers: headers,

@@ -57,4 +57,59 @@ extension Reactive where Base: FbmAccountDataEngine {
             return Disposables.create()
         }
     }
+
+    static func updateMetadata(for fbmAccount: FbmAccount, username: String? = nil) -> Completable {
+        Completable.deferred {
+            var metadataValue: Metadata!
+            do {
+                metadataValue = try MetadataConverter(from: fbmAccount.metadata).value
+            } catch {
+                return Completable.error(error)
+            }
+
+            // skip when already set metadata for FB Identifier
+            guard metadataValue.fbIdentifier == nil
+                else {
+                    return Completable.empty()
+            }
+
+            let fbUsernameSingle = Single<String>.deferred {
+                if let username = username {
+                    return Single.just(username)
+                } else {
+                    return KeychainStore.getFBUsername()
+                }
+            }
+
+            return Completable.create { (event) -> Disposable in
+                _ = fbUsernameSingle
+                    .map { (username) -> [String: Any] in
+                        metadataValue.fbIdentifier = username.sha3()
+                        return [
+                            "fb-identifier": metadataValue.fbIdentifier!
+                        ]
+                    }
+                    .flatMapCompletable { FbmAccountService.updateMe(metadata: $0) }
+                    .subscribe(onCompleted: {
+                        autoreleasepool {
+                            do {
+                                guard let updatedMetadata = try MetadataConverter(from: metadataValue).valueAsString else { return }
+                                let realm = try RealmConfig.currentRealm()
+                                try realm.write {
+                                    fbmAccount.metadata = updatedMetadata
+                                }
+                                event(.completed)
+                            } catch {
+                                event(.error(error))
+                            }
+                        }
+                    }, onError: { (error) in
+                        event(.error(error))
+                    })
+
+                return Disposables.create()
+            }
+
+        }
+    }
 }
