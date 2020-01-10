@@ -34,19 +34,17 @@ class TimeFilterView: UIView {
         periodNameLabel.textAlignment = .center
         periodDescriptionLabel.textAlignment = .center
 
-        flex.direction(.column).define { (flex) in
-            flex.paddingTop(13).paddingBottom(30)
-            flex.addItem(filterSegment).marginLeft(18).marginRight(18).height(40)
-            flex.addItem().direction(.row).define { (flex) in
-                flex.marginTop(18).marginLeft(18).marginRight(18).height(19)
-                flex.justifyContent(.center)
-                flex.alignItems(.stretch)
-                flex.addItem(previousPeriodButton)
-                flex.addItem(periodNameLabel).grow(1)
-                flex.addItem(nextPeriodButton)
+        flex.direction(.column)
+            .padding(13, 18, 26, 18)
+            .define { (flex) in
+                flex.addItem(filterSegment).height(40)
+                flex.addItem().marginTop(26).direction(.row).define { (flex) in
+                    flex.addItem(previousPeriodButton)
+                    flex.addItem(periodNameLabel).grow(1)
+                    flex.addItem(nextPeriodButton)
+                }
+                flex.addItem(periodDescriptionLabel).alignSelf(.stretch).marginTop(9)
             }
-            flex.addItem(periodDescriptionLabel).marginTop(9).height(10).alignSelf(.stretch)
-        }
 
         bindData()
     }
