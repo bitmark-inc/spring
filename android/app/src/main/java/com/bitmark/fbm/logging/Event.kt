@@ -36,10 +36,6 @@ enum class Event(val value: String) {
 
     LOAD_STATISTIC_ERROR("statistic_error"),
 
-    PLAY_VIDEO_ERROR("play_video_error"),
-
-    ARCHIVE_ISSUE_ERROR("archive_issue_error"),
-
-    ARCHIVE_ISSUE_SUCCESS("archive_issue_success")
+    PLAY_VIDEO_ERROR("play_video_error")
 
 }

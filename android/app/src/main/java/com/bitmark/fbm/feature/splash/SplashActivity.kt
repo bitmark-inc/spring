@@ -53,8 +53,6 @@ class SplashActivity : BaseAppCompatActivity() {
 
     private val handler = Handler()
 
-    private lateinit var account: Account
-
     override fun layoutRes(): Int = R.layout.activity_splash
 
     override fun viewModel(): BaseViewModel? = null
@@ -100,7 +98,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     }
                 }
 
-                res.isError() -> {
+                res.isError()   -> {
                     logger.logError(
                         Event.SPLASH_VERSION_CHECK_ERROR,
                         res.throwable() ?: UnknownException()
@@ -154,7 +152,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     }
                 }
 
-                res.isError() -> {
+                res.isError()   -> {
                     logger.logSharedPrefError(res.throwable(), "get account info error")
                     dialogController.unexpectedAlert { navigator.exitApp() }
                 }
@@ -172,7 +170,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     }
                 }
 
-                res.isError() -> {
+                res.isError()   -> {
                     val error = res.throwable()!!
                     logger.logError(
                         Event.SPLASH_PREPARE_DATA_ERROR,
@@ -195,16 +193,15 @@ class SplashActivity : BaseAppCompatActivity() {
                     val dataReady = res.data() ?: false
                     handler.postDelayed({
                         if (dataReady) {
-                            val bundle = MainActivity.getBundle(account.seed.encodedSeed)
                             navigator.anim(FADE_IN)
-                                .startActivityAsRoot(MainActivity::class.java, bundle)
+                                .startActivityAsRoot(MainActivity::class.java)
                         } else {
                             showDataAnalyzing()
                         }
                     }, 250)
                 }
 
-                res.isError() -> {
+                res.isError()   -> {
                     logger.logSharedPrefError(res.throwable(), "check data ready error")
                     dialogController.unexpectedAlert { navigator.exitApp() }
                 }
@@ -230,7 +227,6 @@ class SplashActivity : BaseAppCompatActivity() {
 
     private fun prepareData(accountData: AccountData) {
         loadAccount(accountData) { account ->
-            this.account = account
             viewModel.prepareData(account)
         }
     }
