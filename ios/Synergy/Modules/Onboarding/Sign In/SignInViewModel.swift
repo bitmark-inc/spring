@@ -14,8 +14,6 @@ import Intercom
 
 class SignInViewModel: ConfirmRecoveryKeyViewModel {
 
-    let accountRelay = BehaviorRelay<Account?>(value: nil)
-
     // MARK: - Outputs
     var signInResultSubject = PublishSubject<Event<ArchiveStatus?>>()
 
@@ -23,13 +21,23 @@ class SignInViewModel: ConfirmRecoveryKeyViewModel {
         Global.log.info("[start] signIn")
 
         loadingState.onNext(.loading)
+
+        let setupAccountCompletable = Completable.deferred {
+            guard let account = Global.current.account else {
+                return Completable.never()
+            }
+
+            AccountService.registerIntercom(for: account.getAccountNumber())
+            SettingsBundle.setAccountNumber(accountNumber: account.getAccountNumber())
+            return Global.current.setupCoreData()
+        }
+
         AccountService.rx.getAccount(phrases: recoveryKeyRelay.value)
-            .do(onSuccess: { [weak self] in self?.accountRelay.accept($0) })
-            .flatMap({ [weak self] (account) -> Single<FbmAccount> in
+            .flatMap { (account) -> Single<FbmAccount> in
                 Global.current.account = account
-                self?.accountRelay.accept(account)
-                return FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
-            })
+                return setupAccountCompletable
+                    .andThen(FbmAccountDataEngine.rx.fetchCurrentFbmAccount())
+            }
             .flatMap { _ in FbmAccountService.fetchOverallArchiveStatus() }
             .do(onSuccess: { (archiveStatus) in
                 Global.current.userDefault?.latestArchiveStatus = archiveStatus?.rawValue
@@ -46,18 +54,6 @@ class SignInViewModel: ConfirmRecoveryKeyViewModel {
                 loadingState.onNext(.hide)
                 self?.signInResultSubject.onNext($0)
             }
-            .disposed(by: disposeBag)
-
-        accountRelay
-            .subscribe(onNext: { (account) in
-                guard let account = account else { return }
-                Global.current.account = account
-                AccountService.registerIntercom(for: account.getAccountNumber())
-                _ = Global.current.setupCoreData()
-                    .subscribe { (error) in
-                        Global.log.error(error)
-                    }
-            })
             .disposed(by: disposeBag)
     }
 }
