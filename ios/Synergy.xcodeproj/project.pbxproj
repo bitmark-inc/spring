@@ -384,6 +384,12 @@
 		5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2A237A863300FA3196 /* MakeUnderline.swift */; };
 		5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8E237A889A00FA3196 /* Storage.swift */; };
 		5B5DFFFF23A1F0F4003D1A1C /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
+		5B67AA6423C829AC00136B68 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6323C829AC00136B68 /* Metadata.swift */; };
+		5B67AA6523C829AC00136B68 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6323C829AC00136B68 /* Metadata.swift */; };
+		5B67AA6623C829AC00136B68 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6323C829AC00136B68 /* Metadata.swift */; };
+		5B67AA6823C830D300136B68 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6723C830D300136B68 /* String+Extension.swift */; };
+		5B67AA6923C830D300136B68 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6723C830D300136B68 /* String+Extension.swift */; };
+		5B67AA6A23C830D300136B68 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6723C830D300136B68 /* String+Extension.swift */; };
 		5B75A14823BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14923BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14A23BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
@@ -818,6 +824,8 @@
 		5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthViewController.swift; sourceTree = "<group>"; };
 		5B5D007423A1F0F4003D1A1C /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Inhouse-Info.plist"; sourceTree = "<group>"; };
+		5B67AA6323C829AC00136B68 /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
+		5B67AA6723C830D300136B68 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBadgeView.swift; sourceTree = "<group>"; };
 		5B75A14C23BD9EA400FFF910 /* DatePeriodSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePeriodSpec.swift; sourceTree = "<group>"; };
 		5B75A15123BDD66000FFF910 /* QueryTrackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTrackSpec.swift; sourceTree = "<group>"; };
@@ -1245,6 +1253,7 @@
 				E23807D123963E3E0079A3C4 /* Array+Sentence.swift */,
 				5BEF584323AB2EA500901D52 /* Date+Extension.swift */,
 				5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */,
+				5B67AA6723C830D300136B68 /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1656,6 +1665,7 @@
 				E2259CCF238783AE00746280 /* FBScript.swift */,
 				E28B5606238D103300F1BCF2 /* Auth.swift */,
 				E28B560D238D16E800F1BCF2 /* FbmAccount.swift */,
+				5B67AA6323C829AC00136B68 /* Metadata.swift */,
 				E21EF9E6239100A6004D4513 /* Usage.swift */,
 				E222907B2394F19D00412CBC /* Groups.swift */,
 				E22290812394FBC500412CBC /* Average.swift */,
@@ -2518,6 +2528,7 @@
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
+				5B67AA6823C830D300136B68 /* String+Extension.swift in Sources */,
 				5BB2852F23A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
 				5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */,
@@ -2559,6 +2570,7 @@
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5B4A239923B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7B23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
+				5B67AA6423C829AC00136B68 /* Metadata.swift in Sources */,
 				5832D6FF238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				5BEF584423AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				5832FC56237A863300FA3196 /* TableView.swift in Sources */,
@@ -2707,6 +2719,7 @@
 				5B5DFFF723A1F0F4003D1A1C /* Navigator.swift in Sources */,
 				5B5DFFF823A1F0F4003D1A1C /* GetYourDataViewController.swift in Sources */,
 				5B5DFFF923A1F0F4003D1A1C /* EditingTextView.swift in Sources */,
+				5B67AA6A23C830D300136B68 /* String+Extension.swift in Sources */,
 				5B5DFFFA23A1F0F4003D1A1C /* LaunchingViewModel.swift in Sources */,
 				5BB2853123A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */,
@@ -2748,6 +2761,7 @@
 				58FF431223B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
 				5B4A239B23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7D23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
+				5B67AA6623C829AC00136B68 /* Metadata.swift in Sources */,
 				5B5D001B23A1F0F4003D1A1C /* NavigationView.swift in Sources */,
 				5BEF584623AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				5B5D001C23A1F0F4003D1A1C /* DataRequestedViewController.swift in Sources */,
@@ -2885,6 +2899,7 @@
 				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
 				E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
+				5B67AA6923C830D300136B68 /* String+Extension.swift in Sources */,
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
 				5BB2853023A34235000C04CA /* SettingsBundle.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
@@ -2926,6 +2941,7 @@
 				58FF431123B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
 				5B4A239A23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7C23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
+				5B67AA6523C829AC00136B68 /* Metadata.swift in Sources */,
 				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5BEF584523AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				E28B55F1238CE66500F1BCF2 /* DataRequestedViewController.swift in Sources */,

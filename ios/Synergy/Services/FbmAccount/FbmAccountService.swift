@@ -39,6 +39,15 @@ class FbmAccountService {
             .map(FbmAccount.self, atKeyPath: "result", using: Global.default.decoder )
     }
 
+    static func updateMe(metadata: [String: Any]) -> Completable {
+        Global.log.info("[start] FbmAccountService.updateMe")
+
+        return provider.rx
+            .requestWithRefreshJwt(.updateMe(metadata: metadata))
+            .filterSuccess()
+            .asCompletable()
+    }
+
     static func fetchOverallArchiveStatus() -> Single<ArchiveStatus?> {
         return Single.create { (event) -> Disposable in
             _ = FBArchiveService.getAll()

@@ -37,9 +37,27 @@ class GetYourDataViewController: ViewController, BackNavigator {
 
         automateAuthorizeButton.rx.tap.bind { [weak self] in
             _ = connectedToInternet()
-                .subscribe(onCompleted: { [weak self] in
+                .andThen(viewModel.isValidFBCredential())
+                .subscribe(onSuccess: { [weak self] (isValid) in
+                    guard let self = self else { return }
+                    guard isValid else {
+                        self.showErrorAlert(message: R.string.error.fbCredentialDifferent())
+                        return
+                    }
+
                     viewModel.saveFBCredentialToKeychain()
-                    self?.gotoRequestData()
+                    self.gotoRequestData()
+
+                }, onError: { [weak self] (error) in
+                    guard let self = self,
+                        !AppError.errorByNetworkConnection(error),
+                        !self.showIfRequireUpdateVersion(with: error)
+                    else {
+                        return
+                    }
+
+                    Global.log.error(error)
+                    self.showErrorAlertWithSupport(message: R.string.error.system())
                 })
         }.disposed(by: disposeBag)
 

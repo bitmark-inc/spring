@@ -132,6 +132,28 @@ class KeychainStore {
         })
     }
 
+    static func getFBUsername() -> Single<String> {
+        Global.log.info("[start] getFBUsername")
+
+        return Single.create(subscribe: { (single) -> Disposable in
+            DispatchQueue.global().async {
+                do {
+                    guard let username = try keychain.get(fbCredentialUsernameKey)
+                        else {
+                            Global.log.error(AppError.emptyCredentialKeychain)
+                            return
+                    }
+
+                    Global.log.info("[done] getFBUsername")
+                    single(.success(username))
+                } catch {
+                    single(.error(error))
+                }
+            }
+            return Disposables.create()
+        })
+    }
+
     static func removeFBCredential() throws {
         Global.log.info("[start] removeFBCredential")
         defer { Global.log.info("[done] removeFBCredential") }
