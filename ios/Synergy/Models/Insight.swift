@@ -10,9 +10,24 @@ import Foundation
 
 struct Insight: Codable {
     let fbIncome: Double
+    let fbIncomeFromInterval: Double
 
     enum CodingKeys: String, CodingKey {
         case fbIncome = "fb_income"
+        case fbIncomeFromInterval = "fb_income_from"
+    }
+
+    // MARK: - Init
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        fbIncome = try values.decode(Double.self, forKey: .fbIncome)
+        fbIncomeFromInterval = try values.decode(Double.self, forKey: .fbIncomeFromInterval)
+    }
+}
+
+extension Insight {
+    var fbIncomeFrom: Date {
+        return Date(timeIntervalSince1970: fbIncomeFromInterval)
     }
 }
 
@@ -29,7 +44,7 @@ class InsightConverter {
 
         guard let jsonData = valueAsString.data(using: encodingRule)
             else {
-                throw "invalid groups string"
+                throw "invalid insight string"
         }
         self.value = try JSONDecoder().decode(Insight.self, from: jsonData)
     }

@@ -17,7 +17,7 @@ class AccountService {
         Intercom.logout()
         
         if let accountNumber = accountNumber {
-            let intercomUserID = accountNumber.hexDecodedData.sha3(length: 256).hexEncodedString
+            let intercomUserID = "\(Constant.appName)_ios_\(accountNumber.hexDecodedData.sha3(length: 256).hexEncodedString)"
             Intercom.registerUser(withUserId: intercomUserID)
         } else {
             Intercom.registerUnidentifiedUser()

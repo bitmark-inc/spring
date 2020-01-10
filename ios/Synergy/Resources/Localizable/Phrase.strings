@@ -52,6 +52,8 @@
 
 "mood.average" = "Period Average";
 
+"income.description" = "Income Facebook made from you since %@";
+
 "adsCategory.header" = "CATEGORIES FOR ADS";
 "adsCategory.description" = "These categories are based on your activity. They are used by advertisers to personalize your information.";
 
