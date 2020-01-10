@@ -17,3 +17,5 @@ steps:
       from_secret: SENTRY_AUTH_TOKEN
     APPCENTER_API_TOKEN:
       from_secret: APPCENTER_API_TOKEN
+    FASTLANE_SESSION:
+      from_secret: FASTLANE_SESSION
