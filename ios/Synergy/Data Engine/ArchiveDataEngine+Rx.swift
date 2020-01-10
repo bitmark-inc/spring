@@ -59,17 +59,29 @@ extension Reactive where Base: ArchiveDataEngine {
                     return Completable.create { (event) -> Disposable in
                         for archive in realm.objects(Archive.self)
                             .filter({ !$0.issueBitmark && $0.status == ArchiveStatus.processed.rawValue }) {
-                                guard let assetID = RegistrationParams.computeAssetId(fingerprint: archive.contentHash),
-                                    AssetService.getAsset(with: assetID) == nil
+                                guard let assetID = RegistrationParams.computeAssetId(fingerprint: archive.contentHash)
                                     else {
                                         continue
                                 }
 
-                                let assetInfo = AssetInfo(
-                                    registrant: account,
-                                    assetName: archive.contentHash, fingerprint: archive.contentHash, metadata: [:])
+                                let createAssetIfNeededSingle = Single<String>.deferred {
+                                    if AssetService.getAsset(with: assetID) != nil {
+                                        return AssetService.rx.existsBitmarks(issuer: account, assetID: assetID)
+                                            .flatMap { return $0 ? Single.never() : Single.just(assetID) }
+                                    } else {
+                                        let assetInfo = AssetInfo(
+                                            registrant: account,
+                                            assetName: "", fingerprint: archive.contentHash,
+                                            metadata: [
+                                                "type": "fbdata"
+                                                // TODO: missing metadata
+                                            ])
 
-                                _ = AssetService.rx.registerAsset(assetInfo: assetInfo)
+                                        return AssetService.rx.registerAsset(assetInfo: assetInfo)
+                                    }
+                                }
+
+                                _ = createAssetIfNeededSingle
                                     .flatMap { AssetService.rx.issueBitmark(issuer: account, assetID: $0) }
                                     .subscribe(onSuccess: { (_) in
                                         autoreleasepool {

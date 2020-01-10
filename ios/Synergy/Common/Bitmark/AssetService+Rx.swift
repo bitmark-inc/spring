@@ -34,9 +34,7 @@ extension Reactive where Base: AssetService {
 
         return Single.just(assetInfo)
             .map { assetInfo -> RegistrationParams in
-                var metadata = assetInfo.metadata
-                metadata["SOURCE"] = Constant.appName
-                var assetParams = try Asset.newRegistrationParams(name: assetInfo.assetName, metadata: metadata)
+                var assetParams = try Asset.newRegistrationParams(name: assetInfo.assetName, metadata: assetInfo.metadata)
                 try assetParams.setFingerprint(assetInfo.fingerprint)
                 try assetParams.sign(assetInfo.registrant)
                 return assetParams
@@ -56,5 +54,16 @@ extension Reactive where Base: AssetService {
             .flatMap { Bitmark.rxIssue($0) }
             .map { $0.first ?? nil }
             .errorOnNil()
+    }
+
+    static func existsBitmarks(issuer: Account, assetID: String) -> Single<Bool> {
+        Global.log.info("[start] existsBitmarks")
+
+        let query = Bitmark.newBitmarkQueryParams()
+            .issuedBy(issuer.getAccountNumber())
+            .referencedAsset(assetID: assetID)
+            .pending(true)
+
+        return Bitmark.rxList(params: query).map { $0.0?.count ?? 0 > 0 }
     }
 }
