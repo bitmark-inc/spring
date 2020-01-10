@@ -97,10 +97,10 @@ func (s *Server) accountUpdateMetadata(c *gin.Context) {
 		return
 	}
 
-	accountNumber := c.Param("account_number")
+	account := c.MustGet("account").(*store.Account)
 
 	account, err := s.store.UpdateAccountMetadata(c, &store.AccountQueryParam{
-		AccountNumber: &accountNumber,
+		AccountNumber: &account.AccountNumber,
 	}, params.Metadata)
 	if shouldInterupt(err, c) {
 		return
