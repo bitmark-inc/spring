@@ -39,13 +39,13 @@ class FbmAccountService {
             .map(FbmAccount.self, atKeyPath: "result", using: Global.default.decoder )
     }
 
-    static func updateMe(metadata: [String: Any]) -> Completable {
+    static func updateMe(metadata: [String: Any]) -> Single<FbmAccount> {
         Global.log.info("[start] FbmAccountService.updateMe")
 
         return provider.rx
             .requestWithRefreshJwt(.updateMe(metadata: metadata))
             .filterSuccess()
-            .asCompletable()
+            .map(FbmAccount.self, atKeyPath: "result", using: Global.default.decoder )
     }
 
     static func fetchOverallArchiveStatus() -> Single<ArchiveStatus?> {

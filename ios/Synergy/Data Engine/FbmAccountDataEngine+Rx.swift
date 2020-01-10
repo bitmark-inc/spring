@@ -75,26 +75,13 @@ extension Reactive where Base: FbmAccountDataEngine {
 
             return Completable.create { (event) -> Disposable in
                 _ = KeychainStore.getFBUsername()
-                    .map { (username) -> [String: Any] in
-                        metadataValue.fbIdentifier = username.sha3()
-                        return [
-                            "fb-identifier": metadataValue.fbIdentifier!
-                        ]
+                    .map { (username) in
+                        return ["fb-identifier": username.sha3()]
                     }
-                    .flatMapCompletable { FbmAccountService.updateMe(metadata: $0) }
+                    .flatMap { FbmAccountService.updateMe(metadata: $0) }
+                    .flatMapCompletable { Storage.store($0) }
                     .subscribe(onCompleted: {
-                        autoreleasepool {
-                            do {
-                                guard let updatedMetadata = try MetadataConverter(from: metadataValue).valueAsString else { return }
-                                let realm = try RealmConfig.currentRealm()
-                                try realm.write {
-                                    fbmAccount.metadata = updatedMetadata
-                                }
-                                event(.completed)
-                            } catch {
-                                event(.error(error))
-                            }
-                        }
+                        event(.completed)
                     }, onError: { (error) in
                         event(.error(error))
                     })

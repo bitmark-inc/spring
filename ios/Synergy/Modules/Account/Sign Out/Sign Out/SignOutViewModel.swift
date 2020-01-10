@@ -40,6 +40,9 @@ class SignOutViewModel: ConfirmRecoveryKeyViewModel {
             // clear user cookie in webview
             HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
 
+            // clear settings bundle
+            SettingsBundle.setAccountNumber(accountNumber: nil)
+
             Global.current = Global() // reset local variable
             AuthService.shared = AuthService()
             Intercom.logout()
