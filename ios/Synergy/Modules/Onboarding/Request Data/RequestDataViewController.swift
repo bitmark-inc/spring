@@ -563,6 +563,17 @@ extension RequestDataViewController {
                             UserDefaults.standard.fbCategoriesInfo = adsCategories
                             self.gotoDataRequested()
                         } else {
+                            _ = FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
+                                .flatMapCompletable { FbmAccountDataEngine.rx.updateMetadata(for: $0) }
+                                .subscribe(onCompleted: {
+                                    Global.log.info("[done] updateMetadata")
+                                }, onError: { [weak self] (error) in
+                                    guard !AppError.errorByNetworkConnection(error) else { return }
+                                    guard let self = self, !self.showIfRequireUpdateVersion(with: error) else { return }
+
+                                    Global.log.error(error)
+                                })
+
                             self.thisViewModel.storeAdsCategoriesInfo(adsCategories)
                                 .subscribe(onCompleted: { [weak self] in
                                     self?.navigateWithArchiveStatus(

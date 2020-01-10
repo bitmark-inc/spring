@@ -12,7 +12,8 @@
 
 "fb.credential.title" = "Error";
 "fb.credential.message" = "Incorrect authentication credentials.";
-"fb.credential.different" = "You enter the credentials which are different with current one. Please check again.";
+"fb.credential.incorrect.title" = "Wrong Account";
+"fb.credential.incorrect.description" = "Please use the same Facebook account as before.";
 
 "notification.title" = "Enable Notification";
 "notification.message" = "To get started, allow Synergy to push notification.";
