@@ -40,7 +40,6 @@ class UsageViewController: ViewController {
     lazy var usageView = UIView()
     lazy var headingView = makeHeadingView()
     lazy var timelineView = makeTimelineView()
-    lazy var badgeView = makeBadgeView()
     lazy var moodHeadingView = makeSectionHeadingView(section: .mood)
     lazy var moodView = makeMoodView()
     lazy var postsHeadingView = makeSectionHeadingView(section: .post)
@@ -153,7 +152,6 @@ class UsageViewController: ViewController {
         usageView.flex.define { (flex) in
             flex.addItem(headingView)
             flex.addItem(timelineView)
-            flex.addItem(badgeView)
             flex.addItem(moodHeadingView)
             flex.addItem(moodView)
             flex.addItem(postsHeadingView)
@@ -190,12 +188,6 @@ extension UsageViewController {
         let timeFilterView = TimeFilterView()
         timeFilterView.timelineDelegate = self
         return timeFilterView
-    }
-
-    fileprivate func makeBadgeView() -> UsageBadgeView {
-        let badgeView = UsageBadgeView()
-        badgeView.setProperties(container: self)
-        return badgeView
     }
 
     fileprivate func makeSectionHeadingView(section: Section) -> SectionHeadingView {
