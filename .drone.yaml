@@ -10,6 +10,7 @@ steps:
 - name: ios test version
   commands:
   - cd ios
+  - fastlane install_plugins
   - fastlane ios dev
   environment:
     SENTRY_AUTH_TOKEN:
