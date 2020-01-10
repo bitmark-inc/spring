@@ -29,10 +29,10 @@ class IncomeView: UIView {
                 flex.addItem(SectionSeparator())
 
                 flex.addItem()
-                    .padding(30, 0, 30, 0)
+                    .padding(30, 0, 40, 0)
                     .alignItems(.center).define { (flex) in
                         flex.addItem(amountLabel)
-                        flex.addItem(descriptionLabel).marginTop(20)
+                        flex.addItem(descriptionLabel).marginTop(18)
                     }
             }
     }
@@ -48,7 +48,7 @@ class IncomeView: UIView {
         case .fbIncome:
             container?.realmInsightObservable
                 .subscribe(onNext: { [weak self] (insight) in
-                    self?.fillData(amount: insight.fbIncome)
+                    self?.fillData(amount: insight.fbIncome, since: insight.fbIncomeFrom)
                 }).disposed(by: disposeBag)
 
         default:
@@ -56,14 +56,18 @@ class IncomeView: UIView {
         }
     }
 
-    func fillData(amount: Double?) {
+    func fillData(amount: Double?, since: Date) {
         if let amount = amount, amount >= 0 {
             amountLabel.text = String(format: "$%.02f", amount)
+            descriptionLabel.setText(R.string.phrase.incomeDescription(
+                since.toFormat(Constant.TimeFormat.date)))
         } else {
             amountLabel.text = "--"
+            descriptionLabel.setText(R.string.localizable.noDataAvailable())
         }
 
         amountLabel.flex.markDirty()
+        descriptionLabel.flex.markDirty()
         flex.layout()
     }
 }
@@ -80,7 +84,6 @@ extension IncomeView {
     fileprivate func makeDescriptionLabel() -> Label {
         let label = Label()
         label.apply(
-            text: R.string.localizable.incomeDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(12)),
             colorTheme: ColorTheme.black)
         return label
