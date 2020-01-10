@@ -41,7 +41,10 @@ class GetYourDataViewController: ViewController, BackNavigator {
                 .subscribe(onSuccess: { [weak self] (isValid) in
                     guard let self = self else { return }
                     guard isValid else {
-                        self.showErrorAlert(message: R.string.error.fbCredentialDifferent())
+                        self.showErrorAlert(
+                            title: R.string.error.fbCredentialIncorrectTitle(),
+                            message: R.string.error.fbCredentialIncorrectDescription(),
+                            buttonTitle: R.string.localizable.tryAgain())
                         return
                     }
 

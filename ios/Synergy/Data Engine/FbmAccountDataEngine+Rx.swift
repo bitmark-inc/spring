@@ -58,7 +58,7 @@ extension Reactive where Base: FbmAccountDataEngine {
         }
     }
 
-    static func updateMetadata(for fbmAccount: FbmAccount, username: String? = nil) -> Completable {
+    static func updateMetadata(for fbmAccount: FbmAccount) -> Completable {
         Completable.deferred {
             var metadataValue: Metadata!
             do {
@@ -73,16 +73,8 @@ extension Reactive where Base: FbmAccountDataEngine {
                     return Completable.empty()
             }
 
-            let fbUsernameSingle = Single<String>.deferred {
-                if let username = username {
-                    return Single.just(username)
-                } else {
-                    return KeychainStore.getFBUsername()
-                }
-            }
-
             return Completable.create { (event) -> Disposable in
-                _ = fbUsernameSingle
+                _ = KeychainStore.getFBUsername()
                     .map { (username) -> [String: Any] in
                         metadataValue.fbIdentifier = username.sha3()
                         return [

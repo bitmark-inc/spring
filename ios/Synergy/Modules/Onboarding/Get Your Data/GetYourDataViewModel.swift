@@ -49,8 +49,6 @@ class GetYourDataViewModel: ViewModel {
                     if let fbIdentifier = try MetadataConverter(from: fbmAccount.metadata).value.fbIdentifier {
                         return usernameInput.sha3() == fbIdentifier
                     } else {
-                        _ = FbmAccountDataEngine.rx.updateMetadata(for: fbmAccount, username: usernameInput)
-                            .subscribe()
                         return true
                     }
                 }
