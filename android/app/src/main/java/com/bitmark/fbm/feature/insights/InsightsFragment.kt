@@ -8,7 +8,6 @@ package com.bitmark.fbm.feature.insights
 
 import android.os.Handler
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -24,6 +23,7 @@ import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.ext.scrollToTop
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
+import com.bitmark.fbm.util.view.TopVerticalItemDecorator
 import kotlinx.android.synthetic.main.fragment_insights.*
 import javax.inject.Inject
 
@@ -63,9 +63,8 @@ class InsightsFragment : BaseSupportFragment() {
         adapter = InsightsRecyclerViewAdapter()
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvInsights.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)
         val dividerDrawable = context!!.getDrawable(R.drawable.double_divider_white_black_stroke)
-        if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
+        val itemDecoration = TopVerticalItemDecorator(dividerDrawable)
         rvInsights.addItemDecoration(itemDecoration)
         (rvInsights.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         rvInsights.isNestedScrollingEnabled = false

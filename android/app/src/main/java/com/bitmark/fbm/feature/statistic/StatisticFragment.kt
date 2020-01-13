@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -32,6 +31,7 @@ import com.bitmark.fbm.util.Constants
 import com.bitmark.fbm.util.DateTimeUtil
 import com.bitmark.fbm.util.formatPeriod
 import com.bitmark.fbm.util.formatSubPeriod
+import com.bitmark.fbm.util.view.TopVerticalItemDecorator
 import com.bitmark.fbm.util.view.statistic.GroupView
 import kotlinx.android.synthetic.main.fragment_statistic.*
 import javax.inject.Inject
@@ -104,13 +104,12 @@ class StatisticFragment : BaseSupportFragment() {
         ivNextPeriod.isEnabled = periodStartedAtSec != getStartOfPeriodSec(period)
         showPeriod(period, periodStartedAtSec, periodGap)
 
-        adapter = StatisticRecyclerViewAdapter(context!!)
+        adapter = StatisticRecyclerViewAdapter()
         val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         rvStatistic.layoutManager = layoutManager
-        val itemDecoration = DividerItemDecoration(context, RecyclerView.VERTICAL)
         val dividerDrawable =
             ContextCompat.getDrawable(context!!, R.drawable.double_divider_white_black_stroke)
-        if (dividerDrawable != null) itemDecoration.setDrawable(dividerDrawable)
+        val itemDecoration = TopVerticalItemDecorator(dividerDrawable)
         rvStatistic.addItemDecoration(itemDecoration)
         (rvStatistic.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         rvStatistic.isNestedScrollingEnabled = false
