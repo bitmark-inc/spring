@@ -167,7 +167,7 @@
     <string name="you_requested_your_fb_archive">You requested your Facebook data archive</string>
     <string name="update_now_arrow">Update now »</string>
     <string name="update_available">Update Available</string>
-    <string name="a_new_version_is_available">A new version is available. Please update now to see the latest features.</string>
+    <string name="a_new_version_is_available">The Spring app on your device is out of date. Please update Spring to continue using it.</string>
     <string name="could_not_play_video">Could not play video. Please try again later.</string>
     <string name="please_authorize_arrow">Please authorize »</string>
     <string name="no_internet_connection">No Internet Connection</string>
