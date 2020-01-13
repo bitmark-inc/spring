@@ -32,6 +32,8 @@ import com.bitmark.fbm.feature.support.SupportActivity
 import com.bitmark.fbm.feature.support.SupportModule
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerModule
+import com.bitmark.fbm.feature.whatsnew.WhatsNewActivity
+import com.bitmark.fbm.feature.whatsnew.WhatsNewModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -89,4 +91,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [SignInModule::class])
     @ActivityScope
     internal abstract fun bindSignInActivity(): SignInActivity
+
+    @ContributesAndroidInjector(modules = [WhatsNewModule::class])
+    @ActivityScope
+    internal abstract fun bindWhatsNewActivity(): WhatsNewActivity
 }

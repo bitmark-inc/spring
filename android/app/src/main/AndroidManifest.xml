@@ -59,6 +59,8 @@
 
         <activity android:name=".feature.signin.SignInActivity" />
 
+        <activity android:name=".feature.whatsnew.WhatsNewActivity" />
+
         <receiver
             android:name=".feature.notification.ScheduledNotificationReceiver"
             android:windowSoftInputMode="adjustNothing" />

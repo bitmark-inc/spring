@@ -6,6 +6,15 @@
  */
 package com.bitmark.fbm.feature.account
 
+import android.graphics.Color
+import android.graphics.Typeface
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.StyleSpan
+import android.view.View
+import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
@@ -14,9 +23,9 @@ import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.biometricauth.BiometricAuthActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
-import com.bitmark.fbm.util.ext.openBrowser
+import com.bitmark.fbm.feature.whatsnew.WhatsNewActivity
+import com.bitmark.fbm.util.ext.openIntercom
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import io.intercom.android.sdk.Intercom
 import kotlinx.android.synthetic.main.activity_account.*
 import javax.inject.Inject
 
@@ -24,10 +33,6 @@ import javax.inject.Inject
 class AccountActivity : BaseAppCompatActivity() {
 
     companion object {
-
-        private const val SURVEY_URL =
-            "https://docs.google.com/forms/d/e/1FAIpQLScL41kNU6SBzo7ndcraUf7O-YJ_JrPqg_rlI588UjLK-_sGtQ/viewform?usp=sf_link"
-
         fun newInstance() = AccountActivity()
     }
 
@@ -40,6 +45,56 @@ class AccountActivity : BaseAppCompatActivity() {
 
     override fun initComponents() {
         super.initComponents()
+
+        tvVersion.text = getString(R.string.version_format).format(BuildConfig.VERSION_NAME)
+
+        val tosAndPpString = getString(R.string.tos_and_pp)
+        val spannableString = SpannableString(tosAndPpString)
+        val tosString = getString(R.string.term_of_service)
+        val ppString = getString(R.string.privacy_policy)
+
+        var startIndex = tosAndPpString.indexOf(tosString)
+        var endIndex = startIndex + tosString.length
+        spannableString.setSpan(
+            object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    // TODO go to term of service
+                }
+
+            }, startIndex,
+            endIndex,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(
+            StyleSpan(Typeface.ITALIC),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+
+        startIndex = tosAndPpString.indexOf(ppString)
+        endIndex = startIndex + ppString.length
+        spannableString.setSpan(
+            object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    // TODO go to privacy policy
+                }
+
+            }, startIndex,
+            endIndex,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(
+            StyleSpan(Typeface.ITALIC),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+
+        tvToSandPP.text = spannableString
+        tvToSandPP.movementMethod = LinkMovementMethod.getInstance()
+        tvToSandPP.setLinkTextColor(getColor(R.color.black))
+        tvToSandPP.highlightColor = Color.TRANSPARENT
 
         ivBack.setOnClickListener {
             navigator.anim(RIGHT_LEFT).finishActivity()
@@ -74,12 +129,13 @@ class AccountActivity : BaseAppCompatActivity() {
 //            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
 //        }
 
-        tvContact.setSafetyOnclickListener {
-            Intercom.client().displayMessenger()
+        tvHelp.setSafetyOnclickListener {
+            navigator.openIntercom()
         }
 
-        tvTellUs.setSafetyOnclickListener {
-            navigator.openBrowser(SURVEY_URL)
+        tvWhatsNew.setSafetyOnclickListener {
+            val bundle = WhatsNewActivity.getBundle(true)
+            navigator.anim(RIGHT_LEFT).startActivity(WhatsNewActivity::class.java, bundle)
         }
     }
 

@@ -6,9 +6,12 @@
  */
 package com.bitmark.fbm.feature.splash
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import androidx.lifecycle.Observer
+import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.ext.isServiceUnsupportedError
 import com.bitmark.fbm.data.model.AccountData
@@ -18,6 +21,7 @@ import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.feature.Navigator.Companion.BOTTOM_UP
 import com.bitmark.fbm.feature.Navigator.Companion.FADE_IN
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.main.MainActivity
@@ -25,6 +29,7 @@ import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerAc
 import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.feature.signin.SignInActivity
+import com.bitmark.fbm.feature.whatsnew.WhatsNewActivity
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.util.DateTimeUtil
@@ -38,6 +43,8 @@ class SplashActivity : BaseAppCompatActivity() {
 
     companion object {
         private const val TAG = "SplashActivity"
+
+        private const val WHATS_NEW_REQ_CODE = 0xA7
     }
 
     @Inject
@@ -95,7 +102,7 @@ class SplashActivity : BaseAppCompatActivity() {
                             navigator.exitApp()
                         }
                     } else {
-                        viewModel.getAccountInfo()
+                        viewModel.checkFirstTimeEnterNewVersion(BuildConfig.VERSION_CODE)
                     }
                 }
 
@@ -104,9 +111,35 @@ class SplashActivity : BaseAppCompatActivity() {
                         Event.SPLASH_VERSION_CHECK_ERROR,
                         res.throwable() ?: UnknownException()
                     )
-                    viewModel.getAccountInfo()
+                    viewModel.checkFirstTimeEnterNewVersion(BuildConfig.VERSION_CODE)
                 }
 
+            }
+        })
+
+        viewModel.checkFirstTimeEnterNewVersionLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val firstTimeEnter = res.data() ?: false
+                    if (firstTimeEnter) {
+                        val bundle = WhatsNewActivity.getBundle(false)
+                        navigator.anim(BOTTOM_UP).startActivityForResult(
+                            WhatsNewActivity::class.java,
+                            WHATS_NEW_REQ_CODE,
+                            bundle
+                        )
+                    } else {
+                        viewModel.getAccountInfo()
+                    }
+                }
+
+                res.isError() -> {
+                    logger.logSharedPrefError(
+                        res.throwable(),
+                        "check first time enter new version error"
+                    )
+                    viewModel.getAccountInfo()
+                }
             }
         })
 
@@ -263,5 +296,12 @@ class SplashActivity : BaseAppCompatActivity() {
                 logger.logError(Event.ACCOUNT_LOAD_KEY_STORE_ERROR, e)
                 dialogController.alert(e) { navigator.exitApp() }
             })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == WHATS_NEW_REQ_CODE) {
+            viewModel.getAccountInfo()
+        }
     }
 }
