@@ -6,8 +6,8 @@
     <string name="could_not_register_account">Could not register account. Please try again later.</string>
     <string name="could_not_setup_notification">Could not setup notification. Please try again later.</string>
 
-    <string name="how_you_use_fb">How you use Facebook</string>
-    <string name="how_fb_use_you">How Facebook uses you</string>
+    <string name="how_you_use_fb">How you use Facebook.</string>
+    <string name="how_fb_use_you">How Facebook uses you.</string>
     <string name="for_your_fb_data">For your facebook data</string>
     <string name="get_started_arrow">Get started »</string>
     <string name="i_already_have_an_account_arrow">I already have an account »</string>
@@ -193,6 +193,7 @@
     <string name="tos_and_pp">Term of Service and Privacy Policy</string>
     <string name="whats_new_arrow">What\'s new »</string>
     <string name="help_arrow">Help »</string>
+    <string name="by_continuing">By continuing, you agree to the Bitmark \nTerm of Service and Privacy Policy.</string>
 
     <string-array name="day_of_week">
         <item>S</item>

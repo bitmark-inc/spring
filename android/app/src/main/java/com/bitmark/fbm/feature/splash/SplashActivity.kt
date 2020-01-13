@@ -8,8 +8,16 @@ package com.bitmark.fbm.feature.splash
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.StyleSpan
+import android.view.View
 import androidx.lifecycle.Observer
 import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.R
@@ -72,6 +80,54 @@ class SplashActivity : BaseAppCompatActivity() {
 
     override fun initComponents() {
         super.initComponents()
+
+        val tosAndPpString = getString(R.string.by_continuing)
+        val spannableString = SpannableString(tosAndPpString)
+        val tosString = getString(R.string.term_of_service)
+        val ppString = getString(R.string.privacy_policy)
+
+        var startIndex = tosAndPpString.indexOf(tosString)
+        var endIndex = startIndex + tosString.length
+        spannableString.setSpan(
+            object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    // TODO go to term of service
+                }
+
+            }, startIndex,
+            endIndex,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(
+            StyleSpan(Typeface.ITALIC),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+
+        startIndex = tosAndPpString.indexOf(ppString)
+        endIndex = startIndex + ppString.length
+        spannableString.setSpan(
+            object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    // TODO go to privacy policy
+                }
+
+            }, startIndex,
+            endIndex,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(
+            StyleSpan(Typeface.ITALIC),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+
+        tvToSandPP.text = spannableString
+        tvToSandPP.movementMethod = LinkMovementMethod.getInstance()
+        tvToSandPP.setLinkTextColor(getColor(R.color.white))
+        tvToSandPP.highlightColor = Color.TRANSPARENT
 
         btnGetStarted.setSafetyOnclickListener {
             navigator.anim(RIGHT_LEFT).startActivity(OnboardingActivity::class.java)
@@ -266,6 +322,7 @@ class SplashActivity : BaseAppCompatActivity() {
     }
 
     private fun showOnboarding() {
+        tvToSandPP.visible(true)
         btnGetStarted.visible(true)
         tvLogin.visible(true)
     }

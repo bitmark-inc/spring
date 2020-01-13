@@ -330,7 +330,7 @@
             android:layout_marginBottom="@dimen/dp_8"
             android:fontFamily="@font/grotesk_light_font_family"
             android:includeFontPadding="false"
-            android:textColor="@drawable/color_black_stateful"
+            android:textColor="@color/black"
             android:textSize="@dimen/sp_14"
             tools:text="Version 1.X.X"
             />
@@ -344,7 +344,7 @@
             android:fontFamily="@font/grotesk_light_font_family"
             android:includeFontPadding="false"
             android:text="@string/tos_and_pp"
-            android:textColor="@drawable/color_black_stateful"
+            android:textColor="@color/black"
             android:textSize="@dimen/sp_12"
             />
 
