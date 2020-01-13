@@ -14,7 +14,6 @@ import android.util.Log
 import android.view.View
 import android.webkit.*
 import androidx.lifecycle.Observer
-import com.bitmark.apiservice.utils.callback.Callback1
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.ext.fromJson
 import com.bitmark.fbm.data.ext.isServiceUnsupportedError
@@ -27,6 +26,7 @@ import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
+import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.notification.buildSimpleNotificationBundle
 import com.bitmark.fbm.feature.notification.cancelNotification
 import com.bitmark.fbm.feature.notification.pushDailyRepeatingNotification
@@ -59,6 +59,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
         private const val ARCHIVE_REQUESTED_AT = "archive_requested_at"
 
+        private const val ACCOUNT_REGISTERED = "account_registered"
+
         private const val NOTIFICATION_ID = 0xA1
 
         private const val MAX_RELOAD_COUNT = 5
@@ -77,11 +79,13 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         )
 
         fun newInstance(
-            requestedAt: Long = -1L
+            requestedAt: Long = -1L,
+            accountRegistered: Boolean = false
         ): ArchiveRequestFragment {
             val fragment = ArchiveRequestFragment()
             val bundle = Bundle()
             bundle.putLong(ARCHIVE_REQUESTED_AT, requestedAt)
+            bundle.putBoolean(ACCOUNT_REGISTERED, accountRegistered)
             fragment.arguments = bundle
             return fragment
         }
@@ -132,6 +136,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         archiveRequestedAt = arguments?.getLong(ARCHIVE_REQUESTED_AT) ?: -1L
+        registered = arguments?.getBoolean(ACCOUNT_REGISTERED) ?: false
 
         viewModel.prepareData()
     }
@@ -203,7 +208,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     }
 
     private fun handlePageLoaded(wv: WebView, script: AutomationScriptData, registered: Boolean) {
-        wv.detectPage(script.pages, TAG) { name ->
+        wv.detectPage(script.pages, tag = TAG, logger = logger) { name ->
 
             val unexpectedPageDetected = expectedPage != null && !expectedPage!!.contains(name)
             if (unexpectedPageDetected) {
@@ -235,6 +240,16 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
 
         when (pageName) {
+            Page.Name.LOGIN -> {
+                startCheckLoginFailedLooper(wv, script)
+                wv.evaluateJs(
+                    script.getLoginScript(fbCredential!!.id, fbCredential!!.password)
+                        ?: return
+                )
+            }
+            Page.Name.SAVE_DEVICE -> {
+                wv.evaluateJs(script.getSaveDeviceOkScript())
+            }
             Page.Name.NEW_FEED -> {
                 wv.evaluateJs(script.getNewFeedGoToSettingPageScript())
             }
@@ -256,6 +271,10 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                 }, 1000)
             }
             else -> {
+                Tracer.DEBUG.log(
+                    TAG,
+                    "automateCategoriesFetching, unexpected page is $pageName"
+                )
                 showHelpRequiredState()
             }
         }
@@ -273,9 +292,6 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     script.getLoginScript(fbCredential!!.id, fbCredential!!.password)
                         ?: return
                 )
-            }
-            Page.Name.ACCOUNT_PICKING -> {
-                // do nothing now
             }
             Page.Name.SAVE_DEVICE -> {
                 wv.evaluateJs(script.getSaveDeviceOkScript())
@@ -316,6 +332,10 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             }
 
             else -> {
+                Tracer.DEBUG.log(
+                    TAG,
+                    "automateCategoriesFetching, unexpected page is $pageName"
+                )
                 showHelpRequiredState()
             }
         }
@@ -347,6 +367,10 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         val reload = fun(wv: WebView) {
             if (reloadCount >= MAX_RELOAD_COUNT) {
                 // got stuck here and could not continue automating
+                Tracer.ERROR.log(
+                    TAG,
+                    "showHelpRequiredState since reloadCount >= MAX_RELOAD_COUNT"
+                )
                 showHelpRequiredState()
             } else {
                 Log.d(TAG, "Reload: ${wv.url}")
@@ -356,7 +380,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             }
         }
 
-        reload(wv)
+        handler.postDelayed({ reload(wv) }, 500)
     }
 
     private fun showLoginFailedPopup() {
@@ -382,6 +406,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         layoutState.background = bgColor
         layoutRoot.background = bgColor
         tvMsg.setText(R.string.your_help_is_required)
+        tvMsg.visible()
         viewCover.gone()
         tvAutomating.gone()
     }
@@ -424,18 +449,25 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     private fun isArchiveRequested() = archiveRequestedAt != -1L
 
     private fun registerAccount(
+        credentialId: String,
         downloadArchiveCredential: DownloadArchiveCredential,
         accountData: AccountData
     ) {
         val registered = accountData.isValid()
         if (registered) {
             loadAccount(accountData) { account ->
-                registerAccount(account, accountData.keyAlias, downloadArchiveCredential, true)
+                registerAccount(
+                    account,
+                    accountData.keyAlias,
+                    credentialId,
+                    downloadArchiveCredential,
+                    true
+                )
             }
         } else {
             val account = Account()
             saveAccount(account) { alias ->
-                registerAccount(account, alias, downloadArchiveCredential, false)
+                registerAccount(account, alias, credentialId, downloadArchiveCredential, false)
             }
         }
     }
@@ -443,14 +475,16 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     private fun registerAccount(
         account: Account,
         keyAlias: String,
-        credential: DownloadArchiveCredential,
+        credentialId: String,
+        downloadArchiveCredential: DownloadArchiveCredential,
         registered: Boolean
     ) {
         viewModel.registerAccount(
             account,
-            credential.url,
-            credential.cookie,
+            downloadArchiveCredential.url,
+            downloadArchiveCredential.cookie,
             keyAlias,
+            credentialId,
             registered
         )
     }
@@ -505,11 +539,16 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     OneSignal.setSubscription(true)
                     registered = true
                     progressBar.gone()
-                    wv.loadUrl(FB_ENDPOINT)
                     blocked = false
+                    // reload to automate category fetching
+                    wv.loadUrl(FB_ENDPOINT)
+
+                    // expected page now is either LOGIN (if session is expired) or NEWFEED otherwise
+                    expectedPage = listOf(Page.Name.LOGIN, Page.Name.NEW_FEED)
                 }
 
                 res.isError() -> {
+                    wv.setDownloadListener(null)
                     progressBar.gone()
                     logger.logError(
                         Event.ARCHIVE_REQUEST_REGISTER_ACCOUNT_ERROR,
@@ -539,12 +578,29 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         viewModel.saveFbAdsPrefCategoriesLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    goToAnalyzing()
+                    viewModel.checkDataReady()
                 }
 
                 res.isError() -> {
                     logger.logSharedPrefError(res.throwable(), "save fb ads pref categories error")
-                    goToAnalyzing()
+                    viewModel.checkDataReady()
+                }
+            }
+        })
+
+        viewModel.checkDataReadyLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val ready = res.data()!!
+                    if (ready) {
+                        viewModel.getExistingAccountData()
+                    } else {
+                        goToAnalyzing()
+                    }
+                }
+
+                res.isError() -> {
+                    logger.logSharedPrefError(res.throwable(), "save fb ads pref categories error")
                 }
             }
         })
@@ -560,22 +616,18 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                         CredentialData.load(
                             activity!!,
                             executor,
-                            object : Callback1<CredentialData> {
-                                override fun onSuccess(credential: CredentialData?) {
-                                    fbCredential = credential!!
-                                    loadPage(wv, FB_ENDPOINT, script)
+                            { credential ->
+                                fbCredential = credential
+                                loadPage(wv, FB_ENDPOINT, script)
+                            },
+                            { throwable ->
+                                logger.logError(
+                                    Event.ACCOUNT_LOAD_FB_CREDENTIAL_ERROR,
+                                    throwable ?: UnknownException()
+                                )
+                                dialogController.unexpectedAlert {
+                                    finish()
                                 }
-
-                                override fun onError(throwable: Throwable?) {
-                                    logger.logError(
-                                        Event.ACCOUNT_LOAD_FB_CREDENTIAL_ERROR,
-                                        throwable ?: UnknownException()
-                                    )
-                                    dialogController.unexpectedAlert {
-                                        finish()
-                                    }
-                                }
-
                             })
                     } else {
                         loadPage(wv, FB_ENDPOINT, script)
@@ -644,9 +696,12 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         viewModel.getExistingAccountDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    val account = res.data()!!
-                    if (registered) return@Observer
-                    registerAccount(downloadArchiveCredential, account)
+                    val accountData = res.data()!!
+                    if (registered) {
+                        navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
+                    } else {
+                        registerAccount(fbCredential!!.id, downloadArchiveCredential, accountData)
+                    }
                 }
 
                 res.isError() -> {

@@ -6,9 +6,11 @@
  */
 package com.bitmark.fbm.feature.register.archiverequest.credential
 
+import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.di.FragmentScope
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import dagger.Module
 import dagger.Provides
 
@@ -24,4 +26,12 @@ class ArchiveRequestCredentialModule {
     @FragmentScope
     fun provideDialogController(fragment: ArchiveRequestCredentialFragment) =
         DialogController(fragment.activity!!)
+
+    @Provides
+    @FragmentScope
+    fun provideVM(
+        fragment: ArchiveRequestCredentialFragment,
+        accountRepo: AccountRepository,
+        rxLiveDataTransformer: RxLiveDataTransformer
+    ) = ArchiveRequestCredentialViewModel(fragment.lifecycle, accountRepo, rxLiveDataTransformer)
 }

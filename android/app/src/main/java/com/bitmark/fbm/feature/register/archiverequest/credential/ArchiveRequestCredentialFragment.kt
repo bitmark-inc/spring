@@ -6,8 +6,11 @@
  */
 package com.bitmark.fbm.feature.register.archiverequest.credential
 
+import android.content.Context
+import android.os.Bundle
 import android.os.Handler
-import com.bitmark.apiservice.utils.callback.Callback0
+import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.Observer
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.CredentialData
 import com.bitmark.fbm.data.model.save
@@ -20,9 +23,7 @@ import com.bitmark.fbm.feature.register.archiverequest.archiverequest.ArchiveReq
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
-import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import com.bitmark.fbm.util.ext.showKeyBoard
-import com.bitmark.fbm.util.ext.unexpectedAlert
+import com.bitmark.fbm.util.ext.*
 import kotlinx.android.synthetic.main.fragment_archive_request_credential.*
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -35,8 +36,19 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
 
         private const val TAG = "ArchiveRequestCredentialFragment"
 
-        fun newInstance() = ArchiveRequestCredentialFragment()
+        private const val ACCOUNT_REGISTERED = "account_registered"
+
+        fun newInstance(accountRegistered: Boolean = false): ArchiveRequestCredentialFragment {
+            val fragment = ArchiveRequestCredentialFragment()
+            val bundle = Bundle()
+            bundle.putBoolean(ACCOUNT_REGISTERED, accountRegistered)
+            fragment.arguments = bundle
+            return fragment
+        }
     }
+
+    @Inject
+    internal lateinit var viewModel: ArchiveRequestCredentialViewModel
 
     @Inject
     internal lateinit var navigator: Navigator
@@ -51,61 +63,60 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
 
     private lateinit var executor: ExecutorService
 
+    private var accountRegistered = false
+
     override fun layoutRes(): Int = R.layout.fragment_archive_request_credential
 
-    override fun viewModel(): BaseViewModel? = null
+    override fun viewModel(): BaseViewModel? = viewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        accountRegistered = arguments?.getBoolean(ACCOUNT_REGISTERED) ?: false
+    }
 
     override fun initComponents() {
         super.initComponents()
 
         executor = Executors.newSingleThreadExecutor()
 
-//        val spannableContent = getString(R.string.prefer_to_do_this_manually)
-//        val spannableString = SpannableString(spannableContent)
-//        spannableString.setSpan(
-//            UnderlineSpan(),
-//            0,
-//            spannableContent.length,
-//            SpannableString.SPAN_INCLUSIVE_EXCLUSIVE
-//        )
-//        tvManual.text = spannableString
+        if (accountRegistered) {
+            ivBack.gone()
+        } else {
+            ivBack.visible()
+        }
 
         ivBack.setOnClickListener {
             navigator.anim(RIGHT_LEFT).finishActivity()
         }
 
         btnAutomate.setSafetyOnclickListener {
-            val fbId = etId.text.toString().trim()
-            val fbPassword = etPassword.text.toString().trim()
-            if (fbId.isBlank() || fbPassword.isBlank()) return@setSafetyOnclickListener
-            val credential = CredentialData(fbId, fbPassword)
-            credential.save(activity!!, executor, object : Callback0 {
-                override fun onSuccess() {
+            if (accountRegistered) {
+                val fbId = etId.text.toString().trim()
+                viewModel.verifyFbAccount(fbId)
+            } else {
+                saveCredential({
                     navigator.anim(RIGHT_LEFT).replaceFragment(
                         R.id.layoutRoot,
-                        ArchiveRequestFragment.newInstance()
+                        ArchiveRequestFragment.newInstance(accountRegistered = accountRegistered)
                     )
-                }
+                }, {
+                    dialogController.unexpectedAlert {
+                        navigator.anim(RIGHT_LEFT).finishActivity()
+                    }
+                })
+            }
 
-                override fun onError(throwable: Throwable?) {
-                    val errMsg = throwable?.message ?: "could not save credential"
-                    Tracer.ERROR.log(TAG, errMsg)
-                    logger.logError(
-                        Event.ACCOUNT_SAVE_FB_CREDENTIAL_ERROR,
-                        IllegalAccessException(errMsg)
-                    )
-                    dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
-                }
-
-            })
         }
 
-//        tvManual.setSafetyOnclickListener {
-//            navigator.anim(RIGHT_LEFT).replaceFragment(
-//                R.id.layoutRoot,
-//                ArchiveRequestFragment.newInstance()
-//            )
-//        }
+        etId.doOnTextChanged { _, _, _, _ ->
+            btnAutomate.isEnabled = validCredential()
+        }
+
+        etPassword.doOnTextChanged { _, _, _, _ ->
+            btnAutomate.isEnabled = validCredential()
+        }
+
 
         etId.requestFocus()
         handler.postDelayed({
@@ -113,10 +124,68 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
         }, 100)
     }
 
+    private fun validCredential() =
+        etId.text.toString().trim().isNotBlank() && etPassword.text.toString().trim().isNotBlank()
+
     override fun deinitComponents() {
         executor.shutdown()
         handler.removeCallbacksAndMessages(null)
         super.deinitComponents()
+    }
+
+    override fun observe() {
+        super.observe()
+
+        viewModel.verifyFbAccountLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val verified = res.data()!!
+                    if (verified) {
+                        saveCredential({
+                            navigator.anim(RIGHT_LEFT).replaceFragment(
+                                R.id.layoutRoot,
+                                ArchiveRequestFragment.newInstance(accountRegistered = accountRegistered)
+                            )
+                        }, {
+                            dialogController.unexpectedAlert {
+                                navigator.anim(RIGHT_LEFT).finishActivity()
+                            }
+                        })
+                    } else {
+                        dialogController.alert(
+                            R.string.wrong_account,
+                            R.string.pls_use_the_same_fb,
+                            R.string.try_again
+                        )
+                    }
+                }
+
+                res.isError() -> {
+                    logger.logSharedPrefError(res.throwable(), "verifyFbAccount error")
+                    dialogController.unexpectedAlert {
+                        navigator.anim(RIGHT_LEFT).finishActivity()
+                    }
+                }
+            }
+        })
+
+    }
+
+    private fun saveCredential(success: () -> Unit, error: () -> Unit) {
+        val fbId = etId.text.toString().trim()
+        val fbPassword = etPassword.text.toString().trim()
+        val credential = CredentialData(fbId, fbPassword)
+        credential.save(activity!!, executor, {
+            success()
+        }, { e ->
+            val errMsg = e?.message ?: "could not save credential"
+            Tracer.ERROR.log(TAG, errMsg)
+            logger.logError(
+                Event.ACCOUNT_SAVE_FB_CREDENTIAL_ERROR,
+                IllegalAccessException(errMsg)
+            )
+            error()
+        })
     }
 
     override fun onBackPressed(): Boolean {

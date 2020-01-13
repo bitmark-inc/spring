@@ -38,6 +38,8 @@ class DateTimeUtil {
 
         val DATE_FORMAT_10 = "EEE"
 
+        val DATE_FORMAT_11 = "MMM dd, yyyy"
+
         val DATE_TIME_FORMAT_1 = "MMM dd hh:mm a"
 
         val TIME_FORMAT_1 = "hh:mm a"

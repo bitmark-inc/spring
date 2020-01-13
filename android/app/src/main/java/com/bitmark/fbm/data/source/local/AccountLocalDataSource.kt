@@ -81,4 +81,12 @@ class AccountLocalDataSource @Inject constructor(
             )
         )
     }
+
+    fun checkAdsPrefCategoryReady() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        sharedPrefGateway.get(
+            SharedPrefApi.FB_ADS_PREF_CATEGORIES,
+            String::class
+        ) != ""
+    }
+
 }

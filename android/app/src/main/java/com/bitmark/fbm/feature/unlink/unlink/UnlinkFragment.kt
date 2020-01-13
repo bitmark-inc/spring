@@ -8,6 +8,7 @@ package com.bitmark.fbm.feature.unlink.unlink
 
 import android.text.InputType
 import android.view.inputmethod.EditorInfo
+import android.webkit.CookieManager
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.Observer
 import com.bitmark.cryptography.error.ValidateException
@@ -16,7 +17,6 @@ import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
-import com.bitmark.fbm.feature.Navigator.Companion.NONE
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.splash.SplashActivity
 import com.bitmark.fbm.logging.Event
@@ -103,18 +103,22 @@ class UnlinkFragment : BaseSupportFragment() {
         viewModel.deleteDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    OneSignal.setSubscription(false)
-                    val snackbar = layoutRoot.createSnackbar(
-                        R.string.unlink_account,
-                        R.string.your_account_has_been_unlinked
-                    ) {
-                        navigator.anim(NONE).startActivityAsRoot(SplashActivity::class.java)
+                    CookieManager.getInstance().removeAllCookies {
+                        CookieManager.getInstance().flush()
+                        OneSignal.setSubscription(false)
+                        val snackbar = layoutRoot.createSnackbar(
+                            R.string.unlink_account,
+                            R.string.your_account_has_been_unlinked
+                        ) {
+                            navigator.anim(Navigator.NONE)
+                                .startActivityAsRoot(SplashActivity::class.java)
+                        }
+                        snackbar.show()
+                        blocked = false
                     }
-                    snackbar.show()
-                    blocked = false
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     logger.logError(Event.ACCOUNT_UNLINK_ERROR, res.throwable())
                     dialogController.unexpectedAlert { navigator.exitApp() }
                     blocked = false

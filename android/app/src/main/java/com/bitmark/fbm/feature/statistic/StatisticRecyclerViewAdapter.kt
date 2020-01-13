@@ -20,7 +20,6 @@ import com.bitmark.fbm.util.ext.visible
 import com.bitmark.fbm.util.modelview.SectionModelView
 import com.bitmark.fbm.util.view.statistic.GroupView
 import com.bitmark.fbm.util.view.statistic.SectionView
-import kotlinx.android.synthetic.main.item_income.view.*
 import kotlinx.android.synthetic.main.item_sentiment.view.*
 import kotlinx.android.synthetic.main.item_trends.view.*
 import kotlin.math.abs
@@ -34,11 +33,9 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
 
         private const val HEADER = 0x01
 
-        private const val STATISTIC = 0x02
+        private const val SENTIMENT = 0x02
 
-        private const val INCOME = 0x03
-
-        private const val SENTIMENT = 0x04
+        private const val STATISTIC = 0x03
 
     }
 
@@ -57,8 +54,7 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
         items.addAll(sections.map { s ->
             val type = when (s.name) {
                 SectionName.SENTIMENT -> SENTIMENT
-                SectionName.FB_INCOME -> INCOME
-                else                  -> STATISTIC
+                else -> STATISTIC
             }
             Item(type, null, s)
         })
@@ -72,7 +68,7 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            HEADER    -> {
+            HEADER -> {
                 val view = LinearLayout(context)
                 view.orientation = LinearLayout.HORIZONTAL
                 val paddingHorizontally = context.getDimensionPixelSize(R.dimen.dp_18)
@@ -98,14 +94,6 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
                 StatisticVH(sectionView)
             }
 
-            INCOME    -> IncomeVH(
-                LayoutInflater.from(parent.context).inflate(
-                    R.layout.item_income,
-                    parent,
-                    false
-                )
-            )
-
             SENTIMENT -> SentimentVH(
                 LayoutInflater.from(parent.context).inflate(
                     R.layout.item_sentiment,
@@ -114,7 +102,7 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
                 )
             )
 
-            else      -> error("invalid view type")
+            else -> error("invalid view type")
         }
     }
 
@@ -122,9 +110,8 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            HEADER    -> (holder as? HeaderVH)?.bind(items[position])
+            HEADER -> (holder as? HeaderVH)?.bind(items[position])
             STATISTIC -> (holder as? StatisticVH)?.bind(items[position])
-            INCOME    -> (holder as? IncomeVH)?.bind(items[position])
             SENTIMENT -> (holder as? SentimentVH)?.bind(items[position])
         }
 
@@ -145,35 +132,15 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
                 HeaderItem(
                     context.getString(
                         when (section.name) {
-                            SectionName.POST        -> R.string.posts
-                            SectionName.REACTION    -> R.string.reactions
-                            SectionName.MESSAGE     -> R.string.messages
-                            SectionName.AD_INTEREST -> R.string.ad_interests
-                            SectionName.ADVERTISER  -> R.string.advertisers
-                            SectionName.LOCATION    -> R.string.locations
-                            SectionName.FB_INCOME   -> R.string.income
-                            SectionName.SENTIMENT   -> R.string.mood
+                            SectionName.POST -> R.string.posts
+                            SectionName.REACTION -> R.string.reactions
+                            SectionName.SENTIMENT -> R.string.mood
                         }
                     ), section.diffFromPrev
                 )
             )
         }
         return items
-    }
-
-    class IncomeVH(view: View) : RecyclerView.ViewHolder(view) {
-
-        fun bind(item: Item) {
-            with(itemView) {
-                if (item.section?.value == null || item.section.value == 0f) {
-                    tvIncome.text = "--"
-                    tvMsg.text = context.getString(R.string.sorry_no_data)
-                } else {
-                    tvIncome.text = String.format("$%.2f", item.section.value)
-                    tvMsg.text = context.getString(R.string.income_fb_made_from_you)
-                }
-            }
-        }
     }
 
     class SentimentVH(view: View) : RecyclerView.ViewHolder(view) {
@@ -187,15 +154,15 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
                     ivSeekbar.setImageResource(
                         when (rounded) {
                             0, 1 -> R.drawable.ic_seek_bar_1
-                            2    -> R.drawable.ic_seek_bar_2
-                            3    -> R.drawable.ic_seek_bar_3
-                            4    -> R.drawable.ic_seek_bar_4
-                            5    -> R.drawable.ic_seek_bar_5
-                            6    -> R.drawable.ic_seek_bar_6
-                            7    -> R.drawable.ic_seek_bar_7
-                            8    -> R.drawable.ic_seek_bar_8
-                            9    -> R.drawable.ic_seek_bar_9
-                            10   -> R.drawable.ic_seek_bar_10
+                            2 -> R.drawable.ic_seek_bar_2
+                            3 -> R.drawable.ic_seek_bar_3
+                            4 -> R.drawable.ic_seek_bar_4
+                            5 -> R.drawable.ic_seek_bar_5
+                            6 -> R.drawable.ic_seek_bar_6
+                            7 -> R.drawable.ic_seek_bar_7
+                            8 -> R.drawable.ic_seek_bar_8
+                            9 -> R.drawable.ic_seek_bar_9
+                            10 -> R.drawable.ic_seek_bar_10
                             else -> R.drawable.ic_seek_bar_0
                         }
                     )
@@ -206,8 +173,8 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
                             rounded in 2..3 -> R.drawable.ic_sad_bw
                             rounded in 4..5 -> R.drawable.ic_no_feeling_bw
                             rounded in 6..7 -> R.drawable.ic_smile_bw
-                            rounded >= 8    -> R.drawable.ic_happy_bw
-                            else            -> R.drawable.ic_wow_bw
+                            rounded >= 8 -> R.drawable.ic_happy_bw
+                            else -> R.drawable.ic_wow_bw
                         }
                     )
                 } else {
@@ -259,7 +226,7 @@ class StatisticRecyclerViewAdapter(private val context: Context) :
         private fun getImageRes(diff: Int) = when {
             diff > 0 -> R.drawable.ic_circle_arrow_up
             diff < 0 -> R.drawable.ic_circle_arrow_down
-            else     -> R.drawable.ic_trending_neutral
+            else -> R.drawable.ic_trending_neutral
         }
     }
 

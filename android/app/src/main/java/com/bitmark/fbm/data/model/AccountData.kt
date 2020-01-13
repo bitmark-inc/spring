@@ -45,3 +45,23 @@ fun AccountData.isValid() =
 
 val AccountData.keyFileName: String
     get() = "${id}.key"
+
+val AccountData.fbIdHash: String?
+    get() = if (metadata == null) null else metadata!!["fb-identifier"]
+
+fun AccountData.getMergedMetadata(fbIdHash: String): Map<String, String> {
+    return if (metadata == null) {
+        mapOf("fb-identifier" to fbIdHash)
+    } else {
+        val mergedMetadata = metadata!!.toMutableMap()
+        mergedMetadata["fb-identifier"] = fbIdHash
+        metadata = mergedMetadata.toMap()
+        metadata!!
+    }
+}
+
+fun AccountData.mergeWith(accountData: AccountData): AccountData {
+    authRequired = accountData.authRequired
+    keyAlias = accountData.keyAlias
+    return this
+}

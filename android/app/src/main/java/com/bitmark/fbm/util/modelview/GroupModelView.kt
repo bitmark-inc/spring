@@ -23,10 +23,10 @@ fun GroupModelView.reverse() {
 }
 
 fun GroupModelView.order() = when (name) {
-    GroupName.TYPE, GroupName.AREA -> 0
-    GroupName.SUB_PERIOD           -> -1
-    GroupName.FRIEND               -> -2
-    GroupName.PLACE                -> -3
+    GroupName.TYPE -> 0
+    GroupName.SUB_PERIOD -> -1
+    GroupName.FRIEND -> -2
+    GroupName.PLACE -> -3
 }
 
 fun GroupModelView.hasAggregatedData() = aggregatedIndex() != -1

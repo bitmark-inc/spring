@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source.remote
 
+import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.source.local.Jwt
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
@@ -18,6 +19,8 @@ import io.intercom.android.sdk.identity.Registration
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import javax.inject.Inject
 
 
@@ -70,4 +73,11 @@ class AccountRemoteDataSource @Inject constructor(
         fbmApi.getAccountInfo().map { res ->
             res["result"] ?: error("invalid get account info response")
         }
+
+    fun updateMetadata(metadata: Map<String, String>): Single<AccountData> {
+        val json = newGsonInstance().toJson(mapOf("metadata" to metadata))
+        val reqBody = json.toRequestBody("application/json".toMediaTypeOrNull())
+        return fbmApi.updateMetadata(reqBody)
+            .map { res -> res["result"] ?: error("invalid response") }.subscribeOn(Schedulers.io())
+    }
 }

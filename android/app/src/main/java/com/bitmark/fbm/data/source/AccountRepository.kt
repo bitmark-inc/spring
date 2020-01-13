@@ -9,9 +9,11 @@ package com.bitmark.fbm.data.source
 import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.model.isProcessed
 import com.bitmark.fbm.data.model.isValid
+import com.bitmark.fbm.data.model.mergeWith
 import com.bitmark.fbm.data.source.local.AccountLocalDataSource
 import com.bitmark.fbm.data.source.remote.AccountRemoteDataSource
 import io.reactivex.Single
+import io.reactivex.functions.BiFunction
 
 
 class AccountRepository(
@@ -54,15 +56,9 @@ class AccountRepository(
 
     fun getAccountData() = localDataSource.getAccountData()
 
-    fun syncAccountData() = localDataSource.getAccountData().map { account ->
-        Pair(account.authRequired, account.keyAlias)
-    }.flatMap { p ->
-        val authRequired = p.first
-        val keyAlias = p.second
+    fun syncAccountData() = localDataSource.getAccountData().flatMap { localAccount ->
         remoteDataSource.getAccountInfo().flatMap { account ->
-            account.authRequired = authRequired
-            account.keyAlias = keyAlias
-            saveAccountData(account).andThen(Single.just(account))
+            saveAccountData(account.mergeWith(localAccount)).andThen(Single.just(account))
         }
     }
 
@@ -92,5 +88,14 @@ class AccountRepository(
 
     fun listAdsPrefCategory() = localDataSource.listAdsPrefCategory()
 
+    fun checkAdsPrefCategoryReady() = localDataSource.checkAdsPrefCategoryReady()
 
+    fun updateMetadata(metadata: Map<String, String>) = Single.zip(
+        remoteDataSource.updateMetadata(metadata),
+        localDataSource.getAccountData(),
+        BiFunction<AccountData, AccountData, AccountData> { remoteAccountData, localAccountData ->
+            remoteAccountData.mergeWith(localAccountData)
+        }).flatMap { accountData ->
+        saveAccountData(accountData).andThen(Single.just(accountData))
+    }
 }

@@ -19,7 +19,7 @@ import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
-import com.bitmark.fbm.feature.main.MainActivity
+import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerActivity
 import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.util.ext.*
@@ -118,7 +118,9 @@ class SignInActivity : BaseAppCompatActivity() {
                     OneSignal.setSubscription(true)
                     progressBar.gone()
                     blocked = false
-                    navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
+                    val bundle = ArchiveRequestContainerActivity.getBundle(true)
+                    navigator.anim(RIGHT_LEFT)
+                        .startActivityAsRoot(ArchiveRequestContainerActivity::class.java, bundle)
                 }
                 res.isError() -> {
                     progressBar.gone()

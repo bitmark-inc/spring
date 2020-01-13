@@ -19,10 +19,13 @@ import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import com.bitmark.fbm.R
 import com.bitmark.fbm.data.model.Page
 import com.bitmark.fbm.data.model.fromString
 import com.bitmark.fbm.data.model.value
+import com.bitmark.fbm.logging.Event
+import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.callback.Action0
 import com.bitmark.fbm.util.view.GlideUrlNoToken
@@ -207,6 +210,7 @@ fun WebView.detectPage(
     pages: List<Page>,
     tag: String = "WebView.detectPage()",
     timeout: Long = 15000,
+    logger: EventLogger? = null,
     callback: (Page.Name) -> Unit
 ) {
     var detectedPage = ""
@@ -244,7 +248,10 @@ fun WebView.detectPage(
             } else {
                 if (detectedPage == "") {
                     // could not detect the page
-                    // log event with all breadcrumbs
+                    logger?.logError(
+                        Event.AUTOMATE_PAGE_DETECTION_ERROR,
+                        "could not detect the current page"
+                    )
                     callback(Page.Name.UNKNOWN)
                 }
                 Tracer.DEBUG.log(tag, "detected the current page: $detectedPage")
@@ -253,3 +260,6 @@ fun WebView.detectPage(
         }
     })
 }
+
+fun NestedScrollView.scrollToTop(smooth: Boolean = true) =
+    if (smooth) smoothScrollTo(0, 0) else scrollTo(0, 0)
