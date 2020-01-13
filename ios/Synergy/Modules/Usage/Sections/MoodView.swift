@@ -86,14 +86,14 @@ class MoodView: UIView {
             let moodType = MoodType(value: Int(moodValue))
             moodImage.image = moodType.moodImage
             moodBarImage.image = moodType.moodBarImage
-
-            moodBarImage.flex.markDirty()
-            flex.layout()
         } else {
             noActivityView.isHidden = false
             moodImage.image = R.image.mood0()
             moodBarImage.image = R.image.moodBar0()
         }
+
+        moodBarImage.flex.markDirty()
+        flex.layout()
     }
 }
 

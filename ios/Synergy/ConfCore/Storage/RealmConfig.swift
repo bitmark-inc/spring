@@ -52,7 +52,10 @@ enum RealmConfig {
         return Realm.Configuration(
             fileURL: fileURL,
             encryptionKey: encryptionKeyData,
-            schemaVersion: 1
+            schemaVersion: 2,
+            migrationBlock: { (migration, oldSchemaVersion) in
+                // nothing to do; The addition of properties can be handled automatically
+            }
         )
     }
 
