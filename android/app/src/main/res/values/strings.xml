@@ -248,6 +248,6 @@
     <string name="last_decade_format_plural">Last %d Decades</string>
     <string name="income_fb_made_from_you_format">Income Facebook made from you since %1$s.</string>
     <string name="version_format">Version %1$s</string>
-    <string name="day_ago_format">%1$d ago</string>
+    <string name="day_ago_format">%1$dd ago</string>
 
 </resources>
