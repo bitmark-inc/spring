@@ -225,7 +225,7 @@ class SplashActivity : BaseAppCompatActivity() {
     private fun showDataAnalyzing() {
         val bundle =
             DataProcessingActivity.getBundle(
-                getString(R.string.analyzing_data),
+                getString(R.string.processing_data),
                 getString(R.string.your_fb_data_archive_has_been_successfully)
             )
         navigator.anim(FADE_IN)

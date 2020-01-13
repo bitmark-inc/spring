@@ -65,8 +65,8 @@
     <string name="fb_may_take_a_few_days">Facebook may take a few days to prepare your data archive, depending on how much data you have. \n\nWould you like us to remind you to check back here? If not, you will need to remember on your own to check if your backup is ready.</string>
     <string name="check_now_arrow">Check now »</string>
     <string name="still_waiting">Still Waiting</string>
-    <string name="analyzing_data">Analyzing Data</string>
-    <string name="your_fb_data_archive_has_been_successfully">Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready. You can safely close this app now.</string>
+    <string name="processing_data">Processing Data</string>
+    <string name="your_fb_data_archive_has_been_successfully">Your Facebook data archive has been successfully secured. We’ve started processing your data and will send you a notification when it’s ready. You can safely close this app now.</string>
     <string name="week">Week</string>
     <string name="year">Year</string>
     <string name="decade">Decade</string>
