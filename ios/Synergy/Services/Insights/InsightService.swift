@@ -25,10 +25,7 @@ class InsightService {
     static func getInUserInfo() -> Single<UserInfo> {
         return get()
             .map({ (insight) -> UserInfo in
-                return UserInfo(
-                    id: Global.userInsightID,
-                    key: UserInfoKey.insights,
-                    value: try InsightConverter(from: insight).valueAsString)
+                return try UserInfo(key: UserInfoKey.insight, value: insight)
             })
     }
 }

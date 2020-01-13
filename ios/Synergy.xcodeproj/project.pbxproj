@@ -458,6 +458,9 @@
 		5BBB663A23A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBB663723A7305800DAAB1F /* RecoveryKeyWordCell.swift */; };
 		5BC5C69123A0A4B000EA211E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BC5C69023A0A4B000EA211E /* InfoPlist.strings */; };
 		5BC5C69223A0A4B100EA211E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BC5C69023A0A4B000EA211E /* InfoPlist.strings */; };
+		5BC91CC023CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
+		5BC91CC123CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
+		5BC91CC223CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
 		5BE86EA223C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
 		5BE86EA323C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
 		5BE86EA423C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
@@ -865,6 +868,7 @@
 		5BB319B323A09882005F7C58 /* AskNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskNotificationsViewController.swift; sourceTree = "<group>"; };
 		5BBB663723A7305800DAAB1F /* RecoveryKeyWordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKeyWordCell.swift; sourceTree = "<group>"; };
 		5BC5C69023A0A4B000EA211E /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		5BC91CBF23CC29CB000058A7 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		5BE22E6A23A227C5007EBFC9 /* Synergy Inhouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Synergy Inhouse.entitlements"; sourceTree = "<group>"; };
 		5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Formatter.swift"; sourceTree = "<group>"; };
 		5BEB478B23AC7EB100750AC6 /* UsageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageAPI.swift; sourceTree = "<group>"; };
@@ -1646,6 +1650,7 @@
 				5B590A7523B37CD0006C194D /* BiometricAuth.swift */,
 				5B58AC3A23BADF920041F216 /* DatePeriod.swift */,
 				5B58AC4223BB43E70041F216 /* AppVersion.swift */,
+				5BC91CBF23CC29CB000058A7 /* Converter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2471,6 +2476,7 @@
 				5B93232023A363E200C3C408 /* FAQViewController.swift in Sources */,
 				5832FC4C237A863300FA3196 /* SubmitButton.swift in Sources */,
 				5832FC58237A863300FA3196 /* TextField.swift in Sources */,
+				5BC91CC023CC29CB000058A7 /* Converter.swift in Sources */,
 				E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */,
 				E27959DC23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
 				5BB319B123A09876005F7C58 /* AskNotificationsViewModel.swift in Sources */,
@@ -2662,6 +2668,7 @@
 				5B93232223A363E200C3C408 /* FAQViewController.swift in Sources */,
 				5B5DFFCC23A1F0F4003D1A1C /* TextField.swift in Sources */,
 				5B5DFFCD23A1F0F4003D1A1C /* RequestDataViewModel.swift in Sources */,
+				5BC91CC223CC29CB000058A7 /* Converter.swift in Sources */,
 				5B5DFFCE23A1F0F4003D1A1C /* Array+Sentence.swift in Sources */,
 				5B5DFFCF23A1F0F4003D1A1C /* DataRequestedViewModel.swift in Sources */,
 				5B5DFFD023A1F0F4003D1A1C /* AskNotificationsViewModel.swift in Sources */,
@@ -2842,6 +2849,7 @@
 				5B93232123A363E200C3C408 /* FAQViewController.swift in Sources */,
 				E2DB6683237D3B69005367C2 /* TextField.swift in Sources */,
 				E27959DD23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
+				5BC91CC123CC29CB000058A7 /* Converter.swift in Sources */,
 				E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */,
 				E28B55EE238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
 				5BB319B223A09876005F7C58 /* AskNotificationsViewModel.swift in Sources */,

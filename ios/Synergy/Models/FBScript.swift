@@ -25,7 +25,7 @@ enum FBPage: String {
     case settings
     case archive
     case reauth
-    case accountPicking
+    case accountPicking = "account_picking"
     case adsPreferences = "ads_preferences"
     case demographics
     case behaviors

@@ -30,7 +30,7 @@ class InsightViewController: ViewController {
     lazy var realmInsightObservable: Observable<Insight> = {
         thisViewModel.realmInsightsInfoRelay.filterNil()
             .flatMap { Observable.from(object: $0) }
-            .map { try InsightConverter(from: $0.value).value }
+            .map { $0.valueObject() }.filterNil()
     }()
 
     override var preferredStatusBarStyle: UIStatusBarStyle {

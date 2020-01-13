@@ -8,32 +8,6 @@
 
 import Foundation
 
-class GroupsConverter {
-
-    // MARK: - Properties
-    var valueAsString: String!
-    var value: Groups
-    let encodingRule: String.Encoding = .utf8
-
-    // MARK: - Init
-    init(from value: String) throws {
-        valueAsString = value
-
-        guard let jsonData = valueAsString.data(using: encodingRule)
-            else {
-                throw "invalid groups string"
-        }
-        self.value = try JSONDecoder().decode(Groups.self, from: jsonData)
-    }
-
-    init(from value: Groups) throws {
-        self.value = value
-
-        let jsonData = try JSONEncoder().encode(value)
-        valueAsString = String(data: jsonData, encoding: encodingRule)
-    }
-}
-
 struct Groups: Codable {
 
     // MARK: - Properties

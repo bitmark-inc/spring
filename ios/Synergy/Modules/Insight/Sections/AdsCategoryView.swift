@@ -48,7 +48,7 @@ class AdsCategoryView: UIView {
         container?.thisViewModel.realmAdsCategoriesRelay.filterNil()
             .subscribe(onNext: { [weak self] (adsCategoryInfos) in
                 guard let self = self,
-                    let adsCategories = adsCategoryInfos.dictionaryWithValues(forKeys: ["value"])["value"] as? [String]
+                    let adsCategories: [String] = adsCategoryInfos.valueObject()
                     else {
                         return
                 }

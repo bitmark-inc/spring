@@ -11,7 +11,7 @@ import RealmSwift
 import RxSwift
 
 class InsightDataEngine {
-    static func fetchAdsCategories() -> Results<UserInfo>? {
+    static func fetchAdsCategoriesInfo() -> UserInfo? {
         autoreleasepool {
             do {
                 guard Thread.current.isMainThread else {
@@ -19,7 +19,7 @@ class InsightDataEngine {
                 }
 
                 let realm = try RealmConfig.currentRealm()
-                return realm.objects(UserInfo.self).filter("key == %@", UserInfoKey.adsCategory.rawValue)
+                return realm.object(ofType: UserInfo.self, forPrimaryKey: UserInfoKey.adsCategory.rawValue)
             } catch {
                 Global.log.error(error)
                 return nil
@@ -62,7 +62,7 @@ extension Reactive where Base: InsightDataEngine {
 
                     let realm = try RealmConfig.currentRealm()
 
-                    let insightsInfo = realm.object(ofType: UserInfo.self, forPrimaryKey: Global.userInsightID)
+                    let insightsInfo = realm.object(ofType: UserInfo.self, forPrimaryKey: UserInfoKey.insight.rawValue)
 
                     if insightsInfo != nil {
                         event(.success(insightsInfo))
@@ -78,7 +78,7 @@ extension Reactive where Base: InsightDataEngine {
                             .flatMapCompletable { Storage.store($0) }
                             .observeOn(MainScheduler.instance)
                             .subscribe(onCompleted: {
-                                let insightsInfo = realm.object(ofType: UserInfo.self, forPrimaryKey: Global.userInsightID)
+                                let insightsInfo = realm.object(ofType: UserInfo.self, forPrimaryKey: UserInfoKey.insight.rawValue)
                                 event(.success(insightsInfo))
                             }, onError: { (error) in
                                 event(.error(error))

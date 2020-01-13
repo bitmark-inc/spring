@@ -70,7 +70,7 @@ class UsageViewController: ViewController {
     lazy var groupsPostUsageObservable: Observable<Groups> = {
         postUsageObservable
             .map { $0.groups }
-            .map { try GroupsConverter(from: $0).value }
+            .map { try Converter<Groups>(from: $0).value }
     }()
 
     // SECTION: Reaction
@@ -82,7 +82,7 @@ class UsageViewController: ViewController {
     lazy var groupsReactionUsageObservable: Observable<Groups> = {
         reactionUsageObservable
             .map { $0.groups }
-            .map { try GroupsConverter(from: $0).value }
+            .map { try Converter<Groups>(from: $0).value }
     }()
 
     var segmentDistances: [TimeUnit: Int] = [

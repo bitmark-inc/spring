@@ -62,7 +62,7 @@ extension Reactive where Base: FbmAccountDataEngine {
         Completable.deferred {
             var metadataValue: Metadata!
             do {
-                metadataValue = try MetadataConverter(from: fbmAccount.metadata).value
+                metadataValue = try Converter<Metadata>(from: fbmAccount.metadata).value
             } catch {
                 return Completable.error(error)
             }

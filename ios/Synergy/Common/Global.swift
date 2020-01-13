@@ -24,7 +24,6 @@ class Global {
         return UserDefaults.userStandard(for: accountNumber)
     }()
     var didUserTapNotification: Bool = false
-    static let userInsightID = UserInfoKey.insights.rawValue
 
     lazy var decoder: JSONDecoder = {
         let decoder = JSONDecoder()

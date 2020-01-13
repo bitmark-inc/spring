@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import Intercom
+import WebKit
 
 class SignOutViewModel: ConfirmRecoveryKeyViewModel {
 
@@ -39,6 +40,12 @@ class SignOutViewModel: ConfirmRecoveryKeyViewModel {
 
             // clear user cookie in webview
             HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
+
+            WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
+                records.forEach { (record) in
+                    WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+                }
+            }
 
             // clear settings bundle
             SettingsBundle.setAccountNumber(accountNumber: nil)

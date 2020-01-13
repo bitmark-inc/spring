@@ -30,29 +30,3 @@ extension Insight {
         return Date(timeIntervalSince1970: fbIncomeFromInterval)
     }
 }
-
-class InsightConverter {
-
-    // MARK: - Properties
-    var valueAsString: String!
-    var value: Insight
-    let encodingRule: String.Encoding = .utf8
-
-    // MARK: - Init
-    init(from value: String) throws {
-        valueAsString = value
-
-        guard let jsonData = valueAsString.data(using: encodingRule)
-            else {
-                throw "invalid insight string"
-        }
-        self.value = try JSONDecoder().decode(Insight.self, from: jsonData)
-    }
-
-    init(from value: Insight) throws {
-        self.value = value
-
-        let jsonData = try JSONEncoder().encode(value)
-        valueAsString = String(data: jsonData, encoding: encodingRule)
-    }
-}

@@ -8,31 +8,6 @@
 
 import Foundation
 
-class MetadataConverter {
-
-    // MARK: - Properties
-    var valueAsString: String!
-    var value: Metadata
-    let encodingRule: String.Encoding = .utf8
-
-    // MARK: - Init
-    init(from value: String) throws {
-        valueAsString = value
-        guard let jsonData = valueAsString.data(using: encodingRule)
-            else {
-                throw "invalid metadata string"
-        }
-
-        self.value = try JSONDecoder().decode(Metadata.self, from: jsonData)
-    }
-
-    init(from value: Metadata) throws {
-        self.value = value
-        let jsonData = try JSONEncoder().encode(value)
-        valueAsString = String(data: jsonData, encoding: encodingRule)
-    }
-}
-
 struct Metadata: Codable {
     var fbIdentifier: String?
 

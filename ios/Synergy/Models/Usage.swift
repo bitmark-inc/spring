@@ -50,7 +50,7 @@ class Usage: Object, Decodable {
                           section: Section(rawValue: sectionName) ?? .post).makeID()
 
         if let groupsValue = try values.decodeIfPresent(Groups.self, forKey: .groups) {
-            groups = try GroupsConverter(from: groupsValue).valueAsString
+            groups = try Converter<Groups>(from: groupsValue).valueAsString
         }
     }
 

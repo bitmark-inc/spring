@@ -13,23 +13,32 @@ import RealmSwift
 class UserInfo: Object, Decodable {
 
     // MARK: - Properties
-    @objc dynamic var id: String = ""
     @objc dynamic var key: String = ""
     @objc dynamic var value: String = ""
 
     override class func primaryKey() -> String? {
-        return "id"
+        return "key"
     }
 
-    convenience init(id: String = NSUUID().uuidString, key: UserInfoKey, value: String) {
+    convenience init<T: Codable>(key: UserInfoKey, value: T) throws {
         self.init()
-        self.id = id
         self.key = key.rawValue
-        self.value = value
+        self.value = try Converter<T>(from: value).valueAsString
+    }
+}
+
+extension UserInfo {
+    func valueObject<T: Codable>() -> T? {
+        do {
+            return try Converter<T>(from: value).value
+        } catch {
+            Global.log.error(error)
+            return nil
+        }
     }
 }
 
 enum UserInfoKey: String {
     case adsCategory
-    case insights
+    case insight
 }

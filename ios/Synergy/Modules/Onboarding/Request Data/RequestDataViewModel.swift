@@ -146,8 +146,12 @@ class RequestDataViewModel: ViewModel {
     }
 
     func storeAdsCategoriesInfo(_ adsCategories: [String]) -> Completable {
-        return Storage.store(
-            adsCategories.compactMap { UserInfo(key: .adsCategory, value: $0) })
+        do {
+            let userInfo = try UserInfo(key: .adsCategory, value: adsCategories)
+            return Storage.store(userInfo)
+        } catch {
+            return Completable.error(error)
+        }
     }
     
     fileprivate func registerOneSignal(accountNumber: String) -> Completable {

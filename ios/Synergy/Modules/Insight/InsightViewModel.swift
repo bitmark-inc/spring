@@ -16,10 +16,10 @@ class InsightViewModel: ViewModel {
     // MARK: - Outputs
     let fetchDataResultSubject = PublishSubject<Event<Void>>()
     let realmInsightsInfoRelay = BehaviorRelay<UserInfo?>(value: nil)
-    let realmAdsCategoriesRelay = BehaviorRelay<Results<UserInfo>?>(value: nil)
+    let realmAdsCategoriesRelay = BehaviorRelay<UserInfo?>(value: nil)
 
     func fetchInsight() {
-        realmAdsCategoriesRelay.accept(InsightDataEngine.fetchAdsCategories())
+        realmAdsCategoriesRelay.accept(InsightDataEngine.fetchAdsCategoriesInfo())
 
         InsightDataEngine.rx.fetchAndSyncInsight()
             .catchError({ [weak self] (error) -> Single<UserInfo?> in
@@ -32,6 +32,5 @@ class InsightViewModel: ViewModel {
                 self.realmInsightsInfoRelay.accept(insightsInfo)
             })
             .disposed(by: disposeBag)
-
     }
 }

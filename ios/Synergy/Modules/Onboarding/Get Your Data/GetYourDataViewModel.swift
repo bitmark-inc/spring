@@ -46,7 +46,7 @@ class GetYourDataViewModel: ViewModel {
                 .map { [weak self] (fbmAccount) in
                     guard let self = self else { return false }
                     let usernameInput = self.loginRelay.value
-                    if let fbIdentifier = try MetadataConverter(from: fbmAccount.metadata).value.fbIdentifier {
+                    if let fbIdentifier = try Converter<Metadata>(from: fbmAccount.metadata).value.fbIdentifier {
                         return usernameInput.sha3() == fbIdentifier
                     } else {
                         return true
