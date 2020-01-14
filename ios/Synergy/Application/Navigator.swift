@@ -216,7 +216,7 @@ class Navigator {
                 }
 
                 let viewModel = LaunchingViewModel()
-                Navigator.default.show(segue: .launching(viewModel: viewModel), sender: nil, transition: .root(in: window))
+                Navigator.default.show(segue: .launchingNavigation(viewModel: viewModel), sender: nil, transition: .root(in: window))
             }, onError: { (error) in
                 if let error = error as? AppError {
                     switch error {

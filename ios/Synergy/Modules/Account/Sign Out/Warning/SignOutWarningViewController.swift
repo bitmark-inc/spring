@@ -76,7 +76,7 @@ extension SignOutWarningViewController: UITextViewDelegate {
         }
         
         switch host {
-        case "view-recovery-key":
+        case AppLink.viewRecoveryKey.rawValue:
             gotoViewRecoveryKeyFlow()
         default:
             lockTextViewClick = false
@@ -119,7 +119,7 @@ extension SignOutWarningViewController {
                 .foregroundColor: themeService.attrs.tundoraTextColor
             ],
             links: [
-                (text: linkToViewRecoveryKeyText, url: "\(Constant.appName)://view-recovery-key")
+                (text: linkToViewRecoveryKeyText, url: AppLink.viewRecoveryKey.path)
             ],
             linkAttributes: [
               .underlineColor: themeService.attrs.tundoraTextColor,

@@ -39,21 +39,21 @@ class LaunchingViewController: ViewController, LaunchingNavigatorDelegate {
         let titleScreen = Label()
         titleScreen.applyLight(
             text: R.string.phrase.launchName().localizedUppercase,
-            font: R.font.domaineSansTextLight(size: Size.ds(150)))
-        titleScreen.adjustsFontSizeToFitWidth = true
+            font: R.font.domaineSansTextLight(size: Size.ds(80)))
 
         let descriptionLabel = Label()
         descriptionLabel.numberOfLines = 0
         descriptionLabel.applyLight(
             text: R.string.phrase.launchDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(22)),
-            lineHeight: 1.1)
+            lineHeight: 1.125)
 
         contentView.flex
             .padding(OurTheme.paddingInset)
+            .alignItems(.center)
             .direction(.column).define { (flex) in
-                flex.addItem(titleScreen).marginTop(Size.dh(380)).width(100%)
-                flex.addItem(descriptionLabel).marginTop(Size.dh(10))
+                flex.addItem(titleScreen).marginTop(Size.dh(123))
+                flex.addItem(descriptionLabel)
             }
     }
 

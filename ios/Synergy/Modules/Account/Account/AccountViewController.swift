@@ -29,6 +29,9 @@ class AccountViewController: ViewController, BackNavigator {
     lazy var contactOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportContact())
     lazy var surveyOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportGetYourThoughts())
 
+    lazy var versionLabel = makeVersionLabel()
+    lazy var bitmarkCertView = makeBitmarkCertView()
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13.0, *) {
             return .darkContent
@@ -111,15 +114,13 @@ class AccountViewController: ViewController, BackNavigator {
                     options: [whatsNewButton, contactOptionButton, surveyOptionButton]))
                 .marginTop(12)
 
-            flex.addItem(ImageView(image: R.image.securedByBitmark()))
-                .marginLeft(OurTheme.paddingInset.left).marginTop(25)
-                .alignSelf(.start)
         }
 
         scroll.addSubview(settingsView)
         contentView.flex
             .direction(.column).define { (flex) in
-                flex.addItem(scroll).height(100%)
+                flex.addItem(scroll).grow(1)
+                flex.addItem(bitmarkCertView).paddingBottom(22)
             }
     }
 }
@@ -156,6 +157,24 @@ extension AccountViewController {
 
     fileprivate func showSurveyLink() {
         navigator.show(segue: .safari(Constant.surveyURL), sender: self)
+    }
+}
+
+// MARK: UITextViewDelegate
+extension AccountViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        guard URL.scheme != nil, let host = URL.host else {
+            return false
+        }
+
+        guard let appLink = AppLink(rawValue: host),
+            let appLinkURL = appLink.websiteURL
+        else {
+            return true
+        }
+
+        navigator.show(segue: .safariController(appLinkURL), sender: self, transition: .alert)
+        return true
     }
 }
 
@@ -201,5 +220,54 @@ extension AccountViewController {
         guard currentDeviceEvaluatePolicyType != .none else { return nil }
         let title = R.string.phrase.accountSettingsSecurityBiometricAuth(currentDeviceEvaluatePolicyType.text)
         return makeOptionButton(title: title)
+    }
+
+    fileprivate func makeBitmarkCertView() -> UIView {
+        let view = UIView()
+        view.flex.alignItems(.center)
+            .define { (flex) in
+                flex.addItem(versionLabel)
+                flex.addItem(makeTermsAndPolicyTextView()).marginTop(7)
+                flex.addItem(ImageView(image: R.image.securedByBitmark())).marginTop(9)
+            }
+        return view
+    }
+
+    fileprivate func makeVersionLabel() -> Label {
+        let label = Label()
+        label.apply(
+            text: R.string.phrase.releaseNoteAppVersion(UserDefaults.standard.appVersion ?? "--"),
+            font: R.font.atlasGroteskLight(size: Size.ds(14)), colorTheme: .black)
+        return label
+    }
+
+    fileprivate func makeTermsAndPolicyTextView() -> UITextView {
+        let textView = UITextView()
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.backgroundColor = .clear
+        textView.delegate = self
+        textView.isEditable = false
+        textView.linkTextAttributes = [
+          .foregroundColor: themeService.attrs.blackTextColor
+        ]
+
+        textView.attributedText = LinkAttributedString.make(
+            string: R.string.phrase.termsAndPolicyPhraseInSettings(
+                AppLink.termsOfService.generalText,
+                AppLink.privacyOfPolicy.generalText),
+            attributes: [
+                .font: R.font.atlasGroteskLight(size: Size.ds(12))!,
+                .foregroundColor: themeService.attrs.blackTextColor
+            ], links: [
+                (text: AppLink.termsOfService.generalText, url: AppLink.termsOfService.path),
+                (text: AppLink.privacyOfPolicy.generalText, url: AppLink.privacyOfPolicy.path)
+            ], linkAttributes: [
+                .font: R.font.atlasGroteskLightItalic(size: Size.ds(12))!,
+                .underlineColor: themeService.attrs.blackTextColor,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ])
+
+        return textView
     }
 }

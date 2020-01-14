@@ -108,3 +108,8 @@
 "releaseNote.appVersion" = "Version %@";
 "releaseNote.appVersionDate" = "%dd ago";
 "releaseNote.content" = "%@\nWe value your feedback, if you have ideas or suggestions on how to make our app even better, please email us at %@.";
+
+"termsOfService" = "Terms of Service";
+"privacyPolicy" = "Privacy Policy";
+"termsAndPolicyPhraseInSettings" = "%@ and %@";
+"termAndPolicyPhraseInSignInWall" = "By continuing, you agree to the Bitmark\n%@ and %@.";

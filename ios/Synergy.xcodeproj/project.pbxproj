@@ -132,6 +132,9 @@
 		5B32F5B723CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */; };
 		5B32F5B823CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */; };
 		5B32F5B923CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */; };
+		5B32F5BB23CD830100959DFF /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BA23CD830100959DFF /* AppLink.swift */; };
+		5B32F5BC23CD830100959DFF /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BA23CD830100959DFF /* AppLink.swift */; };
+		5B32F5BD23CD830100959DFF /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BA23CD830100959DFF /* AppLink.swift */; };
 		5B466DBC23C334EA0027D4CB /* ArrayStringSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */; };
 		5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
 		5B4A237823B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
@@ -812,6 +815,7 @@
 		5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionTableViewCell.swift; sourceTree = "<group>"; };
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
 		5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchingNavigatorDelegate.swift; sourceTree = "<group>"; };
+		5B32F5BA23CD830100959DFF /* AppLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLink.swift; sourceTree = "<group>"; };
 		5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayStringSpec.swift; sourceTree = "<group>"; };
 		5B4A237623B1132E00447366 /* UsageBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeView.swift; sourceTree = "<group>"; };
 		5B4A237A23B1136E00447366 /* HeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingView.swift; sourceTree = "<group>"; };
@@ -1682,6 +1686,7 @@
 				5B58AC3A23BADF920041F216 /* DatePeriod.swift */,
 				5B58AC4223BB43E70041F216 /* AppVersion.swift */,
 				5BC91CBF23CC29CB000058A7 /* Converter.swift */,
+				5B32F5BA23CD830100959DFF /* AppLink.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -2529,6 +2534,7 @@
 				5832FCA6237A8A9200FA3196 /* UITableView+ApplyChanges.swift in Sources */,
 				5832FC97237A889A00FA3196 /* Credential.swift in Sources */,
 				E23807C9239618000079A3C4 /* PostDataTableViewCell.swift in Sources */,
+				5B32F5BB23CD830100959DFF /* AppLink.swift in Sources */,
 				5BA9FF6323B2293F00E57A20 /* InsightAPI.swift in Sources */,
 				E29F5A7D2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5B93231023A363AE00C3C408 /* ViewRecoveryKeyViewController.swift in Sources */,
@@ -2723,6 +2729,7 @@
 				5B5DFFD623A1F0F4003D1A1C /* UITableView+ApplyChanges.swift in Sources */,
 				5B5DFFD723A1F0F4003D1A1C /* PostDataTableViewCell.swift in Sources */,
 				5B5DFFD823A1F0F4003D1A1C /* Credential.swift in Sources */,
+				5B32F5BD23CD830100959DFF /* AppLink.swift in Sources */,
 				5BA9FF6523B2293F00E57A20 /* InsightAPI.swift in Sources */,
 				5B5DFFD923A1F0F4003D1A1C /* HowItWorksViewController.swift in Sources */,
 				5B5DFFDA23A1F0F4003D1A1C /* AccountViewModel.swift in Sources */,
@@ -2906,6 +2913,7 @@
 				E2DB6686237D3B69005367C2 /* UITableView+ApplyChanges.swift in Sources */,
 				E23807CA239618000079A3C4 /* PostDataTableViewCell.swift in Sources */,
 				E2DB6687237D3B69005367C2 /* Credential.swift in Sources */,
+				5B32F5BC23CD830100959DFF /* AppLink.swift in Sources */,
 				5BA9FF6423B2293F00E57A20 /* InsightAPI.swift in Sources */,
 				E29F5A7E2383F8FD00C1D9D8 /* HowItWorksViewController.swift in Sources */,
 				5832D6FE238BC23D0074AEDC /* AccountViewModel.swift in Sources */,

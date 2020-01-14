@@ -106,7 +106,7 @@ extension ReleaseNoteViewController: UITextViewDelegate {
         }
 
         switch host {
-        case "support":
+        case AppLink.support.rawValue:
             Intercom.presentMessenger()
         default:
             return false
@@ -166,7 +166,7 @@ extension ReleaseNoteViewController {
             string: R.string.phrase.releaseNoteContent(content, Constant.supportEmail),
             lineHeight: 1.315,
             attributes: [.font: R.font.atlasGroteskLight(size: 22)!, .foregroundColor: ColorTheme.tundora.color],
-            links: [(text: Constant.supportEmail, url: "\(Constant.appName)://support")],
+            links: [(text: Constant.supportEmail, url: AppLink.support.path)],
             linkAttributes: [
                 .foregroundColor: ColorTheme.cornFlowerBlue.color
             ])
