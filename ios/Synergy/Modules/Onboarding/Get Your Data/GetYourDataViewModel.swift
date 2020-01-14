@@ -42,7 +42,7 @@ class GetYourDataViewModel: ViewModel {
                 return Single.just(true)
             }
 
-            return FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
+            return FbmAccountDataEngine.rx.fetchLatestFbmAccount()
                 .map { [weak self] (fbmAccount) in
                     guard let self = self else { return false }
                     let usernameInput = self.loginRelay.value

@@ -58,6 +58,42 @@ extension Reactive where Base: FbmAccountDataEngine {
         }
     }
 
+    static func fetchLatestFbmAccount() -> Single<FbmAccount> {
+        Global.log.info("[start] FbmAccountDataEngine.rx.fetchLatestFbmAccount")
+
+       return Single<FbmAccount>.create { (event) -> Disposable in
+           guard let number = Global.current.account?.getAccountNumber() else {
+               return Disposables.create()
+           }
+
+            autoreleasepool {
+                do {
+                    guard Thread.current.isMainThread else { throw AppError.incorrectThread }
+                    let realm = try RealmConfig.currentRealm()
+
+                   _ = FbmAccountService.getMe()
+                       .flatMapCompletable { Storage.store($0) }
+                       .observeOn(MainScheduler.instance)
+                       .subscribe(onCompleted: {
+                           guard let fbmAccount = realm.object(ofType: FbmAccount.self, forPrimaryKey: number)
+                               else {
+                                   Global.log.error(AppError.incorrectEmptyRealmObject)
+                                   return
+                           }
+
+                           event(.success(fbmAccount))
+                       }, onError: { (error) in
+                           event(.error(error))
+                       })
+                } catch {
+                    event(.error(error))
+                }
+            }
+
+            return Disposables.create()
+       }
+    }
+
     static func updateMetadata(for fbmAccount: FbmAccount) -> Completable {
         Completable.deferred {
             var metadataValue: Metadata!
