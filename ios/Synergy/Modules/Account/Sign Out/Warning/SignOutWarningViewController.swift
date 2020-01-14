@@ -66,24 +66,24 @@ class SignOutWarningViewController: ViewController, BackNavigator {
 
 // MARK: - UITextViewDelegate
 extension SignOutWarningViewController: UITextViewDelegate {
-  func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-    guard !lockTextViewClick else { return false }
-    lockTextViewClick = true
-
-    guard URL.scheme != nil, let host = URL.host else {
-        lockTextViewClick = false
-        return false
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        guard !lockTextViewClick else { return false }
+        lockTextViewClick = true
+        
+        guard URL.scheme != nil, let host = URL.host else {
+            lockTextViewClick = false
+            return false
+        }
+        
+        switch host {
+        case "view-recovery-key":
+            gotoViewRecoveryKeyFlow()
+        default:
+            lockTextViewClick = false
+            return false
+        }
+        return true
     }
-
-    switch host {
-    case "view-recovery-key":
-      gotoViewRecoveryKeyFlow()
-    default:
-      lockTextViewClick = false
-      return false
-    }
-    return true
-  }
 }
 
 // MARK: - Navigator

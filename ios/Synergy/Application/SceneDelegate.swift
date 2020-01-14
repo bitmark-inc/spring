@@ -34,7 +34,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidBecomeActive(_ scene: UIScene) {
-        SettingsBundle.setVersion()
         Navigator.refreshOnboardingStateIfNeeded()
     }
 

@@ -27,6 +27,7 @@ public struct Constant {
     let fBMServerURL = Credential.valueForKey(keyName: "API_FBM_SERVER_URL")
 
     static let appName = "Spring"
+    static let supportEmail = "support@bitmark.com"
     public static let productLink = "https://apps.apple.com/us/app/bitmark/id1429427796"
     let numberOfPhrases = 12
     

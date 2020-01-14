@@ -129,6 +129,9 @@
 		5B2097C623B481D40079B421 /* ReactionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */; };
 		5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
 		5B289E0123A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */; };
+		5B32F5B723CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */; };
+		5B32F5B823CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */; };
+		5B32F5B923CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */; };
 		5B466DBC23C334EA0027D4CB /* ArrayStringSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */; };
 		5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
 		5B4A237823B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
@@ -461,6 +464,12 @@
 		5BC91CC023CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
 		5BC91CC123CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
 		5BC91CC223CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
+		5BC91CC523CC3DB6000058A7 /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CC423CC3DB6000058A7 /* ReleaseNoteViewController.swift */; };
+		5BC91CC623CC3DB6000058A7 /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CC423CC3DB6000058A7 /* ReleaseNoteViewController.swift */; };
+		5BC91CC723CC3DB6000058A7 /* ReleaseNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CC423CC3DB6000058A7 /* ReleaseNoteViewController.swift */; };
+		5BC91CD323CC66E4000058A7 /* ReleaseNotes.md in Resources */ = {isa = PBXBuildFile; fileRef = 5BC91CD123CC66E0000058A7 /* ReleaseNotes.md */; };
+		5BC91CD423CC66E5000058A7 /* ReleaseNotes.md in Resources */ = {isa = PBXBuildFile; fileRef = 5BC91CD123CC66E0000058A7 /* ReleaseNotes.md */; };
+		5BC91CD523CC66E5000058A7 /* ReleaseNotes.md in Resources */ = {isa = PBXBuildFile; fileRef = 5BC91CD123CC66E0000058A7 /* ReleaseNotes.md */; };
 		5BE86EA223C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
 		5BE86EA323C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
 		5BE86EA423C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
@@ -802,6 +811,7 @@
 		5B2097BF23B477FB0079B421 /* MediaService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaService.swift; sourceTree = "<group>"; };
 		5B2097C323B481D40079B421 /* ReactionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionTableViewCell.swift; sourceTree = "<group>"; };
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
+		5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchingNavigatorDelegate.swift; sourceTree = "<group>"; };
 		5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayStringSpec.swift; sourceTree = "<group>"; };
 		5B4A237623B1132E00447366 /* UsageBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeView.swift; sourceTree = "<group>"; };
 		5B4A237A23B1136E00447366 /* HeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingView.swift; sourceTree = "<group>"; };
@@ -869,6 +879,8 @@
 		5BBB663723A7305800DAAB1F /* RecoveryKeyWordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKeyWordCell.swift; sourceTree = "<group>"; };
 		5BC5C69023A0A4B000EA211E /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		5BC91CBF23CC29CB000058A7 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
+		5BC91CC423CC3DB6000058A7 /* ReleaseNoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReleaseNoteViewController.swift; sourceTree = "<group>"; };
+		5BC91CD123CC66E0000058A7 /* ReleaseNotes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ReleaseNotes.md; sourceTree = "<group>"; };
 		5BE22E6A23A227C5007EBFC9 /* Synergy Inhouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Synergy Inhouse.entitlements"; sourceTree = "<group>"; };
 		5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Formatter.swift"; sourceTree = "<group>"; };
 		5BEB478B23AC7EB100750AC6 /* UsageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageAPI.swift; sourceTree = "<group>"; };
@@ -1290,6 +1302,7 @@
 		5832FCB7237AA12500FA3196 /* Launching */ = {
 			isa = PBXGroup;
 			children = (
+				5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */,
 				5832FCB8237AA18C00FA3196 /* LaunchingViewModel.swift */,
 				5832FCBA237AA1B600FA3196 /* LaunchingViewController.swift */,
 			);
@@ -1301,6 +1314,7 @@
 			children = (
 				E29F5A742383F1ED00C1D9D8 /* Localizable */,
 				E29F5A512383E68C00C1D9D8 /* Fonts */,
+				5BC91CD023CC66D4000058A7 /* ReleaseNotes */,
 				5832FCBE237AB8AB00FA3196 /* Assets.xcassets */,
 				5832FCBF237AB8AB00FA3196 /* LaunchScreen.storyboard */,
 				5832FCC1237AB8AB00FA3196 /* Main.storyboard */,
@@ -1565,6 +1579,7 @@
 		5BB2852D23A341F4000C04CA /* App Settings */ = {
 			isa = PBXGroup;
 			children = (
+				5BC91CC323CC3DB6000058A7 /* Release Note */,
 				5BB2852E23A34235000C04CA /* SettingsBundle.swift */,
 			);
 			path = "App Settings";
@@ -1577,6 +1592,22 @@
 				5BB319B323A09882005F7C58 /* AskNotificationsViewController.swift */,
 			);
 			path = Notifications;
+			sourceTree = "<group>";
+		};
+		5BC91CC323CC3DB6000058A7 /* Release Note */ = {
+			isa = PBXGroup;
+			children = (
+				5BC91CC423CC3DB6000058A7 /* ReleaseNoteViewController.swift */,
+			);
+			path = "Release Note";
+			sourceTree = "<group>";
+		};
+		5BC91CD023CC66D4000058A7 /* ReleaseNotes */ = {
+			isa = PBXGroup;
+			children = (
+				5BC91CD123CC66E0000058A7 /* ReleaseNotes.md */,
+			);
+			path = ReleaseNotes;
 			sourceTree = "<group>";
 		};
 		86BC69C7FD35A72B7CC32EB1 /* Frameworks */ = {
@@ -2044,6 +2075,7 @@
 				E29F5A692383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				5B54FAAF23C6D4470029B5D5 /* IBMPlexMono-Thin.ttf in Resources */,
 				5BEF584823AB6BE200901D52 /* Localizable.stringsdict in Resources */,
+				5BC91CD323CC66E4000058A7 /* ReleaseNotes.md in Resources */,
 				5B54FAB323C6D4470029B5D5 /* IBMPlexMono-Medium.ttf in Resources */,
 				5B54FABA23C6D4470029B5D5 /* IBMPlexMono-SemiBold.ttf in Resources */,
 				E26268BD23964638000D7F51 /* Localizable.strings in Resources */,
@@ -2103,6 +2135,7 @@
 				5B5D006823A1F0F4003D1A1C /* DomaineSansText-BoldItalic.otf in Resources */,
 				5B54FACB23C6D4480029B5D5 /* IBMPlexMono-Thin.ttf in Resources */,
 				5BEF584A23AB6BE200901D52 /* Localizable.stringsdict in Resources */,
+				5BC91CD523CC66E5000058A7 /* ReleaseNotes.md in Resources */,
 				5B54FACF23C6D4480029B5D5 /* IBMPlexMono-Medium.ttf in Resources */,
 				5B54FAD623C6D4480029B5D5 /* IBMPlexMono-SemiBold.ttf in Resources */,
 				5B5D006923A1F0F4003D1A1C /* Localizable.strings in Resources */,
@@ -2155,6 +2188,7 @@
 				E29F5A6A2383E70000C1D9D8 /* DomaineSansText-BoldItalic.otf in Resources */,
 				5B54FABD23C6D4470029B5D5 /* IBMPlexMono-Thin.ttf in Resources */,
 				5BEF584923AB6BE200901D52 /* Localizable.stringsdict in Resources */,
+				5BC91CD423CC66E5000058A7 /* ReleaseNotes.md in Resources */,
 				5B54FAC123C6D4470029B5D5 /* IBMPlexMono-Medium.ttf in Resources */,
 				5B54FAC823C6D4470029B5D5 /* IBMPlexMono-SemiBold.ttf in Resources */,
 				E26268BE23964638000D7F51 /* Localizable.strings in Resources */,
@@ -2470,6 +2504,7 @@
 			files = (
 				5832FC95237A889A00FA3196 /* RealmConfig.swift in Sources */,
 				E28B55F4238D03C600F1BCF2 /* FBArchiveAPI.swift in Sources */,
+				5B32F5B723CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */,
 				5832FC5D237A863300FA3196 /* Button.swift in Sources */,
 				5B4A23A523B21CD400447366 /* SectionSeparator.swift in Sources */,
 				5832FC11237A85B000FA3196 /* AppDelegate.swift in Sources */,
@@ -2508,6 +2543,7 @@
 				58C009E62398C6CF00302F49 /* LensViewController.swift in Sources */,
 				5832FC48237A863300FA3196 /* NavigationController.swift in Sources */,
 				5832FC57237A863300FA3196 /* Switch.swift in Sources */,
+				5BC91CC523CC3DB6000058A7 /* ReleaseNoteViewController.swift in Sources */,
 				E2259CDB2387E56F00746280 /* ServerAPIError.swift in Sources */,
 				5832FC5A237A863300FA3196 /* SeparateLine.swift in Sources */,
 				5B58AC3B23BADF920041F216 /* DatePeriod.swift in Sources */,
@@ -2662,6 +2698,7 @@
 			files = (
 				5B5DFFC823A1F0F4003D1A1C /* RealmConfig.swift in Sources */,
 				5B5DFFC923A1F0F4003D1A1C /* Button.swift in Sources */,
+				5B32F5B923CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */,
 				5B5DFFCA23A1F0F4003D1A1C /* AppDelegate.swift in Sources */,
 				5B4A23A723B21CD400447366 /* SectionSeparator.swift in Sources */,
 				5B5DFFCB23A1F0F4003D1A1C /* SubmitButton.swift in Sources */,
@@ -2700,6 +2737,7 @@
 				5B5DFFE223A1F0F4003D1A1C /* UIViewController+Permission.swift in Sources */,
 				5B5DFFE323A1F0F4003D1A1C /* SceneDelegate.swift in Sources */,
 				5B5DFFE423A1F0F4003D1A1C /* NavigationController.swift in Sources */,
+				5BC91CC723CC3DB6000058A7 /* ReleaseNoteViewController.swift in Sources */,
 				5B5DFFE523A1F0F4003D1A1C /* Switch.swift in Sources */,
 				5B5DFFE623A1F0F4003D1A1C /* ServerAPIError.swift in Sources */,
 				5B58AC3D23BADF920041F216 /* DatePeriod.swift in Sources */,
@@ -2843,6 +2881,7 @@
 			files = (
 				E2DB667F237D3B69005367C2 /* RealmConfig.swift in Sources */,
 				E2DB6680237D3B69005367C2 /* Button.swift in Sources */,
+				5B32F5B823CD70B200959DFF /* LaunchingNavigatorDelegate.swift in Sources */,
 				E2DB6681237D3B69005367C2 /* AppDelegate.swift in Sources */,
 				5B4A23A623B21CD400447366 /* SectionSeparator.swift in Sources */,
 				E2DB6682237D3B69005367C2 /* SubmitButton.swift in Sources */,
@@ -2881,6 +2920,7 @@
 				E28B561C238D21A700F1BCF2 /* UIViewController+Permission.swift in Sources */,
 				E2DB668A237D3B69005367C2 /* SceneDelegate.swift in Sources */,
 				E2DB668B237D3B69005367C2 /* NavigationController.swift in Sources */,
+				5BC91CC623CC3DB6000058A7 /* ReleaseNoteViewController.swift in Sources */,
 				E2DB668C237D3B69005367C2 /* Switch.swift in Sources */,
 				E2259CDC2387E56F00746280 /* ServerAPIError.swift in Sources */,
 				5B58AC3C23BADF920041F216 /* DatePeriod.swift in Sources */,

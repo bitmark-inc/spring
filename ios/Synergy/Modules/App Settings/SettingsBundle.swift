@@ -27,6 +27,33 @@ class SettingsBundle {
     static func setAccountNumber(accountNumber: String?) {
         UserDefaults.standard.accountNumber = accountNumber?.middleShorten()
     }
+
+    static func shouldShowReleaseNote() -> Bool {
+        guard let currentBundleVersion = Int(Bundle.main.infoDictionary?[SettingsBundle.Keys.kBundle] as? String ?? ""),
+            let latestBundleVersion = fetchLatestBundleVersion()
+            else {
+                return false
+        }
+
+        return latestBundleVersion < currentBundleVersion
+    }
+
+    static func fetchLatestBundleVersion() -> Int? {
+        guard let appVersion = UserDefaults.standard.appVersion else {
+            return nil
+        }
+
+        let regex = try? NSRegularExpression(pattern: "\\(\\d+", options: [])
+        let appVersionRange = NSMakeRange(0, appVersion.count)
+
+        guard let buildVersionRange = regex?.firstMatch(in: appVersion, options: [], range: appVersionRange)?.range,
+            let buildVersion = appVersion[safe: buildVersionRange.lowerBound+1..<buildVersionRange.upperBound]
+            else {
+                return nil
+        }
+
+        return Int(buildVersion)
+    }
 }
 
 extension String {

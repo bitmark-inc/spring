@@ -23,6 +23,7 @@ class Navigator {
 
     // MARK: - segues list, all app scenes
     enum Scene {
+        case launchingNavigation(viewModel: LaunchingViewModel)
         case launching(viewModel: LaunchingViewModel)
         case signInWall(viewModel: SignInWallViewModel)
         case signIn(viewModel: SignInViewModel)
@@ -46,6 +47,7 @@ class Navigator {
         case viewRecoverykey(viewModel: ViewRecoveryKeyViewModel)
         case about
         case faq
+        case releaseNote(buttonItemType: ButtonItemType)
     }
 
     enum Transition {
@@ -62,9 +64,10 @@ class Navigator {
     // MARK: - get a single VC
     func get(segue: Scene) -> UIViewController? {
         switch segue {
-        case .launching(let viewModel):
-            let lauchingVC = LaunchingViewController(viewModel: viewModel)
-            return NavigationController(rootViewController: lauchingVC)
+        case .launchingNavigation(let viewModel):
+            guard let launchVC = get(segue: .launching(viewModel: viewModel)) else { return NavigationController() }
+            return NavigationController(rootViewController: launchVC)
+        case .launching(let viewModel): return LaunchingViewController(viewModel: viewModel)
         case .signInWall(let viewModel): return SignInWallViewController(viewModel: viewModel)
         case .signIn(let viewModel): return SignInViewController(viewModel: viewModel)
         case .howItWorks: return HowItWorksViewController()
@@ -98,6 +101,10 @@ class Navigator {
         case .viewRecoverykey(let viewModel): return ViewRecoveryKeyViewController(viewModel: viewModel)
         case .about: return AboutViewController()
         case .faq: return FAQViewController()
+        case .releaseNote(let buttonItemType):
+            let releaseNoteViewController = ReleaseNoteViewController()
+            releaseNoteViewController.buttonItemType = buttonItemType
+            return releaseNoteViewController
         }
     }
 
@@ -260,4 +267,9 @@ class Navigator {
         window?.makeKeyAndVisible()
         return window
     }
+}
+
+enum ButtonItemType {
+    case `continue`
+    case back
 }

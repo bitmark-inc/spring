@@ -83,7 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        SettingsBundle.setVersion()
         Navigator.refreshOnboardingStateIfNeeded()
     }
 
