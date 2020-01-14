@@ -33,6 +33,16 @@ func (b *BackgroundContext) submitArchive(job *work.Job) (err error) {
 		return err
 	}
 
+	// Set status to processing
+	if _, err := b.store.UpdateFBArchiveStatus(ctx, &store.FBArchiveQueryParam{
+		ID: &archiveid,
+	}, &store.FBArchiveQueryParam{
+		Status: &store.FBArchiveStatusProcessing,
+	}); err != nil {
+		logEntity.Error(err)
+		return err
+	}
+
 	sess := session.New(b.awsConf)
 	downloader := s3manager.NewDownloader(sess)
 
@@ -143,6 +153,64 @@ func (b *BackgroundContext) checkArchive(job *work.Job) (err error) {
 	}
 
 	logEntity.Info("Finish...")
+
+	return nil
+}
+
+func (b *BackgroundContext) recurringSubmitFBArchive(job *work.Job) (err error) {
+	defer jobEndCollectiveMetric(err, job)
+	logEntity := log.WithField("prefix", job.Name+"/"+job.ID)
+	ctx := context.Background()
+
+	defer func() error {
+		// Enqueue this job again in next five minute
+		_, err := enqueuer.EnqueueUniqueIn(jobRecurringlySubmitArchive, 5*60, work.Q{})
+		if err != nil {
+			return err
+		}
+		logEntity.Info("Retry after 5 minutes")
+		return nil
+	}()
+
+	// Select processing fbarchive
+	archives, err := b.store.GetFBArchives(ctx, &store.FBArchiveQueryParam{
+		Status: &store.FBArchiveStatusProcessing,
+	})
+	if err != nil {
+		return err
+	}
+
+	if len(archives) > 0 {
+		logEntity.WithField("archive", archives[0].S3Key).Info("Processing fb archive")
+		return nil
+	}
+
+	// Select stored fbarchive
+	archives, err = b.store.GetFBArchives(ctx, &store.FBArchiveQueryParam{
+		Status: &store.FBArchiveStatusStored,
+	})
+	if err != nil {
+		return err
+	}
+
+	if len(archives) == 0 {
+		log.Info("Processing fb archive")
+		return nil
+	}
+
+	// Select first stored fbarchive from the list
+	archive := archives[0]
+
+	_, err = enqueuer.EnqueueUnique(jobUploadArchive, work.Q{
+		"s3_key":         archive.S3Key,
+		"account_number": archive.AccountNumber,
+		"archive_id":     archive.ID,
+	})
+	if err != nil {
+		return err
+	}
+
+	logEntity.WithField("archive", archive.S3Key).Info("Enqueue new fb archive")
 
 	return nil
 }

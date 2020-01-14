@@ -281,3 +281,34 @@ timebox_start_at: 1546300800000
   }
 }
 ```
+
+## Metric
+Provides a set of APIs for metric purpose.
+These APIs are CORS ready and need to add a header field with following format for authentication.
+```
+API-Token: <secret token>
+```
+### Total users for a specific time range
+Returns number of users registered in a specific time range
+#### Endpoint
+```url
+GET /metrics/total-users?from=&to=
+```
+
+#### Params
+
+| Name | Type | Description |
+| -------- | -------- |-------- |
+| from *(optional)*     | int64 | Unix timestamp in second for started time. |
+| to *(optional)*     | int64 | Unix timestamp in second for ended time. |
+
+Example:
+```
+Request: GET /metrics/total-users?from=1578983286&to=1578988286
+Response:
+{
+    "result": {
+        "total": 1
+    }
+}
+```

@@ -42,6 +42,9 @@ type Store interface {
 
 	// GetFBArchives to fetch all fb archives
 	GetFBArchives(ctx context.Context, params *FBArchiveQueryParam) ([]FBArchive, error)
+
+	// Metrics
+	CountAccountCreation(ctx context.Context, from, to time.Time) (int, error)
 }
 
 // AccountQueryParam params for querying an account
@@ -68,6 +71,10 @@ var (
 	// FBArchiveStatusStored when an archive is successfully
 	// stored in amazon s3 and also extracted
 	FBArchiveStatusStored = "stored"
+
+	// FBArchiveStatusProcessing when an archive is processing
+	// by bitsocial server and our server
+	FBArchiveStatusProcessing = "processing"
 
 	// FBArchiveStatusProcessed when an archive is processed
 	// and its stats is avaialbe to query via API

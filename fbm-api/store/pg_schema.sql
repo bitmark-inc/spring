@@ -35,7 +35,7 @@ CREATE TABLE fbm.token (
     expired_at TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
 
-CREATE TYPE archive_status AS ENUM ('submitted', 'stored', 'processed', 'invalid');
+CREATE TYPE archive_status AS ENUM ('submitted', 'stored', 'processing', 'processed', 'invalid');
 CREATE TABLE fbm.fbarchive (
     id SERIAL PRIMARY KEY,
     account_number TEXT NOT NULL REFERENCES fbm.account(account_number), 

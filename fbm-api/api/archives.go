@@ -158,8 +158,21 @@ func (s *Server) adminForceParseArchive(c *gin.Context) {
 
 	result := make(map[string]string)
 	for _, accountNumber := range params.AccountNumbers {
+		archives, err := s.store.GetFBArchives(c, &store.FBArchiveQueryParam{
+			AccountNumber: &accountNumber,
+		})
+		if err != nil {
+			log.Debug(err)
+			abortWithEncoding(c, http.StatusBadRequest, errorInvalidParameters)
+			return
+		}
+		if len(archives) == 0 {
+			continue
+		}
+
 		job, err := s.backgroundEnqueuer.EnqueueUnique("analyze_posts", work.Q{
 			"account_number": accountNumber,
+			"archive_id":     archives[0].ID,
 		})
 		if err != nil {
 			log.Debug(err)
