@@ -66,7 +66,7 @@
 
 "lens.description" = "We are making a simple lens builder and store. Like cooking recipes, people will be able to experiment, share, and sell lenses to get more utility from your data.";
 
-"account.settings.title" = "Account";
+"account.settings.title" = "Settings";
 "account.settings.security" = "Security";
 "account.settings.security.signOut" = "Unlink from device »";
 "account.settings.security.biometricAuth" = "%@ »";
@@ -74,6 +74,7 @@
 "account.settings.support" = "Support";
 "account.settings.support.about" = "About »";
 "account.settings.support.faq" = "FAQ »";
+"account.settings.support.whatsNew" = "What's new »";
 "account.settings.support.contact" = "Contact »";
 "account.settings.support.getYourThoughts" = "Tell us your thoughts »";
 

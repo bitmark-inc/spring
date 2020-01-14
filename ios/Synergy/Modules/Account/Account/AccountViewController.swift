@@ -15,14 +15,17 @@ import Intercom
 class AccountViewController: ViewController, BackNavigator {
 
     // MARK: - Properties
-    lazy var screenTitle = makeScreenTitle()
+    lazy var scroll = UIScrollView()
+    lazy var settingsView = UIView()
 
+    lazy var screenTitle = makeScreenTitle()
     lazy var signOutOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSecuritySignOut())
     lazy var biometricAuthOptionButton = makeBiometricAuthOptionButton()
     lazy var recoveryKeyOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSecurityRecoveryKey())
 
     lazy var aboutOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportAbout())
     lazy var faqOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportFaq())
+    lazy var whatsNewButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportWhatsNew())
     lazy var contactOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportContact())
     lazy var surveyOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportGetYourThoughts())
 
@@ -57,6 +60,10 @@ class AccountViewController: ViewController, BackNavigator {
             self?.gotoFAQScreen()
         }.disposed(by: disposeBag)
 
+        whatsNewButton.rx.tap.bind { [weak self] in
+            self?.gotoReleaseNoteScreen()
+        }.disposed(by: disposeBag)
+
         contactOptionButton.rx.tap.bind { [weak self] in
             self?.showIntercomContact()
         }.disposed(by: disposeBag)
@@ -66,42 +73,54 @@ class AccountViewController: ViewController, BackNavigator {
         }.disposed(by: disposeBag)
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scroll.contentSize = settingsView.frame.size
+    }
+
     override func setupViews() {
         super.setupViews()
 
         let blackBackItem = makeBlackBackItem()
 
-        contentView.flex.direction(.column)
-            .define { (flex) in
-                flex.addItem().marginLeft(OurTheme.paddingInset.left).define { (flex) in
+        let securityButtonGroup: [Button]!
+
+        if let biometricAuthOptionButton = biometricAuthOptionButton {
+            securityButtonGroup = [signOutOptionButton, biometricAuthOptionButton, recoveryKeyOptionButton]
+        } else {
+            securityButtonGroup = [signOutOptionButton, recoveryKeyOptionButton]
+        }
+
+        settingsView.flex.define { (flex) in
+            flex.addItem()
+                .marginLeft(OurTheme.paddingInset.left)
+                .define { (flex) in
                     flex.addItem(blackBackItem)
                     flex.addItem(screenTitle).padding(OurTheme.paddingInset)
                 }
 
-                let securityButtonGroup: [Button]!
+            flex.addItem(
+                makeOptionsSection(
+                    name: R.string.phrase.accountSettingsSecurity(),
+                    options: securityButtonGroup))
+                .marginTop(12)
 
-                if let biometricAuthOptionButton = biometricAuthOptionButton {
-                    securityButtonGroup = [signOutOptionButton, biometricAuthOptionButton, recoveryKeyOptionButton]
-                } else {
-                    securityButtonGroup = [signOutOptionButton, recoveryKeyOptionButton]
-                }
-                flex.addItem(
-                    makeOptionsSection(
-                        name: R.string.phrase.accountSettingsSecurity(),
-                        options: securityButtonGroup))
-                    .marginTop(12)
+            flex.addItem(
+                makeOptionsSection(
+                    name: R.string.phrase.accountSettingsSupport(),
+                    options: [whatsNewButton, contactOptionButton, surveyOptionButton]))
+                .marginTop(12)
 
-                flex.addItem(
-                    makeOptionsSection(
-                        name: R.string.phrase.accountSettingsSupport(),
-                        options: [contactOptionButton, surveyOptionButton]))
-                    .marginTop(12)
+            flex.addItem(ImageView(image: R.image.securedByBitmark()))
+                .marginLeft(OurTheme.paddingInset.left).marginTop(25)
+                .alignSelf(.start)
+        }
 
-                flex.addItem(ImageView(image: R.image.securedByBitmark()))
-                    .marginLeft(OurTheme.paddingInset.left).marginTop(25)
-                    .alignSelf(.start)
+        scroll.addSubview(settingsView)
+        contentView.flex
+            .direction(.column).define { (flex) in
+                flex.addItem(scroll).height(100%)
             }
-
     }
 }
 
@@ -125,6 +144,10 @@ extension AccountViewController {
 
     fileprivate func gotoFAQScreen() {
         navigator.show(segue: .faq, sender: self)
+    }
+
+    fileprivate func gotoReleaseNoteScreen() {
+        navigator.show(segue: .releaseNote(buttonItemType: .back), sender: self)
     }
 
     fileprivate func showIntercomContact() {
