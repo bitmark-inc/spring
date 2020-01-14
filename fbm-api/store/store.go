@@ -42,6 +42,9 @@ type Store interface {
 
 	// GetFBArchives to fetch all fb archives
 	GetFBArchives(ctx context.Context, params *FBArchiveQueryParam) ([]FBArchive, error)
+
+	// Metrics
+	CountAccountCreation(ctx context.Context, from, to time.Time) (int, error)
 }
 
 // AccountQueryParam params for querying an account

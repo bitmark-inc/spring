@@ -20,6 +20,7 @@ import (
 	"github.com/bitmark-inc/fbm-apps/fbm-api/logmodule"
 	"github.com/bitmark-inc/fbm-apps/fbm-api/store"
 	sentrygin "github.com/getsentry/sentry-go/gin"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/gocraft/work"
 	"github.com/spf13/viper"
@@ -186,11 +187,26 @@ func (s *Server) Run(addr string) error {
 
 	secretRoute := r.Group("/secret")
 	secretRoute.Use(logmodule.Ginrus("Secret"))
-	secretRoute.Use(s.apikeyAuthentication(viper.GetString("server.apikey")))
+	secretRoute.Use(s.apikeyAuthentication(viper.GetString("server.apikey.admin")))
 	{
 		secretRoute.POST("/submit-archives", s.adminSubmitArchives)
 		secretRoute.POST("/parse-archives", s.adminForceParseArchive)
 		secretRoute.POST("/reanalyze", s.parseArchive)
+	}
+
+	metricRoute := r.Group("/metrics")
+	metricRoute.Use(logmodule.Ginrus("Metric"))
+	metricRoute.Use(cors.New(cors.Config{
+		AllowMethods:     []string{"GET"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		AllowAllOrigins:  true,
+		MaxAge:           12 * time.Hour,
+	}))
+	metricRoute.Use(s.apikeyAuthentication(viper.GetString("server.apikey.metric")))
+	{
+		metricRoute.GET("/total-users", s.metricAccountCreation)
 	}
 
 	r.GET("/healthz", s.healthz)
