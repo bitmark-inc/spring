@@ -35,14 +35,15 @@ var (
 )
 
 const (
-	jobDownloadArchive      = "download_archive"
-	jobExtract              = "extract_zip"
-	jobUploadArchive        = "upload_archive"
-	jobPeriodicArchiveCheck = "periodic_archive_check"
-	jobAnalyzePosts         = "analyze_posts"
-	jobAnalyzeReactions     = "analyze_reactions"
-	jobAnalyzeSentiments    = "analyze_sentiments"
-	jobNotificationFinish   = "notification_finish_parsing"
+	jobDownloadArchive          = "download_archive"
+	jobExtract                  = "extract_zip"
+	jobUploadArchive            = "upload_archive"
+	jobPeriodicArchiveCheck     = "periodic_archive_check"
+	jobAnalyzePosts             = "analyze_posts"
+	jobAnalyzeReactions         = "analyze_reactions"
+	jobAnalyzeSentiments        = "analyze_sentiments"
+	jobNotificationFinish       = "notification_finish_parsing"
+	jobRecurringlySubmitArchive = "recurringly_submit_archive"
 )
 
 type BackgroundContext struct {
@@ -222,11 +223,15 @@ func main() {
 	pool.JobWithOptions(jobNotificationFinish,
 		work.JobOptions{Priority: 10, MaxFails: 1},
 		b.notifyAnalyzingDone)
-
-	log.Info("Start listening")
+	pool.JobWithOptions(jobRecurringlySubmitArchive,
+		work.JobOptions{Priority: 1, MaxFails: 1},
+		b.recurringSubmitFBArchive)
 
 	// Start processing jobs
 	pool.Start()
+
+	// Enqueue recurringly checking job
+	enqueuer.EnqueueUnique(jobRecurringlySubmitArchive, work.Q{})
 
 	// Wait for a signal to quit:
 	signalChan := make(chan os.Signal, 2)

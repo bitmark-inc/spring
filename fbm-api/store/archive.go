@@ -119,6 +119,10 @@ func (p *PGStore) GetFBArchives(ctx context.Context, params *FBArchiveQueryParam
 		q = q.Where(sq.Eq{"account_number": *params.AccountNumber})
 	}
 
+	if params.Status != nil {
+		q = q.Where(sq.Eq{"processing_status": *params.Status})
+	}
+
 	st, val, _ := q.ToSql()
 
 	rows, err := p.pool.Query(ctx, st, val...)

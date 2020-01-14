@@ -69,6 +69,10 @@ var (
 	// stored in amazon s3 and also extracted
 	FBArchiveStatusStored = "stored"
 
+	// FBArchiveStatusProcessing when an archive is processing
+	// by bitsocial server and our server
+	FBArchiveStatusProcessing = "processing"
+
 	// FBArchiveStatusProcessed when an archive is processed
 	// and its stats is avaialbe to query via API
 	FBArchiveStatusProcessed = "processed"
