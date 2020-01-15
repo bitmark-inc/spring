@@ -17,6 +17,7 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.util.livedata.CompositeLiveData
 import com.bitmark.fbm.util.livedata.RxLiveDataTransformer
 import com.bitmark.sdk.features.Account
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
@@ -32,6 +33,8 @@ class SplashViewModel(
     internal val getAccountInfoLiveData = CompositeLiveData<Pair<AccountData, Long>>()
 
     internal val checkVersionOutOfDateLiveData = CompositeLiveData<Pair<Boolean, String>>()
+
+    internal val checkFirstTimeEnterNewVersionLiveData = CompositeLiveData<Boolean>()
 
     internal val prepareDataLiveData = CompositeLiveData<Boolean>()
 
@@ -120,6 +123,24 @@ class SplashViewModel(
                         Pair(dataReady, categoryReady)
                     })
             )
+        )
+    }
+
+    fun checkFirstTimeEnterNewVersion(currentVerCode: Int) {
+        checkFirstTimeEnterNewVersionLiveData.add(
+            rxLiveDataTransformer.single(
+                appRepo.getLastVersionCode().flatMap { lastVerCode ->
+
+                    val saveLastVerCode = if (lastVerCode != currentVerCode) {
+                        appRepo.saveLastVersionCode(currentVerCode)
+                    } else {
+                        Completable.complete()
+                    }
+
+                    val firstTimeEnter = lastVerCode != -1 && lastVerCode < currentVerCode
+
+                    saveLastVerCode.andThen(Single.just(firstTimeEnter))
+                })
         )
     }
 

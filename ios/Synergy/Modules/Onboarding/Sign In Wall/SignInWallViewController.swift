@@ -16,6 +16,7 @@ import FlexLayout
 class SignInWallViewController: ViewController {
 
     // MARK: - Properties
+    lazy var termsAndPolicyView = makeTermsAndPolicyView()
     lazy var getStartedButton = makeGetStartedButton()
     lazy var signInButton = makeSignInButton()
 
@@ -47,33 +48,52 @@ class SignInWallViewController: ViewController {
         let titleScreen = Label()
         titleScreen.applyLight(
             text: R.string.phrase.launchName().localizedUppercase,
-            font: R.font.domaineSansTextLight(size: Size.ds(150)))
-        titleScreen.adjustsFontSizeToFitWidth = true
+            font: R.font.domaineSansTextLight(size: Size.ds(80)))
 
         let descriptionLabel = Label()
         descriptionLabel.numberOfLines = 0
         descriptionLabel.applyLight(
             text: R.string.phrase.launchDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(22)),
-            lineHeight: 1.1)
+            lineHeight: 1.125)
 
         let buttonsGroup = UIView()
         buttonsGroup.flex.direction(.column).define { (flex) in
-            flex.addItem(getStartedButton).width(100%)
+            flex.addItem(termsAndPolicyView).alignSelf(.center)
+            flex.addItem(getStartedButton).width(100%).marginTop(Size.dh(17))
             flex.addItem(signInButton).width(100%).marginTop(Size.dh(20))
         }
 
         contentView.flex
             .padding(OurTheme.paddingInset)
+            .alignItems(.center)
             .direction(.column).define { (flex) in
-                flex.addItem(titleScreen).marginTop(Size.dh(380)).width(100%)
-                flex.addItem(descriptionLabel).marginTop(Size.dh(10))
+                flex.addItem(titleScreen).marginTop(Size.dh(123))
+                flex.addItem(descriptionLabel)
 
                 flex.addItem(buttonsGroup)
                     .position(.absolute)
                     .width(100%)
                     .left(OurTheme.paddingInset.left).bottom(OurTheme.paddingBottom)
             }
+    }
+}
+
+// MARK: UITextViewDelegate
+extension SignInWallViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        guard URL.scheme != nil, let host = URL.host else {
+            return false
+        }
+
+        guard let appLink = AppLink(rawValue: host),
+            let appLinkURL = appLink.websiteURL
+        else {
+            return true
+        }
+
+        navigator.show(segue: .safariController(appLinkURL), sender: self, transition: .alert)
+        return true
     }
 }
 
@@ -98,5 +118,36 @@ extension SignInWallViewController {
 
     fileprivate func makeSignInButton() -> Button {
         return SecondaryButton(title: R.string.localizable.signIn())
+    }
+
+    fileprivate func makeTermsAndPolicyView() -> UITextView {
+        let textView = UITextView()
+        textView.textContainerInset = .zero
+        textView.textContainer.lineFragmentPadding = 0
+        textView.backgroundColor = .clear
+        textView.delegate = self
+        textView.isEditable = false
+        textView.linkTextAttributes = [
+          .foregroundColor: themeService.attrs.lightTextColor
+        ]
+
+        textView.attributedText = LinkAttributedString.make(
+            string: R.string.phrase.termAndPolicyPhraseInSignInWall(
+                AppLink.termsOfService.generalText,
+                AppLink.privacyOfPolicy.generalText),
+            lineHeight: 1.3,
+            attributes: [
+                .font: R.font.atlasGroteskLight(size: Size.ds(12))!,
+                .foregroundColor: themeService.attrs.lightTextColor
+            ], links: [
+                (text: AppLink.termsOfService.generalText, url: AppLink.termsOfService.path),
+                (text: AppLink.privacyOfPolicy.generalText, url: AppLink.privacyOfPolicy.path)
+            ], linkAttributes: [
+                .font: R.font.atlasGroteskLightItalic(size: Size.ds(12))!,
+                .underlineColor: themeService.attrs.lightTextColor,
+                .underlineStyle: NSUnderlineStyle.single.rawValue
+            ])
+
+        return textView
     }
 }

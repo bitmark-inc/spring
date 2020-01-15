@@ -63,20 +63,20 @@
 		<string>DomaineSansText-MediumItalic.otf</string>
 		<string>DomaineSansText-Regular.otf</string>
 		<string>DomaineSansText-RegularItalic.otf</string>
-        <string>IBMPlexMono-Bold.ttf</string>
-        <string>IBMPlexMono-BoldItalic.ttf</string>
-        <string>IBMPlexMono-ExtraLight.ttf</string>
-        <string>IBMPlexMono-ExtraLightItalic.ttf</string>
-        <string>IBMPlexMono-Italic.ttf</string>
-        <string>IBMPlexMono-Light.ttf</string>
-        <string>IBMPlexMono-LightItalic.ttf</string>
-        <string>IBMPlexMono-Medium.ttf</string>
-        <string>IBMPlexMono-MediumItalic.ttf</string>
-        <string>IBMPlexMono-Regular.ttf</string>
-        <string>IBMPlexMono-SemiBold.ttf</string>
-        <string>IBMPlexMono-SemiBoldItalic.ttf</string>
-        <string>IBMPlexMono-Thin.ttf</string>
-        <string>IBMPlexMono-ThinItalic.ttf</string>
+		<string>IBMPlexMono-Bold.ttf</string>
+		<string>IBMPlexMono-BoldItalic.ttf</string>
+		<string>IBMPlexMono-ExtraLight.ttf</string>
+		<string>IBMPlexMono-ExtraLightItalic.ttf</string>
+		<string>IBMPlexMono-Italic.ttf</string>
+		<string>IBMPlexMono-Light.ttf</string>
+		<string>IBMPlexMono-LightItalic.ttf</string>
+		<string>IBMPlexMono-Medium.ttf</string>
+		<string>IBMPlexMono-MediumItalic.ttf</string>
+		<string>IBMPlexMono-Regular.ttf</string>
+		<string>IBMPlexMono-SemiBold.ttf</string>
+		<string>IBMPlexMono-SemiBoldItalic.ttf</string>
+		<string>IBMPlexMono-Thin.ttf</string>
+		<string>IBMPlexMono-ThinItalic.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

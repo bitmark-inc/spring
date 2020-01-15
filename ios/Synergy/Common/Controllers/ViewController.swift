@@ -16,6 +16,7 @@ class ViewController: ThemedViewController, Navigatable {
 
     var viewModel: ViewModel?
     var navigator: Navigator! = Navigator.default
+    var buttonItemType: ButtonItemType?
 
     lazy var contentView: UIView = makeContentView()
 

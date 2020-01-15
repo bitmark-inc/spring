@@ -74,4 +74,12 @@ class AppLocalDataSource @Inject constructor(
                 }
             }
         }
+
+    fun getLastVersionCode() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        sharedPrefGateway.get(SharedPrefApi.LAST_VERSION_CODE, Int::class, -1)
+    }
+
+    fun saveLastVersionCode(code: Int) = sharedPrefApi.rxCompletable { sharedPrefGateway ->
+        sharedPrefGateway.put(SharedPrefApi.LAST_VERSION_CODE, code)
+    }
 }

@@ -24,6 +24,7 @@ struct OurTheme {
     static let accountColorTheme = ColorTheme.black
     static let postCellPadding  = UIEdgeInsets(top: Size.dh(27), left: 18, bottom: Size.dh(32), right: 18)
     static let reactionCellPadding  = UIEdgeInsets(top: Size.dh(27), left: 18, bottom: Size.dh(32), right: 18)
+    static let titlePaddingWithoutBack  = UIEdgeInsets(top: Size.dh(43), left: 0, bottom: Size.dh(43), right: 18)
 }
 
 protocol Theme {
@@ -124,7 +125,7 @@ struct DarkTheme: Theme {
 enum ColorTheme: Int, CaseIterable {
     case red, pink, purple, deepPurple, indigo, blue, lightBlue, cyan, teal, green, lightGreen, lime, yellow, amber, orange, deepOrange, brown, gray, blueGray, internationalKleinBlue, concord, silver, yukonGold
 
-    case white, cognac, black, tundora, mercury, indianKhaki, wildSand
+    case white, cognac, black, tundora, mercury, indianKhaki, wildSand, cornFlowerBlue
 
     var color: UIColor {
         switch self {
@@ -148,6 +149,7 @@ enum ColorTheme: Int, CaseIterable {
         case .gray:       return UIColor.Material.grey
         case .blueGray:   return UIColor.Material.blueGrey
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
+        case .cornFlowerBlue: return UIColor(hexString: "#060FAF")!
         case .concord:    return UIColor(hexString: "#828180")!
         case .silver:        return UIColor(hexString: "#C1C1C1")!
         case .white:        return UIColor.white
@@ -183,6 +185,7 @@ enum ColorTheme: Int, CaseIterable {
         case .gray:       return UIColor.Material.grey900
         case .blueGray:   return UIColor.Material.blueGrey900
         case .internationalKleinBlue: return UIColor(hexString: "#0011AF")!
+        case .cornFlowerBlue: return UIColor(hexString: "#060FAF")!
         case .concord:    return UIColor(hexString: "#828180")!
         case .silver:    return UIColor(hexString: "#C1C1C1")!
         case .white:        return UIColor.white
@@ -218,6 +221,7 @@ enum ColorTheme: Int, CaseIterable {
         case .gray:       return "Gray"
         case .blueGray:   return "Blue Gray"
         case .internationalKleinBlue: return "international klein blue"
+        case .cornFlowerBlue: return "corn flower blue"
         case .concord:    return "concord"
         case .silver:        return ""
         case .white:        return "White"

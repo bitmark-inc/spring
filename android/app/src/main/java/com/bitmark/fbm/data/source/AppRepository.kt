@@ -46,4 +46,8 @@ class AppRepository(
         localDataSource.deleteSharePref(keepAccountData),
         localDataSource.deleteFileStorage(keepAccountData)
     )
+
+    fun getLastVersionCode() = localDataSource.getLastVersionCode()
+
+    fun saveLastVersionCode(code: Int) = localDataSource.saveLastVersionCode(code)
 }

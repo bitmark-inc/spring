@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.feature
 
+import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Bundle
@@ -146,6 +147,11 @@ class Navigator(host: Any) {
         startTransactionAnim(activity)
     }
 
+    fun finishActivityForResult(data: Intent? = null, resultCode: Int = RESULT_OK) {
+        activity?.setResult(resultCode, data)
+        finishActivity()
+    }
+
     fun startActivityAsRoot(clazz: Class<*>, bundle: Bundle? = null) {
         val intent = Intent(activity, clazz)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -170,7 +176,7 @@ class Navigator(host: Any) {
 
     private fun startTransactionAnim(activity: FragmentActivity?) {
         when (anim) {
-            BOTTOM_UP  -> activity?.overridePendingTransition(
+            BOTTOM_UP -> activity?.overridePendingTransition(
                 R.anim.slide_bottom_in,
                 0
             )
@@ -178,13 +184,13 @@ class Navigator(host: Any) {
                 R.anim.slide_right_in,
                 R.anim.slide_left_out
             )
-            FADE_IN    -> activity?.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+            FADE_IN -> activity?.overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
     }
 
     private fun finishTransactionAnim(activity: FragmentActivity?) {
         when (anim) {
-            BOTTOM_UP  -> activity?.overridePendingTransition(
+            BOTTOM_UP -> activity?.overridePendingTransition(
                 0,
                 R.anim.slide_bottom_out
             )
@@ -192,14 +198,14 @@ class Navigator(host: Any) {
                 R.anim.slide_left_in,
                 R.anim.slide_right_out
             )
-            FADE_IN    -> activity?.overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
+            FADE_IN -> activity?.overridePendingTransition(R.anim.fade_out, R.anim.fade_in)
         }
     }
 
     private fun transactionAnim(transaction: FragmentTransaction?) {
         if (null == transaction) return
         when (anim) {
-            BOTTOM_UP  -> transaction.setCustomAnimations(
+            BOTTOM_UP -> transaction.setCustomAnimations(
                 R.anim.slide_bottom_in,
                 0
             )
@@ -209,7 +215,7 @@ class Navigator(host: Any) {
                 R.anim.slide_left_in,
                 R.anim.slide_right_out
             )
-            FADE_IN    -> transaction.setCustomAnimations(
+            FADE_IN -> transaction.setCustomAnimations(
                 R.anim.fade_in,
                 R.anim.fade_out,
                 R.anim.fade_out,
