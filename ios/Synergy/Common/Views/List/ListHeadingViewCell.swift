@@ -62,19 +62,17 @@ extension ListHeadingViewCell {
 
     func makeSectionTagLabel() -> Label {
         let label = Label()
-        label.applyBlack(
-            text: "",
+        label.apply(
             font: R.font.atlasGroteskLight(size: Size.ds(10)),
-            lineHeight: 1.06)
+            colorTheme: .black, lineHeight: 1.06)
         return label
     }
 
     func makeTimelineLabel() -> Label {
         let label = Label()
-        label.applyBlack(
-            text: "",
+        label.apply(
             font: R.font.atlasGroteskLight(size: Size.ds(14)),
-            lineHeight: 1.06)
+            colorTheme: .black, lineHeight: 1.06)
         return label
     }
 }

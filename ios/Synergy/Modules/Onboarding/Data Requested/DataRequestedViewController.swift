@@ -153,8 +153,7 @@ extension DataRequestedViewController {
         label.numberOfLines = 0
         label.apply(
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            colorTheme: .black,
-            lineHeight: 1.2)
+            colorTheme: .black, lineHeight: 1.2)
         return label
     }
     

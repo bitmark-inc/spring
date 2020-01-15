@@ -205,7 +205,10 @@ extension AccountViewController {
 
     fileprivate func makeOptionsSection(name: String, options: [Button]) -> UIView {
         let nameSectionLabel = Label()
-        nameSectionLabel.applyBlack(text: name.localizedUppercase, font: R.font.atlasGroteskLight(size: Size.ds(24)))
+        nameSectionLabel.apply(
+            text: name.localizedUppercase,
+            font: R.font.atlasGroteskLight(size: Size.ds(24)),
+            colorTheme: .black)
 
         let sectionView = UIView()
         themeService.rx

@@ -46,16 +46,17 @@ class SignInWallViewController: ViewController {
 
         // *** Setup subviews ***
         let titleScreen = Label()
-        titleScreen.applyLight(
+        titleScreen.apply(
             text: R.string.phrase.launchName().localizedUppercase,
-            font: R.font.domaineSansTextLight(size: Size.ds(80)))
+            font: R.font.domaineSansTextLight(size: Size.ds(80)),
+            colorTheme: .white)
 
         let descriptionLabel = Label()
         descriptionLabel.numberOfLines = 0
-        descriptionLabel.applyLight(
+        descriptionLabel.apply(
             text: R.string.phrase.launchDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(22)),
-            lineHeight: 1.125)
+            colorTheme: .white, lineHeight: 1.125)
 
         let buttonsGroup = UIView()
         buttonsGroup.flex.direction(.column).define { (flex) in

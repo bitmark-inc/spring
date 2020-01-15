@@ -94,19 +94,6 @@ extension Label {
         lineHeightMultiple(lineHeight)
     }
 
-    func applyLight(text: String, font: UIFont?, lineHeight: CGFloat? = nil) {
-        self.text = text
-        self.font = font
-
-        themeService.rx
-            .bind({ $0.lightTextColor }, to: rx.textColor)
-            .disposed(by: disposeBag)
-
-        if let lineHeight = lineHeight {
-            lineHeightMultiple(lineHeight)
-        }
-    }
-
     func apply(text: String? = nil, font: UIFont?, colorTheme: ColorTheme, lineHeight: CGFloat? = nil) {
         self.text = text
         self.font = font
@@ -128,38 +115,6 @@ extension Label {
                 .disposed(by: disposeBag)
 
         case .cognac:
-            themeService.rx
-                .bind({ $0.themeColor }, to: rx.textColor)
-                .disposed(by: disposeBag)
-
-        default:
-            themeService.rx
-                .bind({ $0.blackTextColor }, to: rx.textColor)
-                .disposed(by: disposeBag)
-        }
-
-        if let lineHeight = lineHeight {
-            self.lineHeight = lineHeight
-            lineHeightMultiple(lineHeight)
-        }
-    }
-
-    func applyBlack(text: String, font: UIFont?, lineHeight: CGFloat? = nil, level: Int = 0) {
-        self.text = text
-        self.font = font
-
-        switch level {
-        case 1:
-            themeService.rx
-                .bind({ $0.tundoraTextColor }, to: rx.textColor)
-                .disposed(by: disposeBag)
-
-        case 2:
-            themeService.rx
-                .bind({ $0.themeGreenColor }, to: rx.textColor)
-                .disposed(by: disposeBag)
-
-        case 3:
             themeService.rx
                 .bind({ $0.themeColor }, to: rx.textColor)
                 .disposed(by: disposeBag)

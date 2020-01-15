@@ -85,7 +85,10 @@ class PostListViewController: ViewController, BackNavigator {
     fileprivate func makeEmptyView() -> Label {
         let label = Label()
         label.isDescription = true
-        label.applyBlack(text: R.string.phrase.postsEmpty(), font: R.font.atlasGroteskLight(size: Size.ds(32)))
+        label.apply(
+            text: R.string.phrase.postsEmpty(),
+            font: R.font.atlasGroteskLight(size: Size.ds(32)),
+            colorTheme: .black)
         label.isHidden = true
         return label
     }
