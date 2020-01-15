@@ -6,6 +6,13 @@ platform :ios do
 		increment_build_number_in_plist(
 			scheme: "Synergy Dev")
 
+		update_info_plist(
+			plist_path: "./Synergy/Dev-Info.plist",
+			block: proc do |plist|
+				appCredential = plist["AppCredentials"]
+				appCredential["API_FBM_SERVER_URL"] = ENV["TEST_SERVER_URL"]
+			end
+			)
 
 		cert
 		sigh(force: true)
@@ -21,19 +28,18 @@ platform :ios do
 		sentry_upload_dsym(
 			auth_token: ENV['SENTRY_AUTH_TOKEN'],
 			org_slug: 'bitmark-inc',
-			project_slug: 'bitmark-registry',
-			dsym_path: 'Bitmark beta.app.dSYM.zip'
-		)
+			project_slug: 'fbm-spring',
+			dsym_path: './ipas/Spring.app.dSYM.zip')
 
 		appcenter_upload(
 			api_token: ENV["APPCENTER_API_TOKEN"],
 			owner_name: "support-zzd0-28",
 			owner_type: "organization",
 			app_name: "Synergy",
-			notify_testers: true
-		)
+			notify_testers: true)
 	end
 
+	desc "Push a new enterprise build to AppCenter"
 	lane :enterprise do
 		increment_build_number_in_plist(
 			scheme: "Synergy Inhouse")
