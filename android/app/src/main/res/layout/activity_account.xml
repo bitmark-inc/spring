@@ -304,6 +304,19 @@
                     android:textSize="@dimen/sp_18"
                     />
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvTellUs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_14"
+                    android:layout_marginBottom="@dimen/dp_8"
+                    android:fontFamily="@font/grotesk_light_font_family"
+                    android:includeFontPadding="false"
+                    android:text="@string/tell_us_your_thoughts_arrow"
+                    android:textColor="@drawable/color_black_stateful"
+                    android:textSize="@dimen/sp_18"
+                    />
+
             </LinearLayout>
 
         </LinearLayout>

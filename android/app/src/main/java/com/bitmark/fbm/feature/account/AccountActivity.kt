@@ -19,11 +19,13 @@ import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseAppCompatActivity
 import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
+import com.bitmark.fbm.feature.Navigator.Companion.NONE
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.biometricauth.BiometricAuthActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.feature.whatsnew.WhatsNewActivity
+import com.bitmark.fbm.util.ext.openBrowser
 import com.bitmark.fbm.util.ext.openIntercom
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import kotlinx.android.synthetic.main.activity_account.*
@@ -33,6 +35,10 @@ import javax.inject.Inject
 class AccountActivity : BaseAppCompatActivity() {
 
     companion object {
+
+        private const val SURVEY_URL =
+            "https://docs.google.com/forms/d/e/1FAIpQLScL41kNU6SBzo7ndcraUf7O-YJ_JrPqg_rlI588UjLK-_sGtQ/viewform?usp=sf_link"
+
         fun newInstance() = AccountActivity()
     }
 
@@ -136,6 +142,10 @@ class AccountActivity : BaseAppCompatActivity() {
         tvWhatsNew.setSafetyOnclickListener {
             val bundle = WhatsNewActivity.getBundle(true)
             navigator.anim(RIGHT_LEFT).startActivity(WhatsNewActivity::class.java, bundle)
+        }
+
+        tvTellUs.setSafetyOnclickListener {
+            navigator.anim(NONE).openBrowser(SURVEY_URL)
         }
     }
 
