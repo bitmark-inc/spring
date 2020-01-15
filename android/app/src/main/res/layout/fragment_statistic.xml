@@ -11,10 +11,10 @@
 
     <com.bitmark.fbm.util.view.TouchableOpacityAppCompatImageView
         android:id="@+id/ivPrevPeriod"
-        android:layout_width="@dimen/dp_24"
-        android:layout_height="@dimen/dp_24"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
         android:layout_marginStart="@dimen/dp_20"
-        android:padding="@dimen/dp_4"
+        android:padding="@dimen/dp_6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_prev_period_stateful"
@@ -38,10 +38,10 @@
 
     <com.bitmark.fbm.util.view.TouchableOpacityAppCompatImageView
         android:id="@+id/ivNextPeriod"
-        android:layout_width="@dimen/dp_24"
-        android:layout_height="@dimen/dp_24"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
         android:layout_marginEnd="@dimen/dp_20"
-        android:padding="@dimen/dp_4"
+        android:padding="@dimen/dp_6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_next_period_stateful"
@@ -66,6 +66,7 @@
         android:id="@+id/rvStatistic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTime"
         />

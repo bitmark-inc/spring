@@ -11,6 +11,12 @@ import Intercom
 import SwifterSwift
 
 extension UIViewController {
+    func showErrorAlert(title: String = R.string.error.generalTitle(), message: String, buttonTitle: String = R.string.localizable.ok()) {
+        showAlert(
+            title: title, message: message,
+            buttonTitles: [buttonTitle])
+    }
+
     func showErrorAlert(message: String) {
         showAlert(
             title: R.string.error.generalTitle(),

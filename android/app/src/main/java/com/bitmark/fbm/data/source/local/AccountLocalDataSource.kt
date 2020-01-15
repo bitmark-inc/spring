@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.data.source.local
 
+import com.bitmark.fbm.data.ext.fromJson
 import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.model.AccountData
 import com.bitmark.fbm.data.model.CredentialData
@@ -63,4 +64,29 @@ class AccountLocalDataSource @Inject constructor(
             accountData.authRequired = authRequired
             saveAccountData(accountData)
         }
+
+    fun saveAdsPrefCategories(categories: List<String>) =
+        sharedPrefApi.rxCompletable { sharedPrefGateway ->
+            sharedPrefGateway.put(
+                SharedPrefApi.FB_ADS_PREF_CATEGORIES,
+                newGsonInstance().toJson(categories)
+            )
+        }
+
+    fun listAdsPrefCategory() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        newGsonInstance().fromJson<List<String>>(
+            sharedPrefGateway.get(
+                SharedPrefApi.FB_ADS_PREF_CATEGORIES,
+                String::class
+            )
+        )
+    }
+
+    fun checkAdsPrefCategoryReady() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        sharedPrefGateway.get(
+            SharedPrefApi.FB_ADS_PREF_CATEGORIES,
+            String::class
+        ) != ""
+    }
+
 }

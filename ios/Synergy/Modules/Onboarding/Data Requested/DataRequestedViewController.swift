@@ -60,13 +60,20 @@ class DataRequestedViewController: ViewController {
             dataRequestedTitleLabel.setText(R.string.phrase.dataRequestedWaitingScreenTitle().localizedUppercase)
             dataRequestedDescLabel.setText(R.string.phrase.dataRequestedWaitingDescription())
 
+        case .getCategories:
+            // TODO
+            break
+
         case .none:
             break
         }
         
         checkNowButton.isHidden = viewModel.mission != .checkRequestedData
         checkNowButton.rx.tap.bind { [weak self] in
-            self?.gotoDownloadFBArchiveScreen()
+            _ = connectedToInternet()
+                .subscribe(onCompleted: { [weak self] in
+                    self?.gotoDownloadFBArchiveScreen()
+                })
         }.disposed(by: disposeBag)
     }
 
@@ -129,7 +136,7 @@ class DataRequestedViewController: ViewController {
 // MARK: - Navigator
 extension DataRequestedViewController {
     func gotoDownloadFBArchiveScreen() {
-        let viewModel = RequestDataViewModel(.downloadData)
+        let viewModel = RequestDataViewModel(missions: [.downloadData])
         navigator.show(segue: .requestData(viewModel: viewModel), sender: self)
     }
 }
@@ -137,18 +144,16 @@ extension DataRequestedViewController {
 extension DataRequestedViewController {
     fileprivate func makeDataRequestedTitleLabel() -> Label {
         let label = Label()
-        label.applyBlack(
-            text: "",
-            font: R.font.domaineSansTextLight(size: Size.ds(36)))
+        label.apply(font: R.font.domaineSansTextLight(size: Size.ds(36)), colorTheme: .black)
         return label
     }
     
     fileprivate func makeDataRequestedDescLabel() -> Label {
         let label = Label()
         label.numberOfLines = 0
-        label.applyBlack(
-            text: "",
+        label.apply(
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
+            colorTheme: .black,
             lineHeight: 1.2)
         return label
     }
@@ -163,7 +168,6 @@ extension DataRequestedViewController {
         let label = Label()
         label.numberOfLines = 0
         label.apply(
-            text: "",
             font: R.font.atlasGroteskThinItalic(size: Size.ds(18)),
             colorTheme: .black, lineHeight: 1.2)
         return label

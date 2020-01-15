@@ -12,6 +12,7 @@ import com.bitmark.fbm.data.model.entity.toPeriodRangeSec
 import com.bitmark.fbm.data.source.local.StatisticLocalDataSource
 import com.bitmark.fbm.data.source.remote.StatisticRemoteDataSource
 import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
 
 
 class StatisticRepository(
@@ -19,55 +20,38 @@ class StatisticRepository(
     private val localDataSource: StatisticLocalDataSource
 ) : Repository {
 
-    fun listUsage(period: Period, periodStartedAtSec: Long): Single<List<SectionR>> {
+    fun listUsageStatistic(period: Period, periodStartedAtSec: Long): Single<List<SectionR>> {
         val range = period.toPeriodRangeSec(periodStartedAtSec)
-        return localDataSource.checkUsageStored(range.first, range.last).flatMap { stored ->
-            if (stored) {
-                localDataSource.listUsage(period, periodStartedAtSec)
-            } else {
-                listRemoteUsage(
-                    period,
-                    periodStartedAtSec
-                ).andThen(localDataSource.listUsage(period, periodStartedAtSec))
-            }
-        }
-    }
-
-    fun listInsights(period: Period, periodStartedAtSec: Long): Single<List<SectionR>> {
-        val range = period.toPeriodRangeSec(periodStartedAtSec)
-        return localDataSource.checkInsightStored(range.first, range.last).flatMap { stored ->
-            if (stored) {
-                localDataSource.listInsights(period, periodStartedAtSec)
-            } else {
-                listRemoteInsights(period, periodStartedAtSec).andThen(
-                    localDataSource.listInsights(
+        return localDataSource.checkStoredUsageStatistic(range.first, range.last)
+            .flatMap { stored ->
+                if (stored) {
+                    localDataSource.listUsageStatistic(period, periodStartedAtSec)
+                } else {
+                    listRemoteUsageStatistic(
                         period,
                         periodStartedAtSec
-                    )
-                )
+                    ).andThen(localDataSource.listUsageStatistic(period, periodStartedAtSec))
+                }
             }
-        }
     }
 
-    private fun listRemoteUsage(
+    private fun listRemoteUsageStatistic(
         period: Period,
         periodStartedAtSec: Long
-    ) = remoteDataSource.listUsage(
+    ) = remoteDataSource.listUsageStatistic(
         period,
         periodStartedAtSec
     ).flatMapCompletable { statistics ->
         val range = period.toPeriodRangeSec(periodStartedAtSec)
-        localDataSource.saveStatistics(statistics)
+        localDataSource.saveUsageStatistics(statistics)
             .flatMapCompletable { localDataSource.saveUsageCriteria(range.first, range.last) }
     }
 
-    private fun listRemoteInsights(period: Period, periodStartedAtSec: Long) =
-        remoteDataSource.listInsights(
-            period,
-            periodStartedAtSec
-        ).flatMapCompletable { statistics ->
-            val range = period.toPeriodRangeSec(periodStartedAtSec)
-            localDataSource.saveStatistics(statistics)
-                .flatMapCompletable { localDataSource.saveInsightCriteria(range.first, range.last) }
+    fun getInsightData() = remoteDataSource.getInsightData()
+        .observeOn(Schedulers.io())
+        .onErrorResumeNext { localDataSource.getInsightData() }
+        .flatMap { insightData ->
+            localDataSource.saveInsightData(insightData).andThen(Single.just(insightData))
         }
+
 }

@@ -13,34 +13,24 @@ import SwiftDate
 
 class InsightViewModel: ViewModel {
 
-    // MARK: - Inputs
-    let dateRelay = BehaviorRelay(value: Date().in(Locales.english).dateAtStartOf(.weekOfMonth).date)
-    let timeUnitRelay = BehaviorRelay<TimeUnit>(value: .week)
-
     // MARK: - Outputs
     let fetchDataResultSubject = PublishSubject<Event<Void>>()
-    let realmIncomeInsightRelay = BehaviorRelay<Insight?>(value: nil)
-    let realmMoodInsightRelay = BehaviorRelay<Insight?>(value: nil)
+    let realmInsightsInfoRelay = BehaviorRelay<UserInfo?>(value: nil)
+    let realmAdsCategoriesRelay = BehaviorRelay<UserInfo?>(value: nil)
 
     func fetchInsight() {
-        dateRelay // ignore timeUnit change, cause when timeUnit change, it trigger date change also
-        .subscribe(onNext: { [weak self] (date) in
-            guard let self = self else { return }
-            let timeUnit = self.timeUnitRelay.value
+        realmAdsCategoriesRelay.accept(InsightDataEngine.fetchAdsCategoriesInfo())
 
-            _ = InsightDataEngine.rx.fetchAndSyncInsight(timeUnit: timeUnit, startDate: date)
-                .catchError({ [weak self] (error) -> Single<[Section: Insight?]> in
-                    self?.fetchDataResultSubject.onNext(Event.error(error))
-                    return Single.just([:])
-                })
-                .asObservable()
-                .subscribe(onNext: { [weak self] (insights) in
-                    guard let self = self else { return }
-                    self.realmIncomeInsightRelay.accept(insights[.fbIncome] ?? nil)
-                    self.realmMoodInsightRelay.accept(insights[.mood] ?? nil)
-                })
-        })
-        .disposed(by: disposeBag)
-
+        InsightDataEngine.rx.fetchAndSyncInsight()
+            .catchError({ [weak self] (error) -> Single<UserInfo?> in
+                self?.fetchDataResultSubject.onNext(Event.error(error))
+                return Single.just(nil)
+            })
+            .asObservable()
+            .subscribe(onNext: { [weak self] (insightsInfo) in
+                guard let self = self else { return }
+                self.realmInsightsInfoRelay.accept(insightsInfo)
+            })
+            .disposed(by: disposeBag)
     }
 }

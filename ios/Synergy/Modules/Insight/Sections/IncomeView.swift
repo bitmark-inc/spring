@@ -29,10 +29,10 @@ class IncomeView: UIView {
                 flex.addItem(SectionSeparator())
 
                 flex.addItem()
-                    .padding(30, 0, 30, 0)
+                    .padding(30, 0, 40, 0)
                     .alignItems(.center).define { (flex) in
                         flex.addItem(amountLabel)
-                        flex.addItem(descriptionLabel).marginTop(20)
+                        flex.addItem(descriptionLabel).marginTop(18)
                     }
             }
     }
@@ -43,44 +43,33 @@ class IncomeView: UIView {
 
     func setProperties(section: Section, container: InsightViewController) {
         weak var container = container
-        var dataObserver: Disposable? // stop observing old-data
 
         switch section {
         case .fbIncome:
-            container?.thisViewModel.realmIncomeInsightRelay
-                .subscribe(onNext: { [weak self] (usage) in
-                    guard let self = self, let container = container else { return }
-                    if usage != nil {
-                        dataObserver?.dispose()
-                        dataObserver = container.incomeInsightObservable
-                            .map { $0.value }
-                            .subscribe(onNext: { [weak self] (amount) in
-                                self?.fillData(amount: amount)
-                            })
-
-                        dataObserver?
-                            .disposed(by: self.disposeBag)
-                    } else {
-                        dataObserver?.dispose()
-                        self.fillData(amount: nil)
-                    }
-                })
-                .disposed(by: disposeBag)
+            container?.realmInsightObservable
+                .subscribe(onNext: { [weak self] (insight) in
+                    self?.fillData(amount: insight.fbIncome, since: insight.fbIncomeFrom)
+                }).disposed(by: disposeBag)
 
         default:
             break
         }
     }
 
-    func fillData(amount: Double?) {
-        if let amount = amount {
+    func fillData(amount: Double?, since: Date) {
+        if let amount = amount, amount >= 0 {
             amountLabel.text = String(format: "$%.02f", amount)
+            descriptionLabel.setText(R.string.phrase.incomeDescription(
+                since.toFormat(Constant.TimeFormat.date)))
         } else {
             amountLabel.text = "--"
+            descriptionLabel.setText(R.string.localizable.noDataAvailable())
         }
 
         amountLabel.flex.markDirty()
+        descriptionLabel.flex.markDirty()
         flex.layout()
+        containerLayoutDelegate?.layout()
     }
 }
 
@@ -88,7 +77,7 @@ extension IncomeView {
     fileprivate func makeAmountLabel() -> Label {
         let label = Label()
         label.apply(
-            font: R.font.avenir(size: 45),
+            font: R.font.atlasGroteskRegular(size: 42),
             colorTheme: ColorTheme.cognac)
         return label
     }
@@ -96,8 +85,7 @@ extension IncomeView {
     fileprivate func makeDescriptionLabel() -> Label {
         let label = Label()
         label.apply(
-            text: R.string.localizable.incomeDescription(),
-            font: R.font.atlasGroteskThin(size: Size.ds(12)),
+            font: R.font.atlasGroteskLight(size: Size.ds(12)),
             colorTheme: ColorTheme.black)
         return label
     }

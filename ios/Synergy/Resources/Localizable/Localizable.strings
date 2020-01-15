@@ -70,10 +70,11 @@
 "graph.noActivity" = "No activity for this period.";
 "graph.mood.noActivity" = "Sorry, no data available!";
 
+"noDataAvailable" = "Sorry, no data available!";
+
 "income" = "income";
 "mood" = "mood";
 
-"income.description" = "Income Facebook made from you this period";
 "yourMood" = "Your Mood";
 
 "sentimentAnalysisOfYourPosts" = "sentiment analysis of your posts";

@@ -62,31 +62,8 @@ class SectionView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                         .format(section.quantity.decimalFormat())
                 tvOverviewSuffix.text = context.getString(R.string.you_gave).toLowerCase()
             }
-            SectionName.MESSAGE -> {
-                tvOverview.text =
-                    context.getString(R.string.messages_format)
-                        .format(section.quantity.decimalFormat())
-                tvOverviewSuffix.text =
-                    context.getString(R.string.you_sent_or_received).toLowerCase()
-            }
-            SectionName.AD_INTEREST -> {
-                tvOverview.text =
-                    context.getString(R.string.ad_interests_format)
-                        .format(section.quantity.decimalFormat())
-                tvOverviewSuffix.text = context.getString(R.string.tracked_by_fb).toLowerCase()
-            }
-            SectionName.ADVERTISER -> {
-                tvOverview.text =
-                    context.getString(R.string.advertiser_format)
-                        .format(section.quantity.decimalFormat())
-                tvOverviewSuffix.text =
-                    context.getString(R.string.collected_data_about_you).toLowerCase()
-            }
-            SectionName.LOCATION -> {
-                tvOverview.text =
-                    context.getString(R.string.locations_format)
-                        .format(section.quantity.decimalFormat())
-                tvOverviewSuffix.text = context.getString(R.string.tracked_by_fb).toLowerCase()
+            else -> {
+                // do nothing
             }
         }
 

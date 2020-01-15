@@ -15,7 +15,6 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.BehaviorComponent
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.account.AccountActivity
-import com.bitmark.fbm.feature.statistic.Statistic
 import com.bitmark.fbm.feature.statistic.StatisticViewPagerAdapter
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.google.android.material.tabs.TabLayout
@@ -57,7 +56,7 @@ class UsageFragment : BaseSupportFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        adapter = StatisticViewPagerAdapter(context, Statistic.USAGE, childFragmentManager)
+        adapter = StatisticViewPagerAdapter(context, childFragmentManager)
     }
 
     override fun initComponents() {

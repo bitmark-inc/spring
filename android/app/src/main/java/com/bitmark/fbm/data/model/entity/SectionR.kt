@@ -91,26 +91,6 @@ enum class SectionName {
     REACTION,
 
     @Expose
-    @SerializedName("messages")
-    MESSAGE,
-
-    @Expose
-    @SerializedName("ad_interests")
-    AD_INTEREST,
-
-    @Expose
-    @SerializedName("advertisers")
-    ADVERTISER,
-
-    @Expose
-    @SerializedName("locations")
-    LOCATION,
-
-    @Expose
-    @SerializedName("fb-income")
-    FB_INCOME,
-
-    @Expose
     @SerializedName("sentiment")
     SENTIMENT;
 
@@ -118,27 +98,17 @@ enum class SectionName {
 }
 
 fun SectionName.Companion.fromString(name: String) = when (name) {
-    "post"         -> SectionName.POST
-    "reaction"     -> SectionName.REACTION
-    "messages"     -> SectionName.MESSAGE
-    "ad_interests" -> SectionName.AD_INTEREST
-    "advertisers"  -> SectionName.ADVERTISER
-    "locations"    -> SectionName.LOCATION
-    "fb-income"    -> SectionName.FB_INCOME
-    "sentiment"    -> SectionName.SENTIMENT
-    else           -> error("invalid name")
+    "post" -> SectionName.POST
+    "reaction" -> SectionName.REACTION
+    "sentiment" -> SectionName.SENTIMENT
+    else -> error("invalid name")
 }
 
 val SectionName.value: String
     get() = when (this) {
-        SectionName.POST        -> "post"
-        SectionName.REACTION    -> "reaction"
-        SectionName.MESSAGE     -> "messages"
-        SectionName.AD_INTEREST -> "ad_interests"
-        SectionName.ADVERTISER  -> "advertisers"
-        SectionName.LOCATION    -> "locations"
-        SectionName.SENTIMENT   -> "sentiment"
-        SectionName.FB_INCOME   -> "fb-income"
+        SectionName.POST -> "post"
+        SectionName.REACTION -> "reaction"
+        SectionName.SENTIMENT -> "sentiment"
     }
 
 data class GroupEntity(
@@ -157,28 +127,25 @@ enum class GroupName {
     TYPE,
     SUB_PERIOD,
     FRIEND,
-    PLACE,
-    AREA;
+    PLACE;
 
     companion object
 }
 
 val GroupName.value: String
     get() = when (this) {
-        GroupName.TYPE       -> "type"
+        GroupName.TYPE -> "type"
         GroupName.SUB_PERIOD -> "sub_period"
-        GroupName.FRIEND     -> "friend"
-        GroupName.PLACE      -> "place"
-        GroupName.AREA       -> "area"
+        GroupName.FRIEND -> "friend"
+        GroupName.PLACE -> "place"
     }
 
 fun GroupName.Companion.fromString(name: String) = when (name) {
-    "type"       -> GroupName.TYPE
+    "type" -> GroupName.TYPE
     "sub_period" -> GroupName.SUB_PERIOD
-    "friend"     -> GroupName.FRIEND
-    "place"      -> GroupName.PLACE
-    "area"       -> GroupName.AREA
-    else         -> error("invalid group name")
+    "friend" -> GroupName.FRIEND
+    "place" -> GroupName.PLACE
+    else -> error("invalid group name")
 }
 
 enum class Period {
@@ -198,37 +165,37 @@ enum class Period {
 }
 
 fun Period.Companion.fromString(period: String) = when (period) {
-    "week"   -> Period.WEEK
-    "year"   -> Period.YEAR
+    "week" -> Period.WEEK
+    "year" -> Period.YEAR
     "decade" -> Period.DECADE
-    else     -> throw IllegalArgumentException("invalid period")
+    else -> throw IllegalArgumentException("invalid period")
 }
 
 val Period.value: String
     get() = when (this) {
-        Period.WEEK   -> "week"
-        Period.YEAR   -> "year"
+        Period.WEEK -> "week"
+        Period.YEAR -> "year"
         Period.DECADE -> "decade"
     }
 
 fun Period.toSubPeriodRangeSec(startedAtSec: Long) = LongRange(
     startedAtSec, when (this) {
-        Period.WEEK   -> DateTimeUtil.getEndOfDateMillis(startedAtSec * 1000)
-        Period.YEAR   -> DateTimeUtil.getEndOfMonthMillis(startedAtSec * 1000)
+        Period.WEEK -> DateTimeUtil.getEndOfDateMillis(startedAtSec * 1000)
+        Period.YEAR -> DateTimeUtil.getEndOfMonthMillis(startedAtSec * 1000)
         Period.DECADE -> DateTimeUtil.getEndOfYearMillis(startedAtSec * 1000)
     } / 1000
 )
 
 fun Period.toPeriodRangeSec(startedAtSec: Long) = LongRange(
     startedAtSec, when (this) {
-        Period.WEEK   -> DateTimeUtil.getEndOfWeek(startedAtSec * 1000)
-        Period.YEAR   -> DateTimeUtil.getEndOfYearMillis(startedAtSec * 1000)
+        Period.WEEK -> DateTimeUtil.getEndOfWeek(startedAtSec * 1000)
+        Period.YEAR -> DateTimeUtil.getEndOfYearMillis(startedAtSec * 1000)
         Period.DECADE -> DateTimeUtil.getEndOfDecade(startedAtSec * 1000)
     } / 1000
 )
 
 fun Period.toSubPeriodCollectionSec(startedAtSec: Long) = when (this) {
-    Period.WEEK   -> DateTimeUtil.getStartOfDatesMillisInWeek(startedAtSec * 1000)
-    Period.YEAR   -> DateTimeUtil.getStartOfDatesMillisInYear(startedAtSec * 1000)
+    Period.WEEK -> DateTimeUtil.getStartOfDatesMillisInWeek(startedAtSec * 1000)
+    Period.YEAR -> DateTimeUtil.getStartOfDatesMillisInYear(startedAtSec * 1000)
     Period.DECADE -> DateTimeUtil.getStartOfDatesMillisInDecade(startedAtSec * 1000)
 }.map { it / 1000 }

@@ -35,7 +35,7 @@ class SplashViewModel(
 
     internal val prepareDataLiveData = CompositeLiveData<Boolean>()
 
-    internal val checkDataReadyLiveData = CompositeLiveData<Boolean>()
+    internal val checkDataReadyLiveData = CompositeLiveData<Pair<Boolean, Boolean>>()
 
     fun getAccountInfo() {
         getAccountInfoLiveData.add(
@@ -94,7 +94,8 @@ class SplashViewModel(
         }
 
     fun checkDataReady() {
-        checkDataReadyLiveData.add(rxLiveDataTransformer.single(appRepo.checkDataReady().flatMap { ready ->
+
+        val checkDataReadyStream = appRepo.checkDataReady().flatMap { ready ->
             if (ready) {
                 Single.just(ready)
             } else {
@@ -106,7 +107,20 @@ class SplashViewModel(
                     }
                 }
             }
-        }))
+        }
+
+        val checkCategoryReadyStream = accountRepo.checkAdsPrefCategoryReady()
+
+        checkDataReadyLiveData.add(
+            rxLiveDataTransformer.single(
+                Single.zip(
+                    checkDataReadyStream,
+                    checkCategoryReadyStream,
+                    BiFunction<Boolean, Boolean, Pair<Boolean, Boolean>> { dataReady, categoryReady ->
+                        Pair(dataReady, categoryReady)
+                    })
+            )
+        )
     }
 
 }

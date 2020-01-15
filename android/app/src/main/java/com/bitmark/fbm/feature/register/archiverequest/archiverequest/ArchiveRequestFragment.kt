@@ -14,9 +14,10 @@ import android.util.Log
 import android.view.View
 import android.webkit.*
 import androidx.lifecycle.Observer
-import com.bitmark.apiservice.utils.callback.Callback1
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.ext.fromJson
 import com.bitmark.fbm.data.ext.isServiceUnsupportedError
+import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.model.*
 import com.bitmark.fbm.data.source.remote.api.error.UnknownException
 import com.bitmark.fbm.feature.BaseSupportFragment
@@ -25,6 +26,7 @@ import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.connectivity.ConnectivityHandler
+import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.notification.buildSimpleNotificationBundle
 import com.bitmark.fbm.feature.notification.cancelNotification
 import com.bitmark.fbm.feature.notification.pushDailyRepeatingNotification
@@ -34,7 +36,6 @@ import com.bitmark.fbm.logging.Event
 import com.bitmark.fbm.logging.EventLogger
 import com.bitmark.fbm.logging.Tracer
 import com.bitmark.fbm.util.DateTimeUtil
-import com.bitmark.fbm.util.callback.Action0
 import com.bitmark.fbm.util.callback.Action1
 import com.bitmark.fbm.util.ext.*
 import com.bitmark.sdk.authentication.KeyAuthenticationSpec
@@ -44,7 +45,6 @@ import kotlinx.android.synthetic.main.fragment_archive_request.*
 import java.net.URL
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
-import java.util.concurrent.atomic.AtomicInteger
 import javax.inject.Inject
 
 class ArchiveRequestFragment : BaseSupportFragment() {
@@ -59,6 +59,8 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
         private const val ARCHIVE_REQUESTED_AT = "archive_requested_at"
 
+        private const val ACCOUNT_REGISTERED = "account_registered"
+
         private const val NOTIFICATION_ID = 0xA1
 
         private const val MAX_RELOAD_COUNT = 5
@@ -71,15 +73,19 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             ),
             Page.Name.SAVE_DEVICE to listOf(Page.Name.NEW_FEED),
             Page.Name.NEW_FEED to listOf(Page.Name.SETTINGS),
-            Page.Name.SETTINGS to listOf(Page.Name.ARCHIVE)
+            Page.Name.SETTINGS to listOf(Page.Name.ARCHIVE, Page.Name.ADS_PREF),
+            Page.Name.ADS_PREF to listOf(Page.Name.DEMOGRAPHIC),
+            Page.Name.DEMOGRAPHIC to listOf(Page.Name.BEHAVIORS)
         )
 
         fun newInstance(
-            requestedAt: Long = -1L
+            requestedAt: Long = -1L,
+            accountRegistered: Boolean = false
         ): ArchiveRequestFragment {
             val fragment = ArchiveRequestFragment()
             val bundle = Bundle()
             bundle.putLong(ARCHIVE_REQUESTED_AT, requestedAt)
+            bundle.putBoolean(ACCOUNT_REGISTERED, accountRegistered)
             fragment.arguments = bundle
             return fragment
         }
@@ -130,6 +136,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         archiveRequestedAt = arguments?.getLong(ARCHIVE_REQUESTED_AT) ?: -1L
+        registered = arguments?.getBoolean(ACCOUNT_REGISTERED) ?: false
 
         viewModel.prepareData()
     }
@@ -160,7 +167,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             override fun onProgressChanged(view: WebView?, newProgress: Int) {
                 super.onProgressChanged(view, newProgress)
                 if (newProgress >= 100) {
-                    handlePageLoaded(view!!, script)
+                    if (lastUrl == wv.url) return
+                    lastUrl = wv.url
+                    handlePageLoaded(wv, script, registered)
                 }
             }
         }
@@ -195,123 +204,24 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
         wv.loadUrl(url)
 
-        if (needAutomate()) {
-            showAutomatingState()
-        }
+        showAutomatingState()
     }
 
-    private fun handlePageLoaded(wv: WebView, script: AutomationScriptData) {
-        // workaround to avoid callback called multi times with the same url
-        if (lastUrl == wv.url) return
+    private fun handlePageLoaded(wv: WebView, script: AutomationScriptData, registered: Boolean) {
+        wv.detectPage(script.pages, tag = TAG, logger = logger) { name ->
 
-        lastUrl = wv.url
-        detectPage(wv, script) { name ->
             val unexpectedPageDetected = expectedPage != null && !expectedPage!!.contains(name)
             if (unexpectedPageDetected) {
                 handleUnexpectedPageDetected(wv)
             } else {
-                if (needAutomate()) {
-                    showAutomatingState()
-                }
+                showAutomatingState()
                 reloadCount = 0 // reset after detect expected page
                 expectedPage = EXPECTED_PAGES[name]
-                when (name) {
-                    Page.Name.LOGIN -> {
-                        startCheckLoginFailedLooper(wv, script)
-                        if (needAutomate()) {
-                            wv.evaluateJs(
-                                script.getLoginScript(fbCredential!!.id, fbCredential!!.password)
-                                    ?: return@detectPage
-                            )
-                        }
-                    }
-                    Page.Name.ACCOUNT_PICKING -> {
-                        // do nothing now
-                    }
-                    Page.Name.SAVE_DEVICE -> {
-                        if (needAutomate()) {
-                            wv.evaluateJs(script.getSaveDeviceOkScript())
-                        } else {
-                            // TODO show instruction
-                        }
-                    }
-                    Page.Name.NEW_FEED -> {
-                        // permanently save cookies for next session
-                        CookieManager.getInstance().flush()
-                        if (needAutomate()) {
-                            wv.evaluateJs(script.getNewFeedGoToSettingPageScript())
-                        } else {
-                            // TODO show instruction
-                        }
-                    }
-                    Page.Name.SETTINGS -> {
-                        if (needAutomate()) {
-                            wv.evaluateJs(script.getSettingGoToArchivePageScript())
-                        } else {
-                            // TODO show instruction
-                        }
-                    }
-                    Page.Name.ARCHIVE -> {
-                        when {
-                            isArchiveRequested() -> {
-                                wv.evaluateVerificationJs(
-                                    script.getArchiveCreatingFileScript()!!,
-                                    callback = { processing ->
-                                        if (processing) {
-                                            if (context == null) return@evaluateVerificationJs
-                                            val msg =
-                                                "${getString(R.string.sorry_fb_is_still_prepare)}\n\n${getString(
-                                                    R.string.you_requested_your_fb_archive_format
-                                                ).format(
-                                                    DateTimeUtil.millisToString(
-                                                        archiveRequestedAt,
-                                                        DateTimeUtil.DATE_FORMAT_3,
-                                                        DateTimeUtil.defaultTimeZone()
-                                                    ),
-                                                    DateTimeUtil.millisToString(
-                                                        archiveRequestedAt,
-                                                        DateTimeUtil.TIME_FORMAT_1,
-                                                        DateTimeUtil.defaultTimeZone()
-                                                    )
-                                                )}"
-                                            val bundle =
-                                                DataProcessingActivity.getBundle(
-                                                    getString(R.string.still_waiting),
-                                                    msg
-                                                )
-                                            navigator.anim(RIGHT_LEFT)
-                                                .startActivityAsRoot(
-                                                    DataProcessingActivity::class.java,
-                                                    bundle
-                                                )
 
-                                        } else {
-                                            if (context != null) {
-                                                cancelNotification(context!!, NOTIFICATION_ID)
-                                            }
-                                            automateArchiveDownload(wv, script)
-                                        }
-                                    })
-                            }
-                            hasCredential() -> automateArchiveRequest(wv, script)
-                            else -> {
-                                checkArchiveIsCreating(wv, script)
-                            }
-                        }
-                    }
-                    Page.Name.RE_AUTH -> {
-                        if (needAutomate()) {
-                            wv.evaluateJs(script.getReAuthScript(fbCredential!!.password))
-                        } else {
-                            // TODO show instruction
-                        }
-                    }
-                    Page.Name.UNKNOWN -> {
-                        // could not detect the current page
-                        if (needAutomate()) {
-                            showHelpRequiredState()
-                        }
-                    }
+                if (registered) {
+                    automateCategoriesFetching(wv, name, script)
+                } else {
+                    automateAccountRegister(wv, name, script)
                 }
             }
 
@@ -320,7 +230,115 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                 checkLoginFailedLooperStopped = true
             }
         }
+    }
 
+    private fun automateCategoriesFetching(
+        wv: WebView,
+        pageName: Page.Name,
+        script: AutomationScriptData
+    ) {
+
+
+        when (pageName) {
+            Page.Name.LOGIN -> {
+                startCheckLoginFailedLooper(wv, script)
+                wv.evaluateJs(
+                    script.getLoginScript(fbCredential!!.id, fbCredential!!.password)
+                        ?: return
+                )
+            }
+            Page.Name.SAVE_DEVICE -> {
+                wv.evaluateJs(script.getSaveDeviceOkScript())
+            }
+            Page.Name.NEW_FEED -> {
+                wv.evaluateJs(script.getNewFeedGoToSettingPageScript())
+            }
+            Page.Name.SETTINGS -> {
+                wv.evaluateJs(script.getSettingGoToAdsPrefScript())
+            }
+            Page.Name.ADS_PREF -> {
+                wv.evaluateJs(script.getAdsPrefGoToYourInfoPageScript())
+            }
+            Page.Name.DEMOGRAPHIC -> {
+                wv.evaluateJs(script.getDemoGraphGoToBehaviorsPageScript())
+            }
+            Page.Name.BEHAVIORS -> {
+                handler.postDelayed({
+                    wv.evaluateJavascript(script.getBehaviorFetchCategoriesScript()) { value ->
+                        val categories = newGsonInstance().fromJson<List<String>>(value)
+                        viewModel.saveFbAdsPrefCategories(categories)
+                    }
+                }, 1000)
+            }
+            else -> {
+                Tracer.DEBUG.log(
+                    TAG,
+                    "automateCategoriesFetching, unexpected page is $pageName"
+                )
+                showHelpRequiredState()
+            }
+        }
+    }
+
+    private fun automateAccountRegister(
+        wv: WebView,
+        pageName: Page.Name,
+        script: AutomationScriptData
+    ) {
+        when (pageName) {
+            Page.Name.LOGIN -> {
+                startCheckLoginFailedLooper(wv, script)
+                wv.evaluateJs(
+                    script.getLoginScript(fbCredential!!.id, fbCredential!!.password)
+                        ?: return
+                )
+            }
+            Page.Name.SAVE_DEVICE -> {
+                wv.evaluateJs(script.getSaveDeviceOkScript())
+            }
+            Page.Name.NEW_FEED -> {
+                // permanently save cookies for next session
+                CookieManager.getInstance().flush()
+                wv.evaluateJs(script.getNewFeedGoToSettingPageScript())
+            }
+            Page.Name.SETTINGS -> {
+                wv.evaluateJs(script.getSettingGoToArchivePageScript())
+            }
+            Page.Name.ARCHIVE -> {
+                when {
+                    isArchiveRequested() -> {
+                        wv.evaluateVerificationJs(
+                            script.getArchiveCreatingFileScript()!!,
+                            callback = { processing ->
+                                if (processing) {
+                                    if (context == null) return@evaluateVerificationJs
+                                    goToStillWaiting(archiveRequestedAt)
+                                } else {
+                                    if (context != null) {
+                                        cancelNotification(context!!, NOTIFICATION_ID)
+                                    }
+                                    automateArchiveDownload(wv, script)
+                                }
+                            })
+                    }
+                    hasCredential() -> automateArchiveRequest(wv, script)
+                    else -> {
+                        checkArchiveIsCreating(wv, script)
+                    }
+                }
+            }
+            Page.Name.RE_AUTH -> {
+                wv.evaluateJs(script.getReAuthScript(fbCredential!!.password))
+            }
+
+            else -> {
+                Tracer.DEBUG.log(
+                    TAG,
+                    "automateCategoriesFetching, unexpected page is $pageName"
+                )
+                showHelpRequiredState()
+            }
+        }
     }
 
     private fun startCheckLoginFailedLooper(wv: WebView, script: AutomationScriptData) {
@@ -343,17 +361,17 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     }
 
     private fun handleUnexpectedPageDetected(wv: WebView) {
-        // only automate if has fb credential or archive is already requested
-        if (!needAutomate()) return
 
         // reload webview if detect the same page as previous one or unexpected page
         // it helps to refresh the JS context to corresponding latest page, avoid using the old one
         val reload = fun(wv: WebView) {
             if (reloadCount >= MAX_RELOAD_COUNT) {
                 // got stuck here and could not continue automating
-                if (needAutomate()) {
-                    showHelpRequiredState()
-                }
+                Tracer.ERROR.log(
+                    TAG,
+                    "showHelpRequiredState since reloadCount >= MAX_RELOAD_COUNT"
+                )
+                showHelpRequiredState()
             } else {
                 Log.d(TAG, "Reload: ${wv.url}")
                 lastUrl = "" // reset to pass through after reloading
@@ -362,7 +380,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             }
         }
 
-        reload(wv)
+        handler.postDelayed({ reload(wv) }, 500)
     }
 
     private fun showLoginFailedPopup() {
@@ -388,65 +406,9 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         layoutState.background = bgColor
         layoutRoot.background = bgColor
         tvMsg.setText(R.string.your_help_is_required)
+        tvMsg.visible()
         viewCover.gone()
         tvAutomating.gone()
-    }
-
-    private fun detectPage(
-        wv: WebView,
-        script: AutomationScriptData,
-        callback: (Page.Name) -> Unit
-    ) {
-        var detectedPage = ""
-        val evaluated = AtomicInteger(0)
-        val pages = script.pages
-        val timeout = 15000 // 15 sec
-
-        val evaluateJs = fun(p: Page, onDone: () -> Unit) {
-            wv.evaluateVerificationJs(p.detection) { detected ->
-                evaluated.incrementAndGet()
-                if (detected) {
-                    detectedPage = p.name.value
-                } else {
-                    // error go here
-                    Tracer.DEBUG.log(TAG, "evaluateJavascript: ${p.detection}, result: $detected")
-                }
-                onDone()
-            }
-        }
-
-        val execute = fun(onDone: Action0) {
-            evaluated.set(0)
-            for (page in pages) {
-                evaluateJs(page) {
-                    if (evaluated.get() == pages.size) {
-                        onDone.invoke()
-                    }
-                }
-            }
-        }
-
-        val startTime = System.currentTimeMillis()
-        execute(object : Action0 {
-            override fun invoke() {
-                if (detectedPage == "" && System.currentTimeMillis() - startTime < timeout) {
-                    handler.postDelayed({ execute(this) }, 500)
-                } else {
-                    if (detectedPage == "") {
-                        // could not detect the page
-                        // log event with all breadcrumbs
-                        Tracer.ERROR.log(TAG, "could not detect the current page")
-                        logger.logError(
-                            Event.ARCHIVE_REQUEST_AUTOMATE_PAGE_DETECTION_ERROR,
-                            "could not detect the current page"
-                        )
-                        callback(Page.Name.UNKNOWN)
-                    }
-                    Tracer.DEBUG.log(TAG, "detected the current page: $detectedPage")
-                    callback(Page.Name.fromString(detectedPage))
-                }
-            }
-        })
     }
 
     private fun automateArchiveRequest(
@@ -486,21 +448,26 @@ class ArchiveRequestFragment : BaseSupportFragment() {
 
     private fun isArchiveRequested() = archiveRequestedAt != -1L
 
-    private fun needAutomate() = hasCredential() || isArchiveRequested()
-
     private fun registerAccount(
+        credentialId: String,
         downloadArchiveCredential: DownloadArchiveCredential,
         accountData: AccountData
     ) {
         val registered = accountData.isValid()
         if (registered) {
             loadAccount(accountData) { account ->
-                registerAccount(account, accountData.keyAlias, downloadArchiveCredential, true)
+                registerAccount(
+                    account,
+                    accountData.keyAlias,
+                    credentialId,
+                    downloadArchiveCredential,
+                    true
+                )
             }
         } else {
             val account = Account()
             saveAccount(account) { alias ->
-                registerAccount(account, alias, downloadArchiveCredential, false)
+                registerAccount(account, alias, credentialId, downloadArchiveCredential, false)
             }
         }
     }
@@ -508,14 +475,16 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     private fun registerAccount(
         account: Account,
         keyAlias: String,
-        credential: DownloadArchiveCredential,
+        credentialId: String,
+        downloadArchiveCredential: DownloadArchiveCredential,
         registered: Boolean
     ) {
         viewModel.registerAccount(
             account,
-            credential.url,
-            credential.cookie,
+            downloadArchiveCredential.url,
+            downloadArchiveCredential.cookie,
             keyAlias,
+            credentialId,
             registered
         )
     }
@@ -570,17 +539,16 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                     OneSignal.setSubscription(true)
                     registered = true
                     progressBar.gone()
-                    val bundle =
-                        DataProcessingActivity.getBundle(
-                            getString(R.string.analyzing_data),
-                            getString(R.string.your_fb_data_archive_has_been_successfully)
-                        )
-                    navigator.anim(RIGHT_LEFT)
-                        .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
                     blocked = false
+                    // reload to automate category fetching
+                    wv.loadUrl(FB_ENDPOINT)
+
+                    // expected page now is either LOGIN (if session is expired) or NEWFEED otherwise
+                    expectedPage = listOf(Page.Name.LOGIN, Page.Name.NEW_FEED)
                 }
 
                 res.isError() -> {
+                    wv.setDownloadListener(null)
                     progressBar.gone()
                     logger.logError(
                         Event.ARCHIVE_REQUEST_REGISTER_ACCOUNT_ERROR,
@@ -607,6 +575,36 @@ class ArchiveRequestFragment : BaseSupportFragment() {
             }
         })
 
+        viewModel.saveFbAdsPrefCategoriesLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    viewModel.checkDataReady()
+                }
+
+                res.isError() -> {
+                    logger.logSharedPrefError(res.throwable(), "save fb ads pref categories error")
+                    viewModel.checkDataReady()
+                }
+            }
+        })
+
+        viewModel.checkDataReadyLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val ready = res.data()!!
+                    if (ready) {
+                        viewModel.getExistingAccountData()
+                    } else {
+                        goToAnalyzing()
+                    }
+                }
+
+                res.isError() -> {
+                    logger.logSharedPrefError(res.throwable(), "save fb ads pref categories error")
+                }
+            }
+        })
+
         viewModel.prepareDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
@@ -618,22 +616,18 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                         CredentialData.load(
                             activity!!,
                             executor,
-                            object : Callback1<CredentialData> {
-                                override fun onSuccess(credential: CredentialData?) {
-                                    fbCredential = credential!!
-                                    loadPage(wv, FB_ENDPOINT, script)
+                            { credential ->
+                                fbCredential = credential
+                                loadPage(wv, FB_ENDPOINT, script)
+                            },
+                            { throwable ->
+                                logger.logError(
+                                    Event.ACCOUNT_LOAD_FB_CREDENTIAL_ERROR,
+                                    throwable ?: UnknownException()
+                                )
+                                dialogController.unexpectedAlert {
+                                    finish()
                                 }
-
-                                override fun onError(throwable: Throwable?) {
-                                    logger.logError(
-                                        Event.ACCOUNT_LOAD_FB_CREDENTIAL_ERROR,
-                                        throwable ?: UnknownException()
-                                    )
-                                    dialogController.unexpectedAlert {
-                                        finish()
-                                    }
-                                }
-
                             })
                     } else {
                         loadPage(wv, FB_ENDPOINT, script)
@@ -689,24 +683,7 @@ class ArchiveRequestFragment : BaseSupportFragment() {
                         scheduleNotification()
                     }
 
-                    val msg =
-                        "${getString(R.string.we_are_waiting_for_fb_2)}\n\n${getString(R.string.you_requested_your_fb_archive_format)
-                            .format(
-                                DateTimeUtil.millisToString(
-                                    archiveRequestedAt,
-                                    DateTimeUtil.DATE_FORMAT_3,
-                                    DateTimeUtil.defaultTimeZone()
-                                ),
-                                DateTimeUtil.millisToString(
-                                    archiveRequestedAt,
-                                    DateTimeUtil.TIME_FORMAT_1,
-                                    DateTimeUtil.defaultTimeZone()
-                                )
-                            )}"
-                    val bundle =
-                        DataProcessingActivity.getBundle(getString(R.string.data_requested), msg)
-                    navigator.anim(RIGHT_LEFT)
-                        .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
+                    goToArchiveRequested()
                 }
 
                 res.isError() -> {
@@ -719,9 +696,12 @@ class ArchiveRequestFragment : BaseSupportFragment() {
         viewModel.getExistingAccountDataLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    val account = res.data()!!
-                    if (registered) return@Observer
-                    registerAccount(downloadArchiveCredential, account)
+                    val accountData = res.data()!!
+                    if (registered) {
+                        navigator.anim(RIGHT_LEFT).startActivityAsRoot(MainActivity::class.java)
+                    } else {
+                        registerAccount(fbCredential!!.id, downloadArchiveCredential, accountData)
+                    }
                 }
 
                 res.isError() -> {
@@ -733,6 +713,65 @@ class ArchiveRequestFragment : BaseSupportFragment() {
     }
 
     private fun finish() = navigator.anim(RIGHT_LEFT).popFragment()
+
+    private fun goToAnalyzing() {
+        val bundle =
+            DataProcessingActivity.getBundle(
+                getString(R.string.processing_data),
+                getString(R.string.your_fb_data_archive_has_been_successfully)
+            )
+        navigator.anim(RIGHT_LEFT)
+            .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
+    }
+
+    private fun goToStillWaiting(archiveRequestedAt: Long) {
+        val msg =
+            "${getString(R.string.sorry_fb_is_still_prepare)}\n\n${getString(
+                R.string.you_requested_your_fb_archive_format
+            ).format(
+                DateTimeUtil.millisToString(
+                    archiveRequestedAt,
+                    DateTimeUtil.DATE_FORMAT_3,
+                    DateTimeUtil.defaultTimeZone()
+                ),
+                DateTimeUtil.millisToString(
+                    archiveRequestedAt,
+                    DateTimeUtil.TIME_FORMAT_1,
+                    DateTimeUtil.defaultTimeZone()
+                )
+            )}"
+        val bundle =
+            DataProcessingActivity.getBundle(
+                getString(R.string.still_waiting),
+                msg
+            )
+        navigator.anim(RIGHT_LEFT)
+            .startActivityAsRoot(
+                DataProcessingActivity::class.java,
+                bundle
+            )
+    }
+
+    private fun goToArchiveRequested() {
+        val msg =
+            "${getString(R.string.we_are_waiting_for_fb_2)}\n\n${getString(R.string.you_requested_your_fb_archive_format)
+                .format(
+                    DateTimeUtil.millisToString(
+                        archiveRequestedAt,
+                        DateTimeUtil.DATE_FORMAT_3,
+                        DateTimeUtil.defaultTimeZone()
+                    ),
+                    DateTimeUtil.millisToString(
+                        archiveRequestedAt,
+                        DateTimeUtil.TIME_FORMAT_1,
+                        DateTimeUtil.defaultTimeZone()
+                    )
+                )}"
+        val bundle =
+            DataProcessingActivity.getBundle(getString(R.string.data_requested), msg)
+        navigator.anim(RIGHT_LEFT)
+            .startActivityAsRoot(DataProcessingActivity::class.java, bundle)
+    }
 
     private fun scheduleNotification() {
         if (context == null) return

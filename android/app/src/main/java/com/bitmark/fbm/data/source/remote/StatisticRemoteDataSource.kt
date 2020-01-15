@@ -6,7 +6,6 @@
  */
 package com.bitmark.fbm.data.source.remote
 
-import android.content.Context
 import com.bitmark.fbm.data.model.entity.Period
 import com.bitmark.fbm.data.model.entity.value
 import com.bitmark.fbm.data.source.remote.api.converter.Converter
@@ -17,20 +16,16 @@ import javax.inject.Inject
 
 
 class StatisticRemoteDataSource @Inject constructor(
-    private val context: Context, // TODO remove later
     fbmApi: FbmApi,
     converter: Converter,
     rxErrorHandlingComposer: RxErrorHandlingComposer
 ) : RemoteDataSource(fbmApi, converter, rxErrorHandlingComposer) {
 
-    fun listUsage(period: Period, periodStartedAtSec: Long) =
+    fun listUsageStatistic(period: Period, periodStartedAtSec: Long) =
         fbmApi.listUsage(period.value, periodStartedAtSec).map { res -> res["result"] }.subscribeOn(
             Schedulers.io()
         )
 
-    fun listInsights(period: Period, periodStartedAtSec: Long) =
-        fbmApi.listInsight(
-            period.value,
-            periodStartedAtSec
-        ).map { res -> res["result"] }.subscribeOn(Schedulers.io())
+    fun getInsightData() =
+        fbmApi.getInsight().map { res -> res["result"] }.subscribeOn(Schedulers.io())
 }

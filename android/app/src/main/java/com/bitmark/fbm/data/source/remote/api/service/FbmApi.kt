@@ -14,6 +14,7 @@ import com.bitmark.fbm.data.source.remote.api.request.ArchiveRequestPayload
 import com.bitmark.fbm.data.source.remote.api.request.RegisterJwtRequest
 import io.reactivex.Completable
 import io.reactivex.Single
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -45,11 +46,8 @@ interface FbmApi {
         startedAt: Long
     ): Single<Map<String, List<SectionR>>>
 
-    @GET("api/insight/{period}")
-    fun listInsight(
-        @Path("period") period: String, @Query("started_at")
-        startedAt: Long
-    ): Single<Map<String, List<SectionR>>>
+    @GET("api/insight")
+    fun getInsight(): Single<Map<String, InsightData>>
 
     @GET("api/posts")
     fun listPost(
@@ -68,4 +66,7 @@ interface FbmApi {
 
     @GET("api/accounts/me")
     fun getAccountInfo(): Single<Map<String, AccountData>>
+
+    @PATCH("api/accounts/me")
+    fun updateMetadata(@Body body: RequestBody): Single<Map<String, AccountData>>
 }

@@ -90,7 +90,7 @@ enum AppError: Error {
     case incorrectPostFilter
     case incorrectReactionFilter
     case requireAppUpdate(updateURL: URL)
-    case fbArchivePageIsNotReady
+    case fbRequiredPageIsNotReady
     case loginFailedIsNotDetected
     case incorrectEmptyRealmObject
     case biometricNotConfigured
@@ -124,6 +124,11 @@ extension UserDefaults {
 
     var enteredBackgroundTime: Date? {
         get { return date(forKey: #function) }
+        set { set(newValue, forKey: #function) }
+    }
+
+    var fbCategoriesInfo: [Any]? {
+        get { return array(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
 

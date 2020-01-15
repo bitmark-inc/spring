@@ -40,7 +40,8 @@ class UsageViewController: ViewController {
     lazy var usageView = UIView()
     lazy var headingView = makeHeadingView()
     lazy var timelineView = makeTimelineView()
-    lazy var badgeView = makeBadgeView()
+    lazy var moodHeadingView = makeSectionHeadingView(section: .mood)
+    lazy var moodView = makeMoodView()
     lazy var postsHeadingView = makeSectionHeadingView(section: .post)
     lazy var postsFilterTypeView = makeFilterTypeView(section: .post)
     lazy var postsFilterDayView = makeFilterDayView(section: .post)
@@ -54,6 +55,12 @@ class UsageViewController: ViewController {
     lazy var reactionsFilterFriendView = makeFilterGeneralView(section: .reaction, groupBy:
         .friend)
 
+    // SECTION: Mood
+    lazy var moodObservable: Observable<Usage> = {
+        thisViewModel.realmMoodRelay.filterNil()
+            .flatMap { Observable.from(object: $0) }
+    }()
+
     // SECTION: Post
     lazy var postUsageObservable: Observable<Usage> = {
         thisViewModel.realmPostUsageRelay.filterNil()
@@ -63,7 +70,7 @@ class UsageViewController: ViewController {
     lazy var groupsPostUsageObservable: Observable<Groups> = {
         postUsageObservable
             .map { $0.groups }
-            .map { try GroupsConverter(from: $0).value }
+            .map { try Converter<Groups>(from: $0).value }
     }()
 
     // SECTION: Reaction
@@ -75,7 +82,7 @@ class UsageViewController: ViewController {
     lazy var groupsReactionUsageObservable: Observable<Groups> = {
         reactionUsageObservable
             .map { $0.groups }
-            .map { try GroupsConverter(from: $0).value }
+            .map { try Converter<Groups>(from: $0).value }
     }()
 
     var segmentDistances: [TimeUnit: Int] = [
@@ -145,7 +152,8 @@ class UsageViewController: ViewController {
         usageView.flex.define { (flex) in
             flex.addItem(headingView)
             flex.addItem(timelineView)
-            flex.addItem(badgeView)
+            flex.addItem(moodHeadingView)
+            flex.addItem(moodView)
             flex.addItem(postsHeadingView)
             flex.addItem(postsFilterTypeView)
             flex.addItem(postsFilterDayView)
@@ -182,16 +190,17 @@ extension UsageViewController {
         return timeFilterView
     }
 
-    fileprivate func makeBadgeView() -> UsageBadgeView {
-        let badgeView = UsageBadgeView()
-        badgeView.setProperties(container: self)
-        return badgeView
-    }
-
     fileprivate func makeSectionHeadingView(section: Section) -> SectionHeadingView {
         let sectionHeadingView = SectionHeadingView()
         sectionHeadingView.setProperties(section: section, container: self)
         return sectionHeadingView
+    }
+
+    fileprivate func makeMoodView() -> MoodView {
+        let moodView = MoodView()
+        moodView.containerLayoutDelegate = self
+        moodView.setProperties(section: .mood, container: self)
+        return moodView
     }
 
     fileprivate func makeFilterTypeView(section: Section) -> FilterTypeView {

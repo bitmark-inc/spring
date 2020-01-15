@@ -20,6 +20,16 @@ import javax.inject.Inject
 
 class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
 
+    companion object {
+        private const val ACCOUNT_REGISTERED = "account_registered"
+
+        fun getBundle(accountRegistered: Boolean = false): Bundle {
+            val bundle = Bundle()
+            bundle.putBoolean(ACCOUNT_REGISTERED, accountRegistered)
+            return bundle
+        }
+    }
+
     @Inject
     internal lateinit var navigator: Navigator
 
@@ -32,12 +42,17 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
     @Inject
     internal lateinit var dialogController: DialogController
 
+    private var accountRegistered = false
+
     override fun layoutRes(): Int = R.layout.activity_archive_request_container
 
     override fun viewModel(): BaseViewModel? = viewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        accountRegistered = intent?.extras?.getBoolean(ACCOUNT_REGISTERED) ?: false
+
         viewModel.getArchiveRequestedAt()
     }
 
@@ -62,16 +77,17 @@ class ArchiveRequestContainerActivity : BaseAppCompatActivity() {
                             R.id.layoutRoot,
                             if (requestedAt != -1L) {
                                 ArchiveRequestFragment.newInstance(
-                                    requestedAt = requestedAt
+                                    requestedAt = requestedAt,
+                                    accountRegistered = accountRegistered
                                 )
                             } else {
-                                ArchiveRequestCredentialFragment.newInstance()
+                                ArchiveRequestCredentialFragment.newInstance(accountRegistered)
                             },
                             false
                         )
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     logger.logSharedPrefError(res.throwable(), "could not get archive requested at")
                     dialogController.unexpectedAlert { navigator.anim(RIGHT_LEFT).finishActivity() }
                 }

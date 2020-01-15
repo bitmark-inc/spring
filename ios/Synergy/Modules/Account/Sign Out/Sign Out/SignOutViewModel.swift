@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import Intercom
+import WebKit
 
 class SignOutViewModel: ConfirmRecoveryKeyViewModel {
 
@@ -31,10 +32,23 @@ class SignOutViewModel: ConfirmRecoveryKeyViewModel {
             }
 
             try KeychainStore.removeSeedCoreFromKeychain()
+            try KeychainStore.removeFBCredential()
 
             // clear user data
             try FileManager.default.removeItem(at: FileManager.filesDocumentDirectoryURL)
             try RealmConfig.removeRealm(of: account.getAccountNumber())
+
+            // clear user cookie in webview
+            HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
+
+            WKWebsiteDataStore.default().fetchDataRecords(ofTypes: WKWebsiteDataStore.allWebsiteDataTypes()) { (records) in
+                records.forEach { (record) in
+                    WKWebsiteDataStore.default().removeData(ofTypes: record.dataTypes, for: [record], completionHandler: {})
+                }
+            }
+
+            // clear settings bundle
+            SettingsBundle.setAccountNumber(accountNumber: nil)
 
             Global.current = Global() // reset local variable
             AuthService.shared = AuthService()

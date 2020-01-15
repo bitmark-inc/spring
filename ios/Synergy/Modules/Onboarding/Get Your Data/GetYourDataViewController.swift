@@ -37,9 +37,30 @@ class GetYourDataViewController: ViewController, BackNavigator {
 
         automateAuthorizeButton.rx.tap.bind { [weak self] in
             _ = connectedToInternet()
-                .subscribe(onCompleted: { [weak self] in
+                .andThen(viewModel.isValidFBCredential())
+                .subscribe(onSuccess: { [weak self] (isValid) in
+                    guard let self = self else { return }
+                    guard isValid else {
+                        self.showErrorAlert(
+                            title: R.string.error.fbCredentialIncorrectTitle(),
+                            message: R.string.error.fbCredentialIncorrectDescription(),
+                            buttonTitle: R.string.localizable.tryAgain())
+                        return
+                    }
+
                     viewModel.saveFBCredentialToKeychain()
-                    self?.gotoRequestData()
+                    self.gotoRequestData()
+
+                }, onError: { [weak self] (error) in
+                    guard let self = self,
+                        !AppError.errorByNetworkConnection(error),
+                        !self.showIfRequireUpdateVersion(with: error)
+                    else {
+                        return
+                    }
+
+                    Global.log.error(error)
+                    self.showErrorAlertWithSupport(message: R.string.error.system())
                 })
         }.disposed(by: disposeBag)
 
@@ -120,7 +141,7 @@ extension GetYourDataViewController {
         let requestDataViewModel = RequestDataViewModel(
             login: viewModel.loginRelay.value,
             password: viewModel.passwordRelay.value,
-            .requestData)
+            missions: viewModel.missions)
         navigator.show(segue: .requestData(viewModel: requestDataViewModel), sender: self)
     }
 
@@ -134,7 +155,13 @@ extension GetYourDataViewController {
     fileprivate func makeLoginTextField() -> TextField {
         let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
         textfield.textContentType = .username
-        textfield.set(placeholder: R.string.phrase.getYourDataLoginPlaceholder())
+        textfield.attributedPlaceholder = NSAttributedString(
+            string: R.string.phrase.getYourDataLoginPlaceholder(),
+            attributes: [
+                .font: R.font.ibmPlexMono(size: 18)!,
+                .foregroundColor: themeService.attrs.textFieldPlaceholderColor
+        ])
+        textfield.font = R.font.ibmPlexMonoMedium(size: 18)
         textfield.autocapitalizationType = .none
         textfield.returnKeyType = .done
         return textfield
@@ -142,7 +169,13 @@ extension GetYourDataViewController {
 
     fileprivate func makePasswordTextField() -> TextField {
         let textfield = TextFieldWithRightIcon(rightIcon: R.image.lock())
-        textfield.set(placeholder: R.string.phrase.getYourDataPasswordPlaceholder())
+        textfield.attributedPlaceholder = NSAttributedString(
+            string: R.string.phrase.getYourDataPasswordPlaceholder(),
+            attributes: [
+                .font: R.font.ibmPlexMono(size: 18)!,
+                .foregroundColor: themeService.attrs.textFieldPlaceholderColor
+        ])
+        textfield.font = R.font.ibmPlexMonoMedium(size: 18)
         textfield.textContentType = .password
         textfield.isSecureTextEntry = true
         textfield.returnKeyType = .done

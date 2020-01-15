@@ -13,6 +13,7 @@ import Moya
 let errorKeyPath = "error"
 
 enum APIErrorCode: Int, Decodable {
+    case AccountHasTaken            = 1003
     case AccountNotFound            = 1006
     case RequireUpdateVersion       = 1007
     case UnexpectedResponseFormat   = 500

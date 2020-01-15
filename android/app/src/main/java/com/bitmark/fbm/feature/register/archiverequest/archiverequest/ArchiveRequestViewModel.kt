@@ -10,8 +10,7 @@ import androidx.lifecycle.Lifecycle
 import com.bitmark.cryptography.crypto.Sha3256
 import com.bitmark.cryptography.crypto.encoder.Hex.HEX
 import com.bitmark.cryptography.crypto.encoder.Raw.RAW
-import com.bitmark.fbm.data.model.AccountData
-import com.bitmark.fbm.data.model.AutomationScriptData
+import com.bitmark.fbm.data.model.*
 import com.bitmark.fbm.data.source.AccountRepository
 import com.bitmark.fbm.data.source.AppRepository
 import com.bitmark.fbm.feature.BaseViewModel
@@ -40,11 +39,16 @@ class ArchiveRequestViewModel(
 
     internal val getExistingAccountDataLiveData = CompositeLiveData<AccountData>()
 
+    internal val saveFbAdsPrefCategoriesLiveData = CompositeLiveData<Any>()
+
+    internal val checkDataReadyLiveData = CompositeLiveData<Boolean>()
+
     fun registerAccount(
         account: Account,
         archiveUrl: String,
         cookie: String,
         alias: String,
+        credentialId: String,
         registered: Boolean
     ) {
         registerAccountLiveData.add(
@@ -54,6 +58,7 @@ class ArchiveRequestViewModel(
                     archiveUrl,
                     cookie,
                     alias,
+                    credentialId,
                     registered
                 )
             )
@@ -65,6 +70,7 @@ class ArchiveRequestViewModel(
         archiveUrl: String,
         cookie: String,
         alias: String,
+        credentialId: String,
         registered: Boolean
     ): Completable {
 
@@ -78,6 +84,7 @@ class ArchiveRequestViewModel(
                 val requester = t.first
                 val timestamp = t.second
                 val signature = t.third
+                val credentialIdHash = CredentialData.hashId(credentialId)
                 if (registered) {
                     accountRepo.registerFbmServerJwt(timestamp, signature, requester)
                         .andThen(accountRepo.getAccountData())
@@ -87,7 +94,13 @@ class ArchiveRequestViewModel(
                         signature,
                         requester,
                         HEX.encode(account.encKeyPair.publicKey().toBytes())
-                    )
+                    ).flatMap { accountData ->
+                        accountData.authRequired = false
+                        accountData.keyAlias = alias
+                        val metadata = accountData.getMergedMetadata(credentialIdHash)
+                        accountRepo.saveAccountData(accountData)
+                            .andThen(accountRepo.updateMetadata(metadata))
+                    }
                 }
             }
 
@@ -100,7 +113,7 @@ class ArchiveRequestViewModel(
                     archiveRequestedAt
                 )
             })
-            .flatMap { p ->
+            .flatMapCompletable { p ->
                 val accountData = p.first
                 val archiveRequestedAt = p.second
                 val intercomId =
@@ -114,15 +127,8 @@ class ArchiveRequestViewModel(
                         archiveRequestedAt / 1000
                     ),
                     appRepo.registerNotificationService(accountData.id)
-                ).andThen(Single.just(accountData))
-            }.flatMapCompletable { accountData ->
-                accountData.authRequired = false
-                accountData.keyAlias = alias
-                Completable.mergeArray(
-                    accountRepo.saveAccountData(accountData),
-                    accountRepo.clearArchiveRequestedAt()
                 )
-            }
+            }.andThen(accountRepo.clearArchiveRequestedAt())
     }
 
     fun prepareData() {
@@ -157,6 +163,20 @@ class ArchiveRequestViewModel(
         getExistingAccountDataLiveData.add(
             rxLiveDataTransformer.single(accountRepo.getAccountData())
         )
+    }
+
+    fun saveFbAdsPrefCategories(categories: List<String>) {
+        saveFbAdsPrefCategoriesLiveData.add(
+            rxLiveDataTransformer.completable(
+                accountRepo.saveAdsPrefCategories(
+                    categories
+                )
+            )
+        )
+    }
+
+    fun checkDataReady() {
+        checkDataReadyLiveData.add(rxLiveDataTransformer.single(appRepo.checkDataReady()))
     }
 
 }

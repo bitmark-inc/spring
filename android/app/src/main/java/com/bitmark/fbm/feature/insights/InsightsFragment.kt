@@ -6,19 +6,24 @@
  */
 package com.bitmark.fbm.feature.insights
 
-import android.content.Context
-import android.view.View
-import android.view.ViewTreeObserver
+import android.os.Handler
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.bitmark.fbm.R
+import com.bitmark.fbm.data.ext.isServiceUnsupportedError
 import com.bitmark.fbm.feature.BaseSupportFragment
 import com.bitmark.fbm.feature.BaseViewModel
-import com.bitmark.fbm.feature.BehaviorComponent
+import com.bitmark.fbm.feature.DialogController
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.account.AccountActivity
-import com.bitmark.fbm.feature.statistic.Statistic.INSIGHTS
-import com.bitmark.fbm.feature.statistic.StatisticViewPagerAdapter
+import com.bitmark.fbm.logging.Event
+import com.bitmark.fbm.logging.EventLogger
+import com.bitmark.fbm.logging.Tracer
+import com.bitmark.fbm.util.ext.scrollToTop
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
-import com.google.android.material.tabs.TabLayout
+import com.bitmark.fbm.util.view.TopVerticalItemDecorator
 import kotlinx.android.synthetic.main.fragment_insights.*
 import javax.inject.Inject
 
@@ -26,58 +31,48 @@ import javax.inject.Inject
 class InsightsFragment : BaseSupportFragment() {
 
     companion object {
+
+        private const val TAG = "InsightsFragment"
+
         fun newInstance() = InsightsFragment()
     }
 
     @Inject
     internal lateinit var navigator: Navigator
 
-    private lateinit var adapter: StatisticViewPagerAdapter
+    @Inject
+    internal lateinit var viewModel: InsightsViewModel
 
-    private var scrollY = -1
+    @Inject
+    internal lateinit var logger: EventLogger
 
-    private val tabSelectedListener = object : TabLayout.OnTabSelectedListener {
+    @Inject
+    internal lateinit var dialogController: DialogController
 
-        override fun onTabReselected(p0: TabLayout.Tab?) {
-            (adapter.currentFragment as? BaseSupportFragment)?.refresh()
-        }
+    private lateinit var adapter: InsightsRecyclerViewAdapter
 
-        override fun onTabUnselected(p0: TabLayout.Tab?) {
-        }
-
-        override fun onTabSelected(p0: TabLayout.Tab?) {
-        }
-
-    }
+    private val handler = Handler()
 
     override fun layoutRes(): Int = R.layout.fragment_insights
 
-    override fun viewModel(): BaseViewModel? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        adapter = StatisticViewPagerAdapter(context, INSIGHTS, childFragmentManager)
-    }
+    override fun viewModel(): BaseViewModel? = viewModel
 
     override fun initComponents() {
         super.initComponents()
 
-        vpSection.adapter = adapter
-        vpSection.offscreenPageLimit = adapter.count
-        tabLayout.setupWithViewPager(vpSection)
-        tabLayout.addOnTabSelectedListener(tabSelectedListener)
+        adapter = InsightsRecyclerViewAdapter()
+        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        rvInsights.layoutManager = layoutManager
+        val dividerDrawable = context!!.getDrawable(R.drawable.double_divider_white_black_stroke)
+        val itemDecoration = TopVerticalItemDecorator(dividerDrawable)
+        rvInsights.addItemDecoration(itemDecoration)
+        (rvInsights.itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        rvInsights.isNestedScrollingEnabled = false
+        rvInsights.adapter = adapter
 
-        sv.viewTreeObserver.addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val totalHeight = sv.getChildAt(0).height
-                val scrollHeight = sv.height
-                if (scrollHeight != totalHeight) {
-                    sv.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-                if (scrollY != -1) {
-                    sv.scrollTo(0, scrollY)
-                }
+        adapter.setItemClickListener(object : InsightsRecyclerViewAdapter.ItemClickListener {
+            override fun onIncomeInfoClicked() {
+                // TODO implement later
             }
 
         })
@@ -85,34 +80,55 @@ class InsightsFragment : BaseSupportFragment() {
         ivAccount.setSafetyOnclickListener {
             navigator.anim(Navigator.RIGHT_LEFT).startActivity(AccountActivity::class.java)
         }
-
-        sv.setOnScrollChangeListener { _: View?, _: Int, scrollY: Int, _: Int, _: Int ->
-            this.scrollY = scrollY
-        }
     }
 
     override fun deinitComponents() {
-        tabLayout.removeOnTabSelectedListener(tabSelectedListener)
+        handler.removeCallbacksAndMessages(null)
         super.deinitComponents()
+    }
+
+    override fun observe() {
+        super.observe()
+
+        viewModel.listInsightLiveData.asLiveData().observe(this, Observer { res ->
+            when {
+                res.isSuccess() -> {
+                    val data = res.data() ?: return@Observer
+                    adapter.set(data)
+                }
+
+                res.isError() -> {
+                    Tracer.ERROR.log(TAG, res.throwable()?.message ?: "unknown")
+                    logger.logError(
+                        Event.INSIGHTS_LOADING_ERROR,
+                        res.throwable()?.message ?: "unknown"
+                    )
+                    if (!res.throwable()!!.isServiceUnsupportedError()) {
+                        adapter.clear()
+                        dialogController.alert(
+                            R.string.error,
+                            R.string.there_was_error_when_loading_insights
+                        )
+                    }
+                }
+
+                res.isLoading() -> {
+                }
+
+            }
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!adapter.isEmpty()) return
+        handler.postDelayed({ viewModel.listInsight() }, 200)
     }
 
     override fun refresh() {
         super.refresh()
-        if (vpSection.currentItem != StatisticViewPagerAdapter.WEEK) {
-            vpSection.currentItem = StatisticViewPagerAdapter.WEEK
-        } else {
-            (adapter.currentFragment as? BehaviorComponent)?.refresh()
-        }
-    }
-
-    override fun onBackPressed(): Boolean {
-        super.onBackPressed()
-        return if (vpSection.currentItem != StatisticViewPagerAdapter.WEEK) {
-            vpSection.currentItem = StatisticViewPagerAdapter.WEEK
-            true
-        } else {
-            false
-        }
+        sv.scrollToTop()
     }
 
 }

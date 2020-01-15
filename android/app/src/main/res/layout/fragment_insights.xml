@@ -90,46 +90,18 @@
         android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp_16"
         android:fillViewport="true"
         android:scrollbars="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvInsights"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:descendantFocusability="blocksDescendants"
-            >
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
-                android:layout_marginStart="@dimen/dp_18"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginEnd="@dimen/dp_18"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tabBackground="@color/athens_gray"
-                app:tabGravity="fill"
-                app:tabIndicatorColor="@color/black"
-                app:tabIndicatorGravity="bottom"
-                app:tabIndicatorHeight="@dimen/dp_1"
-                app:tabSelectedTextColor="@color/black"
-                app:tabTextAppearance="@style/TabLayout"
-                app:tabTextColor="@color/black"
-                />
-
-            <com.bitmark.fbm.util.view.NestedViewPager
-                android:id="@+id/vpSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/tabLayout"
-                tools:visibility="visible"
-                />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:scrollbars="vertical"
+            />
 
     </androidx.core.widget.NestedScrollView>
 

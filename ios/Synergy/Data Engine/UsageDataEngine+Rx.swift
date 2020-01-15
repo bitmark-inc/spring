@@ -29,14 +29,17 @@ extension Reactive where Base: UsageDataEngine {
 
                     let realm = try RealmConfig.currentRealm()
 
+                    let moodUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .mood).makeID()
                     let postUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .post).makeID()
                     let reactionUsageID = SectionScope(date: startDate, timeUnit: timeUnit, section: .reaction).makeID()
 
+                    let moodUsage = realm.object(ofType: Usage.self, forPrimaryKey: moodUsageID)
                     let postUsage = realm.object(ofType: Usage.self, forPrimaryKey: postUsageID)
                     let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID)
 
-                    if postUsage != nil || reactionUsage != nil {
+                    if moodUsage != nil || postUsage != nil || reactionUsage != nil {
                         event(.success([
+                            .mood: moodUsage,
                             .post: postUsage,
                             .reaction: reactionUsage
                         ]))
@@ -52,10 +55,12 @@ extension Reactive where Base: UsageDataEngine {
                             .flatMapCompletable { Storage.store($0) }
                             .observeOn(MainScheduler.instance)
                             .subscribe(onCompleted: {
+                                let moodUsage = realm.object(ofType: Usage.self, forPrimaryKey: moodUsageID)
                                 let postUsage = realm.object(ofType: Usage.self, forPrimaryKey: postUsageID)
                                 let reactionUsage = realm.object(ofType: Usage.self, forPrimaryKey: reactionUsageID)
 
                                 event(.success([
+                                    .mood: moodUsage,
                                     .post: postUsage,
                                     .reaction: reactionUsage
                                 ]))

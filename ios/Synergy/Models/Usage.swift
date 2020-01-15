@@ -18,6 +18,7 @@ class Usage: Object, Decodable {
     @objc dynamic var timeUnit: String = ""
     @objc dynamic var startedAt: Date = Date()
     @objc dynamic var quantity: Int = 0
+    @objc dynamic var value: Double = 0.0
     @objc dynamic var diffFromPrevious: Double = 0
     @objc dynamic var groups: String = ""
 
@@ -26,7 +27,7 @@ class Usage: Object, Decodable {
     }
 
     enum CodingKeys: String, CodingKey {
-        case id, quantity, groups
+        case id, quantity, value, groups
         case sectionName = "section_name"
         case timeUnit = "period"
         case startedAt = "period_started_at"
@@ -41,14 +42,16 @@ class Usage: Object, Decodable {
         let timestampInterval = try values.decode(Double.self, forKey: .startedAt)
         startedAt = Date(timeIntervalSince1970: timestampInterval)
         quantity = try values.decode(Int.self, forKey: .quantity)
+        value = try values.decode(Double.self, forKey: .value)
         diffFromPrevious = try values.decode(Double.self, forKey: .diffFromPrevious)
 
         id = SectionScope(date: startedAt,
                           timeUnit: TimeUnit(rawValue: timeUnit) ?? .week,
                           section: Section(rawValue: sectionName) ?? .post).makeID()
 
-        let groupsValue = try values.decode(Groups.self, forKey: .groups)
-        groups = try GroupsConverter(from: groupsValue).valueAsString
+        if let groupsValue = try values.decodeIfPresent(Groups.self, forKey: .groups) {
+            groups = try Converter<Groups>(from: groupsValue).valueAsString
+        }
     }
 
     // MARK: - Realm Required Init

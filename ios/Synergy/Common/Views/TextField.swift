@@ -35,10 +35,3 @@ class TextField: UITextField {
             .disposed(by: disposeBag)
     }
 }
-
-extension TextField {
-    func set(placeholder: String) {
-        self.placeholder = placeholder
-        setPlaceHolderTextColor(themeService.attrs.textFieldPlaceholderColor)
-    }
-}

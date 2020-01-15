@@ -10,16 +10,50 @@ import Foundation
 import RealmSwift
 import RxSwift
 
-class InsightDataEngine {}
+class InsightDataEngine {
+    static func fetchAdsCategoriesInfo() -> UserInfo? {
+        autoreleasepool {
+            do {
+                guard Thread.current.isMainThread else {
+                    throw AppError.incorrectThread
+                }
+
+                let realm = try RealmConfig.currentRealm()
+                return realm.object(ofType: UserInfo.self, forPrimaryKey: UserInfoKey.adsCategory.rawValue)
+            } catch {
+                Global.log.error(error)
+                return nil
+            }
+        }
+    }
+
+    static func existsAdsCategories() -> Bool {
+        autoreleasepool {
+            do {
+                guard Thread.current.isMainThread else {
+                    throw AppError.incorrectThread
+                }
+
+                let realm = try RealmConfig.currentRealm()
+                return realm.objects(UserInfo.self)
+                    .filter("key == %@", UserInfoKey.adsCategory.rawValue)
+                    .count > 0
+            } catch {
+                Global.log.error(error)
+                return false
+            }
+        }
+    }
+}
 
 extension InsightDataEngine: ReactiveCompatible {}
 
 extension Reactive where Base: InsightDataEngine {
 
-    static func fetchAndSyncInsight(timeUnit: TimeUnit, startDate: Date) -> Single<[Section: Insight?]> {
+    static func fetchAndSyncInsight() -> Single<UserInfo?> {
         Global.log.info("[start] InsightDataEngine.rx.fetchAndSyncInsight")
 
-        return Single<[Section: Insight?]>.create { (event) -> Disposable in
+        return Single<UserInfo?>.create { (event) -> Disposable in
             autoreleasepool {
                 do {
                     guard Thread.current.isMainThread else {
@@ -28,36 +62,24 @@ extension Reactive where Base: InsightDataEngine {
 
                     let realm = try RealmConfig.currentRealm()
 
-                    let fbIncomeInsightID = SectionScope(date: startDate, timeUnit: timeUnit, section: .fbIncome).makeID()
-                    let moodInsightID = SectionScope(date: startDate, timeUnit: timeUnit, section: .mood).makeID()
+                    let insightsInfo = realm.object(ofType: UserInfo.self, forPrimaryKey: UserInfoKey.insight.rawValue)
 
-                    let fbIncomeInsight = realm.object(ofType: Insight.self, forPrimaryKey: fbIncomeInsightID)
-                    let moodInsight = realm.object(ofType: Insight.self, forPrimaryKey: moodInsightID)
+                    if insightsInfo != nil {
+                        event(.success(insightsInfo))
 
-                    if fbIncomeInsight != nil || moodInsight != nil {
-                        event(.success([
-                            .fbIncome: fbIncomeInsight,
-                            .mood: moodInsight
-                        ]))
-
-                        _ = InsightService.get(in: timeUnit, startDate: startDate)
+                        _ = InsightService.getInUserInfo()
                             .flatMapCompletable { Storage.store($0) }
                             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
                             .subscribe(onError: { (error) in
                                 Global.backgroundErrorSubject.onNext(error)
                             })
                     } else {
-                        _ = InsightService.get(in: timeUnit, startDate: startDate)
+                        _ = InsightService.getInUserInfo()
                             .flatMapCompletable { Storage.store($0) }
                             .observeOn(MainScheduler.instance)
                             .subscribe(onCompleted: {
-                                let fbIncomeInsight = realm.object(ofType: Insight.self, forPrimaryKey: fbIncomeInsightID)
-                                let moodInsight = realm.object(ofType: Insight.self, forPrimaryKey: moodInsightID)
-
-                                event(.success([
-                                    .fbIncome: fbIncomeInsight,
-                                    .mood: moodInsight
-                                ]))
+                                let insightsInfo = realm.object(ofType: UserInfo.self, forPrimaryKey: UserInfoKey.insight.rawValue)
+                                event(.success(insightsInfo))
                             }, onError: { (error) in
                                 event(.error(error))
                             })

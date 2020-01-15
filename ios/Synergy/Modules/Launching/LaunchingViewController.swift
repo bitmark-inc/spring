@@ -118,11 +118,16 @@ class LaunchingViewController: ViewController {
 
     fileprivate func navigateWithArchiveStatus(_ archiveStatus: ArchiveStatus?) {
         if let archiveStatus = archiveStatus {
-            switch archiveStatus {
-            case .processed:
-                gotoMainScreen()
-            default:
-                gotoDataAnalyzingScreen()
+            if InsightDataEngine.existsAdsCategories() {
+                switch archiveStatus {
+                case .processed:
+                    gotoMainScreen()
+                default:
+                    gotoDataAnalyzingScreen()
+                }
+            } else {
+                let viewModel = GetYourDataViewModel(missions: [.getCategories])
+                navigator.show(segue: .getYourData(viewModel: viewModel), sender: self, transition: .replace(type: .none))
             }
         } else {
             gotoSignInWallScreen()
@@ -170,12 +175,8 @@ extension LaunchingViewController {
     }
 
     func gotoDownloadFBArchiveScreen() {
-        let viewModel = RequestDataViewModel(.downloadData)
+        let viewModel = RequestDataViewModel(missions: [.downloadData])
         navigator.show(segue: .requestData(viewModel: viewModel), sender: self, transition: .replace(type: .none))
-    }
-
-    func gotoSignInScreen() {
-
     }
 
     func gotoMainScreen() {

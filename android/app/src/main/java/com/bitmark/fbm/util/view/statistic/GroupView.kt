@@ -94,7 +94,6 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
                         }
                         GroupName.FRIEND -> R.string.by_friends_tagged
                         GroupName.PLACE -> R.string.by_place_tagged
-                        else -> R.string.empty
                     }
                 }
                 SectionName.REACTION -> {
@@ -214,13 +213,12 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
         val colors =
             context.resources.getIntArray(
                 when (group.sectionName) {
-                    SectionName.LOCATION -> R.array.color_palette_1
                     SectionName.REACTION -> R.array.color_palette_2
                     SectionName.POST -> R.array.color_palette_4
                     else -> R.array.color_palette_3
                 }
             )
-        if (group.name !in arrayOf(GroupName.TYPE, GroupName.AREA)) {
+        if (group.name != GroupName.TYPE) {
             // reverse all stacked chart
             colors.reverse()
         }
@@ -300,10 +298,7 @@ class GroupView(context: Context, attrs: AttributeSet?, defStyleAttr: Int) :
 
     private fun needResIdAsAdditionalData(group: GroupModelView) = group.sectionName in arrayOf(
         SectionName.POST,
-        SectionName.REACTION,
-        SectionName.AD_INTEREST,
-        SectionName.ADVERTISER,
-        SectionName.LOCATION
+        SectionName.REACTION
     ) && group.name == GroupName.TYPE
 
     private fun buildBarChart(group: GroupModelView, barXValues: List<String>): BarChart {

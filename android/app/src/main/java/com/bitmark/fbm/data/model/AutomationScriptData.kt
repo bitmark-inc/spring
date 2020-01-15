@@ -16,7 +16,7 @@ data class AutomationScriptData(
     val pages: List<Page>
 ) : Data {
 
-    fun getPage(name: Page.Name) = pages.find { p -> p.name == name }
+    private fun getPage(name: Page.Name) = pages.find { p -> p.name == name }
 
     fun getLoginScript(fbId: String, fbPassword: String) =
         getPage(Page.Name.LOGIN)?.actions?.get("login")?.replace(
@@ -32,6 +32,9 @@ data class AutomationScriptData(
 
     fun getNewFeedGoToSettingPageScript() =
         getPage(Page.Name.NEW_FEED)?.actions?.get("goToSettingsPage")
+
+    fun getSettingGoToAdsPrefScript() =
+        getPage(Page.Name.SETTINGS)?.actions?.get("goToAdsPreferencesPage")
 
     fun getNewFeedGoToArchivePageScript() =
         getPage(Page.Name.NEW_FEED)?.actions?.get("goToArchivePage")
@@ -66,6 +69,14 @@ data class AutomationScriptData(
     fun getReAuthScript(password: String) =
         getPage(Page.Name.RE_AUTH)?.actions?.get("reauth")?.replace("%password%", password)
 
+    fun getAdsPrefGoToYourInfoPageScript() =
+        getPage(Page.Name.ADS_PREF)?.actions?.get("goToYourInformationPage")
+
+    fun getDemoGraphGoToBehaviorsPageScript() =
+        getPage(Page.Name.DEMOGRAPHIC)?.actions?.get("goToBehaviorsPage")
+
+    fun getBehaviorFetchCategoriesScript() =
+        getPage(Page.Name.BEHAVIORS)?.actions?.get("getCategories")
 }
 
 data class Page(
@@ -111,6 +122,18 @@ data class Page(
         RE_AUTH,
 
         @Expose
+        @SerializedName("ads_preferences")
+        ADS_PREF,
+
+        @Expose
+        @SerializedName("demographics")
+        DEMOGRAPHIC,
+
+        @Expose
+        @SerializedName("behaviors")
+        BEHAVIORS,
+
+        @Expose
         @SerializedName("unknown")
         UNKNOWN;
 
@@ -121,24 +144,30 @@ data class Page(
 
 val Page.Name.value: String
     get() = when (this) {
-        Page.Name.LOGIN           -> "login"
+        Page.Name.LOGIN -> "login"
         Page.Name.ACCOUNT_PICKING -> "account_picking"
-        Page.Name.SAVE_DEVICE     -> "save_device"
-        Page.Name.NEW_FEED        -> "new_feed"
-        Page.Name.SETTINGS        -> "settings"
-        Page.Name.ARCHIVE         -> "archive"
-        Page.Name.RE_AUTH         -> "reauth"
-        Page.Name.UNKNOWN         -> "unknown"
+        Page.Name.SAVE_DEVICE -> "save_device"
+        Page.Name.NEW_FEED -> "new_feed"
+        Page.Name.SETTINGS -> "settings"
+        Page.Name.ARCHIVE -> "archive"
+        Page.Name.RE_AUTH -> "reauth"
+        Page.Name.ADS_PREF -> "ads_preferences"
+        Page.Name.DEMOGRAPHIC -> "demographics"
+        Page.Name.BEHAVIORS -> "behaviors"
+        Page.Name.UNKNOWN -> "unknown"
     }
 
 fun Page.Name.Companion.fromString(name: String) = when (name) {
-    "login"           -> Page.Name.LOGIN
+    "login" -> Page.Name.LOGIN
     "account_picking" -> Page.Name.ACCOUNT_PICKING
-    "save_device"     -> Page.Name.SAVE_DEVICE
-    "new_feed"        -> Page.Name.NEW_FEED
-    "settings"        -> Page.Name.SETTINGS
-    "archive"         -> Page.Name.ARCHIVE
-    "reauth"          -> Page.Name.RE_AUTH
-    else              -> Page.Name.UNKNOWN
+    "save_device" -> Page.Name.SAVE_DEVICE
+    "new_feed" -> Page.Name.NEW_FEED
+    "settings" -> Page.Name.SETTINGS
+    "archive" -> Page.Name.ARCHIVE
+    "reauth" -> Page.Name.RE_AUTH
+    "ads_preferences" -> Page.Name.ADS_PREF
+    "demographics" -> Page.Name.DEMOGRAPHIC
+    "behaviors" -> Page.Name.BEHAVIORS
+    else -> Page.Name.UNKNOWN
 }
 

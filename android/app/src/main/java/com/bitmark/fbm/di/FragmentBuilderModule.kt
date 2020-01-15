@@ -12,8 +12,6 @@ import com.bitmark.fbm.feature.insights.InsightsFragment
 import com.bitmark.fbm.feature.insights.InsightsModule
 import com.bitmark.fbm.feature.lens.LensContainerFragment
 import com.bitmark.fbm.feature.lens.LensContainerModule
-import com.bitmark.fbm.feature.locationdetail.LocationDetailFragment
-import com.bitmark.fbm.feature.locationdetail.LocationDetailModule
 import com.bitmark.fbm.feature.postdetail.PostDetailFragment
 import com.bitmark.fbm.feature.postdetail.PostDetailModule
 import com.bitmark.fbm.feature.reactiondetail.ReactionDetailFragment
@@ -98,7 +96,4 @@ abstract class FragmentBuilderModule {
     @FragmentScope
     internal abstract fun bindReactionDetailFragment(): ReactionDetailFragment
 
-    @ContributesAndroidInjector(modules = [LocationDetailModule::class])
-    @FragmentScope
-    internal abstract fun bindLocationDetailFragment(): LocationDetailFragment
 }

@@ -12,6 +12,8 @@
 
 "fb.credential.title" = "Error";
 "fb.credential.message" = "Incorrect authentication credentials.";
+"fb.credential.incorrect.title" = "Accounts don't match";
+"fb.credential.incorrect.description" = "You must use the Facebook account you originally linked to Spring.";
 
 "notification.title" = "Enable Notification";
 "notification.message" = "To get started, allow Synergy to push notification.";

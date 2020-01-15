@@ -35,6 +35,9 @@ class FbmAccount: Object, Decodable {
         accountNumber = try values.decode(String.self, forKey: .accountNumber)
         createdAt = try values.decode(Date.self, forKey: .createdAt)
         updatedAt = try values.decode(Date.self, forKey: .updatedAt)
+
+        let metadataValue = try values.decode(Metadata.self, forKey: .metadata)
+        metadata = try Converter<Metadata>(from: metadataValue).valueAsString
     }
 
     // MARK: - Realm Required Init

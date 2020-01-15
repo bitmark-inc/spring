@@ -21,12 +21,11 @@ class RequestDataViewController: ViewController {
     lazy var automatingCoverView = makeCoverView()
     lazy var webView = makeWebView()
 
+    var undoneMissions = [Mission]()
     static let fbURL = "https://m.facebook.com"
     var cachedRequestHeader: [String: String]?
-    var fbScripts: [FBScript]?
-    lazy var archivePageScript = {
-        fbScripts?.first(where: { $0.name == FBPage.archive.rawValue })
-    }()
+    var fbScripts = [FBScript]()
+    lazy var archivePageScript = fbScripts.find(.archive)
 
     let automatingStatusRelay = BehaviorRelay<Bool>(value: true)
 
@@ -47,6 +46,8 @@ class RequestDataViewController: ViewController {
 
         guard let viewModel = viewModel as? RequestDataViewModel else { return }
 
+        undoneMissions = viewModel.missions
+
         viewModel.fbScriptResultSubject
             .subscribe(onNext: { [weak self] (event) in
                 guard let self = self else { return }
@@ -62,11 +63,10 @@ class RequestDataViewController: ViewController {
         viewModel.fbScriptsRelay
             .filterEmpty()
             .subscribe(onNext: { [weak self] (fbScripts) in
-                self?.observeAutomatingStatus()
-
-                guard let self = self, let urlRequest = URLRequest(urlString: Self.fbURL) else { return }
+                guard let self = self else { return }
+                self.observeAutomatingStatus()
                 self.fbScripts = fbScripts
-                self.webView.load(urlRequest)
+                self.loadWebView()
             })
             .disposed(by: disposeBag)
 
@@ -80,11 +80,16 @@ class RequestDataViewController: ViewController {
                     Global.log.info("[done] SignUpAndSubmitArchive")
                     UserDefaults.standard.FBArchiveCreatedAt = nil
                     self.clearAllNotifications()
-                    self.gotoDataAnalyzing()
+                    self.gotoDataAnalyzingScreen()
                 default:
                     break
                 }
             }).disposed(by: disposeBag)
+    }
+
+    fileprivate func loadWebView() {
+        guard let urlRequest = URLRequest(urlString: Self.fbURL) else { return }
+        webView.load(urlRequest)
     }
 
     fileprivate func clearAllNotifications() {
@@ -191,8 +196,6 @@ extension RequestDataViewController: WKNavigationDelegate {
     }
 
     fileprivate func evaluateJS(index: Int) {
-        guard let fbScripts = fbScripts else { return }
-
         let numberOfScript = fbScripts.count
         let pageScript = fbScripts[index]
 
@@ -229,6 +232,12 @@ extension RequestDataViewController: WKNavigationDelegate {
                 self.runJS(reAuthScript: pageScript)
             case .archive:
                 break
+            case .adsPreferences:
+                self.runJS(adsPreferencesScript: pageScript)
+            case .demographics:
+                self.runJS(demographicsScript: pageScript)
+            case .behaviors:
+                self.runJS(behaviorsScript: pageScript)
             case .accountPicking:
                 self.runJS(accountPickingScript: pageScript)
             }
@@ -238,15 +247,13 @@ extension RequestDataViewController: WKNavigationDelegate {
 
 // MARK: - Execute JS for FB Page
 extension RequestDataViewController {
-    fileprivate func checkIsArchivePage() -> Observable<Void> {
+    fileprivate func checkIsPage(script: FBScript) -> Observable<Void> {
         return Observable<Void>.create { (event) -> Disposable in
-            guard let detection = self.archivePageScript?.detection else {
-                return Disposables.create()
-            }
+            let detection = script.detection
 
             self.webView.evaluateJavaScript(detection) { (result, error) in
-                guard error == nil, let isArchivePage = result as? Bool, isArchivePage else {
-                    event.onError(AppError.fbArchivePageIsNotReady)
+                guard error == nil, let isRequiredPage = result as? Bool, isRequiredPage else {
+                    event.onError(AppError.fbRequiredPageIsNotReady)
                     return
                 }
                 event.onCompleted()
@@ -257,7 +264,8 @@ extension RequestDataViewController {
     }
 
     fileprivate func doMissionInArchivePage() {
-        checkIsArchivePage()
+        guard let archivePageScript = archivePageScript else { return }
+        checkIsPage(script: archivePageScript)
             .retry(.delayed(maxCount: 1000, time: 0.5))
             .subscribe(onError: { [weak self] (error) in
                 Global.log.error(error)
@@ -265,14 +273,30 @@ extension RequestDataViewController {
             }, onCompleted: { [weak self] in
                 guard let self = self else { return }
                 Global.log.info("[start] evaluateJS for archive")
-                switch self.thisViewModel.mission {
-                case .requestData:
+
+                let missions = self.thisViewModel.missions
+                if missions.contains(.requestData) {
                     self.runJSToCreateDataArchive()
-                case .downloadData:
+                } else if missions.contains(.downloadData) {
                     self.runJSTodownloadFBArchiveIfExist()
-                default:
-                    return
                 }
+
+            })
+            .disposed(by: disposeBag)
+    }
+
+    fileprivate func doMissionInAdsPage() {
+        guard let adsPageScript = fbScripts.find(.adsPreferences) else { return }
+        checkIsPage(script: adsPageScript)
+            .retry(.delayed(maxCount: 1000, time: 0.5))
+            .subscribe(onError: { [weak self] (error) in
+                Global.log.error(error)
+                self?.automatingStatusRelay.accept(false)
+            }, onCompleted: { [weak self] in
+                guard let self = self else { return }
+                Global.log.info("[start] evaluateJS for adsPreferences")
+
+                self.runJS(adsPreferencesScript: adsPageScript)
             })
             .disposed(by: disposeBag)
     }
@@ -299,7 +323,14 @@ extension RequestDataViewController {
 
             Global.log.info("[done] createFBArchive")
             UserDefaults.standard.FBArchiveCreatedAt = Date()
-            self.gotoDataRequested()
+
+            self.undoneMissions.removeFirst()
+
+            if self.undoneMissions.isEmpty {
+                self.gotoDataRequested()
+            } else {
+                self.loadWebView()
+            }
         }
     }
 
@@ -411,29 +442,168 @@ extension RequestDataViewController {
         alertController.show()
     }
 
+    // MARK: saveDevice Script
     fileprivate func runJS(saveDeviceScript: FBScript) {
         guard let notNowAction = saveDeviceScript.script(for: .notNow) else { return }
         webView.evaluateJavaScript(notNowAction)
     }
 
+    // MARK: newFeed Script
     fileprivate func runJS(newFeedScript: FBScript) {
         guard let gotoSettingsPageAction = newFeedScript.script(for: .goToSettingsPage) else { return }
         webView.evaluateJavaScript(gotoSettingsPageAction)
     }
 
+    // MARK: Settings Script
     fileprivate func runJS(settingsScript: FBScript) {
-        guard let gotoArchivePageAction = settingsScript.script(for: .goToArchivePage) else { return }
+        guard let doingMission = undoneMissions.first else { return }
 
-        webView.evaluateJavaScript(gotoArchivePageAction) { [weak self] (_, error) in
+        switch doingMission {
+        case .requestData, .checkRequestedData, .downloadData:
+            guard let goToArchivePageAction = settingsScript.script(for: .goToArchivePage) else { return }
+
+            webView.evaluateJavaScript(goToArchivePageAction) { [weak self] (_, error) in
+                guard let self = self else { return }
+                guard error == nil else {
+                    Global.log.error(error)
+                    return
+                }
+                self.doMissionInArchivePage() // it's not trigger webView#didFinish function
+            }
+        case .getCategories:
+            guard let goToAdsPreferencesPageAction = settingsScript.script(for: .goToAdsPreferencesPage) else { return }
+
+            webView.evaluateJavaScript(goToAdsPreferencesPageAction) { [weak self] (_, error) in
+                guard let self = self else { return }
+                guard error == nil else {
+                    Global.log.error(error)
+                    return
+                }
+
+                self.doMissionInAdsPage() // it's not trigger webView#didFinish function
+            }
+        }
+    }
+
+    // MARK: AdsPreferences Script
+    fileprivate func runJS(adsPreferencesScript: FBScript) {
+        guard let goToYourInformationPageAction = adsPreferencesScript.script(for: .goToYourInformationPage)
+            else {
+                return
+        }
+
+        webView.evaluateJavaScript(goToYourInformationPageAction) { [weak self] (_, error) in
             guard let self = self else { return }
             guard error == nil else {
                 Global.log.error(error)
                 return
             }
-            self.doMissionInArchivePage() // it's not trigger webView#didFinish function
+
+            guard let demographicsPageScript = self.fbScripts.find(.demographics) else { return }
+            self.runJS(demographicsScript: demographicsPageScript)
         }
     }
 
+    // MARK: Demographics Script
+    fileprivate func runJS(demographicsScript: FBScript) {
+        checkIsPage(script: demographicsScript)
+            .retry(.delayed(maxCount: 1000, time: 0.5))
+            .subscribe(onError: { [weak self] (error) in
+                Global.log.error(error)
+                self?.automatingStatusRelay.accept(false)
+                }, onCompleted: { [weak self] in
+                    guard let self = self else { return }
+                    Global.log.info("[start] evaluateJS for demographics")
+
+                    guard let goToBehaviorsPageAction = demographicsScript.script(for: .goToBehaviorsPage)
+                        else {
+                            return
+                    }
+
+                    self.webView.evaluateJavaScript(goToBehaviorsPageAction) { [weak self] (_, error) in
+                        guard let self = self else { return }
+                        guard error == nil else {
+                            Global.log.error(error)
+                            return
+                        }
+
+                        guard let behaviorsScript = self.fbScripts.find(.behaviors) else { return }
+                        self.runJS(behaviorsScript: behaviorsScript)
+                    }
+            })
+            .disposed(by: disposeBag)
+    }
+
+    // MARK: - Behaviors Script
+    fileprivate func runJS(behaviorsScript: FBScript) {
+        checkIsPage(script: behaviorsScript)
+            .retry(.delayed(maxCount: 1000, time: 0.5))
+            .subscribe(onError: { [weak self] (error) in
+                Global.log.error(error)
+                self?.automatingStatusRelay.accept(false)
+                }, onCompleted: { [weak self] in
+                    guard let self = self else { return }
+                    Global.log.info("[start] evaluateJS for behavior")
+
+                    guard let getCategoriesAction = behaviorsScript.script(for: .getCategories)
+                        else {
+                            return
+                    }
+
+                    self.webView.evaluateJavaScript(getCategoriesAction) { [weak self] (adsCategories, error) in
+                        guard error == nil else {
+                            Global.log.error(error)
+                            return
+                        }
+
+                        guard let self = self,
+                            let adsCategories = adsCategories as? [String] else { return }
+
+                        if Global.current.account == nil {
+                            UserDefaults.standard.fbCategoriesInfo = adsCategories
+                            self.gotoDataRequested()
+                        } else {
+                            _ = FbmAccountDataEngine.rx.fetchCurrentFbmAccount()
+                                .flatMapCompletable { FbmAccountDataEngine.rx.updateMetadata(for: $0) }
+                                .subscribe(onCompleted: {
+                                    Global.log.info("[done] updateMetadata")
+                                }, onError: { [weak self] (error) in
+                                    guard !AppError.errorByNetworkConnection(error) else { return }
+                                    guard let self = self, !self.showIfRequireUpdateVersion(with: error) else { return }
+
+                                    Global.log.error(error)
+                                })
+
+                            self.thisViewModel.storeAdsCategoriesInfo(adsCategories)
+                                .subscribe(onCompleted: { [weak self] in
+                                    self?.navigateWithArchiveStatus(
+                                        ArchiveStatus(rawValue: Global.current.userDefault?.latestArchiveStatus ?? ""))
+                                }, onError: { [weak self] (error) in
+                                    Global.log.error(error)
+                                    self?.showErrorAlertWithSupport(message: R.string.error.system())
+                                })
+                                .disposed(by: self.disposeBag)
+                        }
+                    }
+            })
+            .disposed(by: disposeBag)
+    }
+
+    fileprivate func navigateWithArchiveStatus(_ archiveStatus: ArchiveStatus?) {
+        if let archiveStatus = archiveStatus {
+            switch archiveStatus {
+            case .processed:
+                gotoMainScreen()
+            default:
+                gotoDataAnalyzingScreen()
+            }
+        } else {
+            gotoHowItWorksScreen()
+        }
+    }
+
+
+    // MARK: ReAuth Script
     fileprivate func runJS(reAuthScript: FBScript) {
         guard let viewModel = viewModel as? RequestDataViewModel,
             let reauthAction = reAuthScript.script(for: .reauth)
@@ -454,6 +624,7 @@ extension RequestDataViewController {
             .disposed(by: self.disposeBag)
     }
 
+    // MARK: Account Picking Script
     fileprivate func runJS(accountPickingScript: FBScript) {
         guard let pickAnotherAction = accountPickingScript.script(for: .pickAnother)
             else {
@@ -467,14 +638,23 @@ extension RequestDataViewController {
 // MARK: - Navigator
 extension RequestDataViewController {
    func gotoDataRequested() {
-        guard let viewModel = viewModel as? RequestDataViewModel else { return }
-        let dataRquestedViewModel = DataRequestedViewModel(viewModel.mission)
+        guard let viewModel = viewModel as? RequestDataViewModel,
+            let mainMission = viewModel.missions.first else { return }
+        let dataRquestedViewModel = DataRequestedViewModel(mainMission)
         navigator.show(segue: .dataRequested(viewModel: dataRquestedViewModel), sender: self)
     }
 
-    func gotoDataAnalyzing() {
+    func gotoDataAnalyzingScreen() {
         let viewModel = DataAnalyzingViewModel()
         navigator.show(segue: .dataAnalyzing(viewModel: viewModel), sender: self)
+    }
+
+    func gotoMainScreen() {
+        navigator.show(segue: .hometabs, sender: self, transition: .replace(type: .none))
+    }
+
+    func gotoHowItWorksScreen() {
+        navigator.show(segue: .howItWorks, sender: self, transition: .replace(type: .none))
     }
 }
 
@@ -495,9 +675,9 @@ extension RequestDataViewController {
 
     fileprivate func makeGuideTextLabel() -> Label {
         let label = Label()
-        label.applyLight(
-            text: "",
-            font: R.font.atlasGroteskRegular(size: 18),
+        label.apply(
+            font: R.font.atlasGroteskLight(size: 18),
+            colorTheme: .white,
             lineHeight: 1.2)
         return label
     }
@@ -508,7 +688,7 @@ extension RequestDataViewController {
         let label = Label()
         label.apply(
             text: R.string.phrase.guideAutomating().localizedUppercase,
-            font: R.font.domaineSansTextLight(size: Size.ds(40)),
+            font: R.font.domaineSansTextRegular(size: Size.ds(40)),
             colorTheme: .black)
         label.numberOfLines = 0
 

@@ -16,7 +16,7 @@ fun Throwable.isNetworkError() = this is NetworkException
 
 fun Throwable.isDbRecNotFoundError() = this is EmptyResultSetException
 
-private fun Throwable.isHttpError() = this is HttpException
+fun Throwable.isHttpError() = this is HttpException
 
 fun Throwable.toRemoteError() = when (this) {
     is IOException -> NetworkException(this)

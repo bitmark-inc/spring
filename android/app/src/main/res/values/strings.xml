@@ -19,7 +19,7 @@
     <string name="get_your_data">Get your data</string>
     <string name="fb_login">Facebook login</string>
     <string name="fb_password">Facebook password</string>
-    <string name="we_will_only_use_your_fb_login">We’ll only use your Facebook login information to automate your back up.\n\nYour login is stored locally, never in the Cloud.</string>
+    <string name="we_will_only_use_your_fb_login">We’ll only use your Facebook login information to automate your back up.  \n\nYour login is stored on your device, never in the Cloud.</string>
     <string name="prefer_to_do_this_manually">Prefer to do this manually?</string>
     <string name="data_requested">Data requested</string>
     <string name="fb_is_preparing_your_data">Facebook is preparing your data archive. This may take up to a few days, depending on how much data you have. \n\nWould you like us to notify you when your backup is ready? If not, you will need to return back here regularly to check if the backup is ready.</string>
@@ -65,8 +65,8 @@
     <string name="fb_may_take_a_few_days">Facebook may take a few days to prepare your data archive, depending on how much data you have. \n\nWould you like us to remind you to check back here? If not, you will need to remember on your own to check if your backup is ready.</string>
     <string name="check_now_arrow">Check now »</string>
     <string name="still_waiting">Still Waiting</string>
-    <string name="analyzing_data">Analyzing Data</string>
-    <string name="your_fb_data_archive_has_been_successfully">Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready. You can safely close this app now.</string>
+    <string name="processing_data">Processing Data</string>
+    <string name="your_fb_data_archive_has_been_successfully">Your Facebook data archive has been successfully secured. We’ve started processing your data and will send you a notification when it’s ready. You can safely close this app now.</string>
     <string name="week">Week</string>
     <string name="year">Year</string>
     <string name="decade">Decade</string>
@@ -137,7 +137,6 @@
     <string name="your_help_is_required">Your help is required.</string>
     <string name="others">Others</string>
     <string name="no_activity_for_this_period">No activity for this period.</string>
-    <string name="income_fb_made_from_you">Income Facebook made from you this period</string>
     <string name="your_mood">Your Mood</string>
     <string name="sentiment_analysis_of_your_post">sentiment analysis of your posts</string>
     <string name="period_average">Period Average</string>
@@ -173,6 +172,12 @@
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="pls_check_your_connection">Please check your connection and try again.</string>
     <string name="no_data_to_show">No data to show</string>
+    <string name="categories_for_ads">Categories for Ads</string>
+    <string name="these_categories_are_based">These categories are based on your activity. They are used by advertisers to personalize your information.</string>
+    <string name="there_was_error_when_loading_insights">There was an error when loading insights</string>
+    <string name="accounts_dont_match">Accounts don’t match</string>
+    <string name="you_must_use_the_fb">You must use the Facebook account you originally linked to Spring.</string>
+    <string name="try_again">Try again</string>
 
     <string-array name="day_of_week">
         <item>S</item>
@@ -226,5 +231,6 @@
     <string name="last_week_format_plural">Last %d Weeks</string>
     <string name="last_year_format_plural">Last %d Years</string>
     <string name="last_decade_format_plural">Last %d Decades</string>
+    <string name="income_fb_made_from_you_format">Income Facebook made from you since %1$s.</string>
 
 </resources>

@@ -25,7 +25,10 @@ enum FBPage: String {
     case settings
     case archive
     case reauth
-    case accountPicking
+    case accountPicking = "account_picking"
+    case adsPreferences = "ads_preferences"
+    case demographics
+    case behaviors
 }
 
 enum FBAction: String {
@@ -43,4 +46,14 @@ enum FBAction: String {
     case isCreatingFile
     case downloadFirstFile
     case pickAnother
+    case goToAdsPreferencesPage
+    case goToYourInformationPage
+    case goToBehaviorsPage
+    case getCategories
+}
+
+extension Array where Element == FBScript {
+    func find(_ fbPage: FBPage) -> FBScript? {
+        return first(where: { $0.name == fbPage.rawValue }) ?? nil
+    }
 }

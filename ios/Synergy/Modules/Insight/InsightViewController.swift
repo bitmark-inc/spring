@@ -23,27 +23,15 @@ class InsightViewController: ViewController {
     lazy var scroll = UIScrollView()
     lazy var insightView = UIView()
     lazy var headingView = makeHeadingView()
-    lazy var timelineView = makeTimelineView()
-    lazy var badgeView = makeBadgeView()
     lazy var fbIncomeView = makeFBIncomeView()
-    lazy var moodHeadingView = makeSectionHeadingView(section: .mood)
-    lazy var moodView = makeMoodView()
+    lazy var adsCategoryView = makeAdsCategoryView()
 
     // SECTION: FB Income
-    lazy var incomeInsightObservable: Observable<Insight> = {
-        thisViewModel.realmIncomeInsightRelay.filterNil()
+    lazy var realmInsightObservable: Observable<Insight> = {
+        thisViewModel.realmInsightsInfoRelay.filterNil()
             .flatMap { Observable.from(object: $0) }
+            .map { $0.valueObject() }.filterNil()
     }()
-
-    // SECTION: Reaction
-    lazy var moodInsightObservable: Observable<Insight> = {
-        thisViewModel.realmMoodInsightRelay.filterNil()
-            .flatMap { Observable.from(object: $0) }
-    }()
-
-    var segmentDistances: [TimeUnit: Int] = [
-        .week: 0, .year: 0, .decade: 0
-    ]
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if #available(iOS 13.0, *) {
@@ -70,21 +58,6 @@ class InsightViewController: ViewController {
             .disposed(by: disposeBag)
 
         viewModel.fetchInsight()
-
-        thisViewModel.dateRelay
-            .subscribe(onNext: { [weak self] (startDate) in
-                guard let self = self else { return }
-
-                let timeUnit = self.thisViewModel.timeUnitRelay.value
-                let datePeriod = startDate.extractDatePeriod(timeUnit: timeUnit)
-
-                let distance = self.segmentDistances[timeUnit]!
-                self.timelineView.bindData(
-                    periodName: timeUnit.meaningTimeText(with: distance),
-                    periodDescription: datePeriod.makeTimelinePeriodText(in: timeUnit),
-                    distance: distance)
-            })
-            .disposed(by: disposeBag)
     }
 
     func errorWhenFetchingData(error: Error) {
@@ -106,11 +79,8 @@ class InsightViewController: ViewController {
 
         insightView.flex.define { (flex) in
             flex.addItem(headingView)
-            flex.addItem(timelineView)
-            flex.addItem(badgeView)
             flex.addItem(fbIncomeView)
-            flex.addItem(moodHeadingView)
-            flex.addItem(moodView)
+            flex.addItem(adsCategoryView)
         }
 
         scroll.addSubview(insightView)
@@ -143,18 +113,6 @@ extension InsightViewController {
         return headingView
     }
 
-    fileprivate func makeTimelineView() -> TimeFilterView {
-        let timeFilterView = TimeFilterView()
-        timeFilterView.timelineDelegate = self
-        return timeFilterView
-    }
-
-    fileprivate func makeBadgeView() -> InsightBadgeView {
-        let badgeView = InsightBadgeView()
-        badgeView.setProperties(container: self)
-        return badgeView
-    }
-
     fileprivate func makeSectionHeadingView(section: Section) -> SectionHeadingView {
         let sectionHeadingView = SectionHeadingView()
         sectionHeadingView.setProperties(section: section)
@@ -168,67 +126,13 @@ extension InsightViewController {
         return incomeView
     }
 
-    fileprivate func makeMoodView() -> MoodView {
-        let moodView = MoodView()
-        moodView.containerLayoutDelegate = self
-        moodView.setProperties(section: .mood, container: self)
-        return moodView
-    }
-}
 
-// MARK: - TimelineDelegate
-extension InsightViewController: TimelineDelegate {
-    func updateTimeUnit(_ timeUnit: TimeUnit) {
-        let distance = segmentDistances[timeUnit]!
-        let updatedDate: Date!
 
-        switch timeUnit {
-        case .week:
-            let currentDateRegion = Date().adding(.weekOfMonth, value: distance).in(.english)
-            updatedDate = currentDateRegion.dateAtStartOf(.weekOfMonth).date
-
-        case .year:
-            let distance = segmentDistances[timeUnit]!
-            let currentDateRegion = Date().adding(.year, value: distance).in(.english)
-            updatedDate = currentDateRegion.dateAtStartOf(.year).date
-
-        case .decade:
-            let distance = segmentDistances[timeUnit]!
-            updatedDate = Date()?.in(.english).dateAtStartOfDecade(distance: distance).date
-        }
-
-        thisViewModel.timeUnitRelay.accept(timeUnit)
-        thisViewModel.dateRelay.accept(updatedDate)
-    }
-
-    func nextPeriod() {
-        let currentDate = thisViewModel.dateRelay.value
-        let nextDate: Date!
-
-        switch thisViewModel.timeUnitRelay.value {
-        case .week: nextDate = currentDate + 1.weeks
-        case .year: nextDate = currentDate + 1.years
-        case .decade: nextDate = currentDate + 10.years
-        }
-
-        let timeUnit = thisViewModel.timeUnitRelay.value
-        segmentDistances[timeUnit]! += 1
-        thisViewModel.dateRelay.accept(nextDate)
-    }
-
-    func prevPeriod() {
-        let currentDate = thisViewModel.dateRelay.value
-        let prevDate: Date!
-
-        switch thisViewModel.timeUnitRelay.value {
-        case .week: prevDate = currentDate - 1.weeks
-        case .year: prevDate = currentDate - 1.years
-        case .decade: prevDate = currentDate - 10.years
-        }
-
-        let timeUnit = thisViewModel.timeUnitRelay.value
-        segmentDistances[timeUnit]! -= 1
-        thisViewModel.dateRelay.accept(prevDate)
+    fileprivate func  makeAdsCategoryView() -> AdsCategoryView {
+        let adsCategoryView = AdsCategoryView()
+        adsCategoryView.containerLayoutDelegate = self
+        adsCategoryView.setProperties(container: self)
+        return adsCategoryView
     }
 }
 

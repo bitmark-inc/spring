@@ -157,9 +157,6 @@
 		5B4A239923B1D1C300447366 /* MediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239823B1D1C300447366 /* MediaData.swift */; };
 		5B4A239A23B1D1C300447366 /* MediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239823B1D1C300447366 /* MediaData.swift */; };
 		5B4A239B23B1D1C300447366 /* MediaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239823B1D1C300447366 /* MediaData.swift */; };
-		5B4A239D23B2120B00447366 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239C23B2120B00447366 /* Insight.swift */; };
-		5B4A239E23B2120B00447366 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239C23B2120B00447366 /* Insight.swift */; };
-		5B4A239F23B2120B00447366 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A239C23B2120B00447366 /* Insight.swift */; };
 		5B4A23A123B212E800447366 /* TimeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A023B212E800447366 /* TimeUnit.swift */; };
 		5B4A23A223B212E800447366 /* TimeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A023B212E800447366 /* TimeUnit.swift */; };
 		5B4A23A323B212E800447366 /* TimeUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A23A023B212E800447366 /* TimeUnit.swift */; };
@@ -208,6 +205,12 @@
 		5B54FAD623C6D4480029B5D5 /* IBMPlexMono-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B80A69923C5D00B002E591E /* IBMPlexMono-SemiBold.ttf */; };
 		5B54FAD723C6D4480029B5D5 /* IBMPlexMono-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B80A69C23C5D00B002E591E /* IBMPlexMono-SemiBoldItalic.ttf */; };
 		5B54FAD823C6D4480029B5D5 /* IBMPlexMono-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5B80A69B23C5D00B002E591E /* IBMPlexMono-LightItalic.ttf */; };
+		5B54FADB23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */; };
+		5B54FADC23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */; };
+		5B54FADD23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */; };
+		5B54FAE023C731C00029B5D5 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADF23C731C00029B5D5 /* Insight.swift */; };
+		5B54FAE123C731C00029B5D5 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADF23C731C00029B5D5 /* Insight.swift */; };
+		5B54FAE223C731C00029B5D5 /* Insight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B54FADF23C731C00029B5D5 /* Insight.swift */; };
 		5B58AC3723BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
 		5B58AC3823BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
 		5B58AC3923BADC890041F216 /* QueryTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B58AC3623BADC890041F216 /* QueryTrack.swift */; };
@@ -381,11 +384,20 @@
 		5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC2A237A863300FA3196 /* MakeUnderline.swift */; };
 		5B5DFFFE23A1F0F4003D1A1C /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5832FC8E237A889A00FA3196 /* Storage.swift */; };
 		5B5DFFFF23A1F0F4003D1A1C /* FbmAccountDataEngine+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = E236B675238E37D200C1A280 /* FbmAccountDataEngine+Rx.swift */; };
+		5B67AA6423C829AC00136B68 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6323C829AC00136B68 /* Metadata.swift */; };
+		5B67AA6523C829AC00136B68 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6323C829AC00136B68 /* Metadata.swift */; };
+		5B67AA6623C829AC00136B68 /* Metadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6323C829AC00136B68 /* Metadata.swift */; };
+		5B67AA6823C830D300136B68 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6723C830D300136B68 /* String+Extension.swift */; };
+		5B67AA6923C830D300136B68 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6723C830D300136B68 /* String+Extension.swift */; };
+		5B67AA6A23C830D300136B68 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B67AA6723C830D300136B68 /* String+Extension.swift */; };
 		5B75A14823BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14923BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14A23BD95EE00FFF910 /* DataBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */; };
 		5B75A14D23BD9EA400FFF910 /* DatePeriodSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A14C23BD9EA400FFF910 /* DatePeriodSpec.swift */; };
 		5B75A15223BDD66000FFF910 /* QueryTrackSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B75A15123BDD66000FFF910 /* QueryTrackSpec.swift */; };
+		5B80A69E23C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
+		5B80A69F23C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
+		5B80A6A023C5D89E002E591E /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B80A69D23C5D89E002E591E /* UserInfo.swift */; };
 		5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
 		5B9322F923A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
 		5B9322FA23A362B800C3C408 /* SignOutWarningViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */; };
@@ -419,9 +431,6 @@
 		5B98950523AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
 		5B98950623AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
 		5B98950723AA338300B72700 /* GraphDataConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B98950423AA338300B72700 /* GraphDataConverter.swift */; };
-		5BA9FF5E23B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
-		5BA9FF5F23B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
-		5BA9FF6023B221F900E57A20 /* InsightBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */; };
 		5BA9FF6323B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
 		5BA9FF6423B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
 		5BA9FF6523B2293F00E57A20 /* InsightAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */; };
@@ -449,6 +458,9 @@
 		5BBB663A23A7305800DAAB1F /* RecoveryKeyWordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBB663723A7305800DAAB1F /* RecoveryKeyWordCell.swift */; };
 		5BC5C69123A0A4B000EA211E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BC5C69023A0A4B000EA211E /* InfoPlist.strings */; };
 		5BC5C69223A0A4B100EA211E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5BC5C69023A0A4B000EA211E /* InfoPlist.strings */; };
+		5BC91CC023CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
+		5BC91CC123CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
+		5BC91CC223CC29CB000058A7 /* Converter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BC91CBF23CC29CB000058A7 /* Converter.swift */; };
 		5BE86EA223C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
 		5BE86EA323C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
 		5BE86EA423C45ADB00D3D9BB /* Int+Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */; };
@@ -800,9 +812,10 @@
 		5B4A238E23B118E500447366 /* SectionHeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeadingView.swift; sourceTree = "<group>"; };
 		5B4A239423B1C4D000447366 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		5B4A239823B1D1C300447366 /* MediaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaData.swift; sourceTree = "<group>"; };
-		5B4A239C23B2120B00447366 /* Insight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Insight.swift; sourceTree = "<group>"; };
 		5B4A23A023B212E800447366 /* TimeUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUnit.swift; sourceTree = "<group>"; };
 		5B4A23A423B21CD400447366 /* SectionSeparator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionSeparator.swift; sourceTree = "<group>"; };
+		5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdsCategoryView.swift; sourceTree = "<group>"; };
+		5B54FADF23C731C00029B5D5 /* Insight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Insight.swift; sourceTree = "<group>"; };
 		5B58AC3623BADC890041F216 /* QueryTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTrack.swift; sourceTree = "<group>"; };
 		5B58AC3A23BADF920041F216 /* DatePeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePeriod.swift; sourceTree = "<group>"; };
 		5B58AC4223BB43E70041F216 /* AppVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVersion.swift; sourceTree = "<group>"; };
@@ -814,6 +827,8 @@
 		5B590A7A23B380A5006C194D /* BiometricAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthViewController.swift; sourceTree = "<group>"; };
 		5B5D007423A1F0F4003D1A1C /* Spring.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spring.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5B5D007523A1F0F4003D1A1C /* Inhouse-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Inhouse-Info.plist"; sourceTree = "<group>"; };
+		5B67AA6323C829AC00136B68 /* Metadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metadata.swift; sourceTree = "<group>"; };
+		5B67AA6723C830D300136B68 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		5B75A14723BD95EE00FFF910 /* DataBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBadgeView.swift; sourceTree = "<group>"; };
 		5B75A14C23BD9EA400FFF910 /* DatePeriodSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePeriodSpec.swift; sourceTree = "<group>"; };
 		5B75A15123BDD66000FFF910 /* QueryTrackSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryTrackSpec.swift; sourceTree = "<group>"; };
@@ -831,6 +846,7 @@
 		5B80A69A23C5D00B002E591E /* IBMPlexMono-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Thin.ttf"; sourceTree = "<group>"; };
 		5B80A69B23C5D00B002E591E /* IBMPlexMono-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-LightItalic.ttf"; sourceTree = "<group>"; };
 		5B80A69C23C5D00B002E591E /* IBMPlexMono-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
+		5B80A69D23C5D89E002E591E /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		5B9322F723A362B800C3C408 /* SignOutWarningViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutWarningViewController.swift; sourceTree = "<group>"; };
 		5B9322FB23A3635200C3C408 /* SignOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewModel.swift; sourceTree = "<group>"; };
 		5B9322FF23A3635E00C3C408 /* SignOutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutViewController.swift; sourceTree = "<group>"; };
@@ -842,7 +858,6 @@
 		5B93232323A39BFC00C3C408 /* Archive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Archive.swift; sourceTree = "<group>"; };
 		5B98950023AA0EC000B72700 /* FilterScope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterScope.swift; sourceTree = "<group>"; };
 		5B98950423AA338300B72700 /* GraphDataConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphDataConverter.swift; sourceTree = "<group>"; };
-		5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightBadgeView.swift; sourceTree = "<group>"; };
 		5BA9FF6223B2293F00E57A20 /* InsightAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightAPI.swift; sourceTree = "<group>"; };
 		5BA9FF6623B2294900E57A20 /* InsightService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsightService.swift; sourceTree = "<group>"; };
 		5BA9FF6A23B22A9400E57A20 /* InsightDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InsightDataEngine+Rx.swift"; sourceTree = "<group>"; };
@@ -853,6 +868,7 @@
 		5BB319B323A09882005F7C58 /* AskNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskNotificationsViewController.swift; sourceTree = "<group>"; };
 		5BBB663723A7305800DAAB1F /* RecoveryKeyWordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKeyWordCell.swift; sourceTree = "<group>"; };
 		5BC5C69023A0A4B000EA211E /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		5BC91CBF23CC29CB000058A7 /* Converter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Converter.swift; sourceTree = "<group>"; };
 		5BE22E6A23A227C5007EBFC9 /* Synergy Inhouse.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Synergy Inhouse.entitlements"; sourceTree = "<group>"; };
 		5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Formatter.swift"; sourceTree = "<group>"; };
 		5BEB478B23AC7EB100750AC6 /* UsageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageAPI.swift; sourceTree = "<group>"; };
@@ -1016,7 +1032,7 @@
 			children = (
 				5832D6E3238BBE390074AEDC /* UsageViewModel.swift */,
 				5832D6E6238BBE4A0074AEDC /* UsageViewController.swift */,
-				5B4A237623B1132E00447366 /* UsageBadgeView.swift */,
+				5B54FADE23C704C00029B5D5 /* Sections */,
 			);
 			path = Usage;
 			sourceTree = "<group>";
@@ -1037,11 +1053,9 @@
 		5832D6FA238BC23D0074AEDC /* Insight */ = {
 			isa = PBXGroup;
 			children = (
-				5832D6FB238BC23D0074AEDC /* InsightViewController.swift */,
 				5832D6FC238BC23D0074AEDC /* InsightViewModel.swift */,
-				5BA9FF5D23B221F900E57A20 /* InsightBadgeView.swift */,
-				5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */,
-				5B590A6D23B302D6006C194D /* MoodView.swift */,
+				5832D6FB238BC23D0074AEDC /* InsightViewController.swift */,
+				5B54FAD923C6DAA90029B5D5 /* Sections */,
 			);
 			path = Insight;
 			sourceTree = "<group>";
@@ -1243,6 +1257,7 @@
 				E23807D123963E3E0079A3C4 /* Array+Sentence.swift */,
 				5BEF584323AB2EA500901D52 /* Date+Extension.swift */,
 				5BE86EA123C45ADB00D3D9BB /* Int+Formatter.swift */,
+				5B67AA6723C830D300136B68 /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1386,6 +1401,24 @@
 				5B4A23A423B21CD400447366 /* SectionSeparator.swift */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		5B54FAD923C6DAA90029B5D5 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				5BA9FF6E23B23CAA00E57A20 /* IncomeView.swift */,
+				5B54FADA23C6DACA0029B5D5 /* AdsCategoryView.swift */,
+			);
+			path = Sections;
+			sourceTree = "<group>";
+		};
+		5B54FADE23C704C00029B5D5 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				5B4A237623B1132E00447366 /* UsageBadgeView.swift */,
+				5B590A6D23B302D6006C194D /* MoodView.swift */,
+			);
+			path = Sections;
 			sourceTree = "<group>";
 		};
 		5B58AC4623BB474B0041F216 /* Sign In */ = {
@@ -1617,6 +1650,7 @@
 				5B590A7523B37CD0006C194D /* BiometricAuth.swift */,
 				5B58AC3A23BADF920041F216 /* DatePeriod.swift */,
 				5B58AC4223BB43E70041F216 /* AppVersion.swift */,
+				5BC91CBF23CC29CB000058A7 /* Converter.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1636,6 +1670,7 @@
 				E2259CCF238783AE00746280 /* FBScript.swift */,
 				E28B5606238D103300F1BCF2 /* Auth.swift */,
 				E28B560D238D16E800F1BCF2 /* FbmAccount.swift */,
+				5B67AA6323C829AC00136B68 /* Metadata.swift */,
 				E21EF9E6239100A6004D4513 /* Usage.swift */,
 				E222907B2394F19D00412CBC /* Groups.swift */,
 				E22290812394FBC500412CBC /* Average.swift */,
@@ -1643,9 +1678,10 @@
 				5B93232323A39BFC00C3C408 /* Archive.swift */,
 				5B4A239423B1C4D000447366 /* Location.swift */,
 				5B4A239823B1D1C300447366 /* MediaData.swift */,
-				5B4A239C23B2120B00447366 /* Insight.swift */,
 				5B2097AC23B465070079B421 /* Reaction.swift */,
 				5B58AC3623BADC890041F216 /* QueryTrack.swift */,
+				5B80A69D23C5D89E002E591E /* UserInfo.swift */,
+				5B54FADF23C731C00029B5D5 /* Insight.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -2440,6 +2476,7 @@
 				5B93232023A363E200C3C408 /* FAQViewController.swift in Sources */,
 				5832FC4C237A863300FA3196 /* SubmitButton.swift in Sources */,
 				5832FC58237A863300FA3196 /* TextField.swift in Sources */,
+				5BC91CC023CC29CB000058A7 /* Converter.swift in Sources */,
 				E23807D223963E3E0079A3C4 /* Array+Sentence.swift in Sources */,
 				E27959DC23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
 				5BB319B123A09876005F7C58 /* AskNotificationsViewModel.swift in Sources */,
@@ -2497,6 +2534,7 @@
 				5832FCB5237A9FD700FA3196 /* Navigator.swift in Sources */,
 				E22BB3342384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				5832FC53237A863300FA3196 /* EditingTextView.swift in Sources */,
+				5B67AA6823C830D300136B68 /* String+Extension.swift in Sources */,
 				5BB2852F23A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5832FCB9237AA18C00FA3196 /* LaunchingViewModel.swift in Sources */,
 				5B9322F823A362B800C3C408 /* SignOutWarningViewController.swift in Sources */,
@@ -2510,7 +2548,7 @@
 				5832D701238BC23D0074AEDC /* InsightViewController.swift in Sources */,
 				5832FCAE237A8A9300FA3196 /* MoyaProviderType+Request.swift in Sources */,
 				5832FC4E237A863300FA3196 /* ReadingTextView.swift in Sources */,
-				5BA9FF5E23B221F900E57A20 /* InsightBadgeView.swift in Sources */,
+				5B54FADB23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
 				E29F5A262383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5B93231823A363C800C3C408 /* AboutViewController.swift in Sources */,
 				E27959DF238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
@@ -2525,6 +2563,8 @@
 				E222908C239509EF00412CBC /* PostListViewController.swift in Sources */,
 				5832FC54237A863300FA3196 /* DesignedSegmentControl.swift in Sources */,
 				5B289E0023A0D9EB00283C84 /* TrustIsCriticalViewController.swift in Sources */,
+				5B54FAE023C731C00029B5D5 /* Insight.swift in Sources */,
+				5B80A69E23C5D89E002E591E /* UserInfo.swift in Sources */,
 				5B58AC3723BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478C23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B58AC4C23BB47930041F216 /* SignInViewModel.swift in Sources */,
@@ -2536,6 +2576,7 @@
 				E236B679238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5B4A239923B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7B23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
+				5B67AA6423C829AC00136B68 /* Metadata.swift in Sources */,
 				5832D6FF238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				5BEF584423AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				5832FC56237A863300FA3196 /* TableView.swift in Sources */,
@@ -2599,7 +2640,6 @@
 				E21EF9E7239100A6004D4513 /* Usage.swift in Sources */,
 				5832FC47237A863300FA3196 /* ThemedViewController.swift in Sources */,
 				5B2097B223B4674B0079B421 /* ReactionListViewController.swift in Sources */,
-				5B4A239D23B2120B00447366 /* Insight.swift in Sources */,
 				5B2097A123B464360079B421 /* ReactionService.swift in Sources */,
 				5832FCAF237A8A9300FA3196 /* FileManager+Directory.swift in Sources */,
 			);
@@ -2628,6 +2668,7 @@
 				5B93232223A363E200C3C408 /* FAQViewController.swift in Sources */,
 				5B5DFFCC23A1F0F4003D1A1C /* TextField.swift in Sources */,
 				5B5DFFCD23A1F0F4003D1A1C /* RequestDataViewModel.swift in Sources */,
+				5BC91CC223CC29CB000058A7 /* Converter.swift in Sources */,
 				5B5DFFCE23A1F0F4003D1A1C /* Array+Sentence.swift in Sources */,
 				5B5DFFCF23A1F0F4003D1A1C /* DataRequestedViewModel.swift in Sources */,
 				5B5DFFD023A1F0F4003D1A1C /* AskNotificationsViewModel.swift in Sources */,
@@ -2685,6 +2726,7 @@
 				5B5DFFF723A1F0F4003D1A1C /* Navigator.swift in Sources */,
 				5B5DFFF823A1F0F4003D1A1C /* GetYourDataViewController.swift in Sources */,
 				5B5DFFF923A1F0F4003D1A1C /* EditingTextView.swift in Sources */,
+				5B67AA6A23C830D300136B68 /* String+Extension.swift in Sources */,
 				5B5DFFFA23A1F0F4003D1A1C /* LaunchingViewModel.swift in Sources */,
 				5BB2853123A34235000C04CA /* SettingsBundle.swift in Sources */,
 				5B5DFFFC23A1F0F4003D1A1C /* MakeUnderline.swift in Sources */,
@@ -2698,7 +2740,7 @@
 				5B5D000423A1F0F4003D1A1C /* InsightViewController.swift in Sources */,
 				5B5D000523A1F0F4003D1A1C /* MoyaProviderType+Request.swift in Sources */,
 				5B5D000623A1F0F4003D1A1C /* ReadingTextView.swift in Sources */,
-				5BA9FF6023B221F900E57A20 /* InsightBadgeView.swift in Sources */,
+				5B54FADD23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
 				5B5D000723A1F0F4003D1A1C /* SignInWallViewController.swift in Sources */,
 				5B93231A23A363C800C3C408 /* AboutViewController.swift in Sources */,
 				5B5D000923A1F0F4003D1A1C /* RequestDataViewController.swift in Sources */,
@@ -2713,6 +2755,8 @@
 				5B5D001123A1F0F4003D1A1C /* HomeTabbarController.swift in Sources */,
 				5B5D001223A1F0F4003D1A1C /* UsageViewController.swift in Sources */,
 				5B5D001323A1F0F4003D1A1C /* PostListViewController.swift in Sources */,
+				5B54FAE223C731C00029B5D5 /* Insight.swift in Sources */,
+				5B80A6A023C5D89E002E591E /* UserInfo.swift in Sources */,
 				5B58AC3923BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478E23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B58AC4E23BB47930041F216 /* SignInViewModel.swift in Sources */,
@@ -2724,6 +2768,7 @@
 				58FF431223B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
 				5B4A239B23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7D23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
+				5B67AA6623C829AC00136B68 /* Metadata.swift in Sources */,
 				5B5D001B23A1F0F4003D1A1C /* NavigationView.swift in Sources */,
 				5BEF584623AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				5B5D001C23A1F0F4003D1A1C /* DataRequestedViewController.swift in Sources */,
@@ -2787,7 +2832,6 @@
 				5B5D004723A1F0F4003D1A1C /* Usage.swift in Sources */,
 				5B5D004823A1F0F4003D1A1C /* ThemedViewController.swift in Sources */,
 				5B2097B423B4674B0079B421 /* ReactionListViewController.swift in Sources */,
-				5B4A239F23B2120B00447366 /* Insight.swift in Sources */,
 				5B2097A323B464360079B421 /* ReactionService.swift in Sources */,
 				5B5D004923A1F0F4003D1A1C /* FileManager+Directory.swift in Sources */,
 			);
@@ -2805,6 +2849,7 @@
 				5B93232123A363E200C3C408 /* FAQViewController.swift in Sources */,
 				E2DB6683237D3B69005367C2 /* TextField.swift in Sources */,
 				E27959DD23868795000E9CB9 /* RequestDataViewModel.swift in Sources */,
+				5BC91CC123CC29CB000058A7 /* Converter.swift in Sources */,
 				E23807D323963E3E0079A3C4 /* Array+Sentence.swift in Sources */,
 				E28B55EE238CE65B00F1BCF2 /* DataRequestedViewModel.swift in Sources */,
 				5BB319B223A09876005F7C58 /* AskNotificationsViewModel.swift in Sources */,
@@ -2862,6 +2907,7 @@
 				E2DB6693237D3B69005367C2 /* Navigator.swift in Sources */,
 				E22BB3352384E7320044BC95 /* GetYourDataViewController.swift in Sources */,
 				E2DB6694237D3B69005367C2 /* EditingTextView.swift in Sources */,
+				5B67AA6923C830D300136B68 /* String+Extension.swift in Sources */,
 				E2DB6695237D3B69005367C2 /* LaunchingViewModel.swift in Sources */,
 				5BB2853023A34235000C04CA /* SettingsBundle.swift in Sources */,
 				E2DB6696237D3B69005367C2 /* MakeUnderline.swift in Sources */,
@@ -2875,7 +2921,7 @@
 				5832D702238BC23D0074AEDC /* InsightViewController.swift in Sources */,
 				E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */,
 				E2DB669C237D3B69005367C2 /* ReadingTextView.swift in Sources */,
-				5BA9FF5F23B221F900E57A20 /* InsightBadgeView.swift in Sources */,
+				5B54FADC23C6DACA0029B5D5 /* AdsCategoryView.swift in Sources */,
 				E29F5A272383E2E700C1D9D8 /* SignInWallViewController.swift in Sources */,
 				5B93231923A363C800C3C408 /* AboutViewController.swift in Sources */,
 				E27959E0238687A2000E9CB9 /* RequestDataViewController.swift in Sources */,
@@ -2890,6 +2936,8 @@
 				5832D6E1238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
 				5832D6E8238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
 				E222908D239509EF00412CBC /* PostListViewController.swift in Sources */,
+				5B54FAE123C731C00029B5D5 /* Insight.swift in Sources */,
+				5B80A69F23C5D89E002E591E /* UserInfo.swift in Sources */,
 				5B58AC3823BADC890041F216 /* QueryTrack.swift in Sources */,
 				5BEB478D23AC7EB100750AC6 /* UsageAPI.swift in Sources */,
 				5B58AC4D23BB47930041F216 /* SignInViewModel.swift in Sources */,
@@ -2901,6 +2949,7 @@
 				58FF431123B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
 				5B4A239A23B1D1C300447366 /* MediaData.swift in Sources */,
 				5B590A7C23B380A5006C194D /* BiometricAuthViewController.swift in Sources */,
+				5B67AA6523C829AC00136B68 /* Metadata.swift in Sources */,
 				E236B67A238EAAF200C1A280 /* NavigationView.swift in Sources */,
 				5BEF584523AB2EA500901D52 /* Date+Extension.swift in Sources */,
 				E28B55F1238CE66500F1BCF2 /* DataRequestedViewController.swift in Sources */,
@@ -2964,7 +3013,6 @@
 				E21EF9E8239100A6004D4513 /* Usage.swift in Sources */,
 				E2DB66B5237D3B69005367C2 /* ThemedViewController.swift in Sources */,
 				5B2097B323B4674B0079B421 /* ReactionListViewController.swift in Sources */,
-				5B4A239E23B2120B00447366 /* Insight.swift in Sources */,
 				5B2097A223B464360079B421 /* ReactionService.swift in Sources */,
 				E2DB66B6237D3B69005367C2 /* FileManager+Directory.swift in Sources */,
 			);

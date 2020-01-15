@@ -29,7 +29,7 @@
 "getYourData.screenTitle" = "Get Your Data";
 "getYourData.login.placeholder" = "Facebook login";
 "getYourData.password.placeholder" = "Facebook password";
-"getYourData.giveAutomateTrust" = "We’ll only use your Facebook login information to automate your back up.\n\nYour login is stored locally, never in the Cloud.";
+"getYourData.giveAutomateTrust" = "We’ll only use your Facebook login information to automate your back up.\n\nYour login is stored on your device, never in the Cloud.";
 "getYourData.authorize.automate" = "Authorize »";
 "getYourData.authorize.manual" = "Prefer not to automate this?";
 
@@ -45,12 +45,17 @@
 "dataRequested.waiting.screenTitle" = "Still Waiting";
 "dataRequested.waiting.description" = "Sorry, Facebook is still preparing your data archive. This may take another day or two, depending on how much data you have. You can safely close this app now.";
 
-"dataAnalyzing.screenTitle" = "Analyzing Data";
-"dataAnalyzing.description" = "Your Facebook data archive has been successfully secured. We’ve started analyzing your data and will send you a notification when it’s ready. You can safely close this app now.";
+"dataAnalyzing.screenTitle" = "Processing Data";
+"dataAnalyzing.description" = "Your Facebook data archive has been successfully secured. We’ve started processing your data and will send you a notification when it’s ready. You can safely close this app now.";
 
 "dataRequested.scheduleNotify.message" = "Just reminding you to check if your Facebook archive is ready. Tap to continue.";
 
 "mood.average" = "Period Average";
+
+"income.description" = "Income Facebook made from you since %@";
+
+"adsCategory.header" = "CATEGORIES FOR ADS";
+"adsCategory.description" = "These categories are based on your activity. They are used by advertisers to personalize your information.";
 
 "posts.empty" = "You have no posts!";
 "post.postInfo.friendTags" = " W/%@";

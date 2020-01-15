@@ -6,8 +6,12 @@
  */
 package com.bitmark.fbm.data.source.local
 
+import com.bitmark.fbm.data.ext.fromJson
 import com.bitmark.fbm.data.ext.mapToCheckDbRecordResult
+import com.bitmark.fbm.data.ext.newGsonInstance
+import com.bitmark.fbm.data.model.InsightData
 import com.bitmark.fbm.data.model.entity.*
+import com.bitmark.fbm.data.model.newDefaultInstance
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
 import com.bitmark.fbm.data.source.local.api.SharedPrefApi
@@ -20,39 +24,22 @@ class StatisticLocalDataSource @Inject constructor(
     fileStorageApi: FileStorageApi
 ) : LocalDataSource(databaseApi, sharedPrefApi, fileStorageApi) {
 
-    fun listUsage(period: Period, periodStartedAt: Long) =
+    fun listUsageStatistic(period: Period, periodStartedAt: Long) =
         databaseApi.rxSingle { databaseGateway ->
             databaseGateway.sectionDao().listBy(
-                arrayOf(SectionName.REACTION, SectionName.POST),
+                arrayOf(SectionName.SENTIMENT, SectionName.REACTION, SectionName.POST),
                 period,
                 periodStartedAt
             )
         }
 
-    fun listInsights(period: Period, periodStartedAt: Long) =
-        databaseApi.rxSingle { databaseGateway ->
-            databaseGateway.sectionDao().listBy(
-                arrayOf(SectionName.FB_INCOME, SectionName.SENTIMENT),
-                period,
-                periodStartedAt
-            )
-        }
-
-    fun saveStatistics(sections: List<SectionR>) = databaseApi.rxSingle { databaseGateway ->
+    fun saveUsageStatistics(sections: List<SectionR>) = databaseApi.rxSingle { databaseGateway ->
         databaseGateway.sectionDao().save(sections)
     }
 
-    fun checkUsageStored(startedAt: Long, endedAt: Long) =
+    fun checkStoredUsageStatistic(startedAt: Long, endedAt: Long) =
         databaseApi.rxSingle { databaseGateway ->
             val criteria = CriteriaR.fromStatisticWType("usage", startedAt, endedAt)
-            databaseGateway.criteriaDao()
-                .getCriteria(criteria.query)
-                .mapToCheckDbRecordResult()
-        }
-
-    fun checkInsightStored(startedAt: Long, endedAt: Long) =
-        databaseApi.rxSingle { databaseGateway ->
-            val criteria = CriteriaR.fromStatisticWType("insight", startedAt, endedAt)
             databaseGateway.criteriaDao()
                 .getCriteria(criteria.query)
                 .mapToCheckDbRecordResult()
@@ -64,9 +51,21 @@ class StatisticLocalDataSource @Inject constructor(
                 .save(CriteriaR.fromStatisticWType("usage", startedAt, endedAt))
         }
 
-    fun saveInsightCriteria(startedAt: Long, endedAt: Long) =
-        databaseApi.rxCompletable { databaseGateway ->
-            databaseGateway.criteriaDao()
-                .save(CriteriaR.fromStatisticWType("insight", startedAt, endedAt))
+    fun saveInsightData(insightData: InsightData) =
+        sharedPrefApi.rxCompletable { sharedPrefGateway ->
+            sharedPrefGateway.put(SharedPrefApi.INSIGHT_DATA, insightData)
         }
+
+    fun getInsightData() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        val insight = sharedPrefGateway.get(
+            SharedPrefApi.INSIGHT_DATA,
+            String::class
+        )
+        if (insight.isEmpty()) {
+            InsightData.newDefaultInstance()
+        } else {
+            newGsonInstance().fromJson<InsightData>(insight)
+        }
+
+    }
 }

@@ -36,6 +36,7 @@ public struct Constant {
         static let archive = "MMM d 'at' h:mm a"
         static let full = "YYYY MMM d"
         static let short = "MMM d"
+        static let date = "MMM d, YYYY"
     }
 
     public struct OneSignalTag {

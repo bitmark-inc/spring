@@ -21,6 +21,7 @@ import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.FADE_IN
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.main.MainActivity
+import com.bitmark.fbm.feature.register.archiverequest.ArchiveRequestContainerActivity
 import com.bitmark.fbm.feature.register.dataprocessing.DataProcessingActivity
 import com.bitmark.fbm.feature.register.onboarding.OnboardingActivity
 import com.bitmark.fbm.feature.signin.SignInActivity
@@ -98,7 +99,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     }
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     logger.logError(
                         Event.SPLASH_VERSION_CHECK_ERROR,
                         res.throwable() ?: UnknownException()
@@ -152,7 +153,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     }
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     logger.logSharedPrefError(res.throwable(), "get account info error")
                     dialogController.unexpectedAlert { navigator.exitApp() }
                 }
@@ -170,7 +171,7 @@ class SplashActivity : BaseAppCompatActivity() {
                     }
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     val error = res.throwable()!!
                     logger.logError(
                         Event.SPLASH_PREPARE_DATA_ERROR,
@@ -190,18 +191,29 @@ class SplashActivity : BaseAppCompatActivity() {
         viewModel.checkDataReadyLiveData.asLiveData().observe(this, Observer { res ->
             when {
                 res.isSuccess() -> {
-                    val dataReady = res.data() ?: false
+                    val dataReady = res.data()!!.first
+                    val categoryReady = res.data()!!.second
+
                     handler.postDelayed({
                         if (dataReady) {
-                            navigator.anim(FADE_IN)
-                                .startActivityAsRoot(MainActivity::class.java)
+                            if (categoryReady) {
+                                navigator.anim(FADE_IN)
+                                    .startActivityAsRoot(MainActivity::class.java)
+                            } else {
+                                val bundle = ArchiveRequestContainerActivity.getBundle(true)
+                                navigator.anim(FADE_IN)
+                                    .startActivityAsRoot(
+                                        ArchiveRequestContainerActivity::class.java,
+                                        bundle
+                                    )
+                            }
                         } else {
                             showDataAnalyzing()
                         }
                     }, 250)
                 }
 
-                res.isError()   -> {
+                res.isError() -> {
                     logger.logSharedPrefError(res.throwable(), "check data ready error")
                     dialogController.unexpectedAlert { navigator.exitApp() }
                 }
@@ -213,7 +225,7 @@ class SplashActivity : BaseAppCompatActivity() {
     private fun showDataAnalyzing() {
         val bundle =
             DataProcessingActivity.getBundle(
-                getString(R.string.analyzing_data),
+                getString(R.string.processing_data),
                 getString(R.string.your_fb_data_archive_has_been_successfully)
             )
         navigator.anim(FADE_IN)

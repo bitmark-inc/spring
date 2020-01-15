@@ -11,6 +11,9 @@ import android.os.Handler
 import android.os.Looper
 import com.bitmark.apiservice.utils.callback.Callback0
 import com.bitmark.apiservice.utils.callback.Callback1
+import com.bitmark.cryptography.crypto.Sha3256
+import com.bitmark.cryptography.crypto.encoder.Hex.HEX
+import com.bitmark.cryptography.crypto.encoder.Raw.RAW
 import com.bitmark.fbm.data.ext.fromJson
 import com.bitmark.fbm.data.ext.newGsonInstance
 import com.bitmark.fbm.data.model.CredentialData.Companion.CREDENTIAL_ALIAS
@@ -44,10 +47,13 @@ data class CredentialData(
     fun isValid() = id.isNotBlank() && password.isNotBlank()
 }
 
+fun CredentialData.Companion.hashId(id: String): String = HEX.encode(Sha3256.hash(RAW.decode(id)))
+
 fun CredentialData.save(
     activity: Activity,
     executor: Executor = Executors.newSingleThreadExecutor(),
-    callback: Callback0
+    success: () -> Unit,
+    error: (Throwable?) -> Unit
 ) {
     executor.execute {
         val handler = Handler(Looper.getMainLooper())
@@ -63,11 +69,11 @@ fun CredentialData.save(
             credential.toByteArray(Charsets.UTF_8),
             object : Callback0 {
                 override fun onSuccess() {
-                    handler.post { callback.onSuccess() }
+                    handler.post { success() }
                 }
 
                 override fun onError(throwable: Throwable?) {
-                    handler.post { callback.onError(throwable) }
+                    handler.post { error(throwable) }
                 }
 
             }
@@ -78,7 +84,8 @@ fun CredentialData.save(
 fun CredentialData.Companion.load(
     activity: Activity,
     executor: Executor = Executors.newSingleThreadExecutor(),
-    callback: Callback1<CredentialData>
+    success: (CredentialData) -> Unit,
+    error: (Throwable?) -> Unit
 ) {
     executor.execute {
         val handler = Handler(Looper.getMainLooper())
@@ -91,17 +98,17 @@ fun CredentialData.Companion.load(
             override fun onSuccess(data: ByteArray?) {
                 handler.post {
                     if (data == null) {
-                        callback.onError(IllegalAccessException("credential is empty"))
+                        error(IllegalAccessException("credential is empty"))
                     } else {
                         val credential = newGsonInstance().fromJson<CredentialData>(String(data))
-                        callback.onSuccess(credential)
+                        success(credential)
                     }
                 }
             }
 
             override fun onError(throwable: Throwable?) {
                 handler.post {
-                    callback.onError(throwable)
+                    error(throwable)
                 }
             }
 

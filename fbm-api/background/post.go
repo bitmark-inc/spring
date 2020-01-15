@@ -122,6 +122,9 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 			if counter.earliestPostTimestamp > post.Timestamp {
 				counter.earliestPostTimestamp = post.Timestamp
 			}
+			if counter.latestPostTimestamp < post.Timestamp {
+				counter.latestPostTimestamp = post.Timestamp
+			}
 		}
 
 		// Should go to next page?
@@ -181,8 +184,9 @@ func (b *BackgroundContext) extractPost(job *work.Job) (err error) {
 		if _, err := b.store.UpdateAccountMetadata(ctx, &store.AccountQueryParam{
 			AccountNumber: &accountNumber,
 		}, map[string]interface{}{
-			"original_location":  geoCodingData.Address.CountryCode,
-			"original_timestamp": counter.earliestPostTimestamp,
+			"original_location":         geoCodingData.Address.CountryCode,
+			"original_timestamp":        counter.earliestPostTimestamp,
+			"latest_activity_timestamp": counter.latestPostTimestamp,
 		}); err != nil {
 			return err
 		}
@@ -243,6 +247,7 @@ type postStatisticCounter struct {
 
 	lastLocation          *protomodel.Coordinate
 	earliestPostTimestamp int64
+	latestPostTimestamp   int64
 }
 
 func plusOneValue(m *map[string]int64, key string) {
@@ -296,6 +301,7 @@ func newPostStatisticCounter() *postStatisticCounter {
 		lastLocation:          nil,
 		LastPostTimestamp:     time.Now().Unix(),
 		earliestPostTimestamp: time.Now().Unix(),
+		latestPostTimestamp:   0,
 	}
 }
 

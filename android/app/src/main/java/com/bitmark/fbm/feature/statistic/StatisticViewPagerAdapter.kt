@@ -15,8 +15,6 @@ import com.bitmark.fbm.util.view.ViewPagerAdapter
 
 class StatisticViewPagerAdapter(
     private val context: Context,
-    @Statistic.Type
-    type: String,
     fm: FragmentManager
 ) :
     ViewPagerAdapter(fm) {
@@ -29,9 +27,9 @@ class StatisticViewPagerAdapter(
 
     init {
         add(
-            StatisticFragment.newInstance(type, Period.WEEK),
-            StatisticFragment.newInstance(type, Period.YEAR),
-            StatisticFragment.newInstance(type, Period.DECADE)
+            StatisticFragment.newInstance(Period.WEEK),
+            StatisticFragment.newInstance(Period.YEAR),
+            StatisticFragment.newInstance(Period.DECADE)
         )
     }
 

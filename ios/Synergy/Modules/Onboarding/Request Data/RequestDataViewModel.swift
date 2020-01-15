@@ -15,6 +15,7 @@ enum Mission {
     case requestData
     case checkRequestedData
     case downloadData
+    case getCategories
 }
 
 class RequestDataViewModel: ViewModel {
@@ -22,18 +23,18 @@ class RequestDataViewModel: ViewModel {
     // MARK: - Properties
     var login: String?
     var password: String?
-    var mission: Mission!
+    var missions = [Mission]()
 
     // MARK: - Output
     let fbScriptsRelay = BehaviorRelay<[FBScript]>(value: [])
     let fbScriptResultSubject = PublishSubject<Event<Void>>()
     let signUpAndSubmitArchiveResultSubject = PublishSubject<Event<Never>>()
 
-    init(login: String? = nil, password: String? = nil, _ mission: Mission) {
+    init(login: String? = nil, password: String? = nil, missions: [Mission]) {
         super.init()
         self.login = login
         self.password = password
-        self.mission = mission
+        self.missions = missions
 
         self.setup()
     }
@@ -45,6 +46,23 @@ class RequestDataViewModel: ViewModel {
             },
             onError: { [weak self] (error) in
                 self?.fbScriptResultSubject.onNext(Event.error(error))
+            })
+            .disposed(by: disposeBag)
+
+        signUpAndSubmitArchiveResultSubject
+            .filter({ $0.isCompleted })
+            .subscribe(onNext: { [weak self] (_) in
+                guard let self = self, let adsCategories = UserDefaults.standard.fbCategoriesInfo as? [String] else {
+                    return
+                }
+
+                _ = self.storeAdsCategoriesInfo(adsCategories)
+                    .subscribe(onCompleted: {
+                        Global.log.info("[done] store UserInfo - adsCategory")
+                        UserDefaults.standard.fbCategoriesInfo = nil
+                    }, onError: { (error) in
+                        Global.log.error(error)
+                    })
             })
             .disposed(by: disposeBag)
     }
@@ -78,6 +96,18 @@ class RequestDataViewModel: ViewModel {
             }
         }
 
+        let registerOneSignalNotificationCompletable = Completable.deferred {
+            guard let accountNumber = Global.current.account?.getAccountNumber() else {
+                return Completable.never()
+            }
+
+            guard UserDefaults.standard.enablePushNotification else {
+                return Completable.empty()
+            }
+
+            return self.registerOneSignal(accountNumber: accountNumber)
+        }
+
         let fbArchiveCreatedAtTime: Date!
         if let fbArchiveCreatedAt = UserDefaults.standard.FBArchiveCreatedAt {
             fbArchiveCreatedAtTime = fbArchiveCreatedAt
@@ -88,19 +118,18 @@ class RequestDataViewModel: ViewModel {
 
         createdAccounCompletable
             .andThen(FbmAccountService.create())
-            .catchErrorJustReturn(FbmAccount())
-            .flatMapCompletable({ [weak self] (_) -> Completable in
-                guard let self = self,
-                    let accountNumber = Global.current.account?.getAccountNumber() else {
-                        return Completable.never()
+            .catchError { (error) -> Single<FbmAccount> in
+                if let error = error as? ServerAPIError, error.code == .AccountHasTaken {
+                    return Single.just(FbmAccount())
                 }
 
-                guard UserDefaults.standard.enablePushNotification else {
-                    return Completable.empty()
-                }
-
-                return self.registerOneSignal(accountNumber: accountNumber)
-            })
+                return Single.error(error)
+            }
+            .flatMapCompletable { (fbmAccount) -> Completable in
+                guard fbmAccount.accountNumber.isNotEmpty else { return Completable.empty() }
+                return FbmAccountDataEngine.rx.updateMetadata(for: fbmAccount)
+            }
+            .andThen(registerOneSignalNotificationCompletable)
             .andThen(
                 FBArchiveService.submit(
                     headers: headers,
@@ -114,6 +143,15 @@ class RequestDataViewModel: ViewModel {
                 self?.signUpAndSubmitArchiveResultSubject.onNext($0)
             }
             .disposed(by: disposeBag)
+    }
+
+    func storeAdsCategoriesInfo(_ adsCategories: [String]) -> Completable {
+        do {
+            let userInfo = try UserInfo(key: .adsCategory, value: adsCategories)
+            return Storage.store(userInfo)
+        } catch {
+            return Completable.error(error)
+        }
     }
     
     fileprivate func registerOneSignal(accountNumber: String) -> Completable {

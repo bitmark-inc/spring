@@ -22,11 +22,15 @@ enum class Event(val value: String) {
 
     ACCOUNT_GET_JWT_ERROR("account_get_jwt_error"),
 
-    ARCHIVE_REQUEST_AUTOMATE_PAGE_DETECTION_ERROR("archive_automate_page_detection_error"),
+    AUTOMATE_PAGE_DETECTION_ERROR("page_detection_error"),
 
     ARCHIVE_REQUEST_PREPARE_DATA_ERROR("archive_request_prepare_data_error"),
 
     ARCHIVE_REQUEST_REGISTER_ACCOUNT_ERROR("archive_request_register_account_error"),
+
+    ARCHIVE_ISSUE_ERROR("archive_issue_error"),
+
+    ARCHIVE_ISSUE_SUCCESS("archive_issue_success"),
 
     SPLASH_PREPARE_DATA_ERROR("splash_prepare_data_error"),
 
@@ -36,6 +40,7 @@ enum class Event(val value: String) {
 
     LOAD_STATISTIC_ERROR("statistic_error"),
 
-    PLAY_VIDEO_ERROR("play_video_error")
+    PLAY_VIDEO_ERROR("play_video_error"),
 
+    INSIGHTS_LOADING_ERROR("insights_loading_error")
 }

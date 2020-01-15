@@ -164,11 +164,7 @@ func (r *reactionStatCounter) flushStat(period string, currentStat *reactionStat
 		if lastStat != nil {
 			lastQuantity = lastStat.Reaction.Quantity
 		}
-		log.Debug("last quantity: ", lastQuantity)
-		log.Debug("current quantity: ", currentStat.Reaction.Quantity)
 		currentStat.Reaction.DiffFromPrevious = getDiff(float64(currentStat.Reaction.Quantity), float64(lastQuantity))
-
-		log.Debug("Diff: ", currentStat.Reaction.DiffFromPrevious)
 
 		statData, _ := proto.Marshal(currentStat.Reaction)
 
