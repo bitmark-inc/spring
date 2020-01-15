@@ -35,5 +35,7 @@ class AttributedReadTextView: UITextView {
         textContainer.lineFragmentPadding = 0
         backgroundColor = .clear
         isEditable = false
+        isScrollEnabled = false
+        clipsToBounds = false
     }
 }

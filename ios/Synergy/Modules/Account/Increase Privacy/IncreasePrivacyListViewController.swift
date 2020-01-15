@@ -39,14 +39,14 @@ class IncreasePrivacyListViewController: ViewController, BackNavigator {
 
         let blackBackItem = makeBlackBackItem()
 
-        var paddingInset = OurTheme.accountPaddingScreenTitleInset
-        paddingInset.bottom = Size.dh(13)
+        var paddingScreenTitleInset = OurTheme.accountPaddingScreenTitleInset
+        paddingScreenTitleInset.bottom = Size.dh(13)
 
         privacyListView.flex
             .padding(OurTheme.paddingInset)
             .define { (flex) in
                 flex.addItem(blackBackItem)
-                flex.addItem(screenTitle).padding(paddingInset)
+                flex.addItem(screenTitle).padding(paddingScreenTitleInset)
                 flex.addItem(makeDescriptionLabel())
 
                 for (index, privacyOption) in IncreasePrivacyOption.allCases.enumerated() {
@@ -71,12 +71,25 @@ extension IncreasePrivacyListViewController: UITextViewDelegate {
         }
 
         guard let increasePrivacyOption = IncreasePrivacyOption(rawValue: host)
-        else {
-            return true
+            else {
+                return true
         }
 
         let viewModel = IncreasePrivacyViewModel(increasePrivacyOption: increasePrivacyOption)
         navigator.show(segue: .increasePrivacy(viewModel: viewModel), sender: self)
+
+        if let privacyOptionTitleTextView = privacyOptionTitleTextViews[increasePrivacyOption] {
+            increasePrivacyOption.click()
+            privacyOptionTitleTextView.linkTextAttributes = [
+                .foregroundColor: increasePrivacyOption.clickedStatusColor
+            ]
+            privacyOptionTitleTextView.attributedText = increasePrivacyOption.title
+            privacyOptionTitleTextView.flex.markDirty()
+            privacyListView.flex.markDirty()
+            privacyListView.flex.layout(mode: .adjustHeight)
+            scroll.contentSize = privacyListView.frame.size
+        }
+
         return true
     }
 }
@@ -127,10 +140,9 @@ extension IncreasePrivacyListViewController {
 
         view.flex
             .direction(.row)
-            .alignItems(.start)
             .define { (flex) in
-                flex.addItem(indexLabel).marginRight(Size.dw(14))
-                flex.addItem().define { (flex) in
+                flex.addItem(indexLabel).marginRight(Size.dw(14)).alignSelf(.start)
+                flex.addItem().grow(1).alignItems(.stretch).define { (flex) in
                     flex.addItem(titleTextView)
                     flex.addItem(actionGuideLabel).marginTop(5)
                 }
@@ -152,12 +164,12 @@ enum IncreasePrivacyOption: String, CaseIterable {
     var title: NSAttributedString {
         let normal = Style {
             $0.font = self.hasClicked ? R.font.atlasGroteskRegularItalic(size: Size.ds(16)) : R.font.atlasGroteskLightItalic(size: Size.ds(16))
-            $0.color = UIColor.black
+            $0.color = self.clickedStatusColor
         }
 
         let linkStyle = normal.byAdding {
             $0.linkURL = appURL
-            $0.underline = (.single, UIColor.black)
+            $0.underline = (.single, self.clickedStatusColor)
         }
 
         return titleText.set(style: StyleXML(base: normal, ["a": linkStyle]))

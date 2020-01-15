@@ -34,6 +34,11 @@ class IncreasePrivacyViewController: ViewController, BackNavigator {
 
     override func bindViewModel() {
         super.bindViewModel()
+
+        shareButton.rx.tap.bind { [weak self] in
+            self?.shareURL()
+        }.disposed(by: disposeBag)
+
         loadWebView()
     }
 
@@ -41,6 +46,12 @@ class IncreasePrivacyViewController: ViewController, BackNavigator {
         let guideURLRequest = URLRequest(url: thisViewModel.increasePrivacyOption.guideURL)
         loadingState.onNext(.loading)
         webView.load(guideURLRequest)
+    }
+
+    fileprivate func shareURL() {
+        let items = [thisViewModel.increasePrivacyOption.guideURL]
+        let shareActivityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        present(shareActivityVC, animated: true)
     }
 
     // MARK: Setup Views
