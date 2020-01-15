@@ -23,6 +23,8 @@ class AccountViewController: ViewController, BackNavigator {
     lazy var biometricAuthOptionButton = makeBiometricAuthOptionButton()
     lazy var recoveryKeyOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSecurityRecoveryKey())
 
+    lazy var increasePrivacyButton = makeOptionButton(title: R.string.phrase.accountSettingsFacebookIncreasePrivacy())
+
     lazy var aboutOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportAbout())
     lazy var faqOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportFaq())
     lazy var whatsNewButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportWhatsNew())
@@ -53,6 +55,10 @@ class AccountViewController: ViewController, BackNavigator {
 
         recoveryKeyOptionButton.rx.tap.bind { [weak self] in
             self?.gotoViewRecoveryKeyFlow()
+        }.disposed(by: disposeBag)
+
+        increasePrivacyButton.rx.tap.bind { [weak self] in
+            self?.gotoIncreasePrivacyListScreen()
         }.disposed(by: disposeBag)
 
         aboutOptionButton.rx.tap.bind { [weak self] in
@@ -110,6 +116,12 @@ class AccountViewController: ViewController, BackNavigator {
 
             flex.addItem(
                 makeOptionsSection(
+                   name: R.string.phrase.accountSettingFacebook(),
+                   options: [increasePrivacyButton]))
+                .marginTop(12)
+
+            flex.addItem(
+                makeOptionsSection(
                     name: R.string.phrase.accountSettingsSupport(),
                     options: [whatsNewButton, contactOptionButton, surveyOptionButton]))
                 .marginTop(12)
@@ -137,6 +149,10 @@ extension AccountViewController {
 
     fileprivate func gotoViewRecoveryKeyFlow() {
         navigator.show(segue: .viewRecoveryKeyWarning, sender: self)
+    }
+
+    fileprivate func gotoIncreasePrivacyListScreen() {
+        navigator.show(segue: .increasePrivacyList, sender: self)
     }
 
     fileprivate func gotoAboutScreen() {

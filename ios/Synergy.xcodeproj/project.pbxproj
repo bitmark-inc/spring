@@ -100,6 +100,12 @@
 		58FF431023B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */; };
 		58FF431123B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */; };
 		58FF431223B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */; };
+		5B13D3A323CEFD4A00F82350 /* IncreasePrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D3A223CEFD4A00F82350 /* IncreasePrivacyViewController.swift */; };
+		5B13D3A423CEFD4A00F82350 /* IncreasePrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D3A223CEFD4A00F82350 /* IncreasePrivacyViewController.swift */; };
+		5B13D3A523CEFD4A00F82350 /* IncreasePrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D3A223CEFD4A00F82350 /* IncreasePrivacyViewController.swift */; };
+		5B13D3A723CF000100F82350 /* IncreasePrivacyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D3A623CF000100F82350 /* IncreasePrivacyViewModel.swift */; };
+		5B13D3A823CF000100F82350 /* IncreasePrivacyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D3A623CF000100F82350 /* IncreasePrivacyViewModel.swift */; };
+		5B13D3A923CF000100F82350 /* IncreasePrivacyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B13D3A623CF000100F82350 /* IncreasePrivacyViewModel.swift */; };
 		5B2097A123B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
 		5B2097A223B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
 		5B2097A323B464360079B421 /* ReactionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B2097A023B464360079B421 /* ReactionService.swift */; };
@@ -135,6 +141,12 @@
 		5B32F5BB23CD830100959DFF /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BA23CD830100959DFF /* AppLink.swift */; };
 		5B32F5BC23CD830100959DFF /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BA23CD830100959DFF /* AppLink.swift */; };
 		5B32F5BD23CD830100959DFF /* AppLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BA23CD830100959DFF /* AppLink.swift */; };
+		5B32F5C023CDBCCA00959DFF /* IncreasePrivacyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BF23CDBCCA00959DFF /* IncreasePrivacyListViewController.swift */; };
+		5B32F5C123CDBCCA00959DFF /* IncreasePrivacyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BF23CDBCCA00959DFF /* IncreasePrivacyListViewController.swift */; };
+		5B32F5C223CDBCCA00959DFF /* IncreasePrivacyListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5BF23CDBCCA00959DFF /* IncreasePrivacyListViewController.swift */; };
+		5B32F5C423CDD38000959DFF /* AttributedReadTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5C323CDD38000959DFF /* AttributedReadTextView.swift */; };
+		5B32F5C523CDD38000959DFF /* AttributedReadTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5C323CDD38000959DFF /* AttributedReadTextView.swift */; };
+		5B32F5C623CDD38000959DFF /* AttributedReadTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B32F5C323CDD38000959DFF /* AttributedReadTextView.swift */; };
 		5B466DBC23C334EA0027D4CB /* ArrayStringSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */; };
 		5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
 		5B4A237823B1132E00447366 /* UsageBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B4A237623B1132E00447366 /* UsageBadgeView.swift */; };
@@ -804,6 +816,8 @@
 		58C009DE2398C69400302F49 /* DataAnalyzingViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataAnalyzingViewModel.swift; sourceTree = "<group>"; };
 		58C009E42398C6CF00302F49 /* LensViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LensViewController.swift; sourceTree = "<group>"; };
 		58FF430F23B4BB380029700C /* AbbreviatedValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbbreviatedValueFormatter.swift; sourceTree = "<group>"; };
+		5B13D3A223CEFD4A00F82350 /* IncreasePrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncreasePrivacyViewController.swift; sourceTree = "<group>"; };
+		5B13D3A623CF000100F82350 /* IncreasePrivacyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncreasePrivacyViewModel.swift; sourceTree = "<group>"; };
 		5B2097A023B464360079B421 /* ReactionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionService.swift; sourceTree = "<group>"; };
 		5B2097A423B464410079B421 /* ReactionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionAPI.swift; sourceTree = "<group>"; };
 		5B2097A823B464A40079B421 /* ReactionDataEngine+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ReactionDataEngine+Rx.swift"; sourceTree = "<group>"; };
@@ -816,6 +830,8 @@
 		5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrustIsCriticalViewController.swift; sourceTree = "<group>"; };
 		5B32F5B623CD70B200959DFF /* LaunchingNavigatorDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchingNavigatorDelegate.swift; sourceTree = "<group>"; };
 		5B32F5BA23CD830100959DFF /* AppLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLink.swift; sourceTree = "<group>"; };
+		5B32F5BF23CDBCCA00959DFF /* IncreasePrivacyListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncreasePrivacyListViewController.swift; sourceTree = "<group>"; };
+		5B32F5C323CDD38000959DFF /* AttributedReadTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedReadTextView.swift; sourceTree = "<group>"; };
 		5B466DBB23C334EA0027D4CB /* ArrayStringSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayStringSpec.swift; sourceTree = "<group>"; };
 		5B4A237623B1132E00447366 /* UsageBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsageBadgeView.swift; sourceTree = "<group>"; };
 		5B4A237A23B1136E00447366 /* HeadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadingView.swift; sourceTree = "<group>"; };
@@ -1060,6 +1076,7 @@
 				5B9322EA23A361EF00C3C408 /* Sign Out */,
 				5B590A7923B38088006C194D /* Biometric Auth */,
 				5B9322ED23A3622000C3C408 /* View Recovery Key */,
+				5B32F5BE23CDBCA800959DFF /* Increase Privacy */,
 				5B9322F023A3625300C3C408 /* About */,
 				5B9322F123A3626800C3C408 /* FAQ */,
 			);
@@ -1213,6 +1230,7 @@
 				58682EDA238F7079009BDDDF /* FilterSegment.swift */,
 				582CC4C82390DBC400E4530B /* CollectionView.swift */,
 				E23807C52396023F0079A3C4 /* LinkAttributedString.swift */,
+				5B32F5C323CDD38000959DFF /* AttributedReadTextView.swift */,
 				58097056239E28C30081715C /* HeadingTableViewCell.swift */,
 			);
 			path = Views;
@@ -1396,6 +1414,16 @@
 				5B289DFF23A0D9EB00283C84 /* TrustIsCriticalViewController.swift */,
 			);
 			path = "Trust Critical";
+			sourceTree = "<group>";
+		};
+		5B32F5BE23CDBCA800959DFF /* Increase Privacy */ = {
+			isa = PBXGroup;
+			children = (
+				5B32F5BF23CDBCCA00959DFF /* IncreasePrivacyListViewController.swift */,
+				5B13D3A223CEFD4A00F82350 /* IncreasePrivacyViewController.swift */,
+				5B13D3A623CF000100F82350 /* IncreasePrivacyViewModel.swift */,
+			);
+			path = "Increase Privacy";
 			sourceTree = "<group>";
 		};
 		5B466DBA23C334CD0027D4CB /* Extensions */ = {
@@ -2586,6 +2614,7 @@
 				E222909223950B2500412CBC /* Post.swift in Sources */,
 				5832FC59237A863300FA3196 /* IconButtonView.swift in Sources */,
 				5832FCB3237A9F6200FA3196 /* Application.swift in Sources */,
+				5B13D3A723CF000100F82350 /* IncreasePrivacyViewModel.swift in Sources */,
 				5832FCAD237A8A9300FA3196 /* UIButton+Image.swift in Sources */,
 				5832D701238BC23D0074AEDC /* InsightViewController.swift in Sources */,
 				5832FCAE237A8A9300FA3196 /* MoyaProviderType+Request.swift in Sources */,
@@ -2612,6 +2641,7 @@
 				5B58AC4C23BB47930041F216 /* SignInViewModel.swift in Sources */,
 				5B2097A523B464410079B421 /* ReactionAPI.swift in Sources */,
 				5832D6E0238BB9B40074AEDC /* HomeTabbarController.swift in Sources */,
+				5B13D3A323CEFD4A00F82350 /* IncreasePrivacyViewController.swift in Sources */,
 				5832D6E7238BBE4A0074AEDC /* UsageViewController.swift in Sources */,
 				58C009D12398A43100302F49 /* CustomxAxisRender.swift in Sources */,
 				58FF431023B4BB380029700C /* AbbreviatedValueFormatter.swift in Sources */,
@@ -2646,6 +2676,7 @@
 				5BE86EA223C45ADB00D3D9BB /* Int+Formatter.swift in Sources */,
 				5832FC46237A863300FA3196 /* ViewController.swift in Sources */,
 				5B4A238F23B118E500447366 /* SectionHeadingView.swift in Sources */,
+				5B32F5C423CDD38000959DFF /* AttributedReadTextView.swift in Sources */,
 				5832FC96237A889A00FA3196 /* KeychainStore.swift in Sources */,
 				5832FC45237A863300FA3196 /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				5B4A237723B1132E00447366 /* UsageBadgeView.swift in Sources */,
@@ -2677,6 +2708,7 @@
 				5832FCAB237A8A9200FA3196 /* String+SupportBitmark.swift in Sources */,
 				5BA9FF6723B2294900E57A20 /* InsightService.swift in Sources */,
 				5B2097AD23B465070079B421 /* Reaction.swift in Sources */,
+				5B32F5C023CDBCCA00959DFF /* IncreasePrivacyListViewController.swift in Sources */,
 				E23807CC23962F380079A3C4 /* PostAPI.swift in Sources */,
 				5B4A238B23B1166300447366 /* FilterGeneralView.swift in Sources */,
 				E21EF9E7239100A6004D4513 /* Usage.swift in Sources */,
@@ -2781,6 +2813,7 @@
 				5B5D000023A1F0F4003D1A1C /* IconButtonView.swift in Sources */,
 				5B5D000123A1F0F4003D1A1C /* Post.swift in Sources */,
 				5B5D000223A1F0F4003D1A1C /* Application.swift in Sources */,
+				5B13D3A923CF000100F82350 /* IncreasePrivacyViewModel.swift in Sources */,
 				5B5D000323A1F0F4003D1A1C /* UIButton+Image.swift in Sources */,
 				5B5D000423A1F0F4003D1A1C /* InsightViewController.swift in Sources */,
 				5B5D000523A1F0F4003D1A1C /* MoyaProviderType+Request.swift in Sources */,
@@ -2807,6 +2840,7 @@
 				5B58AC4E23BB47930041F216 /* SignInViewModel.swift in Sources */,
 				5B2097A723B464410079B421 /* ReactionAPI.swift in Sources */,
 				5B5D001423A1F0F4003D1A1C /* FbmAccount.swift in Sources */,
+				5B13D3A523CEFD4A00F82350 /* IncreasePrivacyViewController.swift in Sources */,
 				5B5D001523A1F0F4003D1A1C /* AccountViewController.swift in Sources */,
 				5B5D001623A1F0F4003D1A1C /* TableView.swift in Sources */,
 				5B5D001723A1F0F4003D1A1C /* CustomxAxisRender.swift in Sources */,
@@ -2841,6 +2875,7 @@
 				5BE86EA423C45ADB00D3D9BB /* Int+Formatter.swift in Sources */,
 				5B5D002A23A1F0F4003D1A1C /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				5B5D002B23A1F0F4003D1A1C /* R.generated.swift in Sources */,
+				5B32F5C623CDD38000959DFF /* AttributedReadTextView.swift in Sources */,
 				5B4A239123B118E500447366 /* SectionHeadingView.swift in Sources */,
 				5B5D002D23A1F0F4003D1A1C /* ThemeManager.swift in Sources */,
 				5B4A237923B1132E00447366 /* UsageBadgeView.swift in Sources */,
@@ -2872,6 +2907,7 @@
 				5B5D004523A1F0F4003D1A1C /* String+SupportBitmark.swift in Sources */,
 				5BA9FF6923B2294900E57A20 /* InsightService.swift in Sources */,
 				5B2097AF23B465070079B421 /* Reaction.swift in Sources */,
+				5B32F5C223CDBCCA00959DFF /* IncreasePrivacyListViewController.swift in Sources */,
 				5B5D004623A1F0F4003D1A1C /* PostAPI.swift in Sources */,
 				5B4A238D23B1166300447366 /* FilterGeneralView.swift in Sources */,
 				5B5D004723A1F0F4003D1A1C /* Usage.swift in Sources */,
@@ -2965,6 +3001,7 @@
 				E2DB6698237D3B69005367C2 /* IconButtonView.swift in Sources */,
 				E222909323950B2500412CBC /* Post.swift in Sources */,
 				E2DB6699237D3B69005367C2 /* Application.swift in Sources */,
+				5B13D3A823CF000100F82350 /* IncreasePrivacyViewModel.swift in Sources */,
 				E2DB669A237D3B69005367C2 /* UIButton+Image.swift in Sources */,
 				5832D702238BC23D0074AEDC /* InsightViewController.swift in Sources */,
 				E2DB669B237D3B69005367C2 /* MoyaProviderType+Request.swift in Sources */,
@@ -2991,6 +3028,7 @@
 				5B58AC4D23BB47930041F216 /* SignInViewModel.swift in Sources */,
 				5B2097A623B464410079B421 /* ReactionAPI.swift in Sources */,
 				E28B560F238D16E800F1BCF2 /* FbmAccount.swift in Sources */,
+				5B13D3A423CEFD4A00F82350 /* IncreasePrivacyViewController.swift in Sources */,
 				5832D700238BC23D0074AEDC /* AccountViewController.swift in Sources */,
 				E2DB66A2237D3B69005367C2 /* TableView.swift in Sources */,
 				58C009D22398A43100302F49 /* CustomxAxisRender.swift in Sources */,
@@ -3025,6 +3063,7 @@
 				5BE86EA323C45ADB00D3D9BB /* Int+Formatter.swift in Sources */,
 				E2DB66A9237D3B69005367C2 /* ConfirmRecoveryKeyViewController.swift in Sources */,
 				E2DB66AA237D3B69005367C2 /* R.generated.swift in Sources */,
+				5B32F5C523CDD38000959DFF /* AttributedReadTextView.swift in Sources */,
 				5B4A239023B118E500447366 /* SectionHeadingView.swift in Sources */,
 				E2DB66AB237D3B69005367C2 /* ThemeManager.swift in Sources */,
 				5B4A237823B1132E00447366 /* UsageBadgeView.swift in Sources */,
@@ -3056,6 +3095,7 @@
 				E2DB66B4237D3B69005367C2 /* String+SupportBitmark.swift in Sources */,
 				5BA9FF6823B2294900E57A20 /* InsightService.swift in Sources */,
 				5B2097AE23B465070079B421 /* Reaction.swift in Sources */,
+				5B32F5C123CDBCCA00959DFF /* IncreasePrivacyListViewController.swift in Sources */,
 				E23807CD23962F380079A3C4 /* PostAPI.swift in Sources */,
 				5B4A238C23B1166300447366 /* FilterGeneralView.swift in Sources */,
 				E21EF9E8239100A6004D4513 /* Usage.swift in Sources */,
