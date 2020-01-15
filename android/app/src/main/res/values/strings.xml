@@ -175,8 +175,8 @@
     <string name="categories_for_ads">Categories for Ads</string>
     <string name="these_categories_are_based">These categories are based on your activity. They are used by advertisers to personalize your information.</string>
     <string name="there_was_error_when_loading_insights">There was an error when loading insights</string>
-    <string name="wrong_account">Wrong Account</string>
-    <string name="pls_use_the_same_fb">Please use the same Facebook account as before.</string>
+    <string name="accounts_dont_match">Accounts don’t match</string>
+    <string name="you_must_use_the_fb">You must use the Facebook account you originally linked to Spring.</string>
     <string name="try_again">Try again</string>
 
     <string-array name="day_of_week">

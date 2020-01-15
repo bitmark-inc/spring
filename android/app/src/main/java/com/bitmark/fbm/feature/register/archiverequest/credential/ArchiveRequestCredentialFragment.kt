@@ -153,8 +153,8 @@ class ArchiveRequestCredentialFragment : BaseSupportFragment() {
                         })
                     } else {
                         dialogController.alert(
-                            R.string.wrong_account,
-                            R.string.pls_use_the_same_fb,
+                            R.string.accounts_dont_match,
+                            R.string.you_must_use_the_fb,
                             R.string.try_again
                         )
                     }
