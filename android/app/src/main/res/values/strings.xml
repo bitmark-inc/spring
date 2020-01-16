@@ -207,7 +207,7 @@
     <string name="opt_out_of_ads_activity_arrow"><![CDATA[<u>Opt out of ads based on your activity on Facebook Company Products that you see elsewhere »]]></string>
     <string name="select_no"><![CDATA[Select <b>“No”</b>]]></string>
     <string name="opt_out_of_friend_arrow"><![CDATA[<u>Opt out of friends seeing ads you like »]]></string>
-    <string name="select_no_one"><![CDATA[Select <b>"No One”</b>]]></string>
+    <string name="select_no_one"><![CDATA[Select <b>“No One”</b>]]></string>
 
     <string-array name="day_of_week">
         <item>S</item>
