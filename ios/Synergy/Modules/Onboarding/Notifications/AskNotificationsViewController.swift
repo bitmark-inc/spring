@@ -72,16 +72,17 @@ class AskNotificationsViewController: ViewController {
         super.setupViews()
 
         let dataRequestedTitle = Label()
-        dataRequestedTitle.applyBlack(
+        dataRequestedTitle.apply(
             text: R.string.phrase.askNotificationsTitle().localizedUppercase,
-            font: R.font.domaineSansTextLight(size: Size.ds(36)))
+            font: R.font.domaineSansTextLight(size: Size.ds(36)),
+            colorTheme: .black)
 
         let dataRequestedDesc = Label()
         dataRequestedDesc.numberOfLines = 0
-        dataRequestedDesc.applyBlack(
+        dataRequestedDesc.apply(
             text: R.string.phrase.askNotificationsDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            lineHeight: 1.2)
+            colorTheme: .black, lineHeight: 1.2)
 
         contentView.flex
             .padding(OurTheme.paddingInset)

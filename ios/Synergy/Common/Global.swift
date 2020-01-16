@@ -127,8 +127,13 @@ extension UserDefaults {
         set { set(newValue, forKey: #function) }
     }
 
-    var fbCategoriesInfo: [Any]? {
-        get { return array(forKey: #function) }
+    var fbCategoriesInfo: [String]? {
+        get { return stringArray(forKey: #function) }
+        set { set(newValue, forKey: #function) }
+    }
+
+    var clickedIncreasePrivacyURLs: [String]? {
+        get { return stringArray(forKey: #function) }
         set { set(newValue, forKey: #function) }
     }
 

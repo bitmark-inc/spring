@@ -23,6 +23,8 @@ class AccountViewController: ViewController, BackNavigator {
     lazy var biometricAuthOptionButton = makeBiometricAuthOptionButton()
     lazy var recoveryKeyOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSecurityRecoveryKey())
 
+    lazy var increasePrivacyButton = makeOptionButton(title: R.string.phrase.accountSettingsFacebookIncreasePrivacy())
+
     lazy var aboutOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportAbout())
     lazy var faqOptionButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportFaq())
     lazy var whatsNewButton = makeOptionButton(title: R.string.phrase.accountSettingsSupportWhatsNew())
@@ -53,6 +55,10 @@ class AccountViewController: ViewController, BackNavigator {
 
         recoveryKeyOptionButton.rx.tap.bind { [weak self] in
             self?.gotoViewRecoveryKeyFlow()
+        }.disposed(by: disposeBag)
+
+        increasePrivacyButton.rx.tap.bind { [weak self] in
+            self?.gotoIncreasePrivacyListScreen()
         }.disposed(by: disposeBag)
 
         aboutOptionButton.rx.tap.bind { [weak self] in
@@ -110,6 +116,12 @@ class AccountViewController: ViewController, BackNavigator {
 
             flex.addItem(
                 makeOptionsSection(
+                   name: R.string.phrase.accountSettingFacebook(),
+                   options: [increasePrivacyButton]))
+                .marginTop(12)
+
+            flex.addItem(
+                makeOptionsSection(
                     name: R.string.phrase.accountSettingsSupport(),
                     options: [whatsNewButton, contactOptionButton, surveyOptionButton]))
                 .marginTop(12)
@@ -119,7 +131,7 @@ class AccountViewController: ViewController, BackNavigator {
         scroll.addSubview(settingsView)
         contentView.flex
             .direction(.column).define { (flex) in
-                flex.addItem(scroll).grow(1)
+                flex.addItem(scroll).height(0).grow(1)
                 flex.addItem(bitmarkCertView).paddingBottom(22)
             }
     }
@@ -137,6 +149,10 @@ extension AccountViewController {
 
     fileprivate func gotoViewRecoveryKeyFlow() {
         navigator.show(segue: .viewRecoveryKeyWarning, sender: self)
+    }
+
+    fileprivate func gotoIncreasePrivacyListScreen() {
+        navigator.show(segue: .increasePrivacyList, sender: self)
     }
 
     fileprivate func gotoAboutScreen() {
@@ -189,7 +205,10 @@ extension AccountViewController {
 
     fileprivate func makeOptionsSection(name: String, options: [Button]) -> UIView {
         let nameSectionLabel = Label()
-        nameSectionLabel.applyBlack(text: name.localizedUppercase, font: R.font.atlasGroteskLight(size: Size.ds(24)))
+        nameSectionLabel.apply(
+            text: name.localizedUppercase,
+            font: R.font.atlasGroteskLight(size: Size.ds(24)),
+            colorTheme: .black)
 
         let sectionView = UIView()
         themeService.rx
@@ -242,18 +261,14 @@ extension AccountViewController {
     }
 
     fileprivate func makeTermsAndPolicyTextView() -> UITextView {
-        let textView = UITextView()
-        textView.textContainerInset = .zero
-        textView.textContainer.lineFragmentPadding = 0
-        textView.backgroundColor = .clear
+        let textView = AttributedReadTextView()
         textView.delegate = self
-        textView.isEditable = false
         textView.linkTextAttributes = [
           .foregroundColor: themeService.attrs.blackTextColor
         ]
 
         textView.attributedText = LinkAttributedString.make(
-            string: R.string.phrase.termsAndPolicyPhraseInSettings(
+            string: R.string.phrase.termsAndPolicyPhrase(
                 AppLink.termsOfService.generalText,
                 AppLink.privacyOfPolicy.generalText),
             attributes: [

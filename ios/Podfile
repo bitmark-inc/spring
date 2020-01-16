@@ -38,6 +38,7 @@ def sharedPods
   pod 'SwiftDate'
   pod 'Kingfisher'
   pod 'UPCarouselFlowLayout'
+  pod 'SwiftRichString'
 end
 
 target 'Synergy' do

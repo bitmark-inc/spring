@@ -38,31 +38,32 @@ class TrustIsCriticalViewController: ViewController, BackNavigator {
         let blackBackItem = makeBlackBackItem()
 
         let titleScreen = Label()
-        titleScreen.applyBlack(
+        titleScreen.apply(
             text: R.string.phrase.trustIsCriticalTitle().localizedUppercase,
-            font: R.font.domaineSansTextLight(size: Size.ds(34)))
+            font: R.font.domaineSansTextLight(size: Size.ds(34)),
+            colorTheme: .black)
         
         let contentLabel = Label()
         contentLabel.numberOfLines = 0
-        contentLabel.applyBlack(
+        contentLabel.apply(
             text: R.string.phrase.trustIsCriticalDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            lineHeight: 1.32
-        )
-        
+            colorTheme: .black, lineHeight: 1.32)
+
         let sincerelyLabel = Label()
-        sincerelyLabel.applyBlack(
+        sincerelyLabel.apply(
             text: R.string.phrase.trustIsCriticalSincerely(),
-            font: R.font.atlasGroteskLight(size: Size.ds(18)))
+            font: R.font.atlasGroteskLight(size: Size.ds(18)),
+            colorTheme: .black)
         
         let seanSignature = ImageView(image: R.image.sean_sig())
         seanSignature.contentMode = .left
         let seanTitleLabel = Label()
         seanTitleLabel.numberOfLines = 0
-        seanTitleLabel.applyBlack(
+        seanTitleLabel.apply(
             text: R.string.phrase.trustIsCriticalTitleSignature(),
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            lineHeight: 1.32)
+            colorTheme: .black, lineHeight: 1.32)
 
         contentView.flex
             .padding(OurTheme.paddingInset)

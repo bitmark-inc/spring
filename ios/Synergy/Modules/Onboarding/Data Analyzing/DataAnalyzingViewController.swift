@@ -40,17 +40,17 @@ class DataAnalyzingViewController: ViewController {
 
         let dataAnalyzingTitleLabel = Label()
         dataAnalyzingTitleLabel.adjustsFontSizeToFitWidth = true
-        dataAnalyzingTitleLabel.applyBlack(
+        dataAnalyzingTitleLabel.apply(
             text: R.string.phrase.dataAnalyzingScreenTitle().localizedUppercase,
             font: R.font.domaineSansTextLight(size: Size.ds(36)),
-            lineHeight: 1.06)
+            colorTheme: .black, lineHeight: 1.06)
 
         let dataAnalyzingDescLabel = Label()
         dataAnalyzingDescLabel.numberOfLines = 0
-        dataAnalyzingDescLabel.applyBlack(
+        dataAnalyzingDescLabel.apply(
             text: R.string.phrase.dataAnalyzingDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            lineHeight: 1.2)
+            colorTheme: .black, lineHeight: 1.2)
 
         contentView.flex
             .padding(OurTheme.paddingInset)

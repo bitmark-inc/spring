@@ -57,9 +57,10 @@ class HowItWorksViewController: ViewController, BackNavigator {
         }
 
         let howItWorksTitle = Label()
-        howItWorksTitle.applyBlack(
+        howItWorksTitle.apply(
             text: R.string.phrase.howitworksTitle().localizedUppercase,
-            font: R.font.domaineSansTextLight(size: Size.ds(36)))
+            font: R.font.domaineSansTextLight(size: Size.ds(36)),
+            colorTheme: .black)
 
         contentView.flex
             .padding(OurTheme.paddingInset)
@@ -102,16 +103,17 @@ extension HowItWorksViewController {
 
     fileprivate func howItWorkContent(part: Int, text: String) -> UIView {
         let partIndexLabel = Label()
-        partIndexLabel.applyBlack(
+        partIndexLabel.apply(
             text: String(part),
-            font: R.font.atlasGroteskLight(size: Size.ds(14)))
+            font: R.font.atlasGroteskLight(size: Size.ds(14)),
+            colorTheme: .black)
 
         let textLabel = Label()
         textLabel.numberOfLines = 0
-        textLabel.applyBlack(
+        textLabel.apply(
             text: text,
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            lineHeight: 1.2)
+            colorTheme: .black, lineHeight: 1.2)
 
         let view = UIView()
         view.flex.direction(.row).define { (flex) in

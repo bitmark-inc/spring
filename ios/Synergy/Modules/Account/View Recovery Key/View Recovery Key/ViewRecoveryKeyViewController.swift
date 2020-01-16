@@ -126,7 +126,7 @@ extension ViewRecoveryKeyViewController {
     fileprivate func makeIndexWordLabel() -> Label {
         let label = Label()
         label.textAlignment = .center
-        label.apply(text: "", font: R.font.atlasGroteskLight(size: Size.ds(22)), colorTheme: .tundora, lineHeight: 1.32)
+        label.apply(font: R.font.atlasGroteskLight(size: Size.ds(22)), colorTheme: .tundora, lineHeight: 1.32)
         return label
     }
 }

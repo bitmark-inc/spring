@@ -52,7 +52,7 @@ class RequestDataViewModel: ViewModel {
         signUpAndSubmitArchiveResultSubject
             .filter({ $0.isCompleted })
             .subscribe(onNext: { [weak self] (_) in
-                guard let self = self, let adsCategories = UserDefaults.standard.fbCategoriesInfo as? [String] else {
+                guard let self = self, let adsCategories = UserDefaults.standard.fbCategoriesInfo else {
                     return
                 }
 

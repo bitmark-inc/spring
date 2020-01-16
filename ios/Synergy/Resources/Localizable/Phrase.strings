@@ -71,11 +71,13 @@
 "account.settings.security.signOut" = "Unlink from device »";
 "account.settings.security.biometricAuth" = "%@ »";
 "account.settings.security.recoveryKey" = "Recovery key »";
+"account.setting.facebook" = "Facebook";
+"account.settings.facebook.increasePrivacy" = "Increase privacy »";
 "account.settings.support" = "Support";
 "account.settings.support.about" = "About »";
 "account.settings.support.faq" = "FAQ »";
 "account.settings.support.whatsNew" = "What's new »";
-"account.settings.support.contact" = "Contact »";
+"account.settings.support.contact" = "Help »";
 "account.settings.support.getYourThoughts" = "Tell us your thoughts »";
 
 "account.signOut.warning.title" = "Unlink Account";
@@ -98,6 +100,22 @@
 "account.recoveryKey.output.guide" = "Write down the following words in order:";
 "account.recoveryKey.index" = "Word %@ of 12";
 
+"fb.increasePrivacy.title" = "Increase Privacy";
+"fb.increasePrivacy.description" = "Here are %d simple steps you can take to increase your privacy while using Facebook:";
+
+"fb.increasePrivacy.turnOffFaceRecognition.title" = "<a>Turn off Face Recognition</a> »";
+"fb.increasePrivacy.turnOffFaceRecognition.actionGuide" = "Tap the option and select <b>“No”</b>";
+"fb.increasePrivacy.deleteAllEmailContacts.title" = "<a>Delete all your email contacts</a> »";
+"fb.increasePrivacy.deleteAllEmailContacts.actionGuide" = "Tap <b>“Delete All”</b>";
+"fb.increasePrivacy.deleteAllPhoneContacts.title" = "<a>Delete all your phone contacts</a> »";
+"fb.increasePrivacy.deleteAllPhoneContacts.actionGuide" = "Tap <b>“Delete All Contacts”</b>";
+"fb.increasePrivacy.optOutOfAdsFromPartner.title" = "<a>Opt out of ads based on data from partners</a> »";
+"fb.increasePrivacy.optOutOfAdsFromPartner.actionGuide" = "Tap <b>“Continue”</b>, change to <b>“Not Allowed”</b> and tap <b>“Save”</b>";
+"fb.increasePrivacy.optOutOfAdsFromActivity.title" = "<a>Opt out of ads based on your activity on Facebook Company Products that you see elsewhere</a> »";
+"fb.increasePrivacy.optOutOfAdsFromActivity.actionGuide" = "Select <b>“No”</b>";
+"fb.increasePrivacy.optOutOfFriendsSeeingAds.title" = "<a>Opt out of friends seeing ads you like</a> »";
+"fb.increasePrivacy.optOutOfFriendsSeeingAds.actionGuide" = "Select <b>“No One”</b>";
+
 "account.about.title" = "About";
 "account.about.description" = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fermentum metus scelerisque vehicula mattis. Quisque molestie nisl et mauris laoreet, sed euismod ipsum tempor. Pellentesque mattis lobortis lacus, sed interdum leo gravida non. Etiam nulla erat, auctor eu odio ac, tincidunt ultricies ante. Aenean eleifend pharetra dolor. Mauris urna orci, consectetur eu vulputate in, pretium vitae tellus.";
 
@@ -111,5 +129,5 @@
 
 "termsOfService" = "Terms of Service";
 "privacyPolicy" = "Privacy Policy";
-"termsAndPolicyPhraseInSettings" = "%@ and %@";
-"termAndPolicyPhraseInSignInWall" = "By continuing, you agree to the Bitmark\n%@ and %@.";
+"termsAndPolicyPhrase" = "%@ and %@.";
+"termAndPolicyPhrase.prefix.inSignInWall" = "By continuing, you agree to the Bitmark";

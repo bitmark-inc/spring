@@ -42,8 +42,6 @@ class RequestDataViewController: ViewController {
     override func bindViewModel() {
         super.bindViewModel()
 
-        webView.navigationDelegate = self
-
         guard let viewModel = viewModel as? RequestDataViewModel else { return }
 
         undoneMissions = viewModel.missions
@@ -661,7 +659,9 @@ extension RequestDataViewController {
 // MARK: - Make UI
 extension RequestDataViewController {
     fileprivate func makeWebView() -> WKWebView {
-        return WKWebView()
+        let webView = WKWebView()
+        webView.navigationDelegate = self
+        return webView
     }
 
     fileprivate func makeGuideView() -> UIView {

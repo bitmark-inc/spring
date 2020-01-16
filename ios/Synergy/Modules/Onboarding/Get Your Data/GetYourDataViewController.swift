@@ -107,10 +107,10 @@ class GetYourDataViewController: ViewController, BackNavigator {
 
         let giveAutomateTrust = Label()
         giveAutomateTrust.numberOfLines = 0
-        giveAutomateTrust.applyLight(
+        giveAutomateTrust.apply(
             text: R.string.phrase.getYourDataGiveAutomateTrust(),
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            lineHeight: 1.32)
+            colorTheme: .white, lineHeight: 1.32)
 
         contentView.flex
             .padding(OurTheme.paddingInset)

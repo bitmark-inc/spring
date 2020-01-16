@@ -78,10 +78,10 @@ extension LensViewController {
 
     fileprivate func makeStreamDescLabel() -> Label {
         let label = Label()
-        label.applyBlack(
+        label.apply(
             text: R.string.phrase.lensDescription(),
             font: R.font.atlasGroteskLight(size: Size.ds(18)),
-            lineHeight: 1.2)
+            colorTheme: .black, lineHeight: 1.2)
         label.numberOfLines = 0
         return label
     }
