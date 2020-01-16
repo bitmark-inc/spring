@@ -61,6 +61,12 @@
 
         <activity android:name=".feature.whatsnew.WhatsNewActivity" />
 
+        <activity
+            android:name=".util.view.WebViewActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.TransparentStatusBar" />
+
+        <activity android:name=".feature.increaseprivacy.IncreasePrivacyActivity" />
+
         <receiver
             android:name=".feature.notification.ScheduledNotificationReceiver"
             android:windowSoftInputMode="adjustNothing" />

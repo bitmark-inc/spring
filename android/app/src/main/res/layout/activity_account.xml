@@ -112,7 +112,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/unlink_from_device_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -124,7 +124,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/biometric_auth_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -137,7 +137,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/recovery_key_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -171,7 +171,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/export_data_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -183,7 +183,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/delete_account_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -217,7 +217,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/increase_privacy_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -229,7 +229,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/delete_account_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -263,7 +263,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/about_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -275,7 +275,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/faq_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -287,7 +287,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/whats_new_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -300,7 +300,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/help_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 
@@ -313,7 +313,7 @@
                     android:fontFamily="@font/grotesk_light_font_family"
                     android:includeFontPadding="false"
                     android:text="@string/tell_us_your_thoughts_arrow"
-                    android:textColor="@drawable/color_black_stateful"
+                    android:textColor="@color/color_black_stateful"
                     android:textSize="@dimen/sp_18"
                     />
 

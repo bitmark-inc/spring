@@ -10,6 +10,8 @@ import com.bitmark.fbm.feature.account.AccountActivity
 import com.bitmark.fbm.feature.account.AccountModule
 import com.bitmark.fbm.feature.biometricauth.BiometricAuthActivity
 import com.bitmark.fbm.feature.biometricauth.BiometricAuthModule
+import com.bitmark.fbm.feature.increaseprivacy.IncreasePrivacyActivity
+import com.bitmark.fbm.feature.increaseprivacy.IncreasePrivacyModule
 import com.bitmark.fbm.feature.main.MainActivity
 import com.bitmark.fbm.feature.main.MainModule
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
@@ -95,4 +97,8 @@ abstract class ActivityBuilderModule {
     @ContributesAndroidInjector(modules = [WhatsNewModule::class])
     @ActivityScope
     internal abstract fun bindWhatsNewActivity(): WhatsNewActivity
+
+    @ContributesAndroidInjector(modules = [IncreasePrivacyModule::class])
+    @ActivityScope
+    internal abstract fun bindIncreasePrivacyActivity(): IncreasePrivacyActivity
 }

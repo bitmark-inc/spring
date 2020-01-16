@@ -142,3 +142,12 @@ fun Navigator.goToUpdateApp(updateUrl: String) {
 fun Navigator.openIntercom() {
     Intercom.client().displayMessenger()
 }
+
+fun Navigator.share(url: String) {
+    val intent = Intent(Intent.ACTION_SEND)
+    intent.type = "text/plain"
+    intent.putExtra(Intent.EXTRA_SUBJECT, url)
+    intent.putExtra(Intent.EXTRA_TEXT, url)
+    startActivity(Intent.createChooser(intent, "Share URL"))
+}
+

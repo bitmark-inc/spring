@@ -14,6 +14,7 @@ import com.bitmark.fbm.data.model.keyFileName
 import com.bitmark.fbm.data.source.local.api.DatabaseApi
 import com.bitmark.fbm.data.source.local.api.FileStorageApi
 import com.bitmark.fbm.data.source.local.api.SharedPrefApi
+import io.reactivex.Completable
 import javax.inject.Inject
 
 
@@ -81,5 +82,30 @@ class AppLocalDataSource @Inject constructor(
 
     fun saveLastVersionCode(code: Int) = sharedPrefApi.rxCompletable { sharedPrefGateway ->
         sharedPrefGateway.put(SharedPrefApi.LAST_VERSION_CODE, code)
+    }
+
+    fun listLinkClicked() = sharedPrefApi.rxSingle { sharedPrefGateway ->
+        val links = sharedPrefGateway.get(
+            SharedPrefApi.LINK_CLICKED,
+            String::class
+        )
+        if (links.isEmpty()) {
+            listOf()
+        } else {
+            newGsonInstance().fromJson<List<String>>(links)
+        }
+
+    }
+
+    fun saveLinkClicked(link: String) = listLinkClicked().flatMapCompletable { savedLinks ->
+        if (savedLinks.contains(link)) {
+            Completable.complete()
+        } else {
+            sharedPrefApi.rxCompletable { sharedPrefGateway ->
+                val links = savedLinks.toMutableList()
+                links.add(link)
+                sharedPrefGateway.put(SharedPrefApi.LINK_CLICKED, links)
+            }
+        }
     }
 }

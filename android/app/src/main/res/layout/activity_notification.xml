@@ -114,7 +114,7 @@
         android:includeFontPadding="false"
         android:text="@string/no_thanks"
         android:textAllCaps="false"
-        android:textColor="@drawable/color_cognac_stateful"
+        android:textColor="@color/color_cognac_stateful"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         />
