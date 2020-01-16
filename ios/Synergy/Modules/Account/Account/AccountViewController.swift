@@ -131,7 +131,7 @@ class AccountViewController: ViewController, BackNavigator {
         scroll.addSubview(settingsView)
         contentView.flex
             .direction(.column).define { (flex) in
-                flex.addItem(scroll).grow(1)
+                flex.addItem(scroll).height(0).grow(1)
                 flex.addItem(bitmarkCertView).paddingBottom(22)
             }
     }
@@ -261,18 +261,14 @@ extension AccountViewController {
     }
 
     fileprivate func makeTermsAndPolicyTextView() -> UITextView {
-        let textView = UITextView()
-        textView.textContainerInset = .zero
-        textView.textContainer.lineFragmentPadding = 0
-        textView.backgroundColor = .clear
+        let textView = AttributedReadTextView()
         textView.delegate = self
-        textView.isEditable = false
         textView.linkTextAttributes = [
           .foregroundColor: themeService.attrs.blackTextColor
         ]
 
         textView.attributedText = LinkAttributedString.make(
-            string: R.string.phrase.termsAndPolicyPhraseInSettings(
+            string: R.string.phrase.termsAndPolicyPhrase(
                 AppLink.termsOfService.generalText,
                 AppLink.privacyOfPolicy.generalText),
             attributes: [

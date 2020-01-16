@@ -148,8 +148,6 @@ extension ReleaseNoteViewController {
     }
 
     fileprivate func makeFeedbackTextView() -> UITextView {
-        let textView = UITextView()
-
         var content = ""
         if let releaseNotesURL = releaseNotesURL {
             do {
@@ -159,9 +157,8 @@ extension ReleaseNoteViewController {
             }
         }
 
-        textView.backgroundColor = .clear
+        let textView = AttributedReadTextView()
         textView.delegate = self
-        textView.isEditable = false
         textView.attributedText = LinkAttributedString.make(
             string: R.string.phrase.releaseNoteContent(content, Constant.supportEmail),
             lineHeight: 1.315,

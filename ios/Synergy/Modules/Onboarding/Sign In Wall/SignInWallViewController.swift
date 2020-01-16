@@ -121,19 +121,21 @@ extension SignInWallViewController {
         return SecondaryButton(title: R.string.localizable.signIn())
     }
 
-    fileprivate func makeTermsAndPolicyView() -> UITextView {
-        let textView = UITextView()
-        textView.textContainerInset = .zero
-        textView.textContainer.lineFragmentPadding = 0
-        textView.backgroundColor = .clear
+    fileprivate func makeTermsAndPolicyView() -> UIView {
+        let prefixLabel = Label()
+        prefixLabel.apply(
+            text: R.string.phrase.termAndPolicyPhrasePrefixInSignInWall(),
+            font: R.font.atlasGroteskLight(size: Size.ds(12)),
+            colorTheme: .white,
+            lineHeight: 1.2)
+
+        let textView = AttributedReadTextView()
         textView.delegate = self
-        textView.isEditable = false
         textView.linkTextAttributes = [
           .foregroundColor: themeService.attrs.lightTextColor
         ]
-
         textView.attributedText = LinkAttributedString.make(
-            string: R.string.phrase.termAndPolicyPhraseInSignInWall(
+            string: R.string.phrase.termsAndPolicyPhrase(
                 AppLink.termsOfService.generalText,
                 AppLink.privacyOfPolicy.generalText),
             lineHeight: 1.3,
@@ -149,6 +151,14 @@ extension SignInWallViewController {
                 .underlineStyle: NSUnderlineStyle.single.rawValue
             ])
 
-        return textView
+        let view = UIView()
+        view.flex
+            .alignItems(.center)
+            .define { (flex) in
+                flex.addItem(prefixLabel)
+                flex.addItem(textView)
+            }
+
+        return view
     }
 }

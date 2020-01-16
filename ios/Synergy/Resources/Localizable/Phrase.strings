@@ -77,7 +77,7 @@
 "account.settings.support.about" = "About »";
 "account.settings.support.faq" = "FAQ »";
 "account.settings.support.whatsNew" = "What's new »";
-"account.settings.support.contact" = "Contact »";
+"account.settings.support.contact" = "Help »";
 "account.settings.support.getYourThoughts" = "Tell us your thoughts »";
 
 "account.signOut.warning.title" = "Unlink Account";
@@ -129,5 +129,5 @@
 
 "termsOfService" = "Terms of Service";
 "privacyPolicy" = "Privacy Policy";
-"termsAndPolicyPhraseInSettings" = "%@ and %@";
-"termAndPolicyPhraseInSignInWall" = "By continuing, you agree to the Bitmark\n%@ and %@.";
+"termsAndPolicyPhrase" = "%@ and %@.";
+"termAndPolicyPhrase.prefix.inSignInWall" = "By continuing, you agree to the Bitmark";

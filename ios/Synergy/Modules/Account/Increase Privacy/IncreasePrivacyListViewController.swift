@@ -58,7 +58,7 @@ class IncreasePrivacyListViewController: ViewController, BackNavigator {
         scroll.addSubview(privacyListView)
         contentView.flex
             .direction(.column).define { (flex) in
-                flex.addItem(scroll).grow(1)
+                flex.addItem(scroll).height(0).grow(1)
             }
     }
 }

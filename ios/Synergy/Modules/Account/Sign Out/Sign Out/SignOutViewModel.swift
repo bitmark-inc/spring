@@ -37,6 +37,7 @@ class SignOutViewModel: ConfirmRecoveryKeyViewModel {
             // clear user data
             try FileManager.default.removeItem(at: FileManager.filesDocumentDirectoryURL)
             try RealmConfig.removeRealm(of: account.getAccountNumber())
+            UserDefaults.standard.clickedIncreasePrivacyURLs = nil
 
             // clear user cookie in webview
             HTTPCookieStorage.shared.cookies?.forEach(HTTPCookieStorage.shared.deleteCookie)
