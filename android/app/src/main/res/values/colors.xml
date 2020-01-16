@@ -33,6 +33,8 @@
     <color name="indian_khaki">#BBAB8C</color>
     <color name="indian_khaki_66">#66BBAB8C</color>
     <color name="black_trans_80">#80000000</color>
+    <color name="yukon_gold">#5F6D07</color>
+    <color name="yukon_gold_66">#665F6D07</color>
 
     <array name="color_palette_1">
         <item>@color/mabilu</item>

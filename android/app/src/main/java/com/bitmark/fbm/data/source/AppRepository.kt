@@ -50,4 +50,8 @@ class AppRepository(
     fun getLastVersionCode() = localDataSource.getLastVersionCode()
 
     fun saveLastVersionCode(code: Int) = localDataSource.saveLastVersionCode(code)
+
+    fun listLinkClicked() = localDataSource.listLinkClicked()
+
+    fun saveLinkClicked(link: String) = localDataSource.saveLinkClicked(link)
 }

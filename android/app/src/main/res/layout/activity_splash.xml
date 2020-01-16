@@ -115,7 +115,7 @@
         android:fontFamily="@font/grotesk_light_font_family"
         android:gravity="center"
         android:text="@string/i_already_have_an_account_arrow"
-        android:textColor="@drawable/color_white_stateful"
+        android:textColor="@color/color_white_stateful"
         android:textSize="14sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

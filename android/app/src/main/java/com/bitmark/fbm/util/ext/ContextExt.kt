@@ -9,7 +9,10 @@ package com.bitmark.fbm.util.ext
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 
 fun Context.copyToClipboard(text: String) {
     val clipboardManager =
@@ -57,4 +60,8 @@ fun Context.spToPx(sp: Int) = sp * resources.displayMetrics.scaledDensity
 
 val Context.screenWidth: Int
     get() = resources.displayMetrics.widthPixels
+
+fun Context.getColorStateList(@ColorRes id: Int) = ContextCompat.getColorStateList(this, id)
+
+fun Context.getFontFamily(id: Int) = ResourcesCompat.getFont(this, id)
 

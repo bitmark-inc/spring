@@ -194,6 +194,20 @@
     <string name="whats_new_arrow">What\'s new »</string>
     <string name="help_arrow">Help »</string>
     <string name="by_continuing">By continuing, you agree to the Bitmark \nTerm of Service and Privacy Policy.</string>
+    <string name="increase_privacy">Increase Privacy</string>
+    <string name="here_is_6_steps">Here are 6 simple steps you can take to increase your privacy while using Facebook:</string>
+    <string name="turn_off_face_reg_arrow"><![CDATA[<u>Turn off Face Recognition »</u>]]></string>
+    <string name="tap_the_option_and_select_no"><![CDATA[Tap the option and select <b>“No”</b>]]></string>
+    <string name="delete_all_your_email_arrow"><![CDATA[<u>Delete all your email contacts »]]></string>
+    <string name="tap_delete_all"><![CDATA[Tap <b>“Delete All”</b>]]></string>
+    <string name="delete_all_your_phone_arrow"><![CDATA[<u>Delete all your phone contacts »]]></string>
+    <string name="tap_delete_all_contacts"><![CDATA[Tap <b>“Delete All Contacts”</b>]]></string>
+    <string name="opt_out_of_ads_data_arrow"><![CDATA[<u>Opt out of ads based on data from partners »]]></string>
+    <string name="tap_continue_change_to"><![CDATA[Tap <b>“Continue”</b>, change to <b>“Not Allowed”</b> and tap <b>“Save”</b>]]></string>
+    <string name="opt_out_of_ads_activity_arrow"><![CDATA[<u>Opt out of ads based on your activity on Facebook Company Products that you see elsewhere »]]></string>
+    <string name="select_no"><![CDATA[Select <b>“No”</b>]]></string>
+    <string name="opt_out_of_friend_arrow"><![CDATA[<u>Opt out of friends seeing ads you like »]]></string>
+    <string name="select_no_one"><![CDATA[Select <b>"No One”</b>]]></string>
 
     <string-array name="day_of_week">
         <item>S</item>

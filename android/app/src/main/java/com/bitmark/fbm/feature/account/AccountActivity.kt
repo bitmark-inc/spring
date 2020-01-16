@@ -14,6 +14,7 @@ import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.StyleSpan
 import android.view.View
+import android.widget.Toast
 import com.bitmark.fbm.BuildConfig
 import com.bitmark.fbm.R
 import com.bitmark.fbm.feature.BaseAppCompatActivity
@@ -22,6 +23,7 @@ import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.NONE
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.feature.biometricauth.BiometricAuthActivity
+import com.bitmark.fbm.feature.increaseprivacy.IncreasePrivacyActivity
 import com.bitmark.fbm.feature.recovery.RecoveryContainerActivity
 import com.bitmark.fbm.feature.unlink.UnlinkContainerActivity
 import com.bitmark.fbm.feature.whatsnew.WhatsNewActivity
@@ -118,22 +120,29 @@ class AccountActivity : BaseAppCompatActivity() {
             navigator.anim(RIGHT_LEFT).startActivity(RecoveryContainerActivity::class.java)
         }
 
-//        tvAbout.setSafetyOnclickListener {
-//            val bundle = SupportActivity.getBundle(
-//                getString(R.string.about),
-//                "Version ${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE})"
-//            )
-//            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
-//        }
+        tvExportData.setSafetyOnclickListener {
+            toastComingSoon()
+        }
 
-//        tvFaq.setSafetyOnclickListener {
-//            // TODO change real text later
-//            val bundle = SupportActivity.getBundle(
-//                getString(R.string.faq),
-//                "Dummy FAQ"
-//            )
-//            navigator.anim(RIGHT_LEFT).startActivity(SupportActivity::class.java, bundle)
-//        }
+        tvDeleteAccount.setSafetyOnclickListener {
+            toastComingSoon()
+        }
+
+        tvIncPrivacy.setSafetyOnclickListener {
+            navigator.anim(RIGHT_LEFT).startActivity(IncreasePrivacyActivity::class.java)
+        }
+
+        tvFbDeleteAccount.setSafetyOnclickListener {
+            toastComingSoon()
+        }
+
+        tvAbout.setSafetyOnclickListener {
+            toastComingSoon()
+        }
+
+        tvFaq.setSafetyOnclickListener {
+            toastComingSoon()
+        }
 
         tvHelp.setSafetyOnclickListener {
             navigator.openIntercom()
@@ -147,6 +156,10 @@ class AccountActivity : BaseAppCompatActivity() {
         tvTellUs.setSafetyOnclickListener {
             navigator.anim(NONE).openBrowser(SURVEY_URL)
         }
+    }
+
+    private fun toastComingSoon() {
+        Toast.makeText(this, "Coming soon", Toast.LENGTH_SHORT).show()
     }
 
     override fun onBackPressed() {

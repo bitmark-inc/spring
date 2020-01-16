@@ -50,7 +50,7 @@
         android:focusable="true"
         android:fontFamily="@font/ibm_plex_mono"
         android:includeFontPadding="false"
-        android:textColor="@drawable/color_international_klein_blue_stateful"
+        android:textColor="@color/color_international_klein_blue_stateful"
         android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
