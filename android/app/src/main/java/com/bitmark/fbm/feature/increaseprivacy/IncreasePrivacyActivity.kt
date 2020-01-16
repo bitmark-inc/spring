@@ -6,6 +6,7 @@
  */
 package com.bitmark.fbm.feature.increaseprivacy
 
+import android.graphics.Typeface
 import android.text.Html
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import com.bitmark.fbm.feature.BaseViewModel
 import com.bitmark.fbm.feature.Navigator
 import com.bitmark.fbm.feature.Navigator.Companion.RIGHT_LEFT
 import com.bitmark.fbm.logging.EventLogger
+import com.bitmark.fbm.util.ext.getFontFamily
 import com.bitmark.fbm.util.ext.logSharedPrefError
 import com.bitmark.fbm.util.ext.setSafetyOnclickListener
 import com.bitmark.fbm.util.view.WebViewActivity
@@ -99,15 +101,22 @@ class IncreasePrivacyActivity : BaseAppCompatActivity() {
                 res.isSuccess() -> {
                     val links = res.data()!!
                     tvUrlPairList.forEach { p ->
-                        p.first.setTextColor(
-                            getColorStateList(
-                                if (links.contains(p.second)) {
-                                    R.color.color_yukon_gold_stateful
-                                } else {
-                                    R.color.color_black_stateful
-                                }
+                        val tv = p.first
+                        val link = p.second
+                        if (links.contains(link)) {
+                            tv.setTextColor(getColorStateList(R.color.color_yukon_gold_stateful))
+                            tv.setTypeface(
+                                getFontFamily(R.font.grotesk_regular_font_family),
+                                Typeface.ITALIC
                             )
-                        )
+
+                        } else {
+                            tv.setTextColor(getColorStateList(R.color.color_black_stateful))
+                            tv.setTypeface(
+                                getFontFamily(R.font.grotesk_light_font_family),
+                                Typeface.ITALIC
+                            )
+                        }
                     }
 
                 }
