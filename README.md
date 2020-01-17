@@ -1,4 +1,4 @@
-# Bitmark FBM project
+# Spring App
 
 ## App Team, sprint 1
 
@@ -18,7 +18,7 @@ Help regular people understand Facebook
 - Explain how FB tracks you (1)
 - FAQ Screen (1)
 
-Estimated volocity: 11
+Estimated velocity: 11
 
 ### Schedule
 
