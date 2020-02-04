@@ -1,6 +1,6 @@
-# Spring App
+# App Team, sprint 2
 
-## App Team, sprint 2
+## Planning
 
 ### Sprint goal
 - Simplify the onboarding
