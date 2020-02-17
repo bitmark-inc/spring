@@ -23,4 +23,4 @@ Facebook constantly tracks you. It doesn’t matter if you are logged in to the 
 - Even without access to your accurate location data from the smartphone, Facebook uses information from your browsing habits, including IP address, Wi-Fi network, and Bluetooth to pinpoint your whereabouts and place relevant ads inside its apps. Facebook uses city and zip level location which they collect from IP addresses and other information such as check-ins and current city from user profile.
 
 
-Still want to continue using Facebook? We have six easy steps you can take to increase your privacy.
+> Still want to continue using Facebook? We have six easy steps you can take to increase your privacy.
