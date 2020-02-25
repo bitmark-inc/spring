@@ -1,6 +1,6 @@
-# Spring App
+# Spring Team, sprint 3
 
-## Spring Team, sprint 3
+## Planning
 
 ### Sprint goal
 1. Get to Apple App Store
