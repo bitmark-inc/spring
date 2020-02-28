@@ -9,7 +9,7 @@ Browse our [FAQ](faq.md) to learn more.
 - Subscribe to our [Calendar](https://calendar.google.com/calendar/embed?src=bitmark.com_5ld1rjbcrbl58n32scq930ts64%40group.calendar.google.com&ctz=Asia%2FTaipei).
 
 ## Development
-* [Scrum](https://github.com/bitmark-inc/spring)
+* [Scrum](https://github.com/bitmark-inc/spring/projects/1)
 * [SPRING codebase (iPhone)](https://github.com/bitmark-inc/spring-ios)
 * [SPRING codebase (Android)](https://github.com/bitmark-inc/spring-android)
 * [Wireframes](https://www.figma.com/files/project/4168214/Spring)
