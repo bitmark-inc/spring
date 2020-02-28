@@ -39,9 +39,13 @@ Estimated velocity: 12
 
 ## Team
 
-- Sean (Product Owner)
-- Jim
-- Rita
-- Thuyen Truong
-- Hieu Pham
-- Cuong Le (Scrum Master)
+- [Sean Moss-Pultz](https://github.com/moskovich) (Product Owner)
+- [Cuong Le](https://github.com/cuongleqq) (Scrum Master)
+- [Jim Yeh](https://github.com/lemonlatte) (engineering)
+- [Rita Wu](https://github.com/ritawu91) (design)
+- [Thuyen Truong](https://github.com/thuyenBitmark) (engineering)
+- [Hieu Pham](https://github.com/jollyjoker992) (engineering)
+
+
+
+###### tags: `Products` `SPRING`
