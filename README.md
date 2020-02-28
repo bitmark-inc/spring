@@ -1,4 +1,4 @@
-# Overview
+# SPRING: Your Facebook Escape Hatch
 SPRING is an “escape hatch” for Facebook users who are frustrated by Facebook’s abuse of their personal data and want to reclaim control of their data. The app downloads Facebook users’ data and helps them understand how Facebook is using it, giving them a first step toward taking control of their data.
 
 Browse our [FAQ](faq.md) to learn more. 
