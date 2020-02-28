@@ -1,14 +1,14 @@
 # Overview
 SPRING is an “escape hatch” for Facebook users who are frustrated by Facebook’s abuse of their personal data and want to reclaim control of their data. The app downloads Facebook users’ data and helps them understand how Facebook is using it, giving them a first step toward taking control of their data.
 
+Browse our [FAQ](faq.md) to learn more. 
+
 ## Getting started
 - Download SPRING for [iPhone](https://install.appcenter.ms/orgs/support-zzd0-28/apps/spring-inhouse/distribution_groups/users) or [Android](https://play.google.com/store/apps/details?id=com.bitmark.spring). 
-- Browse our FAQ to learn more.
 - Join the discussion on [Discord](https://discord.gg/mxy7QbM)  
 - Subscribe to our [Calendar](https://calendar.google.com/calendar/embed?src=bitmark.com_5ld1rjbcrbl58n32scq930ts64%40group.calendar.google.com&ctz=Asia%2FTaipei).
 
-
-## Development links
+## Development
 * [Scrum](https://github.com/bitmark-inc/spring)
 * [SPRING codebase (iPhone)](https://github.com/bitmark-inc/spring-ios)
 * [SPRING codebase (Android)](https://github.com/bitmark-inc/spring-android)
