@@ -1,4 +1,4 @@
-# SPRING: Control Your Data
+# Overview
 SPRING is an “escape hatch” for Facebook users who are frustrated by Facebook’s abuse of their personal data and want to reclaim control of their data. The app downloads Facebook users’ data and helps them understand how Facebook is using it, giving them a first step toward taking control of their data.
 
 ## Getting started
@@ -14,13 +14,13 @@ SPRING is an “escape hatch” for Facebook users who are frustrated by Faceboo
 * [SPRING codebase (Android)](https://github.com/bitmark-inc/spring-android)
 * [Wireframes](https://www.figma.com/files/project/4168214/Spring)
 
-## Current Sprint: 3
+# Current Sprint: 3
 
-### Goal
+## Goal
 1. Get to Apple App Store
 2. Show user control of data
 
-### Backlog
+## Backlog
 
 - Upload of FB archive by URL (3)
 - Upload of FB archive by local file (2)
@@ -31,13 +31,13 @@ SPRING is an “escape hatch” for Facebook users who are frustrated by Faceboo
 Estimated velocity: 12
 (See our dashboard at https://github.com/bitmark-inc/spring/projects/1)
 
-### Schedule
+## Schedule
 
 - Sprint period: Feb 25th 2020 - Mar 9th 2020
 - Daily scrum: 9:15 AM ICT via Zoom
 - Sprint review: 14:00 Mar 9th 2020
 
-### Team
+## Team
 
 - Sean (Product Owner)
 - Jim
