@@ -31,3 +31,24 @@ Estimated velocity: 12
 - Thuyen Truong
 - Hieu Pham
 - Cuong Le (Scrum Master)
+
+## Retrospective
+
+### Summary of events & decision
+- Decide to hide the automation screen and submit to App Store
+- Apple rejected the submission with the same feedback
+- We can not download directly from Google Drive link
+- The new onboarding change is much more than expected (thinking just removing the automation, but there is 80%)
+- Uploading big file from iOS keeps the app stuck for a really long time
+- Thuyen found a way to upload file from background
+- While background uploading, the server has to keep the whole file in the memory
+- Found solution to use S3 presigned link
+- Turns out the solution it only accepts 5Gb
+- Decided to go with file under 5Gb
+
+
+### If we do the sprint again, what will we do the same?
+
+### If we do the sprint again, what can we do better?
+
+### 3 things that we will improve in the next sprint
