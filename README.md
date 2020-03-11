@@ -14,38 +14,34 @@ Browse our [FAQ](faq.md) to learn more.
 * [SPRING codebase (Android)](https://github.com/bitmark-inc/spring-android)
 * [Wireframes](https://www.figma.com/files/project/4168214/Spring)
 
-# Current Sprint: 3
+# Current Sprint: 4
 
 ## Goal
 1. Get to Apple App Store
 2. Show user control of data
 
 ## Backlog
-
-- Upload of FB archive by URL (3)
-- Upload of FB archive by local file (2)
+- Skip get data from onboarding (5)
+- Browse data categories (3)
 - Export user data (3)
-- Personal API (2)
 - Delete user account (2)
+- Allow update to user data (3)
+- Multi-language support (1)
 
-Estimated velocity: 12
+Estimated velocity: 17
 (See our dashboard at https://github.com/bitmark-inc/spring/projects/1)
 
 ## Schedule
-
-- Sprint period: Feb 25th 2020 - Mar 9th 2020
+- Sprint period: Mar 10th 2020 - Mar 23th 2020
 - Daily scrum: 9:15 AM ICT via Zoom
-- Sprint review: 14:00 Mar 9th 2020
+- Sprint review: 14:00 Mar 23th 2020
 
 ## Team
-
 - [Sean Moss-Pultz](https://github.com/moskovich) (Product Owner)
 - [Cuong Le](https://github.com/cuongleqq) (Scrum Master)
 - [Jim Yeh](https://github.com/lemonlatte) (engineering)
 - [Rita Wu](https://github.com/ritawu91) (design)
 - [Thuyen Truong](https://github.com/thuyenBitmark) (engineering)
 - [Hieu Pham](https://github.com/jollyjoker992) (engineering)
-
-
 
 ###### tags: `Products` `SPRING`
