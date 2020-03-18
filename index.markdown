@@ -1,7 +1,8 @@
-<!-- ---
-layout: post
+---
+layout: default
 title:  "SPRING: Your Facebook Escape Hatch"
- --><!-- date:   2020-03-13 18:37:24 +0800 -->
+<!-- nav: index -->
+<!-- date:   2020-03-13 18:37:24 +0800 -->
 ---
 
 # SPRING: Your Facebook Escape Hatch
